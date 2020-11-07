@@ -1,0 +1,124 @@
+package sorts.distribute;
+
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import main.ArrayVisualizer;
+import panes.JErrorPane;
+import sorts.insert.InsertionSort;
+import sorts.templates.Sort;
+
+/*
+ * 
+MIT License
+
+Copyright (c) 2019 w0rthy
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ *
+ */
+
+final public class TimeSort extends Sort {
+    private InsertionSort insertSorter;
+    
+    private volatile int next = 0;
+    
+    public TimeSort(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
+        
+        this.setSortListName("Time");
+        //this.setRunAllID("Time Sort");
+        this.setRunAllSortsName("Time Sort, Mul 10");
+        this.setRunSortName("Timesort");
+        this.setCategory("Distribution Sorts");
+        this.setComparisonBased(false);
+        this.setBucketSort(false); // *Does not* use buckets! "magnitude" is only a multiplier.
+        this.setRadixSort(false);
+        this.setUnreasonablySlow(true);
+        this.setUnreasonableLimit(1); //See threads.RunDistributionSort for details
+        this.setBogoSort(false);
+    }
+    
+    private synchronized void report(int[] array, int a){
+        Writes.write(array, next, a, 0, true, false);
+        next++;
+    }
+
+    @Override
+    public void runSort(int[] array, int sortLength, int magnitude) throws Exception {
+        insertSorter = new InsertionSort(this.arrayVisualizer);
+        
+        final int A = magnitude;
+        next = 0;
+        
+        ArrayList<Thread> threads = new ArrayList<>();
+        
+        final int[] tmp = Writes.createExternalArray(sortLength);
+        
+        for(int i = 0; i < sortLength; i++) {
+            Writes.write(tmp, i, array[i], 0.25, true, true);
+        }
+        
+        double temp = Delays.getDisplayedDelay();
+        Delays.updateDelayForTimeSort(magnitude);
+        
+        for(int i = 0; i < sortLength; i++){
+            final int index = i;
+            threads.add(new Thread(){
+                @Override
+                public void run() {
+                    int a = tmp[index];
+                   
+                    try {
+                        Thread.sleep(a*A);
+                        Writes.addTime(A);
+                    } 
+                    catch (InterruptedException ex) {
+                        Logger.getLogger(ArrayVisualizer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    catch (IllegalArgumentException ex) {
+                        JErrorPane.invokeErrorMessage(ex);
+                    }
+                    TimeSort.this.report(array, a);
+                }
+            });
+        }
+        
+        for(Thread t : threads)
+            t.start();
+        
+        try {
+            Thread.sleep(sortLength * A);
+        }
+        catch (InterruptedException e) {
+            Logger.getLogger(ArrayVisualizer.class.getName()).log(Level.SEVERE, null, e);
+        }
+        catch (IllegalArgumentException ex) {
+            JErrorPane.invokeErrorMessage(ex);
+        }
+        
+        Delays.setCurrentDelay(temp);
+        Writes.setTime(sortLength * A);
+        
+        insertSorter.customInsertSort(array, 0, sortLength, 0.2, false);
+
+        Writes.deleteExternalArray(tmp);
+    }
+}
