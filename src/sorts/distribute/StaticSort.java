@@ -86,18 +86,26 @@ final public class StaticSort extends Sort {
             if (a[counter].isSubArray) {
                 counter++;
             } else {
-                if ((int)(a[counter].value * constant) == counter) {
+                if (Reads.compareValues((int)(a[counter].value * constant), counter) == 0) {
                     a[counter] = new StaticItem(new int[] {a[counter].value});
                     Writes.changeWrites(1);
                 } else {
                     if (a[(int)(a[counter].value * constant)].isSubArray) {
                         a[(int)(a[counter].value * constant)].subArray.add(a[counter].value);
+                        Writes.mockWrite(
+                            a[(int)(a[counter].value * constant)].subArray.size(),
+                            a[(int)(a[counter].value * constant)].subArray.size() - 1,
+                            a[counter].value, 0);
+                        Writes.changeAuxWrites(-1);
                         a[counter] = new StaticItem(new int[] {});
                         Writes.changeWrites(2);
                     } else {
                         StaticItem tmp = a[(int)(a[counter].value * constant)];
-                        a[(int)(a[counter].value * constant)] = new StaticItem(new int[] {a[counter].value});
+                        StaticItem newItem = new StaticItem(new int[] {a[counter].value});
+                        Writes.startLap();
+                        a[(int)(a[counter].value * constant)] = newItem;
                         a[counter] = tmp;
+                        Writes.stopLap();
                         Writes.changeWrites(2);
                     }
                 }
@@ -125,6 +133,8 @@ final public class StaticSort extends Sort {
         int index = 0;
         for (int i = 0; i < size; i++) {
             int lt = a[i].subArray.size();
+            Highlights.markArray(3, index);
+            Highlights.markArray(4, index + lt);
             if (lt > 1) {
                 if (lt > 16) {
                     heapSorter.customHeapSort(mainArray, index, lt, 1);
@@ -132,6 +142,7 @@ final public class StaticSort extends Sort {
                     insertSorter.customInsertSort(mainArray, index, index + lt, 1, false);
                 }
             }
+            Delays.sleep(0.2);
             index += lt;
         }
     }

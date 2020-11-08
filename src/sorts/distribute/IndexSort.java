@@ -36,8 +36,8 @@ final public class IndexSort extends Sort {
         super(arrayVisualizer);
         
         this.setSortListName("Index");
-        this.setRunAllSortsName("Index Sort");
-        this.setRunSortName("Index Sort");
+        this.setRunAllSortsName("Simple Static Sort (Index Sort)");
+        this.setRunSortName("Index Sort (Simple Static Sort)");
         this.setCategory("Distribution Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);

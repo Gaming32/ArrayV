@@ -7,6 +7,7 @@ import sorts.distribute.CountingSort;
 import sorts.distribute.FlashSort;
 import sorts.distribute.GravitySort;
 import sorts.distribute.StaticSort;
+import sorts.distribute.IndexSort;
 import sorts.distribute.InPlaceLSDRadixSort;
 import sorts.distribute.IterativeBinaryQuickSort;
 import sorts.distribute.LSDRadixSort;
@@ -49,6 +50,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
     private Sort PigeonholeSort;
     private Sort GravitySort;
     private Sort StaticSort;
+    private Sort IndexSort;
     private Sort AmericanFlagSort;
     private Sort LSDRadixSort;
     private Sort InPlaceLSDRadixSort;
@@ -69,6 +71,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
         PigeonholeSort           = new           PigeonholeSort(this.arrayVisualizer);
         GravitySort              = new              GravitySort(this.arrayVisualizer);
         StaticSort               = new               StaticSort(this.arrayVisualizer);
+        IndexSort                = new                IndexSort(this.arrayVisualizer);
         AmericanFlagSort         = new         AmericanFlagSort(this.arrayVisualizer);
         LSDRadixSort             = new             LSDRadixSort(this.arrayVisualizer);
         InPlaceLSDRadixSort      = new      InPlaceLSDRadixSort(this.arrayVisualizer);
@@ -87,6 +90,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
         RunDistributionSorts.this.runIndividualSort(PigeonholeSort,           0, array, 2048, 1.5,  false);
         RunDistributionSorts.this.runIndividualSort(GravitySort,              0, array, 1024, 0.5,  false);
         RunDistributionSorts.this.runIndividualSort(StaticSort,               0, array, 2048, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(IndexSort,                0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(AmericanFlagSort,       128, array, 2048, 0.75, false);
         RunDistributionSorts.this.runIndividualSort(LSDRadixSort,             4, array, 2048, 1.5,  false);
         
