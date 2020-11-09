@@ -122,8 +122,8 @@ final public class Writes {
             return "Over " + this.formatter.format(Long.MAX_VALUE);
         }
         else {
-            if(this.allocAmount == 1) return this.allocAmount + " Extra Integer Allocated";
-            else                      return this.formatter.format(this.allocAmount) + " Extra Integers Allocated";
+            if(this.allocAmount == 1) return this.allocAmount + " Item in External Arrays";
+            else                      return this.formatter.format(this.allocAmount) + " Items in External Arrays";
         }
     }
     
