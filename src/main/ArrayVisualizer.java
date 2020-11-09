@@ -84,6 +84,7 @@ final public class ArrayVisualizer {
     
     private volatile int sortLength;
     private volatile int equalItems;
+    private volatile int power;
     
     private ArrayManager ArrayManager;
     private SortAnalyzer SortAnalyzer;
@@ -157,6 +158,7 @@ final public class ArrayVisualizer {
         
         this.sortLength = 2048;
         this.equalItems = 1;
+        this.power = 1;
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
@@ -382,6 +384,13 @@ final public class ArrayVisualizer {
     }
     public void setEqualItems(int newCount) {
         this.equalItems = newCount;
+    }
+    
+    public int getPower() {
+        return this.power;
+    }
+    public void setPower(int newPower) {
+        this.power = newPower;
     }
     
     public int getLogBaseTwoOfLength() {
