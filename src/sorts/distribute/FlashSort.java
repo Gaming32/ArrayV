@@ -274,7 +274,6 @@ final public class FlashSort extends Sort {
                 //with the maximum value will get sorted.
                 int[] copiedRange = Arrays.copyOfRange(array, L[K], L[K + 1]);
                 runSort(copiedRange, classSize, 0);
-                Writes.deleteExternalArray(copiedRange);
             }
         }
 
