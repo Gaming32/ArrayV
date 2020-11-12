@@ -348,6 +348,11 @@ final public class Writes {
         aList.add(value);
     }
 
+    public void arrayListRemoveAt(ArrayList<Integer> aList, int index) {
+        allocAmount--;
+        aList.remove(index);
+    }
+
     public void arrayListClear(ArrayList<Integer> aList) {
         allocAmount -= aList.size();
         aList.clear();
