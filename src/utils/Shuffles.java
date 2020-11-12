@@ -255,10 +255,11 @@ public enum Shuffles {
             }
         }
         */
-            /*
+            
+        /*
             int[] perlinNoise = new int[currentLen];
 
-            float step = 1f / currentLen;
+            float step = 1f / Math.min(currentLen, 3072);
             float randomStart = (float) (Math.random() * currentLen);
             int octave = (int) (Math.log(currentLen) / Math.log(2));
 
@@ -293,7 +294,7 @@ public enum Shuffles {
             }
 
             for(int i = 0; i < currentLen; i++) {
-                Writes.write(array, i, perlinNoise[i], 1, true, false);
+                Writes.write(array, i, (int)Math.min(perlinNoise[i], currentLen - 1), 1, true, false);
             }
         }
         */
@@ -568,16 +569,16 @@ public enum Shuffles {
         */
     
         /*
-         * int value = currentLen;
+            int value = currentLen;
             for(int i = 0; i < currentLen / 2; i++) {
-                Writes.write(array, i, value, 1, true, false);
+                Writes.write(array, i, (int)Math.min(value, currentLen - 1), 1, true, false);
                 value -= 2;
             }
             for(int i = currentLen / 2; i < currentLen; i++) {
-                Writes.write(array, i, value, 1, true, false);
+                Writes.write(array, i, (int)Math.min(value, currentLen - 1), 1, true, false);
                 value += 2;
             }
-         */
+        */
         
         /*
         @Override
