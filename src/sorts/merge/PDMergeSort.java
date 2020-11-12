@@ -97,7 +97,7 @@ final public class PDMergeSort extends Sort {
             if (left <= leftStart && right <= rightStart) break;
 
             Highlights.markArray(1, leftStart + nxt);
-            Highlights.markArray(2, left);
+            Highlights.markArray(2, (int)Math.max(left, 0));
 
             // if(left < rightStart && right >= end){
             //     Highlights.clearMark(2);
@@ -163,7 +163,8 @@ final public class PDMergeSort extends Sort {
         
         while (index < maxIndex) {
             Delays.sleep(1);
-            if (compare(array[index], array[index + 1]) != cmp) {
+            int checkCmp = compare(array[index], array[index + 1]);
+            if ((cmp == 1 || checkCmp != 0) && checkCmp != cmp) {
                 break;
             }
             index++;
@@ -171,8 +172,10 @@ final public class PDMergeSort extends Sort {
         }
         Delays.sleep(1);
         if (cmp == 1) {
+            // arrayVisualizer.setHeading("PDMerge -- Reversing Run");
             Writes.reversal(array, startIndex, index, 1, true, false);
             Highlights.clearMark(2);
+            // arrayVisualizer.setHeading("PDMerge -- Finding Runs");
         }
         if (index >= maxIndex) {
             return -1;
