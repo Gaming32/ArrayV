@@ -257,44 +257,42 @@ public enum Shuffles {
         */
             
         /*
-            int[] perlinNoise = new int[currentLen];
-
             float step = 1f / Math.min(currentLen, 3072);
             float randomStart = (float) (Math.random() * currentLen);
             int octave = (int) (Math.log(currentLen) / Math.log(2));
 
             for(int i = 0; i < currentLen; i++) {
                 int value = (int) (PerlinNoise.returnFracBrownNoise(randomStart, octave) * currentLen);
-                Writes.write(perlinNoise, i, value, 0.333, true, true);
+                Writes.write(array, i, value, 0.333, true, false);
                 randomStart += step;
             }
 
             int minimum = Integer.MAX_VALUE;
             for(int i = 0; i < currentLen; i++) {
-                if(perlinNoise[i] < minimum) {
-                    minimum = perlinNoise[i];
+                if(array[i] < minimum) {
+                    minimum = array[i];
                 }
             }
             minimum = Math.abs(minimum);
             for(int i = 0; i < currentLen; i++) {
-                Writes.write(perlinNoise, i, perlinNoise[i] + minimum, 0.333, true, true);
+                Writes.write(array, i, array[i] + minimum, 0.333, true, false);
             }
 
             double maximum = Double.MIN_VALUE;
             for(int i = 0; i < currentLen; i++) {
-                if(perlinNoise[i] > maximum) {
-                    maximum = perlinNoise[i];
+                if(array[i] > maximum) {
+                    maximum = array[i];
                 }
             }
             double scale = currentLen / maximum;
             if(scale < 1.0 || scale > 1.8) {
                 for(int i = 0; i < currentLen; i++) {
-                    Writes.write(perlinNoise, i, (int) (perlinNoise[i] * scale), 0.333, true, true);
+                    Writes.write(array, i, (int) (array[i] * scale), 0.333, true, false);
                 }
             }
 
             for(int i = 0; i < currentLen; i++) {
-                Writes.write(array, i, (int)Math.min(perlinNoise[i], currentLen - 1), 1, true, false);
+                Writes.write(array, i, (int)Math.min(array[i], currentLen - 1), 1, true, false);
             }
         }
         */
