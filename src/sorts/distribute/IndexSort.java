@@ -50,7 +50,7 @@ final public class IndexSort extends Sort {
     private int analyzeMin(int[] array, int length, double sleep, boolean mark) {
         arrayVisualizer.toggleAnalysis(true);
         
-        int min = 0;
+        int min = Integer.MAX_VALUE;
 
         for(int i = 0; i < length; i++) {
             Writes.startLap();

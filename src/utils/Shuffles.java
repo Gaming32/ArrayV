@@ -567,15 +567,16 @@ public enum Shuffles {
         */
     
         /*
-            int value = currentLen;
+            int value = 0;
             for(int i = 0; i < currentLen / 2; i++) {
-                Writes.write(array, i, (int)Math.min(value, currentLen - 1), 1, true, false);
-                value -= 2;
-            }
-            for(int i = currentLen / 2; i < currentLen; i++) {
                 Writes.write(array, i, (int)Math.min(value, currentLen - 1), 1, true, false);
                 value += 2;
             }
+            for(int i = currentLen / 2; i < currentLen; i++) {
+                Writes.write(array, i, (int)Math.min(value, currentLen - 1), 1, true, false);
+                value -= 2;
+            }
+        }
         */
         
         /*

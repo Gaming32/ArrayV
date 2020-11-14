@@ -99,21 +99,6 @@ final public class PDMergeSort extends Sort {
             Highlights.markArray(1, leftStart + nxt);
             Highlights.markArray(2, (int)Math.max(left, 0));
 
-            // if(left < rightStart && right >= end){
-            //     Highlights.clearMark(2);
-            //     Writes.write(array, nxt + leftStart, copied[(left++) - leftStart], 1, false, false);
-            // }
-            // else if(left >= rightStart && right < end){
-            //     Highlights.clearMark(1);
-            //     Writes.write(array, nxt + leftStart, array[right++], 1, false, false);
-            // }
-            // else if(Reads.compareValues(copied[left - leftStart], array[right]) <= 0){
-            //     Writes.write(array, nxt + leftStart, copied[(left++) - leftStart], 1, false, false);
-            // }
-            // else{
-            //     Writes.write(array, nxt + leftStart, array[right++], 1, false, false);
-            // }
-
             if (left < leftStart && right >= leftStart) {
                 Highlights.clearMark(2);
                 Writes.write(array, leftStart + nxt, copied[(right--) - rightStart - 1], 1, false, false);
@@ -145,8 +130,8 @@ final public class PDMergeSort extends Sort {
         }
     }
 
-    private int compare(int a, int b) {
-        return Reads.compareValues(a, b);
+    private boolean compare(int a, int b) {
+        return Reads.compareValues(a, b) <= 0;
     }
 
     private int identifyRun(int[] array, int index, int maxIndex) {
@@ -157,21 +142,21 @@ final public class PDMergeSort extends Sort {
             return -1;
         }
 
-        int cmp = compare(array[index], array[index + 1]);
+        boolean cmp = compare(array[index], array[index + 1]);
         index++;
         Highlights.markArray(1, index);
         
         while (index < maxIndex) {
             Delays.sleep(1);
-            int checkCmp = compare(array[index], array[index + 1]);
-            if ((cmp == 1 || checkCmp != 0) && checkCmp != cmp) {
+            boolean checkCmp = compare(array[index], array[index + 1]);
+            if (checkCmp != cmp) {
                 break;
             }
             index++;
             Highlights.markArray(1, index);
         }
         Delays.sleep(1);
-        if (cmp == 1) {
+        if (cmp == false) {
             // arrayVisualizer.setHeading("PDMerge -- Reversing Run");
             Writes.reversal(array, startIndex, index, 1, true, false);
             Highlights.clearMark(2);
