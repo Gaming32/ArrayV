@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
+import panes.JEnhancedOptionPane;
 import panes.JErrorPane;
 import sorts.templates.Sort;
 import utils.Delays;
@@ -44,6 +45,8 @@ final public class RunComparisonSort {
     private Delays delayOps;
     private Sounds sounds;
     private Timer realTimer;
+
+    private Object[] inputOptions;
     
     public RunComparisonSort(ArrayVisualizer arrayVisualizer) {
         this.arrayVisualizer = arrayVisualizer;
@@ -51,6 +54,14 @@ final public class RunComparisonSort {
         this.delayOps = arrayVisualizer.getDelays();
         this.sounds = arrayVisualizer.getSounds();
         this.realTimer = arrayVisualizer.getTimer();
+
+        this.inputOptions = new Object[]{"Enter", "Use default"};
+    }
+
+    private int getCustomInput(String text) throws Exception {
+        String input = JEnhancedOptionPane.showInputDialog("Customize Sort", text, this.inputOptions);
+        int integer = Integer.parseInt(input);
+        return Math.abs(integer);
     }
     
     public void ReportComparativeSort(int[] array, int selection) {
@@ -106,11 +117,21 @@ final public class RunComparisonSort {
                     }
                     
                     if(goAhead) {
+                        int extra = 0;
+                        if (sort.getRunSortName().equals("Base-N Mergesort")) {
+                            try {
+                                extra = getCustomInput("Enter the number of bases for this sort:");
+                            }
+                            catch(Exception e) {
+                                extra = 4;
+                            }
+                        }
+
                         arrayVisualizer.setHeading(sort.getRunSortName());
                         arrayVisualizer.setCategory(sort.getCategory());
                         
                         realTimer.enableRealTimer();
-                        sort.runSort(array, arrayVisualizer.getCurrentLength(), 0);
+                        sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
                     }
                     else {
                         arrayManager.initializeArray(array);
