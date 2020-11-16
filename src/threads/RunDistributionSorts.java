@@ -64,7 +64,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
     
     public RunDistributionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 13;
+        this.sortCount = 15;
         this.categoryCount = this.sortCount;
         
         CountingSort             = new             CountingSort(this.arrayVisualizer);
