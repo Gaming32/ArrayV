@@ -348,6 +348,14 @@ final public class Writes {
         aList.add(value);
     }
 
+    public void arrayListAdd(ArrayList<Integer> aList, int value, boolean mockWrite, double sleep) {
+        allocAmount++;
+        aList.add(value);
+        if (mockWrite) {
+            this.mockWrite(aList.size(), aList.size() - 1, value, sleep);
+        }
+    }
+
     public void arrayListRemoveAt(ArrayList<Integer> aList, int index) {
         allocAmount--;
         aList.remove(index);

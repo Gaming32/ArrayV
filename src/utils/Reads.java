@@ -153,6 +153,31 @@ final public class Reads {
         return max;
     }
     
+    public int analyzeMaxCeilingLog(int[] array, int length, int base, double sleep, boolean mark) {
+        ArrayVisualizer.toggleAnalysis(true);
+        
+        int max = 0;
+        
+        for(int i = 0; i < length; i++) { 
+            int log = (int)Math.ceil(Math.log(array[i]) / Math.log(base));
+            
+            Timer.startLap();
+            
+            if(log > max) max = log;
+            
+            Timer.stopLap();
+            
+            if(mark) {
+                Highlights.markArray(1, i);
+                Delays.sleep(sleep);
+            }
+        }
+        
+        ArrayVisualizer.toggleAnalysis(false);
+        
+        return max;
+    }
+    
     public int analyzeBit(int[] array, int length) {
         ArrayVisualizer.toggleAnalysis(true);
         
