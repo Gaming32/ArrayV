@@ -5,6 +5,7 @@
 package frames;
 
 import java.awt.Toolkit;
+import java.awt.event.MouseListener;
 import java.util.Hashtable;
 
 import javax.swing.JFrame;
@@ -13,8 +14,11 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import java.awt.event.MouseEvent;
+
 import main.ArrayManager;
 import main.ArrayVisualizer;
+import panes.JEnhancedOptionPane;
 import utils.Highlights;
 
 /*
@@ -84,6 +88,12 @@ final public class ArrayFrame extends javax.swing.JFrame {
             abstractFrame.reposition();
     }
 
+    private int getArraySize() throws Exception {
+        String input = JEnhancedOptionPane.showInputDialog("Array Size", "Enter new array size:", new Object[] {"Ok", "Cancel"});
+        int integer = Integer.parseInt(input);
+        return Math.abs(integer);
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -120,6 +130,31 @@ final public class ArrayFrame extends javax.swing.JFrame {
                 
                 Highlights.clearAllMarks();
             }
+        });
+        jSlider.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                if (event.getClickCount() == 2) {
+                    int newSize = 0;
+                    try {
+                        newSize = getArraySize();
+                    }
+                    catch(Exception e) { }
+                    if (newSize >= 2) {
+                        ArrayVisualizer.setCurrentLength(newSize);
+                        ArrayManager.initializeArray(array);
+                        jSlider.setValue(newSize);
+                    }
+                }
+            }
+            @Override
+            public void mousePressed(MouseEvent e) { }
+            @Override
+            public void mouseReleased(MouseEvent e) { }
+            @Override
+            public void mouseEntered(MouseEvent e) { }
+            @Override
+            public void mouseExited(MouseEvent e) { }
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
