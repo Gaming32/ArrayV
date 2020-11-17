@@ -354,6 +354,9 @@ final public class Writes {
         if (mockWrite) {
             this.mockWrite(aList.size(), aList.size() - 1, value, sleep);
         }
+        else {
+            Delays.sleep(sleep);
+        }
     }
 
     public void arrayListRemoveAt(ArrayList<Integer> aList, int index) {

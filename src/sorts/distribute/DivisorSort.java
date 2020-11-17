@@ -48,25 +48,27 @@ final public class DivisorSort extends Sort {
         this.setBogoSort(false);
     }
 
+    private void safePush(ArrayList<ArrayList<Integer>> aList, int index, int value) {
+        while (aList.size() <= index) {
+            aList.add(new ArrayList<>());
+        }
+        Writes.arrayListAdd(aList.get(index), value, true, 1);
+    }
+
     private void divisorLoop(int[] array, int start, int length, int base, int log) {
         int divisor = (int)Math.pow(base, log);
-
-        @SuppressWarnings("unchecked")
-        ArrayList<Integer>[] buckets = new ArrayList[log == 0 ? base : divisor];
-
-        for (int i = 0; i < buckets.length; i++)
-            buckets[i] = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> buckets = new ArrayList<>();
         
         for (int i = start; i < start + length; i++) {
             Highlights.markArray(1, i);
-            Writes.arrayListAdd(buckets[(array[i] - start) / divisor], array[i], true, 1);
+            safePush(buckets, (array[i] - start) / divisor, array[i]);
         }
 
         int current = start;
-        for (int i = 0; i < buckets.length; i++) {
-            int size = buckets[i].size();
+        for (int i = 0; i < buckets.size(); i++) {
+            int size = buckets.get(i).size();
             for (int j = 0; j < size; j++) {
-                Writes.write(array, current + j, buckets[i].get(j), 1, true, false);
+                Writes.write(array, current + j, buckets.get(i).get(j), 1, true, false);
             }
             if (size > 1) {
                 divisorLoop(array, current, size, base, log / 2);
@@ -74,7 +76,9 @@ final public class DivisorSort extends Sort {
             current += size;
         }
 
-        Writes.deleteExternalArray(buckets);
+        for (ArrayList<Integer> bucket : buckets) {
+            Writes.deleteArrayList(bucket);
+        }
     }
     
     @Override
