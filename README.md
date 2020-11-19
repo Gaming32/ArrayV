@@ -1,6 +1,8 @@
 # w0rthy's Array Visualizer, Revamped
 Over 75 sorting algorithms animated with 12 unique graphic designs
 
+[Join the Discord server!](https://discord.gg/NVA4mhpC3G)
+
 This new version of the program features additions inspired by Timo Bingmann's "The Sound of Sorting" and w0rthy's updates to the original visualizer.
 
 To compile (After -cp, use ";" with Windows and ":" with Mac/Linux):
