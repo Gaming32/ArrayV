@@ -127,6 +127,29 @@ final public class Reads {
         
         return max;
     }
+
+    public int analyzeMin(int[] array, int length, double sleep, boolean mark) {
+        ArrayVisualizer.toggleAnalysis(true);
+        
+        int max = 0;
+
+        for(int i = 0; i < length; i++) {
+            Timer.startLap();
+            
+            if(array[i] < max) max = array[i];
+            
+            Timer.stopLap();
+            
+            if(mark) {
+                Highlights.markArray(1, i);
+                Delays.sleep(sleep);
+            }
+        }
+        
+        ArrayVisualizer.toggleAnalysis(false);
+        
+        return max;
+    }
     
     public int analyzeMaxLog(int[] array, int length, int base, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
