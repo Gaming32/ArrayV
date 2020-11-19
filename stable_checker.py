@@ -87,15 +87,10 @@ UsableCallable = Callable[[List[IntegerWrapper]], Any]
 
 
 def generate_keyed_list(vals: Iterable[int]) -> Generator[IntegerWrapper]:
-    cur_key = 0
-    last = None
+    cur_key = {}
     for prim in vals:
-        if prim != last:
-            cur_key = 0
-        else:
-            cur_key += 1
-        yield IntegerWrapper.wrap_int(prim, cur_key)
-        last = prim
+        cur_key.setdefault(prim, cur_key.get(prim, -1) + 1)
+        yield IntegerWrapper.wrap_int(prim, cur_key[prim])
 
 
 def simple_sort(func: UsableCallable, shuffler: UsableCallable = random.shuffle, list_size=4096, list_start=1, num_equal=4) -> List[IntegerWrapper]:
@@ -141,7 +136,6 @@ def main(colonfunc: str):
 
 if __name__ == '__main__':
     import sys
-    sys.path.append(r'C:\Users\josia\MEGA\Projects\Other\SwapMerge\python')
     if len(sys.argv) < 2:
         print('Syntax: ./stable_checker.py <module>:<func>')
         sys.exit(1)
