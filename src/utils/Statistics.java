@@ -22,6 +22,8 @@ final public class Statistics {
     private String auxWriteCount;
 
     private String auxAllocAmount;
+
+    private String segments;
     
     private DecimalFormat formatter;
     
@@ -30,12 +32,25 @@ final public class Statistics {
         this.updateStats(ArrayVisualizer);
     }
 
+    public int[] findSegments(int[] array, int length) {
+        int runs = 1;
+        int correct = 0;
+        for (int i = 0; i < length-1; i++) {
+            if (array[i] > array[i+1]) runs++;
+            else correct++;
+        }
+        int[] result = new int[2];
+        result[0] = runs;
+        result[1] = (int) ((((double) correct) / (length - 1)) * 100);
+        return result;
+    }
+
     public void updateStats(ArrayVisualizer ArrayVisualizer) {
         this.sortCategory = ArrayVisualizer.getCategory();
         this.sortHeading = ArrayVisualizer.getHeading();
         this.sortExtraHeading = ArrayVisualizer.getExtraHeading();
-        this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers";
-                //+ ", " + this.formatter.format(ArrayVisualizer.getCurrentLength() / ArrayVisualizer.getEqualItems()) + " Unique";
+        this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers" 
+        + ", " + this.formatter.format(ArrayVisualizer.getCurrentLength() / ArrayVisualizer.getEqualItems()) + " Unique";
         
         this.sortDelay = "Delay: " + ArrayVisualizer.getDelays().displayCurrentDelay() + "ms";
         this.visualTime = "Visual Time: " + ArrayVisualizer.getTimer().getVisualTime();
@@ -49,6 +64,10 @@ final public class Statistics {
         this.auxWriteCount = ArrayVisualizer.getWrites().getAuxWrites();
 
         this.auxAllocAmount = ArrayVisualizer.getWrites().getAllocAmount();
+
+        int[] shadowarray    = ArrayVisualizer.getArray();
+        int[] rawSegments    = this.findSegments(shadowarray, ArrayVisualizer.getCurrentLength());
+        this.segments        = String.valueOf(rawSegments[1]) + "% Sorted (" + String.valueOf(rawSegments[0]) + " Segments)";
     }
     
     public String getSortIdentity() {
@@ -83,5 +102,9 @@ final public class Statistics {
     }
     public String getAuxAllocAmount() {
         return this.auxAllocAmount;
+    }
+
+    public String getSegments() {
+        return this.segments;
     }
 }
