@@ -67,7 +67,8 @@ final public class Statistics {
 
         int[] shadowarray    = ArrayVisualizer.getArray();
         int[] rawSegments    = this.findSegments(shadowarray, ArrayVisualizer.getCurrentLength());
-        this.segments        = String.valueOf(rawSegments[1]) + "% Sorted (" + String.valueOf(rawSegments[0]) + " Segments)";
+        String plural = rawSegments[0] == 1 ? "" : "s";
+        this.segments        = String.valueOf(rawSegments[1]) + "% Sorted (" + String.valueOf(rawSegments[0]) + " Segment" + plural + ")";
     }
     
     public String getSortIdentity() {
