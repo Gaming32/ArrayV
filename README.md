@@ -1,6 +1,4 @@
 # w0rthy's Array Visualizer, Revamped
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Q5QLCFZ8G7WY6&currency_code=USD&source=url)
-
 Over 75 sorting algorithms animated with 12 unique graphic designs
 
 This new version of the program features additions inspired by Timo Bingmann's "The Sound of Sorting" and w0rthy's updates to the original visualizer.
@@ -23,6 +21,9 @@ To build a runnable jar, simply run Apache Ant inside the 'dist' directory!
 - Toggle shuffle animation
 - Toggle Timo Bingmann's "end sweep" animation
 - Refactored / optimized code
+
+## ?/?/???? - Version 4.0
+- I really am not sure
 
 ## 6/8/2020 - Version 3.5
 - NEW VISUALS: Sine Wave and Wave Dots!!
