@@ -402,12 +402,21 @@ final public class ArrayVisualizer {
         return this.equalItems;
     }
     public void setEqualItems(int newCount) {
+        this.equalItems = newCount;
+    }
+
+    public void setUniqueItems(int newCount) {
         int length = this.getCurrentLength();
         if (newCount <= length) {
             this.equalItems = length / newCount;
         } else {
             System.out.println("Too many unique items!"); //TODO change this with a limit in the slider or some kind of warning
         }
+    }
+    public int getUniqueItems() {
+        int length = this.getCurrentLength();
+        int equalItems = this.getEqualItems();
+        return equalItems * length;
     }
     
     public int getPower() {

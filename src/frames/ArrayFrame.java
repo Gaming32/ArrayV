@@ -100,7 +100,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
         this.jLabel1 = new javax.swing.JLabel();
         this.jLabel2 = new javax.swing.JLabel();
         this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 2, 32768, 2048);
-        this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 1, 32768, 1);
+        this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 1, 32768, 2048);
         
         jLabel1.setText("Array Size");
         jLabel2.setText("Unique Elements");
@@ -125,6 +125,9 @@ final public class ArrayFrame extends javax.swing.JFrame {
             public void stateChanged(ChangeEvent event) {
                 if(ArrayManager.isLengthMutable()) {
                     ArrayVisualizer.setCurrentLength(jSlider1.getValue());
+                    if (ArrayVisualizer.getEqualItems() == 1) {
+                        jSlider2.setValue(jSlider1.getValue());
+                    }
                     //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider.getValue()));
                     ArrayManager.initializeArray(array);
                 }
@@ -144,8 +147,6 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     }
                     catch(Exception e) { }
                     if (newSize >= 2) {
-                        ArrayVisualizer.setCurrentLength(newSize);
-                        ArrayManager.initializeArray(array);
                         jSlider1.setValue(newSize);
                     }
                 }
@@ -169,11 +170,16 @@ final public class ArrayFrame extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent event) {
                 if(ArrayManager.isLengthMutable()) {
-                    ArrayVisualizer.setEqualItems(jSlider2.getValue());
-                    //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider2.getValue()));
-                    ArrayManager.initializeArray(array);
+                    if (jSlider2.getValue() > jSlider1.getValue()) {
+                        jSlider2.setValue(jSlider1.getValue());
+                    }
+                    else {
+                        ArrayVisualizer.setUniqueItems(jSlider2.getValue());
+                        //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider2.getValue()));
+                        ArrayManager.initializeArray(array);
+                    }
                 }
-                else jSlider2.setValue(ArrayVisualizer.getEqualItems());
+                else jSlider2.setValue(ArrayVisualizer.getUniqueItems());
                 
                 Highlights.clearAllMarks();
             }
@@ -188,8 +194,6 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     }
                     catch(Exception e) { }
                     if (newSize >= 2) {
-                        ArrayVisualizer.setEqualItems(newSize);
-                        ArrayManager.initializeArray(array);
                         jSlider2.setValue(newSize);
                     }
                 }
