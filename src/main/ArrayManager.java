@@ -68,9 +68,9 @@ final public class ArrayManager {
  
     //TODO: Fix minimum to zero
     public void initializeArray(int[] array) {
-        int equalFactor = ArrayVisualizer.getEqualItems();
         int power = ArrayVisualizer.getPower();
         int currentLen = ArrayVisualizer.getCurrentLength();
+        int equalFactor = ArrayVisualizer.getEqualItems();
         if (power > 1) {
             for (int i = 0; i < array.length; i++) {
                 array[i] = (int)(Math.pow((i - currentLen / 2), power));
