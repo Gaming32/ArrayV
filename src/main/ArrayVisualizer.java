@@ -9,6 +9,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Stroke;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -70,35 +72,35 @@ SOFTWARE.
 
 final public class ArrayVisualizer {
     final JFrame window;
-    
+
     final private int MIN_ARRAY_VAL;
     final private int MAX_ARRAY_VAL;
 
     final int[] array;
     private int[] shadowArray;
-    
-    private String[][] ComparisonSorts;     // First row of Comparison/DistributionSorts arrays consists of class names
-    private String[][] DistributionSorts;   // Second row consists of user-friendly names
+
+    private String[][] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
+    private String[][] DistributionSorts; // Second row consists of user-friendly names
     private String[] InvalidSorts;
     private String[] sortSuggestions;
-    
+
     private volatile int sortLength;
     private volatile int equalItems;
     private volatile int power;
-    
+
     private ArrayManager ArrayManager;
     private SortAnalyzer SortAnalyzer;
-    
+
     private UtilFrame UtilFrame;
     private ArrayFrame ArrayFrame;
-    
+
     private Visual[] visualClasses;
-    
+
     private Thread sortingThread;
     private Thread visualsThread;
-    
+
     private volatile boolean visualsEnabled;
-    
+
     private String category;
     private String heading;
     private String extraHeading;
@@ -107,16 +109,16 @@ final public class ArrayVisualizer {
     private DecimalFormatSymbols symbols;
 
     private volatile int currentGap;
-    
+
     private boolean SHUFFLEANIM;
 
     private volatile boolean ANALYZE;
 
     private volatile boolean POINTER;
-    
+
     private Statistics statSnapshot;
     private String fontSelection;
-    
+
     private volatile boolean TEXTDRAW;
     private volatile boolean COLOR;
     private volatile boolean DISPARITYDRAW;
@@ -125,17 +127,17 @@ final public class ArrayVisualizer {
     private volatile boolean RAINBOW;
     private volatile boolean SPIRALDRAW;
     private volatile boolean WAVEDRAW;
-    
+
     private volatile int cx;
     private volatile int cy;
     private volatile int ch;
     private volatile int cw;
-    
+
     private Image img;
     private Graphics2D mainRender;
     private Graphics2D extraRender;
     private Stroke thickStroke;
-    
+
     private Delays Delays;
     private Highlights Highlights;
     private Reads Reads;
@@ -144,11 +146,23 @@ final public class ArrayVisualizer {
     private Timer Timer;
     private VisualStyles VisualStyles;
     private Writes Writes;
-    
+
     private volatile boolean updateVisuals;
 
     public ArrayVisualizer() {
         this.window = new JFrame();
+        this.window.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == ' ' || e.getKeyChar() == 'k') {
+                    ArrayVisualizer.this.getDelays().togglePaused();
+                }
+            }
+            @Override
+            public void keyPressed(KeyEvent e) { }
+            @Override
+            public void keyReleased(KeyEvent e) { }
+        });
         
         this.MIN_ARRAY_VAL = 2;
         this.MAX_ARRAY_VAL = 32768;

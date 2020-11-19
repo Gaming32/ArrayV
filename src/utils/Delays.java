@@ -42,6 +42,7 @@ final public class Delays {
     private double nanos;
     
     private volatile double currentDelay;
+    private volatile boolean paused;
     
     private DecimalFormat formatter;
     
@@ -63,6 +64,9 @@ final public class Delays {
         
         if(this.currentDelay == 0 || this.SKIPPED) {
             currDelay = "0";
+        }
+        else if(this.paused) {
+            currDelay = "Paused";
         }
         else if(this.currentDelay < 0.001) {
             currDelay = "< 0.001";
@@ -113,6 +117,17 @@ final public class Delays {
         this.SKIPPED = Bool;
         if(this.SKIPPED) this.Sounds.changeNoteDelayAndFilter(1);
     }
+
+    public boolean paused() {
+        return this.paused;
+    }
+    public void changePaused(boolean Bool) {
+        this.paused = Bool;
+        this.Sounds.toggleSound(!Bool);
+    }
+    public void togglePaused() {
+        this.changePaused(!this.paused);;
+    }
     
     public void sleep(double millis){
         if(millis <= 0) {
@@ -128,9 +143,10 @@ final public class Delays {
             // With this for loop, you can change the speed of sorts without waiting for the current delay to finish.
             if(!this.SKIPPED) {
                 this.arrayVisualizer.toggleVisualUpdates(false);
-                while(this.delay >= 1) {
+                while(this.paused || this.delay >= 1) {
                     Thread.sleep(1);
-                    this.delay--;
+                    if (!this.paused)
+                        this.delay--;
                 }
                 this.arrayVisualizer.toggleVisualUpdates(true);
             }
