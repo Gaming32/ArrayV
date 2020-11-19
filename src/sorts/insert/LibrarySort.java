@@ -84,9 +84,10 @@ final public class LibrarySort extends Sort {
 		if(i == length) return;
 			
 		int size = i+1;
-		int[] temp     = new int[length];
+		int[] temp     = Writes.createExternalArray(length);
 		int[][] gaps   = new int[length][GAP_SIZE];
-		int[] gapCount = new int[length];
+		int[] gapCount = Writes.createExternalArray(length);
+		Writes.changeAllocAmount(length * GAP_SIZE);
 		
 		while(i < length) {
 			while(i < length) { //insert into gaps
@@ -117,5 +118,9 @@ final public class LibrarySort extends Sort {
 			
 			size = i+1;
 		}
+
+		Writes.deleteExternalArray(temp);
+		Writes.deleteExternalArray(gapCount);
+		Writes.changeAllocAmount(-(gaps.length * gaps[0].length));
     }
 }
