@@ -304,6 +304,7 @@ final public class ArrayVisualizer {
         this.mainRender.drawString(this.statSnapshot.getMainWriteCount(),  xOffset, (int) (windowRatio * 275) + yOffset);
         this.mainRender.drawString(this.statSnapshot.getAuxWriteCount(),   xOffset, (int) (windowRatio * 300) + yOffset);
         this.mainRender.drawString(this.statSnapshot.getAuxAllocAmount(),  xOffset, (int) (windowRatio * 325) + yOffset);
+        this.mainRender.drawString(this.statSnapshot.getSegments(),        xOffset, (int) (windowRatio * 355) + yOffset);
     }
     
     public void toggleVisualUpdates(boolean bool) {
@@ -317,6 +318,10 @@ final public class ArrayVisualizer {
         for(int i = 0; i < this.sortLength; i++) {
             this.shadowArray[this.array[i]] = i;
         }
+    }
+
+    public int[] getArray() {
+        return this.array;
     }
     
     public ArrayManager getArrayManager() {
@@ -397,7 +402,12 @@ final public class ArrayVisualizer {
         return this.equalItems;
     }
     public void setEqualItems(int newCount) {
-        this.equalItems = newCount;
+        int length = this.getCurrentLength();
+        if (newCount <= length) {
+            this.equalItems = length / newCount;
+        } else {
+            System.out.println("Too many unique items!"); //TODO change this with a limit in the slider or some kind of warning
+        }
     }
     
     public int getPower() {
