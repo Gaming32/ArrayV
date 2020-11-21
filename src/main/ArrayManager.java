@@ -80,7 +80,7 @@ final public class ArrayManager {
                 array[i] = (int)(array[i] * (double)currentLen / 2.0 / (double)max);
             }
             for (int i = 0; i < array.length; i++) {
-                array[i] = Math.max(0, array[i] + currentLen / 2);
+                array[i] = Math.min(Math.max(0, array[i] + currentLen / 2), currentLen - 1);
             }
         } else {
             for (int i = 0; i < array.length; i++) {

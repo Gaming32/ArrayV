@@ -36,7 +36,7 @@ public abstract class ShatterSorting extends Sort {
         super(arrayVisualizer);
     }
     
-    private void shatterPartition(int[] array, int length, int num) {
+    protected void shatterPartition(int[] array, int length, int num) {
         int shatters = (int) Math.ceil(length / (double) num);
         
         @SuppressWarnings("unchecked")

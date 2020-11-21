@@ -1,8 +1,5 @@
 package sorts.distribute;
 
-import java.util.Arrays;
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
@@ -10,7 +7,7 @@ import sorts.templates.Sort;
  * 
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2020 Gaming32
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,13 +29,13 @@ SOFTWARE.
  *
  */
 
-final public class OptimizedCountingSort extends Sort {
-    public OptimizedCountingSort(ArrayVisualizer arrayVisualizer) {
+final public class OptimizedPigeonholeSort extends Sort {
+    public OptimizedPigeonholeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Optimized Counting");
-        this.setRunAllSortsName("Optimized Counting Sort");
-        this.setRunSortName("Optimized Counting Sort");
+        this.setSortListName("Optimized Pigeonhole");
+        this.setRunAllSortsName("Optimized Pigeonhole Sort");
+        this.setRunSortName("Optimized Pigeonhole Sort");
         this.setCategory("Distribution Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
@@ -47,31 +44,41 @@ final public class OptimizedCountingSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-
+    
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        ArrayList<Integer> counts = new ArrayList<Integer>();
-
-        for (int i = 0; i < sortLength; i++) {
-            if (Reads.compareValues(array[i], counts.size() - 1) == 1) {
-                for (int j = counts.size(); j <= array[i]; j++) {
-                    Writes.arrayListAdd(counts, 0);
-                    Writes.mockWrite(counts.size(), counts.size() - 1, 0, 0);
-                }
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        
+        for(int i = 0; i < sortLength; i++) {
+            if(array[i] < min) {
+                min = array[i];
             }
-            Highlights.markArray(1, i);
-            counts.set(array[i], counts.get(array[i]) + 1);
-            Writes.mockWrite(counts.size(), array[i], counts.get(array[i]), 1);
-        }
-
-        int dest = 0;
-        for (int i = 0; i < counts.size(); i++) {
-            for (int j = 0; j < counts.get(i); j++) {
-                Writes.write(array, dest, i, 1, true, false);
-                dest++;
+            if(array[i] > max) {
+                max = array[i];
             }
         }
+        
+        int mi = min;
+        int size = max - mi + 1;
+        int[] holes = Writes.createExternalArray(size);
+        
+        for(int x = 0; x < sortLength; x++) {
+            Writes.write(holes, array[x] - mi, holes[array[x] - mi] + 1, 1, false, true);
+            Highlights.markArray(1, x);
+        }
+        
+        int j = 0;
+        
+        for(int count = 0; count < size; count++) {
+            for (int i = 0; i < holes[count]; i++) {
+                Writes.write(array, j, count + mi, 1, false, false);
+                
+                Highlights.markArray(1, j);
+                j++;
+            }
+        }
 
-        Writes.deleteArrayList(counts);
+        Writes.deleteExternalArray(holes);
     }
 }

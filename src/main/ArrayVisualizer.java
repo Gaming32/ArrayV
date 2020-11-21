@@ -454,7 +454,7 @@ final public class ArrayVisualizer {
         if (newCount <= length) {
             this.equalItems = length / newCount;
         } else {
-            System.out.println("Too many unique items!"); //TODO change this with a limit in the slider or some kind of warning
+            System.out.println("Too many unique items!");
         }
     }
     public int getUniqueItems() {
