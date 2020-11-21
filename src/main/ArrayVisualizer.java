@@ -26,8 +26,11 @@ import dialogs.CustomImageDialog;
 import frames.ArrayFrame;
 import frames.SoundFrame;
 import frames.UtilFrame;
+import panes.JErrorPane;
+import threads.RunScriptedSorts;
 import utils.Delays;
 import utils.Highlights;
+import utils.MultipleScript;
 import utils.Reads;
 import utils.Renderer;
 import utils.Sounds;
@@ -140,6 +143,7 @@ final public class ArrayVisualizer {
 
     private Delays Delays;
     private Highlights Highlights;
+    private MultipleScript MultipleScript;
     private Reads Reads;
     private Renderer Renderer;
     private Sounds Sounds;
@@ -161,7 +165,22 @@ final public class ArrayVisualizer {
             @Override
             public void keyPressed(KeyEvent e) { }
             @Override
-            public void keyReleased(KeyEvent e) { }
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyChar() == 't') {
+                    new Thread(){
+                        @Override
+                        public void run(){
+                            RunScriptedSorts RunScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
+                            try {
+                                RunScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
+                            }
+                            catch (Exception e) {
+                                JErrorPane.invokeErrorMessage(e);
+                            }
+                        }
+                    }.start();
+                }
+            }
         });
         
         this.MIN_ARRAY_VAL = 2;
@@ -199,6 +218,8 @@ final public class ArrayVisualizer {
         this.DistributionSorts = this.SortAnalyzer.getDistributionSorts();
         this.InvalidSorts = this.SortAnalyzer.getInvalidSorts();
         this.sortSuggestions = this.SortAnalyzer.getSuggestions();
+
+        this.MultipleScript = new MultipleScript(this);
         
         this.category = "";
         this.heading = "";
@@ -350,6 +371,9 @@ final public class ArrayVisualizer {
     }
     public Writes getWrites() {
         return this.Writes;
+    }
+    public MultipleScript getScriptParser() {
+        return this.MultipleScript;
     }
     
     public Visual[] getVisuals() {
