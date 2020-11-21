@@ -44,6 +44,8 @@ public abstract class BogoSorting extends Sort {
     }
     
     protected boolean bogoIsSorted(int[] array, int length) {
+        if (Delays.skipped())
+            return true;
         for(int i = 0; i < length - 1; i++) {
             if(Reads.compareValues(array[i], array[i + 1]) == 1) {
                 Highlights.markArray(1, i);
