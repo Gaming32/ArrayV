@@ -65,7 +65,7 @@ final public class RunComparisonSort {
     }
     
     public void ReportComparativeSort(int[] array, int selection) {
-        if(arrayVisualizer.getSortingThread() != null && arrayVisualizer.getSortingThread().isAlive())
+        if(arrayVisualizer.isActive())
             return;
 
         //TODO: This code is bugged! It causes the program to forget the sleep ratio specified by the user!

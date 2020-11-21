@@ -12,7 +12,22 @@ import sorts.templates.Sort;
 import panes.JErrorPane;
 
 final public class MultipleScript {
-    public class SortCallInfo {
+    public static class ScriptCommand {
+        public static enum CommandType {
+            SortCall,
+            SetCategory
+        }
+
+        public CommandType type;
+        public Object argument;
+
+        public ScriptCommand(CommandType type, Object argument) {
+            this.type = type;
+            this.argument = argument;
+        }
+    }
+
+    public static class SortCallInfo {
         public Sort algortitm;
         public int bucketCount;
         public int defaultLength;
@@ -101,47 +116,64 @@ final public class MultipleScript {
         }
     }
 
-    public SortCallInfo[] runScript(Scanner scanner) {
-        ArrayList<SortCallInfo> result = new ArrayList<>();
+    public ScriptCommand[] runScript(Scanner scanner) {
+        ArrayList<ScriptCommand> result = new ArrayList<>();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] commands = simpleCommandLineParse(line);
-
-            String sortName = commands[0].toLowerCase();
-            if (!sortNames.containsKey(sortName)) {
+            if (commands.length == 0 || (commands.length == 1 && commands[0].length() == 0))
                 continue;
+
+            ScriptCommand.CommandType commandType = null;
+            Object argument = null;
+
+            String commandLabel = commands[0].toLowerCase();
+            if (commandLabel.compareTo("setcategory") == 0) {
+                commandType = ScriptCommand.CommandType.SetCategory;
+                argument = commands.length > 1 ? commands[1] : "Scripted Sorts";
             }
-            Class<?> sortClass = sortNames.get(sortName);
+            else {
+                String sortName = commandLabel;
+                if (!sortNames.containsKey(sortName)) {
+                    continue;
+                }
+                Class<?> sortClass = sortNames.get(sortName);
 
-            int bucketCount = Integer.parseInt(commands[1]);
-            int defaultLength = Integer.parseInt(commands[2]);
-            int defaultSpeedMultiplier = Integer.parseInt(commands[3]);
+                int bucketCount = commands.length > 1 ? Integer.parseInt(commands[1]) : 0;
+                int defaultLength = commands.length > 2 ? Integer.parseInt(commands[2]) : 2048;
+                int defaultSpeedMultiplier = commands.length > 3 ? Integer.parseInt(commands[3]) : 1;
 
-            result.add(new SortCallInfo(this.arrayVisualizer, sortClass, bucketCount, defaultLength, defaultSpeedMultiplier));
+                commandType = ScriptCommand.CommandType.SortCall;
+                argument = new SortCallInfo(this.arrayVisualizer, sortClass, bucketCount, defaultLength, defaultSpeedMultiplier);
+            }
+            result.add(new ScriptCommand(commandType, argument));
         }
 
-        return result.toArray(new SortCallInfo[result.size()]);
+        return result.toArray(new ScriptCommand[result.size()]);
     }
 
-    public SortCallInfo[] runScript(String[] code) {
+    public ScriptCommand[] runScript(String[] code) {
         Scanner scanner = new Scanner(String.join("\n", code));
         return runScript(scanner);
     }
 
-    public SortCallInfo[] runScript(File file) {
+    public ScriptCommand[] runScript(File file) {
         Scanner scanner;
         try {
             scanner = new Scanner(file);
         }
         catch (FileNotFoundException e) {
-            JErrorPane.invokeErrorMessage(e, "Run Script");
+            JErrorPane.invokeCustomErrorMessage("The file \"" + file.getPath() + "\" does not exist");
+            return null;
+        }
+        catch (NullPointerException e) {
             return null;
         }
         return runScript(scanner);    
     }
 
-    public SortCallInfo[] runScript(String path) {
+    public ScriptCommand[] runScript(String path) {
         return runScript(new File(path));        
     }
 }

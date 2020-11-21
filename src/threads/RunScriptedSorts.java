@@ -36,6 +36,7 @@ SOFTWARE.
 
 final public class RunScriptedSorts extends MultipleSortThread {
     private RunScriptDialog fileDialog;
+    private String currentCategory;
 
     public RunScriptedSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -45,23 +46,31 @@ final public class RunScriptedSorts extends MultipleSortThread {
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        this.executeSortList(new MultipleScript.SortCallInfo[] { }, array);
+        this.executeSortList(new MultipleScript.ScriptCommand[] { }, array);
     }
 
-    protected synchronized void executeSortList(MultipleScript.SortCallInfo[] sorts, int[] array) throws Exception {
-        for (MultipleScript.SortCallInfo info : sorts) {
-            RunScriptedSorts.this.runIndividualSort(info.algortitm,
-                info.bucketCount,
-                array,
-                info.defaultLength,
-                info.defaultSpeedMultiplier,
-                info.slowSort);
+    protected synchronized void executeSortList(MultipleScript.ScriptCommand[] commands, int[] array) throws Exception {
+        for (MultipleScript.ScriptCommand command : commands) {
+            if (command.type == MultipleScript.ScriptCommand.CommandType.SetCategory) {
+                String category = (String)command.argument;
+                RunScriptedSorts.this.currentCategory = category;
+                arrayVisualizer.setCategory(category);
+            }
+            else if (command.type == MultipleScript.ScriptCommand.CommandType.SortCall) {
+                MultipleScript.SortCallInfo info = (MultipleScript.SortCallInfo)command.argument;
+                RunScriptedSorts.this.runIndividualSort(info.algortitm,
+                    info.bucketCount,
+                    array,
+                    info.defaultLength,
+                    info.defaultSpeedMultiplier,
+                    info.slowSort);
+            }
         }
     }
     
     @Override
     public synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
-        if(arrayVisualizer.getSortingThread() != null && arrayVisualizer.getSortingThread().isAlive())
+        if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
@@ -70,19 +79,30 @@ final public class RunScriptedSorts extends MultipleSortThread {
             public void run() {
                 try{
                     File file = fileDialog.getFile();
-                    MultipleScript.SortCallInfo[] sorts = RunScriptedSorts.this.arrayVisualizer.getScriptParser().runScript(file);
+                    MultipleScript.ScriptCommand[] commands = RunScriptedSorts.this.arrayVisualizer.getScriptParser().runScript(file);
+                    if (commands == null)
+                        return;
+
+                    int sortCount = 0;
+                    for (MultipleScript.ScriptCommand command : commands) {
+                        if (command.type == MultipleScript.ScriptCommand.CommandType.SortCall) {
+                            sortCount++;
+                        }
+                    }
 
                     RunScriptedSorts.this.sortNumber = 1;
-                    RunScriptedSorts.this.sortCount = sorts.length;
+                    RunScriptedSorts.this.sortCount = sortCount;
+                    RunScriptedSorts.this.categoryCount = sortCount;
 
                     arrayManager.toggleMutableLength(false);
 
+                    RunScriptedSorts.this.currentCategory = "Scripted Sorts";
                     arrayVisualizer.setCategory("Scripted Sorts");
 
-                    RunScriptedSorts.this.executeSortList(sorts, array);
+                    RunScriptedSorts.this.executeSortList(commands, array);
                     
                     if(!runAllActive) {
-                        arrayVisualizer.setCategory("Run Scripted Sorts");
+                        arrayVisualizer.setCategory("Run " + RunScriptedSorts.this.currentCategory);
                         arrayVisualizer.setHeading("Done");
                     }
                     

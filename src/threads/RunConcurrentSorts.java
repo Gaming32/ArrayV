@@ -69,7 +69,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
-        if(arrayVisualizer.getSortingThread() != null && arrayVisualizer.getSortingThread().isAlive())
+        if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);

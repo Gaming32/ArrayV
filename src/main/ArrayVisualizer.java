@@ -7,8 +7,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.KeyEventDispatcher;
 import java.awt.Stroke;
 import java.awt.Toolkit;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
@@ -162,11 +165,22 @@ final public class ArrayVisualizer {
                     ArrayVisualizer.this.getDelays().togglePaused();
                 }
             }
+
             @Override
-            public void keyPressed(KeyEvent e) { }
+            public void keyPressed(KeyEvent e) {
+            }
+
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyChar() == 't') {
+            }
+        });
+
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_O && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
+                    if (ArrayVisualizer.this.isActive())
+                        return false;
                     new Thread(){
                         @Override
                         public void run(){
@@ -179,7 +193,9 @@ final public class ArrayVisualizer {
                             }
                         }
                     }.start();
+                    return true;
                 }
+                return false;
             }
         });
         
@@ -412,6 +428,10 @@ final public class ArrayVisualizer {
         this.Reads.resetStatistics();
         this.Writes.resetStatistics();
         this.Timer.manualSetTime(0);
+    }
+
+    public boolean isActive() {
+        return this.getSortingThread() != null && this.getSortingThread().isAlive();
     }
     
     // These next five methods should be part of ArrayManager
