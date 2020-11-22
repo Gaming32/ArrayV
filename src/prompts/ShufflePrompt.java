@@ -124,7 +124,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                         .addComponent(this.jLabel1)
                         .addGap(5, 5, 5))
                 .addGroup(layout.createSequentialGroup()
-                        .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                 );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,6 +159,9 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
             break;
         case 4:
             ArrayManager.setShuffle(ArrayManager.getShuffles()[4]);
+            break;
+        case 5:
+            ArrayManager.setShuffle(ArrayManager.getShuffles()[5]);
             break;
         default:
             break;

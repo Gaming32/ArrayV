@@ -58,6 +58,19 @@ public enum Shuffles {
             */
         }
     },
+    SHUFFLED_ODDS {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            
+            for(int i = 1; i < currentLen; i += 2){
+                int randomIndex = (((int) ((Math.random() * (currentLen - i)) / 2)) * 2) + i;
+                Writes.swap(array, i, randomIndex, 0, true, false);
+                
+                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(2);
+            }
+        }
+    },
     REVERSE {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
@@ -138,7 +151,6 @@ public enum Shuffles {
         }
         
             /*
-            int currentLen = ArrayVisualizer.getCurrentLength();
             Writes.write(array, 0, 0, 1, true, false);
             for(int i = 1; i < currentLen; i++) {
                 int log = (int) (Math.log(i) / Math.log(2));
@@ -202,16 +214,6 @@ public enum Shuffles {
             }
             else 
                 return concat(circleGen(n-1, k, Writes), addToAll(circleGen(n-1, k-1, Writes), 1 << (n-1), Writes), Writes);
-        }
-        */
-            /*
-          //TODO: Consider separate method
-            for(int i = 1; i < currentLen; i += 2){
-                int randomIndex = (((int) ((Math.random() * (currentLen - i)) / 2)) * 2) + i;
-                Writes.swap(array, i, randomIndex, 0, true, false);
-                
-                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(2);
-            }
         }
         */
             /*
