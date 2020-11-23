@@ -126,6 +126,14 @@ final public class RunComparisonSort {
                                 extra = 4;
                             }
                         }
+                        else if (sort.getRunSortName().equals("Base-N Max Heapsort")) {
+                            try {
+                                extra = getCustomInput("Enter the base for this sort:");
+                            }
+                            catch(Exception e) {
+                                extra = 4;
+                            }
+                        }
 
                         arrayVisualizer.setHeading(sort.getRunSortName());
                         arrayVisualizer.setCategory(sort.getCategory());
