@@ -5,9 +5,11 @@ import panes.JErrorPane;
 import sorts.concurrent.IterativeBitonicSort;
 import sorts.concurrent.IterativeOddEvenMergeSort;
 import sorts.concurrent.IterativePairwiseSort;
+import sorts.concurrent.IterativeBoseNelsonSort;
 import sorts.concurrent.RecursiveBitonicSort;
 import sorts.concurrent.RecursiveOddEvenMergeSort;
 import sorts.concurrent.RecursivePairwiseSort;
+import sorts.concurrent.RecursiveBoseNelsonSort;
 import sorts.templates.Sort;
 
 /*
@@ -40,9 +42,11 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     private Sort RecursiveBitonicSort;
     private Sort RecursiveOddEvenMergeSort;
     private Sort RecursivePairwiseSort;
+    private Sort RecursiveBoseNelsonSort;
     private Sort IterativeBitonicSort;
     private Sort IterativeOddEvenMergeSort;
     private Sort IterativePairwiseSort;
+    private Sort IterativeBoseNelsonSort;
     
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -52,9 +56,11 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         RecursiveBitonicSort      = new      RecursiveBitonicSort(this.arrayVisualizer);
         RecursiveOddEvenMergeSort = new RecursiveOddEvenMergeSort(this.arrayVisualizer);
         RecursivePairwiseSort     = new     RecursivePairwiseSort(this.arrayVisualizer);
+        RecursiveBoseNelsonSort   = new   RecursiveBoseNelsonSort(this.arrayVisualizer);
         IterativeBitonicSort      = new      IterativeBitonicSort(this.arrayVisualizer);
         IterativeOddEvenMergeSort = new IterativeOddEvenMergeSort(this.arrayVisualizer);
         IterativePairwiseSort     = new     IterativePairwiseSort(this.arrayVisualizer);
+        IterativeBoseNelsonSort   = new   IterativeBoseNelsonSort(this.arrayVisualizer);
     }
 
     @Override
@@ -62,9 +68,11 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         RunConcurrentSorts.this.runIndividualSort(RecursiveBitonicSort,      0, array, 1024, 0.6667, false);
         RunConcurrentSorts.this.runIndividualSort(RecursiveOddEvenMergeSort, 0, array, 1024, 1,      false);
         RunConcurrentSorts.this.runIndividualSort(RecursivePairwiseSort,     0, array, 1024, 1,      false);
+        RunConcurrentSorts.this.runIndividualSort(RecursiveBoseNelsonSort,   0, array, 1024, 1,      false);
         RunConcurrentSorts.this.runIndividualSort(IterativeBitonicSort,      0, array, 1024, 0.3333, false);
         RunConcurrentSorts.this.runIndividualSort(IterativeOddEvenMergeSort, 0, array, 1024, 1,      false);
         RunConcurrentSorts.this.runIndividualSort(IterativePairwiseSort,     0, array, 1024, 0.8,    false);
+        RunConcurrentSorts.this.runIndividualSort(IterativeBoseNelsonSort,   0, array, 1024, 1,      false);
     }
     
     @Override

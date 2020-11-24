@@ -13,7 +13,7 @@ public class SnuffleSort extends Sort {
         this.setSortListName("Snuffle");
         this.setRunAllSortsName("Snuffle Sort");
         this.setRunSortName("Snuffle Sort");
-        this.setCategory("Impractical Sorts");
+        this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);

@@ -2,6 +2,7 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
+import sorts.select.BaseNMaxHeapSort;
 import sorts.select.CycleSort;
 import sorts.select.DoubleSelectionSort;
 import sorts.select.FlippedMinHeapSort;
@@ -48,6 +49,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
     private Sort MaxHeapSort;
     private Sort MinHeapSort;
     private Sort FlippedMinHeapSort;
+    private Sort BaseNMaxHeapSort;
     private Sort WeakHeapSort;
     private Sort TernaryHeapSort;
     private Sort SmoothSort;
@@ -56,7 +58,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
     
     public RunSelectionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 11;
+        this.sortCount = 12;
         this.categoryCount = this.sortCount;
         
         SelectionSort       = new       SelectionSort(this.arrayVisualizer);
@@ -65,6 +67,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
         MaxHeapSort         = new         MaxHeapSort(this.arrayVisualizer);
         MinHeapSort         = new         MinHeapSort(this.arrayVisualizer);
         FlippedMinHeapSort  = new  FlippedMinHeapSort(this.arrayVisualizer);
+        BaseNMaxHeapSort    = new    BaseNMaxHeapSort(this.arrayVisualizer);
         WeakHeapSort        = new        WeakHeapSort(this.arrayVisualizer);
         TernaryHeapSort     = new     TernaryHeapSort(this.arrayVisualizer);
         SmoothSort          = new          SmoothSort(this.arrayVisualizer);
@@ -80,6 +83,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
         RunSelectionSorts.this.runIndividualSort(MaxHeapSort,         0, array, 2048, 1.5,  false);
         RunSelectionSorts.this.runIndividualSort(MinHeapSort,         0, array, 2048, 1.5,  false);
         RunSelectionSorts.this.runIndividualSort(FlippedMinHeapSort,  0, array, 2048, 1.5,  false);
+        RunSelectionSorts.this.runIndividualSort(BaseNMaxHeapSort  ,  4, array, 2048, 1.5,  false);
         RunSelectionSorts.this.runIndividualSort(WeakHeapSort,        0, array, 2048, 1,    false);
         RunSelectionSorts.this.runIndividualSort(TernaryHeapSort,     0, array, 2048, 1,    false);
         RunSelectionSorts.this.runIndividualSort(SmoothSort,          0, array, 2048, 1.5,  false);

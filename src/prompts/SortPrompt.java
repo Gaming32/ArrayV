@@ -139,7 +139,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
         jScrollPane2.setViewportView(this.jList1);
 
-        jButton1.setText("Run All (approx. 30-60 minutes)");
+        jButton1.setText("Run All (approx. 30-90 minutes)");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {

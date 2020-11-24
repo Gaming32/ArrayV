@@ -7,7 +7,7 @@ final public class BaseNMaxHeapSort extends Sort {
     public BaseNMaxHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.setSortListName("Base-N Max Heap");
-        this.setRunAllSortsName("Base-N Max Heap Sort");
+        this.setRunAllSortsName("Base-N Max Heap Sort, Base 4");
         this.setRunSortName("Base-N Max Heapsort");
         this.setCategory("Selection Sorts");
         this.setComparisonBased(true);

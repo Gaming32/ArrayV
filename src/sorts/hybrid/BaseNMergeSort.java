@@ -37,7 +37,7 @@ final public class BaseNMergeSort extends Sort {
         super(arrayVisualizer);
         
         this.setSortListName("Base-N Merge");
-        this.setRunAllSortsName("Base-N Merge Sort");
+        this.setRunAllSortsName("Base-N Merge Sort, 4 Bases");
         this.setRunSortName("Base-N Mergesort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);

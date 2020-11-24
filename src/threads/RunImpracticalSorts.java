@@ -8,8 +8,10 @@ import sorts.distribute.CocktailBogoSort;
 import sorts.distribute.LessBogoSort;
 import sorts.exchange.BubbleBogoSort;
 import sorts.exchange.ExchangeBogoSort;
+import sorts.exchange.OptimizedStoogeSort;
 import sorts.exchange.SillySort;
 import sorts.exchange.SlowSort;
+import sorts.exchange.SnuffleSort;
 import sorts.exchange.StoogeSort;
 import sorts.select.BadSort;
 import sorts.templates.Sort;
@@ -43,8 +45,10 @@ SOFTWARE.
 final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort BadSort;
     private Sort StoogeSort;
+    private Sort OptimizedStoogeSort;
     private Sort SillySort;
     private Sort SlowSort;
+    private Sort SnuffleSort;
     private Sort ExchangeBogoSort;
     private Sort BubbleBogoSort;
     private Sort LessBogoSort;
@@ -54,35 +58,39 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 10;
+        this.sortCount = 12;
         this.categoryCount = this.sortCount;
         
-        BadSort          = new          BadSort(this.arrayVisualizer);
-        StoogeSort       = new       StoogeSort(this.arrayVisualizer);
-        SillySort        = new        SillySort(this.arrayVisualizer);
-        SlowSort         = new         SlowSort(this.arrayVisualizer);
-        ExchangeBogoSort = new ExchangeBogoSort(this.arrayVisualizer);
-        BubbleBogoSort   = new   BubbleBogoSort(this.arrayVisualizer);
-        LessBogoSort     = new     LessBogoSort(this.arrayVisualizer);
-        CocktailBogoSort = new CocktailBogoSort(this.arrayVisualizer);
-        BogoSort         = new         BogoSort(this.arrayVisualizer);
-        BogoBogoSort     = new     BogoBogoSort(this.arrayVisualizer);
+        BadSort             = new             BadSort(this.arrayVisualizer);
+        StoogeSort          = new          StoogeSort(this.arrayVisualizer);
+        OptimizedStoogeSort = new OptimizedStoogeSort(this.arrayVisualizer);
+        SillySort           = new           SillySort(this.arrayVisualizer);
+        SlowSort            = new            SlowSort(this.arrayVisualizer);
+        SnuffleSort         = new         SnuffleSort(this.arrayVisualizer);
+        ExchangeBogoSort    = new    ExchangeBogoSort(this.arrayVisualizer);
+        BubbleBogoSort      = new      BubbleBogoSort(this.arrayVisualizer);
+        LessBogoSort        = new        LessBogoSort(this.arrayVisualizer);
+        CocktailBogoSort    = new    CocktailBogoSort(this.arrayVisualizer);
+        BogoSort            = new            BogoSort(this.arrayVisualizer);
+        BogoBogoSort        = new        BogoBogoSort(this.arrayVisualizer);
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunImpracticalSorts.this.runIndividualSort(BadSort,          0, array, 64,  0.0075, true);
-        RunImpracticalSorts.this.runIndividualSort(StoogeSort,       0, array, 64,  0.005,  true);
-        RunImpracticalSorts.this.runIndividualSort(SillySort,        0, array, 64, 10,      true);
-        RunImpracticalSorts.this.runIndividualSort(SlowSort,         0, array, 64, 10,      true);
+        RunImpracticalSorts.this.runIndividualSort(BadSort,             0, array, 64,  0.0075, true);
+        RunImpracticalSorts.this.runIndividualSort(StoogeSort,          0, array, 64,  0.005,  true);
+        RunImpracticalSorts.this.runIndividualSort(OptimizedStoogeSort, 0, array, 64,  1,      true);
+        RunImpracticalSorts.this.runIndividualSort(SillySort,           0, array, 64, 10,      true);
+        RunImpracticalSorts.this.runIndividualSort(SlowSort,            0, array, 64, 10,      true);
+        RunImpracticalSorts.this.runIndividualSort(SnuffleSort,         0, array, 64, 0.005,   true);
         
         Sounds.toggleSofterSounds(true);
-        RunImpracticalSorts.this.runIndividualSort(ExchangeBogoSort, 0, array, 32,  0.01,   true);
-        RunImpracticalSorts.this.runIndividualSort(BubbleBogoSort,   0, array, 32,  0.01,   true);
-        RunImpracticalSorts.this.runIndividualSort(LessBogoSort,     0, array, 16,  0.0025, true);
-        RunImpracticalSorts.this.runIndividualSort(CocktailBogoSort, 0, array, 16,  0.0025, true);
-        RunImpracticalSorts.this.runIndividualSort(BogoSort,         0, array,  8,  1,      true);
-        RunImpracticalSorts.this.runIndividualSort(BogoBogoSort,     0, array,  6,  1,      true);
+        RunImpracticalSorts.this.runIndividualSort(ExchangeBogoSort,    0, array, 32,  0.01,   true);
+        RunImpracticalSorts.this.runIndividualSort(BubbleBogoSort,      0, array, 32,  0.01,   true);
+        RunImpracticalSorts.this.runIndividualSort(LessBogoSort,        0, array, 16,  0.0025, true);
+        RunImpracticalSorts.this.runIndividualSort(CocktailBogoSort,    0, array, 16,  0.0025, true);
+        RunImpracticalSorts.this.runIndividualSort(BogoSort,            0, array,  8,  1,      true);
+        RunImpracticalSorts.this.runIndividualSort(BogoBogoSort,        0, array,  6,  1,      true);
         Sounds.toggleSofterSounds(false);
     }
     
