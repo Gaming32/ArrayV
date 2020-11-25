@@ -57,13 +57,13 @@ final public class GravitySort extends Sort {
 		int[] x = Writes.createExternalArray(length);
     	int[] y = Writes.createExternalArray(max - min + 1);
 		
-		double delay = Math.max(1.0 / length, 0.001);
+		double delay = Math.max(2d / length, 0.001);
 		
 		//save a copy of array-min in x
 		//increase count of the array-min value in y
     	for(int i = 0; i < length; i++) {
-			Writes.write(x, i, array[i]-min, 0.25, true, true);
-			Writes.write(y, array[i]-min, y[array[i]-min]+1, 0.25, false, true);
+			Writes.write(x, i, array[i]-min, 0, true, true);
+			Writes.write(y, array[i]-min, y[array[i]-min]+1, 1, false, true);
 		}
 		
 		//do a partial sum backwards to determine how many elements are greater than a value
@@ -79,9 +79,8 @@ final public class GravitySort extends Sort {
 				Highlights.markArray(1, i);
 				Delays.sleep(delay);
 				
-				//if i is in the bead stack range increment by 1
-				//if x[i] is greater than the j value decrease by 1
-				int inc =  (i >= length-y[j] ? 1 : 0) - (x[i] >= j ? 1 : 0);
+				int inc = (i >= length-y[j] ? 1 : 0) - (x[i] >= j ? 1 : 0);
+				
 				//update the main array
 				Writes.write(array, i, array[i]+inc, delay, true, false);
     		}
