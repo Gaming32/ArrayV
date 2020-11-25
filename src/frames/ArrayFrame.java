@@ -11,6 +11,7 @@ import java.util.Hashtable;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -94,13 +95,27 @@ final public class ArrayFrame extends javax.swing.JFrame {
         return Math.abs(integer);
     }
 
+    private int calculateLength(int sliderValue) {
+        int newLength = (int)Math.pow(2, sliderValue / 100000.0);
+        return newLength;
+    }
+
+    private int calculateSliderValue(int length) {
+        int sliderValue = (int)(Math.log(length) / Math.log(2) * 100000);
+        return sliderValue;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception e) { }
 
         this.jLabel1 = new javax.swing.JLabel();
         this.jLabel2 = new javax.swing.JLabel();
-        this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 2, 32768, 2048);
-        this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 1, 32768, 2048);
+        this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, 1500000, 1100000);
+        this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, 1500000, 1100000);
         
         jLabel1.setText("Array Size");
         jLabel2.setText("Unique Elements");
@@ -108,14 +123,15 @@ final public class ArrayFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         Hashtable<Integer, JLabel> labels = new Hashtable<>();
-        labels.put(2, new JLabel("2"));
-        int value = 2048;
+        int pow = 1;
+        int value = 2;
         while(value <= 32768) {
-            labels.put(value, new JLabel(Integer.toString(value)));
-            value += 2048;
+            labels.put(pow * 100000, new JLabel(Integer.toString(value)));
+            pow += 1;
+            value *= 2;
         }
 
-        jSlider1.setMajorTickSpacing(2048);
+        jSlider1.setMajorTickSpacing(100000);
         jSlider1.setLabelTable(labels);
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
@@ -124,14 +140,17 @@ final public class ArrayFrame extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent event) {
                 if(ArrayManager.isLengthMutable()) {
-                    ArrayVisualizer.setCurrentLength(jSlider1.getValue());
+                    ArrayVisualizer.setCurrentLength(calculateLength(jSlider1.getValue()));
                     if (ArrayVisualizer.getEqualItems() == 1) {
                         jSlider2.setValue(jSlider1.getValue());
                     }
                     //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider.getValue()));
                     ArrayManager.initializeArray(array);
                 }
-                else jSlider1.setValue(ArrayVisualizer.getCurrentLength());
+                else {
+                    int currentLength = ArrayVisualizer.getCurrentLength();
+                    jSlider1.setValue(calculateSliderValue(currentLength));
+                }
                 if(ArrayVisualizer.getVisualStyles() == visuals.VisualStyles.CIRCULAR && jSlider1.getValue() == 1) jSlider1.setValue(2);
                 
                 Highlights.clearAllMarks();
@@ -147,7 +166,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     }
                     catch(Exception e) { }
                     if (newSize >= 2) {
-                        jSlider1.setValue(newSize);
+                        jSlider1.setValue(calculateSliderValue(newSize));
                     }
                 }
             }
@@ -161,7 +180,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
             public void mouseExited(MouseEvent e) { }
         });
 
-        jSlider2.setMajorTickSpacing(2048);
+        jSlider2.setMajorTickSpacing(100000);
         jSlider2.setLabelTable(labels);
         jSlider2.setPaintLabels(true);
         jSlider2.setPaintTicks(true);
@@ -174,12 +193,15 @@ final public class ArrayFrame extends javax.swing.JFrame {
                         jSlider2.setValue(jSlider1.getValue());
                     }
                     else {
-                        ArrayVisualizer.setUniqueItems(jSlider2.getValue());
+                        ArrayVisualizer.setUniqueItems(calculateLength(jSlider2.getValue()));
                         //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider2.getValue()));
                         ArrayManager.initializeArray(array);
                     }
                 }
-                else jSlider2.setValue(ArrayVisualizer.getUniqueItems());
+                else {
+                    int currentItems = ArrayVisualizer.getUniqueItems();
+                    jSlider2.setValue(calculateSliderValue(currentItems));
+                }
                 
                 Highlights.clearAllMarks();
             }
@@ -194,7 +216,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     }
                     catch(Exception e) { }
                     if (newSize >= 2) {
-                        jSlider2.setValue(newSize);
+                        jSlider2.setValue(calculateSliderValue(newSize));
                     }
                 }
             }
