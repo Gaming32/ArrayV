@@ -67,9 +67,9 @@ final public class RunSelectionSorts extends MultipleSortThread {
         MaxHeapSort         = new         MaxHeapSort(this.arrayVisualizer);
         MinHeapSort         = new         MinHeapSort(this.arrayVisualizer);
         FlippedMinHeapSort  = new  FlippedMinHeapSort(this.arrayVisualizer);
-        BaseNMaxHeapSort    = new    BaseNMaxHeapSort(this.arrayVisualizer);
         WeakHeapSort        = new        WeakHeapSort(this.arrayVisualizer);
         TernaryHeapSort     = new     TernaryHeapSort(this.arrayVisualizer);
+        BaseNMaxHeapSort    = new    BaseNMaxHeapSort(this.arrayVisualizer);
         SmoothSort          = new          SmoothSort(this.arrayVisualizer);
         PoplarHeapSort      = new      PoplarHeapSort(this.arrayVisualizer);
         TournamentSort      = new      TournamentSort(this.arrayVisualizer);
