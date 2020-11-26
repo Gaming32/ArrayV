@@ -37,9 +37,13 @@ final public class IterativeCircleSort extends IterativeCircleSorting {
     
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
+    	this.end = sortLength;
+    	int n = 1;
+    	for(; n < sortLength; n*=2);
+		
         int numberOfSwaps = 0;
         do {
-            numberOfSwaps = this.circleSortRoutine(array, sortLength, 0.25);
+            numberOfSwaps = this.circleSortRoutine(array, n, 0.25);
         } while (numberOfSwaps != 0);
     }
 }

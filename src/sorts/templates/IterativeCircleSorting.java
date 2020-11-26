@@ -19,35 +19,25 @@ public abstract class IterativeCircleSorting extends Sort {
         super(arrayVisualizer);
     }
     
+	protected int end;
+	
     protected int circleSortRoutine(int[] array, int length, double sleep) {
         int swapCount = 0;
         for (int gap = length / 2; gap > 0; gap /= 2) {
-            for (int start = 0; start + gap < length; start += 2 * gap) {
-                int high = start + 2 * gap;
+            for (int start = 0; start + gap < this.end; start += 2 * gap) {
+                int high = start + 2 * gap - 1;
                 int low = start;
         
                 while (low < high) {
-                    if (Reads.compareValues(array[low], array[high]) > 0) {
-                        Writes.swap(array, low, high, sleep, true, false);
-                        swapCount++;
-                    }
-                    low++;
-                    high--;
-                    
-                    Highlights.markArray(1, low);
-                    Highlights.markArray(2, high);
-                    Delays.sleep(sleep / 2);
-                }
-        
-                if (low == high && Reads.compareValues(array[low], array[high + 1]) > 0) {
-                    Writes.swap(array, low, high + 1, sleep, true, false);
-                    swapCount++;
+					if (high < this.end && Reads.compareIndices(array, low, high, sleep / 2, true) > 0) {
+						Writes.swap(array, low, high, sleep, true, false);
+						swapCount++;
+					}
+					
+					low++;
+					high--;
                 }
             }
-        }
-        if (Reads.compareValues(array[0], array[1]) > 0) {
-            Writes.swap(array, 0, 1, sleep, true, false);
-            swapCount++;
         }
         return swapCount;
     }

@@ -34,9 +34,13 @@ final public class IntroCircleSort extends CircleSorting {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
+    	this.end = length;
+    	int threshold = 0, n = 1;
+    	for(; n < length; n*=2, threshold++);
+		
+		threshold /= 2;
         int iterations = 0;
-        int threshold = (int) (Math.log(length) / Math.log(2)) / 2;
-        
+		
         do {
             iterations++;
             
@@ -45,6 +49,6 @@ final public class IntroCircleSort extends CircleSorting {
                 binaryInserter.customBinaryInsert(array, 0, length, 0.1);
                 break;
             }
-        } while (this.circleSortRoutine(array, 0, length - 1, 0, 1) != 0);
+        } while (this.circleSortRoutine(array, 0, n - 1, 0, 1) != 0);
     }
 }
