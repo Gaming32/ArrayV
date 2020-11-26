@@ -110,7 +110,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
     private void initComponents() {
         try {
             String os = System.getProperty("os.name");
-            if (os != "Linux") {
+            if (!os.equals("Linux")) {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             }
         }
