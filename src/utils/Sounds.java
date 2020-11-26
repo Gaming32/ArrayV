@@ -248,6 +248,10 @@ final public class Sounds {
     public String[] getInstrumentList() {
         ArrayList<String> instrumentNames = new ArrayList<String>();
         Instrument[] instruments = this.synth.getLoadedInstruments();
+
+        if (instruments.length == 0) {
+            return new String[0];
+        }
         
         String rockOrgan = instruments[this.DEFAULT_ROCK_ORGAN_INDEX].getName();
         instrumentNames.add("a. Default Sound Effect (" + this.formatInstrumentName(rockOrgan) + ")");

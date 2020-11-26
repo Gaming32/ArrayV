@@ -107,15 +107,22 @@ final public class ArrayFrame extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        String plafNormal = UIManager.getSystemLookAndFeelClassName();
+        String plafSlider = System.getProperty("os.name").equals("Linux") ? UIManager.getCrossPlatformLookAndFeelClassName() : plafNormal;
+        
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (Exception e) { }
-
+            UIManager.setLookAndFeel(plafNormal);
+        } catch (Exception e) { }
         this.jLabel1 = new javax.swing.JLabel();
         this.jLabel2 = new javax.swing.JLabel();
+        try {
+            UIManager.setLookAndFeel(plafSlider);
+        } catch (Exception e) { }
         this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, 1500000, 1100000);
         this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, 1500000, 1100000);
+        try {
+            UIManager.setLookAndFeel(plafNormal);
+        } catch (Exception e) { }
         
         jLabel1.setText("Array Size");
         jLabel2.setText("Unique Elements");
