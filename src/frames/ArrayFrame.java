@@ -6,6 +6,8 @@ package frames;
 
 import java.awt.Toolkit;
 import java.awt.event.MouseListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Hashtable;
 
 import javax.swing.JFrame;
@@ -66,6 +68,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
     private JFrame Frame;
     private UtilFrame UtilFrame;
 
+    private boolean lockToPow2;
+
     public ArrayFrame(int[] array, ArrayVisualizer arrayVisualizer) {
         this.array = array;
         
@@ -118,6 +122,22 @@ final public class ArrayFrame extends javax.swing.JFrame {
             JErrorPane.invokeErrorMessage(e);
         }
 
+        KeyListener kListener = new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) { }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_SHIFT)
+                    lockToPow2 = true;
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_SHIFT)
+                    lockToPow2 = false;
+            }
+        };
+        this.addKeyListener(kListener);
+
         this.jLabel1 = new javax.swing.JLabel();
         this.jLabel2 = new javax.swing.JLabel();
         this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, 1500000, 1100000);
@@ -146,11 +166,16 @@ final public class ArrayFrame extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent event) {
                 if(ArrayManager.isLengthMutable()) {
+                    int value = jSlider1.getValue();
+                    if (lockToPow2) {
+                        value = (int)(Math.round(value / 100000.0) * 100000);
+                        jSlider1.setValue(value);
+                    }
                     int oldValue1 = calculateSliderValue(ArrayVisualizer.getCurrentLength());
-                    ArrayVisualizer.setCurrentLength(calculateLength(jSlider1.getValue()));
+                    ArrayVisualizer.setCurrentLength(calculateLength(value));
                     // double mult = (double)jSlider2.getValue() / (double)oldValue1;
                     double divver = (double)oldValue1 / (double)jSlider2.getValue();
-                    jSlider2.setValue((int)(jSlider1.getValue() / divver));
+                    jSlider2.setValue((int)(value / divver));
                     //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider.getValue()));
                     ArrayManager.initializeArray(array);
                 }
@@ -186,6 +211,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
             @Override
             public void mouseExited(MouseEvent e) { }
         });
+        jSlider1.addKeyListener(kListener);
 
         jSlider2.setMajorTickSpacing(100000);
         jSlider2.setLabelTable(labels);
@@ -200,7 +226,12 @@ final public class ArrayFrame extends javax.swing.JFrame {
                         jSlider2.setValue(jSlider1.getValue());
                     }
                     else {
-                        ArrayVisualizer.setUniqueItems(calculateLength(jSlider2.getValue()));
+                        int value = jSlider2.getValue();
+                        if (lockToPow2) {
+                            value = (int)(Math.round(value / 100000.0) * 100000);
+                            jSlider2.setValue(value);
+                        }
+                        ArrayVisualizer.setUniqueItems(calculateLength(value));
                         //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider2.getValue()));
                         ArrayManager.initializeArray(array);
                     }
@@ -236,15 +267,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
             @Override
             public void mouseExited(MouseEvent e) { }
         });
-
-        // java.awt.GridLayout layout = new java.awt.GridLayout(2, 2);
-        // layout.setHgap(0);
-        // layout.setVgap(0);
-        // getContentPane().setLayout(layout);
-        // getContentPane().add(jLabel1);
-        // getContentPane().add(jLabel2);
-        // getContentPane().add(jSlider1);
-        // getContentPane().add(jSlider2);
+        jSlider2.addKeyListener(kListener);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
