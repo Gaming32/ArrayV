@@ -10,6 +10,7 @@ import sorts.merge.LazyStableSort;
 import sorts.merge.MergeSort;
 import sorts.merge.PDMergeSort;
 import sorts.merge.PartialMergeSort;
+import sorts.merge.ReverseLazyStableSort;
 import sorts.merge.RotateMergeSort;
 import sorts.templates.Sort;
 
@@ -47,6 +48,7 @@ final public class RunMergeSorts extends MultipleSortThread {
     private Sort InPlaceMergeSort;
     private Sort ImprovedInPlaceMergeSort;
     private Sort LazyStableSort;
+    private Sort ReverseLazyStableSort;
     private Sort RotateMergeSort;
     private Sort AndreySort;
     
@@ -62,6 +64,7 @@ final public class RunMergeSorts extends MultipleSortThread {
         InPlaceMergeSort         = new         InPlaceMergeSort(this.arrayVisualizer);
         ImprovedInPlaceMergeSort = new ImprovedInPlaceMergeSort(this.arrayVisualizer);
         LazyStableSort           = new           LazyStableSort(this.arrayVisualizer);
+        ReverseLazyStableSort    = new    ReverseLazyStableSort(this.arrayVisualizer);
         RotateMergeSort          = new          RotateMergeSort(this.arrayVisualizer);
         AndreySort               = new               AndreySort(this.arrayVisualizer);
     }
@@ -75,6 +78,7 @@ final public class RunMergeSorts extends MultipleSortThread {
         RunMergeSorts.this.runIndividualSort(InPlaceMergeSort,         0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(ImprovedInPlaceMergeSort, 0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(LazyStableSort,           0, array,  256, 0.2,  false);
+        RunMergeSorts.this.runIndividualSort(ReverseLazyStableSort,    0, array,  256, 0.2,  false);
         RunMergeSorts.this.runIndividualSort(RotateMergeSort,          0, array,  512, 0.2,  false);
         RunMergeSorts.this.runIndividualSort(AndreySort,               0, array, 2048, 1,    false);
     }

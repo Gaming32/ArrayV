@@ -2,6 +2,7 @@ package sorts.hybrid;
 
 import main.ArrayVisualizer;
 import sorts.insert.BinaryInsertionSort;
+import sorts.merge.ReverseLazyStableSort;
 import sorts.templates.Sort;
 
 /*
@@ -32,6 +33,7 @@ SOFTWARE.
 
 final public class BlockSelectionMergeSort extends Sort {
     private BinaryInsertionSort binaryInserter;
+    private ReverseLazyStableSort extraMerger;
 
     public BlockSelectionMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -96,52 +98,11 @@ final public class BlockSelectionMergeSort extends Sort {
 
         merge(array, start, end);
     }
-
-    public void moveExtraDown(int[] array, int start, int dest, int size) {
-        int amount = start - dest;
-        if (size > 1) {
-            while (amount >= size) {
-                for (int i = start; i > start - size; i--) {
-                    Writes.swap(array, i - 1, i + size - 1, 0.5, true, false);
-                }
-                start -= size;
-                amount -= size;
-            }
-            binaryInserter.customBinaryInsert(array, dest, dest + amount + size, 0.333);
-        }
-        else {
-            for (int i = start; i > dest; i--) {
-                Writes.swap(array, i, i - 1, 0.5, true, false);
-            }
-        }
-    }
-
-    public void mergeExtra(int[] array, int start, int mid, int end) {
-        int lastValue = Integer.MIN_VALUE;
-
-        while (start < mid) {
-            int size = 0;
-            for (int i = mid; i < end; i++) {
-                if (Reads.compareValues(array[i], array[start]) == -1 && Reads.compareValues(array[i], lastValue) >= 0) {
-                    Highlights.markArray(1, i);
-                    size++;
-                }
-                else break;
-                Delays.sleep(1);
-            }
-            if (size > 0) {
-                moveExtraDown(array, mid, start, size);
-            }
-
-            start += size + 1;
-            mid += size;
-            lastValue = array[start - 1];
-        }
-    }
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         binaryInserter = new BinaryInsertionSort(arrayVisualizer);
+        extraMerger = new ReverseLazyStableSort(arrayVisualizer);
         
         Writes.startLap();
         int minSize = (int)(Math.log(length) / Math.log(2)) / 3 + 2;
@@ -163,7 +124,7 @@ final public class BlockSelectionMergeSort extends Sort {
         mergeRun(array, start, mid, end, minSize);
         if (length > useLength) {
             runSort(array, length - useLength, bucketCount);
-            mergeExtra(array, 0, length - useLength, end);
+            extraMerger.merge(array, 0, length - useLength, end);
         }
     }
 }
