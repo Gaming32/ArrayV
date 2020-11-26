@@ -146,10 +146,11 @@ final public class ArrayFrame extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent event) {
                 if(ArrayManager.isLengthMutable()) {
+                    int oldValue1 = calculateSliderValue(ArrayVisualizer.getCurrentLength());
                     ArrayVisualizer.setCurrentLength(calculateLength(jSlider1.getValue()));
-                    if (ArrayVisualizer.getEqualItems() == 1) {
-                        jSlider2.setValue(jSlider1.getValue());
-                    }
+                    // double mult = (double)jSlider2.getValue() / (double)oldValue1;
+                    double divver = (double)oldValue1 / (double)jSlider2.getValue();
+                    jSlider2.setValue((int)(jSlider1.getValue() / divver));
                     //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider.getValue()));
                     ArrayManager.initializeArray(array);
                 }
