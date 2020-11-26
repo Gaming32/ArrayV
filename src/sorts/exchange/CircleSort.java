@@ -37,9 +37,13 @@ final public class CircleSort extends CircleSorting {
     
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
+    	this.end = sortLength;
+    	int n = 1;
+    	for(; n < sortLength; n*=2);
+    	
         int numberOfSwaps = 0;
         do {
-            numberOfSwaps = this.circleSortRoutine(array, 0, sortLength - 1, 0, 1);
+            numberOfSwaps = this.circleSortRoutine(array, 0, n - 1, 0, 1);
         } while (numberOfSwaps != 0);
     }
 }
