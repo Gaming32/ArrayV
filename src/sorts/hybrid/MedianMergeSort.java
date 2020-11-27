@@ -132,7 +132,10 @@ final public class MedianMergeSort extends Sort {
 	}
 	
 	private void mergeSort(int[] array, int a, int b, int p) {
-		int i, pos, length = b-a, j = getMinLevel(length);
+		int length = b-a;
+		if(length < 2) return;
+		
+		int i, pos, j = getMinLevel(length);
 		
 		for(i = a; i+j <= b; i+=j)
 			this.binInsSort.customBinaryInsert(array, i, i+j, 0.25);
