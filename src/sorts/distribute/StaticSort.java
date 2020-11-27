@@ -36,7 +36,7 @@ final public class StaticSort extends Sort {
         
         this.setSortListName("Static");
         this.setRunAllSortsName("Static Sort");
-        this.setRunSortName("thatsOven's Static Sort");
+        this.setRunSortName("thatsOven's staticSort");
         this.setCategory("Distribution Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
@@ -128,6 +128,16 @@ final public class StaticSort extends Sort {
             
             Highlights.markArray(1, counter);
             Delays.sleep(1);
+        }
+
+        // Simulate staticSort's merge_arrays function
+        int wcount = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < a[i].subArray.size(); j++) {
+                Writes.write(mainArray, wcount, a[i].subArray.get(j), 0, false, false);
+                Writes.changeWrites(-1);
+                wcount++;
+            }
         }
 
         int index = 0;

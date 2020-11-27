@@ -54,7 +54,7 @@ final public class RunMergeSorts extends MultipleSortThread {
     
     public RunMergeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 9;
+        this.sortCount = 10;
         this.categoryCount = this.sortCount;
         
         MergeSort                = new                MergeSort(this.arrayVisualizer);
