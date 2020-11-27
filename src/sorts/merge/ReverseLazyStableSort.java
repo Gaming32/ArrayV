@@ -1,7 +1,6 @@
 package sorts.merge;
 
 import main.ArrayVisualizer;
-import sorts.insert.BinaryInsertionSort;
 import sorts.templates.Sort;
 
 /*
@@ -31,8 +30,6 @@ SOFTWARE.
  */
 
 final public class ReverseLazyStableSort extends Sort {
-    private BinaryInsertionSort binaryInserter;
-
     public ReverseLazyStableSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -58,12 +55,18 @@ final public class ReverseLazyStableSort extends Sort {
                 start -= size;
                 amount -= size;
             }
-            binaryInserter.customBinaryInsert(array, dest, dest + amount + size, 0.333);
+            Highlights.clearMark(2);
+            if (amount > 0) {
+                moveDown(array, start, dest, size / 2);
+                moveDown(array, start + size / 2, dest + size / 2, size - (size / 2));
+            }
         }
         else {
+            int tmp = array[start];
             for (int i = start; i > dest; i--) {
-                Writes.swap(array, i, i - 1, 0.5, true, false);
+                Writes.write(array, i, array[i - 1], 0.5, true, false);
             }
+            Writes.write(array, dest, tmp, 0.5, true, false);
         }
     }
 
@@ -92,8 +95,6 @@ final public class ReverseLazyStableSort extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        binaryInserter = new BinaryInsertionSort(arrayVisualizer);
-        
         for (int gap = 2; gap <= length; gap *= 2) {
             for (int i = 0; i < length; i += gap) {
                 merge(array, i, i + gap / 2, i + gap);
