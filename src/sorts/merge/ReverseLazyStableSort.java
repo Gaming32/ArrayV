@@ -95,10 +95,15 @@ final public class ReverseLazyStableSort extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        for (int gap = 2; gap <= length; gap *= 2) {
+        int gap;
+        for (gap = 2; gap <= length; gap *= 2) {
             for (int i = 0; i < length; i += gap) {
                 merge(array, i, i + gap / 2, i + gap);
             }
+        }
+
+        if (length - gap / 2 > 0) {
+            merge(array, 0, gap / 2, length);
         }
     }
 }
