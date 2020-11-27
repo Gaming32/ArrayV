@@ -73,7 +73,7 @@ final public class StaticSort extends Sort {
         insertSorter = new InsertionSort(this.arrayVisualizer);
 
         int M = Reads.analyzeMax(mainArray, size, 1, true);
-        double constant = (double)M / (size + 4);
+        double constant = (double)M / (size + 2);
         int counter = 0;
         int listCount = 0;
 
