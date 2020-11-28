@@ -6,6 +6,7 @@ import sorts.distribute.BogoBogoSort;
 import sorts.distribute.BogoSort;
 import sorts.distribute.CocktailBogoSort;
 import sorts.distribute.LessBogoSort;
+import sorts.distribute.SliceBogoSort;
 import sorts.exchange.BubbleBogoSort;
 import sorts.exchange.ExchangeBogoSort;
 import sorts.exchange.OptimizedStoogeSort;
@@ -53,12 +54,13 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort BubbleBogoSort;
     private Sort LessBogoSort;
     private Sort CocktailBogoSort;
+    private Sort SliceBogoSort;
     private Sort BogoSort;
     private Sort BogoBogoSort;
     
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 12;
+        this.sortCount = 13;
         this.categoryCount = this.sortCount;
         
         BadSort             = new             BadSort(this.arrayVisualizer);
@@ -71,6 +73,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         BubbleBogoSort      = new      BubbleBogoSort(this.arrayVisualizer);
         LessBogoSort        = new        LessBogoSort(this.arrayVisualizer);
         CocktailBogoSort    = new    CocktailBogoSort(this.arrayVisualizer);
+        SliceBogoSort       = new       SliceBogoSort(this.arrayVisualizer);
         BogoSort            = new            BogoSort(this.arrayVisualizer);
         BogoBogoSort        = new        BogoBogoSort(this.arrayVisualizer);
     }
@@ -89,6 +92,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         RunImpracticalSorts.this.runIndividualSort(BubbleBogoSort,      0, array, 32,  0.01,   true);
         RunImpracticalSorts.this.runIndividualSort(LessBogoSort,        0, array, 16,  0.0025, true);
         RunImpracticalSorts.this.runIndividualSort(CocktailBogoSort,    0, array, 16,  0.0025, true);
+        RunImpracticalSorts.this.runIndividualSort(SliceBogoSort,       0, array,  8,  1,      true);
         RunImpracticalSorts.this.runIndividualSort(BogoSort,            0, array,  8,  1,      true);
         RunImpracticalSorts.this.runIndividualSort(BogoBogoSort,        0, array,  6,  1,      true);
         Sounds.toggleSofterSounds(false);
