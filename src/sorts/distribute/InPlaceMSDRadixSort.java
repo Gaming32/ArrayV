@@ -1,7 +1,5 @@
 package sorts.distribute;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
@@ -36,7 +34,6 @@ final public class InPlaceMSDRadixSort extends Sort {
         super(arrayVisualizer);
         
         this.setSortListName("In-Place MSD Radix");
-        //this.setRunAllID("Most Significant Digit Radix Sort");
         this.setRunAllSortsName("In-Place MSD Radix Sort, Base 4");
         this.setRunSortName("In-Place MSD Radixsort");
         this.setCategory("Distribution Sorts");
@@ -71,15 +68,6 @@ final public class InPlaceMSDRadixSort extends Sort {
             Writes.write(array, indices[digit], temp, sleep, true, false);
             Writes.write(indices, digit, indices[digit] + 1, 0, false, true);
         }
-        
-        // int sum = 0;
-        // for(int i = 0; i < registers.length; i++) {
-        //     this.radixMSD(array, length, sum + min, sum + min + registers[i].size(), radix, pow-1);
-            
-        //     sum += registers[i].size();
-        //     Writes.arrayListClear(registers[i]);
-        //     Writes.changeAuxWrites(registers[i].size());
-        // }
 
         for (int i = 0; i < radix; i++) {
             int subMin = i == 0 ? min : indices[i - 1];

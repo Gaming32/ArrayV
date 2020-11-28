@@ -78,7 +78,7 @@ final public class RunMergeSorts extends MultipleSortThread {
         RunMergeSorts.this.runIndividualSort(InPlaceMergeSort,         0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(ImprovedInPlaceMergeSort, 0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(LazyStableSort,           0, array,  256, 0.2,  false);
-        RunMergeSorts.this.runIndividualSort(ReverseLazyStableSort,    0, array,  256, 0.2,  false);
+        RunMergeSorts.this.runIndividualSort(ReverseLazyStableSort,    0, array,  256, 0.1,  false);
         RunMergeSorts.this.runIndividualSort(RotateMergeSort,          0, array,  512, 0.2,  false);
         RunMergeSorts.this.runIndividualSort(AndreySort,               0, array, 2048, 1,    false);
     }

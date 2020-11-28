@@ -1,7 +1,5 @@
 package sorts.distribute;
 
-import java.util.Arrays;
-
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 

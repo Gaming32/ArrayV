@@ -18,6 +18,7 @@ import sorts.exchange.SmartBubbleSort;
 import sorts.exchange.SmartCocktailSort;
 import sorts.exchange.SmartGnomeSort;
 import sorts.exchange.StableQuickSort;
+import sorts.exchange.ImprovedStableQuickSort;
 import sorts.exchange.SwapMapSort;
 import sorts.templates.Sort;
 import utils.Shuffles;
@@ -66,50 +67,53 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort LRQuickSort;
     private Sort DualPivotQuickSort;
     private Sort StableQuickSort;
+    private Sort ImprovedStableQuickSort;
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 17;
         this.categoryCount = this.sortCount;
         
-        BubbleSort          = new          BubbleSort(this.arrayVisualizer);
-        SmartBubbleSort     = new     SmartBubbleSort(this.arrayVisualizer);
-        CocktailShakerSort  = new  CocktailShakerSort(this.arrayVisualizer);
-        SmartCocktailSort   = new   SmartCocktailSort(this.arrayVisualizer);
-        OddEvenSort         = new         OddEvenSort(this.arrayVisualizer);
-        SwapMapSort         = new         SwapMapSort(this.arrayVisualizer);
-        GnomeSort           = new           GnomeSort(this.arrayVisualizer);
-        SmartGnomeSort      = new      SmartGnomeSort(this.arrayVisualizer);
-        BinaryGnomeSort     = new     BinaryGnomeSort(this.arrayVisualizer);
-        CombSort            = new            CombSort(this.arrayVisualizer);
-        RecursiveCombSort   = new   RecursiveCombSort(this.arrayVisualizer);
-        CircleSort          = new          CircleSort(this.arrayVisualizer);
-        IterativeCircleSort = new IterativeCircleSort(this.arrayVisualizer);
-        LLQuickSort         = new         LLQuickSort(this.arrayVisualizer);
-        LRQuickSort         = new         LRQuickSort(this.arrayVisualizer);
-        DualPivotQuickSort  = new  DualPivotQuickSort(this.arrayVisualizer);
-        StableQuickSort     = new     StableQuickSort(this.arrayVisualizer);
+        BubbleSort              = new              BubbleSort(this.arrayVisualizer);
+        SmartBubbleSort         = new         SmartBubbleSort(this.arrayVisualizer);
+        CocktailShakerSort      = new      CocktailShakerSort(this.arrayVisualizer);
+        SmartCocktailSort       = new       SmartCocktailSort(this.arrayVisualizer);
+        OddEvenSort             = new             OddEvenSort(this.arrayVisualizer);
+        SwapMapSort             = new             SwapMapSort(this.arrayVisualizer);
+        GnomeSort               = new               GnomeSort(this.arrayVisualizer);
+        SmartGnomeSort          = new          SmartGnomeSort(this.arrayVisualizer);
+        BinaryGnomeSort         = new         BinaryGnomeSort(this.arrayVisualizer);
+        CombSort                = new                CombSort(this.arrayVisualizer);
+        RecursiveCombSort       = new       RecursiveCombSort(this.arrayVisualizer);
+        CircleSort              = new              CircleSort(this.arrayVisualizer);
+        IterativeCircleSort     = new     IterativeCircleSort(this.arrayVisualizer);
+        LLQuickSort             = new             LLQuickSort(this.arrayVisualizer);
+        LRQuickSort             = new             LRQuickSort(this.arrayVisualizer);
+        DualPivotQuickSort      = new      DualPivotQuickSort(this.arrayVisualizer);
+        StableQuickSort         = new         StableQuickSort(this.arrayVisualizer);
+        ImprovedStableQuickSort = new ImprovedStableQuickSort(this.arrayVisualizer);
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunExchangeSorts.this.runIndividualSort(BubbleSort,          0, array,  512, 1.5,   false);
-        RunExchangeSorts.this.runIndividualSort(SmartBubbleSort,     0, array,  512, 1.5,   false);
-        RunExchangeSorts.this.runIndividualSort(CocktailShakerSort,  0, array,  512, 1.25,  false);
-        RunExchangeSorts.this.runIndividualSort(SmartCocktailSort,   0, array,  512, 1.25,  false);
-        RunExchangeSorts.this.runIndividualSort(OddEvenSort,         0, array,  512, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(SwapMapSort,         0, array,  512, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(GnomeSort,           0, array,  128, 0.025, false);
-        RunExchangeSorts.this.runIndividualSort(SmartGnomeSort,      0, array,  128, 0.025, false);
-        RunExchangeSorts.this.runIndividualSort(BinaryGnomeSort,     0, array,  128, 0.025, false);
-        RunExchangeSorts.this.runIndividualSort(CombSort,            0, array, 1024, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(RecursiveCombSort,   0, array, 1024, 1.25,  false);
-        RunExchangeSorts.this.runIndividualSort(CircleSort,          0, array, 1024, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(IterativeCircleSort, 0, array, 1024, 1.5,   false);
-        RunExchangeSorts.this.runIndividualSort(LLQuickSort,         0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.5 : 5, false);
-        RunExchangeSorts.this.runIndividualSort(LRQuickSort,         0, array, 2048, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(DualPivotQuickSort,  0, array, 2048, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(StableQuickSort,     0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5,    false);
+        RunExchangeSorts.this.runIndividualSort(BubbleSort,              0, array,  512, 1.5,   false);
+        RunExchangeSorts.this.runIndividualSort(SmartBubbleSort,         0, array,  512, 1.5,   false);
+        RunExchangeSorts.this.runIndividualSort(CocktailShakerSort,      0, array,  512, 1.25,  false);
+        RunExchangeSorts.this.runIndividualSort(SmartCocktailSort,       0, array,  512, 1.25,  false);
+        RunExchangeSorts.this.runIndividualSort(OddEvenSort,             0, array,  512, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(SwapMapSort,             0, array,  512, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(GnomeSort,               0, array,  128, 0.025, false);
+        RunExchangeSorts.this.runIndividualSort(SmartGnomeSort,          0, array,  128, 0.025, false);
+        RunExchangeSorts.this.runIndividualSort(BinaryGnomeSort,         0, array,  128, 0.025, false);
+        RunExchangeSorts.this.runIndividualSort(CombSort,                0, array, 1024, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(RecursiveCombSort,       0, array, 1024, 1.25,  false);
+        RunExchangeSorts.this.runIndividualSort(CircleSort,              0, array, 1024, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(IterativeCircleSort,     0, array, 1024, 1.5,   false);
+        RunExchangeSorts.this.runIndividualSort(LLQuickSort,             0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.5 : 5, false);
+        RunExchangeSorts.this.runIndividualSort(LRQuickSort,             0, array, 2048, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(DualPivotQuickSort,      0, array, 2048, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(StableQuickSort,         0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5,    false);
+        RunExchangeSorts.this.runIndividualSort(ImprovedStableQuickSort, 0, array, 2048, 1,     false);
     }
     
     @Override
