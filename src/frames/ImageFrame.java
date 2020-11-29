@@ -20,6 +20,8 @@ import javax.swing.SwingConstants;
 
 public class ImageFrame extends JFrame {
 
+    public static ImageFrame defaultFrame;
+
     /**
      * 
      */
@@ -32,6 +34,8 @@ public class ImageFrame extends JFrame {
      * Create the frame.
      */
     public ImageFrame(CustomImage visual) {
+        ImageFrame.defaultFrame = this;
+
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

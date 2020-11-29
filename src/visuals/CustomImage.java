@@ -129,6 +129,13 @@ final public class CustomImage extends Visual {
             this.refreshCustomImage(menu);
         }
 	}
+	public void loadCustomImage(File file) {
+        this.imageFile = file;
+        if(this.imageFile != null) {
+            this.currentImage = this.imageFile.getName();
+            this.refreshCustomImage(ImageFrame.defaultFrame);
+        }
+	}
 	
 	@SuppressWarnings("unused")
 	private boolean fetchBufferedImage(boolean showInfoMsg, JFrame window) {
