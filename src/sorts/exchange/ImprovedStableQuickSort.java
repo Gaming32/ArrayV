@@ -37,8 +37,8 @@ final public class ImprovedStableQuickSort extends Sort {
         super(arrayVisualizer);
         
         this.setSortListName("Impr. Stable Quick");
-        this.setRunAllSortsName("Improved Stable Quick Sort");
-        this.setRunSortName("Improved Stable Quicksort");
+        this.setRunAllSortsName("Stable Quick Sort (Middle Pivot)");
+        this.setRunSortName("Stable Quicksort (Middle Pivot)");
         this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
