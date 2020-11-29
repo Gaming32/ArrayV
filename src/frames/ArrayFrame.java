@@ -199,6 +199,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     catch(Exception e) { }
                     if (newSize >= 2) {
                         jSlider1.setValue(calculateSliderValue(newSize));
+                        ArrayVisualizer.setCurrentLength(newSize);
+                        ArrayManager.initializeArray(array);
                     }
                 }
             }
@@ -255,6 +257,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     catch(Exception e) { }
                     if (newSize >= 2) {
                         jSlider2.setValue(calculateSliderValue(newSize));
+                        ArrayVisualizer.setUniqueItems(newSize);
+                        ArrayManager.initializeArray(array);
                     }
                 }
             }
