@@ -54,6 +54,8 @@ SOFTWARE.
  *  aphitorite (https://github.com/aphitorite/ArrayVisualizer)
  */
 final public class CustomImage extends Visual {
+    public static CustomImage visual;
+
 	private volatile BufferedImage img;
 	private volatile int imgHeight;
     private volatile int imgWidth;
@@ -74,6 +76,7 @@ final public class CustomImage extends Visual {
 	
 	public CustomImage(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
+        CustomImage.visual = this;
         this.imgImported = false; // Don't load the image unless the user selects the
                                   // 'Custom Image' visual. Program initially boots up
                                   // faster this way.
