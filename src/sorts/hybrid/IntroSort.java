@@ -21,7 +21,7 @@ final public class IntroSort extends Sort {
         
         this.setSortListName("Intro");
         //this.setRunAllID("Introspective Sort (std::sort)");
-        this.setRunAllSortsName("Introspective Sort [std::sort]");
+        this.setRunAllSortsName("Introspective Sort");
         this.setRunSortName("Introsort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
