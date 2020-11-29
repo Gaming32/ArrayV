@@ -45,32 +45,9 @@ final public class IndexSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private int analyzeMin(int[] array, int length, double sleep, boolean mark) {
-        arrayVisualizer.toggleAnalysis(true);
-        
-        int min = Integer.MAX_VALUE;
-
-        for(int i = 0; i < length; i++) {
-            Writes.startLap();
-            
-            if(array[i] < min) min = array[i];
-            
-            Writes.stopLap();
-            
-            if(mark) {
-                Highlights.markArray(1, i);
-                Delays.sleep(sleep);
-            }
-        }
-        
-        arrayVisualizer.toggleAnalysis(false);
-        
-        return min;
-    }
-
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        int min = analyzeMin(array, sortLength, 1, true);
+        int min = Reads.analyzeMin(array, sortLength, 0.5, true);
 
         for (int i = 0; i < sortLength; i++) {
             Highlights.markArray(3, i);

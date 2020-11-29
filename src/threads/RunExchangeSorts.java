@@ -71,7 +71,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 17;
+        this.sortCount = 18;
         this.categoryCount = this.sortCount;
         
         BubbleSort              = new              BubbleSort(this.arrayVisualizer);
