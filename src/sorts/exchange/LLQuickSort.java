@@ -19,51 +19,32 @@ final public class LLQuickSort extends Sort {
         this.setBogoSort(false);
     }
     
-    private int partition(int[] array, int a, int b) {
-		int i = a, j = i, m = (a+b)/2;
-		
-		Highlights.markArray(3, m);
-		while(j < m) {
-			Highlights.clearMark(1);
-			Highlights.markArray(2, j);
-			Delays.sleep(0.5);
-			
-			if(Reads.compareValues(array[j], array[m]) <= 0)
-				Writes.swap(array, i++, j, 1, true, false);
-			
-			j++;
-		}
-		
-		Writes.swap(array, i, m, 1, true, false);
-		j = m+1;
-		m = i++;
-		
-		Highlights.markArray(3, m);
-		while(j < b) {
-			Highlights.clearMark(1);
-			Highlights.markArray(2, j);
-			Delays.sleep(0.5);
-			
-			if(Reads.compareValues(array[j], array[m]) < 0)
-				Writes.swap(array, i++, j, 1, true, false);
-			
-			j++;
-		}
-		
-		Writes.swap(array, --i, m, 1, true, false);
-		return i;
+    private int partition(int[] array, int lo, int hi) {
+        int pivot = array[hi];
+        int i = lo;
+        
+        for(int j = lo; j < hi; j++) {
+            Highlights.markArray(1, j);
+            if(Reads.compareValues(array[j], pivot) < 0) {
+                Writes.swap(array, i, j, 1, true, false);
+                i++;
+            }
+            Delays.sleep(1);
+        }
+        Writes.swap(array, i, hi, 1, true, false);
+        return i;
     }
     
-    private void quickSort(int[] array, int a, int b) {
-		if(b-a > 1) {
-			int p = this.partition(array, a, b);
-			this.quickSort(array, a, p);
-			this.quickSort(array, p+1, b);
-		}
+    private void quickSort(int[] array, int lo, int hi) {
+        if(lo < hi) {
+            int p = this.partition(array, lo, hi);
+            this.quickSort(array, lo, p - 1);
+            this.quickSort(array, p + 1, hi);
+        }
     }
     
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
-        this.quickSort(array, 0, currentLength);
+        this.quickSort(array, 0, currentLength - 1);
     }
 }
