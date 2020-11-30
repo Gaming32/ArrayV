@@ -9,16 +9,17 @@ import sorts.exchange.CocktailShakerSort;
 import sorts.exchange.CombSort;
 import sorts.exchange.DualPivotQuickSort;
 import sorts.exchange.GnomeSort;
+import sorts.exchange.ImprovedStableQuickSort;
 import sorts.exchange.IterativeCircleSort;
 import sorts.exchange.LLQuickSort;
 import sorts.exchange.LRQuickSort;
+import sorts.exchange.MeanQuickSort;
 import sorts.exchange.OddEvenSort;
 import sorts.exchange.RecursiveCombSort;
 import sorts.exchange.SmartBubbleSort;
 import sorts.exchange.SmartCocktailSort;
 import sorts.exchange.SmartGnomeSort;
 import sorts.exchange.StableQuickSort;
-import sorts.exchange.ImprovedStableQuickSort;
 import sorts.exchange.SwapMapSort;
 import sorts.templates.Sort;
 import utils.Shuffles;
@@ -66,6 +67,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort LLQuickSort;
     private Sort LRQuickSort;
     private Sort DualPivotQuickSort;
+    private Sort MeanQuickSort;
     private Sort StableQuickSort;
     private Sort ImprovedStableQuickSort;
     
@@ -90,6 +92,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         LLQuickSort             = new             LLQuickSort(this.arrayVisualizer);
         LRQuickSort             = new             LRQuickSort(this.arrayVisualizer);
         DualPivotQuickSort      = new      DualPivotQuickSort(this.arrayVisualizer);
+        MeanQuickSort           = new           MeanQuickSort(this.arrayVisualizer);
         StableQuickSort         = new         StableQuickSort(this.arrayVisualizer);
         ImprovedStableQuickSort = new ImprovedStableQuickSort(this.arrayVisualizer);
     }
@@ -112,6 +115,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(LLQuickSort,             0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.5 : 5, false);
         RunExchangeSorts.this.runIndividualSort(LRQuickSort,             0, array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(DualPivotQuickSort,      0, array, 2048, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(MeanQuickSort,           0, array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(StableQuickSort,         0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5,    false);
         RunExchangeSorts.this.runIndividualSort(ImprovedStableQuickSort, 0, array, 2048, 1,     false);
     }
