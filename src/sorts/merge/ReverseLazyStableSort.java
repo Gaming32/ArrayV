@@ -34,7 +34,7 @@ final public class ReverseLazyStableSort extends Sort {
         super(arrayVisualizer);
         
         this.setSortListName("Reverse Lazy Stable");
-        this.setRunAllSortsName("Reverese Lazy Stable Sort");
+        this.setRunAllSortsName("Reverse Lazy Stable Sort");
         this.setRunSortName("Reverese Lazy Stable Sort");
         this.setCategory("Merge Sorts");
         this.setComparisonBased(true);
