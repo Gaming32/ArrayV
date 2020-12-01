@@ -1,4 +1,7 @@
 # w0rthy's Array Visualizer, Revamped
+
+![GitHub all releases](https://img.shields.io/github/downloads/gaming32/ArrayV-v4.0/total?color=green)
+
 Over 75 sorting algorithms animated with 12 unique graphic designs
 
 [Join the Discord server!](https://discord.com/invite/2xGkKC2)
