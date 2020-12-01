@@ -15,10 +15,10 @@
                 <attribute name="Rsrc-Class-Path" value="./ classgraph-4.8.47.jar classgraph-4.8.47-javadoc.jar classgraph-4.8.47-sources.jar"/>
             </manifest>
             <zipfileset src="jar-in-jar-loader.zip"/>
-            <fileset dir="${dir.workspace}/ArrayV-v4.0-master/bin"/>
-            <zipfileset dir="${dir.workspace}/ArrayV-v4.0-master/lib" includes="classgraph-4.8.47.jar"/>
-            <zipfileset dir="${dir.workspace}/ArrayV-v4.0-master/lib" includes="classgraph-4.8.47-javadoc.jar"/>
-            <zipfileset dir="${dir.workspace}/ArrayV-v4.0-master/lib" includes="classgraph-4.8.47-sources.jar"/>
+            <fileset dir="../bin"/>
+            <zipfileset dir="../lib" includes="classgraph-4.8.47.jar"/>
+            <zipfileset dir="../lib" includes="classgraph-4.8.47-javadoc.jar"/>
+            <zipfileset dir="../lib" includes="classgraph-4.8.47-sources.jar"/>
         </jar>
     </target>
 </project>
