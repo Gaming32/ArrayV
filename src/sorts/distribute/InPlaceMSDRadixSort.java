@@ -62,7 +62,8 @@ final public class InPlaceMSDRadixSort extends Sort {
             int temp = array[i];
             int digit = Reads.getDigit(temp, pow, radix);
             for (int j = radix - 1; j > digit; j--) {
-                Writes.write(array, indices[j], array[indices[j - 1]], sleep, true, false);
+                if (indices[j] != indices[j - 1])
+                    Writes.write(array, indices[j], array[indices[j - 1]], sleep, true, false);
                 Writes.write(indices, j, indices[j] + 1, 0, false, true);
             }
             Writes.write(array, indices[digit], temp, sleep, true, false);
@@ -81,6 +82,6 @@ final public class InPlaceMSDRadixSort extends Sort {
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         int highestpower = Reads.analyzeMaxLog(array, sortLength, bucketCount, 0.5, true);
         
-        radixMSD(array, sortLength, 0, sortLength, bucketCount, highestpower, 2.0 / bucketCount);
+        radixMSD(array, sortLength, 0, sortLength, bucketCount, highestpower, 4.0 / bucketCount);
     }
 }
