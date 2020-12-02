@@ -38,7 +38,7 @@ final public class LAQuickSort extends Sort {
     private MaxHeapSort heapSorter;
 
     public void insertionSort(int[] arr, int a, int b) {
-        for (int i = a; i < b; i++) {
+        for (int i = a + 1; i < b; i++) {
             int key = arr[i];
             int j = i-1;
             
