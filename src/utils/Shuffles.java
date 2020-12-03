@@ -542,7 +542,6 @@ public enum Shuffles {
                 }
             }
         }
-        }
 		
 		public void reversalRec(int[] array, int a, int b, double sleep, Writes Writes) {
 			if(b-a < 2) return;

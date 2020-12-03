@@ -122,27 +122,7 @@ final public class ArrayManager {
         double speed = Delays.getSleepRatio();
         
         if(ArrayVisualizer.isActive()) {
-            double sleepRatio;
-            
-            //TODO: Replace with continuous function
-            switch(ArrayVisualizer.getLogBaseTwoOfLength()) {
-            case 15: sleepRatio = 32d;  break;
-            case 14: sleepRatio = 16d;  break;
-            case 13: sleepRatio = 8d;   break;
-            case 12: sleepRatio = 4d;   break;
-            case 11: sleepRatio = 2d;   break;
-            case 10: sleepRatio = 3/2d; break;
-            case 9:  sleepRatio = 1d;   break;
-            case 8:  sleepRatio = 3/4d; break;
-            case 7:  sleepRatio = 1/2d; break;
-            case 6:  sleepRatio = 1/3d; break;
-            case 5:
-            case 4:  sleepRatio = 1/4d; break;
-            case 3:
-            case 2:
-            default: sleepRatio = 1/8d;
-            }
-            
+            double sleepRatio = ArrayVisualizer.getCurrentLength()/1024d;
             Delays.setSleepRatio(sleepRatio);
         }
         
