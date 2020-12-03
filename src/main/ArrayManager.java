@@ -37,12 +37,16 @@ SOFTWARE.
 final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
-    private String[] shuffleIDs = { "Randomly", "Backwards", 
-            "Almost Sorted", "Already Sorted", "Shuffled Odds", "Logarithmic Slopes", "Triangular", "Recursively Reversed", "Decreasing Random",
-            "Scrambled Head", "Scrambled Tail", "Half Reversed", "Perlin Noise", "Perlin Noise Curve",
-            "Heapified", "Interlaced", "Poplar Heapified", "Binary Search Tree", "Reversed Sawtooth",
-            "Reversed Final Merge", "Double Layered", "Final Pairwise Pass", "Bell Curve", "Sawtooth",
-            "Final Reversed Merge", "Final Bitonic Pass", "Pipe Organ", "Final Radix Pass"};
+    private String[] shuffleIDs = { 
+			"Randomly", "Backwards", "Slight Shuffle", "No Shuffle", 
+			"Final Merge Pass", "Sawtooth", "Reversed Final Merge", "Reversed Sawtooth", "Pipe Organ", "Final Bitonic Pass",
+            "Scrambled Tail", "Scrambled Head", "Noisy", "Shuffled Odds",
+			"Interlaced", "Double Layered", "Final Radix", "Recursive Final Radix", 
+            "Half Rotation", "Half Reversed", "BST Traversal", "Logarithmic Slopes",
+            "Heapified", "Reversed Poplar Heapified", "Final Pairwise Pass",
+			"Recursive Reversal", "Gray Code Fractal",
+            "Triangular"
+			};
     
     private volatile boolean MUTABLE;
 
@@ -58,7 +62,7 @@ final public class ArrayManager {
         this.presortedArray = new int[ArrayVisualizer.getMaximumLength()];
         
         this.Shuffles = utils.Shuffles.RANDOM;
-		this.Distributions = utils.Distributions.BELL_CURVE;
+		this.Distributions = utils.Distributions.LINEAR;
         this.shuffleTypes = utils.Shuffles.values();
         
         this.Delays = ArrayVisualizer.getDelays();
