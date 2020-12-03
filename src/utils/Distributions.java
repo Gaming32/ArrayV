@@ -341,6 +341,22 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			//WIP
         }
+    },
+	REVLOG {
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+			
+			int[] temp = new int[currentLen];
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
+			
+            for(int i = 0; i < currentLen; i++){
+                int random = (int) (Math.random() * (currentLen - i)) + i;
+                array[i] = temp[random];
+            }
+        }
     };
 	
     public abstract void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer);
