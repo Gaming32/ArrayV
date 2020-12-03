@@ -161,7 +161,6 @@ To build a runnable jar, simply run Apache Ant inside the 'dist' directory!
 - Organize list of sorts into more categories
 - Run All Sorts in specific category
 - Subheadings for customizable sorts (e.g. display the number of buckets during a bucket sort)
-- "Many Similar" distribution ((i/5) * 5, as an example)
 - "Pipe organ" distribution (half ascending, half descending)
 - Fixed circular pointer with much cleaner math
 - Toogle between pointer and black bar with circular visuals

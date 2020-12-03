@@ -4,6 +4,7 @@ import panes.JErrorPane;
 import utils.Delays;
 import utils.Highlights;
 import utils.Shuffles;
+import utils.Statistics;
 import utils.Writes;
 
 /*
@@ -35,7 +36,12 @@ SOFTWARE.
 final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
-    private String[] shuffleIDs = {"Randomly", "Shuffled Odds", "Backwards", "Few Unique", "Almost Sorted", "Already Sorted"};
+    private String[] shuffleIDs = { "Randomly", "Shuffled Odds", "Backwards", "Recursively Reversed",
+            "Few Unique", "Almost Sorted", "Decreasing Random", "Logarithmic Slopes", "Triangular",
+            "Scrambled Head", "Scrambled Tail", "Half Reversed", "Perlin Noise", "Perlin Noise Curve",
+            "Heapified", "Interlaced", "Poplar Heapified", "Binary Search Tree", "Reversed Sawtooth",
+            "Reversed Final Merge", "Double Layered", "Final Pairwise Pass", "Bell Curve", "Sawtooth",
+            "Final Reversed Merge", "Final Bitonic Pass", "Pipe Organ", "Final Radix Pass", "Already Sorted" };
     
     private volatile boolean MUTABLE;
 
@@ -113,14 +119,14 @@ final public class ArrayManager {
     }
     
     public void shuffleArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
-        if(Shuffles != Shuffles.ALREADY) this.initializeArray(array);
+        this.initializeArray(array);
 
         String tmp = ArrayVisualizer.getHeading();
         ArrayVisualizer.setHeading("Shuffling...");
         
         double speed = Delays.getSleepRatio();
         
-        if(ArrayVisualizer.getSortingThread() != null && ArrayVisualizer.getSortingThread().isAlive()) {
+        if(ArrayVisualizer.isActive()) {
             double sleepRatio;
             
             //TODO: Replace with continuous function

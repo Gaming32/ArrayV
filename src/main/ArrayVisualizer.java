@@ -357,6 +357,10 @@ final public class ArrayVisualizer {
         }
     }
 
+    public boolean isSorted() {
+        return this.statSnapshot.findSegments(this.array, this.sortLength)[0] == 1;
+    }
+
     public int[] getArray() {
         return this.array;
     }
@@ -470,8 +474,11 @@ final public class ArrayVisualizer {
         this.power = newPower;
     }
     
+    public int getLogBaseNOfLength(int base) {
+        return (int) (Math.log(this.sortLength) / Math.log(base)); 
+    }
     public int getLogBaseTwoOfLength() {
-        return (int) (Math.log(this.sortLength) / Math.log(2)); 
+        return getLogBaseNOfLength(2); 
     }
     
     public boolean shuffleEnabled() {

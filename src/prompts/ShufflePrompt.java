@@ -120,11 +120,12 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                 .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
+                        .addGap(20, 20, 20)
                         .addComponent(this.jLabel1)
                         .addGap(5, 5, 5))
                 .addGroup(layout.createSequentialGroup()
-                        .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
                 );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,8 +135,8 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                                 .addComponent(this.jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-                                .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(5, 5, 5))
+                                .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))
                 );
 
         pack();
@@ -144,28 +145,9 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
         int selection = jList1.getSelectedIndex();
-        switch (selection) {
-        case 0:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[0]);
-            break;
-        case 1:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[1]);
-            break;
-        case 2:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[2]);
-            break;
-        case 3:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[3]);
-            break;
-        case 4:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[4]);
-            break;
-        case 5:
-            ArrayManager.setShuffle(ArrayManager.getShuffles()[5]);
-            break;
-        default:
-            break;
-        }
+        Shuffles[] shuffles = ArrayManager.getShuffles();
+        if (selection >= 0 && selection < shuffles.length)
+            ArrayManager.setShuffle(shuffles[selection]);
         UtilFrame.jButton6ResetText();
         dispose();
     }//GEN-LAST:event_jList1ValueChanged
