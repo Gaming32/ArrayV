@@ -504,9 +504,13 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			boolean delay = ArrayVisualizer.shuffleEnabled();
-			
-			reversalRec(array, 0, currentLen, delay ? 1 : 0, Writes);
+            
+            for (int gap = currentLen; gap > 0; gap /= 2) {
+                for (int i = 0; i + gap <= currentLen; i += gap) {
+                    Writes.reversal(array, i, i + gap - 1, ArrayVisualizer.shuffleEnabled() ? 0.5 : 0, true, false);
+                }
+            }
+        }
         }
 		
 		public void reversalRec(int[] array, int a, int b, double sleep, Writes Writes) {
