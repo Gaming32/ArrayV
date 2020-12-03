@@ -76,22 +76,16 @@ final public class ArrayManager {
     public void initializeArray(int[] array) {
         int power = ArrayVisualizer.getPower();
         int currentLen = ArrayVisualizer.getCurrentLength();
-        int equalFactor = ArrayVisualizer.getEqualItems();
+		
+        double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();
+		for(int i = 0; i < currentLen; i++)
+			array[i] = (int)(uniqueFactor*(int)(i/uniqueFactor))+(int)uniqueFactor/2;
+		
         if (power > 1) {
-            for (int i = 0; i < array.length; i++) {
-                array[i] = (int)(Math.pow((i - currentLen / 2), power));
-            }
-            int max = ArrayVisualizer.getReads().analyzeMax(array, currentLen, 0, false);
-            for (int i = 0; i < array.length; i++) {
-                array[i] = (int)(array[i] * (double)currentLen / 2.0 / (double)max);
-            }
-            for (int i = 0; i < array.length; i++) {
-                array[i] = Math.min(Math.max(0, array[i] + currentLen / 2), currentLen - 1);
-            }
-        } else {
-            for (int i = 0; i < array.length; i++) {
-                array[i] = ((i / equalFactor) * equalFactor);
-            }
+            double mid = (currentLen-1)/2d;
+			
+			for(int i = 0; i < currentLen; i++)
+				array[i] = (int)(Math.pow(array[i] - mid, power)/Math.pow(mid, power-1) + mid);
         }
     }
     

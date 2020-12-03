@@ -50,7 +50,7 @@ final public class Statistics {
         this.sortHeading = ArrayVisualizer.getHeading();
         this.sortExtraHeading = ArrayVisualizer.getExtraHeading();
         this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers" 
-        + ", " + this.formatter.format(ArrayVisualizer.getCurrentLength() / ArrayVisualizer.getEqualItems()) + " Unique";
+        + ", " + this.formatter.format(ArrayVisualizer.getUniqueItems()) + " Unique";
         
         this.sortDelay = "Delay: " + ArrayVisualizer.getDelays().displayCurrentDelay() + "ms";
         this.visualTime = "Visual Time: " + ArrayVisualizer.getTimer().getVisualTime();

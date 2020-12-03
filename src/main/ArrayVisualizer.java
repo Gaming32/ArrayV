@@ -91,7 +91,7 @@ final public class ArrayVisualizer {
     private String[] sortSuggestions;
 
     private volatile int sortLength;
-    private volatile int equalItems;
+    private volatile int uniqueItems;
     private volatile int power;
 
     private ArrayManager ArrayManager;
@@ -206,8 +206,8 @@ final public class ArrayVisualizer {
         this.shadowArray = new int[this.array.length];
         
         this.sortLength = 2048;
-        this.equalItems = 1;
-        this.power = 1;
+        this.uniqueItems = 2048;
+        this.power = 3;
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
@@ -445,26 +445,17 @@ final public class ArrayVisualizer {
     public void setCurrentLength(int newLength) {
         this.sortLength = newLength;
     }
-    
-    public int getEqualItems() {
-        return this.equalItems;
-    }
-    public void setEqualItems(int newCount) {
-        this.equalItems = newCount;
-    }
 
     public void setUniqueItems(int newCount) {
         int length = this.getCurrentLength();
         if (newCount <= length) {
-            this.equalItems = length / newCount;
+            this.uniqueItems = newCount;
         } else {
             System.out.println("Too many unique items!");
         }
     }
     public int getUniqueItems() {
-        int length = this.getCurrentLength();
-        int equalItems = this.getEqualItems();
-        return equalItems * length;
+        return uniqueItems;
     }
     
     public int getPower() {
