@@ -1,12 +1,10 @@
 package utils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 import main.ArrayVisualizer;
 
-import sorts.exchange.CircleSort;
 import sorts.select.PoplarHeapSort;
 import sorts.select.MaxHeapSort;
 
@@ -463,6 +461,39 @@ public enum Shuffles {
 			PoplarHeapSort poplarHeapSort = new PoplarHeapSort(ArrayVisualizer);
 			poplarHeapSort.poplarHeapify(array, 0, currentLen);
         }
+    },
+	CIRCLE {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+			boolean delay = ArrayVisualizer.shuffleEnabled();
+            Reads Reads = ArrayVisualizer.getReads();
+
+			shuffle(array, 0, currentLen, delay ? 0.5 : 0, Writes);
+			
+			int n = 1;
+			for(; n < currentLen; n*=2);
+			circleSortRoutine(array, 0, n-1, currentLen, delay ? 1 : 0, Reads, Writes);
+        }
+	
+		public void circleSortRoutine(int[] array, int lo, int hi, int end, double sleep, Reads Reads, Writes Writes) {        
+			if (lo == hi) return;
+
+			int high = hi;
+			int low = lo;
+			int mid = (hi - lo) / 2;
+
+			while (lo < hi) {
+				if (hi < end && Reads.compareIndices(array, lo, hi, sleep / 2, true) > 0)
+					Writes.swap(array, lo, hi, sleep, true, false);
+				
+				lo++;
+				hi--;
+			}
+
+			circleSortRoutine(array, low, low + mid, end, sleep/2, Reads, Writes);
+			if(low + mid + 1 < end) circleSortRoutine(array, low + mid + 1, high, end, sleep/2, Reads, Writes);
+		}
     },
 	PAIRWISE {
         @Override

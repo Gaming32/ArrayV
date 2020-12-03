@@ -1,11 +1,6 @@
 package utils;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
-import sorts.exchange.CircleSort;
-import sorts.hybrid.GrailSort;
-import sorts.select.MaxHeapSort;
 
 /*
  * 
