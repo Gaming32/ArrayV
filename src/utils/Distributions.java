@@ -159,9 +159,15 @@ public enum Distributions {
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
+			
+			int[] temp = new int[currentLen];
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
+			
 			for(int i = 0; i < currentLen; i++) {
 				int value = 0 - (int) (PerlinNoise.returnNoise((float) array[i] / currentLen) * currentLen);
-				array[i] = value;
+				array[i] = temp[Math.min(value, currentLen-1)];
 			}
         }
     },
@@ -271,11 +277,12 @@ public enum Distributions {
 		public void cantor(int[] array, int[] temp, int a, int b, int min, int max) {
 			if(b-a < 1 || max == min) return;
 			
-			int mid = (min+max)/2;
 			if(b-a == 1) {
-				array[a] = temp[mid];
+				array[a] = temp[a];
 				return;
 			}
+			
+			int mid = (min+max)/2;
 			
 			int t1 = (a+a+b)/3, t2 = (a+b+b+2)/3;
 			
