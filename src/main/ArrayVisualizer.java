@@ -207,7 +207,7 @@ final public class ArrayVisualizer {
         
         this.sortLength = 2048;
         this.uniqueItems = 2048;
-        this.power = 3;
+        this.power = 1;
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
