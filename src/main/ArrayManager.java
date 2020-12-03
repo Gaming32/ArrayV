@@ -4,6 +4,7 @@ import panes.JErrorPane;
 import utils.Delays;
 import utils.Highlights;
 import utils.Shuffles;
+import utils.Distributions;
 import utils.Statistics;
 import utils.Writes;
 
@@ -36,12 +37,12 @@ SOFTWARE.
 final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
-    private String[] shuffleIDs = { "Randomly", "Shuffled Odds", "Backwards", "Recursively Reversed",
-            "Few Unique", "Almost Sorted", "Decreasing Random", "Logarithmic Slopes", "Triangular",
+    private String[] shuffleIDs = { "Randomly", "Backwards", 
+            "Almost Sorted", "Already Sorted", "Shuffled Odds", "Logarithmic Slopes", "Triangular", "Recursively Reversed", "Decreasing Random",
             "Scrambled Head", "Scrambled Tail", "Half Reversed", "Perlin Noise", "Perlin Noise Curve",
             "Heapified", "Interlaced", "Poplar Heapified", "Binary Search Tree", "Reversed Sawtooth",
             "Reversed Final Merge", "Double Layered", "Final Pairwise Pass", "Bell Curve", "Sawtooth",
-            "Final Reversed Merge", "Final Bitonic Pass", "Pipe Organ", "Final Radix Pass", "Already Sorted" };
+            "Final Reversed Merge", "Final Bitonic Pass", "Pipe Organ", "Final Radix Pass"};
     
     private volatile boolean MUTABLE;
 
@@ -49,6 +50,7 @@ final public class ArrayManager {
     private Delays Delays;
     private Highlights Highlights;
     private Shuffles Shuffles;
+	private Distributions Distributions;
     private Writes Writes;
     
     public ArrayManager(ArrayVisualizer arrayVisualizer) {
@@ -56,6 +58,7 @@ final public class ArrayManager {
         this.presortedArray = new int[ArrayVisualizer.getMaximumLength()];
         
         this.Shuffles = utils.Shuffles.RANDOM;
+		this.Distributions = utils.Distributions.BELL_CURVE;
         this.shuffleTypes = utils.Shuffles.values();
         
         this.Delays = ArrayVisualizer.getDelays();
@@ -74,19 +77,13 @@ final public class ArrayManager {
  
     //TODO: Fix minimum to zero
     public void initializeArray(int[] array) {
-        int power = ArrayVisualizer.getPower();
         int currentLen = ArrayVisualizer.getCurrentLength();
 		
         double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();
 		for(int i = 0; i < currentLen; i++)
 			array[i] = (int)(uniqueFactor*(int)(i/uniqueFactor))+(int)uniqueFactor/2;
 		
-        if (power > 1) {
-            double mid = (currentLen-1)/2d;
-			
-			for(int i = 0; i < currentLen; i++)
-				array[i] = (int)(Math.pow(array[i] - mid, power)/Math.pow(mid, power-1) + mid);
-        }
+		Distributions.initializeArray(array, this.ArrayVisualizer);
     }
     
     public void initializePresortedArray() {
@@ -145,7 +142,8 @@ final public class ArrayManager {
             Delays.setSleepRatio(sleepRatio);
         }
         
-        Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
+		if(Distributions != Distributions.RANDOM)
+			Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
         this.ArrayVisualizer.setShadowArray();
         
         Delays.setSleepRatio(speed);

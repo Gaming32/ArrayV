@@ -92,7 +92,6 @@ final public class ArrayVisualizer {
 
     private volatile int sortLength;
     private volatile int uniqueItems;
-    private volatile int power;
 
     private ArrayManager ArrayManager;
     private SortAnalyzer SortAnalyzer;
@@ -207,7 +206,6 @@ final public class ArrayVisualizer {
         
         this.sortLength = 2048;
         this.uniqueItems = 2048;
-        this.power = 1;
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
@@ -456,13 +454,6 @@ final public class ArrayVisualizer {
     }
     public int getUniqueItems() {
         return uniqueItems;
-    }
-    
-    public int getPower() {
-        return this.power;
-    }
-    public void setPower(int newPower) {
-        this.power = newPower;
     }
     
     public int getLogBaseNOfLength(int base) {
