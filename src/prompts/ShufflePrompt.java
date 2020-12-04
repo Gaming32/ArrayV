@@ -11,6 +11,7 @@ import frames.AppFrame;
 import frames.UtilFrame;
 import main.ArrayManager;
 import panes.JErrorPane;
+import utils.Distributions;
 import utils.Shuffles;
 
 /*
@@ -66,10 +67,17 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
-        jList1.setListData(ArrayManager.getShuffleIDs());
+        jList1.setListData(ArrayManager.getDistributionIDs());
+        for(int i = 0; i < ArrayManager.getDistributions().length; i++) {
+            if(ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
+                jList1.setSelectedIndex(i);
+                break;
+            }
+        }
+        jList2.setListData(ArrayManager.getShuffleIDs());
         for(int i = 0; i < ArrayManager.getShuffles().length; i++) {
             if(ArrayManager.getShuffle().equals(ArrayManager.getShuffles()[i])) {
-                jList1.setSelectedIndex(i);
+                jList2.setSelectedIndex(i);
                 break;
             }
         }
@@ -96,13 +104,20 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         this.jScrollPane1 = new javax.swing.JScrollPane();
         this.jList1 = new javax.swing.JList();
 
+        this.jLabel2 = new javax.swing.JLabel();
+        this.jScrollPane2 = new javax.swing.JScrollPane();
+        this.jList2 = new javax.swing.JList();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("How do you want the array to be shuffled?");
+        jLabel1.setText("What shape do you want the array to have?");
+        jLabel2.setText("How do you want the array to be shuffled?");
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jScrollPane1.setViewportView(this.jList1);
+        jScrollPane2.setViewportView(this.jList2);
 
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
@@ -115,17 +130,39 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
             }
         });
 
+        jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            @Override
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                try {
+                    jList2ValueChanged(evt);
+                } catch (Exception e) {
+                    JErrorPane.invokeErrorMessage(e);
+                }
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(this.jLabel1)
-                        .addGap(5, 5, 5))
-                .addGroup(layout.createSequentialGroup()
-                        .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addGroup(layout.createSequentialGroup()
+                            .addGap(20, 20, 20)
+                            .addComponent(this.jLabel1)
+                            .addGap(5, 5, 5))
+                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(20, 20, 20))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGap(475, 475, 475)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(this.jLabel2)
+                                .addGap(5, 5, 5))
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20)))
                 );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,6 +174,14 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
                                 .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20))
+                .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(this.jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
+                                .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20))
                 );
 
         pack();
@@ -145,6 +190,16 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
         int selection = jList1.getSelectedIndex();
+        Distributions[] distributions = ArrayManager.getDistributions();
+        if (selection >= 0 && selection < distributions.length)
+            ArrayManager.setDistribution(distributions[selection]);
+        UtilFrame.jButton6ResetText();
+        dispose();
+    }//GEN-LAST:event_jList1ValueChanged
+
+    private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
+        // TODO add your handling code here:
+        int selection = jList2.getSelectedIndex();
         Shuffles[] shuffles = ArrayManager.getShuffles();
         if (selection >= 0 && selection < shuffles.length)
             ArrayManager.setShuffle(shuffles[selection]);
@@ -157,5 +212,10 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+
+    private javax.swing.JLabel jLabel2;
+    @SuppressWarnings("rawtypes")
+    private javax.swing.JList jList2;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
