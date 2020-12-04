@@ -46,6 +46,7 @@ final public class Writes {
     
     private DecimalFormat formatter;
     
+    private ArrayVisualizer ArrayVisualizer;
     private Delays Delays;
     private Highlights Highlights;
     private Timer Timer;
@@ -57,6 +58,7 @@ final public class Writes {
         this.writes = 0;
         this.allocAmount = 0;
         
+        this.ArrayVisualizer = ArrayVisualizer;
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
         this.Timer = ArrayVisualizer.getTimer();
@@ -336,11 +338,14 @@ final public class Writes {
 
     public int[] createExternalArray(int length) {
         this.allocAmount += length;
-        return new int[length];
+        int[] result = new int[length];
+        ArrayVisualizer.getArrays().add(result);
+        return result;
     }
 
     public void deleteExternalArray(int[] array) {
         this.allocAmount -= array.length;
+        ArrayVisualizer.getArrays().remove(array);
     }
 
     public void arrayListAdd(ArrayList<Integer> aList, int value) {

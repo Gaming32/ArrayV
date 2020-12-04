@@ -48,7 +48,6 @@ final public class PigeonholeSort extends Sort {
         int mi = min;
         int size = max - mi + 1;
         int[] holes = Writes.createExternalArray(size);
-        this.arrayVisualizer.getArrays().add(holes);
         
         for(int x = 0; x < sortLength; x++) {
             Writes.write(holes, array[x] - mi, holes[array[x] - mi] + 1, 1, false, true);

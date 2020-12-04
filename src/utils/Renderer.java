@@ -181,6 +181,8 @@ final public class Renderer {
         
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
+
+        this.yscl = (double) (this.vsize) / ArrayVisualizer.getCurrentLength();
         
         this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
 
@@ -194,7 +196,6 @@ final public class Renderer {
         //WINDOW = C VARIABLES
         
         this.xscl = (double) (ArrayVisualizer.currentWidth() - 40) / length;
-        this.yscl = (double) (this.vsize) / length;
         
         this.amt = 0; //TODO: rename to barCount
         
