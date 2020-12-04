@@ -37,6 +37,7 @@ SOFTWARE.
 final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
+	private utils.Distributions[] distributionTypes;
     private String[] shuffleIDs = { 
 			"Randomly", "Backwards", "Slight Shuffle", "No Shuffle", 
             "Scrambled Tail", "Scrambled Head", "Noisy", "Shuffled Odds",
@@ -47,7 +48,14 @@ final public class ArrayManager {
 			"Recursive Reversal", "Gray Code Fractal", "Sierpinski Triangle",
             "Triangular"
 			};
-    
+    private String[] distributionIDs = {
+			"Linear", "Few Unique", "Random", 
+			"Quadratic", "Square Root", "Centered Cubic", "Centered Quintic",
+			"Perlin Noise", "Perlin Noise Curve", "Bell Curve", 
+			"Ruler", "Blancmange Curve", "Cantor Function", 
+			"Sum of Divisors", "Fly Straight, Damnit!", "Decreasing Random"
+			};
+	
     private volatile boolean MUTABLE;
 
     private ArrayVisualizer ArrayVisualizer;
@@ -64,6 +72,7 @@ final public class ArrayManager {
         this.Shuffles = utils.Shuffles.RANDOM;
 		this.Distributions = utils.Distributions.LINEAR;
         this.shuffleTypes = utils.Shuffles.values();
+		this.distributionTypes = utils.Distributions.values();
         
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
@@ -111,6 +120,19 @@ final public class ArrayManager {
     }
     public void setShuffle(Shuffles choice) {
         this.Shuffles = choice;
+    }
+	
+	public String[] getDistributionIDs() {
+        return this.distributionIDs;
+    }
+    public Distributions[] getDistributions() {
+        return this.distributionTypes;
+    }
+    public Distributions getDistribution() {
+        return this.Distributions;
+    }
+    public void setDistribution(Distributions choice) {
+        this.Distributions = choice;
     }
     
     public void shuffleArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
