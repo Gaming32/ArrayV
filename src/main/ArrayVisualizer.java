@@ -15,6 +15,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -26,6 +27,8 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import dialogs.CustomImageDialog;
+import dialogs.FileDialog;
+import dialogs.RunScriptDialog;
 import frames.ArrayFrame;
 import frames.SoundFrame;
 import frames.UtilFrame;
@@ -181,18 +184,23 @@ final public class ArrayVisualizer {
                 if (e.getKeyCode() == KeyEvent.VK_O && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
                     if (ArrayVisualizer.this.isActive())
                         return false;
-                    new Thread(){
-                        @Override
-                        public void run(){
-                            RunScriptedSorts RunScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
-                            try {
-                                RunScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
-                            }
-                            catch (Exception e) {
-                                JErrorPane.invokeErrorMessage(e);
-                            }
-                        }
-                    }.start();
+                    File f = new RunScriptDialog().getFile();
+                    if (f == null) {
+                        return false;
+                    }
+                    SortAnalyzer.importSort(f);
+                    // new Thread(){
+                    //     @Override
+                    //     public void run(){
+                    //         RunScriptedSorts RunScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
+                    //         try {
+                    //             RunScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
+                    //         }
+                    //         catch (Exception e) {
+                    //             JErrorPane.invokeErrorMessage(e);
+                    //         }
+                    //     }
+                    // }.start();
                     return true;
                 }
                 return false;
