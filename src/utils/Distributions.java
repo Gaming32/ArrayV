@@ -297,7 +297,7 @@ public enum Distributions {
 			
 			n[0] = 0;
 			n[1] = 1;
-			int max = 1;
+			double max = 1;
 			
 			for(int i = 2; i < currentLen; i++) {
 				n[i] = sumDivisors(i);
@@ -308,7 +308,7 @@ public enum Distributions {
 				temp[i] = array[i];
 			}
 			
-			double scale = (double)(currentLen-1)/max;
+			double scale = Math.min((currentLen-1)/max, 1);
 			for(int i = 0; i < currentLen; i++) {
 				array[i] = temp[(int)(n[i]*scale)];
 			}
@@ -325,17 +325,33 @@ public enum Distributions {
 			return sum;
 		}
     },
-	SIERPINSKI {
+	FSD {// fly straight dangit (OEIS A133058)
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-			//WIP (might be a shuffle)
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int[] fsd = new int[currentLen];
+			int[] temp = new int[currentLen];
+			
+			double max;
+			max = fsd[0] = fsd[1] = 1;
+			for(int i = 2; i < currentLen; i++) {
+				int g = gcd(fsd[i-1], i);
+				fsd[i] = fsd[i-1]/g + (g==1 ? i+1 : 0);
+				if(fsd[i] > max) max = fsd[i];
+			}
+			
+			for(int i = 0; i < currentLen; i++)
+				temp[i] = array[i];
+			
+			double scale = Math.min((currentLen-1)/max, 1);
+			for(int i = 0; i < currentLen; i++)
+				array[i] = temp[(int)(fsd[i]*scale)];
         }
-    },
-	FLY_STRAIGHT {
-        @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-			//WIP
-        }
+		
+		public int gcd(int a, int b) {
+			if (b==0) return a;
+			return gcd(b,a%b);
+		}
     },
 	REVLOG {
         @Override

@@ -328,7 +328,7 @@ public enum Shuffles {
 			}
         }
     },
-	RECURSIVE_RADIX {
+	REC_RADIX {
         @Override
 		public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -531,7 +531,7 @@ public enum Shuffles {
 			}
         }
     },
-	RECURSIVELY_REV {
+	REC_REV {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -573,6 +573,37 @@ public enum Shuffles {
 			this.reversalRec(array, a, m, false, sleep/2, Writes);
 			this.reversalRec(array, m, b, true, sleep/2, Writes);
 		}
+    },
+	SIERPINSKI {
+		@Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int[] temp = new int[currentLen];
+			int[] triangle = new int[currentLen];
+			triangleRec(triangle, 0, currentLen);
+			
+			for(int i = 0; i < currentLen; i++)
+				temp[i] = array[i];
+			
+			for(int i = 0; i < currentLen; i++)
+				Writes.write(array, i, temp[triangle[i]], 1, true, false);
+		}
+		
+		public void triangleRec(int[] array, int a, int b) {
+    		if(b-a < 2) return;
+			if(b-a == 2) {
+				array[a+1]++;
+				return;
+			}
+    		
+    		int h = (b-a)/3, t1 = (a+a+b)/3, t2 = (a+b+b+2)/3;
+    		for(int i = a;  i < t1; i++) array[i] += h;
+    		for(int i = t1; i < t2; i++) array[i] += 2*h;
+    		
+    		triangleRec(array, a, t1);
+    		triangleRec(array, t1, t2);
+    		triangleRec(array, t2, b);
+    	}
     },
 	TRIANGULAR {
         @Override
