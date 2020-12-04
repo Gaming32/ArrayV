@@ -39,13 +39,13 @@ final public class Bars extends Visual {
 
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        for(int i = 0; i < ArrayVisualizer.getCurrentLength(); i++){
+        for(int i = 0; i < Renderer.getArrayLength(); i++){
             if(Highlights.fancyFinishActive()) {
                 if(i < Highlights.getFancyFinishPosition()) {
                     this.mainRender.setColor(Color.GREEN);
                 }
                 else if(ArrayVisualizer.rainbowEnabled() || ArrayVisualizer.colorEnabled()) { 
-                    this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+                    this.mainRender.setColor(getIntColor(array[i], Renderer.getArrayLength()));
                 }
                 else this.mainRender.setColor(Color.WHITE);
 
@@ -53,12 +53,12 @@ final public class Bars extends Visual {
             }
             else {
                 if(ArrayVisualizer.rainbowEnabled() || ArrayVisualizer.colorEnabled()) {
-                    this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
-                    //if(array[i] > -1) this.mainRender.setColor(getIntColor(ArrayVisualizer.getShadowArray()[array[i]], ArrayVisualizer.getCurrentLength()));
+                    this.mainRender.setColor(getIntColor(array[i], Renderer.getArrayLength()));
+                    //if(array[i] > -1) this.mainRender.setColor(getIntColor(ArrayVisualizer.getShadowArray()[array[i]], Renderer.getArrayLength()));
                 }
                 else this.mainRender.setColor(Color.WHITE);
 
-                if(ArrayVisualizer.getCurrentLength() != 2) {
+                if(Renderer.getArrayLength() != 2) {
                     colorMarkedBars(ArrayVisualizer.getLogBaseTwoOfLength(), i, Highlights, this.mainRender, ArrayVisualizer.colorEnabled(), ArrayVisualizer.rainbowEnabled(), ArrayVisualizer.analysisEnabled());
                 }
             }
@@ -75,15 +75,15 @@ final public class Bars extends Visual {
 
             if(ArrayVisualizer.rainbowEnabled()) {
                 if(width > 0) {
-                    this.mainRender.fillRect(Renderer.getOffset() + 20, 0, width, ArrayVisualizer.windowHeight());
+                    this.mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset(), width, Renderer.getViewSize());
                 }
                 
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
             else if(ArrayVisualizer.waveEnabled()) {
                 if(width > 0) {
-                    y = (int) ((ArrayVisualizer.windowHeight() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / ArrayVisualizer.getCurrentLength()))) + ArrayVisualizer.windowHalfHeight());
-                    this.mainRender.fillRect(Renderer.getOffset() + 20, y, width, 20);
+                    y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + ArrayVisualizer.windowHalfHeight());
+                    this.mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, 20);
                 }
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
@@ -96,8 +96,8 @@ final public class Bars extends Visual {
                     }
                     */
 
-                    y = (int) (((ArrayVisualizer.windowHeight() - 20)) - (array[i] + 1) * Renderer.getYScale());
-                    mainRender.fillRect(Renderer.getOffset() + 20, y, width, (int) ((array[i] + 1) * Renderer.getYScale()));
+                    y = (int) (((Renderer.getViewSize() - 20)) - (array[i] + 1) * Renderer.getYScale());
+                    mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, (int) ((array[i] + 1) * Renderer.getYScale()));
                     
                     //mainRender.fillRect(Renderer.getOffset() + 20, y /*- markHeight*/, width /*- gap*/, (int) ((array[i] + 1) * Renderer.getYScale()) /*+ markHeight*/);
                     
