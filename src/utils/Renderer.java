@@ -182,18 +182,7 @@ final public class Renderer {
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
         
-        // this.yscl = (double) (ArrayVisualizer.currentHeight() - 96) / ArrayVisualizer.getCurrentLength();
-        
-        // this.amt = 0; //TODO: rename to barCount
-        
-        // this.linkedpixdrawx = 0;
-        // this.linkedpixdrawy = 0;
-        
         this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
-        // this.doth = (int) (2 * (ArrayVisualizer.currentHeight() / 480.0));
-        // this.dots = (this.dotw + this.doth) / 2; //TODO: Does multiply/divide by 2 like this cancel out??
-        
-        // ArrayVisualizer.resetMainStroke();
 
         this.vsize = (ArrayVisualizer.currentHeight() - 96) / ArrayVisualizer.getArrays().size();
         this.yoffset = 96;
@@ -212,11 +201,9 @@ final public class Renderer {
         this.linkedpixdrawx = 0;
         this.linkedpixdrawy = 0;
         
-        // this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
         this.doth = (int) (2 * (this.vsize / 480.0));
         this.dots = (this.dotw + this.doth) / 2; //TODO: Does multiply/divide by 2 like this cancel out??
 
-        // this.yoffset += this.vsize;
         this.length = length;
         
         ArrayVisualizer.resetMainStroke();
