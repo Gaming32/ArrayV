@@ -65,26 +65,12 @@ final public class MeanQuickSort extends Sort {
         Highlights.markArray(1, left);
         Highlights.markArray(2, right);
 
-        // System.out.print(left);
-        // System.out.print("-");
-        // System.out.print(right);
-        // System.out.print(": ");
-
         int count = right - left;
         if (count <= 1) {
-            // System.out.println("1 item");
-            return;
-        }
-        else if (count == 2) {
-            if (Reads.compareValues(left, right) == 1) {
-                Writes.swap(array, left, right, 1, false, false);
-            }
-            // System.out.println("2 items");
             return;
         }
 
         double mean = (double)sum / (double)count;
-        // System.out.println(mean);
 
         int lsum = 0;
         int rsum = 0;
@@ -98,7 +84,6 @@ final public class MeanQuickSort extends Sort {
             }
 
             if (left >= right) {
-                // lsum += array[left];
                 break;
             }
 
@@ -106,12 +91,11 @@ final public class MeanQuickSort extends Sort {
                 Writes.swap(array, left, right, 1, false, false);
                 rsum += array[right];
                 right--;
-                Highlights.markArray(2, right);
+                Highlights.markArray(4, right);
             }
             Reads.addComparison();
 
             if (left >= right) {
-                // lsum += array[left];
                 break;
             }
 
@@ -137,12 +121,11 @@ final public class MeanQuickSort extends Sort {
         }
         Highlights.clearMark(1);
 
-        // System.out.println("-----");
         partition(array, 0, sortLength, sum);
 
         for (int i = 1; i < sortLength; i++) {
             int j = i;
-            while (j > 0 && Reads.compareIndices(array, j, j - 1, 0.125, true) == -1) {
+            while (j > 0 && Reads.compareIndices(array, j, j - 1, 0.25, true) == -1) {
                 Writes.swap(array, j, j - 1, 0.25, true, false);
                 j--;
             }
