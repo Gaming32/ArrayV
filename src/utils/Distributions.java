@@ -272,12 +272,11 @@ public enum Distributions {
 		public void cantor(int[] array, int[] temp, int a, int b, int min, int max) {
 			if(b-a < 1 || max == min) return;
 			
+			int mid = (min+max)/2;
 			if(b-a == 1) {
-				array[a] = temp[a];
+				array[a] = temp[mid];
 				return;
 			}
-			
-			int mid = (min+max)/2;
 			
 			int t1 = (a+a+b)/3, t2 = (a+b+b+2)/3;
 			
