@@ -60,6 +60,7 @@ final public class Renderer {
 
     private volatile int yoffset;
     private volatile int vsize;
+    public volatile boolean auxActive;
 
     private volatile int length;
     
@@ -92,6 +93,9 @@ final public class Renderer {
     }
     public int getViewSize() {
         return this.vsize;
+    }
+    public int halfViewSize() {
+        return this.vsize / 2;
     }
     public int getArrayLength() {
         return this.length;
@@ -187,7 +191,7 @@ final public class Renderer {
         
         this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
 
-        this.vsize = (ArrayVisualizer.currentHeight() - 96) / ArrayVisualizer.getArrays().size();
+        this.vsize = (ArrayVisualizer.currentHeight() - 96) / Math.min(ArrayVisualizer.getArrays().size(), 7);
         this.yoffset = 96;
     }
 
@@ -212,6 +216,7 @@ final public class Renderer {
     }
     
     public void drawVisual(VisualStyles VisualStyles, int[][] arrays, ArrayVisualizer ArrayVisualizer, Highlights Highlights) {
+        this.auxActive = true;
         for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
             this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
             VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
@@ -219,6 +224,7 @@ final public class Renderer {
             ArrayVisualizer.getMainRender().setColor(Color.BLUE);
             ArrayVisualizer.getMainRender().fillRect(0, this.yoffset - 20, ArrayVisualizer.currentWidth(), 1);
         }
+        this.auxActive = false;
         this.updateVisualsPerArray(ArrayVisualizer, arrays[0], ArrayVisualizer.getCurrentLength());
         VisualStyles.drawVisual(arrays[0], ArrayVisualizer, this, Highlights);
     }

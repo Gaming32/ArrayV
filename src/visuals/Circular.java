@@ -62,6 +62,9 @@ final public class Circular extends Visual {
     
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+        if (Renderer.auxActive)
+            return;
+
         for(int i = 0; i < ArrayVisualizer.getCurrentLength(); i++){
             if(i < Highlights.getFancyFinishPosition()) {
                 this.mainRender.setColor(Color.getHSBColor((1f/3f), 1f, 0.8f));
