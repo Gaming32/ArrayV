@@ -6,8 +6,8 @@ import sorts.templates.Sort;
 /*
  * 
 MIT License
-Copyright (c) 2019 w0rthy
 Copyright (c) 2019 PiotrGrochowski
+Copyright (c) 2020 aphitorite
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -42,54 +42,29 @@ final public class RecursiveCombSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private void recursivecomb(int[] array, int start, int end, int gap, double sleep) {
-        if (start == (end - gap)){
-            return;
-        }
-        if (((end - start) / gap) % 2 == 0){
-            this.recursivecomb(array, start, end, gap * 2, sleep);
-            this.recursivecomb(array, start + gap, end + gap, gap * 2, sleep);
-        }
-        else{
-            this.recursivecomb(array, start, end + gap, gap * 2, sleep);
-            this.recursivecomb(array, start + gap, end, gap * 2, sleep);
-        }
-        this.finishrecucomb(array, start, end, gap, sleep);
-    }
+    private void recursiveComb(int[] array, int pos, int gap, int end) {
+		if(pos+gap > end) return;
+		
+		this.recursiveComb(array, pos, gap*2, end);
+		this.recursiveComb(array, pos+gap, gap*2, end);
+		
+		this.powerOfThree(array, pos, gap, end);
+	}
 
-    private void finishrecucomb(int[] array, int start, int end, int gap, double sleep) {
-        if (start >= (end - gap)){
-            return;
-        }
-        if (((end - start) / gap) % 3 == 2){
-            this.finishrecucomb(array, start, end + gap, gap * 3, sleep);
-            this.finishrecucomb(array, start + gap, end + gap + gap, gap * 3, sleep);
-            this.finishrecucomb(array, start + gap + gap, end, gap * 3, sleep);
-        }
-        else{
-        if (((end - start) / gap) % 3 == 1){
-            this.finishrecucomb(array, start, end + gap + gap, gap * 3, sleep);
-            this.finishrecucomb(array, start + gap, end, gap * 3, sleep);
-            this.finishrecucomb(array, start + gap + gap, end + gap, gap * 3, sleep);
-        }
-        else{
-            this.finishrecucomb(array, start, end, gap * 3, sleep);
-            this.finishrecucomb(array, start + gap, end + gap, gap * 3, sleep);
-            this.finishrecucomb(array, start + gap + gap, end + gap + gap, gap * 3, sleep);
-        }
-        }
-        for (int i = start; i < (end - gap); i += gap){
-            Delays.sleep(sleep);
-            Highlights.markArray(1, i);
-            Highlights.markArray(2, i + gap);
-            if(Reads.compareValues(array[i], array[i + gap]) == 1) {
-                Writes.swap(array, i, i + gap, sleep, true, false);
-            }
-        }
-    }
+	private void powerOfThree(int[] array, int pos, int gap, int end) {
+		if(pos+gap > end) return;
+		
+		this.powerOfThree(array, pos, gap*3, end);
+		this.powerOfThree(array, pos+gap, gap*3, end);
+		this.powerOfThree(array, pos+2*gap, gap*3, end);
+		
+		for(int i = pos; i+gap < end; i+=gap)
+			if(Reads.compareIndices(array, i, i+gap, 0.5, true) == 1)
+				Writes.swap(array, i, i+gap, 0.5, false, false);
+	}
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        this.recursivecomb(array, 0, length, 1, 1);
+        this.recursiveComb(array, 0, 1, length);
     }
 }
