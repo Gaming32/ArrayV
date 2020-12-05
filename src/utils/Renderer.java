@@ -218,6 +218,10 @@ final public class Renderer {
     public void drawVisual(VisualStyles VisualStyles, int[][] arrays, ArrayVisualizer ArrayVisualizer, Highlights Highlights) {
         this.auxActive = true;
         for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
+            if (arrays[i] == null) {
+                i++;
+                contintue;
+            }
             this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
             VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
             this.yoffset += this.vsize;
