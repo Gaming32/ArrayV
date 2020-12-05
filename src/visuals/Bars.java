@@ -82,7 +82,7 @@ final public class Bars extends Visual {
             }
             else if(ArrayVisualizer.waveEnabled()) {
                 if(width > 0) {
-                    y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + ArrayVisualizer.windowHalfHeight());
+                    y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
                     this.mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, 20);
                 }
                 Renderer.setOffset(Renderer.getOffset() + width);
@@ -112,6 +112,10 @@ final public class Bars extends Visual {
                 }
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
+        }
+        if (!ArrayVisualizer.rainbowEnabled()) {
+            this.mainRender.setColor(Color.BLUE);
+            this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
         }
     }
 }

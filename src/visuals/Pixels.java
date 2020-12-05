@@ -113,7 +113,7 @@ final public class Pixels extends Visual {
 
                 if(width > 0) {
                     if(ArrayVisualizer.waveEnabled()) {
-                        y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + ArrayVisualizer.windowHalfHeight());
+                        y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
                     }
                     else {
                         y = (int) ((Renderer.getViewSize() - 20) - (array[i] * Renderer.getYScale()));
@@ -135,6 +135,10 @@ final public class Pixels extends Visual {
                 }
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
+        }
+        if (!ArrayVisualizer.rainbowEnabled()) {
+            this.mainRender.setColor(Color.BLUE);
+            this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
         }
     }
 }

@@ -225,8 +225,6 @@ final public class Renderer {
             this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
             VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
             this.yoffset += this.vsize;
-            ArrayVisualizer.getMainRender().setColor(Color.BLUE);
-            ArrayVisualizer.getMainRender().fillRect(0, this.yoffset - 20, ArrayVisualizer.currentWidth(), 1);
         }
         this.auxActive = false;
         this.updateVisualsPerArray(ArrayVisualizer, arrays[0], ArrayVisualizer.getCurrentLength());
