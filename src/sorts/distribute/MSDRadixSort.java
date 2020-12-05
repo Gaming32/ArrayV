@@ -59,7 +59,7 @@ final public class MSDRadixSort extends Sort {
         ArrayList<Integer>[] registers = new ArrayList[radix];
         
         for(int i = 0; i < radix; i++)
-            registers[i] = Writes.createArrayList();
+            registers[i] = new ArrayList<>();
         
         for(int i = min; i < max; i++) {
             Highlights.markArray(1, i);

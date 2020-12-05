@@ -86,7 +86,6 @@ final public class ArrayVisualizer {
     final int[] array;
     private int[] shadowArray;
     final ArrayList<int[]> arrays;
-    final ArrayList<ArrayList<Integer>> arrayLists;
 
     private String[][] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
     private String[][] DistributionSorts; // Second row consists of user-friendly names
@@ -167,10 +166,14 @@ final public class ArrayVisualizer {
                     ArrayVisualizer.this.getDelays().togglePaused();
                 }
             }
+
             @Override
-            public void keyPressed(KeyEvent e) { }
+            public void keyPressed(KeyEvent e) {
+            }
+
             @Override
-            public void keyReleased(KeyEvent e) { }
+            public void keyReleased(KeyEvent e) {
+            }
         });
 
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
@@ -204,7 +207,6 @@ final public class ArrayVisualizer {
         this.shadowArray = new int[this.array.length];
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
-        this.arrayLists = new ArrayList<>();
         
         this.sortLength = 2048;
         this.uniqueItems = 2048;
@@ -273,14 +275,6 @@ final public class ArrayVisualizer {
         this.toggleVisualUpdates(true);
         //DRAW THREAD
         this.visualsThread = new Thread() {
-            private int[] fancyToArray(ArrayList<Integer> aList) {
-                int[] result = new int[aList.size()];
-                for (int i = 0; i < result.length; i++) {
-                    result[i] = aList.get(i);
-                }
-                return result;
-            }
-
             @SuppressWarnings("unused")
             @Override
             public void run() {
@@ -301,13 +295,8 @@ final public class ArrayVisualizer {
                 
                 while(ArrayVisualizer.this.visualsEnabled) {
                     if(ArrayVisualizer.this.updateVisuals) {
-                        @SuppressWarnings("unchecked")
-                        ArrayList<int[]> copied = (ArrayList<int[]>)ArrayVisualizer.this.arrays.clone();
-                        // for (ArrayList<Integer> aList : ArrayVisualizer.this.arrayLists) {
-                        //     copied.add(this.fancyToArray(aList));
-                        // }
-                        int[][] arrays = copied.toArray(new int[][] { });
-                        ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this, arrays);
+                        ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
+                        int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
                         ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
 
                         if(ArrayVisualizer.this.TEXTDRAW) {
@@ -381,10 +370,6 @@ final public class ArrayVisualizer {
 
     public ArrayList<int[]> getArrays() {
         return this.arrays;
-    }
-
-    public ArrayList<ArrayList<Integer>> getArrayLists() {
-        return this.arrayLists;
     }
     
     public ArrayManager getArrayManager() {

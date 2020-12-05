@@ -43,7 +43,7 @@ public abstract class ShatterSorting extends Sort {
         ArrayList<Integer>[] registers = new ArrayList[shatters];
         
         for(int i = 0; i < shatters; i++) {
-            registers[i] = Writes.createArrayList();
+            registers[i] = new ArrayList<>();
         }
         
         for(int i = 0; i < length; i++){

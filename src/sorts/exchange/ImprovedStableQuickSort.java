@@ -68,8 +68,8 @@ final public class ImprovedStableQuickSort extends Sort {
         Highlights.markArray(3, start);
         Highlights.markArray(4, pivot);
         
-        ArrayList<Integer> leftList  = Writes.createArrayList();
-        ArrayList<Integer> rightList = Writes.createArrayList();
+        ArrayList<Integer> leftList  = new ArrayList<>();
+        ArrayList<Integer> rightList = new ArrayList<>();
 
         for (int i = start ; i <= end; i++) {
             Highlights.markArray(1, i);

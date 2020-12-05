@@ -348,12 +348,6 @@ final public class Writes {
         ArrayVisualizer.getArrays().remove(array);
     }
 
-    public ArrayList<Integer> createArrayList() {
-        ArrayList<Integer> result = new ArrayList<>();
-        ArrayVisualizer.getArrayLists().add(result);
-        return result;
-    }
-
     public void arrayListAdd(ArrayList<Integer> aList, int value) {
         allocAmount++;
         aList.add(value);
@@ -382,7 +376,6 @@ final public class Writes {
 
     public void deleteArrayList(ArrayList<Integer> aList) {
         allocAmount -= aList.size();
-        ArrayVisualizer.getArrayLists().remove(aList);
     }
 
     public void deleteExternalArray(ArrayList<Integer>[] array) {

@@ -58,8 +58,8 @@ final public class Renderer {
     private volatile double xscl; //TODO: Change to xScale/yScale
     private volatile double yscl;
 
-    private volatile double yoffset;
-    private volatile double vsize;
+    private volatile int yoffset;
+    private volatile int vsize;
 
     private volatile int length;
     
@@ -88,10 +88,10 @@ final public class Renderer {
         return this.amt;
     }
     public int getYOffset() {
-        return (int)this.yoffset;
+        return this.yoffset;
     }
     public int getViewSize() {
-        return (int)this.vsize;
+        return this.vsize;
     }
     public int getArrayLength() {
         return this.length;
@@ -160,7 +160,7 @@ final public class Renderer {
         return new WindowState(windowUpdate, windowResize);
     }
     
-    public void updateVisualsStart(ArrayVisualizer ArrayVisualizer, int[][] arrays) {
+    public void updateVisualsStart(ArrayVisualizer ArrayVisualizer) {
         WindowState WindowState = checkWindowResizeAndReposition(ArrayVisualizer);
         
         if(WindowState.updated()) {
@@ -187,7 +187,7 @@ final public class Renderer {
         
         this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
 
-        this.vsize = (ArrayVisualizer.currentHeight() - 96) / arrays.length;
+        this.vsize = (ArrayVisualizer.currentHeight() - 96) / ArrayVisualizer.getArrays().size();
         this.yoffset = 96;
     }
 
@@ -217,7 +217,7 @@ final public class Renderer {
             VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
             this.yoffset += this.vsize;
             ArrayVisualizer.getMainRender().setColor(Color.BLUE);
-            ArrayVisualizer.getMainRender().fillRect(0, (int)this.yoffset - 20, ArrayVisualizer.currentWidth(), 1);
+            ArrayVisualizer.getMainRender().fillRect(0, this.yoffset - 20, ArrayVisualizer.currentWidth(), 1);
         }
         this.updateVisualsPerArray(ArrayVisualizer, arrays[0], ArrayVisualizer.getCurrentLength());
         VisualStyles.drawVisual(arrays[0], ArrayVisualizer, this, Highlights);

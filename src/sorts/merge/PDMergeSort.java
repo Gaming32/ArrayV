@@ -169,7 +169,7 @@ final public class PDMergeSort extends Sort {
     }
 
     private ArrayList<Integer> findRuns(int[] array, int maxIndex) {
-        ArrayList<Integer> runs = Writes.createArrayList();
+        ArrayList<Integer> runs = new ArrayList<>();
 
         int lastRun = 0;
         while (lastRun != -1) {
