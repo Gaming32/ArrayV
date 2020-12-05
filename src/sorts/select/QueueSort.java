@@ -34,6 +34,12 @@ final public class QueueSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
+
+    private void queueAdd(LinkedList<Integer> q, int val) {
+        Writes.startLap();
+        q.add(val);
+        Writes.stopLap();
+    }
     
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
@@ -46,7 +52,7 @@ final public class QueueSort extends Sort {
 
         int currentValue = array[0];
         LinkedList<Integer> currentQueue = new LinkedList<>();
-        currentQueue.add(currentValue);
+        this.queueAdd(currentQueue, currentValue);
         heap.add(currentQueue);
         Writes.changeAllocAmount(1);
 
@@ -56,12 +62,12 @@ final public class QueueSort extends Sort {
             Highlights.markArray(1, i);
             Highlights.markArray(2, qCount);
             if (Reads.compareValues(array[i], array[i - 1]) >= 0) {
-                currentQueue.add(array[i]);
+                this.queueAdd(currentQueue, array[i]);
             }
             else {
                 currentValue = array[i];
                 currentQueue = new LinkedList<>();
-                currentQueue.add(array[i]);
+                this.queueAdd(currentQueue, array[i]);
                 heap.add(currentQueue);
                 qCount++;
             }
