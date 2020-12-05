@@ -50,7 +50,7 @@ final public class DivisorSort extends Sort {
 
     private void safePush(ArrayList<ArrayList<Integer>> aList, int index, int value) {
         while (aList.size() <= index) {
-            aList.add(new ArrayList<>());
+            aList.add(Writes.createArrayList());
         }
         Writes.arrayListAdd(aList.get(index), value, true, 1);
     }

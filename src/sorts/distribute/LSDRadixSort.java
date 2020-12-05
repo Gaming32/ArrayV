@@ -57,7 +57,7 @@ final public class LSDRadixSort extends Sort {
         ArrayList<Integer>[] registers = new ArrayList[bucketCount];
         
         for(int i = 0; i < bucketCount; i++)
-            registers[i] = new ArrayList<>();
+            registers[i] = Writes.createArrayList();
         
         for(int p = 0; p <= highestpower; p++){
             for(int i = 0; i < sortLength; i++){

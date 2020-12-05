@@ -49,7 +49,7 @@ final public class SwapMapSort extends Sort {
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        ArrayList<Integer> map = new ArrayList<>();
+        ArrayList<Integer> map = Writes.createArrayList();
 
         while (true) {
             for (int i = 0; i < sortLength - 1; i++) {

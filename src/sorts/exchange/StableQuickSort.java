@@ -62,8 +62,8 @@ final public class StableQuickSort extends Sort {
         int pivotValue = array[start]; //poor pivot choice
         Highlights.markArray(3, start);
         
-        ArrayList<Integer> leftList  = new ArrayList<>();
-        ArrayList<Integer> rightList = new ArrayList<>();
+        ArrayList<Integer> leftList  = Writes.createArrayList();
+        ArrayList<Integer> rightList = Writes.createArrayList();
 
         for (int i = start + 1 ; i <= end; i++) {
             Highlights.markArray(1, i);
