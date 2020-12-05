@@ -187,11 +187,11 @@ final public class Renderer {
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
 
-        this.vsize = (ArrayVisualizer.currentHeight() - 96) / (ArrayVisualizer.externalArraysEnabled() ? Math.min(ArrayVisualizer.getArrays().size(), 4) : 1);
         this.yscl = (double) (this.vsize) / ArrayVisualizer.getCurrentLength();
         
         this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
 
+        this.vsize = (ArrayVisualizer.currentHeight() - 96) / (ArrayVisualizer.externalArraysEnabled() ? Math.min(ArrayVisualizer.getArrays().size(), 7) : 1);
         this.yoffset = 96;
     }
 
@@ -218,7 +218,7 @@ final public class Renderer {
     public void drawVisual(VisualStyles VisualStyles, int[][] arrays, ArrayVisualizer ArrayVisualizer, Highlights Highlights) {
         if (ArrayVisualizer.externalArraysEnabled()) {
             this.auxActive = true;
-            for (int i = Math.min(arrays.length - 1, 3); i > 0; i--) {
+            for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
                 if (arrays[i] == null) {
                     i++;
                     continue;
