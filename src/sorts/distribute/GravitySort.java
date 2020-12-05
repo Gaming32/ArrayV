@@ -68,7 +68,7 @@ final public class GravitySort extends Sort {
 		
 		//do a partial sum backwards to determine how many elements are greater than a value
     	for(int i = y.length-1; i > 0; i--)
-			Writes.write(y, i-1, y[i-1]+=y[i], 0, false, true);
+			Writes.write(y, i-1, y[i-1]+=y[i], 1, true, true);
 		
 		//iterate for every integer value in the array range
     	for(int j = y.length-1; j >= 0; j--) {
