@@ -134,6 +134,7 @@ final public class ArrayVisualizer {
     private volatile boolean RAINBOW;
     private volatile boolean SPIRALDRAW;
     private volatile boolean WAVEDRAW;
+    private volatile boolean EXTARRAYS;
 
     private volatile int cx;
     private volatile int cy;
@@ -263,6 +264,7 @@ final public class ArrayVisualizer {
         this.PIXELDRAW = false;
         this.RAINBOW = false;
         this.SPIRALDRAW = false;
+        this.EXTARRAYS = false;
  
         this.cx = 0;
         this.cy = 0;
@@ -728,6 +730,9 @@ final public class ArrayVisualizer {
     public void toggleWave(boolean Bool) {
         this.WAVEDRAW = Bool;
     }
+    public void toggleExternalArrays(boolean Bool) {
+        this.EXTARRAYS = Bool;
+    }
     
     public void setVisual(VisualStyles choice) {
         if(choice == visuals.VisualStyles.CUSTOMIMAGE) {
@@ -768,6 +773,9 @@ final public class ArrayVisualizer {
     }
     public boolean waveEnabled() {
         return this.WAVEDRAW;
+    }
+    public boolean externalArraysEnabled() {
+        return this.EXTARRAYS;
     }
     
     public DecimalFormat getNumberFormat() {

@@ -136,7 +136,7 @@ final public class Pixels extends Visual {
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
         }
-        if (!ArrayVisualizer.rainbowEnabled()) {
+        if (ArrayVisualizer.externalArraysEnabled() && !ArrayVisualizer.rainbowEnabled()) {
             this.mainRender.setColor(Color.BLUE);
             this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
         }

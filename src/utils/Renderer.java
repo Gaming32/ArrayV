@@ -191,7 +191,7 @@ final public class Renderer {
         
         this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
 
-        this.vsize = (ArrayVisualizer.currentHeight() - 96) / Math.min(ArrayVisualizer.getArrays().size(), 7);
+        this.vsize = (ArrayVisualizer.currentHeight() - 96) / (ArrayVisualizer.externalArraysEnabled() ? Math.min(ArrayVisualizer.getArrays().size(), 7) : 1);
         this.yoffset = 96;
     }
 
@@ -216,17 +216,19 @@ final public class Renderer {
     }
     
     public void drawVisual(VisualStyles VisualStyles, int[][] arrays, ArrayVisualizer ArrayVisualizer, Highlights Highlights) {
-        this.auxActive = true;
-        for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
-            if (arrays[i] == null) {
-                i++;
-                continue;
+        if (ArrayVisualizer.externalArraysEnabled()) {
+            this.auxActive = true;
+            for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
+                if (arrays[i] == null) {
+                    i++;
+                    continue;
+                }
+                this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
+                VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
+                this.yoffset += this.vsize;
             }
-            this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
-            VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
-            this.yoffset += this.vsize;
+            this.auxActive = false;
         }
-        this.auxActive = false;
         this.updateVisualsPerArray(ArrayVisualizer, arrays[0], ArrayVisualizer.getCurrentLength());
         VisualStyles.drawVisual(arrays[0], ArrayVisualizer, this, Highlights);
     }
