@@ -19,6 +19,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -84,6 +85,7 @@ final public class ArrayVisualizer {
 
     final int[] array;
     private int[] shadowArray;
+    final ArrayList<int[]> arrays;
 
     private String[][] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
     private String[][] DistributionSorts; // Second row consists of user-friendly names
@@ -132,6 +134,7 @@ final public class ArrayVisualizer {
     private volatile boolean RAINBOW;
     private volatile boolean SPIRALDRAW;
     private volatile boolean WAVEDRAW;
+    private volatile boolean EXTARRAYS;
 
     private volatile int cx;
     private volatile int cy;
@@ -203,6 +206,8 @@ final public class ArrayVisualizer {
         
         this.array = new int[this.MAX_ARRAY_VAL];
         this.shadowArray = new int[this.array.length];
+        this.arrays = new ArrayList<>();
+        this.arrays.add(this.array);
         
         this.sortLength = 2048;
         this.uniqueItems = 2048;
@@ -259,6 +264,7 @@ final public class ArrayVisualizer {
         this.PIXELDRAW = false;
         this.RAINBOW = false;
         this.SPIRALDRAW = false;
+        this.EXTARRAYS = false;
  
         this.cx = 0;
         this.cy = 0;
@@ -291,8 +297,9 @@ final public class ArrayVisualizer {
                 
                 while(ArrayVisualizer.this.visualsEnabled) {
                     if(ArrayVisualizer.this.updateVisuals) {
-                        ArrayVisualizer.this.Renderer.updateVisuals(ArrayVisualizer.this);
-                        ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, ArrayVisualizer.this.array, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
+                        ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
+                        int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
+                        ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
 
                         if(ArrayVisualizer.this.TEXTDRAW) {
                             ArrayVisualizer.this.statSnapshot.updateStats(ArrayVisualizer.this);
@@ -361,6 +368,10 @@ final public class ArrayVisualizer {
 
     public int[] getArray() {
         return this.array;
+    }
+
+    public ArrayList<int[]> getArrays() {
+        return this.arrays;
     }
     
     public ArrayManager getArrayManager() {
@@ -719,6 +730,9 @@ final public class ArrayVisualizer {
     public void toggleWave(boolean Bool) {
         this.WAVEDRAW = Bool;
     }
+    public void toggleExternalArrays(boolean Bool) {
+        this.EXTARRAYS = Bool;
+    }
     
     public void setVisual(VisualStyles choice) {
         if(choice == visuals.VisualStyles.CUSTOMIMAGE) {
@@ -759,6 +773,9 @@ final public class ArrayVisualizer {
     }
     public boolean waveEnabled() {
         return this.WAVEDRAW;
+    }
+    public boolean externalArraysEnabled() {
+        return this.EXTARRAYS;
     }
     
     public DecimalFormat getNumberFormat() {

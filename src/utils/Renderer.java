@@ -1,6 +1,9 @@
 package utils;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.util.Arrays;
+import java.util.Collections;
 
 import main.ArrayVisualizer;
 import visuals.VisualStyles;
@@ -54,6 +57,12 @@ final class WindowState {
 final public class Renderer {
     private volatile double xscl; //TODO: Change to xScale/yScale
     private volatile double yscl;
+
+    private volatile int yoffset;
+    private volatile int vsize;
+    public volatile boolean auxActive;
+
+    private volatile int length;
     
     private volatile int amt;
     
@@ -78,6 +87,18 @@ final public class Renderer {
     }
     public int getOffset() {
         return this.amt;
+    }
+    public int getYOffset() {
+        return this.yoffset;
+    }
+    public int getViewSize() {
+        return this.vsize;
+    }
+    public int halfViewSize() {
+        return this.vsize / 2;
+    }
+    public int getArrayLength() {
+        return this.length;
     }
     public int getDotWidth() {
         return this.dotw;
@@ -143,7 +164,7 @@ final public class Renderer {
         return new WindowState(windowUpdate, windowResize);
     }
     
-    public void updateVisuals(ArrayVisualizer ArrayVisualizer) {
+    public void updateVisualsStart(ArrayVisualizer ArrayVisualizer) {
         WindowState WindowState = checkWindowResizeAndReposition(ArrayVisualizer);
         
         if(WindowState.updated()) {
@@ -165,23 +186,50 @@ final public class Renderer {
         
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
+
+        this.yscl = (double) (this.vsize) / ArrayVisualizer.getCurrentLength();
         
-        this.xscl = (double) (ArrayVisualizer.currentWidth() - 40)  / ArrayVisualizer.getCurrentLength();
-        this.yscl = (double) (ArrayVisualizer.currentHeight() - 96) / ArrayVisualizer.getCurrentLength();
+        this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
+
+        this.vsize = (ArrayVisualizer.currentHeight() - 96) / (ArrayVisualizer.externalArraysEnabled() ? Math.min(ArrayVisualizer.getArrays().size(), 7) : 1);
+        this.yoffset = 96;
+    }
+
+    private void updateVisualsPerArray(ArrayVisualizer ArrayVisualizer, int[] array, int length) {
+        
+        //CURRENT = WINDOW
+        //WINDOW = C VARIABLES
+        
+        this.xscl = (double) (ArrayVisualizer.currentWidth() - 40) / length;
         
         this.amt = 0; //TODO: rename to barCount
         
         this.linkedpixdrawx = 0;
         this.linkedpixdrawy = 0;
         
-        this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
-        this.doth = (int) (2 * (ArrayVisualizer.currentHeight() / 480.0));
+        this.doth = (int) (2 * (this.vsize / 480.0));
         this.dots = (this.dotw + this.doth) / 2; //TODO: Does multiply/divide by 2 like this cancel out??
+
+        this.length = length;
         
         ArrayVisualizer.resetMainStroke();
     }
     
-    public void drawVisual(VisualStyles VisualStyles, int[] array, ArrayVisualizer ArrayVisualizer, Highlights Highlights) {
-        VisualStyles.drawVisual(array, ArrayVisualizer, this, Highlights);
+    public void drawVisual(VisualStyles VisualStyles, int[][] arrays, ArrayVisualizer ArrayVisualizer, Highlights Highlights) {
+        if (ArrayVisualizer.externalArraysEnabled()) {
+            this.auxActive = true;
+            for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
+                if (arrays[i] == null) {
+                    i++;
+                    continue;
+                }
+                this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
+                VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
+                this.yoffset += this.vsize;
+            }
+            this.auxActive = false;
+        }
+        this.updateVisualsPerArray(ArrayVisualizer, arrays[0], ArrayVisualizer.getCurrentLength());
+        VisualStyles.drawVisual(arrays[0], ArrayVisualizer, this, Highlights);
     }
 }

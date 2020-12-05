@@ -43,22 +43,22 @@ final public class Pixels extends Visual {
         if(ArrayVisualizer.linesEnabled()) {
             //TODO: Wave visual needs to be *heavily* refactored
             if(ArrayVisualizer.waveEnabled()) {
-                Renderer.setLineY((int) ((ArrayVisualizer.windowHeight() / 4) * Math.sin((2 * Math.PI * ((double) array[1] / ArrayVisualizer.getCurrentLength()))) + ArrayVisualizer.windowHalfHeight()));
+                Renderer.setLineY((int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[1] / Renderer.getArrayLength()))) + Renderer.halfViewSize()));
             }
             else {
-                Renderer.setLineY((int) ((ArrayVisualizer.windowHeight() - 20) - array[0] * Renderer.getYScale()));
+                Renderer.setLineY((int) ((Renderer.getViewSize() - 20) - array[0] * Renderer.getYScale()));
             }
-            for(int i = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
+            for(int i = 0; i < Renderer.getArrayLength(); i++) {
                 int y;
                 if(ArrayVisualizer.waveEnabled()) {
-                    y = (int) ((ArrayVisualizer.windowHeight() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / ArrayVisualizer.getCurrentLength()))) + ArrayVisualizer.windowHalfHeight());
+                    y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
                 }
                 else {
-                    y = (int) ((ArrayVisualizer.windowHeight() - 20) - (Math.max(array[i], 1) * Renderer.getYScale()));
+                    y = (int) ((Renderer.getViewSize() - 20) - (Math.max(array[i], 1) * Renderer.getYScale()));
 
                     // Quick patch to fix the first line being horizontal for some reason
-                    if(i == 0) y += ((ArrayVisualizer.windowHeight() - 20) - array[1] * Renderer.getYScale())
-                                  - ((ArrayVisualizer.windowHeight() - 20) - array[2] * Renderer.getYScale());
+                    if(i == 0) y += ((Renderer.getViewSize() - 20) - array[1] * Renderer.getYScale())
+                                  - ((Renderer.getViewSize() - 20) - array[2] * Renderer.getYScale());
                 }
                 
                 int width = (int) (Renderer.getXScale() * (i + 1)) - Renderer.getOffset();
@@ -69,16 +69,16 @@ final public class Pixels extends Visual {
                             if(i < Highlights.getFancyFinishPosition()) {
                                 lineFancy(this.mainRender, ArrayVisualizer.currentWidth());
                             }
-                            else lineClear(this.mainRender, ArrayVisualizer.colorEnabled(), array, i, ArrayVisualizer.getCurrentLength(), ArrayVisualizer.currentWidth());
+                            else lineClear(this.mainRender, ArrayVisualizer.colorEnabled(), array, i, Renderer.getArrayLength(), ArrayVisualizer.currentWidth());
 
                             drawFancyFinishLine(ArrayVisualizer.getLogBaseTwoOfLength(), i, Highlights.getFancyFinishPosition(), this.mainRender, ArrayVisualizer.currentWidth(), ArrayVisualizer.colorEnabled());
                         }
-                        else if(Highlights.containsPosition(i) && ArrayVisualizer.getCurrentLength() != 2) {
+                        else if(Highlights.containsPosition(i) && Renderer.getArrayLength() != 2) {
                             lineMark(this.mainRender, ArrayVisualizer.currentWidth(), ArrayVisualizer.colorEnabled(), ArrayVisualizer.analysisEnabled());
                         }
-                        else lineClear(this.mainRender, ArrayVisualizer.colorEnabled(), array, i, ArrayVisualizer.getCurrentLength(), ArrayVisualizer.currentWidth());
+                        else lineClear(this.mainRender, ArrayVisualizer.colorEnabled(), array, i, Renderer.getArrayLength(), ArrayVisualizer.currentWidth());
                         
-                        this.mainRender.drawLine(Renderer.getOffset() + 20, y, Renderer.getLineX() + 20, Renderer.getLineY());
+                        this.mainRender.drawLine(Renderer.getOffset() + 20, Renderer.getYOffset() + y, Renderer.getLineX() + 20, Renderer.getLineY());
                     }
                     Renderer.setLineX(Renderer.getOffset());
                     Renderer.setLineY(y);
@@ -87,7 +87,7 @@ final public class Pixels extends Visual {
             }
         }
         else {
-            for(int i = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
+            for(int i = 0; i < Renderer.getArrayLength(); i++) {
                 if(i < Highlights.getFancyFinishPosition()) {
                     this.mainRender.setColor(Color.GREEN);
                 }
@@ -98,7 +98,7 @@ final public class Pixels extends Visual {
                     else this.mainRender.setColor(Color.RED);
                 }
                 else if(ArrayVisualizer.colorEnabled()) {
-                    this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+                    this.mainRender.setColor(getIntColor(array[i], Renderer.getArrayLength()));
                 }
                 else this.mainRender.setColor(Color.WHITE);
 
@@ -106,28 +106,28 @@ final public class Pixels extends Visual {
                 int width = (int) (Renderer.getXScale() * (i + 1)) - Renderer.getOffset();
 
                 boolean drawRect = false;
-                if(Highlights.containsPosition(i) && ArrayVisualizer.getCurrentLength() != 2) {
+                if(Highlights.containsPosition(i) && Renderer.getArrayLength() != 2) {
                     setRectColor(this.extraRender, ArrayVisualizer.colorEnabled(), ArrayVisualizer.analysisEnabled());
                     drawRect = true;
                 }
 
                 if(width > 0) {
                     if(ArrayVisualizer.waveEnabled()) {
-                        y = (int) ((ArrayVisualizer.windowHeight() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / ArrayVisualizer.getCurrentLength()))) + ArrayVisualizer.windowHalfHeight());
+                        y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
                     }
                     else {
-                        y = (int) ((ArrayVisualizer.windowHeight() - 20) - (array[i] * Renderer.getYScale()));
+                        y = (int) ((Renderer.getViewSize() - 20) - (array[i] * Renderer.getYScale()));
                     }
-                    this.mainRender.fillRect(Renderer.getOffset() + 20, y, Renderer.getDotDimensions(), Renderer.getDotDimensions());
+                    this.mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, Renderer.getDotDimensions(), Renderer.getDotDimensions());
                     
                     if(drawRect) {
                         this.extraRender.setStroke(ArrayVisualizer.getThickStroke());
                         
                         if(Highlights.fancyFinishActive()) {
-                            this.extraRender.fillRect(Renderer.getOffset() + 10, y - 10, Renderer.getDotDimensions() + 20, Renderer.getDotDimensions() + 20);
+                            this.extraRender.fillRect(Renderer.getOffset() + 10, Renderer.getYOffset() + y - 10, Renderer.getDotDimensions() + 20, Renderer.getDotDimensions() + 20);
                         }
                         else {
-                            this.extraRender.drawRect(Renderer.getOffset() + 10, y - 10, Renderer.getDotDimensions() + 20, Renderer.getDotDimensions() + 20);
+                            this.extraRender.drawRect(Renderer.getOffset() + 10, Renderer.getYOffset() + y - 10, Renderer.getDotDimensions() + 20, Renderer.getDotDimensions() + 20);
                         }
                         
                         this.extraRender.setStroke(new BasicStroke(3f * (ArrayVisualizer.currentWidth() / 1280f))); //TODO: This BasicStroke should have a getDefaultStroke() method
@@ -135,6 +135,10 @@ final public class Pixels extends Visual {
                 }
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
+        }
+        if (ArrayVisualizer.externalArraysEnabled() && !ArrayVisualizer.rainbowEnabled()) {
+            this.mainRender.setColor(Color.BLUE);
+            this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
         }
     }
 }

@@ -112,6 +112,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         this.jCheckBox6 = new javax.swing.JCheckBox();
         this.jCheckBox7 = new javax.swing.JCheckBox();
         this.jCheckBox8 = new javax.swing.JCheckBox();
+        this.jCheckBox9 = new javax.swing.JCheckBox();
         this.jSlider = new javax.swing.JSlider(SwingConstants.VERTICAL, 1, 12, 11);
 
         jLabel1.setText("Settings");
@@ -264,6 +265,15 @@ final public class UtilFrame extends javax.swing.JFrame {
             }
         });
 
+        jCheckBox9.setSelected(false);
+        jCheckBox9.setText("Show Ext Arrays");
+        jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox9ActionPerformed();
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -280,6 +290,7 @@ final public class UtilFrame extends javax.swing.JFrame {
                                         .addComponent(this.jCheckBox6)
                                         .addComponent(this.jCheckBox7)
                                         .addComponent(this.jCheckBox8)
+                                        .addComponent(this.jCheckBox9)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
                                                 .addComponent(this.jCheckBox5)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -302,6 +313,8 @@ final public class UtilFrame extends javax.swing.JFrame {
                         .addComponent(this.jCheckBox2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(this.jCheckBox8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(this.jCheckBox9)
                         .addGap(7, 7, 7)
                         .addComponent(this.jButton3)
                         .addGap(12, 12, 12)
@@ -469,6 +482,10 @@ final public class UtilFrame extends javax.swing.JFrame {
         ArrayVisualizer.toggleColor(jCheckBox8.isSelected());
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
+    private void jCheckBox9ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
+        ArrayVisualizer.toggleExternalArrays(jCheckBox9.isSelected());
+    }//GEN-LAST:event_jCheckBox8ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jButton1;
@@ -485,5 +502,6 @@ final public class UtilFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox6;
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
+    private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JSlider jSlider;
 }

@@ -309,6 +309,9 @@ final public class CustomImage extends Visual {
 	
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+        if (Renderer.auxActive)
+            return;
+
         try {
             /*
              * Load the image on first use of the 'Custom Image' visual or if the program failed to read the image file previously.
