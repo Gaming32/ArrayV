@@ -9,6 +9,7 @@ import sorts.select.FlippedMinHeapSort;
 import sorts.select.MaxHeapSort;
 import sorts.select.MinHeapSort;
 import sorts.select.PoplarHeapSort;
+import sorts.select.QueueSort;
 import sorts.select.SelectionSort;
 import sorts.select.SmoothSort;
 import sorts.select.TernaryHeapSort;
@@ -55,10 +56,11 @@ final public class RunSelectionSorts extends MultipleSortThread {
     private Sort SmoothSort;
     private Sort PoplarHeapSort;
     private Sort TournamentSort;
+    private Sort QueueSort;
     
     public RunSelectionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 12;
+        this.sortCount = 13;
         this.categoryCount = this.sortCount;
         
         SelectionSort       = new       SelectionSort(this.arrayVisualizer);
@@ -73,6 +75,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
         SmoothSort          = new          SmoothSort(this.arrayVisualizer);
         PoplarHeapSort      = new      PoplarHeapSort(this.arrayVisualizer);
         TournamentSort      = new      TournamentSort(this.arrayVisualizer);
+        QueueSort           = new           QueueSort(this.arrayVisualizer);
     }
 
     @Override
@@ -89,6 +92,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
         RunSelectionSorts.this.runIndividualSort(SmoothSort,          0, array, 2048, 1.5,  false);
         RunSelectionSorts.this.runIndividualSort(PoplarHeapSort,      0, array, 2048, 1,    false);
         RunSelectionSorts.this.runIndividualSort(TournamentSort,      0, array, 2048, 1.5,  false);
+        RunSelectionSorts.this.runIndividualSort(QueueSort,           0, array, 2048, 1,    false);
     }
     
     @Override
