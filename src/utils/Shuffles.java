@@ -47,28 +47,11 @@ public enum Shuffles {
             shuffle(array, 0, currentLen, delay ? 1 : 0, Writes);
         }
     },
-    SORTED {
-        @Override
-        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
-            boolean delay = ArrayVisualizer.shuffleEnabled();
-			this.sort(array, 0, currentLen, delay, Writes);
-        }
-    },
     REVERSE {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
 			boolean delay = ArrayVisualizer.shuffleEnabled();
-            Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
-        }
-    },
-    REVSORTED {
-        @Override
-        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
-            boolean delay = ArrayVisualizer.shuffleEnabled();
-            this.sort(array, 0, currentLen, delay, Writes);
             Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
         }
     },
@@ -105,6 +88,23 @@ public enum Shuffles {
                 Highlights.markArray(1, i);
                 if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
             }
+        }
+    },
+    SORTED {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+			this.sort(array, 0, currentLen, delay, Writes);
+        }
+    },
+    REV_SORTED {
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+            this.sort(array, 0, currentLen, delay, Writes);
+            Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
         }
     },
 	SHUFFLED_TAIL {

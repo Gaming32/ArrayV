@@ -39,7 +39,7 @@ final public class ArrayManager {
     private utils.Shuffles[] shuffleTypes;
 	private utils.Distributions[] distributionTypes;
     private String[] shuffleIDs = { 
-			"Randomly", "Sorted", "Backwards", "Reverse Sorted", "Slight Shuffle", "No Shuffle", 
+			"Randomly", "Backwards", "Slight Shuffle", "No Shuffle", "Sorted", "Reverse Sorted", 
             "Scrambled Tail", "Scrambled Head", "Noisy", "Shuffled Odds",
 			"Final Merge Pass", "Sawtooth", "Reversed Final Merge", "Reversed Sawtooth", "Pipe Organ", "Final Bitonic Pass",
 			"Interlaced", "Double Layered", "Final Radix", "Recursive Final Radix", 
