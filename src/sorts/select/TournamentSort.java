@@ -134,7 +134,8 @@ final public class TournamentSort extends Sort {
     }
     
 	private void sort(int[] arr, int currentLen) {
-		ArrayList<Integer> copy = new ArrayList<>(currentLen);
+        ArrayList<Integer> copy = new ArrayList<>(currentLen);
+        Writes.changeAllocAmount(currentLen);
 		for (int i = 0; i < currentLen; i++) {
 		    int result = this.pop(arr);
 		    
@@ -148,7 +149,8 @@ final public class TournamentSort extends Sort {
 			Integer selected = copy.get(i);
 			
 			Writes.write(arr, i, selected, 1, true, false);
-		}
+        }
+        Writes.changeAllocAmount(-currentLen);
 	}
 
     @Override
