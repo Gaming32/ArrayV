@@ -220,7 +220,7 @@ final public class Renderer {
         for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
             if (arrays[i] == null) {
                 i++;
-                contintue;
+                continue;
             }
             this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
             VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
