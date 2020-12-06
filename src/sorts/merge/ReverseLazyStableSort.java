@@ -100,8 +100,6 @@ final public class ReverseLazyStableSort extends Sort {
             int startDest = start - dest;
             int moved = rotateRight(array, dest, start + size - startDest, startDest);
             size -= moved;
-            // dest += moved - (start - dest) + size + (moved / oldsize);
-            // start += size + 1;
             dest = dest + moved;
             start = dest + startDest;
         }
@@ -110,24 +108,37 @@ final public class ReverseLazyStableSort extends Sort {
         }
     }
 
-    public void merge(int[] array, int start, int mid, int end) {
-        int lastValue = Integer.MIN_VALUE;
-
-        while (start < mid) {
-            int size = 0;
-            for (int i = mid; i < end; i++) {
-                if (Reads.compareValues(array[i], array[start]) == -1 && Reads.compareValues(array[i], lastValue) >= 0) {
-                    Highlights.markArray(1, i);
-                    size++;
-                }
-                else break;
-                Delays.sleep(1);
+    // Copied from BinaryInsertionSorting.java (and slightly modified)
+    private int binSearch(int[] array, int start, int i, int num) {
+        int lo = start, hi = i;
+        
+        while (lo < hi) {
+            int mid = lo + ((hi - lo) / 2); // avoid int overflow!
+            Highlights.markArray(1, lo);
+            Highlights.markArray(2, mid);
+            Highlights.markArray(3, hi);
+            
+            Delays.sleep(1);
+            
+            if (Reads.compareValues(num, array[mid]) < 0) { // do NOT move equal elements to right of inserted element; this maintains stability!
+                hi = mid;
             }
+            else {
+                lo = mid + 1;
+            }
+        }
+
+        Highlights.clearMark(3);
+        return lo;
+    }
+
+    public void merge(int[] array, int start, int mid, int end) {
+        while (start < mid) {
+            int size = binSearch(array, mid, end, array[start]) - mid;
             rotateSmart(array, mid, start, size);
 
             start += size + 1;
             mid += size;
-            lastValue = array[start - 1];
         }
     }
     
