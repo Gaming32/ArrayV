@@ -45,7 +45,7 @@ final public class ReverseLazyStableSort extends Sort {
         this.setBogoSort(false);
     }
     
-    private void moveDown(int[] array, int start, int dest, int size) {
+    private void rotateLeft(int[] array, int start, int dest, int size) {
         int amount = start - dest;
         if (size > 1) {
             while (amount >= size) {
@@ -57,8 +57,8 @@ final public class ReverseLazyStableSort extends Sort {
             }
             Highlights.clearMark(2);
             if (amount > 0) {
-                moveDown(array, start, dest, size / 2);
-                moveDown(array, start + size / 2, dest + size / 2, size - (size / 2));
+                rotateLeft(array, start, dest, size / 2);
+                rotateLeft(array, start + size / 2, dest + size / 2, size - (size / 2));
             }
         }
         else {
@@ -67,6 +67,46 @@ final public class ReverseLazyStableSort extends Sort {
                 Writes.write(array, i, array[i - 1], 0.5, true, false);
             }
             Writes.write(array, dest, tmp, 0.5, true, false);
+        }
+    }
+
+    private int rotateRight(int[] array, int start, int dest, int size) {
+        int amount = dest - start;
+        int moved = 0;
+        if (size > 1) {
+            while (amount >= size) {
+                for (int i = start; i < start + size; i++) {
+                    Writes.swap(array, i, i + size, 1, true, false);
+                }
+                start += size;
+                amount -= size;
+                moved += size;
+            }
+            Highlights.clearMark(2);
+        }
+        else {
+            int tmp = array[start];
+            for (int i = start; i < dest; i++) {
+                Writes.write(array, i, array[i + 1], 0.5, true, false);
+            }
+            Writes.write(array, dest, tmp, 0.5, true, false);
+            moved += dest - start;
+        }
+        return moved;
+    }
+
+    public void rotateSmart(int[] array, int start, int dest, int size) {
+        if (size > start - dest) {
+            int startDest = start - dest;
+            int moved = rotateRight(array, dest, start + size - startDest, startDest);
+            size -= moved;
+            // dest += moved - (start - dest) + size + (moved / oldsize);
+            // start += size + 1;
+            dest = dest + moved;
+            start = dest + startDest;
+        }
+        if (size > 0) {
+            rotateLeft(array, start, dest, size);
         }
     }
 
@@ -83,9 +123,7 @@ final public class ReverseLazyStableSort extends Sort {
                 else break;
                 Delays.sleep(1);
             }
-            if (size > 0) {
-                moveDown(array, mid, start, size);
-            }
+            rotateSmart(array, mid, start, size);
 
             start += size + 1;
             mid += size;
