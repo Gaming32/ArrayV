@@ -1,9 +1,6 @@
 package utils;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.Collections;
 
 import main.ArrayVisualizer;
 import visuals.VisualStyles;
@@ -219,13 +216,11 @@ final public class Renderer {
         if (ArrayVisualizer.externalArraysEnabled()) {
             this.auxActive = true;
             for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
-                if (arrays[i] == null) {
-                    i++;
-                    continue;
+                if (arrays[i] != null) {
+                    this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
+                    VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
+                    this.yoffset += this.vsize;
                 }
-                this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
-                VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
-                this.yoffset += this.vsize;
             }
             this.auxActive = false;
         }
