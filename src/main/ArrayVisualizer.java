@@ -46,6 +46,7 @@ import visuals.Circular;
 import visuals.CustomImage;
 import visuals.Mesh;
 import visuals.Pixels;
+import visuals.HoopStack;
 import visuals.Visual;
 import visuals.VisualStyles;
 
@@ -56,6 +57,7 @@ The MIT License (MIT)
 Copyright (c) 2019 w0rthy
 Copyright (c) 2019 Luke Hutchison
 Copyright (c) 2020 MusicTheorist
+Copyright (c) 2020 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -288,12 +290,13 @@ final public class ArrayVisualizer {
                 background.setColor(Color.BLACK);
                 int coltmp = 255;
                 
-                ArrayVisualizer.this.visualClasses = new Visual[5];
+                ArrayVisualizer.this.visualClasses = new Visual[6];
                 ArrayVisualizer.this.visualClasses[0] = new Bars(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[1] = new Circular(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[2] = new CustomImage(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[3] = new Mesh(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[4] = new Pixels(ArrayVisualizer.this);
+				ArrayVisualizer.this.visualClasses[5] = new HoopStack(ArrayVisualizer.this);
                 
                 while(ArrayVisualizer.this.visualsEnabled) {
                     if(ArrayVisualizer.this.updateVisuals) {

@@ -74,19 +74,21 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        this.jLabel1 = new javax.swing.JLabel();
-        this.barGraph = new javax.swing.JButton();
-        this.dotGraph = new javax.swing.JButton();
-        this.colorCircle = new javax.swing.JButton();
-        this.triangleMesh = new javax.swing.JButton();
-        this.spiral = new javax.swing.JButton();
-        this.disparity = new javax.swing.JButton();
+        this.jLabel1       = new javax.swing.JLabel();
+		
+        this.barGraph      = new javax.swing.JButton();
+        this.dotGraph      = new javax.swing.JButton();
+        this.colorCircle   = new javax.swing.JButton();
+        this.triangleMesh  = new javax.swing.JButton();
+        this.spiral        = new javax.swing.JButton();
+        this.disparity     = new javax.swing.JButton();
         this.disparityDots = new javax.swing.JButton();
-        this.spiralDots= new javax.swing.JButton();
-        this.rainbow = new javax.swing.JButton();
-        this.customImage = new javax.swing.JButton();
-        this.sineWave = new javax.swing.JButton();
-        this.waveDots = new javax.swing.JButton();
+        this.spiralDots    = new javax.swing.JButton();
+        this.rainbow       = new javax.swing.JButton();
+        this.customImage   = new javax.swing.JButton();
+        this.sineWave      = new javax.swing.JButton();
+        this.waveDots      = new javax.swing.JButton();
+		this.hoopStack     = new javax.swing.JButton();//add later
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -361,5 +363,6 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private javax.swing.JButton customImage;
     private javax.swing.JButton sineWave;
     private javax.swing.JButton waveDots;
+	private javax.swing.JButton hoopStack;
     private javax.swing.JLabel jLabel1;
 }
