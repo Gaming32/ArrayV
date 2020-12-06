@@ -118,7 +118,7 @@ final public class ReverseLazyStableSort extends Sort {
             Highlights.markArray(2, mid);
             Highlights.markArray(3, hi);
             
-            Delays.sleep(0.5);
+            Delays.sleep(0.1);
             
             if (Reads.compareValues(num, array[mid]) < 0) { // do NOT move equal elements to right of inserted element; this maintains stability!
                 hi = mid;
