@@ -39,13 +39,15 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
             
-			int i;
-            for(i = 0; i < currentLen - 8; i++) {
-                array[i] = currentLen / 2;
-            }
-            for(; i < currentLen; i++) {
-                array[i] = (int) (Math.random() < 0.5 ? currentLen * 0.75 : currentLen * 0.25);
-            }
+			int l = 0, r, t = Math.min(currentLen, 8);
+			for(int i = 0; i < t; i++) 
+				if(Math.random() < 0.5) l++;
+			r = currentLen-(t-l);
+			
+			int i = 0;
+			for(; i < l; i++)          array[i] = (int) (currentLen * 0.25);
+            for(; i < r; i++)          array[i] = currentLen / 2;
+            for(; i < currentLen; i++) array[i] = (int) (currentLen * 0.75);
         }
     },
 	RANDOM {
