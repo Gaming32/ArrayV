@@ -60,6 +60,12 @@ public enum VisualStyles {
         public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
             ArrayVisualizer.getVisuals()[4].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
+    },
+	HOOPSTACK {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[5].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
     };
     
     public VisualStyles getCurrentVisual() {
