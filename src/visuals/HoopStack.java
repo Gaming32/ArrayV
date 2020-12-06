@@ -43,6 +43,9 @@ final public class HoopStack extends Visual {
 	
 	@Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+		if (Renderer.auxActive)
+            return;
+
 		int width = ArrayVisualizer.windowWidth();
 		int height = ArrayVisualizer.windowHeight();
 		int length = ArrayVisualizer.getCurrentLength();
