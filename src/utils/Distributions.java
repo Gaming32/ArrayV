@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.Arrays;
 import main.ArrayVisualizer;
 
 /*
@@ -54,13 +55,10 @@ public enum Distributions {
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
             int currentLen = ArrayVisualizer.getCurrentLength();
-			int[] temp = new int[currentLen];
 			
-            for(int i = 0; i < currentLen; i++)
-				temp[i] = array[(int)(Math.random()*currentLen)];
-			
+			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++)
-				array[i] = temp[i];
+				array[i] = temp[(int)(Math.random()*currentLen)];
         }
     },
 	SQUARE {
@@ -108,7 +106,6 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			int[] perlinNoise = new int[currentLen];
-			int[] temp = new int[currentLen];
 
 			float step = 1f / currentLen;
 			float randomStart = (float) (Math.random() * currentLen);
@@ -144,9 +141,7 @@ public enum Distributions {
 				}
 			}
 
-			for(int i = 0; i < currentLen; i++) {
-				temp[i] = array[i];
-			}
+			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++) {
 				array[i] = temp[Math.min(perlinNoise[i], currentLen-1)];
 			}
@@ -157,11 +152,7 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			
-			int[] temp = new int[currentLen];
-			for(int i = 0; i < currentLen; i++) {
-				temp[i] = array[i];
-			}
-			
+			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++) {
 				int value = 0 - (int) (PerlinNoise.returnNoise((float) array[i] / currentLen) * currentLen);
 				array[i] = temp[Math.min(value, currentLen-1)];
@@ -177,11 +168,7 @@ public enum Distributions {
 			int constant = 1264;
 			double factor = currentLen / 512d;
 			
-			int[] temp = new int[currentLen];
-			for(int i = 0; i < currentLen; i++) {
-				temp[i] = array[i];
-			}
-			
+			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++) {
 				double square = Math.pow(position, 2);
 				double negativeSquare = 0 - square;
@@ -233,11 +220,7 @@ public enum Distributions {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			int floorLog2 = (int)(Math.log(currentLen)/Math.log(2));
 			
-			int[] temp = new int[currentLen];
-			for(int i = 0; i < currentLen; i++) {
-				temp[i] = array[i];
-			}
-			
+			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++) {
 				int value = (int)(currentLen * curveSum(floorLog2, (double)i/currentLen));
 				array[i] = temp[value];
@@ -264,10 +247,7 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			
-			int[] temp = new int[currentLen];
-			for(int i = 0; i < currentLen; i++) {
-				temp[i] = array[i];
-			}
+			int[] temp = Arrays.copyOf(array, currentLen);
 			cantor(array, temp, 0, currentLen, 0, currentLen-1);
         }
 		
@@ -294,7 +274,6 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			int[] n = new int[currentLen];
-			int[] temp = new int[currentLen];
 			
 			n[0] = 0;
 			n[1] = 1;
@@ -305,10 +284,7 @@ public enum Distributions {
 				if(n[i] > max) max = n[i];
 			}
 			
-			for(int i = 0; i < currentLen; i++) {
-				temp[i] = array[i];
-			}
-			
+			int[] temp = Arrays.copyOf(array, currentLen);
 			double scale = Math.min((currentLen-1)/max, 1);
 			for(int i = 0; i < currentLen; i++) {
 				array[i] = temp[(int)(n[i]*scale)];
@@ -331,7 +307,6 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			int[] fsd = new int[currentLen];
-			int[] temp = new int[currentLen];
 			
 			double max;
 			max = fsd[0] = fsd[1] = 1;
@@ -341,9 +316,7 @@ public enum Distributions {
 				if(fsd[i] > max) max = fsd[i];
 			}
 			
-			for(int i = 0; i < currentLen; i++)
-				temp[i] = array[i];
-			
+			int[] temp = Arrays.copyOf(array, currentLen);
 			double scale = Math.min((currentLen-1)/max, 1);
 			for(int i = 0; i < currentLen; i++)
 				array[i] = temp[(int)(fsd[i]*scale)];
@@ -359,11 +332,7 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
             int currentLen = ArrayVisualizer.getCurrentLength();
 			
-			int[] temp = new int[currentLen];
-			for(int i = 0; i < currentLen; i++) {
-				temp[i] = array[i];
-			}
-			
+			int[] temp = Arrays.copyOf(array, currentLen);
             for(int i = 0; i < currentLen; i++){
                 int random = (int) (Math.random() * (currentLen - i)) + i;
                 array[i] = temp[random];

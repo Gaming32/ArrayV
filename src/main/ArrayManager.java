@@ -92,11 +92,13 @@ final public class ArrayManager {
     public void initializeArray(int[] array) {
         int currentLen = ArrayVisualizer.getCurrentLength();
 		
+		int[] temp = new int[currentLen];
         double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();
 		for(int i = 0; i < currentLen; i++)
-			array[i] = (int)(uniqueFactor*(int)(i/uniqueFactor))+(int)uniqueFactor/2;
+			temp[i] = (int)(uniqueFactor*(int)(i/uniqueFactor))+(int)uniqueFactor/2;
 		
-		Distributions.initializeArray(array, this.ArrayVisualizer);
+		Distributions.initializeArray(temp, this.ArrayVisualizer);
+		System.arraycopy(temp, 0, array, 0, currentLen);
     }
     
     public void initializePresortedArray() {
