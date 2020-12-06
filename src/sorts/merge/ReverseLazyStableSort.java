@@ -57,8 +57,8 @@ final public class ReverseLazyStableSort extends Sort {
             }
             Highlights.clearMark(2);
             if (amount > 0) {
-                rotateLeft(array, start, dest, size / 2);
-                rotateLeft(array, start + size / 2, dest + size / 2, size - (size / 2));
+                rotateSmart(array, start, dest, size / 2);
+                rotateSmart(array, start + size / 2, dest + size / 2, size - (size / 2));
             }
         }
         else {
@@ -128,12 +128,17 @@ final public class ReverseLazyStableSort extends Sort {
             }
         }
 
-        Highlights.clearMark(3);
+        Highlights.clearAllMarks();
         return lo;
     }
 
     public void merge(int[] array, int start, int mid, int end) {
         while (start < mid) {
+            if (Reads.compareIndices(array, mid - 1, mid, 0, true) == -1) {
+                Delays.sleep(0.667);
+                break;
+            }
+
             int size = binSearch(array, mid, end, array[start]) - mid;
             rotateSmart(array, mid, start, size);
 
