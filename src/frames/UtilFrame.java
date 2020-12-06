@@ -266,7 +266,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         });
 
         jCheckBox9.setSelected(false);
-        jCheckBox9.setText("Show Ext Arrays");
+        jCheckBox9.setText("Show Aux Arrays");
         jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
