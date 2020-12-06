@@ -45,7 +45,7 @@ final public class PatienceSort extends Sort {
 
         @Override
         public int compareTo(Pile y) {
-            return peek().compareTo(y.peek());
+            return Reads.compareValues(peek(), y.peek());
         }
     }
     
