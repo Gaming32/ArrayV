@@ -36,11 +36,11 @@ public abstract class MergeSorting extends Sort {
         super(arrayVisualizer);
     }
     
-    private void merge(int[] array, int start, int mid, int end, boolean binary) {
+    private void merge(int[] array, int[] tmp, int start, int mid, int end, boolean binary) {
         if(start == mid) return;
         
-        merge(array, start, (mid+start)/2, mid, binary);
-        merge(array, mid, (mid+end)/2, end, binary);
+        merge(array, tmp, start, (mid+start)/2, mid, binary);
+        merge(array, tmp, mid, (mid+end)/2, end, binary);
 
         if(end - start < 32 && binary) {
             return;
@@ -49,12 +49,10 @@ public abstract class MergeSorting extends Sort {
             binaryInserter.customBinaryInsert(array, start, end, 0.333);
         }
         else {
-            int[] tmp = Writes.createExternalArray(end - start);
-            
             int low = start;
             int high = mid;
             
-            for(int nxt = 0; nxt < tmp.length; nxt++){
+            for(int nxt = 0; nxt < end - start; nxt++){
                 if(low >= mid && high >= end) break;
                 
                 Highlights.markArray(1, low);
@@ -77,11 +75,9 @@ public abstract class MergeSorting extends Sort {
             }
             Highlights.clearMark(2);
             
-            for(int i = 0; i < tmp.length; i++){
+            for(int i = 0; i < end - start; i++){
                 Writes.write(array, start + i, tmp[i], 1, true, false);
             }
-
-            Writes.deleteExternalArray(tmp);
         }
     }
     
@@ -93,10 +89,14 @@ public abstract class MergeSorting extends Sort {
             return;
         }
         
+        int[] tmp = Writes.createExternalArray(length);
+		
         int start = 0;
         int end = length;
         int mid = start + ((end - start) / 2);
         
-        merge(array, start, mid, end, binary);
+        merge(array, tmp, start, mid, end, binary);
+
+        Writes.deleteExternalArray(tmp);
     }
 }
