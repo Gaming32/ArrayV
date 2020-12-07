@@ -118,7 +118,7 @@ final public class ReverseLazyStableSort extends Sort {
             Highlights.markArray(2, mid);
             Highlights.markArray(3, hi);
             
-            Delays.sleep(0.1);
+            Delays.sleep(0.2);
             
             if (Reads.compareValues(num, array[mid]) < 0) { // do NOT move equal elements to right of inserted element; this maintains stability!
                 hi = mid;
@@ -139,7 +139,7 @@ final public class ReverseLazyStableSort extends Sort {
                 break;
             }
             else if (Reads.compareIndices(array, start, mid, 0.2, true) == -1) {
-                start++;
+                start = binSearch(array, start + 1, mid, array[mid]);
                 continue;
             }
 
@@ -153,8 +153,14 @@ final public class ReverseLazyStableSort extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
+        for (int i = 0; i < length - 1; i += 2) {
+            if (Reads.compareIndices(array, i, i + 1, 0.5, true) == 1) {
+                Writes.swap(array, i, i + 1, 0, true, false);
+            }
+        }
+
         int gap;
-        for (gap = 2; gap <= length; gap *= 2) {
+        for (gap = 4; gap <= length; gap *= 2) {
             for (int i = 0; i + gap <= length; i += gap) {
                 merge(array, i, i + gap / 2, i + gap);
             }
