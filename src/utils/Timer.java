@@ -1,6 +1,7 @@
 package utils;
 
 import java.text.DecimalFormat;
+import java.util.Hashtable;
 
 import main.ArrayVisualizer;
 
@@ -41,6 +42,9 @@ final public class Timer {
     private volatile boolean REALTIMER;
     private volatile double sortRunTime;
     private volatile boolean timerEnabled;
+
+    private String operation;
+    private Hashtable<String, Double> categoricalTimes;
     
     private long timeStart;
     private long timeStop;
@@ -52,6 +56,8 @@ final public class Timer {
         this.timeStop = 0;
         
         this.formatter = ArrayVisualizer.getNumberFormat();
+
+        this.categoricalTimes = new Hashtable<>();
     }
     
     public String getVisualTime() {
@@ -67,10 +73,10 @@ final public class Timer {
         else if(this.elapsedTime >= 1)                  return "0:" + secondFormat;
         else                                            return "0:00";
     }
-    
-    public String getRealTime() {
-        double realTime = this.realTimer * 1e-6d;
-        
+
+    public String prettifyTime(double time) {
+        double realTime = time * 1e-6d;
+
         if(!this.REALTIMER) {
             return "Disabled";
         }
@@ -82,7 +88,11 @@ final public class Timer {
         else if(realTime >= 60000.000) return "~" + this.formatter.format((int) (realTime / 60000)) + "m" + (int) ((realTime % 60000) / 1000) + "s";
         else if(realTime >= 1000.000)  return "~" + this.formatter.format(realTime / 1000) + "s";
         else                                 return "~" + this.formatter.format(realTime) + "ms";
-    }   
+    }
+    
+    public String getRealTime() {
+        return prettifyTime(this.realTimer);
+    }
     
     public void toggleRealTimer(boolean Bool) {
         this.REALTIMER = Bool;
@@ -102,13 +112,27 @@ final public class Timer {
         return this.timerEnabled;
     }
     
-    public void startLap() {
+    public void startLap(String message) {
+        this.operation = message;
+        this.categoricalTimes.putIfAbsent(message, 0d);
         if(this.timerEnabled) this.timeStart = System.nanoTime();
+    }
+
+    public void startLap() {
+        startLap("");
     }
     
     public void stopLap() {
         this.timeStop = System.nanoTime();
-        if(this.timerEnabled) this.realTimer += timeStop - timeStart;
+        if(this.timerEnabled) {
+            double timeDiff = timeStop - timeStart;
+            this.realTimer += timeDiff;
+            this.categoricalTimes.put(this.operation, categoricalTimes.get(this.operation) + timeDiff);
+        }
+    }
+
+    public Hashtable<String, Double> getCategoricalTimes() {
+        return this.categoricalTimes;
     }
 
     void manualAddTime(long milliseconds) {

@@ -170,7 +170,7 @@ final public class Writes {
 
         if(mark) this.markSwap(a, b);
 
-        Timer.startLap();
+        Timer.startLap("Swap");
 
         int temp = array[a];
         array[a] = array[b];
@@ -215,7 +215,7 @@ final public class Writes {
         if(auxwrite) auxWrites++;
         else            writes++;
         
-        Timer.startLap();
+        Timer.startLap("Write");
         
         array[at] = equals;
 
