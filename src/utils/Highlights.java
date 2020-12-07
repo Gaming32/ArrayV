@@ -156,7 +156,8 @@ final public class Highlights {
         }
     }
     public void clearAllMarks() {
-        Arrays.fill(this.Highlights, -1);
+        for(int i = 0; i <= this.maxIndexMarked; i++)
+			this.Highlights[i] = -1;
         this.maxIndexMarked = 0;
         this.markCount = 0;
     }
