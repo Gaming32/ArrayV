@@ -132,8 +132,8 @@ final public class ReverseLazyStableSort extends Sort {
         return lo;
     }
 
-    public void merge(int[] array, int start, int mid, int end) {
-        while (start < mid) {
+    public void merge(int[] array, int start, int mid, int end, int arrLength) {
+        while (start < mid && mid < end) {
             if (Reads.compareIndices(array, mid - 1, mid, 0, true) == -1) {
                 Delays.sleep(0.667);
                 break;
@@ -152,12 +152,12 @@ final public class ReverseLazyStableSort extends Sort {
         int gap;
         for (gap = 2; gap <= length; gap *= 2) {
             for (int i = 0; i < length; i += gap) {
-                merge(array, i, i + gap / 2, i + gap);
+                merge(array, i, i + gap / 2, i + gap, length);
             }
         }
 
         if (length - gap / 2 > 0) {
-            merge(array, 0, gap / 2, length);
+            merge(array, 0, gap / 2, length, length);
         }
     }
 }
