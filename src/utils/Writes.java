@@ -161,6 +161,13 @@ final public class Writes {
     }
 
     public void swap(int[] array, int a, int b, double pause, boolean mark, boolean auxwrite) {
+        if (!auxwrite && a >= ArrayVisualizer.getCurrentLength()) {
+            System.err.println("Warning: write to index " + a + ", which is out of bounds for the current length (" + ArrayVisualizer.getCurrentLength() + ")");
+        }
+        if (!auxwrite && b >= ArrayVisualizer.getCurrentLength()) {
+            System.err.println("Warning: write to index " + b + ", which is out of bounds for the current length (" + ArrayVisualizer.getCurrentLength() + ")");
+        }
+
         if(mark) this.markSwap(a, b);
 
         Timer.startLap();
@@ -199,6 +206,10 @@ final public class Writes {
     }
 
     public void write(int[] array, int at, int equals, double pause, boolean mark, boolean auxwrite) {
+        if (!auxwrite && at >= ArrayVisualizer.getCurrentLength()) {
+            System.err.println("Warning: write to index " + at + ", which is out of bounds for the current length (" + ArrayVisualizer.getCurrentLength() + ")");
+        }
+
         if(mark) Highlights.markArray(1, at);
         
         if(auxwrite) auxWrites++;
