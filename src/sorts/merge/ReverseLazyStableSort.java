@@ -134,14 +134,12 @@ final public class ReverseLazyStableSort extends Sort {
 
     public void merge(int[] array, int start, int mid, int end) {
         while (start < mid && mid < end) {
-            if (Reads.compareIndices(array, mid - 1, mid, 0, true) == -1) {
-                Delays.sleep(0.667);
-                break;
-            }
-            else if (Reads.compareIndices(array, start, mid, 0.2, true) == -1) {
-                start = binSearch(array, start + 1, mid, array[mid]);
+            while (Reads.compareIndices(array, start, mid, 0.2, true) == -1) {
+                start++;
                 continue;
             }
+            if (start >= mid)
+                break;
 
             int size = binSearch(array, mid, end, array[start]) - mid;
             rotateSmart(array, mid, start, size);

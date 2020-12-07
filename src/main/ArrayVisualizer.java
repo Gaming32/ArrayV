@@ -20,7 +20,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -694,9 +696,24 @@ final public class ArrayVisualizer {
         this.Highlights.resetFancyFinish();
     }
 
+    public String formatTimes() {
+        String result = "";
+
+        Hashtable<String, Double> categoricalTimes = this.Timer.getCategoricalTimes();
+        for (Map.Entry<String, Double> keyValuePair : categoricalTimes.entrySet()) {
+            result += keyValuePair.getKey() + ":\t" + this.Timer.prettifyTime(keyValuePair.getValue()) + "\n";
+        }
+
+        String totalTime = this.Timer.getRealTime();
+        result += "--------------------\nTotal:\t" + totalTime;
+
+        return result;
+    }
+
     public void endSort() {
         this.Timer.disableRealTimer();
         this.Highlights.clearAllMarks();
+        System.out.println(formatTimes());
 
         this.Delays.changeSkipped(false);
         double speed = this.Delays.getSleepRatio(); 

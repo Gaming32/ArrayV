@@ -85,7 +85,7 @@ final public class Reads {
         
         int cmpVal = 0;
         
-        Timer.startLap();
+        Timer.startLap("Compare");
 
         if(left > right)      cmpVal =  1;
         else if(left < right) cmpVal = -1;
@@ -111,7 +111,7 @@ final public class Reads {
         int max = 0;
 
         for(int i = 0; i < length; i++) {
-            Timer.startLap();
+            Timer.startLap("Analysis");
             
             if(array[i] > max) max = array[i];
             
@@ -134,7 +134,7 @@ final public class Reads {
         int max = 0;
 
         for(int i = 0; i < length; i++) {
-            Timer.startLap();
+            Timer.startLap("Analysis");
             
             if(array[i] < max) max = array[i];
             
@@ -159,7 +159,7 @@ final public class Reads {
         for(int i = 0; i < length; i++) { 
             int log = (int) (Math.log(array[i]) / Math.log(base));
             
-            Timer.startLap();
+            Timer.startLap("Analysis");
             
             if(log > max) max = log;
             
@@ -184,7 +184,7 @@ final public class Reads {
         for(int i = 0; i < length; i++) { 
             int log = (int)Math.ceil(Math.log(array[i]) / Math.log(base));
             
-            Timer.startLap();
+            Timer.startLap("Analysis");
             
             if(log > max) max = log;
             
@@ -208,7 +208,7 @@ final public class Reads {
         int max = 0;
         
         for(int i = 0; i < length; i++) {
-            Timer.startLap();
+            Timer.startLap("Analysis");
             
             max = Math.max(max, array[i]);
             
