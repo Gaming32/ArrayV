@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -95,7 +96,7 @@ public enum Shuffles {
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
             boolean delay = ArrayVisualizer.shuffleEnabled();
-			this.sort(array, 0, currentLen, delay, Writes);
+			this.sort(array, 0, currentLen, delay ? 1 : 0, Writes);
         }
     },
     REV_SORTED {
@@ -103,7 +104,7 @@ public enum Shuffles {
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
             boolean delay = ArrayVisualizer.shuffleEnabled();
-            this.sort(array, 0, currentLen, delay, Writes);
+            this.sort(array, 0, currentLen, delay ? 1 : 0, Writes);
             Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
         }
     },
@@ -410,6 +411,7 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
+			int[] temp = Arrays.copyOf(array, currentLen);
 			
 			// credit to sam walko/anon
 
@@ -430,7 +432,7 @@ public enum Shuffles {
 				Subarray sub = q.poll();
 				if(sub.start != sub.end) {
 					int mid = (sub.start + sub.end)/2;
-					Writes.write(array, i, mid, 0, true, false);
+					Writes.write(array, i, temp[mid], 0, true, false);
 					if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
 					i++;
 					q.add(new Subarray(sub.start, mid));
@@ -592,13 +594,10 @@ public enum Shuffles {
 		@Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			int[] temp = new int[currentLen];
 			int[] triangle = new int[currentLen];
 			triangleRec(triangle, 0, currentLen);
 			
-			for(int i = 0; i < currentLen; i++)
-				temp[i] = array[i];
-			
+			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++)
 				Writes.write(array, i, temp[triangle[i]], 1, true, false);
 		}
@@ -678,7 +677,7 @@ public enum Shuffles {
 		}
     };
 	
-	public void sort(int[] array, int start, int end, boolean delay, Writes Writes) {
+	public void sort(int[] array, int start, int end, double sleep, Writes Writes) {
 		int min = array[start], max = min;
 		for(int i = start+1; i < end; i++) {
             if(array[i] < min) min = array[i];
@@ -694,7 +693,7 @@ public enum Shuffles {
         for(int i = 0, j = start; i < size; i++) {
             while(holes[i] > 0) {
                 Writes.write(holes, i, holes[i] - 1, 0, false, true);
-                Writes.write(array, j, i + min, delay ? 1 : 0, true, false);
+                Writes.write(array, j, i + min, sleep, true, false);
                 j++;
             }
         }
