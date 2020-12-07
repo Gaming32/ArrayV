@@ -132,11 +132,15 @@ final public class ReverseLazyStableSort extends Sort {
         return lo;
     }
 
-    public void merge(int[] array, int start, int mid, int end, int arrLength) {
+    public void merge(int[] array, int start, int mid, int end) {
         while (start < mid && mid < end) {
             if (Reads.compareIndices(array, mid - 1, mid, 0, true) == -1) {
                 Delays.sleep(0.667);
                 break;
+            }
+            else if (Reads.compareIndices(array, start, mid, 0.2, true) == -1) {
+                start++;
+                continue;
             }
 
             int size = binSearch(array, mid, end, array[start]) - mid;
@@ -151,13 +155,13 @@ final public class ReverseLazyStableSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
         int gap;
         for (gap = 2; gap <= length; gap *= 2) {
-            for (int i = 0; i < length; i += gap) {
-                merge(array, i, i + gap / 2, i + gap, length);
+            for (int i = 0; i + gap <= length; i += gap) {
+                merge(array, i, i + gap / 2, i + gap);
             }
         }
 
         if (length - gap / 2 > 0) {
-            merge(array, 0, gap / 2, length, length);
+            merge(array, 0, gap / 2, length);
         }
     }
 }
