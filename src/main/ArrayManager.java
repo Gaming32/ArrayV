@@ -13,6 +13,7 @@ import utils.Writes;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2020 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,11 +41,11 @@ final public class ArrayManager {
 	private utils.Distributions[] distributionTypes;
     private String[] shuffleIDs = { 
 			"Randomly", "Backwards", "Slight Shuffle", "No Shuffle", "Sorted", "Reverse Sorted", 
-            "Scrambled Tail", "Scrambled Head", "Noisy", "Shuffled Odds",
+            "Scrambled Tail", "Scrambled Head", "Noisy", "Scrambled Odds",
 			"Final Merge Pass", "Sawtooth", "Reversed Final Merge", "Reversed Sawtooth", "Pipe Organ", "Final Bitonic Pass",
 			"Interlaced", "Double Layered", "Final Radix", "Recursive Final Radix", 
             "Half Rotation", "Half Reversed", "BST Traversal", "Logarithmic Slopes",
-            "Heapified", "Revered Poplarified", "First Circle Pass", "Final Pairwise Pass",
+            "Heapified", "Reversed Poplarified", "First Circle Pass", "Final Pairwise Pass",
 			"Recursive Reversal", "Gray Code Fractal", "Sierpinski Triangle",
             "Triangular"
 			};

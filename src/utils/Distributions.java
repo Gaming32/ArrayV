@@ -1,6 +1,8 @@
 package utils;
 
 import java.util.Arrays;
+import java.util.Random;
+
 import main.ArrayVisualizer;
 
 /*
@@ -39,10 +41,11 @@ public enum Distributions {
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
+			Random random = new Random();
             
 			int l = 0, r, t = Math.min(currentLen, 8);
 			for(int i = 0; i < t; i++) 
-				if(Math.random() < 0.5) l++;
+				if(random.nextDouble() < 0.5) l++;
 			r = currentLen-(t-l);
 			
 			int i = 0;
@@ -55,10 +58,11 @@ public enum Distributions {
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
             int currentLen = ArrayVisualizer.getCurrentLength();
+			Random random = new Random();
 			
 			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++)
-				array[i] = temp[(int)(Math.random()*currentLen)];
+				array[i] = temp[random.nextInt(currentLen)];
         }
     },
 	SQUARE {
@@ -105,10 +109,12 @@ public enum Distributions {
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
+			Random random = new Random();
+			
 			int[] perlinNoise = new int[currentLen];
 
 			float step = 1f / currentLen;
-			float randomStart = (float) (Math.random() * currentLen);
+			float randomStart = (float) (random.nextInt(currentLen));
 			int octave = (int) (Math.log(currentLen) / Math.log(2));
 
 			for(int i = 0; i < currentLen; i++) {
@@ -331,11 +337,12 @@ public enum Distributions {
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
             int currentLen = ArrayVisualizer.getCurrentLength();
+			Random random = new Random();
 			
 			int[] temp = Arrays.copyOf(array, currentLen);
             for(int i = 0; i < currentLen; i++){
-                int random = (int) (Math.random() * (currentLen - i)) + i;
-                array[i] = temp[random];
+                int r = random.nextInt(currentLen - i) + i;
+                array[i] = temp[r];
             }
         }
     };
