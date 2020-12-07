@@ -3,6 +3,7 @@ package utils;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 import main.ArrayVisualizer;
 
@@ -700,8 +701,9 @@ public enum Shuffles {
 	}
 	
 	public void shuffle(int[] array, int start, int end, double sleep, Writes Writes) {
+		Random random = new Random();
 		for(int i = start; i < end; i++){
-            int randomIndex = (int) (Math.random() * (end - i)) + i;
+			int randomIndex = random.nextInt(end - i) + i;
             Writes.swap(array, i, randomIndex, sleep, true, false);
         }
 	}
