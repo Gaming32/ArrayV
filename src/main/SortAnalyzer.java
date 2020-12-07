@@ -129,7 +129,7 @@ final public class SortAnalyzer {
 
     public void importSort(File file) {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        int success = compiler.run(null, null, null, file.getPath());
+        int success = compiler.run(null, null, null, file.getAbsolutePath());
         if (success != 0) {
             JErrorPane.invokeCustomErrorMessage("Failed to compile: " + file.getPath() + "\nError code " + success);
             return;
@@ -153,7 +153,7 @@ final public class SortAnalyzer {
         String name = packageName + "." + file.getName().split("\\.")[0];
 
         try {
-            if (!compileSingle(name, null))
+            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File(file.getParent()).toURI().toURL() })))
                 return;
         }
         catch (Exception e) {
