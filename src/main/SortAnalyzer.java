@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -128,13 +129,6 @@ final public class SortAnalyzer {
     }
 
     public void importSort(File file) {
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        int success = compiler.run(null, null, null, file.getAbsolutePath());
-        if (success != 0) {
-            JErrorPane.invokeCustomErrorMessage("Failed to compile: " + file.getPath() + "\nError code " + success);
-            return;
-        }
-        
         Pattern packagePattern = Pattern.compile("^\\s*package ([a-zA-Z\\.]+);");
         String contents;
         try {
@@ -151,9 +145,26 @@ final public class SortAnalyzer {
         }
         String packageName = matcher.group(1);
         String name = packageName + "." + file.getName().split("\\.")[0];
+        File tempPath = new File(String.join("/", packageName.split("\\.")));
+        tempPath.mkdirs();
+        File destPath = new File(tempPath.getAbsolutePath() + "/" + file.getName());
+        try {
+            Files.copy(file.toPath(), destPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+        catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e);
+            return;
+        }
+
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        int success = compiler.run(null, null, null, destPath.getAbsolutePath());
+        if (success != 0) {
+            JErrorPane.invokeCustomErrorMessage("Failed to compile: " + destPath.getPath() + "\nError code " + success);
+            return;
+        }
 
         try {
-            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File(file.getParent()).toURI().toURL() })))
+            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File(".").toURI().toURL() })))
                 return;
         }
         catch (Exception e) {
