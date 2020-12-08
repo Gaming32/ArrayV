@@ -185,23 +185,18 @@ final public class ArrayVisualizer {
                 if (e.getKeyCode() == KeyEvent.VK_O && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
                     if (ArrayVisualizer.this.isActive())
                         return false;
-                    File f = new RunScriptDialog().getFile();
-                    if (f == null) {
-                        return false;
-                    }
-                    SortAnalyzer.importSort(f);
-                    // new Thread(){
-                    //     @Override
-                    //     public void run(){
-                    //         RunScriptedSorts RunScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
-                    //         try {
-                    //             RunScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
-                    //         }
-                    //         catch (Exception e) {
-                    //             JErrorPane.invokeErrorMessage(e);
-                    //         }
-                    //     }
-                    // }.start();
+                    new Thread(){
+                        @Override
+                        public void run(){
+                            RunScriptedSorts RunScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
+                            try {
+                                RunScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
+                            }
+                            catch (Exception e) {
+                                JErrorPane.invokeErrorMessage(e);
+                            }
+                        }
+                    }.start();
                     return true;
                 }
                 return false;
@@ -376,6 +371,9 @@ final public class ArrayVisualizer {
     
     public ArrayManager getArrayManager() {
         return this.ArrayManager;
+    }
+    public SortAnalyzer getSortAnalyzer() {
+        return this.SortAnalyzer;
     }
     public Delays getDelays() {
         return this.Delays;
