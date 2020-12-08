@@ -131,7 +131,7 @@ final public class RunDistributionSort {
             @Override
             public void run(){
                 try {
-                    Class<?> sortClass = Class.forName(arrayVisualizer.getDistributionSorts()[0][selection]);
+                    Class<?> sortClass = arrayVisualizer.getDistributionSorts()[selection].sortClass;
                     Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
                     Sort sort = (Sort) newSort.newInstance(RunDistributionSort.this.arrayVisualizer);
 

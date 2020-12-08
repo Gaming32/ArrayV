@@ -79,7 +79,7 @@ final public class RunComparisonSort {
             @Override
             public void run() {
                 try {
-                    Class<?> sortClass = Class.forName(arrayVisualizer.getComparisonSorts()[0][selection]);
+                    Class<?> sortClass = arrayVisualizer.getComparisonSorts()[selection].sortClass;
                     Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
                     Sort sort = (Sort) newSort.newInstance(RunComparisonSort.this.arrayVisualizer);
                 

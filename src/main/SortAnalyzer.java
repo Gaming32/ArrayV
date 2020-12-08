@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.tools.ToolProvider;
 import javax.swing.JOptionPane;
 import javax.tools.JavaCompiler;
@@ -57,6 +58,19 @@ final public class SortAnalyzer {
     private String sortErrorMsg;
     
     private ArrayVisualizer arrayVisualizer;
+
+    public static class SortPair {
+        public Class<?> sortClass;
+        public String listName;
+
+        public static String[] getListNames(SortPair[] sorts) {
+            String[] result = new String[sorts.length];
+            for (int i = 0; i < sorts.length; i++) {
+                result[i] = sorts[i].listName;
+            }
+            return result;
+        }
+    }
     
     public SortAnalyzer(ArrayVisualizer arrayVisualizer) {
         this.comparisonSorts = new ArrayList<>();
@@ -236,22 +250,24 @@ final public class SortAnalyzer {
         return suggestions.toString();
     }
     
-    public String[][] getComparisonSorts() {
-        String[][] ComparisonSorts = new String[2][comparisonSorts.size()];
+    public SortPair[] getComparisonSorts() {
+        SortPair[] ComparisonSorts = new SortPair[comparisonSorts.size()];
         
-        for(int i = 0; i < ComparisonSorts[0].length; i++) {
-            ComparisonSorts[0][i] = comparisonSorts.get(i).getClass().getName();
-            ComparisonSorts[1][i] = comparisonSorts.get(i).getSortListName();
+        for(int i = 0; i < ComparisonSorts.length; i++) {
+            ComparisonSorts[i] = new SortPair();
+            ComparisonSorts[i].sortClass = comparisonSorts.get(i).getClass();
+            ComparisonSorts[i].listName = comparisonSorts.get(i).getSortListName();
         }
         
         return ComparisonSorts;
     }
-    public String[][] getDistributionSorts() {
-        String[][] DistributionSorts = new String[2][distributionSorts.size()];
+    public SortPair[] getDistributionSorts() {
+        SortPair[] DistributionSorts = new SortPair[distributionSorts.size()];
         
-        for(int i = 0; i < DistributionSorts[0].length; i++) {
-            DistributionSorts[0][i] = distributionSorts.get(i).getClass().getName();
-            DistributionSorts[1][i] = distributionSorts.get(i).getSortListName();
+        for(int i = 0; i < DistributionSorts.length; i++) {
+            DistributionSorts[i] = new SortPair();
+            DistributionSorts[i].sortClass = distributionSorts.get(i).getClass();
+            DistributionSorts[i].listName = distributionSorts.get(i).getSortListName();
         }
         
         return DistributionSorts;

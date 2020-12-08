@@ -32,6 +32,7 @@ import dialogs.RunScriptDialog;
 import frames.ArrayFrame;
 import frames.SoundFrame;
 import frames.UtilFrame;
+import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
 import utils.Delays;
@@ -88,8 +89,8 @@ final public class ArrayVisualizer {
     final int[] array;
     private int[] shadowArray;
 
-    private String[][] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
-    private String[][] DistributionSorts; // Second row consists of user-friendly names
+    private SortPair[] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
+    private SortPair[] DistributionSorts; // Second row consists of user-friendly names
     private String[] InvalidSorts;
     private String[] sortSuggestions;
 
@@ -412,10 +413,10 @@ final public class ArrayVisualizer {
         return this.UtilFrame;
     }
     
-    public String[][] getComparisonSorts() {
+    public SortPair[] getComparisonSorts() {
         return this.ComparisonSorts;
     }
-    public String[][] getDistributionSorts() {
+    public SortPair[] getDistributionSorts() {
         return this.DistributionSorts;
     }
     
@@ -805,7 +806,7 @@ final public class ArrayVisualizer {
         
         this.window.setLocation(0, 0);
         this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts[0].length + this.DistributionSorts[0].length) + " Sorting Algorithms with 12 Different Visual Styles");
+        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorting Algorithms with 12 Different Visual Styles");
         this.window.setBackground(Color.BLACK);
         this.window.setIgnoreRepaint(true);
         

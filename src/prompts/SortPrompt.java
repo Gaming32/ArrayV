@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import frames.AppFrame;
 import frames.UtilFrame;
 import main.ArrayVisualizer;
+import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunAllSorts;
 import threads.RunComparisonSort;
@@ -65,8 +66,8 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
-        jList2.setListData(ArrayVisualizer.getComparisonSorts()[1]);
-        jList1.setListData(ArrayVisualizer.getDistributionSorts()[1]);
+        jList2.setListData(SortPair.getListNames(ArrayVisualizer.getComparisonSorts()));
+        jList1.setListData(SortPair.getListNames(ArrayVisualizer.getDistributionSorts()));
         reposition();
         setVisible(true);
     }
