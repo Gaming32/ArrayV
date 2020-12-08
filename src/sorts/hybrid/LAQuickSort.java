@@ -76,7 +76,7 @@ final public class LAQuickSort extends Sort {
     public int ghostPartition(int[] array, int a, int b, int val) {
         int i = a;
         int j = b - 1;
-        while (Reads.compareValues(i, j) <= 0) {
+        while (i <= j) {
             while (Reads.compareValues(array[i], val) < 0) {
                 i++;
             }
@@ -151,7 +151,7 @@ final public class LAQuickSort extends Sort {
         return sorted;
     }
 
-    public void quickSort(int[] arr, int low, int high, int depthLimit, int backPivot, boolean logAvg) {
+    public void quickSort(int[] arr, int low, int high, int depthLimit, int backPivot, boolean logAvg, int equalPivotCount) {
         if (this.getSortedRuns(arr, low, high)) return;
         if (high-low > 16) {
             int pi = low, pivot = low;
@@ -170,13 +170,15 @@ final public class LAQuickSort extends Sort {
                 pivot = this.logarithmicAverage(arr, low, high);
                 pi = this.ghostPartition(arr, low, high, pivot);
             }
-            if(depthLimit == 0 || backPivot == pivot) {
+            if (backPivot == pivot) equalPivotCount++;
+            if (depthLimit == 0 || equalPivotCount > 4){
+                if (equalPivotCount > 4) equalPivotCount = 0;
                 heapSorter.customHeapSort(arr, low, high, 1);
                 return;
             }
             depthLimit--;
-            this.quickSort(arr, low, pi, depthLimit, pivot, logAvg);
-            this.quickSort(arr, pi+(logAvg ? 0 : 1), high, depthLimit, pivot, logAvg);
+            this.quickSort(arr, low, pi, depthLimit, pivot, logAvg, equalPivotCount);
+            this.quickSort(arr, pi+(logAvg ? 0 : 1), high, depthLimit, pivot, logAvg, equalPivotCount);
         } else {
             this.insertionSort(arr, low, high);
         }
@@ -185,6 +187,6 @@ final public class LAQuickSort extends Sort {
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         this.heapSorter = new MaxHeapSort(this.arrayVisualizer);
-        this.quickSort(array, 0, currentLength, 2*log2(currentLength), array[1], false);
+        this.quickSort(array, 0, currentLength, 2*log2(currentLength), array[1], false, 0);
     }
 }
