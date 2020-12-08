@@ -4,11 +4,16 @@
  */
 package prompts;
 
+import java.io.File;
+
 import javax.swing.JFrame;
 
+import dialogs.ImportSortDialog;
 import frames.AppFrame;
 import frames.UtilFrame;
 import main.ArrayVisualizer;
+import main.SortAnalyzer;
+import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunAllSorts;
 import threads.RunComparisonSort;
@@ -65,8 +70,8 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
-        jList2.setListData(ArrayVisualizer.getComparisonSorts()[1]);
-        jList1.setListData(ArrayVisualizer.getDistributionSorts()[1]);
+        jList2.setListData(SortPair.getListNames(ArrayVisualizer.getComparisonSorts()));
+        jList1.setListData(SortPair.getListNames(ArrayVisualizer.getDistributionSorts()));
         reposition();
         setVisible(true);
     }
@@ -88,6 +93,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         this.jScrollPane2 = new javax.swing.JScrollPane();
         this.jList1 = new javax.swing.JList();
         this.jButton1 = new javax.swing.JButton();
+        this.jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -146,6 +152,14 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 jButton1ActionPerformed();
             }
         });
+        
+        jButton2.setText("Import Sort");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed();
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,7 +175,9 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                         .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
-                        .addComponent(this.jButton1))
+                    .addComponent(this.jButton1))
+                .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
+                    .addComponent(this.jButton2))
                 );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,6 +192,8 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                                 .addComponent(this.jScrollPane1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(this.jButton1)
+                        .addGap(5, 5, 5)
+                        .addComponent(this.jButton2)
                         .addGap(0, 0, 0))
                 );
 
@@ -188,6 +206,21 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
             public void run(){
                 RunAllSorts RunAllSorts = new RunAllSorts(ArrayVisualizer);
                 RunAllSorts.reportAllSorts(array);
+            }
+        }.start();
+        UtilFrame.jButton1ResetText();
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
+        new Thread(){
+            @Override
+            public void run(){
+                File f = new ImportSortDialog().getFile();
+                if (f == null) {
+                    return;
+                }
+                ArrayVisualizer.getSortAnalyzer().importSort(f);
             }
         }.start();
         UtilFrame.jButton1ResetText();
@@ -224,6 +257,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     @SuppressWarnings("rawtypes")

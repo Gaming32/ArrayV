@@ -15,6 +15,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -29,9 +30,12 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import dialogs.CustomImageDialog;
+import dialogs.FileDialog;
+import dialogs.RunScriptDialog;
 import frames.ArrayFrame;
 import frames.SoundFrame;
 import frames.UtilFrame;
+import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
 import utils.Delays;
@@ -91,8 +95,8 @@ final public class ArrayVisualizer {
     private int[] shadowArray;
     final ArrayList<int[]> arrays;
 
-    private String[][] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
-    private String[][] DistributionSorts; // Second row consists of user-friendly names
+    private SortPair[] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
+    private SortPair[] DistributionSorts; // Second row consists of user-friendly names
     private String[] InvalidSorts;
     private String[] sortSuggestions;
 
@@ -237,10 +241,7 @@ final public class ArrayVisualizer {
         this.SortAnalyzer = new SortAnalyzer(this);
         
         this.SortAnalyzer.analyzeSorts();
-        this.ComparisonSorts = this.SortAnalyzer.getComparisonSorts();
-        this.DistributionSorts = this.SortAnalyzer.getDistributionSorts();
-        this.InvalidSorts = this.SortAnalyzer.getInvalidSorts();
-        this.sortSuggestions = this.SortAnalyzer.getSuggestions();
+        this.refreshSorts();
 
         this.MultipleScript = new MultipleScript(this);
         
@@ -327,6 +328,13 @@ final public class ArrayVisualizer {
                 this.Sounds.startAudioThread();
                 this.drawWindows();
     }
+
+    public void refreshSorts() {
+        this.ComparisonSorts = this.SortAnalyzer.getComparisonSorts();
+        this.DistributionSorts = this.SortAnalyzer.getDistributionSorts();
+        this.InvalidSorts = this.SortAnalyzer.getInvalidSorts();
+        this.sortSuggestions = this.SortAnalyzer.getSuggestions();
+    }
     
     private void drawStats(Color textColor, boolean dropShadow) {
         int xOffset = 15;
@@ -382,6 +390,9 @@ final public class ArrayVisualizer {
     public ArrayManager getArrayManager() {
         return this.ArrayManager;
     }
+    public SortAnalyzer getSortAnalyzer() {
+        return this.SortAnalyzer;
+    }
     public Delays getDelays() {
         return this.Delays;
     }
@@ -418,10 +429,10 @@ final public class ArrayVisualizer {
         return this.UtilFrame;
     }
     
-    public String[][] getComparisonSorts() {
+    public SortPair[] getComparisonSorts() {
         return this.ComparisonSorts;
     }
-    public String[][] getDistributionSorts() {
+    public SortPair[] getDistributionSorts() {
         return this.DistributionSorts;
     }
     
@@ -819,7 +830,7 @@ final public class ArrayVisualizer {
         
         this.window.setLocation(0, 0);
         this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts[0].length + this.DistributionSorts[0].length) + " Sorting Algorithms with 12 Different Visual Styles");
+        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorting Algorithms with 12 Different Visual Styles");
         this.window.setBackground(Color.BLACK);
         this.window.setIgnoreRepaint(true);
         

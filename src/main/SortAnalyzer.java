@@ -1,9 +1,20 @@
 package main;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.tools.ToolProvider;
+import javax.swing.JOptionPane;
+import javax.tools.JavaCompiler;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -47,6 +58,19 @@ final public class SortAnalyzer {
     private String sortErrorMsg;
     
     private ArrayVisualizer arrayVisualizer;
+
+    public static class SortPair {
+        public Class<?> sortClass;
+        public String listName;
+
+        public static String[] getListNames(SortPair[] sorts) {
+            String[] result = new String[sorts.length];
+            for (int i = 0; i < sorts.length; i++) {
+                result[i] = sorts[i].listName;
+            }
+            return result;
+        }
+    }
     
     public SortAnalyzer(ArrayVisualizer arrayVisualizer) {
         this.comparisonSorts = new ArrayList<>();
@@ -55,6 +79,46 @@ final public class SortAnalyzer {
         this.suggestions = new ArrayList<>();
         
         this.arrayVisualizer = arrayVisualizer;
+    }
+
+    private boolean compileSingle(String name, ClassLoader loader) {
+        try {
+            Class<?> sortClass;
+            if (loader == null)
+                sortClass = Class.forName(name);
+            else
+                sortClass = Class.forName(name, true, loader);
+            Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
+            Sort sort = (Sort) newSort.newInstance(this.arrayVisualizer);
+            
+            try {
+                if(verifySort(sort)) {
+                    String suggestion = checkForSuggestions(sort);
+                    if(!suggestion.isEmpty()) {
+                        suggestions.add(suggestion);
+                    }
+                    if(sort.isComparisonBased()) {
+                        comparisonSorts.add(sort);
+                    }
+                    else {
+                        distributionSorts.add(sort);
+                    }
+                }
+                else {
+                    throw new Exception();
+                }
+            }
+            catch(Exception e) {
+                invalidSorts.add(sort.getClass().getName() + " (" + this.sortErrorMsg + ")");
+                return false;
+            }
+        }
+        catch(Exception e) {
+            JErrorPane.invokeErrorMessage(e, "Could not compile " + name);
+            invalidSorts.add(name + " (failed to compile)");
+            return false;
+        }
+        return true;
     }
     
     @SuppressWarnings("unused")
@@ -68,36 +132,7 @@ final public class SortAnalyzer {
             sortFiles = scanResult.getAllClasses();
             
             for(int i = 0; i < sortFiles.size(); i++) {
-                try {
-                    Class<?> sortClass = Class.forName(sortFiles.get(i).getName());
-                    Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
-                    Sort sort = (Sort) newSort.newInstance(this.arrayVisualizer);
-                    
-                    try {
-                        if(verifySort(sort)) {
-                            String suggestion = checkForSuggestions(sort);
-                            if(!suggestion.isEmpty()) {
-                                suggestions.add(suggestion);
-                            }
-                            if(sort.isComparisonBased()) {
-                                comparisonSorts.add(sort);
-                            }
-                            else {
-                                distributionSorts.add(sort);
-                            }
-                        }
-                        else {
-                            throw new Exception();
-                        }
-                    }
-                    catch(Exception e) {
-                        invalidSorts.add(sort.getClass().getName() + " (" + this.sortErrorMsg + ")");
-                    }
-                }
-                catch(Exception e) {
-                    JErrorPane.invokeErrorMessage(e, "Could not compile " + sortFiles.get(i).getName());
-                    invalidSorts.add(sortFiles.get(i).getName() + " (failed to compile)");
-                }
+                this.compileSingle(sortFiles.get(i).getName(), null);
             }
             SortComparator sortComparator = new SortComparator();
             Collections.sort(comparisonSorts, sortComparator);
@@ -105,6 +140,58 @@ final public class SortAnalyzer {
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
         }
+    }
+
+    public void importSort(File file) {
+        Pattern packagePattern = Pattern.compile("^\\s*package ([a-zA-Z\\.]+);");
+        String contents;
+        try {
+            contents = new String(Files.readAllBytes(file.toPath()));
+        }
+        catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e);
+            return;
+        }
+        Matcher matcher = packagePattern.matcher(contents);
+        if (!matcher.find()) {
+            JErrorPane.invokeCustomErrorMessage("No package specifed");
+            return;
+        }
+        String packageName = matcher.group(1);
+        String name = packageName + "." + file.getName().split("\\.")[0];
+        File tempPath = new File(String.join("/", packageName.split("\\.")));
+        tempPath.mkdirs();
+        File destPath = new File(tempPath.getAbsolutePath() + "/" + file.getName());
+        try {
+            Files.copy(file.toPath(), destPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        }
+        catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e);
+            return;
+        }
+
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        int success = compiler.run(null, null, null, destPath.getAbsolutePath());
+        if (success != 0) {
+            JErrorPane.invokeCustomErrorMessage("Failed to compile: " + destPath.getPath() + "\nError code " + success);
+            return;
+        }
+
+        try {
+            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File(".").toURI().toURL() })))
+                return;
+        }
+        catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e);
+            return;
+        }
+
+        SortComparator sortComparator = new SortComparator();
+        Collections.sort(comparisonSorts, sortComparator);
+        Collections.sort(distributionSorts, sortComparator);
+
+        arrayVisualizer.refreshSorts();
+        JOptionPane.showMessageDialog(null, "Successfully imported sort " + name, "Import Sort", JOptionPane.INFORMATION_MESSAGE);
     }
     
     private boolean verifySort(Sort sort) {
@@ -163,22 +250,24 @@ final public class SortAnalyzer {
         return suggestions.toString();
     }
     
-    public String[][] getComparisonSorts() {
-        String[][] ComparisonSorts = new String[2][comparisonSorts.size()];
+    public SortPair[] getComparisonSorts() {
+        SortPair[] ComparisonSorts = new SortPair[comparisonSorts.size()];
         
-        for(int i = 0; i < ComparisonSorts[0].length; i++) {
-            ComparisonSorts[0][i] = comparisonSorts.get(i).getClass().getName();
-            ComparisonSorts[1][i] = comparisonSorts.get(i).getSortListName();
+        for(int i = 0; i < ComparisonSorts.length; i++) {
+            ComparisonSorts[i] = new SortPair();
+            ComparisonSorts[i].sortClass = comparisonSorts.get(i).getClass();
+            ComparisonSorts[i].listName = comparisonSorts.get(i).getSortListName();
         }
         
         return ComparisonSorts;
     }
-    public String[][] getDistributionSorts() {
-        String[][] DistributionSorts = new String[2][distributionSorts.size()];
+    public SortPair[] getDistributionSorts() {
+        SortPair[] DistributionSorts = new SortPair[distributionSorts.size()];
         
-        for(int i = 0; i < DistributionSorts[0].length; i++) {
-            DistributionSorts[0][i] = distributionSorts.get(i).getClass().getName();
-            DistributionSorts[1][i] = distributionSorts.get(i).getSortListName();
+        for(int i = 0; i < DistributionSorts.length; i++) {
+            DistributionSorts[i] = new SortPair();
+            DistributionSorts[i].sortClass = distributionSorts.get(i).getClass();
+            DistributionSorts[i].listName = distributionSorts.get(i).getSortListName();
         }
         
         return DistributionSorts;
