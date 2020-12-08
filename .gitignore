@@ -1,4 +1,4 @@
 *.class
 /bin/
 __pycache__
-sorts
+/sorts
