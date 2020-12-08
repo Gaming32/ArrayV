@@ -238,10 +238,7 @@ final public class ArrayVisualizer {
         this.SortAnalyzer = new SortAnalyzer(this);
         
         this.SortAnalyzer.analyzeSorts();
-        this.ComparisonSorts = this.SortAnalyzer.getComparisonSorts();
-        this.DistributionSorts = this.SortAnalyzer.getDistributionSorts();
-        this.InvalidSorts = this.SortAnalyzer.getInvalidSorts();
-        this.sortSuggestions = this.SortAnalyzer.getSuggestions();
+        this.refreshSorts();
 
         this.MultipleScript = new MultipleScript(this);
         
@@ -324,6 +321,13 @@ final public class ArrayVisualizer {
                 
                 this.Sounds.startAudioThread();
                 this.drawWindows();
+    }
+
+    public void refreshSorts() {
+        this.ComparisonSorts = this.SortAnalyzer.getComparisonSorts();
+        this.DistributionSorts = this.SortAnalyzer.getDistributionSorts();
+        this.InvalidSorts = this.SortAnalyzer.getInvalidSorts();
+        this.sortSuggestions = this.SortAnalyzer.getSuggestions();
     }
     
     private void drawStats(Color textColor, boolean dropShadow) {

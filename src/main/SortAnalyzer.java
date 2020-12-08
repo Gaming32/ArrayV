@@ -171,6 +171,12 @@ final public class SortAnalyzer {
             JErrorPane.invokeErrorMessage(e);
             return;
         }
+
+        SortComparator sortComparator = new SortComparator();
+        Collections.sort(comparisonSorts, sortComparator);
+        Collections.sort(distributionSorts, sortComparator);
+
+        arrayVisualizer.refreshSorts();
         JOptionPane.showMessageDialog(null, "Successfully imported sort " + name, "Import Sort", JOptionPane.INFORMATION_MESSAGE);
     }
     
