@@ -34,7 +34,6 @@ SOFTWARE.
 
 final public class StableBufferedMergeSort extends Sort {
     private BinaryInsertionSort binaryInserter;
-    private ReverseLazyStableSort finalMerger;
     private BlockSelectionMergeSort blockSelector;
     private TriSearchInsertionSort oddInsertSearcher;
 
