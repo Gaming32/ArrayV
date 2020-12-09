@@ -127,7 +127,6 @@ final public class StableBufferedMergeSort extends Sort {
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         binaryInserter = new BinaryInsertionSort(arrayVisualizer);
-        finalMerger = new ReverseLazyStableSort(arrayVisualizer);
         blockSelector = new BlockSelectionMergeSort(arrayVisualizer);
         oddInsertSearcher = new TriSearchInsertionSort(arrayVisualizer);
 
