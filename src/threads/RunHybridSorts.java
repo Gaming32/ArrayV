@@ -7,6 +7,7 @@ import sorts.hybrid.BinaryMergeSort;
 import sorts.hybrid.BlockSelectionMergeSort;
 import sorts.hybrid.BranchedPDQSort;
 import sorts.hybrid.BranchlessPDQSort;
+import sorts.hybrid.BufferedMergeSort;
 import sorts.hybrid.CocktailMergeSort;
 import sorts.hybrid.EctaSort;
 import sorts.hybrid.GrailSort;
@@ -73,6 +74,7 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort SqrtSort;
     private Sort KotaSort;
     private Sort EctaSort;
+    private Sort BufferedMergeSort;
     private Sort BlockSelectionMergeSort;
     private Sort MedianMergeSort;
     private Sort IntroSort;
@@ -104,6 +106,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         SqrtSort                    = new                    SqrtSort(this.arrayVisualizer);
         KotaSort                    = new                    KotaSort(this.arrayVisualizer);
         EctaSort                    = new                    EctaSort(this.arrayVisualizer);
+        BufferedMergeSort           = new           BufferedMergeSort(this.arrayVisualizer);
         BlockSelectionMergeSort     = new     BlockSelectionMergeSort(this.arrayVisualizer);
         MedianMergeSort             = new             MedianMergeSort(this.arrayVisualizer);
         IntroSort                   = new                   IntroSort(this.arrayVisualizer);
@@ -133,6 +136,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(SqrtSort,                    0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(KotaSort,                    0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(EctaSort,                    0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(BufferedMergeSort,           0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(BlockSelectionMergeSort,     0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(MedianMergeSort,             0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(IntroSort,                   0, array, 2048, 1,    false);

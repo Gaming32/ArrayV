@@ -50,28 +50,28 @@ final public class BlockSelectionMergeSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private void swapBlocks(int[] array, int left, int right, int length, double sleep) {
+    public void swapBlocks(int[] array, int left, int right, int length, double sleep) {
         for (int i = 0; i < length; i++) {
             Writes.swap(array, left + i, right + i, sleep, true, false);
         }
     }
 
-    private void blockSelection(int[] array, int start, int end, int blockSize) {
+    public void blockSelection(int[] array, int start, int end, int blockSize, double compSleep, double writeSleep) {
         for (int i = start; i < end - blockSize; i += blockSize) {
             int lowestindex = i;
 
             for (int j = i + blockSize; j < end; j += blockSize) {
                 Highlights.markArray(2, j);
-                Delays.sleep(0.01);
+                Delays.sleep(compSleep);
 
                 if (Reads.compareValues(array[j], array[lowestindex]) == -1){
                     lowestindex = j;
                     Highlights.markArray(1, lowestindex);
-                    Delays.sleep(0.01);
+                    Delays.sleep(compSleep);
                 }
             }
             if (lowestindex > i)
-                swapBlocks(array, i, lowestindex, blockSize, blockSize / 64);
+                swapBlocks(array, i, lowestindex, blockSize, writeSleep);
             Delays.sleep(0.5);
         }
     }
@@ -79,7 +79,7 @@ final public class BlockSelectionMergeSort extends Sort {
     private void merge(int[] array, int start, int end) {
         int blockSize = (end - start) / 16;
         while (blockSize >= 4) {
-            blockSelection(array, start, end, blockSize);
+            blockSelection(array, start, end, blockSize, 0.01, 0.5);
             blockSize /= 8;
         }
         binaryInserter.customBinaryInsert(array, start, end, 0.333);

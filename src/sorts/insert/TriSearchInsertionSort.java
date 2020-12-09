@@ -35,20 +35,20 @@ final public class TriSearchInsertionSort extends Sort {
         this.setBogoSort(false);
     }
 
-    public int triSearch(int[] arr, int l, int h, int val) {
+    public int triSearch(int[] arr, int l, int h, int val, double sleep) {
         int mid = l + ((h-l) / 2);
         Highlights.markArray(0, l);
         Highlights.markArray(1, h);
         Highlights.markArray(2, mid);
-        Delays.sleep(40);
+        Delays.sleep(sleep);
         if (Reads.compareValues(val, arr[l]) < 0) {
             return l;
         } else {
             if (Reads.compareValues(val, arr[h]) < 0) {
                 if (Reads.compareValues(val, arr[mid]) < 0) {
-                    return this.triSearch(arr, l+1, mid-1, val);
+                    return this.triSearch(arr, l+1, mid-1, val, sleep);
                 } else {
-                    return this.triSearch(arr, mid+1, h-1, val);
+                    return this.triSearch(arr, mid+1, h-1, val, sleep);
                 }
             } else {
                 return h+1;
@@ -59,9 +59,9 @@ final public class TriSearchInsertionSort extends Sort {
     public void triInsertSort(int[] array, int start, int end, double compSleep, double writeSleep) {
         for (int i = start+1; i < end; i++) {
             int num = array[i];
-            int lo = start, hi = i;
+            int lo = start;
             
-            lo = this.triSearch(array, start, i-1, num);
+            lo = this.triSearch(array, start, i-1, num, compSleep);
             Highlights.clearAllMarks();
 
             int j = i - 1;
