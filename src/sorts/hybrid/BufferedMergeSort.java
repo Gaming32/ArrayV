@@ -78,7 +78,7 @@ final public class BufferedMergeSort extends Sort {
         int left = start, right = mid;
 
         while (left < mid && right < end) {
-            if (Reads.compareIndices(array, left, right, 0, true) == -1) {
+            if (Reads.compareIndices(array, left, right, 0, true) <= 0) {
                 Writes.swap(array, bufferPointer, left, 0.25, true, false);
                 left++;
             }

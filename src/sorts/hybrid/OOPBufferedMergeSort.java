@@ -32,19 +32,19 @@ SOFTWARE.
  *
  */
 
-final public class StableBufferedMergeSort extends Sort {
+final public class OOPBufferedMergeSort extends Sort {
     private BinaryInsertionSort binaryInserter;
     private BlockSelectionMergeSort blockSelector;
     private TriSearchInsertionSort oddInsertSearcher;
 
     private int[] buffer;
 
-    public StableBufferedMergeSort(ArrayVisualizer arrayVisualizer) {
+    public OOPBufferedMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Stable Buffered Merge");
-        this.setRunAllSortsName("Stable Buffered Merge Sort");
-        this.setRunSortName("Stable Buffered Mergesort");
+        this.setSortListName("OOP Buffered Merge");
+        this.setRunAllSortsName("Out-of-Place Buffered Merge Sort");
+        this.setRunSortName("Out-of-Place Buffered Mergesort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
@@ -79,7 +79,7 @@ final public class StableBufferedMergeSort extends Sort {
         int left = start, right = mid;
 
         while (left < mid && right < end) {
-            if (Reads.compareIndices(array, left, right, 0, true) == -1) {
+            if (Reads.compareIndices(array, left, right, 0, true) <= 0) {
                 Highlights.markArray(2, left);
                 Writes.write(this.buffer, bufferPointer, array[left], 0.25, true, true);
                 left++;
@@ -133,7 +133,7 @@ final public class StableBufferedMergeSort extends Sort {
         boolean isOddLength = sortLength / 2 * 2 != sortLength;
         int length = isOddLength ? sortLength - 1 : sortLength;
         
-        int bufferSize = StableBufferedMergeSort.getBufferSize(length);
+        int bufferSize = OOPBufferedMergeSort.getBufferSize(length);
         if (bufferSize * 2 >= length) {
             binaryInserter.customBinaryInsert(array, 0, sortLength, 0.333);
             return;
