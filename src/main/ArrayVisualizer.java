@@ -175,11 +175,9 @@ final public class ArrayVisualizer {
                     ArrayVisualizer.this.getDelays().togglePaused();
                 }
             }
-
             @Override
             public void keyPressed(KeyEvent e) {
             }
-
             @Override
             public void keyReleased(KeyEvent e) {
             }
@@ -191,7 +189,7 @@ final public class ArrayVisualizer {
                 if (e.getKeyCode() == KeyEvent.VK_O && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
                     if (ArrayVisualizer.this.isActive())
                         return false;
-                    new Thread(){
+                    Thread thread = new Thread(){
                         @Override
                         public void run(){
                             RunScriptedSorts RunScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
@@ -202,12 +200,21 @@ final public class ArrayVisualizer {
                                 JErrorPane.invokeErrorMessage(e);
                             }
                         }
-                    }.start();
+                    };
+                    ArrayVisualizer.this.sortingThread = thread;
+                    thread.start();
                     return true;
                 }
                 return false;
             }
         });
+
+        new Thread() {
+            @Override
+            public void run() {
+                FileDialog.initialize();
+            }
+        }.start();
         
         this.MIN_ARRAY_VAL = 2;
         this.MAX_ARRAY_VAL = 32768;

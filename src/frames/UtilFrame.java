@@ -11,11 +11,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
+import panes.JErrorPane;
 import prompts.ShufflePrompt;
 import prompts.SortPrompt;
 import prompts.ViewPrompt;
@@ -96,6 +98,12 @@ final public class UtilFrame extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e);
+        }
 
         this.jLabel1 = new javax.swing.JLabel();
         this.jButton1 = new javax.swing.JButton();
