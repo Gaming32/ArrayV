@@ -1,8 +1,5 @@
 package utils;
 
-import java.util.Arrays;
-import java.util.Random;
-
 import main.ArrayVisualizer;
 
 /*
@@ -33,39 +30,50 @@ SOFTWARE.
 
 public enum Distributions {
 	LINEAR {
+        public String getName() {
+            return "Linear";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
         }
     },
 	SIMILAR {
+        public String getName() {
+            return "Few Unique";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			Random random = new Random();
             
-			int l = 0, r, t = Math.min(currentLen, 8);
-			for(int i = 0; i < t; i++) 
-				if(random.nextDouble() < 0.5) l++;
-			r = currentLen-(t-l);
-			
-			int i = 0;
-			for(; i < l; i++)          array[i] = (int) (currentLen * 0.25);
-            for(; i < r; i++)          array[i] = currentLen / 2;
-            for(; i < currentLen; i++) array[i] = (int) (currentLen * 0.75);
+			int i;
+            for(i = 0; i < currentLen - 8; i++) {
+                array[i] = currentLen / 2;
+            }
+            for(; i < currentLen; i++) {
+                array[i] = (int) (Math.random() < 0.5 ? currentLen * 0.75 : currentLen * 0.25);
+            }
         }
     },
 	RANDOM {
+        public String getName() {
+            return "Random";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
             int currentLen = ArrayVisualizer.getCurrentLength();
-			Random random = new Random();
+			int[] temp = new int[currentLen];
 			
-			int[] temp = Arrays.copyOf(array, currentLen);
+            for(int i = 0; i < currentLen; i++)
+				temp[i] = array[(int)(Math.random()*currentLen)];
+			
 			for(int i = 0; i < currentLen; i++)
-				array[i] = temp[random.nextInt(currentLen)];
+				array[i] = temp[i];
         }
     },
 	SQUARE {
+        public String getName() {
+            return "Quadratic";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -75,6 +83,9 @@ public enum Distributions {
         }
     },
 	SQRT {
+        public String getName() {
+            return "Square Root";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -84,6 +95,9 @@ public enum Distributions {
         }
     },
     CUBIC {
+        public String getName() {
+            return "Centered Cubic";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -95,6 +109,9 @@ public enum Distributions {
         }
     },
 	QUINTIC {
+        public String getName() {
+            return "Centered Quintic";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -106,15 +123,17 @@ public enum Distributions {
         }
     },
 	PERLIN_NOISE {
+        public String getName() {
+            return "Perlin Noise";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			Random random = new Random();
-			
 			int[] perlinNoise = new int[currentLen];
+			int[] temp = new int[currentLen];
 
 			float step = 1f / currentLen;
-			float randomStart = (float) (random.nextInt(currentLen));
+			float randomStart = (float) (Math.random() * currentLen);
 			int octave = (int) (Math.log(currentLen) / Math.log(2));
 
 			for(int i = 0; i < currentLen; i++) {
@@ -147,18 +166,27 @@ public enum Distributions {
 				}
 			}
 
-			int[] temp = Arrays.copyOf(array, currentLen);
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
 			for(int i = 0; i < currentLen; i++) {
 				array[i] = temp[Math.min(perlinNoise[i], currentLen-1)];
 			}
         }
     },
 	PERLIN_NOISE_CURVE {
+        public String getName() {
+            return "Perlin Noise Curve";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			
-			int[] temp = Arrays.copyOf(array, currentLen);
+			int[] temp = new int[currentLen];
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
+			
 			for(int i = 0; i < currentLen; i++) {
 				int value = 0 - (int) (PerlinNoise.returnNoise((float) array[i] / currentLen) * currentLen);
 				array[i] = temp[Math.min(value, currentLen-1)];
@@ -166,6 +194,9 @@ public enum Distributions {
         }
     },
 	BELL_CURVE {
+        public String getName() {
+            return "Bell Curve";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -174,7 +205,11 @@ public enum Distributions {
 			int constant = 1264;
 			double factor = currentLen / 512d;
 			
-			int[] temp = Arrays.copyOf(array, currentLen);
+			int[] temp = new int[currentLen];
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
+			
 			for(int i = 0; i < currentLen; i++) {
 				double square = Math.pow(position, 2);
 				double negativeSquare = 0 - square;
@@ -190,6 +225,9 @@ public enum Distributions {
         }
     },
 	RULER {
+        public String getName() {
+            return "Ruler";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -221,12 +259,19 @@ public enum Distributions {
         }
     },
 	BLANCMANGE {
+        public String getName() {
+            return "Blancmange Curve";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			int floorLog2 = (int)(Math.log(currentLen)/Math.log(2));
 			
-			int[] temp = Arrays.copyOf(array, currentLen);
+			int[] temp = new int[currentLen];
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
+			
 			for(int i = 0; i < currentLen; i++) {
 				int value = (int)(currentLen * curveSum(floorLog2, (double)i/currentLen));
 				array[i] = temp[value];
@@ -249,11 +294,17 @@ public enum Distributions {
 		}
     },
 	CANTOR {
+        public String getName() {
+            return "Cantor Function";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			
-			int[] temp = Arrays.copyOf(array, currentLen);
+			int[] temp = new int[currentLen];
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
 			cantor(array, temp, 0, currentLen, 0, currentLen-1);
         }
 		
@@ -276,10 +327,14 @@ public enum Distributions {
 		}
     },
 	DIVISORS {//O(n^1.5)
+        public String getName() {
+            return "Sum of Divisors";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			int[] n = new int[currentLen];
+			int[] temp = new int[currentLen];
 			
 			n[0] = 0;
 			n[1] = 1;
@@ -290,7 +345,10 @@ public enum Distributions {
 				if(n[i] > max) max = n[i];
 			}
 			
-			int[] temp = Arrays.copyOf(array, currentLen);
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
+			
 			double scale = Math.min((currentLen-1)/max, 1);
 			for(int i = 0; i < currentLen; i++) {
 				array[i] = temp[(int)(n[i]*scale)];
@@ -309,10 +367,14 @@ public enum Distributions {
 		}
     },
 	FSD {// fly straight dangit (OEIS A133058)
+        public String getName() {
+            return "Fly Straight, Damnit!";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			int[] fsd = new int[currentLen];
+			int[] temp = new int[currentLen];
 			
 			double max;
 			max = fsd[0] = fsd[1] = 1;
@@ -322,7 +384,9 @@ public enum Distributions {
 				if(fsd[i] > max) max = fsd[i];
 			}
 			
-			int[] temp = Arrays.copyOf(array, currentLen);
+			for(int i = 0; i < currentLen; i++)
+				temp[i] = array[i];
+			
 			double scale = Math.min((currentLen-1)/max, 1);
 			for(int i = 0; i < currentLen; i++)
 				array[i] = temp[(int)(fsd[i]*scale)];
@@ -334,18 +398,25 @@ public enum Distributions {
 		}
     },
 	REVLOG {
+        public String getName() {
+            return "Decreasing Random";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
             int currentLen = ArrayVisualizer.getCurrentLength();
-			Random random = new Random();
 			
-			int[] temp = Arrays.copyOf(array, currentLen);
+			int[] temp = new int[currentLen];
+			for(int i = 0; i < currentLen; i++) {
+				temp[i] = array[i];
+			}
+			
             for(int i = 0; i < currentLen; i++){
-                int r = random.nextInt(currentLen - i) + i;
-                array[i] = temp[r];
+                int random = (int) (Math.random() * (currentLen - i)) + i;
+                array[i] = temp[random];
             }
         }
     };
 	
+    public abstract String getName();
     public abstract void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer);
 }
