@@ -13,7 +13,6 @@ import utils.Writes;
 MIT License
 
 Copyright (c) 2019 w0rthy
-Copyright (c) 2020 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,23 +38,23 @@ final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
 	private utils.Distributions[] distributionTypes;
-    private String[] shuffleIDs = { 
+    private String[] shuffleIDs/* = {
 			"Randomly", "Backwards", "Slight Shuffle", "No Shuffle", "Sorted", "Reverse Sorted", 
-            "Scrambled Tail", "Scrambled Head", "Noisy", "Scrambled Odds",
+            "Scrambled Tail", "Scrambled Head", "Noisy", "Shuffled Odds",
 			"Final Merge Pass", "Sawtooth", "Reversed Final Merge", "Reversed Sawtooth", "Pipe Organ", "Final Bitonic Pass",
 			"Interlaced", "Double Layered", "Final Radix", "Recursive Final Radix", 
             "Half Rotation", "Half Reversed", "BST Traversal", "Logarithmic Slopes",
-            "Heapified", "Reversed Poplarified", "First Circle Pass", "Final Pairwise Pass",
+            "Heapified", "Revered Poplarified", "First Circle Pass", "Final Pairwise Pass",
 			"Recursive Reversal", "Gray Code Fractal", "Sierpinski Triangle",
             "Triangular"
-			};
-    private String[] distributionIDs = {
+			}*/;
+    private String[] distributionIDs/* = {
 			"Linear", "Few Unique", "Random", 
 			"Quadratic", "Square Root", "Centered Cubic", "Centered Quintic",
 			"Perlin Noise", "Perlin Noise Curve", "Bell Curve", 
 			"Ruler", "Blancmange Curve", "Cantor Function", 
 			"Sum of Divisors", "Fly Straight, Damnit!", "Decreasing Random"
-			};
+			}*/;
 	
     private volatile boolean MUTABLE;
 
@@ -78,6 +77,14 @@ final public class ArrayManager {
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
         this.Writes = ArrayVisualizer.getWrites();
+
+        this.shuffleIDs = new String[this.shuffleTypes.length];
+        for (int i = 0; i < this.shuffleTypes.length; i++)
+            this.shuffleIDs[i] = this.shuffleTypes[i].getName();
+
+        this.distributionIDs = new String[this.distributionTypes.length];
+        for (int i = 0; i < this.distributionTypes.length; i++)
+            this.distributionIDs[i] = this.distributionTypes[i].getName();
         
         this.MUTABLE = true;
     }
@@ -93,13 +100,11 @@ final public class ArrayManager {
     public void initializeArray(int[] array) {
         int currentLen = ArrayVisualizer.getCurrentLength();
 		
-		int[] temp = new int[currentLen];
         double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();
 		for(int i = 0; i < currentLen; i++)
-			temp[i] = (int)(uniqueFactor*(int)(i/uniqueFactor))+(int)uniqueFactor/2;
+			array[i] = (int)(uniqueFactor*(int)(i/uniqueFactor))+(int)uniqueFactor/2;
 		
-		Distributions.initializeArray(temp, this.ArrayVisualizer);
-		System.arraycopy(temp, 0, array, 0, currentLen);
+		Distributions.initializeArray(array, this.ArrayVisualizer);
     }
     
     public void initializePresortedArray() {
