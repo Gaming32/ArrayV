@@ -643,31 +643,11 @@ final public class ArrayVisualizer {
     public synchronized void verifySortAndSweep() {
         this.Highlights.toggleFancyFinish(true);
         this.Highlights.resetFancyFinish();
-
+		
         this.Delays.setSleepRatio(1);
 
-        double sleepRatio = 0;
-        
-        //TODO: Rewrite as continuous function and DON'T CHANGE SLEEP RATIOS, FOR THE LOVE OF GOD !!!
-        switch(this.getLogBaseTwoOfLength()) {
-        case 15: sleepRatio =  0.125; break;
-        case 14: sleepRatio =  0.25;  break;
-        case 13: sleepRatio =  0.5;   break;
-        case 12: sleepRatio =  1;     break;
-        case 11: sleepRatio =  2;     break;
-        case 10: sleepRatio =  4;     break;
-        case 9:  sleepRatio =  6;     break;
-        case 8:  sleepRatio =  8;     break;
-        case 7:  sleepRatio = 16;     break;
-        case 6:  sleepRatio = 24;     break;
-        case 5:
-        case 4:  sleepRatio = 32;     break;
-        case 3:
-        case 2:
-        default: sleepRatio = 64;
-        }
-        
-        long tempComps = this.Reads.getComparisons();
+        double sleepRatio = 256d/this.sortLength;
+		long tempComps = this.Reads.getComparisons();
         this.Reads.setComparisons(0);
         
         String temp = this.heading;
@@ -686,7 +666,7 @@ final public class ArrayVisualizer {
                     
                     for(int j = i + 1; j < this.sortLength; j++) {
                         this.Highlights.markArray(j, j);
-                        this.Delays.sleep(sleepRatio / this.getLogBaseTwoOfLength());
+                        this.Delays.sleep(sleepRatio);
                     }
                     
                     JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
@@ -700,7 +680,7 @@ final public class ArrayVisualizer {
             }
             
             if(this.Highlights.fancyFinishEnabled()) {
-                this.Delays.sleep(sleepRatio / this.getLogBaseTwoOfLength());
+                this.Delays.sleep(sleepRatio);
             }
         }
         this.Highlights.clearMark(1);
