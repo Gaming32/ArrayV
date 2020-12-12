@@ -42,6 +42,9 @@ public enum Shuffles {
         // I highly encourage you read this. It's quite fascinating:
         // http://datagenetics.com/blog/november42014/index.html
         
+        public String getName() {
+            return "Randomly";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -50,6 +53,9 @@ public enum Shuffles {
         }
     },
     REVERSE {
+        public String getName() {
+            return "Backwards";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -58,6 +64,9 @@ public enum Shuffles {
         }
     },
     ALMOST {
+        public String getName() {
+            return "Slight Shuffle";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -85,6 +94,9 @@ public enum Shuffles {
         }
     },
     ALREADY {
+        public String getName() {
+            return "No Shuffle";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -95,6 +107,9 @@ public enum Shuffles {
         }
     },
     SORTED {
+        public String getName() {
+            return "Sorted";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -103,6 +118,9 @@ public enum Shuffles {
         }
     },
     REV_SORTED {
+        public String getName() {
+            return "Reverse Sorted";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -112,6 +130,9 @@ public enum Shuffles {
         }
     },
 	SHUFFLED_TAIL {
+        public String getName() {
+            return "Scrambled Tail";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -135,6 +156,9 @@ public enum Shuffles {
         }
     },
 	SHUFFLED_HEAD {
+        public String getName() {
+            return "Scrambled Head";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -158,6 +182,9 @@ public enum Shuffles {
         }
     },
     NOISY {
+        public String getName() {
+            return "Noisy";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -171,6 +198,9 @@ public enum Shuffles {
 		}
     },
     SHUFFLED_ODDS {
+        public String getName() {
+            return "Scrambled Odds";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -185,6 +215,9 @@ public enum Shuffles {
         }
     },
 	FINAL_MERGE {
+        public String getName() {
+            return "Final Merge Pass";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -204,6 +237,9 @@ public enum Shuffles {
         }
     },
 	SAWTOOTH {
+        public String getName() {
+            return "Sawtooth";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -223,6 +259,9 @@ public enum Shuffles {
         }
     },
 	REV_FINAL_MERGE {
+        public String getName() {
+            return "Reversed Final Merge";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -244,6 +283,9 @@ public enum Shuffles {
         }
     },
 	REV_SAWTOOTH {
+        public String getName() {
+            return "Reversed Sawtooth";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -265,6 +307,9 @@ public enum Shuffles {
         }
     },
 	ORGAN {
+        public String getName() {
+            return "Pipe Organ";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -283,6 +328,9 @@ public enum Shuffles {
         }
 	},
 	FINAL_BITONIC {
+        public String getName() {
+            return "Final Bitonic Pass";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -303,6 +351,9 @@ public enum Shuffles {
         }
 	},
 	INTERLACED {
+        public String getName() {
+            return "Interlaced";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -327,6 +378,9 @@ public enum Shuffles {
         }
     },
 	DOUBLE_LAYERED {
+        public String getName() {
+            return "Double Layered";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -338,6 +392,9 @@ public enum Shuffles {
         }
     },
 	FINAL_RADIX {
+        public String getName() {
+            return "Final Radix";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -357,6 +414,9 @@ public enum Shuffles {
         }
     },
 	REC_RADIX {
+        public String getName() {
+            return "Recursive Final Radix";
+        }
         @Override
 		public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -386,6 +446,9 @@ public enum Shuffles {
 		}
     },
 	HALF_ROTATION {
+        public String getName() {
+            return "Half Rotation";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -408,6 +471,9 @@ public enum Shuffles {
 		}
     },
 	PARTIAL_REVERSE {
+        public String getName() {
+            return "Half Reversed";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -418,6 +484,9 @@ public enum Shuffles {
         }
     },
 	BST_TRAVERSAL {
+        public String getName() {
+            return "BST Traversal";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -452,6 +521,9 @@ public enum Shuffles {
         }
     },
 	LOG_SLOPES {
+        public String getName() {
+            return "Logarithmic Slopes";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -471,6 +543,9 @@ public enum Shuffles {
         }
     },
 	HEAPIFIED {
+        public String getName() {
+            return "Heapified";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -481,6 +556,9 @@ public enum Shuffles {
         }
     },
 	REV_POPLAR {
+        public String getName() {
+            return "Reversed Poplarified";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -492,6 +570,9 @@ public enum Shuffles {
         }
     },
 	CIRCLE {
+        public String getName() {
+            return "First Circle Pass";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -525,6 +606,9 @@ public enum Shuffles {
 		}
     },
 	PAIRWISE {
+        public String getName() {
+            return "Final Pairwise Pass";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -561,6 +645,9 @@ public enum Shuffles {
         }
     },
 	REC_REV {
+        public String getName() {
+            return "Recursive Reversal";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -580,6 +667,9 @@ public enum Shuffles {
 		}
     },
 	GRAY_CODE {
+        public String getName() {
+            return "Gray Code Fractal";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -601,6 +691,9 @@ public enum Shuffles {
 		}
     },
 	SIERPINSKI {
+        public String getName() {
+            return "Sierpinski Triangle";
+        }
 		@Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -629,6 +722,9 @@ public enum Shuffles {
     	}
     },
 	TRIANGULAR {
+        public String getName() {
+            return "Triangular";
+        }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -717,5 +813,6 @@ public enum Shuffles {
         }
 	}
 	
+    public abstract String getName();
     public abstract void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes);
 }
