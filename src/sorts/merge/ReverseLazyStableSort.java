@@ -133,10 +133,25 @@ final public class ReverseLazyStableSort extends Sort {
     }
 
     public void merge(int[] array, int start, int mid, int end) {
+        int binSearchThreshold = 2;
+        for (int len = mid - start; len >= 1; len /= 2) {
+            binSearchThreshold++;
+        }
         while (start < mid && mid < end) {
-            while (Reads.compareIndices(array, start, mid, 0.2, true) == -1) {
+            if (Reads.compareIndices(array, start, mid, 0.2, true) == -1) {
                 start++;
-                continue;
+                // if (Reads.compareIndices(array, start, mid, 0.2, true) == -1) {
+                //     start = binSearch(array, start + 1, mid, array[mid]);
+                // }
+                int i;
+                for (i = 0; i < binSearchThreshold; i++) {
+                    if (Reads.compareIndices(array, start, mid, 0.2, true) == -1)
+                        start++;
+                    else break;
+                }
+                if (i == binSearchThreshold) {
+                    start = binSearch(array, start, mid, array[mid]);
+                }
             }
             if (start >= mid)
                 break;

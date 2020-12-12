@@ -124,11 +124,9 @@ final public class BufferedMergeSort extends Sort {
         finalMerger = new ReverseLazyStableSort(arrayVisualizer);
         blockSelector = new BlockSelectionMergeSort(arrayVisualizer);
         oddInsertSearcher = new TriSearchInsertionSort(arrayVisualizer);
-
-        boolean isOddLength = sortLength / 2 * 2 != sortLength;
-        int length = isOddLength ? sortLength - 1 : sortLength;
         
-        int bufferSize = BufferedMergeSort.getBufferSize(length);
+        int bufferSize = BufferedMergeSort.getBufferSize(sortLength);
+        int length = sortLength - ((sortLength - bufferSize) % (bufferSize / 2));
         if (bufferSize * 2 >= length) {
             binaryInserter.customBinaryInsert(array, 0, sortLength, 0.333);
             return;
@@ -146,7 +144,7 @@ final public class BufferedMergeSort extends Sort {
             }
         }
 
-        for (int gap = bufferSize * 2; gap <= length; gap *= 2) {
+        for (int gap = bufferSize * 2; gap / 2 <= length; gap *= 2) {
             int i;
             for (i = bufferSize; i + gap <= length; i += gap) {
                 mergeOverBuffer(array, bufferSize, i, i + gap / 2, i + gap);
@@ -158,8 +156,9 @@ final public class BufferedMergeSort extends Sort {
 
         runSort(array, bufferSize, bucketCount);
         finalMerger.merge(array, 0, bufferSize, length);
-        if (isOddLength) {
-            oddInsert(array, length);
+        if (sortLength - length > 0) {
+            binaryInserter.customBinaryInsert(array, length, sortLength, 0.333);
+            finalMerger.merge(array, 0, length, sortLength);
         }
     }
 }
