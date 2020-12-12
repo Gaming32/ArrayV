@@ -2,7 +2,6 @@ package sorts.hybrid;
 
 import main.ArrayVisualizer;
 import sorts.insert.BinaryInsertionSort;
-import sorts.insert.TriSearchInsertionSort;
 import sorts.merge.ReverseLazyStableSort;
 import sorts.templates.Sort;
 
@@ -34,8 +33,8 @@ SOFTWARE.
 
 final public class OOPBufferedMergeSort extends Sort {
     private BinaryInsertionSort binaryInserter;
+    private ReverseLazyStableSort finalMerger;
     private BlockSelectionMergeSort blockSelector;
-    private TriSearchInsertionSort oddInsertSearcher;
 
     private int[] buffer;
 
@@ -60,18 +59,6 @@ final public class OOPBufferedMergeSort extends Sort {
 
     private static int getBufferSize(int length) {
         return (int)Math.pow(2, Math.ceil(log2((int)log2(length)))) * 2;
-    }
-
-    private void oddInsert(int[] array, int end) {
-        int value = array[end];
-        int dest = oddInsertSearcher.triSearch(array, 0, end - 1, value, 10);
-        Highlights.clearAllMarks();
-        Highlights.markArray(2, dest);
-
-        for (int i = end; i > dest; i--) {
-            Writes.write(array, i, array[i - 1], 1, true, false);
-        }
-        Writes.write(array, dest, value, 1, true, false);
     }
 
     private void mergeUnderBuffer(int[] array, int bufferSize, int start, int mid, int end) {
@@ -127,13 +114,11 @@ final public class OOPBufferedMergeSort extends Sort {
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         binaryInserter = new BinaryInsertionSort(arrayVisualizer);
+        finalMerger = new ReverseLazyStableSort(arrayVisualizer);
         blockSelector = new BlockSelectionMergeSort(arrayVisualizer);
-        oddInsertSearcher = new TriSearchInsertionSort(arrayVisualizer);
-
-        boolean isOddLength = sortLength / 2 * 2 != sortLength;
-        int length = isOddLength ? sortLength - 1 : sortLength;
         
-        int bufferSize = OOPBufferedMergeSort.getBufferSize(length);
+        int bufferSize = OOPBufferedMergeSort.getBufferSize(sortLength);
+        int length = sortLength - ((sortLength - bufferSize) % (bufferSize / 2));
         if (bufferSize * 2 >= length) {
             binaryInserter.customBinaryInsert(array, 0, sortLength, 0.333);
             return;
@@ -152,7 +137,7 @@ final public class OOPBufferedMergeSort extends Sort {
             }
         }
 
-        for (int gap = bufferSize * 2; gap <= length; gap *= 2) {
+        for (int gap = bufferSize * 2; gap / 2 <= length; gap *= 2) {
             int i;
             for (i = 0; i + gap <= length; i += gap) {
                 mergeOverBuffer(array, bufferSize, i, i + gap / 2, i + gap);
@@ -162,8 +147,9 @@ final public class OOPBufferedMergeSort extends Sort {
             }
         }
 
-        if (isOddLength) {
-            oddInsert(array, length);
+        if (sortLength - length > 0) {
+            binaryInserter.customBinaryInsert(array, length, sortLength, 0.333);
+            finalMerger.merge(array, 0, length, sortLength);
         }
         Writes.deleteExternalArray(this.buffer);
     }

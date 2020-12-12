@@ -2,7 +2,6 @@ package sorts.hybrid;
 
 import main.ArrayVisualizer;
 import sorts.insert.BinaryInsertionSort;
-import sorts.insert.TriSearchInsertionSort;
 import sorts.merge.ReverseLazyStableSort;
 import sorts.templates.Sort;
 
@@ -36,7 +35,6 @@ final public class BufferedMergeSort extends Sort {
     private BinaryInsertionSort binaryInserter;
     private ReverseLazyStableSort finalMerger;
     private BlockSelectionMergeSort blockSelector;
-    private TriSearchInsertionSort oddInsertSearcher;
 
     public BufferedMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -59,18 +57,6 @@ final public class BufferedMergeSort extends Sort {
 
     private static int getBufferSize(int length) {
         return (int)Math.pow(2, Math.ceil(log2((int)log2(length)))) * 2;
-    }
-
-    private void oddInsert(int[] array, int end) {
-        int value = array[end];
-        int dest = oddInsertSearcher.triSearch(array, 0, end - 1, value, 10);
-        Highlights.clearAllMarks();
-        Highlights.markArray(2, dest);
-
-        for (int i = end; i > dest; i--) {
-            Writes.write(array, i, array[i - 1], 1, true, false);
-        }
-        Writes.write(array, dest, value, 1, true, false);
     }
 
     private void mergeUnderBuffer(int[] array, int bufferSize, int start, int mid, int end) {
@@ -123,7 +109,6 @@ final public class BufferedMergeSort extends Sort {
         binaryInserter = new BinaryInsertionSort(arrayVisualizer);
         finalMerger = new ReverseLazyStableSort(arrayVisualizer);
         blockSelector = new BlockSelectionMergeSort(arrayVisualizer);
-        oddInsertSearcher = new TriSearchInsertionSort(arrayVisualizer);
         
         int bufferSize = BufferedMergeSort.getBufferSize(sortLength);
         int length = sortLength - ((sortLength - bufferSize) % (bufferSize / 2));
