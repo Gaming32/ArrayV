@@ -33,11 +33,17 @@ SOFTWARE.
 
 public enum Distributions {
 	LINEAR {
+        public String getName() {
+            return "Linear";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
         }
     },
 	SIMILAR {
+        public String getName() {
+            return "Few Unique";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -55,6 +61,9 @@ public enum Distributions {
         }
     },
 	RANDOM {
+        public String getName() {
+            return "Random";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -66,6 +75,9 @@ public enum Distributions {
         }
     },
 	SQUARE {
+        public String getName() {
+            return "Quadratic";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -75,6 +87,9 @@ public enum Distributions {
         }
     },
 	SQRT {
+        public String getName() {
+            return "Square Root";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -84,6 +99,9 @@ public enum Distributions {
         }
     },
     CUBIC {
+        public String getName() {
+            return "Centered Cubic";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -95,6 +113,9 @@ public enum Distributions {
         }
     },
 	QUINTIC {
+        public String getName() {
+            return "Centered Quintic";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -106,6 +127,9 @@ public enum Distributions {
         }
     },
 	PERLIN_NOISE {
+        public String getName() {
+            return "Perlin Noise";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -154,6 +178,9 @@ public enum Distributions {
         }
     },
 	PERLIN_NOISE_CURVE {
+        public String getName() {
+            return "Perlin Noise Curve";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -166,6 +193,9 @@ public enum Distributions {
         }
     },
 	BELL_CURVE {
+        public String getName() {
+            return "Bell Curve";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -190,6 +220,9 @@ public enum Distributions {
         }
     },
 	RULER {
+        public String getName() {
+            return "Ruler";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -221,6 +254,9 @@ public enum Distributions {
         }
     },
 	BLANCMANGE {
+        public String getName() {
+            return "Blancmange Curve";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -249,6 +285,9 @@ public enum Distributions {
 		}
     },
 	CANTOR {
+        public String getName() {
+            return "Cantor Function";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -276,6 +315,9 @@ public enum Distributions {
 		}
     },
 	DIVISORS {//O(n^1.5)
+        public String getName() {
+            return "Sum of Divisors";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -309,6 +351,9 @@ public enum Distributions {
 		}
     },
 	FSD {// fly straight dangit (OEIS A133058)
+        public String getName() {
+            return "Fly Straight, Damnit!";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
@@ -334,6 +379,9 @@ public enum Distributions {
 		}
     },
 	REVLOG {
+        public String getName() {
+            return "Decreasing Random";
+        }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
             int currentLen = ArrayVisualizer.getCurrentLength();
@@ -346,6 +394,7 @@ public enum Distributions {
             }
         }
     };
-	
+
+    public abstract String getName();
     public abstract void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer);
 }

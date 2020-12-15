@@ -39,7 +39,7 @@ final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
 	private utils.Distributions[] distributionTypes;
-    private String[] shuffleIDs = { 
+    private String[] shuffleIDs/* = { 
 			"Randomly", "Backwards", "Slight Shuffle", "No Shuffle", "Sorted", "Reverse Sorted", 
             "Scrambled Tail", "Scrambled Head", "Noisy", "Scrambled Odds",
 			"Final Merge Pass", "Sawtooth", "Reversed Final Merge", "Reversed Sawtooth", "Pipe Organ", "Final Bitonic Pass",
@@ -48,14 +48,14 @@ final public class ArrayManager {
             "Heapified", "Reversed Poplarified", "First Circle Pass", "Final Pairwise Pass",
 			"Recursive Reversal", "Gray Code Fractal", "Sierpinski Triangle",
             "Triangular"
-			};
-    private String[] distributionIDs = {
+			}*/;
+    private String[] distributionIDs/* = {
 			"Linear", "Few Unique", "Random", 
 			"Quadratic", "Square Root", "Centered Cubic", "Centered Quintic",
 			"Perlin Noise", "Perlin Noise Curve", "Bell Curve", 
 			"Ruler", "Blancmange Curve", "Cantor Function", 
 			"Sum of Divisors", "Fly Straight, Damnit!", "Decreasing Random"
-			};
+			}*/;
 	
     private volatile boolean MUTABLE;
 
@@ -78,6 +78,14 @@ final public class ArrayManager {
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
         this.Writes = ArrayVisualizer.getWrites();
+
+        this.shuffleIDs = new String[this.shuffleTypes.length];
+        for (int i = 0; i < this.shuffleTypes.length; i++)
+            this.shuffleIDs[i] = this.shuffleTypes[i].getName();
+
+        this.distributionIDs = new String[this.distributionTypes.length];
+        for (int i = 0; i < this.distributionTypes.length; i++)
+            this.distributionIDs[i] = this.distributionTypes[i].getName();
         
         this.MUTABLE = true;
     }
