@@ -43,7 +43,7 @@ final public class IterativeCircleSort extends IterativeCircleSorting {
 		
         int numberOfSwaps = 0;
         do {
-            numberOfSwaps = this.circleSortRoutine(array, n, 0.25);
+            numberOfSwaps = this.circleSortRoutine(array, n, 1);
         } while (numberOfSwaps != 0);
     }
 }

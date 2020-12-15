@@ -1,4 +1,4 @@
- package sorts.merge;
+package sorts.merge;
 
 import main.ArrayVisualizer;
 import sorts.templates.Sort;

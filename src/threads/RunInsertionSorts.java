@@ -7,6 +7,7 @@ import sorts.insert.InsertionSort;
 import sorts.insert.LibrarySort;
 import sorts.insert.PatienceSort;
 import sorts.insert.RecursiveShellSort;
+import sorts.insert.RendezvousSort;
 import sorts.insert.ShellSort;
 import sorts.insert.TreeSort;
 import sorts.insert.TriSearchInsertionSort;
@@ -45,13 +46,14 @@ final public class RunInsertionSorts extends MultipleSortThread {
     private Sort TriSearchInsertionSort;
     private Sort ShellSort;
     private Sort RecursiveShellSort;
+    private Sort RendezvousSort;
     private Sort LibrarySort;
     private Sort PatienceSort;
     private Sort TreeSort;
     
     public RunInsertionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 8;
+        this.sortCount = 9;
         this.categoryCount = this.sortCount;
     
         InsertionSort          = new          InsertionSort(this.arrayVisualizer);
@@ -59,6 +61,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
         TriSearchInsertionSort = new TriSearchInsertionSort(this.arrayVisualizer);
         ShellSort              = new              ShellSort(this.arrayVisualizer); 
         RecursiveShellSort     = new     RecursiveShellSort(this.arrayVisualizer); 
+        RendezvousSort         = new         RendezvousSort(this.arrayVisualizer); 
         LibrarySort            = new            LibrarySort(this.arrayVisualizer); 
         PatienceSort           = new           PatienceSort(this.arrayVisualizer);
         TreeSort               = new               TreeSort(this.arrayVisualizer);
@@ -71,6 +74,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
         RunInsertionSorts.this.runIndividualSort(TriSearchInsertionSort, 0, array,  128,  1,     false);
         RunInsertionSorts.this.runIndividualSort(ShellSort,              0, array,  256,  0.1,   false);
         RunInsertionSorts.this.runIndividualSort(RecursiveShellSort,     0, array,  256,  0.1,   false);
+        RunInsertionSorts.this.runIndividualSort(RendezvousSort,         0, array,  256,  0.1,   false);
         RunInsertionSorts.this.runIndividualSort(LibrarySort,            0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(PatienceSort,           0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(TreeSort,               0, array,  2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 5, false);
