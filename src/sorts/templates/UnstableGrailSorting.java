@@ -300,7 +300,8 @@ public abstract class UnstableGrailSorting extends Sort {
                 for(int rightIndex = index; rightIndex < blockCount; rightIndex++) {
                     int rightComp = Reads.compareValues(arr[blockPos + leftIndex * regBlockLen],
                                                         arr[blockPos + rightIndex * regBlockLen]);
-                    if(rightComp >= 0) {
+                    if(rightComp > 0 || (rightComp == 0 && Reads.compareValues(arr[blockPos + (leftIndex + 1) * regBlockLen - 1],
+                                                                               arr[blockPos + (rightIndex + 1) * regBlockLen - 1]) > 0)) {
                         leftIndex = rightIndex;
                     }
                 }
