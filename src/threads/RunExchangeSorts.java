@@ -4,6 +4,7 @@ import main.ArrayVisualizer;
 import panes.JErrorPane;
 import sorts.exchange.BinaryGnomeSort;
 import sorts.exchange.BubbleSort;
+import sorts.exchange.CircleMergeSort;
 import sorts.exchange.CircleSort;
 import sorts.exchange.CocktailShakerSort;
 import sorts.exchange.CombSort;
@@ -64,6 +65,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort CombSort;
     private Sort RecursiveCombSort;
     private Sort CircleSort;
+    private Sort CircleMergeSort;
     private Sort IterativeCircleSort;
     private Sort LLQuickSort;
     private Sort ImprovedLLQuickSort;
@@ -75,7 +77,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 18;
+        this.sortCount = 19;
         this.categoryCount = this.sortCount;
         
         BubbleSort              = new              BubbleSort(this.arrayVisualizer);
@@ -91,6 +93,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RecursiveCombSort       = new       RecursiveCombSort(this.arrayVisualizer);
         CircleSort              = new              CircleSort(this.arrayVisualizer);
         IterativeCircleSort     = new     IterativeCircleSort(this.arrayVisualizer);
+        CircleMergeSort         = new         CircleMergeSort(this.arrayVisualizer);
         LLQuickSort             = new             LLQuickSort(this.arrayVisualizer);
         ImprovedLLQuickSort     = new     ImprovedLLQuickSort(this.arrayVisualizer);
         LRQuickSort             = new             LRQuickSort(this.arrayVisualizer);
@@ -115,6 +118,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(RecursiveCombSort,       0, array, 1024, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(CircleSort,              0, array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(IterativeCircleSort,     0, array, 1024, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(CircleMergeSort,         0, array, 1024, 0.75,  false);
         RunExchangeSorts.this.runIndividualSort(LLQuickSort,             0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.5 : 5, false);
         RunExchangeSorts.this.runIndividualSort(ImprovedLLQuickSort,     0, array, 2048, 1.5,   false);
         RunExchangeSorts.this.runIndividualSort(LRQuickSort,             0, array, 2048, 1,     false);

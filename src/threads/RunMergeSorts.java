@@ -60,7 +60,7 @@ final public class RunMergeSorts extends MultipleSortThread {
         super(arrayVisualizer);
         this.sortCount = 12;
         this.categoryCount = this.sortCount;
-        
+
         MergeSort                = new                MergeSort(this.arrayVisualizer);
         BottomUpMergeSort        = new        BottomUpMergeSort(this.arrayVisualizer);
         NaturalMergeSort         = new         NaturalMergeSort(this.arrayVisualizer);
