@@ -144,6 +144,7 @@ final public class ArrayManager {
     }
     public void setDistribution(Distributions choice) {
         this.Distributions = choice;
+        this.initializeArray(ArrayVisualizer.getArray());
     }
     
     public void shuffleArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {

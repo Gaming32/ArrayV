@@ -59,7 +59,21 @@ public enum Distributions {
             for(; i < r; i++)          array[i] = currentLen / 2;
             for(; i < currentLen; i++) array[i] = (int) (currentLen * 0.75);
         }
-    },
+	},
+	EQUAL {
+		public String getName() {
+            return "All Unique";
+		}
+		@Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int val = currentLen / 2;
+
+			for (int i = 0; i < currentLen; i++) {
+				array[i] = val;
+			}
+        }
+	},
 	RANDOM {
         public String getName() {
             return "Random";
