@@ -197,10 +197,14 @@ public class PoplarHeapSort extends Sort {
     public void poplarHeapify(int[] array, int start, int length) {
         this.make_heap(array, start, length);
     }
+
+    public void heapSort(int[] array, int start, int end) {
+        this.make_heap(array, start, end);
+        this.sort_heap(array, start, end);
+    }
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        this.make_heap(array, 0, length);
-        this.sort_heap(array, 0, length);
+        this.heapSort(array, 0, length);
     }
 }
