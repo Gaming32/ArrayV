@@ -9,6 +9,7 @@ import sorts.hybrid.BranchedPDQSort;
 import sorts.hybrid.BranchlessPDQSort;
 import sorts.hybrid.BufferedMergeSort;
 import sorts.hybrid.CocktailMergeSort;
+import sorts.hybrid.DropMergeSort;
 import sorts.hybrid.EctaSort;
 import sorts.hybrid.GrailSort;
 import sorts.hybrid.HybridCombSort;
@@ -90,10 +91,11 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort StacklessHybridQuickSort;
     private Sort BranchedPDQSort;
     private Sort BranchlessPDQSort;
+    private Sort DropMergeSort;
     
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 29;
+        this.sortCount = 30;
         this.categoryCount = this.sortCount;
         
         HybridCombSort              = new              HybridCombSort(this.arrayVisualizer);
@@ -125,6 +127,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         StacklessHybridQuickSort    = new    StacklessHybridQuickSort(this.arrayVisualizer);
         BranchedPDQSort             = new             BranchedPDQSort(this.arrayVisualizer);
         BranchlessPDQSort           = new           BranchlessPDQSort(this.arrayVisualizer);
+        DropMergeSort               = new               DropMergeSort(this.arrayVisualizer);
     }
     
     @Override
@@ -158,6 +161,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(StacklessHybridQuickSort,    0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(BranchedPDQSort,             0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(BranchlessPDQSort,           0, array, 2048, 0.75, false);
+        RunHybridSorts.this.runIndividualSort(DropMergeSort,               0, array, 2048, 0.75, false);
     }
     
     @Override
