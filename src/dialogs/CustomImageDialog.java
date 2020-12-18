@@ -5,7 +5,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 final public class CustomImageDialog extends FileDialog {
     public CustomImageDialog() {
         super();
-        
+
         FileNameExtensionFilter allImages = new FileNameExtensionFilter("Java-compatible Image Files (.jpeg, .jpg, .png, .gif, .bmp, .wbmp)", "jpeg", "jpg", "png", "gif", "bmp", "wbmp");
         FileNameExtensionFilter jpegImages = new FileNameExtensionFilter("JPEG Images", "jpeg", "jpg");
         FileNameExtensionFilter pngImages = new FileNameExtensionFilter("PNG Images", "png");
@@ -20,9 +20,9 @@ final public class CustomImageDialog extends FileDialog {
         this.fileDialog.addChoosableFileFilter(gifImages);
         this.fileDialog.addChoosableFileFilter(bmpImages);
         this.fileDialog.addChoosableFileFilter(webmpImages);
-        
+
         this.fileDialog.setDialogTitle("Choose an image...");
-        
+
         this.fileDialog.showDialog(null, "Select");
         this.file = this.fileDialog.getSelectedFile();
     }

@@ -8,13 +8,13 @@ import javax.swing.JOptionPane;
 
 public class LoadingDialog {
     /**
-     * 
+     *
      */
     @SuppressWarnings("unused")
     private static final long serialVersionUID = 1L;
     private JOptionPane pane;
     private JDialog dialog;
-    
+
     public LoadingDialog(String resource, JFrame parent) {
         this.pane = new JOptionPane("Loading " + resource + "...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {}, null);
         this.dialog = this.pane.createDialog(parent, "Info");

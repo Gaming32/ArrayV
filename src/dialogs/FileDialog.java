@@ -33,12 +33,12 @@ public abstract class FileDialog {
         FileDialog.fileDialog.setMultiSelectionEnabled(false);
         FileDialog.initialized = true;
     }
-    
+
     protected void removeAllFilesOption() {
         FileFilter allFiles = FileDialog.fileDialog.getChoosableFileFilters()[0];
         FileDialog.fileDialog.removeChoosableFileFilter(allFiles);
     }
-    
+
     public File getFile() {
         return this.file;
     }
