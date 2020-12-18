@@ -816,6 +816,8 @@ public enum Shuffles {
 					right++;
 				}
 			}
+
+			Writes.swap(array, currentLen / 2 - 1, currentLen - 1, sleep, true, false);
 		}
 	};
 	
