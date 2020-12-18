@@ -1,9 +1,14 @@
 package utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
+import dialogs.LoadCustomDistributionDialog;
 import main.ArrayVisualizer;
+import panes.JErrorPane;
 
 /*
  * 
@@ -407,8 +412,45 @@ public enum Distributions {
                 array[i] = temp[r];
             }
         }
-    };
+	},
+	CUSTOM {
+		private int[] refarray;
+		private int length;
+		public String getName() {
+			return "Custom";
+		}
+		@Override
+		public void selectDistribution(int[] array, ArrayVisualizer ArrayVisualizer) {
+			LoadCustomDistributionDialog dialog = new LoadCustomDistributionDialog();
+			File file = dialog.getFile();
+			Scanner scanner;
+			try {
+				scanner = new Scanner(file);
+			}
+			catch (FileNotFoundException e) {
+				JErrorPane.invokeErrorMessage(e);
+				return;
+			}
+			scanner.useDelimiter("\\s+");
+			this.refarray = new int[ArrayVisualizer.getMaximumLength()];
+			int current = 0;
+			while (scanner.hasNext()) {
+				this.refarray[current++] = Integer.parseInt(scanner.next());
+			}
+			this.length = current;
+			scanner.close();
+		}
+		@Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			double scale = (double)this.length / currentLen;
+			for (int i = 0; i < currentLen; i++) {
+				array[i] = (int)(this.refarray[(int)(i * scale)] / scale);
+			}
+		}
+	};
 
-    public abstract String getName();
+	public abstract String getName();
+	public void selectDistribution(int[] array, ArrayVisualizer ArrayVisualizer) {}
     public abstract void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer);
 }

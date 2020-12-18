@@ -54,6 +54,8 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     private ArrayManager ArrayManager;
     private JFrame Frame;
     private UtilFrame UtilFrame;
+
+    private boolean initializing;
     
     /**
      * Creates new form SortPrompt
@@ -67,6 +69,8 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
+
+        initializing = true;
         jList1.setListData(ArrayManager.getDistributionIDs());
         for(int i = 0; i < ArrayManager.getDistributions().length; i++) {
             if(ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
@@ -81,6 +85,8 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                 break;
             }
         }
+        initializing = false;
+
         reposition();
         setVisible(true); 
     }
@@ -189,6 +195,8 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
+        if (initializing)
+            return;
         int selection = jList1.getSelectedIndex();
         Distributions[] distributions = ArrayManager.getDistributions();
         if (selection >= 0 && selection < distributions.length)
@@ -199,6 +207,8 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
 
     private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
+        if (initializing)
+            return;
         int selection = jList2.getSelectedIndex();
         Shuffles[] shuffles = ArrayManager.getShuffles();
         if (selection >= 0 && selection < shuffles.length)

@@ -96,7 +96,7 @@ final public class ArrayManager {
     public void toggleMutableLength(boolean Bool) {
         this.MUTABLE = Bool;
     }
- 
+
     //TODO: Fix minimum to zero
     public void initializeArray(int[] array) {
         int currentLen = ArrayVisualizer.getCurrentLength();
@@ -144,6 +144,7 @@ final public class ArrayManager {
     }
     public void setDistribution(Distributions choice) {
         this.Distributions = choice;
+        this.Distributions.selectDistribution(ArrayVisualizer.getArray(), ArrayVisualizer);
         this.initializeArray(ArrayVisualizer.getArray());
     }
     
