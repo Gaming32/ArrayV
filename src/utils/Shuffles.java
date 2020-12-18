@@ -781,7 +781,43 @@ public enum Shuffles {
 			else 
 				return concat(circleGen(n-1, k, Writes), addToAll(circleGen(n-1, k-1, Writes), 1 << (n-1), Writes), Writes);
 		}
-    };
+	},
+	QSORT_BAD {
+		public String getName() {
+			return "QSort Adversary";
+		}
+		@Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int[] temp = Arrays.copyOf(array, currentLen);
+			boolean delay = ArrayVisualizer.shuffleEnabled();
+            double sleep = delay ? 1 : 0;
+
+			int middle = currentLen / 2;
+
+			int staircase = 0;
+			int step = 2;
+			int left = 0;
+			int right = middle;
+
+			for(int i = 0; i < currentLen; i++) {
+				if(i % 2 == 0) {
+					Writes.write(array, left, temp[i], sleep, true, false);
+					left += step;
+
+					if(left >= middle) {
+						staircase++;
+						left = ((int) Math.pow(2, staircase)) - 1;
+						step *= 2;
+					}
+				}
+				else {
+					Writes.write(array, right, temp[i], sleep, true, false);
+					right++;
+				}
+			}
+		}
+	};
 	
 	public void sort(int[] array, int start, int end, double sleep, Writes Writes) {
 		int min = array[start], max = min;
