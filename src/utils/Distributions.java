@@ -145,6 +145,34 @@ public enum Distributions {
 				array[i] = (int)(Math.pow(array[i] - mid, power)/Math.pow(mid, power-1) + mid);
         }
     },
+	SINE {
+        public String getName() {
+            return "Sine Wave";
+        }
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int n = currentLen-1;
+			double c = 2*Math.PI/n;
+
+			for(int i = 0; i < currentLen; i++)
+				array[i] = (int)(n * (Math.sin(c * i)+1)/2);
+		}
+    },
+	COSINE {
+        public String getName() {
+            return "Cosine Wave";
+        }
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int n = currentLen-1;
+			double c = 2*Math.PI/n;
+
+			for(int i = 0; i < currentLen; i++)
+				array[i] = (int)(n * (Math.cos(c * i)+1)/2);
+		}
+    },
 	PERLIN_NOISE {
         public String getName() {
             return "Perlin Noise";
