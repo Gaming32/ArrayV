@@ -67,7 +67,7 @@ public enum Distributions {
 	},
 	EQUAL {
 		public String getName() {
-            return "All Unique";
+            return "No Unique";
 		}
 		@Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
