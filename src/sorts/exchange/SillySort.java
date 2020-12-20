@@ -18,14 +18,12 @@ final public class SillySort extends Sort {
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(256);
+        this.setUnreasonableLimit(150);
         this.setBogoSort(false);
     }
     
     private void sillySort(int[] array, int i, int j) {
 		int m;
-		
-		Delays.sleep(1);
 		
 		if (i < j) {
 		    /* find the middle of the array */

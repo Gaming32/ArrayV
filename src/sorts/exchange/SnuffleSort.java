@@ -6,7 +6,7 @@ import sorts.templates.Sort;
 import java.lang.Math;
 
 public class SnuffleSort extends Sort {
-    private static double DELAY = 0.005;
+    private static double DELAY = 1;
     public SnuffleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -18,7 +18,7 @@ public class SnuffleSort extends Sort {
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(65);
+        this.setUnreasonableLimit(100);
         this.setBogoSort(false);
     }
     
@@ -26,7 +26,6 @@ public class SnuffleSort extends Sort {
         if (stop - start + 1 >= 2) {
     	    Highlights.markArray(0, start);
             Highlights.markArray(1, stop);
-            Delays.sleep(DELAY);
             if (Reads.compareValues(arr[start], arr[stop]) == 1)
                 Writes.swap(arr, start, stop, DELAY, false, false);
             if (stop - start + 1 >= 3) {
