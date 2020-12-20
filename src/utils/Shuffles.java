@@ -75,22 +75,8 @@ public enum Shuffles {
             for(int i = 0; i < Math.max(currentLen / 20, 1); i++){
                 Writes.swap(array, random.nextInt(currentLen), random.nextInt(currentLen), 0, true, false);
 				
-                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(20);
+                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(10);
             }
-            
-            /*
-            int step = (int) Math.sqrt(currentLen);
-            
-            //TODO: *Strongly* consider randomSwap method
-            for(int i = 0; i < currentLen; i += step){
-                int randomIndex = (int) (Math.random() * step);
-                randomIndex = Math.max(randomIndex, 1);
-                randomIndex = Math.min(randomIndex, currentLen - i - 1);
-                Writes.swap(array, i, i + randomIndex, 0, true, false);
-
-                if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(2);
-            }
-            */
         }
     },
     ALREADY {
