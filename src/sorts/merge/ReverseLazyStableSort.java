@@ -30,6 +30,9 @@ SOFTWARE.
  */
 
 final public class ReverseLazyStableSort extends Sort {
+    private double sleep = 0.5;
+    private boolean auxarr = false;
+
     public ReverseLazyStableSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -50,7 +53,7 @@ final public class ReverseLazyStableSort extends Sort {
         if (size > 1) {
             while (amount >= size) {
                 for (int i = start; i > start - size; i--) {
-                    Writes.swap(array, i - 1, i + size - 1, 0.5, true, false);
+                    Writes.swap(array, i - 1, i + size - 1, sleep, !auxarr, auxarr);
                 }
                 start -= size;
                 amount -= size;
@@ -64,9 +67,9 @@ final public class ReverseLazyStableSort extends Sort {
         else {
             int tmp = array[start];
             for (int i = start; i > dest; i--) {
-                Writes.write(array, i, array[i - 1], 0.5, true, false);
+                Writes.write(array, i, array[i - 1], sleep, !auxarr, auxarr);
             }
-            Writes.write(array, dest, tmp, 0.5, true, false);
+            Writes.write(array, dest, tmp, sleep, !auxarr, auxarr);
         }
     }
 
@@ -87,9 +90,9 @@ final public class ReverseLazyStableSort extends Sort {
         else {
             int tmp = array[start];
             for (int i = start; i < dest; i++) {
-                Writes.write(array, i, array[i + 1], 0.5, true, false);
+                Writes.write(array, i, array[i + 1], sleep, !auxarr, auxarr);
             }
-            Writes.write(array, dest, tmp, 0.5, true, false);
+            Writes.write(array, dest, tmp, sleep, !auxarr, auxarr);
             moved += dest - start;
         }
         return moved;
@@ -105,6 +108,17 @@ final public class ReverseLazyStableSort extends Sort {
         }
         if (size > 0) {
             rotateLeft(array, start, dest, size);
+        }
+    }
+
+    public void rotateCommon(int[] array, int start, int dest, int size, double sleep, boolean auxWrite) {
+        this.sleep = sleep;
+        this.auxarr = auxWrite;
+        if (start > dest) {
+            this.rotateSmart(array, start, dest, size);
+        }
+        else {
+            this.rotateSmart(array, start + size, start, dest - (start + size));
         }
     }
 
