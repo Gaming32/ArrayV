@@ -112,6 +112,8 @@ final public class ReverseLazyStableSort extends Sort {
     }
 
     public void rotateCommon(int[] array, int start, int dest, int size, double sleep, boolean auxWrite) {
+        double tsleep = this.sleep;
+        boolean tauxarr = this.auxarr;
         this.sleep = sleep;
         this.auxarr = auxWrite;
         if (start > dest) {
@@ -120,6 +122,8 @@ final public class ReverseLazyStableSort extends Sort {
         else {
             this.rotateSmart(array, start + size, start, dest - (start + size));
         }
+        this.sleep = tsleep;
+        this.auxarr = tauxarr;
     }
 
     // Copied from BinaryInsertionSorting.java (and slightly modified)
