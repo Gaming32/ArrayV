@@ -71,10 +71,12 @@ final public class LibrarySort extends Sort {
 	}
 	
 	private void rebalance(int[] array, int[] temp, int[] cnts, int[] locs, int m, int b) {
+		//do a partial sum to find locations
 		Highlights.clearMark(2);
 		for(int i = 0; i < m; i++)
 			Writes.write(cnts, i+1, cnts[i+1]+cnts[i]+1, 1, true, true);
 		
+		//place books in gaps into their correct locations
 		for(int i = m, j = 0; i < b; i++, j++) {
 			Highlights.markArray(2, i);
 			Writes.write(temp, cnts[locs[j]], array[i], 1, true, true);
@@ -87,11 +89,14 @@ final public class LibrarySort extends Sort {
 		}
 		Highlights.clearMark(2);
 		
+		//copy back to array & sort the gaps
 		Writes.arraycopy(temp, 0, array, 0, b, 1, true, false);
-		this.binaryInsert.customBinaryInsert(array, 0, cnts[0], 1);
-		for(int i = 0; i < m; i++)
-			this.binaryInsert.customBinaryInsert(array, cnts[i], cnts[i+1], 1);
+		this.binaryInsert.customBinaryInsert(array, 0, cnts[0]-1, 1);
+		for(int i = 0; i < m-1; i++)
+			this.binaryInsert.customBinaryInsert(array, cnts[i], cnts[i+1]-1, 1);
+		this.binaryInsert.customBinaryInsert(array, cnts[m-1], cnts[m], 1);
 		
+		//reset count array
 		for(int i = 0; i < m+2; i++) 
 			Writes.write(cnts, i, 0, 0, false, true);
 	}
@@ -99,6 +104,11 @@ final public class LibrarySort extends Sort {
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		this.binaryInsert = new BinaryInsertionSort(this.arrayVisualizer);
+		
+		if(length < 32) {
+			this.binaryInsert.customBinaryInsert(array, 0, length, 1);
+			return;
+		}
 		
 		int j = getMinLevel(length);
 		this.binaryInsert.customBinaryInsert(array, 0, j, 1);
@@ -117,6 +127,7 @@ final public class LibrarySort extends Sort {
 				k = 0;
 			}
 			
+			//search which gap a book goes and save the result
 			Highlights.markArray(2, i);
 			int loc = this.binarySearch(array, 0, j, array[i], 1);
 			
