@@ -16,6 +16,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -38,6 +40,7 @@ import frames.UtilFrame;
 import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
+import utils.AntiQSort;
 import utils.Delays;
 import utils.Highlights;
 import utils.MultipleScript;
@@ -143,6 +146,7 @@ final public class ArrayVisualizer {
     private volatile boolean SPIRALDRAW;
     private volatile boolean WAVEDRAW;
     private volatile boolean EXTARRAYS;
+    private volatile boolean ANTIQSORT;
 
     private volatile int cx;
     private volatile int cy;
@@ -163,6 +167,7 @@ final public class ArrayVisualizer {
     private Timer Timer;
     private VisualStyles VisualStyles;
     private Writes Writes;
+    private AntiQSort AntiQSort;
 
     private volatile boolean updateVisuals;
 
@@ -240,6 +245,7 @@ final public class ArrayVisualizer {
         this.Reads = new Reads(this);
         this.Renderer = new Renderer(this);
         this.Writes = new Writes(this);
+        this.AntiQSort = new AntiQSort(this);
         
         SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);
@@ -277,6 +283,8 @@ final public class ArrayVisualizer {
         this.RAINBOW = false;
         this.SPIRALDRAW = false;
         this.EXTARRAYS = false;
+
+        this.ANTIQSORT = false;
  
         this.cx = 0;
         this.cy = 0;
@@ -468,6 +476,36 @@ final public class ArrayVisualizer {
 
     public boolean isActive() {
         return this.getSortingThread() != null && this.getSortingThread().isAlive();
+    }
+
+    public boolean useAntiQSort() {
+        return this.ANTIQSORT;
+    }
+    public void initAntiQSort() {
+        this.AntiQSort.beginSort(this.array, this.sortLength);
+    }
+    public void finishAntiQSort(String name) {
+        int[] result = this.AntiQSort.getResult();
+        String outName = "antiqsort_" + name + "_" + this.sortLength;
+        try {
+            FileWriter writer = new FileWriter(outName);
+            for (int i = 0; i < this.sortLength - 1; i++) {
+                writer.write(result[i] + " ");
+            }
+            writer.write("" + result[this.sortLength - 1]);
+            writer.close();
+        }
+        catch (IOException e) {
+            JErrorPane.invokeErrorMessage(e);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + outName + "\"", "AntiQSort", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public int antiqCompare(int left, int right) {
+        int cmp = this.AntiQSort.compare(left, right);
+        if (cmp == 0)
+            return 0;
+        return cmp / Math.abs(cmp);
     }
     
     // These next five methods should be part of ArrayManager

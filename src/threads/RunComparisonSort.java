@@ -139,7 +139,12 @@ final public class RunComparisonSort {
                         arrayVisualizer.setCategory(sort.getCategory());
                         
                         realTimer.enableRealTimer();
+                        boolean antiq = arrayVisualizer.useAntiQSort();
+                        if (antiq)
+                            arrayVisualizer.initAntiQSort();
                         sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
+                        if (antiq)
+                            arrayVisualizer.finishAntiQSort(sort.getClass().getName());
                     }
                     else {
                         arrayManager.initializeArray(array);
