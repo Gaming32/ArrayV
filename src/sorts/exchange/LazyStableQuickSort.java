@@ -1,7 +1,5 @@
 package sorts.exchange;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.merge.ReverseLazyStableSort;
 import sorts.templates.Sort;
@@ -32,15 +30,15 @@ SOFTWARE.
  *
  */
 
-final public class InPlaceQuickSort extends Sort {
+final public class LazyStableQuickSort extends Sort {
     ReverseLazyStableSort rotater;
 
-    public InPlaceQuickSort(ArrayVisualizer arrayVisualizer) {
+    public LazyStableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("In-Place Quick");
-        this.setRunAllSortsName("In-Place Stable Quick Sort");
-        this.setRunSortName("In-Place Quicksort");
+        this.setSortListName("Lazy Stable Quick");
+        this.setRunAllSortsName("Lazy Stable Quick Sort");
+        this.setRunSortName("Lazy Stable Quicksort");
         this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
