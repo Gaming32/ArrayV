@@ -91,10 +91,10 @@ final public class LibrarySort extends Sort {
 		
 		//copy back to array & sort the gaps
 		Writes.arraycopy(temp, 0, array, 0, b, 1, true, false);
-		this.binaryInsert.customBinaryInsert(array, 0, cnts[0]-1, 1);
+		this.binaryInsert.customBinaryInsert(array, 0, cnts[0]-1, 0.5);
 		for(int i = 0; i < m-1; i++)
-			this.binaryInsert.customBinaryInsert(array, cnts[i], cnts[i+1]-1, 1);
-		this.binaryInsert.customBinaryInsert(array, cnts[m-1], cnts[m], 1);
+			this.binaryInsert.customBinaryInsert(array, cnts[i], cnts[i+1]-1, 0.5);
+		this.binaryInsert.customBinaryInsert(array, cnts[m-1], cnts[m], 0.5);
 		
 		//reset count array
 		for(int i = 0; i < m+2; i++) 
@@ -129,7 +129,7 @@ final public class LibrarySort extends Sort {
 			
 			//search which gap a book goes and save the result
 			Highlights.markArray(2, i);
-			int loc = this.binarySearch(array, 0, j, array[i], 1);
+			int loc = this.binarySearch(array, 0, j, array[i], 0.5);
 			
 			Writes.write(cnts, loc+1, cnts[loc+1]+1, 0, false, true);
 			Writes.write(locs, k++, loc, 0, false, true);
