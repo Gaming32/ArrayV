@@ -17,13 +17,11 @@ final public class SlowSort extends Sort {
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(256);
+        this.setUnreasonableLimit(150);
         this.setBogoSort(false);
     }
     
 	private void slowSort(int[] A, int i, int j) {	
-	    Delays.sleep(1);
-	    
 	    if (i >= j) {
 			return;
 		}

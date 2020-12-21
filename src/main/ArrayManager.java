@@ -161,8 +161,12 @@ final public class ArrayManager {
             Delays.setSleepRatio(sleepRatio);
         }
         
-		if(Distributions != Distributions.RANDOM)
-			Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
+		Shuffles tempShuffle = this.Shuffles;
+		if(Distributions == Distributions.RANDOM || Distributions == Distributions.EQUAL)
+			this.Shuffles = Shuffles.ALREADY;
+		Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
+		this.Shuffles = tempShuffle;
+		
         this.ArrayVisualizer.setShadowArray();
         
         Delays.setSleepRatio(speed);
