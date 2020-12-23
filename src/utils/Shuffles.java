@@ -805,6 +805,34 @@ public enum Shuffles {
 
 			Writes.swap(array, currentLen / 2 - 1, currentLen - 1, sleep, true, false);
 		}
+	},
+	BIT_REVERSE {
+		@Override
+		public String getName() {
+			return "Bit Reversal";
+		}
+		@Override
+		public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int len = ArrayVisualizer.getCurrentLength();
+			boolean delay = ArrayVisualizer.shuffleEnabled();
+            double sleep = delay ? 1 : 0;
+			
+			int log = (int)(Math.log(len)/Math.log(2));
+			for(int i = 0; i < len; i++) {
+				int j = 0;
+				int k = i;
+				
+				for(int l = log; l > 0; l--){
+					j *= 2;
+					j += k % 2;
+					k /= 2;
+				}
+				
+				if(j > i && j < len)
+					Writes.swap(array, i, j, sleep, true, false);
+			}
+		}
+		
 	};
 	
 	public void sort(int[] array, int start, int end, double sleep, Writes Writes) {
