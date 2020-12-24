@@ -775,35 +775,10 @@ public enum Shuffles {
 		@Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			int[] temp = Arrays.copyOf(array, currentLen);
 			boolean delay = ArrayVisualizer.shuffleEnabled();
-            double sleep = delay ? 1 : 0;
-
-			int middle = currentLen / 2;
-
-			int staircase = 0;
-			int step = 2;
-			int left = 0;
-			int right = middle;
-
-			for(int i = 0; i < currentLen; i++) {
-				if(i % 2 == 0) {
-					Writes.write(array, left, temp[i], sleep, true, false);
-					left += step;
-
-					if(left >= middle) {
-						staircase++;
-						left = ((int) Math.pow(2, staircase)) - 1;
-						step *= 2;
-					}
-				}
-				else {
-					Writes.write(array, right, temp[i], sleep, true, false);
-					right++;
-				}
-			}
-
-			Writes.swap(array, currentLen / 2 - 1, currentLen - 1, sleep, true, false);
+			
+			for(int j = currentLen-currentLen%2-2, i = j-1; i >= 0; i-=2, j--)
+				Writes.swap(array, i, j, delay ? 1 : 0, true, false);
 		}
 	},
 	BIT_REVERSE {
