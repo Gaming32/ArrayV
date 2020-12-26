@@ -59,12 +59,12 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort SliceBogoSort;
     private Sort BogoSort;
     private Sort BogoBogoSort;
-    
+
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 14;
         this.categoryCount = this.sortCount;
-        
+
         BadSort             = new             BadSort(this.arrayVisualizer);
         StoogeSort          = new          StoogeSort(this.arrayVisualizer);
         OptimizedStoogeSort = new OptimizedStoogeSort(this.arrayVisualizer);

@@ -5,6 +5,7 @@ import panes.JErrorPane;
 import sorts.select.AsynchronousSort;
 import sorts.select.BaseNMaxHeapSort;
 import sorts.select.CycleSort;
+import sorts.select.DequeueSort;
 import sorts.select.DoubleSelectionSort;
 import sorts.select.FlippedMinHeapSort;
 import sorts.select.MaxHeapSort;
@@ -59,10 +60,11 @@ final public class RunSelectionSorts extends MultipleSortThread {
     private Sort TournamentSort;
     private Sort AsynchronousSort;
     private Sort QueueSort;
+    private Sort DequeueSort;
     
     public RunSelectionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 14;
+        this.sortCount = 15;
         this.categoryCount = this.sortCount;
         
         SelectionSort       = new       SelectionSort(this.arrayVisualizer);
@@ -79,6 +81,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
         TournamentSort      = new      TournamentSort(this.arrayVisualizer);
         AsynchronousSort    = new    AsynchronousSort(this.arrayVisualizer);
         QueueSort           = new           QueueSort(this.arrayVisualizer);
+        DequeueSort         = new         DequeueSort(this.arrayVisualizer);
     }
 
     @Override
@@ -97,6 +100,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
         RunSelectionSorts.this.runIndividualSort(TournamentSort,      0, array, 2048, 1.5,  false);
         RunSelectionSorts.this.runIndividualSort(AsynchronousSort,    0, array, 1024, 1.5,  false);
         RunSelectionSorts.this.runIndividualSort(QueueSort,           0, array, 2048, 1,    false);
+        RunSelectionSorts.this.runIndividualSort(DequeueSort,         0, array, 2048, 1,    false);
     }
     
     @Override
