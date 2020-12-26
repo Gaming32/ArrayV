@@ -12,10 +12,11 @@ import sorts.exchange.DualPivotQuickSort;
 import sorts.exchange.GnomeSort;
 import sorts.exchange.ImprovedLLQuickSort;
 import sorts.exchange.ImprovedStableQuickSort;
-import sorts.exchange.LazyStableQuickSort;
 import sorts.exchange.IterativeCircleSort;
+import sorts.exchange.IterativeCombSort;
 import sorts.exchange.LLQuickSort;
 import sorts.exchange.LRQuickSort;
+import sorts.exchange.LazyStableQuickSort;
 import sorts.exchange.MeanQuickSort;
 import sorts.exchange.OddEvenSort;
 import sorts.exchange.RecursiveCombSort;
@@ -65,6 +66,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort BinaryGnomeSort;
     private Sort CombSort;
     private Sort RecursiveCombSort;
+    private Sort IterativeCombSort;
     private Sort CircleSort;
     private Sort CircleMergeSort;
     private Sort IterativeCircleSort;
@@ -79,7 +81,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 20;
+        this.sortCount = 21;
         this.categoryCount = this.sortCount;
         
         BubbleSort              = new              BubbleSort(this.arrayVisualizer);
@@ -93,6 +95,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         BinaryGnomeSort         = new         BinaryGnomeSort(this.arrayVisualizer);
         CombSort                = new                CombSort(this.arrayVisualizer);
         RecursiveCombSort       = new       RecursiveCombSort(this.arrayVisualizer);
+        IterativeCombSort       = new       IterativeCombSort(this.arrayVisualizer);
         CircleSort              = new              CircleSort(this.arrayVisualizer);
         IterativeCircleSort     = new     IterativeCircleSort(this.arrayVisualizer);
         CircleMergeSort         = new         CircleMergeSort(this.arrayVisualizer);
@@ -119,6 +122,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(BinaryGnomeSort,         0, array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(CombSort,                0, array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(RecursiveCombSort,       0, array, 1024, 1.25,  false);
+        RunExchangeSorts.this.runIndividualSort(IterativeCombSort,       0, array, 1024, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(CircleSort,              0, array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(IterativeCircleSort,     0, array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(CircleMergeSort,         0, array, 1024, 0.75,  false);
