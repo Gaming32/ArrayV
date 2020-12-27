@@ -31,14 +31,13 @@ SOFTWARE.
  *
  */
 
-final public class OOPBufferedMergeSort extends Sort {
+final public class StableBufferedMerge extends Sort {
     private BinaryInsertionSort binaryInserter;
     private ReverseLazyStableSort finalMerger;
-    private BlockSelectionMergeSort blockSelector;
 
     private int[] buffer;
 
-    public OOPBufferedMergeSort(ArrayVisualizer arrayVisualizer) {
+    public StableBufferedMerge(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
         this.setSortListName("OOP Buffered Merge");
@@ -98,9 +97,43 @@ final public class OOPBufferedMergeSort extends Sort {
         }
     }
 
+    private void blockCopy(int array[], int start, int end) {
+        int blockSize = end - start;
+        for (int i = end - 1; i >= start; i--) {
+            Writes.write(array, i, array[i - blockSize], 0.125, true, false);
+        }
+    }
+
+    private void blockCopyFromBuffer(int array[], int start, int end) {
+        for (int i = end - 1; i >= start; i--) {
+            Highlights.markArray(2, i - start);
+            Writes.write(array, i, buffer[i - start], 0.125, true, false);
+        }
+        Highlights.clearMark(2);
+    }
+
+    private void blockInsertionSort(int[] array, int start, int mid, int end, int blockSize) {
+        for (int i = mid; i < end; i += blockSize) {
+            int key = array[i];
+            int j = i - blockSize;
+
+            for (int k = i; k < i + blockSize; k++) {
+                Highlights.markArray(2, k);
+                Writes.write(buffer, k - i, array[k], 0.5, true, true);
+            }
+            Highlights.clearMark(2);
+            
+            while (j >= start && Reads.compareValues(key, array[j]) < 0) {
+                blockCopy(array, j + blockSize, j + 2 * blockSize);
+                j -= blockSize;
+            }
+            blockCopyFromBuffer(array, j + blockSize, j + 2 * blockSize);
+        }
+    }
+
     private void mergeOverBuffer(int[] array, int bufferSize, int start, int mid, int end) {
         int blockSize = bufferSize / 2;
-        blockSelector.blockSelection(array, start, end, blockSize, 0.025, 1);
+        blockInsertionSort(array, start, mid, end, blockSize);
 
         int checkStart = start;
         while (checkStart < end - blockSize) {
@@ -115,9 +148,8 @@ final public class OOPBufferedMergeSort extends Sort {
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         binaryInserter = new BinaryInsertionSort(arrayVisualizer);
         finalMerger = new ReverseLazyStableSort(arrayVisualizer);
-        blockSelector = new BlockSelectionMergeSort(arrayVisualizer);
         
-        int bufferSize = OOPBufferedMergeSort.getBufferSize(sortLength);
+        int bufferSize = StableBufferedMerge.getBufferSize(sortLength);
         int length = sortLength - ((sortLength - bufferSize) % (bufferSize / 2));
         if (bufferSize * 2 >= length) {
             binaryInserter.customBinaryInsert(array, 0, sortLength, 0.333);
