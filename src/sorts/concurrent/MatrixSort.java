@@ -11,12 +11,13 @@ Idea made by Control#2866 in The Studio Discord Server (https://discord.com/invi
 final public class MatrixSort extends Sort {
     private class MatrixShape {
         int width, height;
-        boolean unbalanced;
+        boolean unbalanced, insertLast;
 
-        public MatrixShape(int width, int height) {
+        public MatrixShape(int width, int height, boolean insertLast) {
             this.width = width;
             this.height = height;
             this.unbalanced = (width == 1) ^ (height == 1);
+            this.insertLast = this.unbalanced || insertLast;
         }
     }
 
@@ -69,9 +70,12 @@ final public class MatrixSort extends Sort {
     }
 
     private MatrixShape getMatrixDims(int len) {
-        int dim;
-        for (dim = (int)Math.sqrt(len); len % dim != 0; dim--);
-        return new MatrixShape(dim, len / dim);
+        int dim = (int)Math.sqrt(len);
+        boolean insertLast = false;
+        if (dim * dim == len - 1)
+            insertLast = true;
+        for (; len % dim != 0; dim--);
+        return new MatrixShape(dim, len / dim, insertLast);
     }
 
     private boolean matrixSort(int[] array, int start, int end, int gap, boolean dir) {
@@ -88,7 +92,7 @@ final public class MatrixSort extends Sort {
         else {
             boolean newdid;
             MatrixShape matShape = getMatrixDims(length);
-            if (matShape.unbalanced) {
+            if (matShape.insertLast) {
                 boolean did1 = matrixSort(array, start, end - gap, gap, dir);
                 boolean did2 = insertLast(array, start, end - gap, gap, dir);
                 return did1 || did2;
