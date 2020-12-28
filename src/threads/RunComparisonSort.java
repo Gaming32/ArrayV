@@ -134,6 +134,15 @@ final public class RunComparisonSort {
                                 extra = 4;
                             }
                         }
+						else if (sort.getRunSortName().equals("Combsort")) {
+                            try {
+                                extra = getCustomInput("Enter shrink factor (input/100):");
+								if(extra < 110) extra = 130;
+                            }
+                            catch(Exception e) {
+								extra = 130;
+                            }
+                        }
 						else if (sort.getRunSortName().equals("Wikisort")) {
                             try {
                                 extra = getCustomInput("Enter external buffer size (0 for in-place):");
