@@ -43,6 +43,10 @@ public enum Distributions {
         }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+
+			for(int i = 0; i < currentLen; i++)
+				array[i] = i;
         }
     },
 	SIMILAR {
@@ -88,9 +92,8 @@ public enum Distributions {
             int currentLen = ArrayVisualizer.getCurrentLength();
 			Random random = new Random();
 
-			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++)
-				array[i] = temp[random.nextInt(currentLen)];
+				array[i] = random.nextInt(currentLen);
         }
     },
 	SQUARE {
@@ -102,7 +105,7 @@ public enum Distributions {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 
 			for(int i = 0; i < currentLen; i++)
-				array[i] = (int)(Math.pow(array[i], 2)/currentLen);
+				array[i] = (int)(Math.pow(i, 2)/currentLen);
         }
     },
 	SQRT {
@@ -114,7 +117,7 @@ public enum Distributions {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 
 			for(int i = 0; i < currentLen; i++)
-				array[i] = (int)(Math.sqrt(array[i])*Math.sqrt(currentLen));
+				array[i] = (int)(Math.sqrt(i)*Math.sqrt(currentLen));
         }
     },
     CUBIC {
@@ -128,7 +131,7 @@ public enum Distributions {
             double mid = (currentLen-1)/2d;
 
 			for(int i = 0; i < currentLen; i++)
-				array[i] = (int)(Math.pow(array[i] - mid, power)/Math.pow(mid, power-1) + mid);
+				array[i] = (int)(Math.pow(i - mid, power)/Math.pow(mid, power-1) + mid);
         }
     },
 	QUINTIC {
@@ -142,7 +145,7 @@ public enum Distributions {
             double mid = (currentLen-1)/2d;
 
 			for(int i = 0; i < currentLen; i++)
-				array[i] = (int)(Math.pow(array[i] - mid, power)/Math.pow(mid, power-1) + mid);
+				array[i] = (int)(Math.pow(i - mid, power)/Math.pow(mid, power-1) + mid);
         }
     },
 	SINE {
@@ -218,9 +221,8 @@ public enum Distributions {
 				}
 			}
 
-			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++) {
-				array[i] = temp[Math.min(perlinNoise[i], currentLen-1)];
+				array[i] = perlinNoise[i];
 			}
         }
     },
@@ -232,10 +234,9 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 
-			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++) {
-				int value = 0 - (int) (PerlinNoise.returnNoise((float) array[i] / currentLen) * currentLen);
-				array[i] = temp[Math.min(value, currentLen-1)];
+				int value = 0 - (int) (PerlinNoise.returnNoise((float) i / currentLen) * currentLen);
+				array[i] = value;
 			}
         }
     },
@@ -251,7 +252,6 @@ public enum Distributions {
 			int constant = 1264;
 			double factor = currentLen / 512d;
 
-			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++) {
 				double square = Math.pow(position, 2);
 				double negativeSquare = 0 - square;
@@ -261,7 +261,7 @@ public enum Distributions {
 				double doublePi = 2 * Math.PI;
 				double denominator = Math.sqrt(doublePi);
 
-				array[i] = temp[Math.min((int) (numerator / denominator), currentLen-1)];
+				array[i] = (int) (numerator / denominator);
 				position += step;
 			}
         }
@@ -309,10 +309,9 @@ public enum Distributions {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 			int floorLog2 = (int)(Math.log(currentLen)/Math.log(2));
 
-			int[] temp = Arrays.copyOf(array, currentLen);
 			for(int i = 0; i < currentLen; i++) {
 				int value = (int)(currentLen * curveSum(floorLog2, (double)i/currentLen));
-				array[i] = temp[value];
+				array[i] = value;
 			}
         }
 
@@ -339,26 +338,25 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
 
-			int[] temp = Arrays.copyOf(array, currentLen);
-			cantor(array, temp, 0, currentLen, 0, currentLen-1);
+			cantor(array, 0, currentLen, 0, currentLen-1);
         }
 
-		public void cantor(int[] array, int[] temp, int a, int b, int min, int max) {
+		public void cantor(int[] array, int a, int b, int min, int max) {
 			if(b-a < 1 || max == min) return;
 
 			int mid = (min+max)/2;
 			if(b-a == 1) {
-				array[a] = temp[mid];
+				array[a] = mid;
 				return;
 			}
 
 			int t1 = (a+a+b)/3, t2 = (a+b+b+2)/3;
 
 			for(int i = t1; i < t2; i++)
-				array[i] = temp[mid];
+				array[i] = mid;
 
-			this.cantor(array, temp, a, t1, min, mid);
-			this.cantor(array, temp, t2, b, mid+1, max);
+			this.cantor(array, a, t1, min, mid);
+			this.cantor(array, t2, b, mid+1, max);
 		}
     },
 	DIVISORS {//O(n^1.5)
@@ -379,10 +377,9 @@ public enum Distributions {
 				if(n[i] > max) max = n[i];
 			}
 
-			int[] temp = Arrays.copyOf(array, currentLen);
 			double scale = Math.min((currentLen-1)/max, 1);
 			for(int i = 0; i < currentLen; i++) {
-				array[i] = temp[(int)(n[i]*scale)];
+				array[i] = (int)(n[i]*scale);
 			}
         }
 
@@ -414,10 +411,9 @@ public enum Distributions {
 				if(fsd[i] > max) max = fsd[i];
 			}
 
-			int[] temp = Arrays.copyOf(array, currentLen);
 			double scale = Math.min((currentLen-1)/max, 1);
 			for(int i = 0; i < currentLen; i++)
-				array[i] = temp[(int)(fsd[i]*scale)];
+				array[i] = (int)(fsd[i]*scale);
         }
 
 		public int gcd(int a, int b) {
@@ -434,10 +430,9 @@ public enum Distributions {
             int currentLen = ArrayVisualizer.getCurrentLength();
 			Random random = new Random();
 
-			int[] temp = Arrays.copyOf(array, currentLen);
             for(int i = 0; i < currentLen; i++){
                 int r = random.nextInt(currentLen - i) + i;
-                array[i] = temp[r];
+                array[i] = r;
             }
         }
 	},

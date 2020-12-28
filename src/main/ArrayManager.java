@@ -102,11 +102,12 @@ final public class ArrayManager {
         int currentLen = ArrayVisualizer.getCurrentLength();
 		
 		int[] temp = new int[currentLen];
+		Distributions.initializeArray(temp, this.ArrayVisualizer);
+		
         double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();
 		for(int i = 0; i < currentLen; i++)
-			temp[i] = (int)(uniqueFactor*(int)(i/uniqueFactor))+(int)uniqueFactor/2;
+			temp[i] = (int)(uniqueFactor*(int)(temp[i]/uniqueFactor))+(int)uniqueFactor/2;
 		
-		Distributions.initializeArray(temp, this.ArrayVisualizer);
 		System.arraycopy(temp, 0, array, 0, currentLen);
     }
     
