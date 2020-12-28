@@ -21,11 +21,11 @@ applications, and to alter it and redistribute it freely, subject to the followi
  *
  */
 
-final public class BranchlessPDQSort extends PDQSorting {
-    public BranchlessPDQSort(ArrayVisualizer arrayVisualizer) {
+final public class PDQBranchlessSort extends PDQSorting {
+    public PDQBranchlessSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Branchless PDQ");
+        this.setSortListName("PDQ (Branchless)");
         this.setRunAllSortsName("Branchless Pattern-Defeating Quick Sort");
         this.setRunSortName("Branchless Pattern-Defeating Quicksort");
         this.setCategory("Hybrid Sorts");
