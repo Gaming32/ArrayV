@@ -222,7 +222,7 @@ public enum Distributions {
 			}
 
 			for(int i = 0; i < currentLen; i++) {
-				array[i] = perlinNoise[i];
+				array[i] = Math.min(perlinNoise[i], currentLen-1);
 			}
         }
     },
@@ -236,7 +236,7 @@ public enum Distributions {
 
 			for(int i = 0; i < currentLen; i++) {
 				int value = 0 - (int) (PerlinNoise.returnNoise((float) i / currentLen) * currentLen);
-				array[i] = value;
+				array[i] = Math.min(value, currentLen-1);
 			}
         }
     },
