@@ -66,7 +66,7 @@ final public class BlockSwapMergeSort extends Sort {
 		return m;
 	}
 	
-    private void multiSwapMerge(int[] array, int start, int mid, int end) {
+    public void multiSwapMerge(int[] array, int start, int mid, int end) {
         int m = this.binarySearchMid(array, start, mid, end);
 		
 		while(m > 0) {

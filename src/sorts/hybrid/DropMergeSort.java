@@ -3,6 +3,8 @@ package sorts.hybrid;
 import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
+import sorts.hybrid.PDQBranchedSort;
+
 import java.util.ArrayList;
 
 /*
@@ -57,7 +59,7 @@ final public class DropMergeSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
         if (length < 2) return;
         
-        BranchedPDQSort pdqSort = new BranchedPDQSort(arrayVisualizer);
+        PDQBranchedSort pdqSort = new PDQBranchedSort(arrayVisualizer);
         ArrayList<Integer> dropped = new ArrayList<>(length);
         
         int num_dropped_in_a_row = 0;
@@ -68,7 +70,7 @@ final public class DropMergeSort extends Sort {
         int early_out_stop = length / EARLY_OUT_TEST_AT;
         
         while (read < length) {
-        	Highlights.markArray(2, read);
+            Highlights.markArray(2, read);
             iteration += 1;
             if (iteration == early_out_stop && dropped.size() > read * EARLY_OUT_DISORDER_FRACTION) {
                 // We have seen a lot of the elements and dropped a lot of them.
