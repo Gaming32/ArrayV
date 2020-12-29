@@ -116,12 +116,13 @@ final public class DropMergeSort extends Sort {
                   int max_of_dropped = read;
                   for (int i = read + 1; i <= read + num_dropped_in_a_row; i++) {
                       if (Reads.compareValues(array[i], max_of_dropped) == 1) {
-                          max_of_dropped = i;
+                          max_of_dropped = array[i];
                       }
                   }
 
                   while (write >= 1 && Reads.compareValues(max_of_dropped, array[write - 1]) == -1) {
                       Highlights.markArray(1, write - 1);
+                      Delays.sleep(1);
                       num_backtracked++;
                       write--;
                   }
