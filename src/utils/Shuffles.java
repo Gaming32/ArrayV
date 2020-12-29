@@ -727,7 +727,7 @@ public enum Shuffles {
 				if(c[i] < currentLen) Writes.write(temp, c[i], array[i], 0, false, true);
 
 			for(int i = 0; i < currentLen; i++) {
-				Writes.write(array, i, temp[i], 1, true, false);
+				Writes.write(array, i, temp[i], 0, true, false);
 				
 				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
 			}
