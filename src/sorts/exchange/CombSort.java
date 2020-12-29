@@ -42,13 +42,10 @@ final public class CombSort extends CombSorting {
         this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
-        
-        //Default options
-        this.setShrinkFactor(4); //Index 4 of Shrink Factors array
     }
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        this.combSort(array, sortLength, false);
+        this.combSort(array, sortLength, bucketCount/100d, false);
     }
 }

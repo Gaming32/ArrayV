@@ -31,24 +31,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 public abstract class CombSorting extends Sort {
     private InsertionSort insertSorter;
     
-    final private double[] shrinkFactors = {1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5};
-    private int shrinkChoice;
-    
     protected CombSorting(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }
     
-    protected double[] getShrinkFactors() {
-        return this.shrinkFactors;
-    }
-    
-    protected void setShrinkFactor(int choice) {
-        this.shrinkChoice = choice;
-    }
-    
-    protected void combSort(int[] array, int length, boolean hybrid) {
+    protected void combSort(int[] array, int length, double shrink, boolean hybrid) {
         insertSorter = new InsertionSort(this.arrayVisualizer);
-        double shrink = shrinkFactors[this.shrinkChoice];
 
         boolean swapped = false;
         int gap = length;
