@@ -80,7 +80,7 @@ final public class BlockSwapMergeSort extends Sort {
 		}
     }
 	
-	protected void multiSwapMergeSort(int[] array, int a, int b) {
+	public void multiSwapMergeSort(int[] array, int a, int b) {
         int len = b-a, i;
         
         for(int j = 1; j < len; j *= 2) {

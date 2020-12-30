@@ -82,16 +82,17 @@ final public class ThirdMergeSort extends Sort {
         return val >> 1;
     }
 
-    @Override
-    public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        binaryInserter = new BinaryInsertionSort(arrayVisualizer);
-        finalMerger = new BlockSwapMergeSort(arrayVisualizer);
-        
-        if (sortLength <= 32) {
-            binaryInserter.customBinaryInsert(array, 0, sortLength, 0.333);
+    public void thirdMergeSort(int[] array, int length) {
+        if (finalMerger == null) {
+            binaryInserter = new BinaryInsertionSort(arrayVisualizer);
+            finalMerger = new BlockSwapMergeSort(arrayVisualizer);
+        }
+
+        if (length <= 32) {
+            binaryInserter.customBinaryInsert(array, 0, length, 0.333);
             return;
         }
-        int thirdSize = sortLength / 3;
+        int thirdSize = length / 3;
         int useLength = thirdSize * 3;
 
         for (int i = thirdSize; i < useLength - 1; i += 2) {
@@ -117,15 +118,23 @@ final public class ThirdMergeSort extends Sort {
             subEnd = subStart;
         }
 
-        int extra = sortLength - useLength;
+        int extra = length - useLength;
         if (extra > 0) {
-            if (extra > 1 && Reads.compareIndices(array, sortLength - 2, sortLength - 1, 0.5, true) == 1) {
-                Writes.swap(array, sortLength - 2, sortLength - 1, 0.5, true, false);
+            if (extra > 1 && Reads.compareIndices(array, length - 2, length - 1, 0.5, true) == 1) {
+                Writes.swap(array, length - 2, length - 1, 0.5, true, false);
             }
-            finalMerger.multiSwapMerge(array, thirdSize, useLength, sortLength);
+            finalMerger.multiSwapMerge(array, thirdSize, useLength, length);
         }
 
-        runSort(array, thirdSize, bucketCount);
-        finalMerger.multiSwapMerge(array, 0, thirdSize, sortLength);
+        thirdMergeSort(array, thirdSize);
+        finalMerger.multiSwapMerge(array, 0, thirdSize, length);
+    }
+
+    @Override
+    public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
+        binaryInserter = new BinaryInsertionSort(arrayVisualizer);
+        finalMerger = new BlockSwapMergeSort(arrayVisualizer);
+        
+        this.thirdMergeSort(array, sortLength);
     }
 }
