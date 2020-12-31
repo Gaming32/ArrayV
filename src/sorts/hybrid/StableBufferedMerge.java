@@ -40,9 +40,9 @@ final public class StableBufferedMerge extends Sort {
     public StableBufferedMerge(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("OOP Buffered Merge");
-        this.setRunAllSortsName("Out-of-Place Buffered Merge Sort");
-        this.setRunSortName("Out-of-Place Buffered Mergesort");
+        this.setSortListName("Stable Buffered Merge");
+        this.setRunAllSortsName("Stable Buffered Merge Sort");
+        this.setRunSortName("Stable Buffered Mergesort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
