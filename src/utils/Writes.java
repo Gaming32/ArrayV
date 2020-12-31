@@ -224,11 +224,39 @@ final public class Writes {
         Delays.sleep(pause);
     }
 
+    public <T> void write(T[] array, int at, T equals, double pause, boolean mark) {
+        if(mark) Highlights.markArray(1, at);
+        
+        auxWrites++;
+        
+        Timer.startLap("Write");
+        
+        array[at] = equals;
+
+        Timer.stopLap();
+        
+        Delays.sleep(pause);
+    }
+
     public void multiDimWrite(int[][] array, int x, int y, int equals, double pause, boolean mark, boolean auxwrite) {
         if(mark) Highlights.markArray(1, x);
         
         if(auxwrite) auxWrites++;
         else            writes++;
+
+        Timer.startLap();
+        
+        array[x][y] = equals;
+
+        Timer.stopLap();
+        
+        Delays.sleep(pause);
+    }
+
+    public <T> void multiDimWrite(T[][] array, int x, int y, T equals, double pause, boolean mark) {
+        if(mark) Highlights.markArray(1, x);
+        
+        auxWrites++;
 
         Timer.startLap();
         
