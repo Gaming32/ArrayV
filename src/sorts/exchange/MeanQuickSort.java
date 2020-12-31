@@ -58,14 +58,12 @@ final public class MeanQuickSort extends Sort {
     }
 
     private void partition(int[] array, int start, int end, int sum) {
-        Delays.sleep(2);
-
         int left = start;
-        int right = end - 1;
+        int right = end;
         Highlights.markArray(1, left);
         Highlights.markArray(2, right);
 
-        int count = right - left;
+        int count = right - left + 1;
         if (count <= 1) {
             return;
         }
@@ -75,38 +73,65 @@ final public class MeanQuickSort extends Sort {
         int lsum = 0;
         int rsum = 0;
 
-        while (left < right) {
-            while (this.compareIntDouble(array[right], mean) >= 0) {
-                rsum += array[right];
-                right--;
+        while (left <= right) {
+            // while (this.compareIntDouble(array[right], mean) >= 0) {
+            //     rsum += array[right];
+            //     right--;
+            //     Delays.sleep(0.5);
+            //     Highlights.markArray(4, right);
+            // }
+
+            // if (left > right) {
+            //     break;
+            // }
+
+            // if (this.compareIntDouble(array[left], mean) >= 0) {
+            //     Writes.swap(array, left, right, 1, false, false);
+            //     rsum += array[right];
+            //     right--;
+            //     Highlights.markArray(4, right);
+            // }
+            // Reads.addComparison();
+
+            // if (left > right || left >= highestEnd) {
+            //     break;
+            // }
+
+            // lsum += array[left];
+            // left++;
+            // Highlights.markArray(3, left);
+            while (compareIntDouble(array[left], mean) == -1) {
+                lsum += array[left];
+                left++;
+                Highlights.markArray(1, left);
                 Delays.sleep(0.5);
-                Highlights.markArray(4, right);
             }
-
-            if (left >= right) {
-                break;
-            }
-
-            if (this.compareIntDouble(array[left], mean) >= 0) {
-                Writes.swap(array, left, right, 1, false, false);
+            while (compareIntDouble(array[right], mean) == 1) {
                 rsum += array[right];
                 right--;
-                Highlights.markArray(4, right);
-            }
-            Reads.addComparison();
-
-            if (left >= right) {
-                break;
+                Highlights.markArray(2, right);
+                Delays.sleep(0.5);
             }
 
-            lsum += array[left];
-            left++;
-            Highlights.markArray(3, left);
+            if (left <= right) {
+                Writes.swap(array, left, right, 1, true, false);
+                
+                lsum += array[left];
+                rsum += array[right];
+                left++;
+                right--;
+            }
         }
 
-        Highlights.clearAllMarks();
-        partition(array, start, left + 1, lsum);
-        partition(array, left, end, rsum);
+        // Highlights.clearAllMarks();
+        // partition(array, start, left + 1, lsum, highestEnd);
+        // partition(array, left, end, rsum, highestEnd);
+        if (start < right) {
+            partition(array, start, right, lsum);
+        }
+        if (left < end) {
+            partition(array, left, end, rsum);
+        }
     }
 
     @Override
@@ -121,14 +146,14 @@ final public class MeanQuickSort extends Sort {
         }
         Highlights.clearMark(1);
 
-        partition(array, 0, sortLength, sum);
+        partition(array, 0, sortLength - 1, sum);
 
-        for (int i = 1; i < sortLength; i++) {
-            int j = i;
-            while (j > 0 && Reads.compareIndices(array, j, j - 1, 0.25, true) == -1) {
-                Writes.swap(array, j, j - 1, 0.25, true, false);
-                j--;
-            }
-        }
+        // for (int i = 1; i < sortLength; i++) {
+        //     int j = i;
+        //     while (j > 0 && Reads.compareIndices(array, j, j - 1, 0.25, true) == -1) {
+        //         Writes.swap(array, j, j - 1, 0.25, true, false);
+        //         j--;
+        //     }
+        // }
     }
 }
