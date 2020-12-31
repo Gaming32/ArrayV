@@ -127,7 +127,8 @@ final public class StableBufferedMerge extends Sort {
                 blockCopy(array, j + blockSize, j + 2 * blockSize);
                 j -= blockSize;
             }
-            blockCopyFromBuffer(array, j + blockSize, j + 2 * blockSize);
+            if (j != i - blockSize)
+                blockCopyFromBuffer(array, j + blockSize, j + 2 * blockSize);
         }
     }
 
