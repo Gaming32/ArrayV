@@ -189,6 +189,14 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                 waveDotsActionPerformed(evt);
             }
         });
+
+        hoopStack.setText("Hoop Stack");
+        hoopStack.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hoopStackActionPerformed(evt);
+            }
+        });
         
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
@@ -198,19 +206,22 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                     .addGap(18)
                     .addGroup(layout.createParallelGroup(Alignment.LEADING)
                         .addComponent(barGraph, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                        .addComponent(rainbow, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                        .addComponent(colorCircle, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                        .addComponent(disparity, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(disparityDots, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
-                        .addComponent(sineWave, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+                        .addComponent(rainbow, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                        .addComponent(colorCircle, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                        .addComponent(disparity, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(Alignment.LEADING)
+                        .addComponent(disparityDots, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                        .addComponent(sineWave, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(waveDots, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(dotGraph, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                        .addComponent(triangleMesh, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(hoopStack, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(Alignment.LEADING)
+                        .addComponent(triangleMesh, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                         .addComponent(spiral, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(customImage, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                        .addComponent(spiralDots, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+                        .addComponent(spiralDots, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(18))
         );
         layout.setVerticalGroup(
@@ -221,27 +232,26 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                     .addPreferredGap(ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
                         .addComponent(barGraph)
-                        .addComponent(dotGraph))
-                    .addPreferredGap(ComponentPlacement.UNRELATED)
-                    .addGroup(layout.createParallelGroup(Alignment.BASELINE)
-                        .addComponent(rainbow)
+                        .addComponent(disparityDots)
                         .addComponent(triangleMesh))
                     .addPreferredGap(ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
+                        .addComponent(rainbow)
+                        .addComponent(sineWave)
+                        .addComponent(spiral))
+                    .addPreferredGap(ComponentPlacement.UNRELATED)
+                    .addGroup(layout.createParallelGroup(Alignment.BASELINE)
                         .addComponent(colorCircle)
+                        .addComponent(waveDots)
                         .addComponent(customImage))
                     .addPreferredGap(ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
                         .addComponent(disparity)
-                        .addComponent(spiral))
-                    .addPreferredGap(ComponentPlacement.UNRELATED)
-                    .addGroup(layout.createParallelGroup(Alignment.BASELINE)
-                        .addComponent(disparityDots)
+                        .addComponent(dotGraph)
                         .addComponent(spiralDots))
                     .addPreferredGap(ComponentPlacement.UNRELATED)
-                    .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                        .addComponent(sineWave)
-                        .addComponent(waveDots))
+                    .addGroup(layout.createParallelGroup(Alignment.BASELINE)
+                        .addComponent(hoopStack))
                     .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         getContentPane().setLayout(layout);
@@ -346,6 +356,12 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         ArrayVisualizer.setVisual(VisualStyles.PIXELS);
         ArrayVisualizer.togglePixels(true);
         ArrayVisualizer.toggleWave(true);
+        UtilFrame.jButton2ResetText();
+        dispose();
+    }
+    private void hoopStackActionPerformed(java.awt.event.ActionEvent evt) {
+        setAllFieldsFalse();
+        ArrayVisualizer.setVisual(VisualStyles.HOOPSTACK);
         UtilFrame.jButton2ResetText();
         dispose();
     }

@@ -32,6 +32,7 @@ SOFTWARE.
 
 final public class LazyStableQuickSort extends Sort {
     ReverseLazyStableSort rotater;
+    SmartCocktailSort cocktailSort;
 
     public LazyStableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -48,7 +49,12 @@ final public class LazyStableQuickSort extends Sort {
         this.setBogoSort(false);
     }
     
-    private int stablePartition(int[] array, int start, int end) {
+    private int stablePartition(int[] array, int start, int end, int depthLimit) {
+        if (depthLimit == 0) {
+            cocktailSort.customSort(array, start, end);
+            return -1;
+        }
+
         int mid = start + (end - start) / 2;
         int pivot = array[mid];
 
@@ -74,12 +80,11 @@ final public class LazyStableQuickSort extends Sort {
         // Necessary if the run is at the end
         if (runsize > 0) {
             if (end - start == runsize) {
-                int tmp = array[mid];
-                for (int i = mid; i < end - 1; i++) {
-                    Writes.write(array, i, array[i + 1], 2.5, true, false);
+                for (int i = start; i < end - 1; i++) {
+                    if (Reads.compareIndices(array, i, i + 1, 0.1, true) == 1)
+                        Writes.swap(array, i, i + 1, 2.5, true, false);
                 }
-                Writes.write(array, end - 1, tmp, 7.5, true, false);
-                return stablePartition(array, start, end);
+                return stablePartition(array, start, end, depthLimit - 1);
             }
             rotater.rotateSmart(array, runstart, ltLeft, runsize);
             ltLeft += runsize;
@@ -96,7 +101,8 @@ final public class LazyStableQuickSort extends Sort {
             }
         }
         else if (start < end) {
-            int pivotIndex = this.stablePartition(array, start, end);
+            int pivotIndex = this.stablePartition(array, start, end, (int)(Math.log(end - start) / Math.log(2)) + 1);
+            if (pivotIndex == -1) return;
             this.stableQuickSort(array, start, pivotIndex);
             this.stableQuickSort(array, pivotIndex, end);
         }
@@ -105,6 +111,7 @@ final public class LazyStableQuickSort extends Sort {
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         rotater = new ReverseLazyStableSort(arrayVisualizer);
+        cocktailSort = new SmartCocktailSort(arrayVisualizer);
         this.stableQuickSort(array, 0, length);
     }
 }

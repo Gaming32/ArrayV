@@ -67,21 +67,14 @@ public class WikiSort extends Sort {
         this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
-        
-        this.cache = 0;
-        
-        this.insertionSort = new InsertionSort(this.arrayVisualizer);
-        this.wikiSortInstance = new WikiSorting(this.insertionSort, this.arrayVisualizer, this.cache);
     }
     
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
-        /*
-        this.cache = 0;
+        this.cache = bucketCount;
         
         this.insertionSort = new InsertionSort(this.arrayVisualizer);
         this.wikiSortInstance = new WikiSorting(this.insertionSort, this.arrayVisualizer, this.cache);
-        */
         
         WikiSorting.sort(this.wikiSortInstance, array, currentLength);
     }

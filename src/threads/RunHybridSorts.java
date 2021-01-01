@@ -20,7 +20,7 @@ import sorts.hybrid.IterativeIntroCircleSort;
 import sorts.hybrid.KotaSort;
 import sorts.hybrid.LAQuickSort;
 import sorts.hybrid.MedianMergeSort;
-import sorts.hybrid.OOPBufferedMergeSort;
+import sorts.hybrid.StableBufferedMerge;
 import sorts.hybrid.OptimizedBottomUpMergeSort;
 import sorts.hybrid.OptimizedDualPivotQuickSort;
 import sorts.hybrid.PairwiseCircleSort;
@@ -116,7 +116,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         KotaSort                    = new                    KotaSort(this.arrayVisualizer);
         EctaSort                    = new                    EctaSort(this.arrayVisualizer);
         BufferedMergeSort           = new           BufferedMergeSort(this.arrayVisualizer);
-        OOPBufferedMergeSort        = new        OOPBufferedMergeSort(this.arrayVisualizer);
+        OOPBufferedMergeSort        = new        StableBufferedMerge(this.arrayVisualizer);
         BlockSelectionMergeSort     = new     BlockSelectionMergeSort(this.arrayVisualizer);
         MedianMergeSort             = new             MedianMergeSort(this.arrayVisualizer);
         IntroSort                   = new                   IntroSort(this.arrayVisualizer);

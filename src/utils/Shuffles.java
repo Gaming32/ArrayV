@@ -727,7 +727,7 @@ public enum Shuffles {
 				if(c[i] < currentLen) Writes.write(temp, c[i], array[i], 0, false, true);
 
 			for(int i = 0; i < currentLen; i++) {
-				Writes.write(array, i, temp[i], 1, true, false);
+				Writes.write(array, i, temp[i], 0, true, false);
 				
 				if(ArrayVisualizer.shuffleEnabled()) Delays.sleep(1);
 			}
@@ -775,36 +775,39 @@ public enum Shuffles {
 		@Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			int[] temp = Arrays.copyOf(array, currentLen);
+			boolean delay = ArrayVisualizer.shuffleEnabled();
+			
+			for(int j = currentLen-currentLen%2-2, i = j-1; i >= 0; i-=2, j--)
+				Writes.swap(array, i, j, delay ? 1 : 0, true, false);
+		}
+	},
+	BIT_REVERSE {
+		@Override
+		public String getName() {
+			return "Bit Reversal";
+		}
+		@Override
+		public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int len = ArrayVisualizer.getCurrentLength();
 			boolean delay = ArrayVisualizer.shuffleEnabled();
             double sleep = delay ? 1 : 0;
-
-			int middle = currentLen / 2;
-
-			int staircase = 0;
-			int step = 2;
-			int left = 0;
-			int right = middle;
-
-			for(int i = 0; i < currentLen; i++) {
-				if(i % 2 == 0) {
-					Writes.write(array, left, temp[i], sleep, true, false);
-					left += step;
-
-					if(left >= middle) {
-						staircase++;
-						left = ((int) Math.pow(2, staircase)) - 1;
-						step *= 2;
-					}
+			
+			int log = (int)(Math.log(len)/Math.log(2));
+			for(int i = 0; i < len; i++) {
+				int j = 0;
+				int k = i;
+				
+				for(int l = log; l > 0; l--){
+					j *= 2;
+					j += k % 2;
+					k /= 2;
 				}
-				else {
-					Writes.write(array, right, temp[i], sleep, true, false);
-					right++;
-				}
+				
+				if(j > i && j < len)
+					Writes.swap(array, i, j, sleep, true, false);
 			}
-
-			Writes.swap(array, currentLen / 2 - 1, currentLen - 1, sleep, true, false);
 		}
+		
 	};
 	
 	public void sort(int[] array, int start, int end, double sleep, Writes Writes) {

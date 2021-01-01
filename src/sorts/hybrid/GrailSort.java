@@ -48,8 +48,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /*********************************************************/
 
 final public class GrailSort extends GrailSorting {
-    private int bufferType = 0;
-    
     public GrailSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -67,11 +65,6 @@ final public class GrailSort extends GrailSorting {
         this.setBogoSort(false);
     }
     
-    // 0 for no buffer, 1 for static buffer, 2 for dynamic buffer
-    public void chooseBuffer(int choice) {
-        bufferType = choice;
-    }
-    
     public void rotateLength(int[] array, int leftLength, int rightLength) {
         this.grailRotate(array, 0, leftLength, rightLength);
     }
@@ -82,25 +75,23 @@ final public class GrailSort extends GrailSorting {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        if(bufferType == 0) this.grailCommonSort(array, 0, length, null, 0, 0);
-        else if(bufferType == 1) {
+		switch(bucketCount) {
+		case 1:
             int[] ExtBuf = Writes.createExternalArray(this.getStaticBuffer());
             this.grailCommonSort(array, 0, length, ExtBuf, 0, this.getStaticBuffer());
             Writes.deleteExternalArray(ExtBuf);
-        }
-        else if(bufferType == 2) {
+			break;
+			
+		case 2:
             int tempLen = 1;
             while(tempLen * tempLen < length) tempLen *= 2;
             int[] DynExtBuf = Writes.createExternalArray(tempLen);
             this.grailCommonSort(array, 0, length, DynExtBuf, 0, tempLen);
             Writes.deleteExternalArray(DynExtBuf);
-        }
-        else {
-            try {
-                throw new Exception("Invalid Grail buffer!!");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+			break;
+			
+		default:
+			this.grailCommonSort(array, 0, length, null, 0, 0);
+		}
     }
 }

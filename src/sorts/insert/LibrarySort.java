@@ -45,82 +45,99 @@ final public class LibrarySort extends Sort {
         this.setBogoSort(false);
     }
 	
-	//implementation of Library Sort using a 2D array
+	//implementation of stable library sort with O(n) extra memory + counter & pointer array (n/2 size each)
 	
 	private BinaryInsertionSort binaryInsert;
-	private final int GAP_SIZE = 16; //max gap size for insertions
-									 //memory: O(n * GAP_SIZE)
 	
-	private int binarySearch(int[] array, int start, int end, int value) {
-		int lo = start, hi = end;
-		
-		while (lo < hi) {
-			int mid = lo + ((hi - lo) / 2);
-			Highlights.markArray(1, mid);
+	public static int getMinLevel(int n) {
+		while(n >= 32) n = (n+1)/2;
+		return n;
+	}
+	
+	private int binarySearch(int[] array, int a, int b, int val, double sleep) {
+		while(a < b) {
+			int m = a+(b-a)/2;
+			Highlights.markArray(3, m);
+			Delays.sleep(sleep);
 			
-			Delays.sleep(1);
-			if (Reads.compareValues(value, array[mid]) < 0) {
-				hi = mid;
-			}
-			else {
-				lo = mid + 1;
-			}
+			if(Reads.compareValues(val, array[m]) < 0) 
+				b = m;
+			else     
+				a = m+1;
 		}
+		Highlights.clearMark(3);
 		
-		Highlights.clearMark(1);
-		return lo;
+		return a;
+	}
+	
+	private void rebalance(int[] array, int[] temp, int[] cnts, int[] locs, int m, int b) {
+		//do a partial sum to find locations
+		Highlights.clearMark(2);
+		for(int i = 0; i < m; i++)
+			Writes.write(cnts, i+1, cnts[i+1]+cnts[i]+1, 1, true, true);
+		
+		//place books in gaps into their correct locations
+		for(int i = m, j = 0; i < b; i++, j++) {
+			Highlights.markArray(2, i);
+			Writes.write(temp, cnts[locs[j]], array[i], 1, true, true);
+			Writes.write(cnts, locs[j], cnts[locs[j]]+1, 0, false, true);
+		}
+		for(int i = 0; i < m; i++) {
+			Highlights.markArray(2, i);
+			Writes.write(temp, cnts[i], array[i], 1, true, true);
+			Writes.write(cnts, i, cnts[i]+1, 0, false, true);
+		}
+		Highlights.clearMark(2);
+		
+		//copy back to array & sort the gaps
+		Writes.arraycopy(temp, 0, array, 0, b, 1, true, false);
+		this.binaryInsert.customBinaryInsert(array, 0, cnts[0]-1, 0.5);
+		for(int i = 0; i < m-1; i++)
+			this.binaryInsert.customBinaryInsert(array, cnts[i], cnts[i+1]-1, 0.5);
+		this.binaryInsert.customBinaryInsert(array, cnts[m-1], cnts[m], 0.5);
+		
+		//reset count array
+		for(int i = 0; i < m+2; i++) 
+			Writes.write(cnts, i, 0, 0, false, true);
 	}
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		this.binaryInsert = new BinaryInsertionSort(this.arrayVisualizer);
 		
-		int i = 1;
-		while(i < length && Reads.compareValues(array[i-1], array[i]) < 1) { //finds increasing subsequence at start
-			Highlights.markArray(1, i);
-			Delays.sleep(1);
-			i++;
+		if(length < 32) {
+			this.binaryInsert.customBinaryInsert(array, 0, length, 1);
+			return;
 		}
-		if(i == length) return;
-			
-		int size = i+1;
-		int[] temp     = Writes.createExternalArray(length);
-		int[][] gaps   = new int[length][GAP_SIZE];
-		int[] gapCount = Writes.createExternalArray(length);
-		Writes.changeAllocAmount(length * GAP_SIZE);
 		
-		while(i < length) {
-			while(i < length) { //insert into gaps
-				Highlights.markArray(2, i);
-				int idx = this.binarySearch(array, 0, size-1, array[i]);
-				if(gapCount[idx] == GAP_SIZE) break;
-				
-				Writes.multiDimWrite(gaps, idx, gapCount[idx], array[i], 0, false, true);
-				Writes.write(gapCount, idx, gapCount[idx]+1, 0, false, true);
-				i++;
-			}
-			Highlights.clearMark(2);
-			
-			//rebalancing phase
-			for(int j = 0; j < size-1; j++)
-				Writes.write(temp, j, array[j], 1, true, true);
-			
-			for(int j = 0, k = 0, m = 0; j < size; j++) {
-				for(int g = 0; g < gapCount[j]; g++)
-					Writes.write(array, k++, gaps[j][g], 1, true, false);
-				Writes.write(gapCount, j, 0, 0, false, true);
-				
-				binaryInsert.customBinaryInsert(array, m, k, 0.5); //multiple books inserted into a gap
-																   //may not be in correct order so we sort
-				if(j < size-1) Writes.write(array, k++, temp[j], 1, true, false);
-				m = k;
+		int j = getMinLevel(length);
+		this.binaryInsert.customBinaryInsert(array, 0, j, 1);
+		
+		int maxLevel = j;
+		for(; maxLevel*2 < length; maxLevel *= 2);
+		
+		int[] temp = Writes.createExternalArray(length), 
+			  cnts = Writes.createExternalArray(maxLevel+2),
+			  locs = Writes.createExternalArray(length-maxLevel);
+		
+		for(int i = j, k = 0; i < length; i++) {
+			if(2*j == i) {
+				this.rebalance(array, temp, cnts, locs, j, i);
+				j = i;
+				k = 0;
 			}
 			
-			size = i+1;
+			//search which gap a book goes and save the result
+			Highlights.markArray(2, i);
+			int loc = this.binarySearch(array, 0, j, array[i], 0.5);
+			
+			Writes.write(cnts, loc+1, cnts[loc+1]+1, 0, false, true);
+			Writes.write(locs, k++, loc, 0, false, true);
 		}
-
+		this.rebalance(array, temp, cnts, locs, j, length);
+		
 		Writes.deleteExternalArray(temp);
-		Writes.deleteExternalArray(gapCount);
-		Writes.changeAllocAmount(-(gaps.length * gaps[0].length));
+		Writes.deleteExternalArray(cnts);
+		Writes.deleteExternalArray(locs);
     }
 }

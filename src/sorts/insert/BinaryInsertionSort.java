@@ -32,7 +32,7 @@ SOFTWARE.
 final public class BinaryInsertionSort extends BinaryInsertionSorting {
     public BinaryInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Binary Insert");
         this.setRunAllSortsName("Binary Insertion Sort");
         this.setRunSortName("Binary Insertsort");

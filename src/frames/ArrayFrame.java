@@ -106,7 +106,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
     }
 
     private int calculateSliderValue(int length) {
-        int sliderValue = (int)(Math.log(length) / Math.log(2) * 100000);
+        int sliderValue = (int)Math.ceil(Math.log(length) / Math.log(2) * 100000);
         return sliderValue;
     }
 
