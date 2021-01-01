@@ -117,18 +117,24 @@ final public class StableBufferedMerge extends Sort {
             int key = array[i];
             int j = i - blockSize;
 
+            if (Reads.compareValues(key, array[j]) >= 0) {
+                continue;
+            }
+
             for (int k = i; k < i + blockSize; k++) {
                 Highlights.markArray(2, k);
                 Writes.write(buffer, k - i, array[k], 0.5, true, true);
             }
             Highlights.clearMark(2);
-            
+
+            blockCopy(array, j + blockSize, j + 2 * blockSize);
+            j -= blockSize;
+
             while (j >= start && Reads.compareValues(key, array[j]) < 0) {
                 blockCopy(array, j + blockSize, j + 2 * blockSize);
                 j -= blockSize;
             }
-            if (j != i - blockSize)
-                blockCopyFromBuffer(array, j + blockSize, j + 2 * blockSize);
+            blockCopyFromBuffer(array, j + blockSize, j + 2 * blockSize);
         }
     }
 
