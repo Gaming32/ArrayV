@@ -133,7 +133,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         // RunExchangeSorts.this.runIndividualSort(MeanQuickSort,           0, array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(StableQuickSort,         0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5,    false);
         RunExchangeSorts.this.runIndividualSort(ImprovedStableQuickSort, 0, array, 2048, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(LazyStableQuickSort,        0, array, 256,  0.5,   false);
+        RunExchangeSorts.this.runIndividualSort(LazyStableQuickSort,     0, array, 256,  0.5,   false);
     }
     
     @Override
