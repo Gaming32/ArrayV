@@ -29,13 +29,13 @@ SOFTWARE.
  *
  */
 
-final public class DualInsertionSort extends Sort {
-    public DualInsertionSort(ArrayVisualizer arrayVisualizer) {
+final public class DoubleInsertionSort extends Sort {
+    public DoubleInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Dual Insertion");
-        this.setRunAllSortsName("Dual Insertion Sort");
-        this.setRunSortName("Dual Insertsort");
+        this.setSortListName("Double Insertion");
+        this.setRunAllSortsName("Double Insertion Sort");
+        this.setRunSortName("Double Insertsort");
         this.setCategory("Insertion Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
@@ -45,22 +45,26 @@ final public class DualInsertionSort extends Sort {
         this.setBogoSort(false);
     }
 
-    protected void insertUp(int[] array, int left, int right, double sleep, boolean auxwrite) {
+    protected void insertUp(int[] array, int left, int right, boolean canEqual, double sleep, boolean auxwrite) {
         int current = array[left];
         int pos = left + 1;
+
+        int cmp = canEqual ? 0 : -1;
         
-        while (pos < right && Reads.compareValues(array[pos], current) < 0) {
+        while (Reads.compareValues(array[pos], current) <= cmp) {
             Writes.write(array, pos - 1, array[pos], sleep, true, auxwrite);
             pos++;
         }
         Writes.write(array, pos - 1, current, sleep, true, auxwrite);
     }
 
-    protected void insertDown(int[] array, int left, int right, double sleep, boolean auxwrite) {
+    protected void insertDown(int[] array, int left, int right, boolean canEqual, double sleep, boolean auxwrite) {
         int current = array[right];
         int pos = right - 1;
 
-        while (pos >= left && Reads.compareValues(array[pos], current) > 0) {
+        int cmp = canEqual ? 0 : 1;
+
+        while (Reads.compareValues(array[pos], current) >= cmp) {
             Writes.write(array, pos + 1, array[pos], sleep, true, auxwrite);
             pos--;
         }
@@ -72,19 +76,21 @@ final public class DualInsertionSort extends Sort {
         // int left = 0, right = 1;
 
         while (left >= start && right < end) {
+            boolean swapped = false;
             if (Reads.compareIndices(array, left, right, sleep, true) == 1) {
                 Writes.swap(array, left, right, 0, true, auxwrite);
+                swapped = true;
             }
 
-            insertUp(array, left, right, sleep, auxwrite);
-            insertDown(array, left, right, sleep, auxwrite);
+            insertUp(array, left, right, swapped, sleep, auxwrite);
+            insertDown(array, left, right, swapped, sleep, auxwrite);
 
             left--;
             right++;
         }
 
-        while (left >= start) insertUp(array, left--, right, sleep, auxwrite);
-        while (right < end) insertDown(array, left, right++, sleep, auxwrite);
+        while (left >= start) insertUp(array, left--, right, false, sleep, auxwrite);
+        while (right < end) insertDown(array, left, right++, false, sleep, auxwrite);
     }
 
     public void customInsertSort(int[] array, int start, int end, double sleep, boolean auxwrite) {
