@@ -231,6 +231,7 @@ final public class FeatureSort extends Sort {
 
     public void featureSort(int[] array, int currentLength) {
         double max = Reads.analyzeMax(array, currentLength, 0.25, true);
+        @SuppressWarnings("unchecked")
         ArrayList<Integer>[] pos = new ArrayList[currentLength];
         double posConstant = max / (currentLength + 4);
         for (int i = 0; i < currentLength; i++) {
