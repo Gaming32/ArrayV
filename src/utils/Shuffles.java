@@ -115,6 +115,20 @@ public enum Shuffles {
             Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
         }
     },
+	NAIVE {
+        public String getName() {
+            return "Naive Randomly";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+			boolean delay = ArrayVisualizer.shuffleEnabled();
+			Random random = new Random();
+            
+            for(int i = 0; i < currentLen; i++)
+                Writes.swap(array, i, random.nextInt(currentLen), delay ? 1 : 0, true, false);
+        }
+    },
 	SHUFFLED_TAIL {
         public String getName() {
             return "Scrambled Tail";
@@ -788,23 +802,23 @@ public enum Shuffles {
 		}
 		@Override
 		public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
-			int len = ArrayVisualizer.getCurrentLength();
+			int len = 1 << (int)(Math.log(ArrayVisualizer.getCurrentLength())/Math.log(2));
 			boolean delay = ArrayVisualizer.shuffleEnabled();
             double sleep = delay ? 1 : 0;
 			
-			int log = (int)(Math.log(len)/Math.log(2));
-			for(int i = 0; i < len; i++) {
-				int j = 0;
-				int k = i;
+			int d = len >> 1, m = 0;
+					
+			for(int i = 1; i < len-1; i++) {
+				int j = d, n = d, k = i;
 				
-				for(int l = log; l > 0; l--){
-					j *= 2;
-					j += k % 2;
-					k /= 2;
+				while((k & 1) == 0) {
+					k >>= 1;
+					n >>= 1;
+					j -= 3*n;
 				}
 				
-				if(j > i && j < len)
-					Writes.swap(array, i, j, sleep, true, false);
+				m += j;
+				if(m > i) Writes.swap(array, i, m, sleep, true, false);
 			}
 		}
 		
