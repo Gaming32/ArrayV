@@ -29,11 +29,11 @@ SOFTWARE.
  *
  */
 
-final public class IterativeWeaveSort extends Sort {
-    public IterativeWeaveSort(ArrayVisualizer arrayVisualizer) {
+final public class WeaveSortIterative extends Sort {
+    public WeaveSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Iterative Weave");
+        this.setSortListName("Weave (Iterative)");
         this.setRunAllSortsName("Iterative Weave Sorting Network");
         this.setRunSortName("Iterative Weave Sort");
         this.setCategory("Concurrent Sorts");

@@ -25,11 +25,11 @@ SOFTWARE.
  *
  */
 
-final public class IterativePairwiseSort extends Sort {
-    public IterativePairwiseSort(ArrayVisualizer arrayVisualizer) {
+final public class PairwiseSortIterative extends Sort {
+    public PairwiseSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Iterative Pairwise");
+        this.setSortListName("Pairwise (Iterative)");
         this.setRunAllSortsName("Iterative Pairwise Sorting Network");
         this.setRunSortName("Iterative Pairwise Sort");
         this.setCategory("Concurrent Sorts");
@@ -94,6 +94,6 @@ final public class IterativePairwiseSort extends Sort {
     
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        this.iterativepairwise(array, sortLength, 1);
+        this.iterativepairwise(array, sortLength, 0.5);
     }
 }

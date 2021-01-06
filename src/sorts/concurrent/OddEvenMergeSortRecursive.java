@@ -11,11 +11,11 @@ import sorts.templates.Sort;
  * work for array lengths other than powers of two!
  */
 
-final public class RecursiveOddEvenMergeSort extends Sort {
-    public RecursiveOddEvenMergeSort(ArrayVisualizer arrayVisualizer) {
+final public class OddEvenMergeSortRecursive extends Sort {
+    public OddEvenMergeSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Rec. Odd-Even Merge");
+        this.setSortListName("Odd-Even Merge (Recu.)");
         this.setRunAllSortsName("Batcher's Odd-Even Merge Sort");
         this.setRunSortName("Recursive Odd-Even Mergesort");
         this.setCategory("Concurrent Sorts");
@@ -30,9 +30,9 @@ final public class RecursiveOddEvenMergeSort extends Sort {
     private void oddEvenMergeCompare(int[] array, int i, int j) {
         Highlights.markArray(1, i);
         Highlights.markArray(2, j);
-        Delays.sleep(1);
+        Delays.sleep(0.5);
         if (Reads.compareValues(array[i], array[j]) > 0)
-            Writes.swap(array, i, j, 1, true, false);
+            Writes.swap(array, i, j, 0.5, true, false);
     }
 
     /** lo is the starting position,

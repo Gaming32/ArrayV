@@ -11,11 +11,11 @@ import sorts.templates.Sort;
  * work for array lengths other than powers of two!
  */
 
-final public class IterativeBitonicSort extends Sort {
-    public IterativeBitonicSort(ArrayVisualizer arrayVisualizer) {
+final public class BitonicSortIterative extends Sort {
+    public BitonicSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Iterative Bitonic");
+        this.setSortListName("Bitonic (Iterative)");
         this.setRunAllSortsName("Iterative Bitonic Sort");
         this.setRunSortName("Iterative Bitonic Sort");
         this.setCategory("Concurrent Sorts");
@@ -39,10 +39,10 @@ final public class IterativeBitonicSort extends Sort {
                     int ij = i ^ j;
 
                     if((ij) > i && ij < sortLength) {
-                        if((((i & k) == 0) == m) && Reads.compareValues(array[i], array[ij]) > 0)
-                            Writes.swap(array, i, ij, 1, true, false);
-                        if((((i & k) != 0) == m) && Reads.compareValues(array[i], array[ij]) < 0)
-                            Writes.swap(array, i, ij, 1, true, false);
+                        if((((i & k) == 0) == m) && Reads.compareIndices(array, i, ij, 0.5, true) > 0)
+                            Writes.swap(array, i, ij, 0.5, true, false);
+                        if((((i & k) != 0) == m) && Reads.compareIndices(array, i, ij, 0.5, true) < 0)
+                            Writes.swap(array, i, ij, 0.5, true, false);
                     }
                 }
             }

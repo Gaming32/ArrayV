@@ -29,11 +29,11 @@ SOFTWARE.
  *
  */
 
-final public class RecursiveWeaveSort extends Sort {
-    public RecursiveWeaveSort(ArrayVisualizer arrayVisualizer) {
+final public class WeaveSortRecursive extends Sort {
+    public WeaveSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Recursive Weave");
+        this.setSortListName("Weave (Recursive)");
         this.setRunAllSortsName("Recursive Weave Sorting Network");
         this.setRunSortName("Recursive Weave Sort");
         this.setCategory("Concurrent Sorts");

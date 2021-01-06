@@ -8,13 +8,13 @@ import sorts.templates.Sort;
  * http://www.inf.fh-flensburg.de/lang/algorithmen/sortieren/bitonic/oddn.htm
  */
 
-final public class RecursiveBitonicSort extends Sort {
+final public class BitonicSortRecursive extends Sort {
     private boolean direction = true;
     
-    public RecursiveBitonicSort(ArrayVisualizer arrayVisualizer) {
+    public BitonicSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Recursive Bitonic");
+        this.setSortListName("Bitonic (Recursive)");
         this.setRunAllSortsName("Batcher's Bitonic Sort");
         this.setRunSortName("Recursive Bitonic Sort");
         this.setCategory("Concurrent Sorts");
@@ -43,14 +43,14 @@ final public class RecursiveBitonicSort extends Sort {
     	
     	int cmp = Reads.compareValues(A[i], A[j]);
     	
-	    if (dir == (cmp == 1)) Writes.swap(A, i, j, 1, true, false);
+	    if (dir == (cmp == 1)) Writes.swap(A, i, j, 0.5, true, false);
 	}
 
 	private void bitonicMerge(int[] A, int lo, int n, boolean dir)
 	{
 	    if (n > 1)
 	    {
-	        int m = RecursiveBitonicSort.greatestPowerOfTwoLessThan(n);
+	        int m = greatestPowerOfTwoLessThan(n);
 
 	        for (int i = lo; i < lo + n - m; i++) {
 	            this.compare(A, i, i+m, dir);
