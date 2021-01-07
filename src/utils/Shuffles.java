@@ -821,7 +821,38 @@ public enum Shuffles {
 				if(m > i) Writes.swap(array, i, m, sleep, true, false);
 			}
 		}
-		
+	},
+	BLOCK_RANDOMLY {
+		@Override
+		public String getName() {
+			return "Randomly w/ Blocks";
+		}
+		@Override
+		public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int blockSize = pow2lte((int)Math.sqrt(currentLen)) * 2;
+			int step = currentLen / blockSize;
+			boolean delay = ArrayVisualizer.shuffleEnabled();
+			double sleep = delay ? 1 : 0;
+			
+			Random random = new Random();
+			for (int i = 0; i < currentLen; i += blockSize) {
+				int randomIndex = random.nextInt((currentLen - i) / blockSize) * blockSize + i;
+				blockSwap(array, i, randomIndex, blockSize, Writes, sleep);
+			}
+		}
+
+		private void blockSwap(int[] array, int a, int b, int len, Writes Writes, double sleep) {
+			for (int i = 0; i < len; i++) {
+				Writes.swap(array, a + i, b + i, sleep, true, false);
+			}
+		}
+
+		private int pow2lte(int value) {
+			int val;
+			for (val = 1; val <= value; val <<= 1);
+			return val >> 1;
+		}
 	};
 	
 	public void sort(int[] array, int start, int end, double sleep, Writes Writes) {

@@ -50,7 +50,7 @@ final public class DoubleInsertionSort extends Sort {
         int pos = left + 1;
 
         int cmp = canEqual ? 0 : -1;
-        
+
         while (Reads.compareValues(array[pos], current) <= cmp) {
             Writes.write(array, pos - 1, array[pos], sleep, true, auxwrite);
             pos++;
