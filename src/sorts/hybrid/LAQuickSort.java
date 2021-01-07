@@ -1,7 +1,7 @@
 package sorts.hybrid;
 
 import main.ArrayVisualizer;
-import sorts.insert.InsertionSort;
+import sorts.insert.UnstableInsertionSort;
 import sorts.select.PoplarHeapSort;
 import sorts.templates.Sort;
 
@@ -11,19 +11,17 @@ This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
-
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details
-
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 final public class LAQuickSort extends Sort {
     PoplarHeapSort heapSorter;
-    InsertionSort insertSorter;
+    UnstableInsertionSort insertSorter;
 
     public LAQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -170,14 +168,14 @@ final public class LAQuickSort extends Sort {
             this.quickSort(arr, low, pi, depthLimit, pivot, logAvg, equalPivotCount);
             this.quickSort(arr, pi+(logAvg ? 0 : 1), high, depthLimit, pivot, logAvg, equalPivotCount);
         } else {
-            insertSorter.customInsertSort(arr, low, high, 0.25, false);
+            insertSorter.unstableInsertionSort(arr, low, high);
         }
     }
 
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         heapSorter = new PoplarHeapSort(arrayVisualizer);
-        insertSorter = new InsertionSort(arrayVisualizer);
+        insertSorter = new UnstableInsertionSort(arrayVisualizer);
 
         this.quickSort(array, 0, currentLength, 2*log2(currentLength), array[1], false, 0);
     }
