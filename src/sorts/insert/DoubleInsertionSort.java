@@ -72,8 +72,7 @@ final public class DoubleInsertionSort extends Sort {
     }
 
     protected void insertionSort(int[] array, int start, int end, double sleep, boolean auxwrite) {    
-        int left = start + (end - start) / 2, right = left + 1;
-        // int left = 0, right = 1;
+        int left = start + (end - start) / 2 - 1, right = left + 1;
 
         while (left >= start && right < end) {
             boolean swapped = false;
