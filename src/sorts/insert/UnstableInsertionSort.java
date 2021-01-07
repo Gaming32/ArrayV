@@ -20,7 +20,7 @@ final public class UnstableInsertionSort extends Sort {
         this.setBogoSort(false);
     }
     
-    private void unstableInsertionSort(int[] array, int start, int end) {
+    public void unstableInsertionSort(int[] array, int start, int end) {
         for (int i = start + 1; i < end; ++i) {
             if (Reads.compareIndices(array, i, start, 1, true) < 0) {
                 Writes.swap(array, i, start, 1, true, false);
