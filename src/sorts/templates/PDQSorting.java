@@ -369,12 +369,23 @@ public abstract class PDQSorting extends Sort {
 
         // Find the first element greater than or equal than the pivot (the median of 3 guarantees
         // this exists).
-        while (Reads.compareValues(array[++first], pivot) < 0);
+        while (Reads.compareValues(array[++first], pivot) < 0) {
+			Highlights.markArray(1, first);
+			Delays.sleep(0.25);
+		}
 
         // Find the first element strictly smaller than the pivot. We have to guard this search if
         // there was no element before *first.
-        if (first - 1 == begin) while (first < last && !(Reads.compareValues(array[--last], pivot) < 0));
-        else                    while (                !(Reads.compareValues(array[--last], pivot) < 0));
+        if (first - 1 == begin) 
+			while (first < last && !(Reads.compareValues(array[--last], pivot) < 0)) {
+				Highlights.markArray(2, last);
+				Delays.sleep(0.25);
+			}
+        else
+			while (                !(Reads.compareValues(array[--last], pivot) < 0)) {
+				Highlights.markArray(2, last);
+				Delays.sleep(0.25);
+			}
 
         // If the first pair of elements that should be swapped to partition are the same element,
         // the passed in sequence already was correctly partitioned.
@@ -385,8 +396,14 @@ public abstract class PDQSorting extends Sort {
         // above.
         while (first < last) {
             Writes.swap(array, first, last, 1, true, false);
-            while (Reads.compareValues(array[++first], pivot) < 0);
-            while (!(Reads.compareValues(array[--last], pivot) < 0));
+            while (Reads.compareValues(array[++first], pivot) < 0) {
+				Highlights.markArray(1, first);
+				Delays.sleep(0.5);
+			}
+            while (!(Reads.compareValues(array[--last], pivot) < 0)) {
+				Highlights.markArray(2, last);
+				Delays.sleep(0.5);
+			}
         }
         Highlights.clearMark(2);
 
@@ -409,15 +426,32 @@ public abstract class PDQSorting extends Sort {
         int first = begin;
         int last = end;
 
-        while (Reads.compareValues(pivot, array[--last]) < 0);
+        while (Reads.compareValues(pivot, array[--last]) < 0) {
+			Highlights.markArray(2, last);
+			Delays.sleep(0.25);
+		}
 
-        if (last + 1 == end) while (first < last && !(Reads.compareValues(pivot, array[++first]) < 0));
-        else                 while (                !(Reads.compareValues(pivot, array[++first]) < 0));
+        if (last + 1 == end) 
+			while (first < last && !(Reads.compareValues(pivot, array[++first]) < 0)) {
+				Highlights.markArray(1, first);
+				Delays.sleep(0.25);
+			}
+        else                 
+			while (                !(Reads.compareValues(pivot, array[++first]) < 0)) {
+				Highlights.markArray(1, first);
+				Delays.sleep(0.25);
+			}
 
         while (first < last) {
             Writes.swap(array, first, last, 1, true, false);
-            while (Reads.compareValues(pivot, array[--last]) < 0);
-            while (!(Reads.compareValues(pivot, array[++first]) < 0));
+            while (Reads.compareValues(pivot, array[--last]) < 0) {
+				Highlights.markArray(2, last);
+				Delays.sleep(0.5);
+			}
+            while (!(Reads.compareValues(pivot, array[++first]) < 0)) {
+				Highlights.markArray(1, first);
+				Delays.sleep(0.5);
+			}
         }
         Highlights.clearMark(2);
 
