@@ -51,12 +51,14 @@ final public class StableThirdMergeSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private boolean ejectDuplicates(int[] array, int start, int mid, int end) {
+    private int ejectDuplicates(int[] array, int start, int mid, int end) {
         int minbound = start;
         int compindex = start + 1;
         int lastGood = compindex;
         int badCount = 0;
-        for (int i = 1; i < mid - start; i++) {
+        int count;
+        for (count = 1; count < mid - start; count++) {
+            Highlights.markArray(4, compindex);
             int num = array[compindex];
             int l = minbound, h = lastGood;
             int lastBad = badCount;
@@ -67,7 +69,7 @@ final public class StableThirdMergeSort extends Sort {
                 Highlights.markArray(2, m);
                 Highlights.markArray(3, h);
                 
-                Delays.sleep(0.0625);
+                Delays.sleep(0.01);
                 
                 int comp = Reads.compareValues(num, array[m]);
 
@@ -87,12 +89,13 @@ final public class StableThirdMergeSort extends Sort {
 
             if (badCount > 0) {
                 if (badCount > lastBad) {
-                    i--;
+                    Delays.sleep(0.2);
+                    count--;
                     compindex++;
                     continue;
                 }
                 if (compindex >= end) {
-                    return false;
+                    break;
                 }
                 rotater.rotateCommon(array, lastGood, minbound, badCount, 0.1, false);
                 minbound += badCount;
@@ -116,14 +119,15 @@ final public class StableThirdMergeSort extends Sort {
             lastGood++;
 
             if (compindex >= end) {
-                return false;
+                break;
             }
         }
 
+        Highlights.clearMark(4);
         if (minbound != start) {
             rotater.rotateSmart(array, minbound, start, compindex - minbound);
         }
-        return true;
+        return count;
     }
     
     @Override
@@ -132,9 +136,10 @@ final public class StableThirdMergeSort extends Sort {
         sort = new ThirdMergeSort(arrayVisualizer);
         fallbackSort = new BlockSwapMergeSort(arrayVisualizer);
 
-        if (ejectDuplicates(array, 0, (int)Math.ceil(length / 4d), length))
-            sort.thirdMergeSort(array, length);
-        else
+        int required = (int)Math.ceil(length / 4d);
+        if (ejectDuplicates(array, 0, required, length) < required)
             fallbackSort.multiSwapMergeSort(array, 0, length);
+        else
+            sort.thirdMergeSort(array, length);
     }
 }
