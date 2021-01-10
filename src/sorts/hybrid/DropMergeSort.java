@@ -74,7 +74,7 @@ final public class DropMergeSort extends Sort {
             iteration += 1;
             if (iteration == early_out_stop && dropped.size() > read * EARLY_OUT_DISORDER_FRACTION) {
                 // We have seen a lot of the elements and dropped a lot of them.
-				// This doesn't look good. Abort.
+                // This doesn't look good. Abort.
                 Highlights.clearMark(2);
             
                 for (int i = 0; i < dropped.size(); i++) {
@@ -116,14 +116,14 @@ final public class DropMergeSort extends Sort {
                   int max_of_dropped = read;
                   for (int i = read + 1; i <= read + num_dropped_in_a_row; i++) {
                       if (Reads.compareValues(array[i], max_of_dropped) == 1) {
-                          max_of_dropped = i;
+                          max_of_dropped = array[i];
                       }
                   }
 
                   while (write >= 1 && Reads.compareValues(max_of_dropped, array[write - 1]) == -1) {
-                      Highlights.markArray(1, write - 1);
+                      Highlights.markArray(1, --write);
+                      Delays.sleep(1);
                       num_backtracked++;
-                      write--;
                   }
 
                   for (int i = write; i < write + num_backtracked; i++) {
@@ -155,11 +155,10 @@ final public class DropMergeSort extends Sort {
         int k = length - 1;
         
         while (i >= 0) {
-            if (j >= 0) Highlights.markArray(2, j);
-            
             if (j < 0 || Reads.compareValues(buffer[i], array[j]) == 1) {
                 Writes.write(array, k--, buffer[i--], 1, true, false);
             } else {
+                Highlights.markArray(2, j);
                 Writes.write(array, k--, array[j--], 1, true, false);
             }
         }
