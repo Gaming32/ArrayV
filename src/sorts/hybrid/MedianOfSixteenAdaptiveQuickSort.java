@@ -126,7 +126,7 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
     }
     
     private void medianOfSixteen(int[] array, int a, int b) {
-        int gap = (b - a) / 16;
+        int gap = (b - 1 - a) / 16;
         
         for (int i = 0; i < this.medianOfSixteenSwaps.length; i += 2) this.compNSwap(array, this.medianOfSixteenSwaps[i], this.medianOfSixteenSwaps[i+1], gap, a);
 
