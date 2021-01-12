@@ -830,8 +830,7 @@ public enum Shuffles {
 		@Override
 		public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			int blockSize = pow2lte((int)Math.sqrt(currentLen)) * 2;
-			int step = currentLen / blockSize;
+			int blockSize = pow2lte((int)Math.sqrt(currentLen));
 			boolean delay = ArrayVisualizer.shuffleEnabled();
 			double sleep = delay ? 1 : 0;
 			
