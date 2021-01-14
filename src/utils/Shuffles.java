@@ -784,7 +784,7 @@ public enum Shuffles {
 	},
 	QSORT_BAD {
 		public String getName() {
-			return "QSort Adversary";
+			return "Quicksort Adversary";
 		}
 		@Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
@@ -793,6 +793,61 @@ public enum Shuffles {
 			
 			for(int j = currentLen-currentLen%2-2, i = j-1; i >= 0; i-=2, j--)
 				Writes.swap(array, i, j, delay ? 1 : 0, true, false);
+		}
+	},
+	GRAIL_BAD {
+		public String getName() {
+			return "Grailsort Adversary";
+		}
+		@Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			boolean delay = ArrayVisualizer.shuffleEnabled();
+			
+			if(currentLen <= 16) Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
+			else {
+				int blockLen = 1;
+				while(blockLen * blockLen < currentLen) blockLen *= 2;  
+				
+				int numKeys = (currentLen - 1) / blockLen + 1;
+				int keys = blockLen + numKeys;
+				
+				shuffle(array, 0, currentLen, delay ? 0.25 : 0, Writes);
+				sort(array, 0, keys, delay ? 0.25 : 0, Writes);
+				Writes.reversal(array, 0, keys-1, delay ? 0.25 : 0, true, false);
+				Highlights.clearMark(2);
+				sort(array, keys, currentLen, delay ? 0.25 : 0, Writes);
+				
+				push(array, keys, currentLen, blockLen, delay ? 0.25 : 0, Writes);
+			}
+		}
+		
+		public void rotate(int[] array, int a, int m, int b, double sleep, Writes Writes) {
+			Writes.reversal(array, a, m-1, sleep, true, false);
+			Writes.reversal(array, m, b-1, sleep, true, false);
+			Writes.reversal(array, a, b-1, sleep, true, false);
+		}
+		
+		public void push(int[] array, int a, int b, int bLen, double sleep, Writes Writes) {
+			int len = b-a,
+				b1 = b - len%bLen, len1 = b1-a;
+			if(len1 <= 2*bLen) return;
+			
+			int m = bLen;
+			while(2*m < len) m *= 2;
+			m += a;
+			
+			if(b1-m < bLen) push(array, a, m, bLen, sleep, Writes);
+			else {
+				m = a+b1-m;
+				rotate(array, m-(bLen-2), b1-(bLen-1), b1, sleep, Writes);
+				Writes.multiSwap(array, a, m, sleep/2, true, false);
+				rotate(array, a, m, b1, sleep, Writes);
+				m = a+b1-m;
+				
+				push(array, a, m, bLen, sleep/2, Writes);
+				push(array, m, b, bLen, sleep/2, Writes);
+			}
 		}
 	},
 	BIT_REVERSE {
