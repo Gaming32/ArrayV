@@ -28,13 +28,13 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-final public class IterativeCombSort extends Sort {
-    public IterativeCombSort(ArrayVisualizer arrayVisualizer) {
+final public class ThreeSmoothCombSortIterative extends Sort {
+    public ThreeSmoothCombSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Iterative Comb");
-        this.setRunAllSortsName("Iterative Comb Sort");
-        this.setRunSortName("Iterative Combsort");
+        this.setSortListName("3-Smooth Comb (Iter.)");
+        this.setRunAllSortsName("Iterative 3-Smooth Comb Sort");
+        this.setRunSortName("Iterative 3-Smooth Combsort");
         this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);

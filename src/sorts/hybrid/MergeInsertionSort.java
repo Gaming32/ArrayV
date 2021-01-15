@@ -35,7 +35,7 @@ final public class MergeInsertionSort extends Sort {
 
 		this.setSortListName("Merge-Insertion");//aka ford-johnson algorithm (in place version)
         this.setRunAllSortsName("Merge-Insertion Sort");
-        this.setRunSortName("Merge-Insertionsort");
+        this.setRunSortName("Merge-Insertsort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);

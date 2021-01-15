@@ -16,11 +16,11 @@ Free Documentation License".
  *
  */
 
-final public class IterativeIntroCircleSort extends IterativeCircleSorting {
-    public IterativeIntroCircleSort(ArrayVisualizer arrayVisualizer) {
+final public class IntroCircleSortIterative extends IterativeCircleSorting {
+    public IntroCircleSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Iterative Intro Circle");
+        this.setSortListName("Intro Circle (Iter.)");
         this.setRunAllSortsName("Iterative Introspective Circle Sort");
         this.setRunSortName("Iterative Introspective Circlesort");
         this.setCategory("Hybrid Sorts");

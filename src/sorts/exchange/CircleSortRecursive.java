@@ -15,12 +15,12 @@ Free Documentation License".
  *
  */
 
-final public class CircleSort extends CircleSorting {   
-    public CircleSort(ArrayVisualizer arrayVisualizer) {
+final public class CircleSortRecursive extends CircleSorting {   
+    public CircleSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Circle");
-        this.setRunAllSortsName("Circle Sort");
+        this.setSortListName("Circle (Recursive)");
+        this.setRunAllSortsName("Recursive Circle Sort");
         this.setRunSortName("Circlesort");
         this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);

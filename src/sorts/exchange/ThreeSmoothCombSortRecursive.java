@@ -26,13 +26,13 @@ SOFTWARE.
  *
  */
 
-final public class RecursiveCombSort extends Sort {
-    public RecursiveCombSort(ArrayVisualizer arrayVisualizer) {
+final public class ThreeSmoothCombSortRecursive extends Sort {
+    public ThreeSmoothCombSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Recursive Comb");
-        this.setRunAllSortsName("Recursive Comb Sort");
-        this.setRunSortName("Recursive Combsort");
+        this.setSortListName("3-Smooth Comb (Recu.)");
+        this.setRunAllSortsName("Recursive 3-Smooth Comb Sort");
+        this.setRunSortName("Recursive 3-Smooth Combsort");
         this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
