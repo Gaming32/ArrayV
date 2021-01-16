@@ -674,8 +674,7 @@ public abstract class GrailSorting extends Sort {
         boolean bufferEnabled = true;
 
         if(keysFound < numKeys + blockLen) {
-            if(keysFound == 1) return;
-            else if(keysFound < 4) {
+            if(keysFound < 4) {
                 this.grailLazyStableSort(arr, pos, len);
                 return;
             }
