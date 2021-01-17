@@ -71,8 +71,8 @@ final public class RunHybridSorts extends MultipleSortThread {
         this.categoryCount = this.sortCount;
         
         HybridCombSort              = new              HybridCombSort(this.arrayVisualizer);
-        IntroCircleSort             = new             IntroCircleSort(this.arrayVisualizer);
-        IterativeIntroCircleSort    = new    IterativeIntroCircleSort(this.arrayVisualizer);
+        IntroCircleSort             = new    IntroCircleSortRecursive(this.arrayVisualizer);
+        IterativeIntroCircleSort    = new    IntroCircleSortIterative(this.arrayVisualizer);
         PairwiseCircleSort          = new          PairwiseCircleSort(this.arrayVisualizer);
         BinaryMergeSort             = new             BinaryMergeSort(this.arrayVisualizer);
         SwapMergeSort               = new               SwapMergeSort(this.arrayVisualizer);
