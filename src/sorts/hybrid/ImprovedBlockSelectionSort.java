@@ -82,7 +82,7 @@ final public class ImprovedBlockSelectionSort extends Sort {
 			if(Reads.compareValues(array[i], array[j]) > 0) {
 				k = j;
 				do k++;
-				while(k < b && Reads.compareIndices(array, i, k, 1, true) > 0);
+				while(k < b && Reads.compareIndices(array, i, k, 0, false) > 0);
 				
 				this.rotate(array, i, j, k);
 				
@@ -102,7 +102,7 @@ final public class ImprovedBlockSelectionSort extends Sort {
 			if(Reads.compareValues(array[i], array[j]) > 0) {
 				k = i;
 				do k--;
-				while(k >= a && Reads.compareIndices(array, k, j, 1, true) > 0);
+				while(k >= a && Reads.compareIndices(array, k, j, 0, false) > 0);
 				
 				this.rotate(array, k+1, i+1, j+1);
 				
@@ -141,21 +141,21 @@ final public class ImprovedBlockSelectionSort extends Sort {
 		
 		while(k < j && j < b) {
 			if(Reads.compareIndices(array, i, j, 0.5, true) <= 0) {
-				this.multiSwap(array, k, i, bLen);
+				if(k != i) this.multiSwap(array, k, i, bLen);
 				k += bLen;
 				i = this.selectRange(array, Math.max(m, k), j, bLen);
 			}
 			else {
 				if(i == k) i = j;
-				this.multiSwap(array, k, j, bLen);
+				if(k != j) this.multiSwap(array, k, j, bLen);
 				k += bLen;
 				j += bLen;
 			}
 		}
-		if(k != m)
+		//if(k != m)
 			while(k < j) {
 				i = this.selectRange(array, k, b, bLen);
-				this.multiSwap(array, k, i, bLen);
+				if(k != i) this.multiSwap(array, k, i, bLen);
 				k += bLen;
 			}
     }
