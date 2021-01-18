@@ -35,8 +35,8 @@ SOFTWARE.
 
 final public class RunHybridSorts extends MultipleSortThread {
     private Sort HybridCombSort;
-    private Sort IntroCircleSort;
-    private Sort IterativeIntroCircleSort;
+    private Sort IntroCircleSortRecursive;
+    private Sort IntroCircleSortIterative;
     private Sort PairwiseCircleSort;
     private Sort BinaryMergeSort;
     private Sort SwapMergeSort;
@@ -71,8 +71,8 @@ final public class RunHybridSorts extends MultipleSortThread {
         this.categoryCount = this.sortCount;
         
         HybridCombSort              = new              HybridCombSort(this.arrayVisualizer);
-        IntroCircleSort             = new    IntroCircleSortRecursive(this.arrayVisualizer);
-        IterativeIntroCircleSort    = new    IntroCircleSortIterative(this.arrayVisualizer);
+        IntroCircleSortRecursive    = new    IntroCircleSortRecursive(this.arrayVisualizer);
+        IntroCircleSortIterative    = new    IntroCircleSortIterative(this.arrayVisualizer);
         PairwiseCircleSort          = new          PairwiseCircleSort(this.arrayVisualizer);
         BinaryMergeSort             = new             BinaryMergeSort(this.arrayVisualizer);
         SwapMergeSort               = new               SwapMergeSort(this.arrayVisualizer);
@@ -105,8 +105,8 @@ final public class RunHybridSorts extends MultipleSortThread {
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunHybridSorts.this.runIndividualSort(HybridCombSort,              0, array, 1024, 1,    false);
-        RunHybridSorts.this.runIndividualSort(IntroCircleSort,             0, array, 1024, 1,    false);
-        RunHybridSorts.this.runIndividualSort(IterativeIntroCircleSort,    0, array, 1024, 1,    false);
+        RunHybridSorts.this.runIndividualSort(IntroCircleSortRecursive,             0, array, 1024, 1,    false);
+        RunHybridSorts.this.runIndividualSort(IntroCircleSortIterative,    0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(PairwiseCircleSort,          0, array, 1024, 1.5,  false);
         RunHybridSorts.this.runIndividualSort(BinaryMergeSort,             0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(SwapMergeSort,               0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.65 : 6.5,    false);
