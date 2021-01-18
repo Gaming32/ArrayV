@@ -105,7 +105,7 @@ final public class RunHybridSorts extends MultipleSortThread {
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunHybridSorts.this.runIndividualSort(HybridCombSort,              0, array, 1024, 1,    false);
-        RunHybridSorts.this.runIndividualSort(IntroCircleSortRecursive,             0, array, 1024, 1,    false);
+        RunHybridSorts.this.runIndividualSort(IntroCircleSortRecursive,    0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(IntroCircleSortIterative,    0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(PairwiseCircleSort,          0, array, 1024, 1.5,  false);
         RunHybridSorts.this.runIndividualSort(BinaryMergeSort,             0, array, 2048, 1,    false);
