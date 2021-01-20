@@ -29,15 +29,13 @@ SOFTWARE.
  *
  */
 
-final public class Med16Merge extends Sort {
-    private int[] output;
-
-    public Med16Merge(ArrayVisualizer arrayVisualizer) {
+final public class Split16Merge extends Sort {
+    public Split16Merge(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Med. 16 Merge");
-        this.setRunAllSortsName("Median of 16 Merge Sort");
-        this.setRunSortName("Median of 16 Mergesort");
+        this.setSortListName("Split-16 Merge");
+        this.setRunAllSortsName("Split-16 Merge Sort");
+        this.setRunSortName("Split-16 Mergesort");
         this.setCategory("Merge Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
@@ -95,22 +93,11 @@ final public class Med16Merge extends Sort {
             this.medianOfSixteen(array, i, 1);
         }
 
-        // output = Writes.createExternalArray(length);
-
         int gap;
         for (gap = 32; gap <= length; gap *= 2) {
             for (int i = 0; i + gap <= length; i += gap) {
                 merge(array, i, gap);
             }
-            // for (int i = 0; i < length; i++) {
-            //     Writes.write(array, i, output[i], 1, true, false);
-            // }
         }
-
-        // Writes.deleteExternalArray(output);
-
-        // if (length - gap / 2 > 0) {
-        //     merge(array, 0, gap / 2, length);
-        // }
     }
 }
