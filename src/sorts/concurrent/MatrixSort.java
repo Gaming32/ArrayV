@@ -1,7 +1,6 @@
 package sorts.concurrent;
 
 import main.ArrayVisualizer;
-import sorts.exchange.SmartGnomeSort;
 import sorts.templates.Sort;
 
 /*
@@ -47,6 +46,8 @@ final public class MatrixSort extends Sort {
         for (int i = start, j = end; i < j; i += gap, j -= gap) {
             Writes.swap(array, i, j - gap, 0.5, true, false);
         }
+
+        Highlights.clearMark(2);
     }
 
     private int dirCompareVal(int left, int right, boolean dir) {
@@ -83,11 +84,10 @@ final public class MatrixSort extends Sort {
         int length = (end - start) / gap;
         if (length < 2)
             return false;
-        else if (length == 2) {
-            if (this.dirCompare(array, start, end - gap, dir) == 1) {
-                Writes.swap(array, start, end - gap, 0.5, true, false);
-                did = true;
-            }
+        else if (length <= 16) {
+            did = false;
+            for (int i = start; i < end; i += gap)
+                did = insertLast(array, start, i, gap, dir) | did;
         }
         else {
             boolean newdid;

@@ -1,7 +1,6 @@
 package sorts.distribute;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import main.ArrayVisualizer;
 import sorts.insert.InsertionSort;
@@ -73,7 +72,7 @@ final public class StaticSort extends Sort {
         insertSorter = new InsertionSort(this.arrayVisualizer);
 
         int M = Reads.analyzeMax(mainArray, size, 0.5, true);
-        double constant = (double)M / (size + 2);
+        double constant = (double)size / (M + 2);
         int counter = 0;
         int listCount = 0;
 

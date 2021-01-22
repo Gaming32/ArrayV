@@ -70,7 +70,7 @@ final public class CustomImage extends Visual {
 	private volatile ImageFrame pictureMenu;
 	private volatile LoadingDialog infoMsg;
 	
-	final private String defaultArtwork = "Illustration 17 by aphitorite";
+	final private String defaultArtwork = "Summer Sorting by aphitorite";
 	private String currentImage;
 	private File imageFile;
 	
@@ -355,20 +355,20 @@ final public class CustomImage extends Visual {
             
             //Cuts the image in respect to each item in the array
             this.mainRender.drawImage(
-                    this.img,
+				this.img,
 
-                    Renderer.getOffset() + 20,
-                    0, 
-                    Renderer.getOffset() + 20 + width, 
-                    ArrayVisualizer.windowHeight(),
+				Renderer.getOffset() + 20,
+				0, 
+				Renderer.getOffset() + 20 + width, 
+				ArrayVisualizer.windowHeight(),
 
-                    (int) ((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * array[i]),
-                    0, 
-                    (int) Math.ceil((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * (array[i] + 1)),
-                    this.imgHeight,
+				(int) ((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * array[i]),
+				0, 
+				(int) Math.ceil((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * (array[i] + 1)),
+				this.imgHeight,
 
-                    null
-                    );
+				null
+			);
             
             if(Highlights.fancyFinishActive()) {
                 if(i < Highlights.getFancyFinishPosition()) {

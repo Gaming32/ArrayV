@@ -2,36 +2,8 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.hybrid.BaseNMergeSort;
-import sorts.hybrid.BinaryMergeSort;
-import sorts.hybrid.BlockSelectionMergeSort;
-import sorts.hybrid.BranchedPDQSort;
-import sorts.hybrid.BranchlessPDQSort;
-import sorts.hybrid.BufferedMergeSort;
-import sorts.hybrid.CocktailMergeSort;
-import sorts.hybrid.DropMergeSort;
-import sorts.hybrid.EctaSort;
-import sorts.hybrid.GrailSort;
-import sorts.hybrid.HybridCombSort;
-import sorts.hybrid.ImprovedWeaveMergeSort;
-import sorts.hybrid.IntroCircleSort;
-import sorts.hybrid.IntroSort;
-import sorts.hybrid.IterativeIntroCircleSort;
-import sorts.hybrid.KotaSort;
-import sorts.hybrid.LAQuickSort;
-import sorts.hybrid.MedianMergeSort;
-import sorts.hybrid.StableBufferedMerge;
-import sorts.hybrid.OptimizedBottomUpMergeSort;
-import sorts.hybrid.OptimizedDualPivotQuickSort;
-import sorts.hybrid.PairwiseCircleSort;
-import sorts.hybrid.SqrtSort;
-import sorts.hybrid.StacklessHybridQuickSort;
-import sorts.hybrid.StupidQuickSort;
-import sorts.hybrid.SwapMergeSort;
-import sorts.hybrid.TimSort;
-import sorts.hybrid.UnstableGrailSort;
-import sorts.hybrid.WeaveMergeSort;
-import sorts.hybrid.WikiSort;
+
+import sorts.hybrid.*;
 import sorts.templates.Sort;
 import utils.Shuffles;
 
@@ -63,8 +35,8 @@ SOFTWARE.
 
 final public class RunHybridSorts extends MultipleSortThread {
     private Sort HybridCombSort;
-    private Sort IntroCircleSort;
-    private Sort IterativeIntroCircleSort;
+    private Sort IntroCircleSortRecursive;
+    private Sort IntroCircleSortIterative;
     private Sort PairwiseCircleSort;
     private Sort BinaryMergeSort;
     private Sort SwapMergeSort;
@@ -89,8 +61,8 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort StupidQuickSort;
     private Sort LAQuickSort;
     private Sort StacklessHybridQuickSort;
-    private Sort BranchedPDQSort;
-    private Sort BranchlessPDQSort;
+    private Sort PDQBranchedSort;
+    private Sort PDQBranchlessSort;
     private Sort DropMergeSort;
     
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
@@ -99,8 +71,8 @@ final public class RunHybridSorts extends MultipleSortThread {
         this.categoryCount = this.sortCount;
         
         HybridCombSort              = new              HybridCombSort(this.arrayVisualizer);
-        IntroCircleSort             = new             IntroCircleSort(this.arrayVisualizer);
-        IterativeIntroCircleSort    = new    IterativeIntroCircleSort(this.arrayVisualizer);
+        IntroCircleSortRecursive    = new    IntroCircleSortRecursive(this.arrayVisualizer);
+        IntroCircleSortIterative    = new    IntroCircleSortIterative(this.arrayVisualizer);
         PairwiseCircleSort          = new          PairwiseCircleSort(this.arrayVisualizer);
         BinaryMergeSort             = new             BinaryMergeSort(this.arrayVisualizer);
         SwapMergeSort               = new               SwapMergeSort(this.arrayVisualizer);
@@ -125,16 +97,16 @@ final public class RunHybridSorts extends MultipleSortThread {
         StupidQuickSort             = new             StupidQuickSort(this.arrayVisualizer);
         LAQuickSort                 = new                 LAQuickSort(this.arrayVisualizer);
         StacklessHybridQuickSort    = new    StacklessHybridQuickSort(this.arrayVisualizer);
-        BranchedPDQSort             = new             BranchedPDQSort(this.arrayVisualizer);
-        BranchlessPDQSort           = new           BranchlessPDQSort(this.arrayVisualizer);
+        PDQBranchedSort             = new             PDQBranchedSort(this.arrayVisualizer);
+        PDQBranchlessSort           = new           PDQBranchlessSort(this.arrayVisualizer);
         DropMergeSort               = new               DropMergeSort(this.arrayVisualizer);
     }
     
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunHybridSorts.this.runIndividualSort(HybridCombSort,              0, array, 1024, 1,    false);
-        RunHybridSorts.this.runIndividualSort(IntroCircleSort,             0, array, 1024, 1,    false);
-        RunHybridSorts.this.runIndividualSort(IterativeIntroCircleSort,    0, array, 1024, 1,    false);
+        RunHybridSorts.this.runIndividualSort(IntroCircleSortRecursive,    0, array, 1024, 1,    false);
+        RunHybridSorts.this.runIndividualSort(IntroCircleSortIterative,    0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(PairwiseCircleSort,          0, array, 1024, 1.5,  false);
         RunHybridSorts.this.runIndividualSort(BinaryMergeSort,             0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(SwapMergeSort,               0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.65 : 6.5,    false);
@@ -159,8 +131,8 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(StupidQuickSort,             0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(LAQuickSort,                 0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(StacklessHybridQuickSort,    0, array, 2048, 0.75, false);
-        RunHybridSorts.this.runIndividualSort(BranchedPDQSort,             0, array, 2048, 0.75, false);
-        RunHybridSorts.this.runIndividualSort(BranchlessPDQSort,           0, array, 2048, 0.75, false);
+        RunHybridSorts.this.runIndividualSort(PDQBranchedSort,             0, array, 2048, 0.75, false);
+        RunHybridSorts.this.runIndividualSort(PDQBranchlessSort,           0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(DropMergeSort,               0, array, 2048, 0.75, false);
     }
     

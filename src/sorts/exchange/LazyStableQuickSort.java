@@ -1,6 +1,7 @@
 package sorts.exchange;
 
 import main.ArrayVisualizer;
+import sorts.insert.InsertionSort;
 import sorts.merge.ReverseLazyStableSort;
 import sorts.templates.Sort;
 
@@ -32,7 +33,7 @@ SOFTWARE.
 
 final public class LazyStableQuickSort extends Sort {
     ReverseLazyStableSort rotater;
-    SmartCocktailSort cocktailSort;
+    InsertionSort insertSort;
 
     public LazyStableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -51,7 +52,7 @@ final public class LazyStableQuickSort extends Sort {
     
     private int stablePartition(int[] array, int start, int end, int depthLimit) {
         if (depthLimit == 0) {
-            cocktailSort.customSort(array, start, end);
+            insertSort.customInsertSort(array, start, end, 0.167, false);
             return -1;
         }
 
@@ -111,7 +112,7 @@ final public class LazyStableQuickSort extends Sort {
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         rotater = new ReverseLazyStableSort(arrayVisualizer);
-        cocktailSort = new SmartCocktailSort(arrayVisualizer);
+        insertSort = new InsertionSort(arrayVisualizer);
         this.stableQuickSort(array, 0, length);
     }
 }

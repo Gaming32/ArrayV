@@ -122,7 +122,7 @@ public enum Distributions {
     },
     CUBIC {
         public String getName() {
-            return "Centered Cubic";
+            return "Cubic (Centered)";
         }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
@@ -136,7 +136,7 @@ public enum Distributions {
     },
 	QUINTIC {
         public String getName() {
-            return "Centered Quintic";
+            return "Quintic (Centered)";
         }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
@@ -146,6 +146,42 @@ public enum Distributions {
 
 			for(int i = 0; i < currentLen; i++)
 				array[i] = (int)(Math.pow(i - mid, power)/Math.pow(mid, power-1) + mid);
+        }
+    },
+	CBRT {
+        public String getName() {
+            return "Cube Root (Centered)";
+        }
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int p = 3;
+            double h = currentLen/2d;
+
+			for(int i = 0; i < currentLen; i++) {
+				double val  = i/h - 1,
+					   root = val < 0 ? -Math.pow(-val, 1d/p) : Math.pow(val, 1d/p);
+				
+				array[i] = (int)(h * (root + 1));
+			}
+        }
+    },
+	QTRT {
+        public String getName() {
+            return "Fifth Root (Centered)";
+        }
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			int p = 5;
+            double h = currentLen/2d;
+
+			for(int i = 0; i < currentLen; i++) {
+				double val  = i/h - 1,
+					   root = val < 0 ? -Math.pow(-val, 1d/p) : Math.pow(val, 1d/p);
+				
+				array[i] = (int)(h * (root + 1));
+			}
         }
     },
 	SINE {

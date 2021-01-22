@@ -32,6 +32,9 @@ SOFTWARE.
  */
 
 final public class PDMergeSort extends Sort {
+    int smallestRunSize;
+    int[] copied;
+
     public PDMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -47,10 +50,17 @@ final public class PDMergeSort extends Sort {
         this.setBogoSort(false);
     }
 
+    private void ensureCapacity(int length) {
+        if (length > copied.length) {
+            Writes.deleteExternalArray(copied);
+            copied = Writes.createExternalArray(length);
+        }
+    }
+
     // Optimized from ParitialMergeSort.java
     private void mergeUp(int[] array, int leftStart, int rightStart, int end) {
-        int[] copied = Writes.createExternalArray(rightStart - leftStart);
-        for (int i = 0; i < copied.length; i++) {
+        ensureCapacity(rightStart - leftStart);
+        for (int i = 0; i < rightStart - leftStart; i++) {
             Highlights.markArray(1, i + leftStart);
             Writes.write(copied, i, array[i + leftStart], 1, false, true);
         }
@@ -80,13 +90,11 @@ final public class PDMergeSort extends Sort {
         }
 
         Highlights.clearAllMarks();
-
-        Writes.deleteExternalArray(copied);
     }
 
     private void mergeDown(int[] array, int leftStart, int rightStart, int end) {
-        int[] copied = Writes.createExternalArray(end - rightStart);
-        for (int i = 0; i < copied.length; i++) {
+        ensureCapacity(end - rightStart);
+        for (int i = 0; i < end - rightStart; i++) {
             Highlights.markArray(1, i + rightStart);
             Writes.write(copied, i, array[i + rightStart], 1, false, true);
         }
@@ -116,8 +124,6 @@ final public class PDMergeSort extends Sort {
         }
 
         Highlights.clearAllMarks();
-
-        Writes.deleteExternalArray(copied);
     }
 
     private void merge(int[] array, int leftStart, int rightStart, int end) {
@@ -175,7 +181,15 @@ final public class PDMergeSort extends Sort {
         while (lastRun != -1) {
             Writes.arrayListAdd(runs, lastRun);
             Writes.mockWrite(runs.size(), runs.size() - 1, lastRun, 0);
-            lastRun = identifyRun(array, lastRun, maxIndex);
+            int newRun = identifyRun(array, lastRun, maxIndex);
+            if (newRun == -1) {
+                smallestRunSize = Math.min(smallestRunSize, maxIndex - lastRun + 1);
+            }
+            else {
+                int runSize = newRun - lastRun + 1;
+                smallestRunSize = Math.min(smallestRunSize, runSize);
+            }
+            lastRun = newRun;
         }
 
         return runs;
@@ -184,7 +198,9 @@ final public class PDMergeSort extends Sort {
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         // arrayVisualizer.setHeading("PDMerge -- Finding Runs");
+        smallestRunSize = 0;
         ArrayList<Integer> runs = findRuns(array, length - 1);
+        copied = Writes.createExternalArray(smallestRunSize);
         
         // arrayVisualizer.setHeading("PDMerge -- Merging Runs");
         while (runs.size() > 1) {
@@ -200,5 +216,6 @@ final public class PDMergeSort extends Sort {
         // arrayVisualizer.setHeading("Pattern-Defeating Mergesort");
 
         Writes.deleteArrayList(runs);
+        Writes.deleteExternalArray(copied);
     }
 }

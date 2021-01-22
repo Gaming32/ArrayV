@@ -67,6 +67,7 @@ final public class MedianMergeSort extends Sort {
 		Writes.swap(array, a, m, 1, true, false);
 	}
 	
+	//lite version
 	private void medianOfMedians(int[] array, int a, int b, int s) {
 		int end = b, start = a, i, j;
 		boolean ad = true;
@@ -95,18 +96,20 @@ final public class MedianMergeSort extends Sort {
 		Highlights.markArray(3, p);
 		
         while(true) {
-            i++;
-            while(i < b && Reads.compareIndices(array, i, p, 0, false) == -1) {
+			do {
+				i++;
                 Highlights.markArray(1, i);
                 Delays.sleep(0.5);
-                i++;
-            }
-            j--;
-            while(j >= a && Reads.compareIndices(array, j, p, 0, false) == 1) {
+			}
+			while(i < j && Reads.compareIndices(array, i, p, 0, false) == -1);
+			
+			do {
+				j--;
                 Highlights.markArray(2, j);
                 Delays.sleep(0.5);
-                j--;
-            }
+			}
+            while(j >= i && Reads.compareIndices(array, j, p, 0, false) == 1);
+				
             if(i < j) Writes.swap(array, i, j, 1, true, false);
             else      return j;
         }
@@ -166,18 +169,21 @@ final public class MedianMergeSort extends Sort {
 	
 	private void medianMergeSort(int[] array, int a, int b) {
 		int start = a, end = b;
-		boolean badPartition = false;
+		boolean badPartition = false, mom = false;
 		
 		while(end - start > 16) {
-			if(badPartition) this.medianOfMedians(array, start, end, 5);
-			else             this.medianOfThree(array, start, end);
+			if(badPartition) {
+				this.medianOfMedians(array, start, end, 5);
+				mom = true;
+			}
+			else this.medianOfThree(array, start, end);
 			
 			int p = this.partition(array, start+1, end, start);
 			Writes.swap(array, start, p, 1, true, false);
 			
 			int left  = p-start;
 			int right = end-(p+1);
-			badPartition = (left == 0 || right == 0) || (left/right >= 16 || right/left >= 16);
+			badPartition = !mom && ((left == 0 || right == 0) || (left/right >= 16 || right/left >= 16));
 			
 			if(left <= right) {
 				this.mergeSort(array, start, p, p+1);

@@ -356,12 +356,16 @@ final public class Writes {
 
     public int[] copyOfArray(int[] original, int newLength) {
         this.allocAmount += newLength;
-        return Arrays.copyOf(original, newLength);
+        int[] result = Arrays.copyOf(original, newLength);
+        ArrayVisualizer.getArrays().add(result);
+        return result;
     }
 
     public int[] copyOfRangeArray(int[] original, int from, int to) {
         this.allocAmount += to - from;
-        return Arrays.copyOfRange(original, from, to);
+        int[] result = Arrays.copyOfRange(original, from, to);
+        ArrayVisualizer.getArrays().add(result);
+        return result;
     }
     
     public void reversearraycopy(int[] src, int srcPos, int[] dest, int destPos, int length, double sleep, boolean mark, boolean aux) {
