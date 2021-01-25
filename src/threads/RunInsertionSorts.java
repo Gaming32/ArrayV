@@ -2,15 +2,7 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.insert.BinaryInsertionSort;
-import sorts.insert.InsertionSort;
-import sorts.insert.LibrarySort;
-import sorts.insert.PatienceSort;
-import sorts.insert.RecursiveShellSort;
-import sorts.insert.RendezvousSort;
-import sorts.insert.ShellSort;
-import sorts.insert.TreeSort;
-import sorts.insert.TriSearchInsertionSort;
+import sorts.insert.*;
 import sorts.templates.Sort;
 import utils.Shuffles;
 
@@ -42,8 +34,10 @@ SOFTWARE.
 
 final public class RunInsertionSorts extends MultipleSortThread {
     private Sort InsertionSort;
+    private Sort DoubleInsertionSort;
     private Sort BinaryInsertionSort;
     private Sort TriSearchInsertionSort;
+    private Sort UnstableInsertionSort;
     private Sort ShellSort;
     private Sort RecursiveShellSort;
     private Sort RendezvousSort;
@@ -53,12 +47,14 @@ final public class RunInsertionSorts extends MultipleSortThread {
     
     public RunInsertionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 9;
+        this.sortCount = 11;
         this.categoryCount = this.sortCount;
     
         InsertionSort          = new          InsertionSort(this.arrayVisualizer);
+        DoubleInsertionSort    = new    DoubleInsertionSort(this.arrayVisualizer);
         BinaryInsertionSort    = new    BinaryInsertionSort(this.arrayVisualizer);
         TriSearchInsertionSort = new TriSearchInsertionSort(this.arrayVisualizer);
+        UnstableInsertionSort  = new  UnstableInsertionSort(this.arrayVisualizer);
         ShellSort              = new              ShellSort(this.arrayVisualizer); 
         RecursiveShellSort     = new     RecursiveShellSort(this.arrayVisualizer); 
         RendezvousSort         = new         RendezvousSort(this.arrayVisualizer); 
@@ -70,8 +66,10 @@ final public class RunInsertionSorts extends MultipleSortThread {
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunInsertionSorts.this.runIndividualSort(InsertionSort,          0, array,  128,  0.005, false);
+        RunInsertionSorts.this.runIndividualSort(DoubleInsertionSort,    0, array,  128,  0.002, false);
         RunInsertionSorts.this.runIndividualSort(BinaryInsertionSort,    0, array,  128,  0.025, false);
         RunInsertionSorts.this.runIndividualSort(TriSearchInsertionSort, 0, array,  128,  1,     false);
+        RunInsertionSorts.this.runIndividualSort(UnstableInsertionSort,  0, array,  128,  0.2,   false);
         RunInsertionSorts.this.runIndividualSort(ShellSort,              0, array,  256,  0.1,   false);
         RunInsertionSorts.this.runIndividualSort(RecursiveShellSort,     0, array,  256,  0.1,   false);
         RunInsertionSorts.this.runIndividualSort(RendezvousSort,         0, array,  256,  0.1,   false);
