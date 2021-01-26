@@ -16,8 +16,8 @@ final public class OptimizedStoogeSort extends Sort {
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
+        this.setUnreasonablySlow(true);
+        this.setUnreasonableLimit(2048);
         this.setBogoSort(false);
     }
     

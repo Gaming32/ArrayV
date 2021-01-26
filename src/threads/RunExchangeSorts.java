@@ -55,11 +55,13 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort MeanQuickSort;
     private Sort StableQuickSort;
     private Sort ImprovedStableQuickSort;
+    private Sort ForcedStableQuickSort;
     private Sort LazyStableQuickSort;
+    private Sort TableSort;
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 21;
+        this.sortCount = 25;
         this.categoryCount = this.sortCount;
         
         BubbleSort                   = new                   BubbleSort(this.arrayVisualizer);
@@ -84,7 +86,9 @@ final public class RunExchangeSorts extends MultipleSortThread {
         MeanQuickSort                = new                MeanQuickSort(this.arrayVisualizer);
         StableQuickSort              = new              StableQuickSort(this.arrayVisualizer);
         ImprovedStableQuickSort      = new      ImprovedStableQuickSort(this.arrayVisualizer);
+        ForcedStableQuickSort        = new        ForcedStableQuickSort(this.arrayVisualizer);
         LazyStableQuickSort          = new          LazyStableQuickSort(this.arrayVisualizer);
+        TableSort                    = new                    TableSort(this.arrayVisualizer);
     }
 
     @Override
@@ -94,7 +98,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(CocktailShakerSort,           0,   array,  512, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(SmartCocktailSort,            0,   array,  512, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(OddEvenSort,                  0,   array,  512, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(SwapMapSort,                  0,   array,  512, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(SwapMapSort,                  0,   array,  512, 0.125, false);
         RunExchangeSorts.this.runIndividualSort(GnomeSort,                    0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(SmartGnomeSort,               0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(BinaryGnomeSort,              0,   array,  128, 0.025, false);
@@ -108,10 +112,12 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(ImprovedLLQuickSort,          0,   array, 2048, 1.5,   false);
         RunExchangeSorts.this.runIndividualSort(LRQuickSort,                  0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(DualPivotQuickSort,           0,   array, 2048, 1,     false);
-        // RunExchangeSorts.this.runIndividualSort(MeanQuickSort,                0, array, 2048, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(MeanQuickSort,                0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(StableQuickSort,              0,   array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5,    false);
         RunExchangeSorts.this.runIndividualSort(ImprovedStableQuickSort,      0,   array, 2048, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(ForcedStableQuickSort,        0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(LazyStableQuickSort,          0,   array, 256,  0.5,   false);
+        RunExchangeSorts.this.runIndividualSort(TableSort,                    0,   array, 1024, 0.75,  false);
     }
     
     @Override
