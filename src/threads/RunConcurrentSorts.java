@@ -33,6 +33,7 @@ SOFTWARE.
 
 final public class RunConcurrentSorts extends MultipleSortThread {
     private Sort FoldSort;
+    private Sort CreaseSort;
     private Sort MatrixSort;
     private Sort BitonicSortRecursive;
     private Sort OddEvenMergeSortRecursive;
@@ -47,10 +48,11 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 10;
+        this.sortCount = 13;
         this.categoryCount = this.sortCount;
         
         FoldSort                  = new                  FoldSort(this.arrayVisualizer);
+        CreaseSort                = new                CreaseSort(this.arrayVisualizer);
         MatrixSort                = new                MatrixSort(this.arrayVisualizer);
         BitonicSortRecursive      = new      BitonicSortRecursive(this.arrayVisualizer);
         OddEvenMergeSortRecursive = new OddEvenMergeSortRecursive(this.arrayVisualizer);
@@ -67,6 +69,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunConcurrentSorts.this.runIndividualSort(FoldSort,                  0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(CreaseSort,                0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(MatrixSort,                0, array, 256,  0.667, false);
         RunConcurrentSorts.this.runIndividualSort(BitonicSortRecursive,      0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(OddEvenMergeSortRecursive, 0, array, 1024, 1,     false);

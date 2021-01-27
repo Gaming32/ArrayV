@@ -2,21 +2,7 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.select.AsynchronousSort;
-import sorts.select.BaseNMaxHeapSort;
-import sorts.select.CycleSort;
-import sorts.select.DequeueSort;
-import sorts.select.DoubleSelectionSort;
-import sorts.select.FlippedMinHeapSort;
-import sorts.select.MaxHeapSort;
-import sorts.select.MinHeapSort;
-import sorts.select.PoplarHeapSort;
-import sorts.select.QueueSort;
-import sorts.select.SelectionSort;
-import sorts.select.SmoothSort;
-import sorts.select.TernaryHeapSort;
-import sorts.select.TournamentSort;
-import sorts.select.WeakHeapSort;
+import sorts.select.*;
 import sorts.templates.Sort;
 
 /*

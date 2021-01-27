@@ -2,18 +2,7 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.merge.AndreySort;
-import sorts.merge.BlockSwapMergeSort;
-import sorts.merge.BottomUpMergeSort;
-import sorts.merge.ImprovedInPlaceMergeSort;
-import sorts.merge.InPlaceMergeSort;
-import sorts.merge.LazyStableSort;
-import sorts.merge.MergeSort;
-import sorts.merge.NaturalMergeSort;
-import sorts.merge.PDMergeSort;
-import sorts.merge.PartialMergeSort;
-import sorts.merge.ReverseLazyStableSort;
-import sorts.merge.RotateMergeSort;
+import sorts.merge.*;
 import sorts.templates.Sort;
 
 /*
@@ -52,13 +41,16 @@ final public class RunMergeSorts extends MultipleSortThread {
     private Sort ImprovedInPlaceMergeSort;
     private Sort LazyStableSort;
     private Sort ReverseLazyStableSort;
+    private Sort ModuloMergeSort;
     private Sort BlockSwapMergeSort;
     private Sort RotateMergeSort;
     private Sort AndreySort;
+    private Sort SplitSixteenMergeSort;
+    private Sort StrandSort;
     
     public RunMergeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 12;
+        this.sortCount = 15;
         this.categoryCount = this.sortCount;
 
         MergeSort                = new                MergeSort(this.arrayVisualizer);
@@ -70,9 +62,12 @@ final public class RunMergeSorts extends MultipleSortThread {
         ImprovedInPlaceMergeSort = new ImprovedInPlaceMergeSort(this.arrayVisualizer);
         LazyStableSort           = new           LazyStableSort(this.arrayVisualizer);
         ReverseLazyStableSort    = new    ReverseLazyStableSort(this.arrayVisualizer);
+        ModuloMergeSort          = new          ModuloMergeSort(this.arrayVisualizer);
         BlockSwapMergeSort       = new       BlockSwapMergeSort(this.arrayVisualizer);
         RotateMergeSort          = new          RotateMergeSort(this.arrayVisualizer);
         AndreySort               = new               AndreySort(this.arrayVisualizer);
+        SplitSixteenMergeSort    = new             Split16Merge(this.arrayVisualizer);
+        StrandSort               = new               StrandSort(this.arrayVisualizer);
     }
 
     @Override
@@ -86,9 +81,12 @@ final public class RunMergeSorts extends MultipleSortThread {
         RunMergeSorts.this.runIndividualSort(ImprovedInPlaceMergeSort, 0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(LazyStableSort,           0, array,  256, 0.2,  false);
         RunMergeSorts.this.runIndividualSort(ReverseLazyStableSort,    0, array,  256, 0.1,  false);
+        RunMergeSorts.this.runIndividualSort(ModuloMergeSort,          0, array, 2048, 3,    false);
         RunMergeSorts.this.runIndividualSort(BlockSwapMergeSort,       0, array,  256, 0.1,  false);
         RunMergeSorts.this.runIndividualSort(RotateMergeSort,          0, array,  512, 0.2,  false);
         RunMergeSorts.this.runIndividualSort(AndreySort,               0, array, 2048, 1,    false);
+        RunMergeSorts.this.runIndividualSort(SplitSixteenMergeSort,    0, array,  512, 0.75, false);
+        RunMergeSorts.this.runIndividualSort(StrandSort,               0, array, 2048, 1,    false);
     }
     
     @Override
