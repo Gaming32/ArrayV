@@ -49,8 +49,9 @@ final public class Statistics {
         this.sortCategory = ArrayVisualizer.getCategory();
         this.sortHeading = ArrayVisualizer.getHeading();
         this.sortExtraHeading = ArrayVisualizer.getExtraHeading();
+        int showUnique = Math.min(ArrayVisualizer.getUniqueItems(), ArrayVisualizer.getCurrentLength());
         this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers" 
-        + ", " + this.formatter.format(ArrayVisualizer.getUniqueItems()) + " Unique";
+        + ", " + this.formatter.format(showUnique) + " Unique";
         
         this.sortDelay = "Delay: " + ArrayVisualizer.getDelays().displayCurrentDelay() + "ms";
         this.visualTime = "Visual Time: " + ArrayVisualizer.getTimer().getVisualTime();
