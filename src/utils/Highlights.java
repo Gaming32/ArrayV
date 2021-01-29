@@ -128,8 +128,9 @@ final public class Highlights {
                 else throw new Exception("Highlights.markArray(): Invalid position!");
             }
             else {
+                if (Highlights[marker] == -1)
+                    this.markCount++;
                 Highlights[marker] = markPosition;
-                this.markCount++;
                 
                 if(marker > this.maxIndexMarked) {
                     this.maxIndexMarked = marker;
