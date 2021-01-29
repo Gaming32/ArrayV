@@ -139,10 +139,11 @@ final public class ArrayFrame extends javax.swing.JFrame {
         this.addKeyListener(kListener);
 
         int usePower = ArrayVisualizer.MAX_LENGTH_POWER * 100000;
+        int useDefault = (int)Math.min(1100000, usePower);
         this.jLabel1 = new javax.swing.JLabel();
         this.jLabel2 = new javax.swing.JLabel();
-        this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, 1100000);
-        this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, 1100000);
+        this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, useDefault);
+        this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, useDefault);
         
         jLabel1.setText("Array Size");
         jLabel2.setText("Unique Elements");
