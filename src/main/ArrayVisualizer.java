@@ -165,6 +165,9 @@ final public class ArrayVisualizer {
     private Writes Writes;
 
     private volatile boolean updateVisuals;
+    private volatile int updateVisualsForced;
+
+    public static int MAX_LENGTH_POWER = 15;
 
     public ArrayVisualizer() {
         this.window = new JFrame();
@@ -217,7 +220,7 @@ final public class ArrayVisualizer {
         }.start();
         
         this.MIN_ARRAY_VAL = 2;
-        this.MAX_ARRAY_VAL = 32768;
+        this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
         
         this.array = new int[this.MAX_ARRAY_VAL];
         this.shadowArray = new int[this.array.length];
@@ -309,7 +312,9 @@ final public class ArrayVisualizer {
 				ArrayVisualizer.this.visualClasses[5] = new HoopStack(ArrayVisualizer.this);
                 
                 while(ArrayVisualizer.this.visualsEnabled) {
-                    if(ArrayVisualizer.this.updateVisuals) {
+                    if(ArrayVisualizer.this.updateVisuals || ArrayVisualizer.this.updateVisualsForced > 0) {
+                        if (!ArrayVisualizer.this.updateVisuals)
+                            ArrayVisualizer.this.updateVisualsForced--;
                         ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
                         int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
                         ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
@@ -371,6 +376,9 @@ final public class ArrayVisualizer {
     
     public void toggleVisualUpdates(boolean bool) {
         this.updateVisuals = bool;
+    }
+    public void forceVisualUpdate(int count) {
+        this.updateVisualsForced += count;
     }
     
     public int[] getShadowArray() {
@@ -856,6 +864,9 @@ final public class ArrayVisualizer {
     @SuppressWarnings("unused")
     public static void main(String[] args) {
         System.setProperty("sun.java2d.d3d", "false");
+        if (args.length > 0) {
+            ArrayVisualizer.MAX_LENGTH_POWER = Integer.parseInt(args[0]);
+        }
         new ArrayVisualizer();
     }
 }

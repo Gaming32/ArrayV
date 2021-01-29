@@ -138,10 +138,11 @@ final public class ArrayFrame extends javax.swing.JFrame {
         };
         this.addKeyListener(kListener);
 
+        int usePower = ArrayVisualizer.MAX_LENGTH_POWER * 100000;
         this.jLabel1 = new javax.swing.JLabel();
         this.jLabel2 = new javax.swing.JLabel();
-        this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, 1500000, 1100000);
-        this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, 1500000, 1100000);
+        this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, 1100000);
+        this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, 1100000);
         
         jLabel1.setText("Array Size");
         jLabel2.setText("Unique Elements");
@@ -150,8 +151,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
 
         Hashtable<Integer, JLabel> labels = new Hashtable<>();
         int pow = 1;
-        int value = 2;
-        while(value <= 32768) {
+        int value = ArrayVisualizer.getMinimumLength();
+        while(value <= ArrayVisualizer.getMaximumLength()) {
             labels.put(pow * 100000, new JLabel(Integer.toString(value)));
             pow += 1;
             value *= 2;
