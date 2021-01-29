@@ -131,6 +131,7 @@ final public class Sounds {
                     }
 
                     int noteCount = Math.min(Highlights.getMarkCount(), NUMCHANNELS);
+                    noteCount = noteCount < 0 ? NUMCHANNELS : noteCount;
                     int voice = 0;
 
                     for(int i : Highlights.highlightList()) {
