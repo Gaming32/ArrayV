@@ -49,16 +49,11 @@ public abstract class MultipleSortThread {
     }
     
     private double calculateSpeed(double defaultDelay, int length) {
-        if(this.startingLength <= 2048) {
-            return defaultDelay;
+        if(length < (this.startingLength / 2)) {
+            return defaultDelay * Math.pow((this.startingLength / 2048d), 2);
         }
         else {
-            if(length < (this.startingLength / 2)) {
-                return defaultDelay * Math.pow((this.startingLength / 2048d), 2);
-            }
-            else {
-                return defaultDelay * (this.startingLength / 2048d);
-            }
+            return defaultDelay * (this.startingLength / 2048d);
         }
     }
     
