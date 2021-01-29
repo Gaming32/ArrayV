@@ -7,6 +7,7 @@ import utils.Delays;
 import utils.Highlights;
 import utils.Reads;
 import utils.Sounds;
+import utils.StopSort;
 import utils.Timer;
 import utils.Writes;
 
@@ -84,7 +85,12 @@ public abstract class MultipleSortThread {
         
         Timer.enableRealTimer();
         
-        sort.runSort(array, arrayVisualizer.getCurrentLength(), bucketCount);
+        // arrayVisualizer.toggleVisualUpdates(true);
+        try {
+            sort.runSort(array, arrayVisualizer.getCurrentLength(), bucketCount);
+        }
+        catch (StopSort e) { }
+        // arrayVisualizer.toggleVisualUpdates(false);
         
         arrayVisualizer.endSort();
         Thread.sleep(1000);
