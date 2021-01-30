@@ -21,12 +21,12 @@ final public class StableStoogeSort extends Sort {
     
     private void stableStooge(int[] array, int start, int end) {
         if (end - start + 1 == 2) {
-        	if (Reads.compareIndices(array, start, end, 0.0025, true) == 1) {
+            if (Reads.compareIndices(array, start, end, 0.0025, true) == 1) {
     	        Writes.swap(array, start, end, 0.005, true, false);
             }
         } else if (end - start + 1 > 2) {
-        	int third = (end - start + 1) / 3;
-        	stableStooge(array, start, end - third);
+            int third = (end - start + 1) / 3;
+            stableStooge(array, start, end - third);
             stableStooge(array, start + third, end);
             stableStooge(array, start, end - third);
         }
