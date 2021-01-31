@@ -8,8 +8,8 @@ import utils.Writes;
 
 final public class SplaySort extends Sort {
 	
-	//Splay sort is an adaptive algorithm based on splay tree data structure
-	//It is O(n log n) in the worst case, and O(n) in the best case when the data is mostly sorted
+    //Splay sort is an adaptive algorithm based on splay tree data structure
+    //It is O(n log n) in the average/worst case, and O(n) in the best case when the data is mostly sorted
 	
     public SplaySort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -81,8 +81,8 @@ final public class SplaySort extends Sort {
         }
         
         if (Reads.compareValues(root.key, key) == 1) {
-        	if (root.left == null) {
-        	    return root;
+            if (root.left == null) {
+        	return root;
             }
             
             if (Reads.compareValues(root.left.key, key) == 1) {
@@ -91,19 +91,19 @@ final public class SplaySort extends Sort {
             } else {
             	root.left.right = treeWrite(splay(root.left.right, key, depth * 4 + 1), depth * 4 + 1);
                 if (root.left.right != null) {
-                	root.left = treeWrite(leftRotate(root.left, depth * 2), depth * 2);
+                    root.left = treeWrite(leftRotate(root.left, depth * 2), depth * 2);
                 }
             }
             return (root.left == null) ? root : rightRotate(root, depth);
         } else {
-        	if (root.right == null) {
-        	    return root;
+            if (root.right == null) {
+        	return root;
             }
             
             if (Reads.compareValues(root.right.key, key) == 1) {
             	root.right.left = treeWrite(splay(root.right.left, key, depth * 4 + 2), depth * 4 + 2);
                 if (root.right.left != null) {
-                	root.right = treeWrite(rightRotate(root.right, depth * 2), depth * 2);
+                    root.right = treeWrite(rightRotate(root.right, depth * 2), depth * 2);
                 }
             } else {
             	root.right.right = treeWrite(splay(root.right.right, key, depth * 4 + 3), depth * 4 + 3);
@@ -123,11 +123,11 @@ final public class SplaySort extends Sort {
         Node n = new Node(key);
         
         if (Reads.compareValues(root.key, key) == 1) {
-        	n.right = treeWrite(root, 3);
+            n.right = treeWrite(root, 3);
             n.left = treeWrite(root.left, 2);
             root.left = treeWrite(null, depth * 2);
         } else {
-        	n.left = treeWrite(root, 2);
+            n.left = treeWrite(root, 2);
             n.right = treeWrite(root.right, 3);
             root.right = treeWrite(null, depth * 2 + 1);
         }
