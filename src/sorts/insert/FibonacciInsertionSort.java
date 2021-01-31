@@ -59,7 +59,7 @@ final public class FibonacciInsertionSort extends Sort {
         int fibM1 = 1;
         int fibM = 1;
         while (fibM <= end - start) {
-        	fibM2 = fibM1;
+            fibM2 = fibM1;
             fibM1 = fibM;
             fibM = fibM2 + fibM1;
         }
@@ -87,7 +87,7 @@ final public class FibonacciInsertionSort extends Sort {
         }
         int position = ++offset;
         if (Reads.compare(array[position], item) <= 0) {
-        	++position;
+            ++position;
         }
         return position;
     }
