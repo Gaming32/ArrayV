@@ -41,6 +41,9 @@ final public class FunSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
+
+    //Fun Sort - or the chaos of unordered binary search
+    //https://www.sciencedirect.com/science/article/pii/S0166218X04001131
     
     public int binarySearch(int[] array, int start, int end, int value) {
     	while (start < end) {
@@ -64,17 +67,17 @@ final public class FunSort extends Sort {
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 1; i < length; i++) {
-        	boolean done = false;
-        	do {
-        	    done = true;
+            boolean done = false;
+            do {
+        	done = true;
                 int pos = binarySearch(array, 0, length - 1, array[i]);
                 if (Reads.compareIndices(array, pos, i, 0, false) != 0) {
-                	if (i < pos - 1) {
-                	    Writes.swap(array, i, pos - 1, 2, true, false);
+                    if (i < pos - 1) {
+                	Writes.swap(array, i, pos - 1, 2, true, false);
                     } else if (i > pos) {
                     	Writes.swap(array, i, pos, 2, true, false);
                     }
-                	done = false;
+                    done = false;
                 }
             } while (!done);
         }
