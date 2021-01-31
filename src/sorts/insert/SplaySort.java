@@ -1,10 +1,7 @@
-package sorts;
+package sorts.insert;
 
-import templates.Sort;
-import utils.Delays;
-import utils.Highlights;
-import utils.Reads;
-import utils.Writes;
+import main.ArrayVisualizer;
+import sorts.templates.Sort;
 
 final public class SplaySort extends Sort {
 	
