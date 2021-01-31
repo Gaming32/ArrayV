@@ -41,10 +41,14 @@ final public class FunSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-
-    //Fun Sort - or the chaos of unordered binary search
-    //https://www.sciencedirect.com/science/article/pii/S0166218X04001131
     
+    /*
+    Fun Sort - or the chaos of unordered binary search
+    https://www.sciencedirect.com/science/article/pii/S0166218X04001131
+    Best Case: O(n log n)
+    Average/Worst Case: O(n^2 log n)
+    */
+
     public int binarySearch(int[] array, int start, int end, int value) {
     	while (start < end) {
     	    int mid = (start + end) >>> 1;
