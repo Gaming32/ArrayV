@@ -112,6 +112,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         this.jCheckBox1 = new javax.swing.JCheckBox();
         this.jCheckBox2 = new javax.swing.JCheckBox();
         this.jButton4 = new javax.swing.JButton();
+        this.jButton7 = new javax.swing.JButton();
         this.jCheckBox3 = new javax.swing.JCheckBox();
         this.jCheckBox4 = new javax.swing.JCheckBox();
         this.jButton5 = new javax.swing.JButton();
@@ -182,6 +183,14 @@ final public class UtilFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed();
+            }
+        });
+
+        jButton7.setText("Cancel Sort");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed();
             }
         });
 
@@ -302,6 +311,7 @@ final public class UtilFrame extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
                                                 .addComponent(this.jCheckBox5)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                                        .addComponent(this.jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(this.jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(this.jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(this.jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -329,6 +339,8 @@ final public class UtilFrame extends javax.swing.JFrame {
                         .addComponent(this.jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(this.jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(this.jButton7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(this.jButton6)
                         .addGap(7, 7, 7)
@@ -442,6 +454,10 @@ final public class UtilFrame extends javax.swing.JFrame {
         Delays.changeSkipped(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton7ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
+        ArrayVisualizer.setCanceled(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     private void jCheckBox4ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
         RealTimer.toggleRealTimer(jCheckBox4.isSelected());
     }//GEN-LAST:event_jCheckBox4ActionPerformed
@@ -502,6 +518,7 @@ final public class UtilFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;

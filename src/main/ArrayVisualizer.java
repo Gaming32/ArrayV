@@ -63,7 +63,7 @@ The MIT License (MIT)
 Copyright (c) 2019 w0rthy
 Copyright (c) 2019 Luke Hutchison
 Copyright (c) 2020 MusicTheorist
-Copyright (c) 2020 ArrayV 4.0 Team
+Copyright (c) 2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -143,6 +143,8 @@ final public class ArrayVisualizer {
     private volatile boolean SPIRALDRAW;
     private volatile boolean WAVEDRAW;
     private volatile boolean EXTARRAYS;
+
+    private volatile boolean isCanceled;
 
     private volatile int cx;
     private volatile int cy;
@@ -280,6 +282,8 @@ final public class ArrayVisualizer {
         this.RAINBOW = false;
         this.SPIRALDRAW = false;
         this.EXTARRAYS = false;
+
+        this.isCanceled = false;
  
         this.cx = 0;
         this.cy = 0;
@@ -721,6 +725,7 @@ final public class ArrayVisualizer {
         this.Highlights.clearAllMarks();
         System.out.println(formatTimes());
 
+        this.isCanceled = false;
         this.Delays.changeSkipped(false);
         double speed = this.Delays.getSleepRatio(); 
         this.verifySortAndSweep();
@@ -772,6 +777,13 @@ final public class ArrayVisualizer {
     }
     public void setCurrentGap(int gap) {
         this.currentGap = gap;
+    }
+
+    public boolean sortCanceled() {
+        return this.isCanceled;
+    }
+    public void setCanceled(boolean canceled) {
+        this.isCanceled = canceled;
     }
     
     public void repositionFrames() {

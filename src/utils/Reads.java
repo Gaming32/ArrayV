@@ -81,7 +81,7 @@ final public class Reads {
     }
     
     public int compareValues(int left, int right) {
-        // if (Delays.skipped()) throw new StopSort();
+        if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         this.comparisons++;
         
         int cmpVal = 0;
@@ -112,7 +112,7 @@ final public class Reads {
         int max = 0;
 
         for(int i = 0; i < length; i++) {
-            // if (Delays.skipped()) throw new StopSort();
+            if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             Timer.startLap("Analysis");
             
             if(array[i] > max) max = array[i];
@@ -136,7 +136,7 @@ final public class Reads {
         int max = 0;
 
         for(int i = 0; i < length; i++) {
-            // if (Delays.skipped()) throw new StopSort();
+            if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             Timer.startLap("Analysis");
             
             if(array[i] < max) max = array[i];
@@ -160,7 +160,7 @@ final public class Reads {
         int max = 0;
         
         for(int i = 0; i < length; i++) { 
-            // if (Delays.skipped()) throw new StopSort();
+            if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             int log = (int) (Math.log(array[i]) / Math.log(base));
             
             Timer.startLap("Analysis");
@@ -186,7 +186,7 @@ final public class Reads {
         int max = 0;
         
         for(int i = 0; i < length; i++) { 
-            // if (Delays.skipped()) throw new StopSort();
+            if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             int log = (int)Math.ceil(Math.log(array[i]) / Math.log(base));
             
             Timer.startLap("Analysis");
@@ -213,7 +213,7 @@ final public class Reads {
         int max = 0;
         
         for(int i = 0; i < length; i++) {
-            // if (Delays.skipped()) throw new StopSort();
+            if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             Timer.startLap("Analysis");
             
             max = Math.max(max, array[i]);
