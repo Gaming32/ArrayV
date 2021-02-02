@@ -32,8 +32,8 @@ final public class StupidQuickSort extends Sort {
         super(arrayVisualizer);
         
         this.setSortListName("Stupid Quick");
-        this.setRunAllSortsName("Stupid Quicksort");
-        this.setRunSortName("Stupid Quick Sort");
+        this.setRunAllSortsName("Stupid Quick Sort");
+        this.setRunSortName("Stupid Quicksort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
