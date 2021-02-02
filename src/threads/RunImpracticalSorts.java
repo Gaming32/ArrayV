@@ -10,7 +10,6 @@ import sorts.distribute.SliceBogoSort;
 import sorts.distribute.SmartBogoSort;
 import sorts.exchange.BubbleBogoSort;
 import sorts.exchange.ExchangeBogoSort;
-import sorts.exchange.OptimizedStoogeSort;
 import sorts.exchange.SillySort;
 import sorts.exchange.SlowSort;
 import sorts.exchange.SnuffleSort;
@@ -22,7 +21,7 @@ import sorts.templates.Sort;
  * 
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,7 +46,6 @@ SOFTWARE.
 final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort BadSort;
     private Sort StoogeSort;
-    private Sort OptimizedStoogeSort;
     private Sort SillySort;
     private Sort SlowSort;
     private Sort SnuffleSort;
@@ -62,12 +60,11 @@ final public class RunImpracticalSorts extends MultipleSortThread {
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 14;
+        this.sortCount = 13;
         this.categoryCount = this.sortCount;
 
         BadSort             = new             BadSort(this.arrayVisualizer);
         StoogeSort          = new          StoogeSort(this.arrayVisualizer);
-        OptimizedStoogeSort = new OptimizedStoogeSort(this.arrayVisualizer);
         SillySort           = new           SillySort(this.arrayVisualizer);
         SlowSort            = new            SlowSort(this.arrayVisualizer);
         SnuffleSort         = new         SnuffleSort(this.arrayVisualizer);
@@ -85,7 +82,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunImpracticalSorts.this.runIndividualSort(BadSort,             0, array, 64,  0.0075, true);
         RunImpracticalSorts.this.runIndividualSort(StoogeSort,          0, array, 64,  0.005,  true);
-        RunImpracticalSorts.this.runIndividualSort(OptimizedStoogeSort, 0, array, 64,  0.005,  true);
         RunImpracticalSorts.this.runIndividualSort(SillySort,           0, array, 64,  10,     true);
         RunImpracticalSorts.this.runIndividualSort(SlowSort,            0, array, 64,  10,     true);
         RunImpracticalSorts.this.runIndividualSort(SnuffleSort,         0, array, 64,  1,      true);
