@@ -4,6 +4,8 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 final public class NaturalMergeSort extends Sort {
+    int[] merged;
+
     public NaturalMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.setSortListName("Natural Merge");
@@ -19,7 +21,6 @@ final public class NaturalMergeSort extends Sort {
     }
 
     private void merge(int[] arr, int left, int right, int stop) {
-        int[] merged = Writes.createExternalArray(stop - left);
         boolean first = true;
         int index = 0;
         int start = 0;
@@ -41,13 +42,11 @@ final public class NaturalMergeSort extends Sort {
         Highlights.clearMark(2);
         for (int i = start; i < index; i++)
             Writes.write(arr, i + origLeft, merged[i], 1, true, false);
-        for (int i = start; i < index; i++)
-            merged[i] = 0;
-        Writes.deleteExternalArray(merged);
     }
 
     @Override
     public void runSort(int[] arr, int length, int bucketCount) {
+        merged = Writes.createExternalArray(length);
         boolean done = false;
         int start = 0;
         int stop = length - 1;
@@ -75,5 +74,6 @@ final public class NaturalMergeSort extends Sort {
                 stop = left;
             }
         }
+        Writes.deleteExternalArray(merged);
     }
 }
