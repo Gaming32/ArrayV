@@ -26,7 +26,7 @@ final public class SplaySort extends Sort {
     // Splay tree code retrieved from https://www.geeksforgeeks.org/splay-tree-set-2-insert-delete/
     
     final private class Node { 
-        int key, height;
+        int key;
         Node left, right;
 
         public Node(int item) { 
