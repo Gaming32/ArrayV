@@ -206,7 +206,6 @@ final public class ArrayVisualizer {
                             }
                         }
                     };
-                    ArrayVisualizer.this.sortingThread = thread;
                     thread.start();
                     return true;
                 }
