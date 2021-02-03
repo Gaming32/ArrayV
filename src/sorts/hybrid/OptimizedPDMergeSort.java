@@ -1,4 +1,4 @@
-package sorts.merge;
+package sorts.hybrid;
 
 import main.ArrayVisualizer;
 import sorts.insert.InsertionSort;
@@ -39,9 +39,9 @@ final public class OptimizedPDMergeSort extends Sort {
         super(arrayVisualizer);
         
         this.setSortListName("Optimized PD Merge");
-        this.setRunAllSortsName("Pattern-Defeating Merge Sort");
-        this.setRunSortName("Pattern-Defeating Mergesort");
-        this.setCategory("Merge Sorts");
+        this.setRunAllSortsName("Optimized Pattern-Defeating Merge Sort");
+        this.setRunSortName("Optimized Pattern-Defeating Mergesort");
+        this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);

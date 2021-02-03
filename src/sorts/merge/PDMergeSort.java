@@ -48,13 +48,6 @@ final public class PDMergeSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private void ensureCapacity(int length) {
-        if (length > copied.length) {
-            Writes.deleteExternalArray(copied);
-            copied = Writes.createExternalArray(length);
-        }
-    }
-
     private void mergeUp(int[] array, int start, int mid, int end) {
         for (int i = 0; i < mid - start; i++) {
             Highlights.markArray(1, i + start);
