@@ -11,6 +11,7 @@ import panes.JErrorPane;
 import sorts.templates.Sort;
 import utils.Delays;
 import utils.Sounds;
+import utils.StopSort;
 import utils.Timer;
 
 /*
@@ -164,7 +165,12 @@ final public class RunComparisonSort {
                         arrayVisualizer.setCategory(sort.getCategory());
                         
                         realTimer.enableRealTimer();
-                        sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
+                        // arrayVisualizer.toggleVisualUpdates(true);
+                        try {
+                            sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
+                        }
+                        catch (StopSort e) { }
+                        // arrayVisualizer.toggleVisualUpdates(false);
                     }
                     else {
                         arrayManager.initializeArray(array);

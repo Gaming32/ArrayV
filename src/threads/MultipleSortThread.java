@@ -7,6 +7,7 @@ import utils.Delays;
 import utils.Highlights;
 import utils.Reads;
 import utils.Sounds;
+import utils.StopSort;
 import utils.Timer;
 import utils.Writes;
 
@@ -48,16 +49,11 @@ public abstract class MultipleSortThread {
     }
     
     private double calculateSpeed(double defaultDelay, int length) {
-        if(this.startingLength <= 2048) {
-            return defaultDelay;
+        if(length < (this.startingLength / 2)) {
+            return defaultDelay * Math.pow((this.startingLength / 2048d), 2);
         }
         else {
-            if(length < (this.startingLength / 2)) {
-                return defaultDelay * Math.pow((this.startingLength / 2048d), 2);
-            }
-            else {
-                return defaultDelay * (this.startingLength / 2048d);
-            }
+            return defaultDelay * (this.startingLength / 2048d);
         }
     }
     
@@ -84,7 +80,12 @@ public abstract class MultipleSortThread {
         
         Timer.enableRealTimer();
         
-        sort.runSort(array, arrayVisualizer.getCurrentLength(), bucketCount);
+        // arrayVisualizer.toggleVisualUpdates(true);
+        try {
+            sort.runSort(array, arrayVisualizer.getCurrentLength(), bucketCount);
+        }
+        catch (StopSort e) { }
+        // arrayVisualizer.toggleVisualUpdates(false);
         
         arrayVisualizer.endSort();
         Thread.sleep(1000);

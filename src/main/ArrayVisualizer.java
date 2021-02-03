@@ -63,7 +63,7 @@ The MIT License (MIT)
 Copyright (c) 2019 w0rthy
 Copyright (c) 2019 Luke Hutchison
 Copyright (c) 2020 MusicTheorist
-Copyright (c) 2020 ArrayV 4.0 Team
+Copyright (c) 2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -144,6 +144,8 @@ final public class ArrayVisualizer {
     private volatile boolean WAVEDRAW;
     private volatile boolean EXTARRAYS;
 
+    private volatile boolean isCanceled;
+
     private volatile int cx;
     private volatile int cy;
     private volatile int ch;
@@ -165,6 +167,9 @@ final public class ArrayVisualizer {
     private Writes Writes;
 
     private volatile boolean updateVisuals;
+    private volatile int updateVisualsForced;
+
+    public static int MAX_LENGTH_POWER = 15;
 
     public ArrayVisualizer() {
         this.window = new JFrame();
@@ -201,7 +206,6 @@ final public class ArrayVisualizer {
                             }
                         }
                     };
-                    ArrayVisualizer.this.sortingThread = thread;
                     thread.start();
                     return true;
                 }
@@ -217,15 +221,15 @@ final public class ArrayVisualizer {
         }.start();
         
         this.MIN_ARRAY_VAL = 2;
-        this.MAX_ARRAY_VAL = 32768;
+        this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
         
         this.array = new int[this.MAX_ARRAY_VAL];
         this.shadowArray = new int[this.array.length];
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
         
-        this.sortLength = 2048;
-        this.uniqueItems = 2048;
+        this.sortLength = (int)Math.min(2048, this.MAX_ARRAY_VAL);
+        this.uniqueItems = this.sortLength;
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
@@ -277,6 +281,8 @@ final public class ArrayVisualizer {
         this.RAINBOW = false;
         this.SPIRALDRAW = false;
         this.EXTARRAYS = false;
+
+        this.isCanceled = false;
  
         this.cx = 0;
         this.cy = 0;
@@ -309,7 +315,9 @@ final public class ArrayVisualizer {
 				ArrayVisualizer.this.visualClasses[5] = new HoopStack(ArrayVisualizer.this);
                 
                 while(ArrayVisualizer.this.visualsEnabled) {
-                    if(ArrayVisualizer.this.updateVisuals) {
+                    if(ArrayVisualizer.this.updateVisuals || ArrayVisualizer.this.updateVisualsForced > 0) {
+                        if (!ArrayVisualizer.this.updateVisuals)
+                            ArrayVisualizer.this.updateVisualsForced--;
                         ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
                         int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
                         ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
@@ -371,6 +379,9 @@ final public class ArrayVisualizer {
     
     public void toggleVisualUpdates(boolean bool) {
         this.updateVisuals = bool;
+    }
+    public void forceVisualUpdate(int count) {
+        this.updateVisualsForced += count;
     }
     
     public int[] getShadowArray() {
@@ -713,6 +724,7 @@ final public class ArrayVisualizer {
         this.Highlights.clearAllMarks();
         System.out.println(formatTimes());
 
+        this.isCanceled = false;
         this.Delays.changeSkipped(false);
         double speed = this.Delays.getSleepRatio(); 
         this.verifySortAndSweep();
@@ -764,6 +776,13 @@ final public class ArrayVisualizer {
     }
     public void setCurrentGap(int gap) {
         this.currentGap = gap;
+    }
+
+    public boolean sortCanceled() {
+        return this.isCanceled;
+    }
+    public void setCanceled(boolean canceled) {
+        this.isCanceled = canceled;
     }
     
     public void repositionFrames() {
@@ -856,6 +875,9 @@ final public class ArrayVisualizer {
     @SuppressWarnings("unused")
     public static void main(String[] args) {
         System.setProperty("sun.java2d.d3d", "false");
+        if (args.length > 0) {
+            ArrayVisualizer.MAX_LENGTH_POWER = Integer.parseInt(args[0]);
+        }
         new ArrayVisualizer();
     }
 }

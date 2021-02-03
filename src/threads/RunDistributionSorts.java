@@ -56,7 +56,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
     
     public RunDistributionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 21;
+        this.sortCount = 20;
         this.categoryCount = this.sortCount;
         
         CountingSort             = new             CountingSort(this.arrayVisualizer);
@@ -93,7 +93,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
         RunDistributionSorts.this.runIndividualSort(StaticSort,               0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(IndexSort,                0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(AmericanFlagSort,       128, array, 2048, 0.75, false);
-        RunDistributionSorts.this.runIndividualSort(DivisorSort,            128, array, 2048, 0.5,  false);
+        // RunDistributionSorts.this.runIndividualSort(DivisorSort,            128, array, 2048, 0.5,  false);
         RunDistributionSorts.this.runIndividualSort(LSDRadixSort,             4, array, 2048, 1.5,  false);
         
         Sounds.toggleSofterSounds(true);

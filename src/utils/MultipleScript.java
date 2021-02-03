@@ -32,10 +32,10 @@ final public class MultipleScript {
         public Sort algortitm;
         public int bucketCount;
         public int defaultLength;
-        public int defaultSpeedMultiplier;
+        public double defaultSpeedMultiplier;
         public boolean slowSort;
 
-        public SortCallInfo(ArrayVisualizer arrayVisualizer, Class<?> sortClass, int bucketCount, int defaultLength, int defaultSpeedMultiplier) {
+        public SortCallInfo(ArrayVisualizer arrayVisualizer, Class<?> sortClass, int bucketCount, int defaultLength, double defaultSpeedMultiplier) {
             Sort inst = null;
             try {
                 Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
@@ -142,7 +142,7 @@ final public class MultipleScript {
 
                 int bucketCount = commands.length > 1 ? Integer.parseInt(commands[1]) : 0;
                 int defaultLength = commands.length > 2 ? Integer.parseInt(commands[2]) : 2048;
-                int defaultSpeedMultiplier = commands.length > 3 ? Integer.parseInt(commands[3]) : 1;
+                double defaultSpeedMultiplier = commands.length > 3 ? Double.parseDouble(commands[3]) : 1;
 
                 commandType = ScriptCommand.CommandType.SortCall;
                 argument = new SortCallInfo(this.arrayVisualizer, sortClass, bucketCount, defaultLength, defaultSpeedMultiplier);

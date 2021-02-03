@@ -159,7 +159,7 @@ public abstract class GrailSorting extends Sort {
     }
 
     // cost: min(len1, len2)^2 + max(len1, len2)
-    private void grailMergeWithoutBuffer(int[] arr, int pos, int len1, int len2) {
+    protected void grailMergeWithoutBuffer(int[] arr, int pos, int len1, int len2) {
         if(len1 < len2) {
             while(len1 != 0) {
                 //Binary Search left

@@ -34,8 +34,9 @@ SOFTWARE.
 final public class RunMergeSorts extends MultipleSortThread {
     private Sort MergeSort;
     private Sort BottomUpMergeSort;
-    private Sort NaturalMergeSort;
     private Sort PartialMergeSort;
+    private Sort TwinSort;
+    private Sort NaturalMergeSort;
     private Sort PDMergeSort;
     private Sort InPlaceMergeSort;
     private Sort ImprovedInPlaceMergeSort;
@@ -50,13 +51,14 @@ final public class RunMergeSorts extends MultipleSortThread {
     
     public RunMergeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 15;
+        this.sortCount = 16;
         this.categoryCount = this.sortCount;
 
         MergeSort                = new                MergeSort(this.arrayVisualizer);
         BottomUpMergeSort        = new        BottomUpMergeSort(this.arrayVisualizer);
-        NaturalMergeSort         = new         NaturalMergeSort(this.arrayVisualizer);
         PartialMergeSort         = new         PartialMergeSort(this.arrayVisualizer);
+        TwinSort                 = new                 TwinSort(this.arrayVisualizer);
+        NaturalMergeSort         = new         NaturalMergeSort(this.arrayVisualizer);
         PDMergeSort              = new              PDMergeSort(this.arrayVisualizer);
         InPlaceMergeSort         = new         InPlaceMergeSort(this.arrayVisualizer);
         ImprovedInPlaceMergeSort = new ImprovedInPlaceMergeSort(this.arrayVisualizer);
@@ -74,8 +76,9 @@ final public class RunMergeSorts extends MultipleSortThread {
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunMergeSorts.this.runIndividualSort(MergeSort,                0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(BottomUpMergeSort,        0, array, 2048, 1.5,  false);
-        RunMergeSorts.this.runIndividualSort(NaturalMergeSort,         0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(PartialMergeSort,         0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(TwinSort,                 0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(NaturalMergeSort,         0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(PDMergeSort,              0, array, 2048, 1,    false);
         RunMergeSorts.this.runIndividualSort(InPlaceMergeSort,         0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(ImprovedInPlaceMergeSort, 0, array, 2048, 1.5,  false);

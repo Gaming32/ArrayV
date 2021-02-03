@@ -11,7 +11,7 @@ import utils.Shuffles;
  * 
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort IntroCircleSortRecursive;
     private Sort IntroCircleSortIterative;
     private Sort PairwiseCircleSort;
+    private Sort QuickSPSort;
     private Sort BinaryMergeSort;
     private Sort MergeInsertionSort;
     private Sort SwapMergeSort;
@@ -76,13 +77,14 @@ final public class RunHybridSorts extends MultipleSortThread {
     
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 39;
+        this.sortCount = 40;
         this.categoryCount = this.sortCount;
         
         HybridCombSort                   = new                   HybridCombSort(this.arrayVisualizer);
         IntroCircleSortRecursive         = new         IntroCircleSortRecursive(this.arrayVisualizer);
         IntroCircleSortIterative         = new         IntroCircleSortIterative(this.arrayVisualizer);
         PairwiseCircleSort               = new               PairwiseCircleSort(this.arrayVisualizer);
+        QuickSPSort                      = new                      QuickSPSort(this.arrayVisualizer);
         BinaryMergeSort                  = new                  BinaryMergeSort(this.arrayVisualizer);
         MergeInsertionSort               = new               MergeInsertionSort(this.arrayVisualizer);
         SwapMergeSort                    = new                    SwapMergeSort(this.arrayVisualizer);
@@ -126,6 +128,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(IntroCircleSortRecursive,         0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(IntroCircleSortIterative,         0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(PairwiseCircleSort,               0, array, 1024, 1.5,  false);
+        RunHybridSorts.this.runIndividualSort(QuickSPSort,                      0, array,  512, 0.4,  false);
         RunHybridSorts.this.runIndividualSort(BinaryMergeSort,                  0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(MergeInsertionSort,               0, array, 2048, 1.75, false);
         RunHybridSorts.this.runIndividualSort(SwapMergeSort,                    0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.65 : 6.5,    false);

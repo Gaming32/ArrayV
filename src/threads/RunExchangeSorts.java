@@ -10,7 +10,7 @@ import utils.Shuffles;
  * 
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +39,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort SmartCocktailSort;
     private Sort OddEvenSort;
     private Sort SwapMapSort;
+    private Sort OptimizedStoogeSort;
     private Sort GnomeSort;
     private Sort SmartGnomeSort;
     private Sort BinaryGnomeSort;
@@ -61,7 +62,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 25;
+        this.sortCount = 26;
         this.categoryCount = this.sortCount;
         
         BubbleSort                   = new                   BubbleSort(this.arrayVisualizer);
@@ -70,6 +71,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         SmartCocktailSort            = new            SmartCocktailSort(this.arrayVisualizer);
         OddEvenSort                  = new                  OddEvenSort(this.arrayVisualizer);
         SwapMapSort                  = new                  SwapMapSort(this.arrayVisualizer);
+        OptimizedStoogeSort          = new          OptimizedStoogeSort(this.arrayVisualizer);
         GnomeSort                    = new                    GnomeSort(this.arrayVisualizer);
         SmartGnomeSort               = new               SmartGnomeSort(this.arrayVisualizer);
         BinaryGnomeSort              = new              BinaryGnomeSort(this.arrayVisualizer);
@@ -99,6 +101,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(SmartCocktailSort,            0,   array,  512, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(OddEvenSort,                  0,   array,  512, 1,     false);
         RunExchangeSorts.this.runIndividualSort(SwapMapSort,                  0,   array,  512, 0.125, false);
+        RunExchangeSorts.this.runIndividualSort(OptimizedStoogeSort,          0,   array,  512, 1,     false);
         RunExchangeSorts.this.runIndividualSort(GnomeSort,                    0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(SmartGnomeSort,               0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(BinaryGnomeSort,              0,   array,  128, 0.025, false);
@@ -112,7 +115,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(ImprovedLLQuickSort,          0,   array, 2048, 1.5,   false);
         RunExchangeSorts.this.runIndividualSort(LRQuickSort,                  0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(DualPivotQuickSort,           0,   array, 2048, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(MeanQuickSort,                0,   array, 2048, 1,     false);
+        // RunExchangeSorts.this.runIndividualSort(MeanQuickSort,                0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(StableQuickSort,              0,   array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5,    false);
         RunExchangeSorts.this.runIndividualSort(ImprovedStableQuickSort,      0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(ForcedStableQuickSort,        0,   array, 2048, 1,     false);

@@ -161,6 +161,7 @@ final public class Writes {
     }
 
     public void swap(int[] array, int a, int b, double pause, boolean mark, boolean auxwrite) {
+        if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         if (!auxwrite && a >= ArrayVisualizer.getCurrentLength()) {
             System.err.println("Warning: write to index " + a + ", which is out of bounds for the current length (" + ArrayVisualizer.getCurrentLength() + ")");
         }
@@ -206,6 +207,7 @@ final public class Writes {
     }
 
     public void write(int[] array, int at, int equals, double pause, boolean mark, boolean auxwrite) {
+        if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         if (!auxwrite && at >= ArrayVisualizer.getCurrentLength()) {
             System.err.println("Warning: write to index " + at + ", which is out of bounds for the current length (" + ArrayVisualizer.getCurrentLength() + ")");
         }
@@ -225,6 +227,7 @@ final public class Writes {
     }
 
     public <T> void write(T[] array, int at, T equals, double pause, boolean mark) {
+        if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         if(mark) Highlights.markArray(1, at);
         
         auxWrites++;
@@ -239,6 +242,7 @@ final public class Writes {
     }
 
     public void multiDimWrite(int[][] array, int x, int y, int equals, double pause, boolean mark, boolean auxwrite) {
+        if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         if(mark) Highlights.markArray(1, x);
         
         if(auxwrite) auxWrites++;
@@ -254,6 +258,7 @@ final public class Writes {
     }
 
     public <T> void multiDimWrite(T[][] array, int x, int y, T equals, double pause, boolean mark) {
+        if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         if(mark) Highlights.markArray(1, x);
         
         auxWrites++;
@@ -269,6 +274,7 @@ final public class Writes {
 
     //Simulates a write in order to better estimate time for values being written to an ArrayList
     public void mockWrite(int length, int pos, int val, double pause) {
+        if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         int[] mockArray = new int[length];
         
         this.auxWrites++;
