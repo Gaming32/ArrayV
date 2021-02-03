@@ -43,14 +43,14 @@ final public class FibonacciInsertionSort extends Sort {
     }
     
     public void fibonacciInsertionSort(int[] array, int length) {
-    	for (int i = 1; i < length, i++) {
+    	for (int i = 1; i < length; i++) {
     	    int tmp = array[i];
             int position = this.fibonacciSearch(array, 0, i - 1, tmp);
             int j = i - 1;
             while (j >= position) {
-            	Writes.write(array, j + 1, array[j--], 0.15, true, false)
+            	Writes.write(array, j + 1, array[j--], 0.15, true, false);
             }
-            Writes.write(array, j + 1, tmp, 0.15, true, false)
+            Writes.write(array, j + 1, tmp, 0.15, true, false);
     	}
     }
     
@@ -86,7 +86,7 @@ final public class FibonacciInsertionSort extends Sort {
             Delays.sleep(0.6);
         }
         int position = ++offset;
-        if (Reads.compare(array[position], item) <= 0) {
+        if (Reads.compareValues(array[position], item) <= 0) {
             ++position;
         }
         return position;

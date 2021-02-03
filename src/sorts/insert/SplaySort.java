@@ -43,7 +43,7 @@ final public class SplaySort extends Sort {
         Node node = new Node(0);
         
         if(at > 0 && at < this.length) Highlights.markArray(1, at - 1);
-        Writes.changeTempWrites(1);
+        Writes.changeAuxWrites(1);
         Writes.startLap();
         node = element;
         Writes.stopLap();

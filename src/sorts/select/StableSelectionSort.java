@@ -1,4 +1,4 @@
-package sorts;
+package sorts.select;
 
 import sorts.templates.Sort;
 import main.ArrayVisualizer;
@@ -47,7 +47,7 @@ final public class StableSelectionSort extends Sort {
         for (int i = 0; i < length - 1; i++) {
             int min = i;
             for (int j = i + 1; j < length; j++) {
-            	Highlights.markArray(1, j)
+            	Highlights.markArray(1, j);
                 if (Reads.compareValues(array[j], array[min]) == -1) {
                     min = j;
                     Highlights.markArray(2, j);

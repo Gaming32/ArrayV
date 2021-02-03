@@ -1,4 +1,4 @@
-package sorts;
+package sorts.exchange;
 
 import sorts.templates.Sort;
 import main.ArrayVisualizer;
@@ -64,7 +64,7 @@ final public class FunSort extends Sort {
         }
         Highlights.clearMark(1);
         Highlights.clearMark(2);
-        Highlights.mark(3);
+        Highlights.clearMark(3);
         return start;
     }
     

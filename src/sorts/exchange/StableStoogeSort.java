@@ -34,6 +34,6 @@ final public class StableStoogeSort extends Sort {
 
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
-        stableStooge(array, 0, length - 1);
+        stableStooge(array, 0, currentLength - 1);
     }
 }
