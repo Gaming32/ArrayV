@@ -76,7 +76,6 @@ final public class OutOfPlaceWeaveMergeSort extends Sort {
         }
     }
 
-    
 
     public void controller(int[] array, int[] aux, int start, int end){
         if(end-start>=2){
