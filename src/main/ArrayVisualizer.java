@@ -730,6 +730,9 @@ final public class ArrayVisualizer {
         this.verifySortAndSweep();
         this.Delays.setSleepRatio(speed);
 
+        this.arrays.subList(1, this.arrays.size()).clear();
+        this.Writes.clearAllocAmount();
+
         this.Highlights.clearAllMarks();
     }
     
