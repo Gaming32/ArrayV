@@ -45,8 +45,7 @@ final public class DoubleInsertionSort extends Sort {
         this.setBogoSort(false);
     }
 
-    protected void insertUp(int[] array, int left, int right, boolean canEqual, double sleep, boolean auxwrite) {
-        int current = array[left];
+    protected void insertUp(int[] array, int left, int current, boolean canEqual, double sleep, boolean auxwrite) {
         int pos = left + 1;
 
         int cmp = canEqual ? 0 : -1;
@@ -58,8 +57,7 @@ final public class DoubleInsertionSort extends Sort {
         Writes.write(array, pos - 1, current, sleep, true, auxwrite);
     }
 
-    protected void insertDown(int[] array, int left, int right, boolean canEqual, double sleep, boolean auxwrite) {
-        int current = array[right];
+    protected void insertDown(int[] array, int right, int current, boolean canEqual, double sleep, boolean auxwrite) {
         int pos = right - 1;
 
         int cmp = canEqual ? 0 : 1;
@@ -75,14 +73,21 @@ final public class DoubleInsertionSort extends Sort {
         int left = start + (end - start) / 2 - 1, right = left + 1;
 
         while (left >= start && right < end) {
-            boolean swapped = false;
+            boolean swapped;
+            int leftItem, rightItem;
             if (Reads.compareIndices(array, left, right, sleep, true) == 1) {
-                Writes.swap(array, left, right, 0, true, auxwrite);
+                leftItem = array[right];
+                rightItem = array[left];
                 swapped = true;
             }
+            else {
+                leftItem = array[left];
+                rightItem = array[right];
+                swapped = false;
+            }
 
-            insertUp(array, left, right, swapped, sleep, auxwrite);
-            insertDown(array, left, right, swapped, sleep, auxwrite);
+            insertUp(array, left, leftItem, swapped, sleep, auxwrite);
+            insertDown(array, right, rightItem, swapped, sleep, auxwrite);
 
             left--;
             right++;
