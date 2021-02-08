@@ -71,11 +71,16 @@ final public class DoubleInsertionSort extends Sort {
 
     protected void insertionSort(int[] array, int start, int end, double sleep, boolean auxwrite) {    
         int left = start + (end - start) / 2 - 1, right = left + 1;
+        if (Reads.compareIndices(array, left, right, 1, true) > 0) {
+            Writes.swap(array, left, right, 1, true, auxwrite);
+        }
+        left--;
+        right++;
 
         while (left >= start && right < end) {
             boolean swapped;
             int leftItem, rightItem;
-            if (Reads.compareIndices(array, left, right, sleep, true) == 1) {
+            if (Reads.compareIndices(array, left, right, sleep, true) > 0) {
                 leftItem = array[right];
                 rightItem = array[left];
                 swapped = true;
@@ -93,8 +98,8 @@ final public class DoubleInsertionSort extends Sort {
             right++;
         }
 
-        while (left >= start) insertUp(array, left--, right, false, sleep, auxwrite);
-        while (right < end) insertDown(array, left, right++, false, sleep, auxwrite);
+        while (left >= start) insertUp(array, left, array[left--], false, sleep, auxwrite);
+        while (right < end) insertDown(array, right, array[right++], false, sleep, auxwrite);
     }
 
     public void customInsertSort(int[] array, int start, int end, double sleep, boolean auxwrite) {
