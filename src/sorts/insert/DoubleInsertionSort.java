@@ -71,8 +71,8 @@ final public class DoubleInsertionSort extends Sort {
 
     protected void insertionSort(int[] array, int start, int end, double sleep, boolean auxwrite) {    
         int left = start + (end - start) / 2 - 1, right = left + 1;
-        if (Reads.compareIndices(array, left, right, 1, true) > 0) {
-            Writes.swap(array, left, right, 1, true, auxwrite);
+        if (Reads.compareIndices(array, left, right, sleep, true) > 0) {
+            Writes.swap(array, left, right, sleep, true, auxwrite);
         }
         left--;
         right++;
