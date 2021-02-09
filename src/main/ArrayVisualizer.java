@@ -95,6 +95,7 @@ final public class ArrayVisualizer {
     private int[] shadowArray;
     final ArrayList<int[]> arrays;
 
+    private SortPair[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
     private SortPair[] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
     private SortPair[] DistributionSorts; // Second row consists of user-friendly names
     private String[] InvalidSorts;
@@ -349,6 +350,10 @@ final public class ArrayVisualizer {
         this.DistributionSorts = this.SortAnalyzer.getDistributionSorts();
         this.InvalidSorts = this.SortAnalyzer.getInvalidSorts();
         this.sortSuggestions = this.SortAnalyzer.getSuggestions();
+
+        this.AllSorts = new SortPair[this.ComparisonSorts.length + this.DistributionSorts.length];
+        System.arraycopy(this.ComparisonSorts, 0, this.AllSorts, 0, this.ComparisonSorts.length);
+        System.arraycopy(this.DistributionSorts, 0, this.AllSorts, this.ComparisonSorts.length, this.DistributionSorts.length);
     }
     
     private void drawStats(Color textColor, boolean dropShadow) {
@@ -447,6 +452,9 @@ final public class ArrayVisualizer {
         return this.UtilFrame;
     }
     
+    public SortPair[] getAllSorts() {
+        return this.AllSorts;
+    }
     public SortPair[] getComparisonSorts() {
         return this.ComparisonSorts;
     }
