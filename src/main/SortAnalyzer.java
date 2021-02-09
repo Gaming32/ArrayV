@@ -7,7 +7,9 @@ import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.tools.ToolProvider;
@@ -60,8 +62,11 @@ final public class SortAnalyzer {
     private ArrayVisualizer arrayVisualizer;
 
     public static class SortPair {
+        public int id;
         public Class<?> sortClass;
         public String listName;
+        public String category;
+        public boolean usesComparisons;
 
         public static String[] getListNames(SortPair[] sorts) {
             String[] result = new String[sorts.length];
@@ -69,6 +74,16 @@ final public class SortAnalyzer {
                 result[i] = sorts[i].listName;
             }
             return result;
+        }
+
+        public static String[] getCategories(SortPair[] sorts) {
+            HashSet<String> result = new HashSet<>();
+            for (int i = 0; i < sorts.length; i++) {
+                result.add(sorts[i].category);
+            }
+            String[] resultArray = result.toArray(new String[result.size()]);
+            Arrays.sort(resultArray);
+            return resultArray;
         }
     }
     
@@ -88,7 +103,9 @@ final public class SortAnalyzer {
                 sortClass = Class.forName(name);
             else
                 sortClass = Class.forName(name, true, loader);
+            // System.out.println(sortClass.getConstructors()[0].getParameterTypes()[0].hashCode());
             Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
+            // Constructor<?> newSort = sortClass.getConstructors()[0];
             Sort sort = (Sort) newSort.newInstance(this.arrayVisualizer);
             
             try {
@@ -255,8 +272,11 @@ final public class SortAnalyzer {
         
         for(int i = 0; i < ComparisonSorts.length; i++) {
             ComparisonSorts[i] = new SortPair();
+            ComparisonSorts[i].id = i;
             ComparisonSorts[i].sortClass = comparisonSorts.get(i).getClass();
             ComparisonSorts[i].listName = comparisonSorts.get(i).getSortListName();
+            ComparisonSorts[i].category = comparisonSorts.get(i).getCategory();
+            ComparisonSorts[i].usesComparisons = true;
         }
         
         return ComparisonSorts;
@@ -266,8 +286,11 @@ final public class SortAnalyzer {
         
         for(int i = 0; i < DistributionSorts.length; i++) {
             DistributionSorts[i] = new SortPair();
+            DistributionSorts[i].id = i;
             DistributionSorts[i].sortClass = distributionSorts.get(i).getClass();
             DistributionSorts[i].listName = distributionSorts.get(i).getSortListName();
+            DistributionSorts[i].category = distributionSorts.get(i).getCategory();
+            DistributionSorts[i].usesComparisons = false;
         }
         
         return DistributionSorts;
