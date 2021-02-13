@@ -39,10 +39,12 @@ import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
 import utils.Delays;
+import utils.Distributions;
 import utils.Highlights;
 import utils.MultipleScript;
 import utils.Reads;
 import utils.Renderer;
+import utils.Shuffles;
 import utils.Sounds;
 import utils.Statistics;
 import utils.Timer;
@@ -839,7 +841,7 @@ final public class ArrayVisualizer {
         
         this.window.setLocation(0, 0);
         this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorting Algorithms with 12 Different Visual Styles");
+        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorts, 13 Visual Styles, and " + (Distributions.values().length * Shuffles.values().length) + " Inputs to Sort");
         this.window.setBackground(Color.BLACK);
         this.window.setIgnoreRepaint(true);
         
