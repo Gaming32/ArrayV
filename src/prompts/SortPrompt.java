@@ -57,6 +57,8 @@ SOFTWARE.
 
 final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
+    private static int lastCategory = 0;
+
     private static final long serialVersionUID = 1L;
     
     private int[] array;
@@ -75,6 +77,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
+        jComboBox1.setSelectedIndex(lastCategory);
         // jList2.setListData(SortPair.getListNames(ArrayVisualizer.getComparisonSorts()));
         // jList1.setListData(SortPair.getListNames(ArrayVisualizer.getDistributionSorts()));
         loadSorts();
@@ -172,8 +175,8 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                     .addGap(25, 25, 25)
                     .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(25, 25, 25))
-                // .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
-                //     .addComponent(this.jButton3))
+                .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
+                    .addComponent(this.jButton3))
                 .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
                     .addComponent(this.jButton1))
                 .addGroup(javax.swing.GroupLayout.Alignment.CENTER, layout.createSequentialGroup()
@@ -189,8 +192,8 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(this.jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        // .addComponent(this.jButton3)
-                        // .addGap(5, 5, 5)
+                        .addComponent(this.jButton3)
+                        .addGap(5, 5, 5)
                         .addComponent(this.jButton1)
                         .addGap(5, 5, 5)
                         .addComponent(this.jButton2)
@@ -286,6 +289,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     private void jComboBox1SelectionChanged(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
         loadSorts();
+        SortPrompt.lastCategory = jComboBox1.getSelectedIndex();
     }//GEN-LAST:event_jList1ValueChanged
 
     protected synchronized void runSortCategory(String[] sortNames) {
