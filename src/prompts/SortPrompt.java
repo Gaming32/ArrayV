@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -20,9 +21,7 @@ import main.ArrayVisualizer;
 import main.SortAnalyzer;
 import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
-import threads.RunAllSorts;
-import threads.RunComparisonSort;
-import threads.RunDistributionSort;
+import threads.*;
 
 /*
  * 
@@ -60,6 +59,8 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     private static int lastCategory = 0;
 
     private static final long serialVersionUID = 1L;
+
+    private Hashtable<String, MultipleSortThread> categorySortThreads;
     
     private int[] array;
     
@@ -76,6 +77,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         
         setAlwaysOnTop(true);
         setUndecorated(true);
+        loadSortThreads();
         initComponents();
         jComboBox1.setSelectedIndex(lastCategory);
         // jList2.setListData(SortPair.getListNames(ArrayVisualizer.getComparisonSorts()));
@@ -90,6 +92,18 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         setLocation(Frame.getX()+(Frame.getWidth()-getWidth())/2,Frame.getY()+(Frame.getHeight()-getHeight())/2);
     }
 
+    private void loadSortThreads() {
+        this.categorySortThreads = new Hashtable<>();
+        categorySortThreads.put("Concurrent Sorts",    new RunConcurrentSorts   (ArrayVisualizer));
+        categorySortThreads.put("Distribution Sorts",  new RunDistributionSorts (ArrayVisualizer));
+        categorySortThreads.put("Exchange Sorts",      new RunExchangeSorts     (ArrayVisualizer));
+        categorySortThreads.put("Hybrid Sorts",        new RunHybridSorts       (ArrayVisualizer));
+        categorySortThreads.put("Impractical Sorts",   new RunImpracticalSorts  (ArrayVisualizer));
+        categorySortThreads.put("Insertion Sorts",     new RunInsertionSorts    (ArrayVisualizer));
+        categorySortThreads.put("Merge Sorts",         new RunMergeSorts        (ArrayVisualizer));
+        categorySortThreads.put("Miscellaneous Sorts", new RunMiscellaneousSorts(ArrayVisualizer));
+        categorySortThreads.put("Selection Sorts",     new RunSelectionSorts    (ArrayVisualizer));
+    }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -231,16 +245,15 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
-        final String[] sorts = new String[jList1.getModel().getSize()];
-        for (int i = 0; i < sorts.length; i++) {
-            sorts[i] = (String)jList1.getModel().getElementAt(i);
-        }
-        new Thread(){
-            @Override
-            public void run(){
-                runSortCategory(sorts);
+        if (categorySortThreads.containsKey(jComboBox1.getSelectedItem())) {
+            MultipleSortThread thread = categorySortThreads.get(jComboBox1.getSelectedItem());
+            try {
+                thread.reportAllSorts(array, 1, thread.getSortCount());
             }
-        }.start();
+            catch (Exception e) {
+                JErrorPane.invokeErrorMessage(e);
+            }
+        }
         UtilFrame.jButton1ResetText();
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -284,6 +297,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         }
         jList1.setListData(sorts.toArray());
         jButton3.setText("Run All ".concat(category));
+        jButton3.setEnabled(categorySortThreads.containsKey(category));
     }
 
     private void jComboBox1SelectionChanged(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
@@ -291,26 +305,6 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         loadSorts();
         SortPrompt.lastCategory = jComboBox1.getSelectedIndex();
     }//GEN-LAST:event_jList1ValueChanged
-
-    protected synchronized void runSortCategory(String[] sortNames) {
-        for (String sortName : sortNames) {
-            SortPair sortToUse = new SortPair();
-            for (SortPair sort : ArrayVisualizer.getAllSorts()) {
-                if (sort.listName.equals(sortName)) {
-                    sortToUse = sort;
-                    break;
-                }
-            }
-            if (sortToUse.usesComparisons) {
-                RunComparisonSort sortThread = new RunComparisonSort(ArrayVisualizer);
-                sortThread.ReportComparativeSort(array, sortToUse.id);
-            }
-            else {
-                RunDistributionSort sortThread = new RunDistributionSort(ArrayVisualizer);
-                sortThread.ReportDistributionSort(array, sortToUse.id);
-            }
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     @SuppressWarnings("rawtypes")
