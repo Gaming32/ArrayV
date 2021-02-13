@@ -82,6 +82,6 @@ final public class InPlaceMSDRadixSort extends Sort {
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         int highestpower = Reads.analyzeMaxLog(array, sortLength, bucketCount, 0.5, true);
         
-        radixMSD(array, sortLength, 0, sortLength, bucketCount, highestpower, 4.0 / bucketCount);
+        radixMSD(array, sortLength, 0, sortLength, bucketCount, highestpower, 1);
     }
 }
