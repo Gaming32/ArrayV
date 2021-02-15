@@ -747,6 +747,10 @@ final public class ArrayVisualizer {
             
             if(i < this.sortLength - 1) {
                 if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == 1) {
+                    boolean wasStabilityIssue = false;
+                    if (tempStability) {
+                        wasStabilityIssue = this.array[i] / this.stabilityOffset <= this.array[i + 1] / this.stabilityOffset;
+                    }
                     this.Highlights.clearMark(1);
                     
                     this.Sounds.toggleSound(false);
@@ -757,7 +761,7 @@ final public class ArrayVisualizer {
                         this.Delays.sleep(sleepRatio);
                     }
                     
-                    if (tempStability) {
+                    if (tempStability && wasStabilityIssue) {
                         JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
                     }
                     else {
