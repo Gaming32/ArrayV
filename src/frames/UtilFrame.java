@@ -541,11 +541,7 @@ final public class UtilFrame extends javax.swing.JFrame {
                 break;
 
             case "Stability Check":
-                if(this.abstractFrame != null && abstractFrame.isVisible()){
-                    abstractFrame.dispose();
-                    jButton6ResetText();
-                }
-                jButton6.setEnabled(false);
+                jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(2);
                 Random random = new Random();
                 ArrayVisualizer.stabilityOffset = random.nextInt(50) + 5;

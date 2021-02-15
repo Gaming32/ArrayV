@@ -181,19 +181,9 @@ final public class ArrayManager {
     }
 
     private void stableShuffle(int[] array, int length) {
-        for (int i = 0; i < length; i++) {
-            array[i] = i;
-        }
-
         int blockSize = ArrayVisualizer.stabilityOffset;
         boolean delay = ArrayVisualizer.shuffleEnabled();
         double sleep = delay ? 1 : 0;
-        
-        Random random = new Random();
-		for(int i = 0; i < length; i++){
-			int randomIndex = random.nextInt(length - i) + i;
-            Writes.swap(array, i, randomIndex, sleep, true, false);
-        }
 
         Hashtable<Integer, Integer> table = new Hashtable<>();
         for (int i = 0; i < length; i++) {
@@ -217,6 +207,8 @@ final public class ArrayManager {
         ArrayVisualizer.setHeading("");
         if (ArrayVisualizer.useAntiQSort()) {}
         else if (ArrayVisualizer.doingStabilityCheck()) {
+            ArrayVisualizer.setUniqueItems(ArrayVisualizer.getCurrentLength());
+            this.shuffleArray(array, currentLen, ArrayVisualizer);
             this.stableShuffle(array, currentLen);
         }
         else {
