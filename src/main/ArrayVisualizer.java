@@ -499,6 +499,17 @@ final public class ArrayVisualizer {
         return this.getSortingThread() != null && this.getSortingThread().isAlive();
     }
 
+    public void setComparator(int comparator) {
+        switch (comparator) {
+            case 0:
+                this.ANTIQSORT = false;
+                break;
+            case 1:
+                this.ANTIQSORT = true;
+                break;
+        }
+    }
+    
     public boolean useAntiQSort() {
         return this.ANTIQSORT;
     }

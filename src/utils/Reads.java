@@ -93,7 +93,7 @@ final public class Reads {
         else                  cmpVal =  0;
 
         Timer.stopLap();
-        
+
         if (!ArrayVisualizer.useAntiQSort())
             return cmpVal;
         else {
