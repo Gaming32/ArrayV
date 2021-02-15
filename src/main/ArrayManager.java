@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Hashtable;
 import java.util.Random;
 
 import panes.JErrorPane;
@@ -189,16 +190,17 @@ final public class ArrayManager {
         double sleep = delay ? 1 : 0;
         
         Random random = new Random();
-        for (int i = 0; i + blockSize < length; i += blockSize) {
-            int randomIndex = random.nextInt((length - i) / blockSize) * blockSize + i;
-            blockSwap(array, i, randomIndex, blockSize, length - 1, sleep);
+		for(int i = 0; i < length; i++){
+			int randomIndex = random.nextInt(length - i) + i;
+            Writes.swap(array, i, randomIndex, sleep, true, false);
         }
-    }
 
-    private void blockSwap(int[] array, int a, int b, int len, int max, double sleep) {
-        for (int i = 0; i < len; i++) {
-            if (a + i > max || b + i > max) break;
-            Writes.swap(array, a + i, b + i, sleep, true, false);
+        Hashtable<Integer, Integer> table = new Hashtable<>();
+        for (int i = 0; i < length; i++) {
+            int divided = array[i] / blockSize;
+            table.putIfAbsent(divided, -1);
+            table.put(divided, table.get(divided) + 1);
+            Writes.write(array, i, divided * blockSize + table.get(divided), sleep, true, false);
         }
     }
     

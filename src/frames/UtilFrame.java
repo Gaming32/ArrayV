@@ -549,6 +549,7 @@ final public class UtilFrame extends javax.swing.JFrame {
                 ArrayVisualizer.setComparator(2);
                 Random random = new Random();
                 ArrayVisualizer.stabilityOffset = random.nextInt(50) + 5;
+                System.out.println("N/" + ArrayVisualizer.stabilityOffset + " unique values");
                 break;
         }
     }//GEN-LAST:event_jCheckBox8ActionPerformed
