@@ -6,7 +6,6 @@ package prompts;
 
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -18,7 +17,6 @@ import dialogs.ImportSortDialog;
 import frames.AppFrame;
 import frames.UtilFrame;
 import main.ArrayVisualizer;
-import main.SortAnalyzer;
 import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.*;
@@ -68,7 +66,6 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     private JFrame Frame;
     private UtilFrame UtilFrame;
     
-    @SuppressWarnings("unchecked")
     public SortPrompt(int[] array, ArrayVisualizer arrayVisualizer, JFrame frame, UtilFrame utilFrame) {
         this.array = array;
         this.ArrayVisualizer = arrayVisualizer;
@@ -80,8 +77,6 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         loadSortThreads();
         initComponents();
         jComboBox1.setSelectedIndex(lastCategory);
-        // jList2.setListData(SortPair.getListNames(ArrayVisualizer.getComparisonSorts()));
-        // jList1.setListData(SortPair.getListNames(ArrayVisualizer.getDistributionSorts()));
         loadSorts();
         reposition();
         setVisible(true);
@@ -110,11 +105,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     private void initComponents() {
 
         this.jComboBox1 = new javax.swing.JComboBox();
-        this.jLabel1 = new javax.swing.JLabel();
-        this.jLabel2 = new javax.swing.JLabel();
         this.jScrollPane1 = new javax.swing.JScrollPane();
-        this.jList2 = new javax.swing.JList();
-        this.jScrollPane2 = new javax.swing.JScrollPane();
         this.jList1 = new javax.swing.JList();
         this.jButton1 = new javax.swing.JButton();
         this.jButton2 = new javax.swing.JButton();
@@ -259,7 +250,6 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
         @SuppressWarnings("rawtypes")
         String sortName = (String)((JList)evt.getSource()).getSelectedValue();
         SortPair sortNotFinal = new SortPair();
@@ -301,7 +291,6 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     }
 
     private void jComboBox1SelectionChanged(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
         loadSorts();
         SortPrompt.lastCategory = jComboBox1.getSelectedIndex();
     }//GEN-LAST:event_jList1ValueChanged
@@ -312,13 +301,8 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;
-    @SuppressWarnings("rawtypes")
-    private javax.swing.JList jList2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
