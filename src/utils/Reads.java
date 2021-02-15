@@ -83,6 +83,11 @@ final public class Reads {
     public int compareValues(int left, int right) {
         if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         this.comparisons++;
+
+        if (ArrayVisualizer.doingStabilityCheck()) {
+            left /= ArrayVisualizer.stabilityOffset;
+            right /= ArrayVisualizer.stabilityOffset;
+        }
         
         int cmpVal = 0;
         
@@ -93,7 +98,7 @@ final public class Reads {
         else                  cmpVal =  0;
 
         Timer.stopLap();
-
+        
         if (!ArrayVisualizer.useAntiQSort())
             return cmpVal;
         else {

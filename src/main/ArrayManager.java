@@ -1,5 +1,7 @@
 package main;
 
+import java.util.Random;
+
 import panes.JErrorPane;
 import utils.Delays;
 import utils.Highlights;
@@ -176,6 +178,29 @@ final public class ArrayManager {
         Highlights.clearAllMarks();
         ArrayVisualizer.setHeading(tmp);
     }
+
+    private void stableShuffle(int[] array, int length) {
+        for (int i = 0; i < length; i++) {
+            array[i] = i;
+        }
+
+        int blockSize = ArrayVisualizer.stabilityOffset;
+        boolean delay = ArrayVisualizer.shuffleEnabled();
+        double sleep = delay ? 1 : 0;
+        
+        Random random = new Random();
+        for (int i = 0; i + blockSize < length; i += blockSize) {
+            int randomIndex = random.nextInt((length - i) / blockSize) * blockSize + i;
+            blockSwap(array, i, randomIndex, blockSize, length - 1, sleep);
+        }
+    }
+
+    private void blockSwap(int[] array, int a, int b, int len, int max, double sleep) {
+        for (int i = 0; i < len; i++) {
+            if (a + i > max || b + i > max) break;
+            Writes.swap(array, a + i, b + i, sleep, true, false);
+        }
+    }
     
     public void refreshArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
         try {
@@ -188,7 +213,13 @@ final public class ArrayManager {
         Highlights.clearAllMarks();
         
         ArrayVisualizer.setHeading("");
-        this.shuffleArray(array, currentLen, ArrayVisualizer);
+        if (ArrayVisualizer.useAntiQSort()) {}
+        else if (ArrayVisualizer.doingStabilityCheck()) {
+            this.stableShuffle(array, currentLen);
+        }
+        else {
+            this.shuffleArray(array, currentLen, ArrayVisualizer);
+        }
         
         Highlights.clearAllMarks();
         

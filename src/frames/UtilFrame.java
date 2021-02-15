@@ -6,6 +6,7 @@ package frames;
 
 import java.awt.Toolkit;
 import java.util.Hashtable;
+import java.util.Random;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -294,7 +295,7 @@ final public class UtilFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] { "Sorting", "AntiQSort" }));
+        jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] { "Sorting", "AntiQSort", "Stability Check" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -546,6 +547,8 @@ final public class UtilFrame extends javax.swing.JFrame {
                 }
                 jButton6.setEnabled(false);
                 ArrayVisualizer.setComparator(2);
+                Random random = new Random();
+                ArrayVisualizer.stabilityOffset = random.nextInt(50) + 5;
                 break;
         }
     }//GEN-LAST:event_jCheckBox8ActionPerformed

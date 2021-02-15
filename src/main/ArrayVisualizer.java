@@ -149,7 +149,10 @@ final public class ArrayVisualizer {
     private volatile boolean SPIRALDRAW;
     private volatile boolean WAVEDRAW;
     private volatile boolean EXTARRAYS;
+
     private volatile boolean ANTIQSORT;
+    private volatile boolean STABILITY;
+    public  volatile int stabilityOffset;
 
     private volatile boolean isCanceled;
 
@@ -292,6 +295,7 @@ final public class ArrayVisualizer {
         this.EXTARRAYS = false;
 
         this.ANTIQSORT = false;
+        this.STABILITY = false;
         
         this.isCanceled = false;
  
@@ -503,9 +507,15 @@ final public class ArrayVisualizer {
         switch (comparator) {
             case 0:
                 this.ANTIQSORT = false;
+                this.STABILITY = false;
                 break;
             case 1:
                 this.ANTIQSORT = true;
+                this.STABILITY = false;
+                break;
+            case 2:
+                this.STABILITY = true;
+                this.ANTIQSORT = false;
                 break;
         }
     }
@@ -538,6 +548,10 @@ final public class ArrayVisualizer {
         if (cmp == 0)
             return 0;
         return cmp / Math.abs(cmp);
+    }
+
+    public boolean doingStabilityCheck() {
+        return this.STABILITY;
     }
     
     // These next five methods should be part of ArrayManager
@@ -722,7 +736,11 @@ final public class ArrayVisualizer {
         
         String temp = this.heading;
         this.heading = "Verifying sort...";
+
+        boolean tempStability = this.STABILITY;
+        this.STABILITY = false;
         
+        boolean success = true;
         for(int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
             if(i < this.sortLength) this.Highlights.markArray(1, i);
             this.Highlights.incrementFancyFinishPosition();
@@ -739,7 +757,14 @@ final public class ArrayVisualizer {
                         this.Delays.sleep(sleepRatio);
                     }
                     
-                    JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    if (tempStability) {
+                        JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    }
+
+                    success = false;
                     
                     this.Highlights.clearAllMarks();
                     
@@ -754,6 +779,11 @@ final public class ArrayVisualizer {
             }
         }
         this.Highlights.clearMark(1);
+
+        // if (tempStability && success)
+        //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
+        
+        this.STABILITY = tempStability;
 
         this.heading = temp;
         this.Reads.setComparisons(tempComps);
