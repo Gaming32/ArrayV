@@ -165,12 +165,15 @@ final public class RunComparisonSort {
                         arrayVisualizer.setCategory(sort.getCategory());
                         
                         realTimer.enableRealTimer();
-                        // arrayVisualizer.toggleVisualUpdates(true);
+                        boolean antiq = arrayVisualizer.useAntiQSort();
+                        if (antiq)
+                            arrayVisualizer.initAntiQSort();
                         try {
                             sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
                         }
                         catch (StopSort e) { }
-                        // arrayVisualizer.toggleVisualUpdates(false);
+                        if (antiq)
+                            arrayVisualizer.finishAntiQSort(sort.getClass().getName());
                     }
                     else {
                         arrayManager.initializeArray(array);
