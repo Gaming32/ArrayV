@@ -92,10 +92,10 @@ final public class StableThirdMergeSort extends Sort {
                     Delays.sleep(0.2);
                     count--;
                     compindex++;
+                    if (compindex >= end) {
+                        break;
+                    }
                     continue;
-                }
-                if (compindex >= end) {
-                    break;
                 }
                 rotater.rotateCommon(array, lastGood, minbound, badCount, 0.1, false);
                 minbound += badCount;
@@ -125,7 +125,7 @@ final public class StableThirdMergeSort extends Sort {
 
         Highlights.clearMark(4);
         if (minbound != start) {
-            rotater.rotateSmart(array, minbound, start, compindex - minbound);
+            rotater.rotateSmart(array, minbound, start, count);
         }
         return count;
     }
