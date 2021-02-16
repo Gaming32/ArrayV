@@ -32,6 +32,15 @@ public class Rotations {
         Writes.write(array, start, temp, pause, mark, auxwrite);
     }
 
+    private static int gcd(int a, int b) {
+        while (b != 0) {
+            int tmp = b;
+            b = a % b;
+            a = tmp;
+        }
+        return a;
+    }
+
 
     // rotation algorithms
     public static void griesMills(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
@@ -49,14 +58,26 @@ public class Rotations {
     }
 
     public static void threeReversal(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
-        Writes.reversal(array, pos, pos + lenA, pause, mark, auxwrite);
-        Writes.reversal(array, pos + lenA, pos + lenA + lenB, pause, mark, auxwrite);
-        Writes.reversal(array, pos, pos + lenA + lenB, pause, mark, auxwrite);
+        Writes.reversal(array, pos, pos + lenA - 1, pause, mark, auxwrite);
+        Writes.reversal(array, pos + lenA, pos + lenA + lenB - 1, pause, mark, auxwrite);
+        Writes.reversal(array, pos, pos + lenA + lenB - 1, pause, mark, auxwrite);
     }
 
-    // public static void juggling(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
-
-    // }
+    public static void juggling(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+        int n = lenA + lenB;
+        int iters = gcd(lenA, n);
+        for (int i = 0; i < iters; i++) {
+            int t = array[pos + i];
+            int j = i;
+            while (true) {
+                int k = (j + lenA) % n;
+                if (k == i) break;
+                Writes.write(array, pos + j, array[pos + k], pause, mark, auxwrite);
+                j = k;
+            }
+            Writes.write(array, pos + j, t, pause, mark, auxwrite);
+        }
+    }
 
     public static void holyGriesMills(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
         boolean swaps = false;
