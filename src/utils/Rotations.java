@@ -34,7 +34,7 @@ public class Rotations {
 
 
     // rotation algorithms
-    public static void griesMilles(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+    public static void griesMills(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
         while(lenA != 0 && lenB != 0) {
             if(lenA <= lenB) {
                 blockSwap(array, pos, pos + lenA, lenA, pause, mark, auxwrite);
@@ -58,7 +58,7 @@ public class Rotations {
 
     // }
 
-    public static void holyGriesMilles(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+    public static void holyGriesMills(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
         boolean swaps = false;
 
         while(lenA > 1 && lenB > 1) {
