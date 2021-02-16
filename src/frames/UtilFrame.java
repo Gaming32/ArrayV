@@ -6,7 +6,9 @@ package frames;
 
 import java.awt.Toolkit;
 import java.util.Hashtable;
+import java.util.Random;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -96,6 +98,7 @@ final public class UtilFrame extends javax.swing.JFrame {
             abstractFrame.reposition();
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         try {
@@ -123,6 +126,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         this.jCheckBox8 = new javax.swing.JCheckBox();
         this.jCheckBox9 = new javax.swing.JCheckBox();
         this.jSlider = new javax.swing.JSlider(SwingConstants.VERTICAL, 1, 12, 11);
+        this.jComboBox1 = new javax.swing.JComboBox();
 
         jLabel1.setText("Settings");
 
@@ -291,6 +295,14 @@ final public class UtilFrame extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] { "Sorting", "AntiQSort", "Stability Check" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed();
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -317,7 +329,8 @@ final public class UtilFrame extends javax.swing.JFrame {
                                                         .addComponent(this.jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(this.jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addComponent(this.jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(this.jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                                        .addComponent(this.jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(this.jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addGap(0, 10, Short.MAX_VALUE))
                 );
         layout.setVerticalGroup(
@@ -326,6 +339,8 @@ final public class UtilFrame extends javax.swing.JFrame {
                         .addGap(5, 5, 5)
                         .addComponent(this.jLabel1)
                         .addGap(7, 7, 7)
+                        .addComponent(this.jComboBox1)
+                        .addGap(10, 10, 10)
                         .addComponent(this.jButton2)
                         .addGap(5, 5, 5)
                         .addComponent(this.jCheckBox2)
@@ -381,7 +396,6 @@ final public class UtilFrame extends javax.swing.JFrame {
     }
 
     private void jButton2ActionPerformed() {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
         //CHANGE VIEW
         if(this.abstractFrame != null && abstractFrame.isVisible()){
             boolean tmp = this.abstractFrame instanceof ViewPrompt;
@@ -510,6 +524,32 @@ final public class UtilFrame extends javax.swing.JFrame {
         ArrayVisualizer.toggleExternalArrays(jCheckBox9.isSelected());
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
+    private void jComboBox1ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
+        switch ((String)jComboBox1.getSelectedItem()) {
+            case "Sorting":
+                jButton6.setEnabled(true);
+                ArrayVisualizer.setComparator(0);
+                break;
+
+            case "AntiQSort":
+                if(this.abstractFrame != null && abstractFrame.isVisible()){
+                    abstractFrame.dispose();
+                    jButton6ResetText();
+                }
+                jButton6.setEnabled(false);
+                ArrayVisualizer.setComparator(1);
+                break;
+
+            case "Stability Check":
+                jButton6.setEnabled(true);
+                ArrayVisualizer.setComparator(2);
+                Random random = new Random();
+                ArrayVisualizer.stabilityOffset = random.nextInt(50) + 5;
+                System.out.println("N/" + ArrayVisualizer.stabilityOffset + " unique values");
+                break;
+        }
+    }//GEN-LAST:event_jCheckBox8ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jButton1;
@@ -529,4 +569,6 @@ final public class UtilFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
     private javax.swing.JSlider jSlider;
+    @SuppressWarnings("rawtypes")
+    private javax.swing.JComboBox jComboBox1;
 }

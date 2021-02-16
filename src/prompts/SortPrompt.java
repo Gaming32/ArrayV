@@ -277,6 +277,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         dispose();
     }//GEN-LAST:event_jList1ValueChanged
 
+    @SuppressWarnings("unchecked")
     private void loadSorts() {
         String category = (String)jComboBox1.getSelectedItem();
         ArrayList<String> sorts = new ArrayList<>();

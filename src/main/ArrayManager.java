@@ -1,5 +1,8 @@
 package main;
 
+import java.util.Hashtable;
+import java.util.Random;
+
 import panes.JErrorPane;
 import utils.Delays;
 import utils.Highlights;
@@ -176,6 +179,20 @@ final public class ArrayManager {
         Highlights.clearAllMarks();
         ArrayVisualizer.setHeading(tmp);
     }
+
+    private void stableShuffle(int[] array, int length) {
+        int blockSize = ArrayVisualizer.stabilityOffset;
+        boolean delay = ArrayVisualizer.shuffleEnabled();
+        double sleep = delay ? 1 : 0;
+
+        Hashtable<Integer, Integer> table = new Hashtable<>();
+        for (int i = 0; i < length; i++) {
+            int divided = array[i] / blockSize;
+            table.putIfAbsent(divided, -1);
+            table.put(divided, table.get(divided) + 1);
+            Writes.write(array, i, divided * blockSize + table.get(divided), sleep, true, false);
+        }
+    }
     
     public void refreshArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
         try {
@@ -188,7 +205,15 @@ final public class ArrayManager {
         Highlights.clearAllMarks();
         
         ArrayVisualizer.setHeading("");
-        this.shuffleArray(array, currentLen, ArrayVisualizer);
+        if (ArrayVisualizer.useAntiQSort()) {}
+        else if (ArrayVisualizer.doingStabilityCheck()) {
+            ArrayVisualizer.setUniqueItems(ArrayVisualizer.getCurrentLength());
+            this.shuffleArray(array, currentLen, ArrayVisualizer);
+            this.stableShuffle(array, currentLen);
+        }
+        else {
+            this.shuffleArray(array, currentLen, ArrayVisualizer);
+        }
         
         Highlights.clearAllMarks();
         

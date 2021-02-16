@@ -16,6 +16,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -38,6 +40,7 @@ import frames.UtilFrame;
 import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
+import utils.AntiQSort;
 import utils.Delays;
 import utils.Distributions;
 import utils.Highlights;
@@ -147,6 +150,10 @@ final public class ArrayVisualizer {
     private volatile boolean WAVEDRAW;
     private volatile boolean EXTARRAYS;
 
+    private volatile boolean ANTIQSORT;
+    private volatile boolean STABILITY;
+    public  volatile int stabilityOffset;
+
     private volatile boolean isCanceled;
 
     private volatile int cx;
@@ -168,6 +175,7 @@ final public class ArrayVisualizer {
     private Timer Timer;
     private VisualStyles VisualStyles;
     private Writes Writes;
+    private AntiQSort AntiQSort;
 
     private volatile boolean updateVisuals;
     private volatile int updateVisualsForced;
@@ -247,6 +255,7 @@ final public class ArrayVisualizer {
         this.Reads = new Reads(this);
         this.Renderer = new Renderer(this);
         this.Writes = new Writes(this);
+        this.AntiQSort = new AntiQSort(this);
         
         SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);
@@ -285,6 +294,9 @@ final public class ArrayVisualizer {
         this.SPIRALDRAW = false;
         this.EXTARRAYS = false;
 
+        this.ANTIQSORT = false;
+        this.STABILITY = false;
+        
         this.isCanceled = false;
  
         this.cx = 0;
@@ -490,6 +502,57 @@ final public class ArrayVisualizer {
     public boolean isActive() {
         return this.getSortingThread() != null && this.getSortingThread().isAlive();
     }
+
+    public void setComparator(int comparator) {
+        switch (comparator) {
+            case 0:
+                this.ANTIQSORT = false;
+                this.STABILITY = false;
+                break;
+            case 1:
+                this.ANTIQSORT = true;
+                this.STABILITY = false;
+                break;
+            case 2:
+                this.STABILITY = true;
+                this.ANTIQSORT = false;
+                break;
+        }
+    }
+    
+    public boolean useAntiQSort() {
+        return this.ANTIQSORT;
+    }
+    public void initAntiQSort() {
+        this.AntiQSort.beginSort(this.array, this.sortLength);
+    }
+    public void finishAntiQSort(String name) {
+        int[] result = this.AntiQSort.getResult();
+        String outName = "antiqsort_" + name + "_" + this.sortLength;
+        try {
+            FileWriter writer = new FileWriter(outName);
+            for (int i = 0; i < this.sortLength - 1; i++) {
+                writer.write(result[i] + " ");
+            }
+            writer.write("" + result[this.sortLength - 1]);
+            writer.close();
+        }
+        catch (IOException e) {
+            JErrorPane.invokeErrorMessage(e);
+            return;
+        }
+        JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + outName + "\"", "AntiQSort", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public int antiqCompare(int left, int right) {
+        int cmp = this.AntiQSort.compare(left, right);
+        if (cmp == 0)
+            return 0;
+        return cmp / Math.abs(cmp);
+    }
+
+    public boolean doingStabilityCheck() {
+        return this.STABILITY;
+    }
     
     // These next five methods should be part of ArrayManager
     public int getCurrentLength() {
@@ -673,13 +736,21 @@ final public class ArrayVisualizer {
         
         String temp = this.heading;
         this.heading = "Verifying sort...";
+
+        boolean tempStability = this.STABILITY;
+        this.STABILITY = false;
         
+        boolean success = true;
         for(int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
             if(i < this.sortLength) this.Highlights.markArray(1, i);
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
                 if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == 1) {
+                    boolean wasStabilityIssue = false;
+                    if (tempStability) {
+                        wasStabilityIssue = this.array[i] / this.stabilityOffset <= this.array[i + 1] / this.stabilityOffset;
+                    }
                     this.Highlights.clearMark(1);
                     
                     this.Sounds.toggleSound(false);
@@ -690,7 +761,14 @@ final public class ArrayVisualizer {
                         this.Delays.sleep(sleepRatio);
                     }
                     
-                    JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    if (tempStability && wasStabilityIssue) {
+                        JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    }
+
+                    success = false;
                     
                     this.Highlights.clearAllMarks();
                     
@@ -705,6 +783,11 @@ final public class ArrayVisualizer {
             }
         }
         this.Highlights.clearMark(1);
+
+        // if (tempStability && success)
+        //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
+        
+        this.STABILITY = tempStability;
 
         this.heading = temp;
         this.Reads.setComparisons(tempComps);
