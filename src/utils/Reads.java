@@ -99,8 +99,9 @@ final public class Reads {
 
         Timer.stopLap();
         
-        if (!ArrayVisualizer.useAntiQSort())
+        if (!ArrayVisualizer.useAntiQSort()) {
             return cmpVal;
+        }
         else {
             return ArrayVisualizer.antiqCompare(left, right);
         }

@@ -40,18 +40,7 @@ import frames.UtilFrame;
 import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
-import utils.AntiQSort;
-import utils.Delays;
-import utils.Distributions;
-import utils.Highlights;
-import utils.MultipleScript;
-import utils.Reads;
-import utils.Renderer;
-import utils.Shuffles;
-import utils.Sounds;
-import utils.Statistics;
-import utils.Timer;
-import utils.Writes;
+import utils.*;
 import visuals.Bars;
 import visuals.Circular;
 import visuals.CustomImage;
@@ -256,6 +245,8 @@ final public class ArrayVisualizer {
         this.Renderer = new Renderer(this);
         this.Writes = new Writes(this);
         this.AntiQSort = new AntiQSort(this);
+
+        new Rotations(this);
         
         SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);
