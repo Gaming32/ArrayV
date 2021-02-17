@@ -109,7 +109,7 @@ public class Rotations {
         }
     }
 
-    public static void helium(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+    /*public static void helium(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
         while (lenB > 1 && lenA > 1) {
             if (lenB < lenA) {
                 blockSwap(array, pos, pos + lenA, lenB, pause, mark, auxwrite);
@@ -122,5 +122,5 @@ public class Rotations {
         
         if      (lenB == 1) shiftBackwards(array, pos + lenA, pos, pause, mark, auxwrite);
         else if (lenA == 1) shiftForwards(array, pos, pos + lenB - 1, pause, mark, auxwrite);
-    }
+    }*/
 }
