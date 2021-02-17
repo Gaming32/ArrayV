@@ -109,7 +109,18 @@ public class Rotations {
         }
     }
 
-    // public static void helium(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+    public static void helium(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+        while (lenB > 1 && lenA > 1) {
+            if (lenB < lenA) {
+                this.blockSwap(array, pos, pos + lenA, lenB, pause, mark, auxwrite);
+                pos += lenB;
+            } else {
+                this.swapBlocksBackwards(array, pos, pos + lenB - lenA, lenA, pause, mark, auxwrite);
+                lenB -= lenA;
+            }
+        }
         
-    // }
+        if      (lenB == 1) this.shiftBackwards(array, pos + lenA, pos);
+        else if (lenA == 1) this.shiftForwards(array, pos, pos + lenB - 1);
+    }
 }
