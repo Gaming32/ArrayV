@@ -12,7 +12,7 @@ public class Rotations {
     // utility functions
     public static void swapBlocksBackwards(int[] array, int a, int b, int len, double pause, boolean mark, boolean auxwrite) {
         for (int i = 0; i < len; i++) {
-            Writes.swap(array, b - i - 1, b + len - i - 1, pause, mark, auxwrite);
+            Writes.swap(array, a - i - 1, b - i - 1, pause, mark, auxwrite);
         }
     }
 
