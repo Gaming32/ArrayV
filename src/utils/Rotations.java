@@ -10,13 +10,13 @@ public class Rotations {
     }
 
     // utility functions
-    public static void blockSwap(int[] array, int a, int b, int len, double pause, boolean mark, boolean auxwrite) {
+    public static void swapBlocksBackwards(int[] array, int a, int b, int len, double pause, boolean mark, boolean auxwrite) {
         for (int i = 0; i < len; i++) {
             Writes.swap(array, b - i - 1, b + len - i - 1, pause, mark, auxwrite);
         }
     }
 
-    public static void swapBlocksBackwards(int[] array, int a, int b, int len, double pause, boolean mark, boolean auxwrite) {
+    public static void blockSwap(int[] array, int a, int b, int len, double pause, boolean mark, boolean auxwrite) {
         for (int i = 0; i < len; i++) {
             Writes.swap(array, a + i, b + i, pause, mark, auxwrite);
         }
@@ -88,7 +88,7 @@ public class Rotations {
     public static void holyGriesMills(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
         while(lenA > 1 && lenB > 1) {
             while(lenA <= lenB) {
-                swapBlocksBackwards(array, pos, pos + lenA, lenA, pause, mark, auxwrite);
+                blockSwap(array, pos, pos + lenA, lenA, pause, mark, auxwrite);
                 pos  += lenA;
                 lenB -= lenA;
             }
@@ -96,7 +96,7 @@ public class Rotations {
             if(lenA <= 1 || lenB <= 1) break;
             
             while(lenA > lenB) {
-                blockSwap(array, pos + lenA - lenB, pos + lenA, lenB, pause, mark, auxwrite);
+                swapBlocksBackwards(array, pos + lenA - lenB, pos + lenA, lenB, pause, mark, auxwrite);
                 lenA -= lenB;
             }
         }
@@ -109,7 +109,19 @@ public class Rotations {
         }
     }
 
-    // public static void helium(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+    public static void helium(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+        while (lenB > 1 && lenA > 1) {
+            if (lenB < lenA) {
+                blockSwap(array, pos, pos + lenA, lenB, pause, mark, auxwrite);
+                pos  += lenB;
+                lenA -= lenB;
+            } else {
+                swapBlocksBackwards(array, pos + lenA, pos + lenA + lenB, lenA, pause, mark, auxwrite);
+                lenB -= lenA;
+            }
+        }
         
-    // }
+        if      (lenB == 1) shiftBackwards(array, pos, lenA, pause, mark, auxwrite);
+        else if (lenA == 1) shiftForwards(array, pos, lenB, pause, mark, auxwrite);
+    }
 }
