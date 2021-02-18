@@ -54,7 +54,7 @@ SOFTWARE.
 
 final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
-    private static int lastCategory = 0;
+    private static int lastCategory = -1;
 
     private static final long serialVersionUID = 1L;
 
@@ -76,7 +76,17 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         setUndecorated(true);
         loadSortThreads();
         initComponents();
-        jComboBox1.setSelectedIndex(lastCategory);
+        if (lastCategory == -1) {
+            for (lastCategory = 0; ; lastCategory++) {
+                jComboBox1.setSelectedIndex(lastCategory);
+                if (jComboBox1.getSelectedItem().equals("Hybrid Sorts")) {
+                    break;
+                }
+            }
+        }
+        else {
+            jComboBox1.setSelectedIndex(lastCategory);
+        }
         loadSorts();
         reposition();
         setVisible(true);
