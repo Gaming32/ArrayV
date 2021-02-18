@@ -12,7 +12,7 @@ public class Rotations {
     // utility functions
     private static void swapBlocksBackwards(int[] array, int a, int b, int len, double pause, boolean mark, boolean auxwrite) {
         for (int i = 0; i < len; i++) {
-            Writes.swap(array, a - i - 1, b - i - 1, pause, mark, auxwrite);
+            Writes.swap(array, a + len - i - 1, b + len - i - 1, pause, mark, auxwrite);
         }
     }
 
@@ -116,7 +116,7 @@ public class Rotations {
                 pos  += lenB;
                 lenA -= lenB;
             } else {
-                swapBlocksBackwards(array, pos + lenA, pos + lenA + lenB, lenA, pause, mark, auxwrite);
+                swapBlocksBackwards(array, pos, pos + lenB, lenA, pause, mark, auxwrite);
                 lenB -= lenA;
             }
         }

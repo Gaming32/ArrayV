@@ -30,7 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 final public class RotationTest extends Sort {
-    final int BLOCK_DIV = 7;
+    final double BLOCK_DIV = 6.98;
 
     public RotationTest(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -49,7 +49,7 @@ final public class RotationTest extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        int blockSize = length / BLOCK_DIV;
+        int blockSize = (int)(length / BLOCK_DIV);
         
         for (int i = 0; i < blockSize; i++) {
             array[i] = i + length - blockSize;
