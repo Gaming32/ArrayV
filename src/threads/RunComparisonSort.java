@@ -173,7 +173,7 @@ final public class RunComparisonSort {
                         }
                         catch (StopSort e) { }
                         if (antiq)
-                            arrayVisualizer.finishAntiQSort(sort.getClass().getName());
+                            arrayVisualizer.finishAntiQSort(sort.getClass().getSimpleName());
                     }
                     else {
                         arrayManager.initializeArray(array);
