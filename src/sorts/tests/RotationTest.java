@@ -52,15 +52,15 @@ final public class RotationTest extends Sort {
         int blockSize = (int)(length / BLOCK_DIV);
         
         for (int i = 0; i < blockSize; i++) {
-            array[i] = i + length - blockSize;
+            Writes.write(array, i, i + length - blockSize, 0.05, false, false);
         }
         for (int i = blockSize; i < length; i++) {
-            array[i] = i - blockSize;
+            Writes.write(array, i, i - blockSize, 0.05, false, false);
         }
 
         Delays.sleep(500);
 
-        Rotations.helium(array, 0, blockSize, length - blockSize, 1, true, false);
+        Rotations.cycleReverse(array, 0, blockSize, length - blockSize, 1, true, false);
 
         Delays.sleep(1);
         Delays.changePaused(true);
@@ -68,14 +68,14 @@ final public class RotationTest extends Sort {
         Delays.sleep(1);
 
         for (int i = 0; i < length - blockSize; i++) {
-            array[i] = i + blockSize;
+            Writes.write(array, i, i + blockSize, 0.05, false, false);
         }
         for (int i = length - blockSize; i < length; i++) {
-            array[i] = i - (length - blockSize);
+            Writes.write(array, i, i - (length - blockSize), 0.05, false, false);
         }
 
         Delays.sleep(500);
 
-        Rotations.helium(array, 0, length - blockSize, blockSize, 1, true, false);
+        Rotations.cycleReverse(array, 0, length - blockSize, blockSize, 1, true, false);
     }
 }

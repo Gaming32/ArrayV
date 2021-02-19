@@ -109,6 +109,7 @@ public class Rotations {
         }
     }
 
+    // by thatsOven
     public static void helium(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
         while (lenB > 1 && lenA > 1) {
             if (lenB < lenA) {
@@ -124,4 +125,38 @@ public class Rotations {
         if      (lenB == 1) shiftBackwards(array, pos, lenA, pause, mark, auxwrite);
         else if (lenA == 1) shiftForwards(array, pos, lenB, pause, mark, auxwrite);
     }
+
+    // by Scandum and Control
+    public static void cycleReverse(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+        int a = pos,
+            b = pos + lenA - 1,
+            c = pos + lenA,
+            d = pos + lenA + lenB - 1;
+        int swap;
+
+        while (a < b && c < d) {
+            swap = array[b];
+            Writes.write(array, b--, array[a], pause, mark, auxwrite);
+            Writes.write(array, a++, array[c], pause, mark, auxwrite);
+            Writes.write(array, c++, array[d], pause, mark, auxwrite);
+            Writes.write(array, d--, swap, pause, mark, auxwrite);
+        }
+        while (a < b) {
+            swap = array[b];
+            Writes.write(array, b--, array[a], pause, mark, auxwrite);
+            Writes.write(array, a++, array[d], pause, mark, auxwrite);
+            Writes.write(array, d--, swap, pause, mark, auxwrite);
+        }
+        while (c < d) {
+            swap = array[c];
+            Writes.write(array, c++, array[d], pause, mark, auxwrite);
+            Writes.write(array, d--, array[a], pause, mark, auxwrite);
+            Writes.write(array, a++, swap, pause, mark, auxwrite);
+        }
+        while (a < d) {
+            swap = array[a];
+            Writes.write(array, a++, array[d], pause, mark, auxwrite);
+            Writes.write(array, d--, swap, pause, mark, auxwrite);
+        }
+    } 
 }
