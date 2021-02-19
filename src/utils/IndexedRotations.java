@@ -20,4 +20,8 @@ public class IndexedRotations {
     public static void helium(int[] array, int start, int mid, int end, double pause, boolean mark, boolean auxwrite) {
         Rotations.helium(array, start, mid - start, end - mid, pause, mark, auxwrite);
     }
+
+    public static void cycleReverse(int[] array, int start, int mid, int end, double pause, boolean mark, boolean auxwrite) {
+        Rotations.cycleReverse(array, start, mid - start, end - mid, pause, mark, auxwrite);
+    }
 }
