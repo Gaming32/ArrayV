@@ -58,9 +58,11 @@ final public class RotationTest extends Sort {
             Writes.write(array, i, i - blockSize, 0.05, false, false);
         }
 
+        Writes.resetStatistics();
+
         Delays.sleep(500);
 
-        Rotations.cycleReverse(array, 0, blockSize, length - blockSize, 1, true, false);
+        Rotations.juggling(array, 0, blockSize, length - blockSize, 1, true, false);
 
         Delays.sleep(1);
         Delays.changePaused(true);
@@ -74,8 +76,10 @@ final public class RotationTest extends Sort {
             Writes.write(array, i, i - (length - blockSize), 0.05, false, false);
         }
 
+        Writes.resetStatistics();
+
         Delays.sleep(500);
 
-        Rotations.cycleReverse(array, 0, length - blockSize, blockSize, 1, true, false);
+        Rotations.juggling(array, 0, length - blockSize, blockSize, 1, true, false);
     }
 }
