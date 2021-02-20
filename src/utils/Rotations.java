@@ -38,13 +38,14 @@ public class Rotations {
         Writes.write(array, start, temp, pause, mark, auxwrite);
     }
 
-    private static int gcd(int a, int b) {
-        while (b != 0) {
-            int tmp = b;
-            b = a % b;
-            a = tmp;
-        }
-        return a;
+    private static int mapIndex(int index, int n, int length) {
+        return (index - n + length) % length;
+    }
+
+    private static int swap(int[] arr, int a, int v, double pause, boolean mark, boolean auxwrite) {
+        int old = arr[a];
+        Writes.write(arr, a, v, pause, mark, auxwrite);
+        return old;
     }
 
 
@@ -67,22 +68,6 @@ public class Rotations {
         Writes.reversal(array, pos, pos + lenA - 1, pause, mark, auxwrite);
         Writes.reversal(array, pos + lenA, pos + lenA + lenB - 1, pause, mark, auxwrite);
         Writes.reversal(array, pos, pos + lenA + lenB - 1, pause, mark, auxwrite);
-    }
-
-    public static void juggling(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
-        int n = lenA + lenB;
-        int iters = gcd(lenA, n);
-        for (int i = 0; i < iters; i++) {
-            int t = array[pos + i];
-            int j = i;
-            while (true) {
-                int k = (j + lenA) % n;
-                if (k == i) break;
-                Writes.write(array, pos + j, array[pos + k], pause, mark, auxwrite);
-                j = k;
-            }
-            Writes.write(array, pos + j, t, pause, mark, auxwrite);
-        }
     }
 
     public static void holyGriesMills(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
@@ -158,5 +143,29 @@ public class Rotations {
             Writes.write(array, a++, array[d], pause, mark, auxwrite);
             Writes.write(array, d--, swap, pause, mark, auxwrite);
         }
-    } 
+    }
+
+    public static void juggling(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+        int length = lenA + lenB;
+        lenA %= length;
+
+        if (lenA == 0) return;
+
+        for (int cnt = 0, 
+                 index = 0, 
+                 value = array[pos + index], 
+                 startIndex = index; 
+            cnt < length; cnt++) {
+                int nextIndex = mapIndex(index, lenA, length);
+
+                value = swap(array, pos + nextIndex, value, pause, mark, auxwrite);
+
+                if (nextIndex == startIndex) {
+                    startIndex = index = mapIndex(index, 1, length);
+                    value = array[pos + index];
+                } else {
+                    index = nextIndex;
+                }
+        }
+    }
 }
