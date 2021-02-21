@@ -44,8 +44,6 @@ public abstract class BogoSorting extends Sort {
     }
     
     protected boolean bogoIsSorted(int[] array, int length) {
-        if (Delays.skipped())
-            return true;
         for(int i = 0; i < length - 1; i++) {
             if(Reads.compareValues(array[i], array[i + 1]) == 1) {
                 Highlights.markArray(1, i);
@@ -57,8 +55,6 @@ public abstract class BogoSorting extends Sort {
     }
     
     protected boolean isMinSorted(int[] array, int length, int offset) {
-        if (Delays.skipped())
-            return true;
         Highlights.clearAllMarks();
         
         //Highlights.markArray(2, offset);
@@ -76,8 +72,6 @@ public abstract class BogoSorting extends Sort {
     }
     
     protected boolean isMaxSorted(int[] array, int minIterator, int maxIterator) {
-        if (Delays.skipped())
-            return true;
         Highlights.clearAllMarks();
         
         //Highlights.markArray(2, minIterator);
