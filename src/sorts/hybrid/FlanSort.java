@@ -214,7 +214,9 @@ final public class FlanSort extends Sort {
 		}
 		
 		do {
-			Writes.swap(array, p++, pa[tree[0]]++, 1, true, false);
+			Writes.swap(array, p++, pa[tree[0]], 1, true, false);
+			Writes.write(pa, tree[0], pa[tree[0]]+1, 0, false, true);
+			
 			int m = pow, i = m+tree[0], j = k;
 			
 			while(i > 0) {
@@ -371,8 +373,8 @@ final public class FlanSort extends Sort {
 					int end = Math.min(k+left, i);
 					this.librarySort(array, k, end, j, piv, true);
 					
-					pa[kCnt]   = k;
-					pb[kCnt++] = end;
+					Writes.write(pa, kCnt, k, 0, false, true);
+					Writes.write(pb, kCnt++, end, 0, false, true);
 				}
 				
 				this.kWayMerge(array, tree, pa, pb, m, kCnt);
@@ -396,8 +398,8 @@ final public class FlanSort extends Sort {
 					int end = Math.min(k+right, b);
 					this.librarySort(array, k, end, a, piv, false);
 					
-					pa[kCnt]   = k;
-					pb[kCnt++] = end;
+					Writes.write(pa, kCnt, k, 0, false, true);
+					Writes.write(pb, kCnt++, end, 0, false, true);
 				}
 				
 				this.kWayMerge(array, tree, pa, pb, a, kCnt);
