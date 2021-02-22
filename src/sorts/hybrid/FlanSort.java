@@ -414,5 +414,6 @@ final public class FlanSort extends Sort {
 			}
 		}
 		this.binaryInsertion(array, a, b);
+		Writes.changeAllocAmount(-pa.length - pb.length - tree.length);
     }
 }
