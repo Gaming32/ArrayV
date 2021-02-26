@@ -236,6 +236,21 @@ public enum Shuffles {
 				Writes.write(array, i, temp[i], delay ? 1 : 0, true, false);
         }
     },
+	REAL_FINAL_MERGE {
+        public String getName() {
+            return "Shuffled Final Merge";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+			
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+			
+			this.shuffle(array, 0, currentLen, delay ? 1 : 0, Writes);
+			this.sort(array, 0, currentLen / 2, delay ? 1 : 0, Writes);
+			this.sort(array, currentLen / 2, currentLen, delay ? 1 : 0, Writes);
+        }
+    },
 	SAWTOOTH {
         public String getName() {
             return "Sawtooth";
