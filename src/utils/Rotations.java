@@ -4,6 +4,7 @@ import main.ArrayVisualizer;
 
 public class Rotations {
     private static Writes Writes;
+    private static Highlights Highlights;
 
     public Rotations(ArrayVisualizer arrayVisualizer) {
         Rotations.Writes = arrayVisualizer.getWrites();
@@ -28,6 +29,7 @@ public class Rotations {
             Writes.write(array, start + i, array[start + i + 1], pause, mark, auxwrite);
         }
         Writes.write(array, start + length, temp, pause, mark, auxwrite);
+        Highlights.clearAllMarks();
     }
 
     private static void shiftBackwards(int[] array, int start, int length, double pause, boolean mark, boolean auxwrite) {    
@@ -36,6 +38,7 @@ public class Rotations {
             Writes.write(array, start + i, array[start + i - 1], pause, mark, auxwrite);
         }
         Writes.write(array, start, temp, pause, mark, auxwrite);
+        Highlights.clearAllMarks();
     }
 
     private static int mapIndex(int index, int n, int length) {
