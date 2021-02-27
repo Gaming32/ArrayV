@@ -7,7 +7,8 @@ public class Rotations {
     private static Highlights Highlights;
 
     public Rotations(ArrayVisualizer arrayVisualizer) {
-        Rotations.Writes = arrayVisualizer.getWrites();
+        Rotations.Writes     = arrayVisualizer.getWrites();
+        Rotations.Highlights = arrayVisualizer.getHighlights();
     }
 
     // utility functions
@@ -25,20 +26,20 @@ public class Rotations {
 
     private static void shiftForwards(int[] array, int start, int length, double pause, boolean mark, boolean auxwrite) {
         int temp = array[start];
+        if (mark) Highlights.clearMark(2);
         for(int i = 0; i < length; i++) {
             Writes.write(array, start + i, array[start + i + 1], pause, mark, auxwrite);
         }
         Writes.write(array, start + length, temp, pause, mark, auxwrite);
-        Highlights.clearAllMarks();
     }
 
     private static void shiftBackwards(int[] array, int start, int length, double pause, boolean mark, boolean auxwrite) {    
         int temp = array[start + length];
+        if (mark) Highlights.clearMark(2);
         for(int i = length; i > 0; i--) {
             Writes.write(array, start + i, array[start + i - 1], pause, mark, auxwrite);
         }
         Writes.write(array, start, temp, pause, mark, auxwrite);
-        Highlights.clearAllMarks();
     }
 
     private static int mapIndex(int index, int n, int length) {
