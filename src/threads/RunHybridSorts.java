@@ -74,10 +74,12 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort PDQBranchedSort;
     private Sort PDQBranchlessSort;
     private Sort DropMergeSort;
+    private Sort OptimizedPDMergeSort;
+    private Sort FlanSort;
     
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 40;
+        this.sortCount = 42;
         this.categoryCount = this.sortCount;
         
         HybridCombSort                   = new                   HybridCombSort(this.arrayVisualizer);
@@ -93,6 +95,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         ImprovedWeaveMergeSort           = new           ImprovedWeaveMergeSort(this.arrayVisualizer);
         TimSort                          = new                          TimSort(this.arrayVisualizer);
         CocktailMergeSort                = new                CocktailMergeSort(this.arrayVisualizer);
+        OptimizedPDMergeSort             = new             OptimizedPDMergeSort(this.arrayVisualizer);
         LazierSort                       = new                       LazierSort(this.arrayVisualizer);
         LaziestSort                      = new                      LaziestSort(this.arrayVisualizer);
         WikiSort                         = new                         WikiSort(this.arrayVisualizer);
@@ -102,6 +105,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         SqrtSort                         = new                         SqrtSort(this.arrayVisualizer);
         KotaSort                         = new                         KotaSort(this.arrayVisualizer);
         EctaSort                         = new                         EctaSort(this.arrayVisualizer);
+        FlanSort                         = new                         FlanSort(this.arrayVisualizer);
         BufferedMergeSort                = new                BufferedMergeSort(this.arrayVisualizer);
         OOPBufferedMergeSort             = new              StableBufferedMerge(this.arrayVisualizer);
         BlockSelectionMergeSort          = new          BlockSelectionMergeSort(this.arrayVisualizer);
@@ -137,6 +141,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(ImprovedWeaveMergeSort,           0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.65 : 6.5, false);
         RunHybridSorts.this.runIndividualSort(TimSort,                          0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(CocktailMergeSort,                0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(OptimizedPDMergeSort,             0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(LazierSort,                       0, array, 1024, 0.4,  false);
         RunHybridSorts.this.runIndividualSort(LaziestSort,                      0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(WikiSort,                         0, array, 2048, 1,    false);
@@ -146,6 +151,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(SqrtSort,                         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(KotaSort,                         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(EctaSort,                         0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(FlanSort,                         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(BufferedMergeSort,                0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(OOPBufferedMergeSort,             0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(BlockSelectionMergeSort,          0, array, 2048, 1,    false);

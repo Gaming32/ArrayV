@@ -44,23 +44,33 @@ final public class RunInsertionSorts extends MultipleSortThread {
     private Sort LibrarySort;
     private Sort PatienceSort;
     private Sort TreeSort;
+    private Sort AATreeSort;
+    private Sort AVLTreeSort;
+    private Sort FibonacciInsertionSort;
+    private Sort SplaySort;
+    private Sort RoomSort;
     
     public RunInsertionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 11;
+        this.sortCount = 16;
         this.categoryCount = this.sortCount;
     
         InsertionSort          = new          InsertionSort(this.arrayVisualizer);
         DoubleInsertionSort    = new    DoubleInsertionSort(this.arrayVisualizer);
         BinaryInsertionSort    = new    BinaryInsertionSort(this.arrayVisualizer);
         TriSearchInsertionSort = new TriSearchInsertionSort(this.arrayVisualizer);
+        FibonacciInsertionSort = new FibonacciInsertionSort(this.arrayVisualizer);
         UnstableInsertionSort  = new  UnstableInsertionSort(this.arrayVisualizer);
         ShellSort              = new              ShellSort(this.arrayVisualizer); 
         RecursiveShellSort     = new     RecursiveShellSort(this.arrayVisualizer); 
         RendezvousSort         = new         RendezvousSort(this.arrayVisualizer); 
+        RoomSort               = new               RoomSort(this.arrayVisualizer);
         LibrarySort            = new            LibrarySort(this.arrayVisualizer); 
         PatienceSort           = new           PatienceSort(this.arrayVisualizer);
         TreeSort               = new               TreeSort(this.arrayVisualizer);
+        AATreeSort             = new             AATreeSort(this.arrayVisualizer);
+        AVLTreeSort            = new            AVLTreeSort(this.arrayVisualizer);
+        SplaySort              = new              SplaySort(this.arrayVisualizer);
     }
 
     @Override
@@ -69,13 +79,18 @@ final public class RunInsertionSorts extends MultipleSortThread {
         RunInsertionSorts.this.runIndividualSort(DoubleInsertionSort,    0, array,  128,  0.002, false);
         RunInsertionSorts.this.runIndividualSort(BinaryInsertionSort,    0, array,  128,  0.025, false);
         RunInsertionSorts.this.runIndividualSort(TriSearchInsertionSort, 0, array,  128,  1,     false);
+        RunInsertionSorts.this.runIndividualSort(FibonacciInsertionSort, 0, array,  128,  0.025, false);
         RunInsertionSorts.this.runIndividualSort(UnstableInsertionSort,  0, array,  128,  0.2,   false);
         RunInsertionSorts.this.runIndividualSort(ShellSort,              0, array,  256,  0.1,   false);
         RunInsertionSorts.this.runIndividualSort(RecursiveShellSort,     0, array,  256,  0.1,   false);
         RunInsertionSorts.this.runIndividualSort(RendezvousSort,         0, array,  256,  0.1,   false);
+        RunInsertionSorts.this.runIndividualSort(RoomSort,               0, array,  512,  0.05,  false);
         RunInsertionSorts.this.runIndividualSort(LibrarySort,            0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(PatienceSort,           0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(TreeSort,               0, array,  2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 5, false);
+        RunInsertionSorts.this.runIndividualSort(AATreeSort,             0, array,  2048, 1,     false);
+        RunInsertionSorts.this.runIndividualSort(AVLTreeSort,            0, array,  2048, 1,     false);
+        RunInsertionSorts.this.runIndividualSort(SplaySort,              0, array,  2048, 1,     false);
     }
     
     @Override

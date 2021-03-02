@@ -45,10 +45,11 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     private Sort PairwiseSortIterative;
     private Sort BoseNelsonSortIterative;
     private Sort WeaveSortIterative;
+    private Sort MergeExchangeSort;
     
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 13;
+        this.sortCount = 14;
         this.categoryCount = this.sortCount;
         
         FoldSort                  = new                  FoldSort(this.arrayVisualizer);
@@ -64,6 +65,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         PairwiseSortIterative     = new     PairwiseSortIterative(this.arrayVisualizer);
         BoseNelsonSortIterative   = new   BoseNelsonSortIterative(this.arrayVisualizer);
         WeaveSortIterative        = new        WeaveSortIterative(this.arrayVisualizer);
+        MergeExchangeSort         = new         MergeExchangeSort(this.arrayVisualizer);
     }
 
     @Override
@@ -81,6 +83,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         RunConcurrentSorts.this.runIndividualSort(PairwiseSortIterative,     0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(BoseNelsonSortIterative,   0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(WeaveSortIterative,        0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(MergeExchangeSort,         0, array, 1024, 1,     false);
     }
     
     @Override

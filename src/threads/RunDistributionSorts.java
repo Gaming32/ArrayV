@@ -53,6 +53,8 @@ final public class RunDistributionSorts extends MultipleSortThread {
     private Sort SimpleShatterSort;
     private Sort ImmediateShatterSort;
     private Sort TimeSort;
+    private Sort LMSDRadixSort;
+    
     
     public RunDistributionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -80,6 +82,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
         SimpleShatterSort        = new        SimpleShatterSort(this.arrayVisualizer);
         ImmediateShatterSort     = new     ImmediateShatterSort(this.arrayVisualizer);
         TimeSort                 = new                 TimeSort(this.arrayVisualizer);
+        LMSDRadixSort            = new            LMSDRadixSort(this.arrayVisualizer);
     }
 
     @Override
@@ -102,6 +105,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
         
         RunDistributionSorts.this.runIndividualSort(MSDRadixSort,             4, array, 2048, 1.25, false);
         RunDistributionSorts.this.runIndividualSort(InPlaceMSDRadixSort,      4, array, 2048, 1.25, false);
+        RunDistributionSorts.this.runIndividualSort(LMSDRadixSort,            4, array, 2048, 1.25, false);
         RunDistributionSorts.this.runIndividualSort(FlashSort,                0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(IterativeBinaryQuickSort, 0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(RecursiveBinaryQuickSort, 0, array, 2048, 1,    false);

@@ -48,10 +48,11 @@ final public class RunMergeSorts extends MultipleSortThread {
     private Sort AndreySort;
     private Sort SplitSixteenMergeSort;
     private Sort StrandSort;
+    private Sort OutOfPlaceWeaveMergeSort;
     
     public RunMergeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 16;
+        this.sortCount = 17;
         this.categoryCount = this.sortCount;
 
         MergeSort                = new                MergeSort(this.arrayVisualizer);
@@ -62,6 +63,7 @@ final public class RunMergeSorts extends MultipleSortThread {
         PDMergeSort              = new              PDMergeSort(this.arrayVisualizer);
         InPlaceMergeSort         = new         InPlaceMergeSort(this.arrayVisualizer);
         ImprovedInPlaceMergeSort = new ImprovedInPlaceMergeSort(this.arrayVisualizer);
+        OutOfPlaceWeaveMergeSort = new OutOfPlaceWeaveMergeSort(this.arrayVisualizer);
         LazyStableSort           = new           LazyStableSort(this.arrayVisualizer);
         ReverseLazyStableSort    = new    ReverseLazyStableSort(this.arrayVisualizer);
         ModuloMergeSort          = new          ModuloMergeSort(this.arrayVisualizer);
@@ -82,6 +84,7 @@ final public class RunMergeSorts extends MultipleSortThread {
         RunMergeSorts.this.runIndividualSort(PDMergeSort,              0, array, 2048, 1,    false);
         RunMergeSorts.this.runIndividualSort(InPlaceMergeSort,         0, array, 2048, 1.5,  false);
         RunMergeSorts.this.runIndividualSort(ImprovedInPlaceMergeSort, 0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(OutOfPlaceWeaveMergeSort, 0, array, 2048, 1,    false);
         RunMergeSorts.this.runIndividualSort(LazyStableSort,           0, array,  256, 0.2,  false);
         RunMergeSorts.this.runIndividualSort(ReverseLazyStableSort,    0, array,  256, 0.1,  false);
         RunMergeSorts.this.runIndividualSort(ModuloMergeSort,          0, array, 2048, 3,    false);

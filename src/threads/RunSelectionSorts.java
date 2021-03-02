@@ -47,13 +47,15 @@ final public class RunSelectionSorts extends MultipleSortThread {
     private Sort AsynchronousSort;
     private Sort QueueSort;
     private Sort DequeueSort;
+    private Sort StableSelectionSort;
     
     public RunSelectionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 15;
+        this.sortCount = 16;
         this.categoryCount = this.sortCount;
         
         SelectionSort       = new       SelectionSort(this.arrayVisualizer);
+        StableSelectionSort = new StableSelectionSort(this.arrayVisualizer);
         DoubleSelectionSort = new DoubleSelectionSort(this.arrayVisualizer);
         CycleSort           = new           CycleSort(this.arrayVisualizer);
         MaxHeapSort         = new         MaxHeapSort(this.arrayVisualizer);
@@ -73,6 +75,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunSelectionSorts.this.runIndividualSort(SelectionSort,       0, array,  128, 0.01, false);
+        RunSelectionSorts.this.runIndividualSort(StableSelectionSort, 0, array,  128, 0.5,  false);
         RunSelectionSorts.this.runIndividualSort(DoubleSelectionSort, 0, array,  128, 0.01, false);
         RunSelectionSorts.this.runIndividualSort(CycleSort,           0, array,  128, 0.01, false);
         RunSelectionSorts.this.runIndividualSort(MaxHeapSort,         0, array, 2048, 1.5,  false);
