@@ -69,6 +69,9 @@ final public class Mesh extends Visual {
     
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+        if (Renderer.auxActive)
+            return;
+        
         int trih = getTriangleHeight(ArrayVisualizer.getCurrentLength(), ArrayVisualizer.windowHeight() / 20); //Height of triangles to use, Width will be scaled accordingly
 
         int tripercol = (ArrayVisualizer.windowHeight() / trih) * 2; //Triangles per column
