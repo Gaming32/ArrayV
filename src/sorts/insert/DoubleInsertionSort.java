@@ -98,8 +98,7 @@ final public class DoubleInsertionSort extends Sort {
             right++;
         }
 
-        while (left >= start) insertUp(array, left, array[left--], false, sleep, auxwrite);
-        while (right < end) insertDown(array, right, array[right++], false, sleep, auxwrite);
+        if (right < end) insertDown(array, right, array[right], false, sleep, auxwrite);
     }
 
     public void customInsertSort(int[] array, int start, int end, double sleep, boolean auxwrite) {
