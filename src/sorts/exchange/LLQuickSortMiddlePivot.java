@@ -3,11 +3,11 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class ImprovedLLQuickSort extends Sort {
-    public ImprovedLLQuickSort(ArrayVisualizer arrayVisualizer) {
+final public class LLQuickSortMiddlePivot extends Sort {
+    public LLQuickSortMiddlePivot(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Impr. Left/Left Quick");
+        this.setSortListName("Left/Left Quick (Middle Pivot)");
         this.setRunAllSortsName("Quick Sort, Left/Left Pointers (Middle Pivot)");
         this.setRunSortName("Left/Left Quicksort (Middle Pivot)");
         this.setCategory("Exchange Sorts");

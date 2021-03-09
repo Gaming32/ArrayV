@@ -160,6 +160,14 @@ final public class RunComparisonSort {
                                 extra = 0;
                             }
                         }
+						else if (sort.getRunSortName().equals("Adaptive Grailsort")) {
+                            try {
+                                extra = getCustomInput("Enter external buffer size (0 for in-place):");
+                            }
+                            catch(Exception e) {
+                                extra = 0;
+                            }
+                        }
 
                         arrayVisualizer.setHeading(sort.getRunSortName());
                         arrayVisualizer.setCategory(sort.getCategory());

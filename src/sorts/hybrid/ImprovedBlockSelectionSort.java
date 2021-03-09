@@ -33,7 +33,7 @@ final public class ImprovedBlockSelectionSort extends Sort {
     public ImprovedBlockSelectionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Impr. Block Sel. Merge");
+        this.setSortListName("Improved Block Selection Merge");
         this.setRunAllSortsName("Improved Block Selection Merge Sort");
         this.setRunSortName("Improved Block Selection Merge Sort");
         this.setCategory("Hybrid Sorts");

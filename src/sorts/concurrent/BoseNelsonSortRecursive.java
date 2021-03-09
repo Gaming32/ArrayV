@@ -8,7 +8,7 @@ final public class BoseNelsonSortRecursive extends Sort {
     public BoseNelsonSortRecursive(ArrayVisualizer arrayVisualizer) {
     	super(arrayVisualizer);
         
-    	this.setSortListName("Bose-Nelson (Recu.)");
+    	this.setSortListName("Bose-Nelson (Recursive)");
     	this.setRunAllSortsName("Recursive Bose-Nelson Sorting Network");
     	this.setRunSortName("Recursive Bose-Nelson Sort");
         this.setCategory("Concurrent Sorts");

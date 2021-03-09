@@ -32,7 +32,7 @@ final public class ThreeSmoothCombSortIterative extends Sort {
     public ThreeSmoothCombSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("3-Smooth Comb (Iter.)");
+        this.setSortListName("3-Smooth Comb (Iterative)");
         this.setRunAllSortsName("Iterative 3-Smooth Comb Sort");
         this.setRunSortName("Iterative 3-Smooth Combsort");
         this.setCategory("Exchange Sorts");

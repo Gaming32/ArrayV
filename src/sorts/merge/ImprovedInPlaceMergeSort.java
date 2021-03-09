@@ -33,7 +33,7 @@ final public class ImprovedInPlaceMergeSort extends Sort {
     public ImprovedInPlaceMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Impr. In-Place Merge");
+        this.setSortListName("Improved In-Place Merge");
         this.setRunAllSortsName("Improved In-Place Merge Sort");
         this.setRunSortName("Improved In-Place Mergesort");
         this.setCategory("Merge Sorts");

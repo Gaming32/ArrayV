@@ -25,7 +25,7 @@ final public class KotaSort extends KotaSorting {
     public void runSort(int[] array, int length, int bucketCount) {
         if(Delays.getSleepRatio() == 55.1) {
             Delays.setSleepRatio(1);
-            this.kotaSortDynamicBuf(array, 0, length);
+            //this.kotaSortDynamicBuf(array, 0, length);
         }
         else {
             this.kotaSort(array, 0, length);

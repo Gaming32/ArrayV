@@ -47,8 +47,8 @@ final public class RunDistributionSorts extends MultipleSortThread {
     private Sort MSDRadixSort;
     private Sort InPlaceMSDRadixSort;
     private Sort FlashSort;
-    private Sort IterativeBinaryQuickSort;
-    private Sort RecursiveBinaryQuickSort;
+    private Sort BinaryQuickSortIterative;
+    private Sort BinaryQuickSortRecursive;
     private Sort ShatterSort;
     private Sort SimpleShatterSort;
     private Sort ImmediateShatterSort;
@@ -76,8 +76,8 @@ final public class RunDistributionSorts extends MultipleSortThread {
         MSDRadixSort             = new             MSDRadixSort(this.arrayVisualizer);
         InPlaceMSDRadixSort      = new      InPlaceMSDRadixSort(this.arrayVisualizer);
         FlashSort                = new                FlashSort(this.arrayVisualizer);
-        IterativeBinaryQuickSort = new IterativeBinaryQuickSort(this.arrayVisualizer);
-        RecursiveBinaryQuickSort = new RecursiveBinaryQuickSort(this.arrayVisualizer);
+        BinaryQuickSortIterative = new BinaryQuickSortIterative(this.arrayVisualizer);
+        BinaryQuickSortRecursive = new BinaryQuickSortRecursive(this.arrayVisualizer);
         ShatterSort              = new              ShatterSort(this.arrayVisualizer);
         SimpleShatterSort        = new        SimpleShatterSort(this.arrayVisualizer);
         ImmediateShatterSort     = new     ImmediateShatterSort(this.arrayVisualizer);
@@ -107,8 +107,8 @@ final public class RunDistributionSorts extends MultipleSortThread {
         RunDistributionSorts.this.runIndividualSort(InPlaceMSDRadixSort,      4, array, 2048, 1.25, false);
         RunDistributionSorts.this.runIndividualSort(LMSDRadixSort,            4, array, 2048, 1.25, false);
         RunDistributionSorts.this.runIndividualSort(FlashSort,                0, array, 2048, 1,    false);
-        RunDistributionSorts.this.runIndividualSort(IterativeBinaryQuickSort, 0, array, 2048, 1,    false);
-        RunDistributionSorts.this.runIndividualSort(RecursiveBinaryQuickSort, 0, array, 2048, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(BinaryQuickSortIterative, 0, array, 2048, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(BinaryQuickSortRecursive, 0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(ShatterSort,            128, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(SimpleShatterSort,      128, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(ImmediateShatterSort,     0, array, 2048, 1,    false);

@@ -25,7 +25,7 @@ final public class PDQBranchedSort extends PDQSorting {
     public PDQBranchedSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("PDQ");
+        this.setSortListName("Pattern-Defeating Quick");
         this.setRunAllSortsName("Pattern-Defeating Quick Sort");
         this.setRunSortName("Pattern-Defeating Quicksort");
         this.setCategory("Hybrid Sorts");

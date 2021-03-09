@@ -7,7 +7,7 @@ final public class QuickSPSort extends GrailSorting {
     public QuickSPSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Quick SP");
+        this.setSortListName("Quick Sandpaper");
         this.setRunAllSortsName("Quick Sandpaper Sort");
         this.setRunSortName("Quick Sandpapersort");
         this.setCategory("Hybrid Sorts");

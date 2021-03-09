@@ -32,11 +32,11 @@ SOFTWARE.
  *
  */
 
-final public class ImprovedStableQuickSort extends Sort {
-    public ImprovedStableQuickSort(ArrayVisualizer arrayVisualizer) {
+final public class StableQuickSortMiddlePivot extends Sort {
+    public StableQuickSortMiddlePivot(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Impr. Stable Quick");
+        this.setSortListName("Stable Quick (Middle Pivot)");
         this.setRunAllSortsName("Stable Quick Sort (Middle Pivot)");
         this.setRunSortName("Stable Quicksort (Middle Pivot)");
         this.setCategory("Exchange Sorts");

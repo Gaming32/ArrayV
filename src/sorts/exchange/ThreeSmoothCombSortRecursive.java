@@ -30,7 +30,7 @@ final public class ThreeSmoothCombSortRecursive extends Sort {
     public ThreeSmoothCombSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("3-Smooth Comb (Recu.)");
+        this.setSortListName("3-Smooth Comb (Recursive)");
         this.setRunAllSortsName("Recursive 3-Smooth Comb Sort");
         this.setRunSortName("Recursive 3-Smooth Combsort");
         this.setCategory("Exchange Sorts");

@@ -36,12 +36,12 @@ final public class BogoSort extends BogoSorting {
         this.setSortListName("Bogo");
         this.setRunAllSortsName("Bogo Sort");
         this.setRunSortName("Bogosort");
-        this.setCategory("Distribution Sorts");
+        this.setCategory("Impractical Sorts");
         this.setComparisonBased(false); //Comparisons are not used to swap elements
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(8);
+        this.setUnreasonableLimit(10);
         this.setBogoSort(true);
     }
 

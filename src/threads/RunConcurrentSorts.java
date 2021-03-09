@@ -45,45 +45,45 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     private Sort PairwiseSortIterative;
     private Sort BoseNelsonSortIterative;
     private Sort WeaveSortIterative;
-    private Sort MergeExchangeSort;
+    private Sort MergeExchangeSortIterative;
     
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 14;
         this.categoryCount = this.sortCount;
         
-        FoldSort                  = new                  FoldSort(this.arrayVisualizer);
-        CreaseSort                = new                CreaseSort(this.arrayVisualizer);
-        MatrixSort                = new                MatrixSort(this.arrayVisualizer);
-        BitonicSortRecursive      = new      BitonicSortRecursive(this.arrayVisualizer);
-        OddEvenMergeSortRecursive = new OddEvenMergeSortRecursive(this.arrayVisualizer);
-        PairwiseSortRecursive     = new     PairwiseSortRecursive(this.arrayVisualizer);
-        BoseNelsonSortRecursive   = new   BoseNelsonSortRecursive(this.arrayVisualizer);
-        WeaveSortRecursive        = new        WeaveSortRecursive(this.arrayVisualizer);
-        BitonicSortIterative      = new      BitonicSortIterative(this.arrayVisualizer);
-        OddEvenMergeSortIterative = new OddEvenMergeSortIterative(this.arrayVisualizer);
-        PairwiseSortIterative     = new     PairwiseSortIterative(this.arrayVisualizer);
-        BoseNelsonSortIterative   = new   BoseNelsonSortIterative(this.arrayVisualizer);
-        WeaveSortIterative        = new        WeaveSortIterative(this.arrayVisualizer);
-        MergeExchangeSort         = new         MergeExchangeSort(this.arrayVisualizer);
+        FoldSort                   = new                  FoldSort(this.arrayVisualizer);
+        CreaseSort                 = new                CreaseSort(this.arrayVisualizer);
+        MatrixSort                 = new                MatrixSort(this.arrayVisualizer);
+        BitonicSortRecursive       = new      BitonicSortRecursive(this.arrayVisualizer);
+        OddEvenMergeSortRecursive  = new OddEvenMergeSortRecursive(this.arrayVisualizer);
+        PairwiseSortRecursive      = new     PairwiseSortRecursive(this.arrayVisualizer);
+        BoseNelsonSortRecursive    = new   BoseNelsonSortRecursive(this.arrayVisualizer);
+        WeaveSortRecursive         = new        WeaveSortRecursive(this.arrayVisualizer);
+        BitonicSortIterative       = new      BitonicSortIterative(this.arrayVisualizer);
+        OddEvenMergeSortIterative  = new OddEvenMergeSortIterative(this.arrayVisualizer);
+        PairwiseSortIterative      = new     PairwiseSortIterative(this.arrayVisualizer);
+        BoseNelsonSortIterative    = new   BoseNelsonSortIterative(this.arrayVisualizer);
+        WeaveSortIterative         = new        WeaveSortIterative(this.arrayVisualizer);
+        MergeExchangeSortIterative = new         MergeExchangeSortIterative(this.arrayVisualizer);
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunConcurrentSorts.this.runIndividualSort(FoldSort,                  0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(CreaseSort,                0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(MatrixSort,                0, array, 256,  0.667, false);
-        RunConcurrentSorts.this.runIndividualSort(BitonicSortRecursive,      0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(OddEvenMergeSortRecursive, 0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(PairwiseSortRecursive,     0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(BoseNelsonSortRecursive,   0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(WeaveSortRecursive,        0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(BitonicSortIterative,      0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(OddEvenMergeSortIterative, 0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(PairwiseSortIterative,     0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(BoseNelsonSortIterative,   0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(WeaveSortIterative,        0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(MergeExchangeSort,         0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(FoldSort,                   0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(CreaseSort,                 0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(MatrixSort,                 0, array, 256,  0.667, false);
+        RunConcurrentSorts.this.runIndividualSort(BitonicSortRecursive,       0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(OddEvenMergeSortRecursive,  0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(PairwiseSortRecursive,      0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(BoseNelsonSortRecursive,    0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(WeaveSortRecursive,         0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(BitonicSortIterative,       0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(OddEvenMergeSortIterative,  0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(PairwiseSortIterative,      0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(BoseNelsonSortIterative,    0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(WeaveSortIterative,         0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(MergeExchangeSortIterative, 0, array, 1024, 1,     false);
     }
     
     @Override

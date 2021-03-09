@@ -34,7 +34,7 @@ final public class StacklessHybridQuickSort extends Sort {
     public StacklessHybridQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Stackless Hyb. Quick");
+        this.setSortListName("Stackless Hybrid Quick");
         this.setRunAllSortsName("Stackless Hybrid Quicksort");
         this.setRunSortName("Stackless Hybrid Quicksort");
         this.setCategory("Hybrid Sorts");

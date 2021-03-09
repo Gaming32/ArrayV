@@ -10,7 +10,7 @@ final public class SliceBogoSort extends BogoSorting {
         this.setSortListName("Slice Bogo");
         this.setRunAllSortsName("Slice Bogo Sort");
         this.setRunSortName("Slice Bogosort");
-        this.setCategory("Exchange Sorts");
+        this.setCategory("Impractical Sorts");
         this.setComparisonBased(false); //Comparisons ARE used to swap elements
         this.setBucketSort(false);
         this.setRadixSort(false);

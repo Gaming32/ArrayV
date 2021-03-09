@@ -10,7 +10,7 @@ final public class CocktailBogoSort extends BogoSorting {
         this.setSortListName("Cocktail Bogo");
         this.setRunAllSortsName("Cocktail Bogo Sort");
         this.setRunSortName("Cocktail Bogosort");
-        this.setCategory("Distribution Sorts");
+        this.setCategory("Impractical Sorts");
         this.setComparisonBased(false); //Comparisons are not used to swap elements
         this.setBucketSort(false);
         this.setRadixSort(false);

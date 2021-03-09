@@ -21,7 +21,7 @@ final public class StoogeSort extends Sort {
         this.setSortListName("Stooge");
         this.setRunAllSortsName("Stooge Sort");
         this.setRunSortName("Stoogesort");
-        this.setCategory("Exchange Sorts");
+        this.setCategory("Impractical Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);

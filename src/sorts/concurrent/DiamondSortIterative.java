@@ -29,11 +29,11 @@ SOFTWARE.
  *
  */
 
-final public class IterativeDiamondSort extends Sort {
-    public IterativeDiamondSort(ArrayVisualizer arrayVisualizer) {
+final public class DiamondSortIterative extends Sort {
+    public DiamondSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Iterative Diamond");
+        this.setSortListName("Diamond (Iterative)");
         this.setRunAllSortsName("Iterative Diamond Sort");
         this.setRunSortName("Iterative Diamondsort");
         this.setCategory("Concurrent Sorts");
@@ -47,7 +47,7 @@ final public class IterativeDiamondSort extends Sort {
 	
 	private void compSwap(int[] array, int a, int b) {
 		if(Reads.compareIndices(array, a, b, 0.05, true) == 1)
-			Writes.swap(array, a, b, 0.075, true, false);
+			Writes.swap(array, a, b, 0.05, true, false);
 	}
 
     @Override

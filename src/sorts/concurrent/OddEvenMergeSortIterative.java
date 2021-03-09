@@ -15,7 +15,7 @@ final public class OddEvenMergeSortIterative extends Sort {
     public OddEvenMergeSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Odd-Even Merge (Iter.)");
+        this.setSortListName("Odd-Even Merge (Iterative)");
         this.setRunAllSortsName("Iterative Odd-Even Merge Sort");
         this.setRunSortName("Iterative Odd-Even Mergesort");
         this.setCategory("Concurrent Sorts");

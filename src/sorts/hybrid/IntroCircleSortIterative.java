@@ -20,7 +20,7 @@ final public class IntroCircleSortIterative extends IterativeCircleSorting {
     public IntroCircleSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Intro Circle (Iter.)");
+        this.setSortListName("Intro Circle (Iterative)");
         this.setRunAllSortsName("Iterative Introspective Circle Sort");
         this.setRunSortName("Iterative Introspective Circlesort");
         this.setCategory("Hybrid Sorts");

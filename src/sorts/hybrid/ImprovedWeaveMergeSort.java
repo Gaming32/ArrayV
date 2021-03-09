@@ -34,7 +34,7 @@ final public class ImprovedWeaveMergeSort extends Sort {
     public ImprovedWeaveMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Impr. Weave Merge");
+        this.setSortListName("Improved Weave Merge");
         this.setRunAllSortsName("Improved Weave Merge Sort");
         this.setRunSortName("Improved Weave Mergesort");
         this.setCategory("Hybrid Sorts");

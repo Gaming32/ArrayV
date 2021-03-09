@@ -26,7 +26,7 @@ final public class LAQuickSort extends Sort {
     public LAQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("LA Quick");
+        this.setSortListName("Logarithmic Average Quick");
         this.setRunAllSortsName("thatsOven's Logarithmic Average QuickSort");
         this.setRunSortName("thatsOven's Logarithmic Average QuickSort");
         this.setCategory("Hybrid Sorts");

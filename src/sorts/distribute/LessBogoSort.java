@@ -10,7 +10,7 @@ final public class LessBogoSort extends BogoSorting {
         this.setSortListName("Less Bogo");
         this.setRunAllSortsName("Less Bogo Sort");
         this.setRunSortName("Less Bogosort");
-        this.setCategory("Distribution Sorts");
+        this.setCategory("Impractical Sorts");
         this.setComparisonBased(false); //Comparisons are not used to swap elements
         this.setBucketSort(false);
         this.setRadixSort(false);

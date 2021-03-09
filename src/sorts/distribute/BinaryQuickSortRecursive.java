@@ -20,11 +20,11 @@ import sorts.templates.BinaryQuickSorting;
  * @author Skeen
  */
 
-final public class RecursiveBinaryQuickSort extends BinaryQuickSorting {
-    public RecursiveBinaryQuickSort(ArrayVisualizer arrayVisualizer) {
+final public class BinaryQuickSortRecursive extends BinaryQuickSorting {
+    public BinaryQuickSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Recurs. Binary Quick");
+        this.setSortListName("Binary Quick (Recursive)");
         this.setRunAllSortsName("Recursive Binary Quick Sort");
         this.setRunSortName("Recursive Binary Quicksort");
         this.setCategory("Distribution Sorts");

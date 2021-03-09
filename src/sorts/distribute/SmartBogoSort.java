@@ -32,7 +32,7 @@ final public class SmartBogoSort extends BogoSorting {
         this.setSortListName("Smart Bogo");
         this.setRunAllSortsName("Deterministic Bogo Sort");
         this.setRunSortName("Deterministic Bogosort");
-        this.setCategory("Distribution Sorts");
+        this.setCategory("Impractical Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);

@@ -13,7 +13,7 @@ final public class OptimizedDualPivotQuickSort extends Sort {
     public OptimizedDualPivotQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Opti. Dual-Pivot Quick");
+        this.setSortListName("Optimized Dual-Pivot Quick");
         //this.setRunAllID("Optimized Dual-Pivot Quick Sort");
         this.setRunAllSortsName("Optimized Dual-Pivot Quick Sort [Arrays.sort]");
         this.setRunSortName("Optimized Dual-Pivot Quicksort");

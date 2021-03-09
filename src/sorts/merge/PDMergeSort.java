@@ -36,7 +36,7 @@ final public class PDMergeSort extends Sort {
     public PDMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("PD Merge");
+        this.setSortListName("Pattern Defeating Merge");
         this.setRunAllSortsName("Pattern-Defeating Merge Sort");
         this.setRunSortName("Pattern-Defeating Mergesort");
         this.setCategory("Merge Sorts");

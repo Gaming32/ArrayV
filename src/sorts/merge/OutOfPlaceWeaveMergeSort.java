@@ -8,9 +8,9 @@ final public class OutOfPlaceWeaveMergeSort extends Sort {
     public OutOfPlaceWeaveMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("ooPWeaveMerge");
-        this.setRunAllSortsName("Out of Place Weave Merge (by Control)");
-        this.setRunSortName("Out of Place Weave Merge");
+        this.setSortListName("Out-of-Place Weave Merge");
+        this.setRunAllSortsName("Out-of-Place Weave Merge (by Control)");
+        this.setRunSortName("Out-of-Place Weave Merge");
         this.setCategory("Merge Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);

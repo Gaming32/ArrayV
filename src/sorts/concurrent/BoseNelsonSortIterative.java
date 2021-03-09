@@ -7,7 +7,7 @@ final public class BoseNelsonSortIterative extends Sort {
     public BoseNelsonSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Bose-Nelson (Iter.)");
+        this.setSortListName("Bose-Nelson (Iterative)");
         this.setRunAllSortsName("Iterative Bose-Nelson Sorting Network");
         this.setRunSortName("Iterative Bose-Nelson Sort");
         this.setCategory("Concurrent Sorts");

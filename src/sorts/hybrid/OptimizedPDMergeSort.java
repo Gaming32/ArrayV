@@ -38,7 +38,7 @@ final public class OptimizedPDMergeSort extends Sort {
     public OptimizedPDMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Optimized PD Merge");
+        this.setSortListName("Optimized Pattern-Defeating Merge");
         this.setRunAllSortsName("Optimized Pattern-Defeating Merge Sort");
         this.setRunSortName("Optimized Pattern-Defeating Mergesort");
         this.setCategory("Hybrid Sorts");

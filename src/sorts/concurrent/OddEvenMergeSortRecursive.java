@@ -15,7 +15,7 @@ final public class OddEvenMergeSortRecursive extends Sort {
     public OddEvenMergeSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Odd-Even Merge (Recu.)");
+        this.setSortListName("Odd-Even Merge (Recursive)");
         this.setRunAllSortsName("Batcher's Odd-Even Merge Sort");
         this.setRunSortName("Recursive Odd-Even Mergesort");
         this.setCategory("Concurrent Sorts");

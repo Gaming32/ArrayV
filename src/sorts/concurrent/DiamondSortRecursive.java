@@ -3,13 +3,13 @@ package sorts.concurrent;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-public final class DiamondSort extends Sort {
-    private final double DELAY = 0.01;
-    public DiamondSort(ArrayVisualizer arrayVisualizer) {
+public final class DiamondSortRecursive extends Sort {
+    private final double DELAY = 0.05;
+    public DiamondSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.setSortListName("Diamond");
-        this.setRunAllSortsName("Diamond Sort");
-        this.setRunSortName("Diamond Sort");
+        this.setSortListName("Diamond (Recursive)");
+        this.setRunAllSortsName("Recursive Diamond Sort");
+        this.setRunSortName("Recursive Diamondsort");
         this.setCategory("Concurrent Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);

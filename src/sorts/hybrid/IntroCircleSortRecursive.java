@@ -20,7 +20,7 @@ final public class IntroCircleSortRecursive extends CircleSorting {
     public IntroCircleSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Intro Circle (Recu.)");
+        this.setSortListName("Intro Circle (Recursive)");
         this.setRunAllSortsName("Recursive Introspective Circle Sort");
         this.setRunSortName("Introspective Circlesort");
         this.setCategory("Hybrid Sorts");
