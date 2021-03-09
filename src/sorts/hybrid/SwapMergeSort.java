@@ -36,9 +36,9 @@ final public class SwapMergeSort extends Sort {
     public SwapMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Swap Merge");
-        this.setRunAllSortsName("Swap Merge Sort");
-        this.setRunSortName("Swap Mergesort");
+        this.setSortListName("SwapMerge");
+        this.setRunAllSortsName("SwapMerge Sort");
+        this.setRunSortName("SwapMergeSort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
