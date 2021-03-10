@@ -352,6 +352,7 @@ final public class CustomImage extends Visual {
         
         for(int i = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
             int width = (int) (Renderer.getXScale() * (i + 1) - Renderer.getOffset());
+            if (width == 0) continue;
             
             //Cuts the image in respect to each item in the array
             this.mainRender.drawImage(

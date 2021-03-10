@@ -675,7 +675,6 @@ final public class ArrayVisualizer {
     
     public void createVolatileImage() {
         this.img = this.window.getGraphicsConfiguration().createCompatibleVolatileImage(this.cw, this.ch);
-        // this.img = this.window.createVolatileImage(this.cw, this.ch);
     }
     public void setThickStroke(Stroke stroke) {
         this.thickStroke = stroke;
