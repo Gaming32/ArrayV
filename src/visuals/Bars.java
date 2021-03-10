@@ -40,6 +40,9 @@ final public class Bars extends Visual {
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
         for(int i = 0; i < Renderer.getArrayLength(); i++){
+            int width = (int) (Renderer.getXScale() * (i + 1)) - Renderer.getOffset();
+            if (width == 0) continue;
+
             if(Highlights.fancyFinishActive()) {
                 if(i < Highlights.getFancyFinishPosition()) {
                     this.mainRender.setColor(Color.GREEN);
@@ -71,45 +74,38 @@ final public class Bars extends Visual {
             */
             
             int y = 0;
-            int width = (int) (Renderer.getXScale() * (i + 1)) - Renderer.getOffset();
 
             if(ArrayVisualizer.rainbowEnabled()) {
-                if(width > 0) {
-                    this.mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset(), width, Renderer.getViewSize());
-                }
+                this.mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset(), width, Renderer.getViewSize());
                 
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
             else if(ArrayVisualizer.waveEnabled()) {
-                if(width > 0) {
-                    y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
-                    this.mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, 20);
-                }
+                y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+                this.mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, 20);
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
             else {
-                if(width > 0) {
-                    /*
-                    int gap = 0;
-                    if(width > 5) {
-                        gap = 5;
-                    }
-                    */
-
-                    y = (int) (((Renderer.getViewSize() - 20)) - (array[i] + 1) * Renderer.getYScale());
-                    mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, (int) ((array[i] + 1) * Renderer.getYScale()));
-                    
-                    //mainRender.fillRect(Renderer.getOffset() + 20, y /*- markHeight*/, width /*- gap*/, (int) ((array[i] + 1) * Renderer.getYScale()) /*+ markHeight*/);
-                    
-                    /*
-                    double thickness = 1;
-                    Stroke oldStroke = mainRender.getStroke();
-                    mainRender.setStroke(new BasicStroke((float) thickness));
-                    mainRender.setColor(Color.BLACK);
-                    mainRender.drawLine(Renderer.getOffset() + 20, y, Renderer.getOffset() + 20, (int) Math.max(array[i] * Renderer.getYScale()-1, 1) + y);
-                    mainRender.setStroke(oldStroke);
-                    */
+                /*
+                int gap = 0;
+                if(width > 5) {
+                    gap = 5;
                 }
+                */
+
+                y = (int) (((Renderer.getViewSize() - 20)) - (array[i] + 1) * Renderer.getYScale());
+                mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, (int) ((array[i] + 1) * Renderer.getYScale()));
+                
+                //mainRender.fillRect(Renderer.getOffset() + 20, y /*- markHeight*/, width /*- gap*/, (int) ((array[i] + 1) * Renderer.getYScale()) /*+ markHeight*/);
+                
+                /*
+                double thickness = 1;
+                Stroke oldStroke = mainRender.getStroke();
+                mainRender.setStroke(new BasicStroke((float) thickness));
+                mainRender.setColor(Color.BLACK);
+                mainRender.drawLine(Renderer.getOffset() + 20, y, Renderer.getOffset() + 20, (int) Math.max(array[i] * Renderer.getYScale()-1, 1) + y);
+                mainRender.setStroke(oldStroke);
+                */
                 Renderer.setOffset(Renderer.getOffset() + width);
             }
         }

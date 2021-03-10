@@ -3,3 +3,4 @@
 __pycache__
 sorts
 !src/sorts
+antiqsort_*

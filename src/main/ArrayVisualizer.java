@@ -168,6 +168,7 @@ final public class ArrayVisualizer {
 
     private volatile boolean updateVisuals;
     private volatile int updateVisualsForced;
+    public  volatile boolean benchmarking;
 
     public static int MAX_LENGTH_POWER = 15;
 
@@ -289,7 +290,10 @@ final public class ArrayVisualizer {
         this.STABILITY = false;
         
         this.isCanceled = false;
- 
+
+        this.updateVisualsForced = 0;
+        this.benchmarking = false;
+
         this.cx = 0;
         this.cy = 0;
         this.ch = 0;
@@ -339,7 +343,7 @@ final public class ArrayVisualizer {
                     }
                     // See: https://stackoverflow.com/questions/580419/how-can-i-stop-a-java-while-loop-from-eating-50-of-my-cpu/583537#583537
                     try {
-                        Thread.sleep(0);
+                        Thread.sleep(ArrayVisualizer.this.benchmarking ? 1000 : 0);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
@@ -392,6 +396,26 @@ final public class ArrayVisualizer {
     }
     public void forceVisualUpdate(int count) {
         this.updateVisualsForced += count;
+    }
+    public boolean enableBenchmarking(boolean enabled) {
+        if (enabled) {
+            
+        }
+        else if (this.benchmarking) {
+            if (this.getCurrentLength() >= Math.pow(2, 23)) {
+                int warning = JOptionPane.showOptionDialog(this.getMainWindow(), "Warning! "
+                + "Your computer's GPU probably can't handle more than 2^23 elements at any "
+                + "framrate not significantly less than 1. Would you still like "
+                + "to re-enable graphics?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
+                null, new String[] { "Yes", "Please save my GPU!" }, "Please save my GPU!");
+                if (warning != 0) {
+                    enabled = true;
+                }
+            }
+        }
+        this.benchmarking = enabled;
+        this.updateVisuals = !benchmarking;
+        return this.benchmarking;
     }
     
     public int[] getShadowArray() {
@@ -650,7 +674,8 @@ final public class ArrayVisualizer {
     }
     
     public void createVolatileImage() {
-        this.img = this.window.createVolatileImage(this.cw, this.ch);
+        this.img = this.window.getGraphicsConfiguration().createCompatibleVolatileImage(this.cw, this.ch);
+        // this.img = this.window.createVolatileImage(this.cw, this.ch);
     }
     public void setThickStroke(Stroke stroke) {
         this.thickStroke = stroke;
@@ -782,6 +807,11 @@ final public class ArrayVisualizer {
 
         this.heading = temp;
         this.Reads.setComparisons(tempComps);
+
+        if (this.benchmarking) {
+            this.forceVisualUpdate(1);
+            JOptionPane.showMessageDialog(this.window, "The sort took a total of " + this.Timer.getRealTime());
+        }
         
         if(this.Highlights.fancyFinishActive()) {
             this.Highlights.toggleFancyFinish(false);
