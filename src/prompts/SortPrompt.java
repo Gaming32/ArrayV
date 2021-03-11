@@ -12,6 +12,8 @@ import java.util.Hashtable;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import dialogs.ImportSortDialog;
 import frames.AppFrame;
@@ -77,7 +79,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         loadSortThreads();
         initComponents();
         if (lastCategory == -1) {
-            for (lastCategory = 0; ; lastCategory++) {
+            for (lastCategory = 1; ; lastCategory++) {
                 jComboBox1.setSelectedIndex(lastCategory);
                 if (jComboBox1.getSelectedItem().equals("Hybrid Sorts")) {
                     break;
@@ -120,6 +122,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         this.jButton1 = new javax.swing.JButton();
         this.jButton2 = new javax.swing.JButton();
         this.jButton3 = new javax.swing.JButton();
+        this.jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -155,6 +158,21 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
             }
         });
 
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
+            }
+        });
+
         jButton1.setText("Run All Sorts (approx. 30-90 minutes)");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -185,6 +203,10 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(25, 25, 25)
+                    .addComponent(this.jTextField1)
+                    .addGap(25, 25, 25))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(25, 25, 25)
                     .addComponent(this.jComboBox1)
                     .addGap(25, 25, 25))
                 .addGroup(layout.createSequentialGroup()
@@ -202,6 +224,9 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(this.jTextField1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(this.jComboBox1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -295,6 +320,9 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         ArrayList<String> sorts = new ArrayList<>();
         for (SortPair sort : ArrayVisualizer.getAllSorts()) {
             if (index == 0 || sort.category.equals(category)) {
+                if (jTextField1.getText().length() > 0 &&
+                    !sort.listName.toLowerCase().contains(jTextField1.getText().toLowerCase()))
+                    continue;
                 sorts.add(sort.listName);
             }
         }
@@ -313,6 +341,12 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         SortPrompt.lastCategory = jComboBox1.getSelectedIndex();
     }//GEN-LAST:event_jList1ValueChanged
 
+    private void jTextField1TextChanged(DocumentEvent e) {//GEN-FIRST:event_jList1ValueChanged
+        if (e.getLength() == jTextField1.getText().length())
+            jComboBox1.setSelectedIndex(0);
+        loadSorts();
+    }//GEN-LAST:event_jList1ValueChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     @SuppressWarnings("rawtypes")
     private javax.swing.JComboBox jComboBox1;
@@ -322,5 +356,6 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
