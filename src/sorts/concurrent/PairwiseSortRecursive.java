@@ -56,12 +56,12 @@ final public class PairwiseSortRecursive extends Sort {
             b += (2 * gap);
         }
         if (((end - start) / gap)%2 == 0){
-            this.pairwiserecursive(array, start, end, gap * 2, 1);
-            this.pairwiserecursive(array, start + gap, end + gap, gap * 2, 1);
+            this.pairwiserecursive(array, start, end, gap * 2, sleep);
+            this.pairwiserecursive(array, start + gap, end + gap, gap * 2, sleep);
         }
         else{
-            this.pairwiserecursive(array, start, end + gap, gap * 2, 1);
-            this.pairwiserecursive(array, start + gap, end, gap * 2, 1);
+            this.pairwiserecursive(array, start, end + gap, gap * 2, sleep);
+            this.pairwiserecursive(array, start + gap, end, gap * 2, sleep);
         }
         int a = 1;
         while (a < ((end - start) / gap)){
