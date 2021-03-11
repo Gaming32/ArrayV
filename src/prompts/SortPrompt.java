@@ -124,6 +124,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jComboBox1.setModel(new DefaultComboBoxModel<>(SortPair.getCategories(ArrayVisualizer.getAllSorts())));
+        jComboBox1.insertItemAt("All Sorts", 0);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         
@@ -289,16 +290,22 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     @SuppressWarnings("unchecked")
     private void loadSorts() {
+        int index = jComboBox1.getSelectedIndex();
         String category = (String)jComboBox1.getSelectedItem();
         ArrayList<String> sorts = new ArrayList<>();
         for (SortPair sort : ArrayVisualizer.getAllSorts()) {
-            if (sort.category.equals(category)) {
+            if (index == 0 || sort.category.equals(category)) {
                 sorts.add(sort.listName);
             }
         }
         jList1.setListData(sorts.toArray());
-        jButton3.setText("Run All ".concat(category));
-        jButton3.setEnabled(categorySortThreads.containsKey(category));
+        if (index == 0) {
+            jButton3.setEnabled(false);
+        }
+        else {
+            jButton3.setText("Run All ".concat(category));
+            jButton3.setEnabled(categorySortThreads.containsKey(category));
+        }
     }
 
     private void jComboBox1SelectionChanged(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
