@@ -5,6 +5,9 @@
 package prompts;
 
 import java.awt.event.ActionListener;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -12,6 +15,7 @@ import java.util.Hashtable;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -55,6 +59,39 @@ SOFTWARE.
  */
 
 final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
+
+    public class PlaceholderTextField extends JTextField {
+        /**
+         * Shamelessly copied from https://stackoverflow.com/a/16229082/8840278
+         */
+        private static final long serialVersionUID = 1L;
+        private String placeholder;
+    
+        public String getPlaceholder() {
+            return placeholder;
+        }
+    
+        @Override
+        protected void paintComponent(final Graphics pG) {
+            super.paintComponent(pG);
+    
+            if (placeholder == null || placeholder.length() == 0 || getText().length() > 0) {
+                return;
+            }
+    
+            final Graphics2D g = (Graphics2D) pG;
+            g.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setColor(getDisabledTextColor());
+            g.drawString(placeholder, getInsets().left, pG.getFontMetrics()
+                .getMaxAscent() + getInsets().top);
+        }
+    
+        public void setPlaceholder(final String s) {
+            placeholder = s;
+        }
+    }
 
     private static int lastCategory = -1;
 
@@ -122,7 +159,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         this.jButton1 = new javax.swing.JButton();
         this.jButton2 = new javax.swing.JButton();
         this.jButton3 = new javax.swing.JButton();
-        this.jTextField1 = new javax.swing.JTextField();
+        this.jTextField1 = new PlaceholderTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -158,6 +195,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
             }
         });
 
+        jTextField1.setPlaceholder("Search");
         jTextField1.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -356,6 +394,6 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private PlaceholderTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
