@@ -126,6 +126,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         else {
             jComboBox1.setSelectedIndex(lastCategory);
         }
+        jTextField1.requestFocusInWindow();
         loadSorts();
         reposition();
         setVisible(true);
