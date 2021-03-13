@@ -50,7 +50,7 @@ final public class OptimizedIndexSort extends Sort {
         int min = Reads.analyzeMin(array, sortLength, 0.5, true);
 
         for (int i = 0; i < sortLength; i++) {
-            Highlights.markArray(3, i);
+            Highlights.markArray(2, i);
             int current = array[i];
             int cmpCount = 0;
             while (Reads.compareValues(i, current - min) != 0 && cmpCount < sortLength) {
@@ -60,7 +60,9 @@ final public class OptimizedIndexSort extends Sort {
                 cmpCount++;
             }
             if (cmpCount >= sortLength - 1) break;
-            Writes.write(array, i, current, 1, true, false);
+            if (cmpCount > 0)
+                Writes.write(array, i, current, 0.5, true, false);
+            Delays.sleep(0.5);
             Highlights.clearMark(1);
         }
     }
