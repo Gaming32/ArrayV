@@ -896,7 +896,6 @@ final public class ArrayVisualizer {
         this.Writes.clearAllocAmount();
 
         this.Highlights.clearAllMarks();
-        this.Sounds.
     }
     
     public void togglePointer(boolean Bool) {
