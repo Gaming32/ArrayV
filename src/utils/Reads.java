@@ -118,6 +118,7 @@ final public class Reads {
     
     public int analyzeMax(int[] array, int length, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
+        ArrayVisualizer.updateNow();
         
         int max = 0;
 
@@ -136,12 +137,14 @@ final public class Reads {
         }
         
         ArrayVisualizer.toggleAnalysis(false);
-        
+        ArrayVisualizer.updateNow();
+
         return max;
     }
 
     public int analyzeMin(int[] array, int length, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
+        ArrayVisualizer.updateNow();
         
         int max = 0;
 
@@ -160,12 +163,14 @@ final public class Reads {
         }
         
         ArrayVisualizer.toggleAnalysis(false);
+        ArrayVisualizer.updateNow();
         
         return max;
     }
     
     public int analyzeMaxLog(int[] array, int length, int base, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
+        ArrayVisualizer.updateNow();
         
         int max = 0;
         
@@ -186,12 +191,14 @@ final public class Reads {
         }
         
         ArrayVisualizer.toggleAnalysis(false);
+        ArrayVisualizer.updateNow();
         
         return max;
     }
     
     public int analyzeMaxCeilingLog(int[] array, int length, int base, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
+        ArrayVisualizer.updateNow();
         
         int max = 0;
         
@@ -212,12 +219,14 @@ final public class Reads {
         }
         
         ArrayVisualizer.toggleAnalysis(false);
+        ArrayVisualizer.updateNow();
         
         return max;
     }
     
     public int analyzeBit(int[] array, int length) {
         ArrayVisualizer.toggleAnalysis(true);
+        ArrayVisualizer.updateNow();
         
         // Find highest bit of highest value
         int max = 0;
@@ -243,6 +252,7 @@ final public class Reads {
         Timer.stopLap();
         
         ArrayVisualizer.toggleAnalysis(false);
+        ArrayVisualizer.updateNow();
         return analysis;
     }
     

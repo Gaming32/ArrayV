@@ -11,6 +11,8 @@ import java.awt.KeyEventDispatcher;
 import java.awt.Stroke;
 import java.awt.Toolkit;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -172,6 +174,9 @@ final public class ArrayVisualizer {
 
     public static int MAX_LENGTH_POWER = 15;
 
+    private volatile boolean hidden;
+    private volatile boolean frameSkipped;
+
     public ArrayVisualizer() {
         this.window = new JFrame();
         this.window.addKeyListener(new KeyListener() {
@@ -211,6 +216,29 @@ final public class ArrayVisualizer {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        this.window.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                ArrayVisualizer.this.updateNow();
+            }
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                ArrayVisualizer.this.updateNow();
+            }
+            @Override
+            public void componentShown(ComponentEvent e) {
+                ArrayVisualizer.this.hidden = false;
+                if (ArrayVisualizer.this.frameSkipped) {
+                    frameSkipped = false;
+                    ArrayVisualizer.this.updateNow();
+                }
+            }
+            @Override
+            public void componentHidden(ComponentEvent e) {
+                ArrayVisualizer.this.hidden = true;
             }
         });
 
@@ -302,7 +330,7 @@ final public class ArrayVisualizer {
         this.ArrayManager.initializeArray(this.array);
         
         //TODO: Overhaul visual code to properly reflect Swing (JavaFX?) style and conventions
-        this.toggleVisualUpdates(true);
+        this.toggleVisualUpdates(false);
         //DRAW THREAD
         this.visualsThread = new Thread() {
             @SuppressWarnings("unused")
@@ -325,9 +353,17 @@ final public class ArrayVisualizer {
 				ArrayVisualizer.this.visualClasses[5] = new HoopStack(ArrayVisualizer.this);
                 
                 while(ArrayVisualizer.this.visualsEnabled) {
-                    if(ArrayVisualizer.this.updateVisuals || ArrayVisualizer.this.updateVisualsForced > 0) {
-                        if (!ArrayVisualizer.this.updateVisuals)
-                            ArrayVisualizer.this.updateVisualsForced--;
+                    if (ArrayVisualizer.this.updateVisualsForced == 0) {
+                        try {
+                            synchronized (ArrayVisualizer.this) {
+                                ArrayVisualizer.this.wait();
+                            }
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if(ArrayVisualizer.this.updateVisualsForced > 0) {
+                        ArrayVisualizer.this.updateVisualsForced--;
                         ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
                         int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
                         ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
@@ -349,9 +385,9 @@ final public class ArrayVisualizer {
                     }
 
                 }}};
-                
-                this.Sounds.startAudioThread();
-                this.drawWindows();
+
+        this.Sounds.startAudioThread();
+        this.drawWindows();
     }
 
     public void refreshSorts() {
@@ -390,7 +426,18 @@ final public class ArrayVisualizer {
         this.mainRender.drawString(this.statSnapshot.getAuxAllocAmount(),  xOffset, (int) (windowRatio * 325) + yOffset);
         this.mainRender.drawString(this.statSnapshot.getSegments(),        xOffset, (int) (windowRatio * 355) + yOffset);
     }
-    
+
+    public void updateNow() {
+        if (hidden) {
+            frameSkipped = true;
+            return;
+        }
+        this.updateVisualsForced = 1;
+        synchronized (this) {
+            this.notify();
+        }
+    }
+
     public void toggleVisualUpdates(boolean bool) {
         this.updateVisuals = bool;
     }
@@ -808,7 +855,9 @@ final public class ArrayVisualizer {
         this.Reads.setComparisons(tempComps);
 
         if (this.benchmarking) {
-            this.forceVisualUpdate(1);
+            synchronized (this) {
+                this.notifyAll();
+            }
             JOptionPane.showMessageDialog(this.window, "The sort took a total of " + this.Timer.getRealTime());
         }
         
@@ -847,6 +896,7 @@ final public class ArrayVisualizer {
         this.Writes.clearAllocAmount();
 
         this.Highlights.clearAllMarks();
+        this.Sounds.
     }
     
     public void togglePointer(boolean Bool) {
@@ -961,7 +1011,7 @@ final public class ArrayVisualizer {
             public void windowClosing(WindowEvent close) {
                 ArrayVisualizer.this.Sounds.closeSynth();
                 ArrayVisualizer.this.visualsEnabled = false;
-                if(ArrayVisualizer.this.getSortingThread() != null && ArrayVisualizer.this.getSortingThread().isAlive()) {
+                if(ArrayVisualizer.this.isActive()) {
                     ArrayVisualizer.this.sortingThread.interrupt();
                 }
             }

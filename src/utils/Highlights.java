@@ -139,6 +139,7 @@ final public class Highlights {
         catch (Exception e) {
             e.printStackTrace();
         }
+        ArrayVisualizer.updateNow();
     }
     public void clearMark(int marker) {
         Highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
@@ -154,10 +155,14 @@ final public class Highlights {
                 }
             }
         }
+        synchronized (ArrayVisualizer) {
+            ArrayVisualizer.notify();;
+        }
     }
     public void clearAllMarks() {
         Arrays.fill(this.Highlights, 0, this.maxIndexMarked + 1, -1);
         this.maxIndexMarked = 0;
         this.markCount = 0;
+        ArrayVisualizer.updateNow();
     }
 }
