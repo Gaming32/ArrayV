@@ -2,7 +2,9 @@ package sorts.select;
 
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
-
+/**
+ * @author aphitorite
+ */
 public final class TriangularHeapSort extends Sort {
 
 	public TriangularHeapSort(ArrayVisualizer arrayVisualizer) {
