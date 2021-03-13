@@ -428,11 +428,14 @@ final public class ArrayVisualizer {
     }
 
     public void updateNow() {
+        this.updateNow(1);
+    }
+    public void updateNow(int fallback) {
         if (hidden) {
             frameSkipped = true;
             return;
         }
-        this.updateVisualsForced = 1;
+        this.updateVisualsForced = fallback;
         synchronized (this) {
             this.notify();
         }
@@ -803,6 +806,7 @@ final public class ArrayVisualizer {
         this.STABILITY = false;
         
         boolean success = true;
+        this.updateNow(10);
         for(int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
             if(i < this.sortLength) this.Highlights.markArray(1, i);
             this.Highlights.incrementFancyFinishPosition();
@@ -841,6 +845,7 @@ final public class ArrayVisualizer {
             }
             
             if(this.Highlights.fancyFinishEnabled()) {
+                this.updateNow(10);
                 this.Delays.sleep(sleepRatio);
             }
         }
@@ -855,9 +860,7 @@ final public class ArrayVisualizer {
         this.Reads.setComparisons(tempComps);
 
         if (this.benchmarking) {
-            synchronized (this) {
-                this.notifyAll();
-            }
+            this.updateNow();
             JOptionPane.showMessageDialog(this.window, "The sort took a total of " + this.Timer.getRealTime());
         }
         
@@ -865,6 +868,7 @@ final public class ArrayVisualizer {
             this.Highlights.toggleFancyFinish(false);
         }
         this.Highlights.resetFancyFinish();
+        this.updateNow();
     }
 
     public String formatTimes() {
