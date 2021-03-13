@@ -151,9 +151,7 @@ final public class PDMergeSort extends Sort {
 
         int lastRun = 0;
         while (lastRun != -1) {
-            if (lastRun == 0 || Reads.compareIndices(array, lastRun - 1, lastRun, 0, true) > 0) {
-                Writes.write(runs, runCount++, lastRun, 0.5, true, true);
-            }
+            Writes.write(runs, runCount++, lastRun, 0.5, true, true);
             int newRun = identifyRun(array, lastRun, maxIndex);
             lastRun = newRun;
         }

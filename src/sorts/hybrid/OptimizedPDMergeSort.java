@@ -157,14 +157,12 @@ final public class OptimizedPDMergeSort extends Sort {
     }
 
     private int[] findRuns(int[] array, int maxIndex) {
-        int[] runs = Writes.createExternalArray((maxIndex + MIN_RUN_SIZE - 1) / MIN_RUN_SIZE);
+        int[] runs = Writes.createExternalArray((maxIndex + 2) / 2);
         runCount = 0;
 
         int lastRun = 0;
         while (lastRun != -1) {
-            if (lastRun == 0 || Reads.compareIndices(array, lastRun - 1, lastRun, 0, true) > 0) {
-                Writes.write(runs, runCount++, lastRun, 0.5, true, true);
-            }
+            Writes.write(runs, runCount++, lastRun, 0.5, true, true);
             int newRun = identifyRun(array, lastRun, maxIndex);
             lastRun = newRun;
         }

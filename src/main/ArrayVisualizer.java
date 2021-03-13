@@ -238,7 +238,6 @@ final public class ArrayVisualizer {
             }
             @Override
             public void componentHidden(ComponentEvent e) {
-                System.out.println("Visualization paused because window minimized");
                 ArrayVisualizer.this.hidden = true;
             }
         });
