@@ -26,7 +26,7 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
     public MedianOfSixteenAdaptiveQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Median of 16 Adaptive Quick");
+        this.setSortListName("Median-of-16 Adaptive Quick");
         this.setRunAllSortsName("thatsOven's Median-Of-16 Adaptive QuickSort");
         this.setRunSortName("thatsOven's Median-Of-16 Adaptive QuickSort");
         this.setCategory("Hybrid Sorts");

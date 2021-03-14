@@ -43,7 +43,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
     private Sort RendezvousSort;
     private Sort LibrarySort;
     private Sort PatienceSort;
-    private Sort TreeSort;
+    private Sort ClassicTreeSort;
     private Sort AATreeSort;
     private Sort AVLTreeSort;
     private Sort FibonacciInsertionSort;
@@ -67,7 +67,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
         RoomSort               = new               RoomSort(this.arrayVisualizer);
         LibrarySort            = new            LibrarySort(this.arrayVisualizer); 
         PatienceSort           = new           PatienceSort(this.arrayVisualizer);
-        TreeSort               = new               TreeSort(this.arrayVisualizer);
+        ClassicTreeSort        = new        ClassicTreeSort(this.arrayVisualizer);
         AATreeSort             = new             AATreeSort(this.arrayVisualizer);
         AVLTreeSort            = new            AVLTreeSort(this.arrayVisualizer);
         SplaySort              = new              SplaySort(this.arrayVisualizer);
@@ -87,7 +87,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
         RunInsertionSorts.this.runIndividualSort(RoomSort,               0, array,  512,  0.05,  false);
         RunInsertionSorts.this.runIndividualSort(LibrarySort,            0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(PatienceSort,           0, array,  2048, 1,     false);
-        RunInsertionSorts.this.runIndividualSort(TreeSort,               0, array,  2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 5, false);
+        RunInsertionSorts.this.runIndividualSort(ClassicTreeSort,        0, array,  2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 5, false);
         RunInsertionSorts.this.runIndividualSort(AATreeSort,             0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(AVLTreeSort,            0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(SplaySort,              0, array,  2048, 1,     false);
