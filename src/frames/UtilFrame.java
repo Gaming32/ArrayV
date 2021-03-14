@@ -19,6 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
+import panes.JEnhancedOptionPane;
 import panes.JErrorPane;
 import prompts.ShufflePrompt;
 import prompts.SortPrompt;
@@ -89,6 +90,12 @@ final public class UtilFrame extends javax.swing.JFrame {
         setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), Frame.getX() + Frame.getWidth()), Frame.getY() + 29);
         setAlwaysOnTop(false);
         setVisible(true);
+    }
+
+    private int getCustomInput(String text, String defaultOptionMessage) throws Exception {
+        String input = JEnhancedOptionPane.showInputDialog("Customize Sort", text, new Object[] {"Enter", defaultOptionMessage});
+        int integer = Integer.parseInt(input);
+        return Math.abs(integer);
     }
 
     public void reposition(ArrayFrame af){
@@ -295,7 +302,12 @@ final public class UtilFrame extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] { "Sorting", "AntiQSort", "Stability Check" }));
+        jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] {
+            "Sorting",
+            "AntiQSort",
+            "Stability Check"
+            // "*Simple* Benchmarking"
+        }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -527,11 +539,15 @@ final public class UtilFrame extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
         switch ((String)jComboBox1.getSelectedItem()) {
             case "Sorting":
+                if (ArrayVisualizer.enableBenchmarking(false))
+                    break;
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(0);
                 break;
 
             case "AntiQSort":
+                if (ArrayVisualizer.enableBenchmarking(false))
+                    break;
                 if(this.abstractFrame != null && abstractFrame.isVisible()){
                     abstractFrame.dispose();
                     jButton6ResetText();
@@ -541,11 +557,24 @@ final public class UtilFrame extends javax.swing.JFrame {
                 break;
 
             case "Stability Check":
+                if (ArrayVisualizer.enableBenchmarking(false))
+                    break;
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(2);
-                Random random = new Random();
-                ArrayVisualizer.stabilityOffset = random.nextInt(50) + 5;
+                try {
+                    ArrayVisualizer.stabilityOffset = getCustomInput("How many equal values would you like?", "Randomize (5-54 inclusive)");
+                }
+                catch (Exception e) {
+                    Random random = new Random();
+                    ArrayVisualizer.stabilityOffset = random.nextInt(50) + 5;
+                }
                 System.out.println("N/" + ArrayVisualizer.stabilityOffset + " unique values");
+                break;
+
+            case "*Simple* Benchmarking":
+                jButton6.setEnabled(true);
+                ArrayVisualizer.setComparator(0);
+                ArrayVisualizer.enableBenchmarking(true);
                 break;
         }
     }//GEN-LAST:event_jCheckBox8ActionPerformed
