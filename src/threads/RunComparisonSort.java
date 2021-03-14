@@ -195,7 +195,7 @@ final public class RunComparisonSort {
                 sounds.toggleSound(false);
             }
         });
-       
+
         arrayVisualizer.runSortingThread();
     }
 }

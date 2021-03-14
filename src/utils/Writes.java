@@ -180,6 +180,7 @@ final public class Writes {
         Timer.stopLap();
 
         this.updateSwap(auxwrite);
+        ArrayVisualizer.updateNow();
         Delays.sleep(pause);
     }
 
@@ -223,6 +224,7 @@ final public class Writes {
 
         Timer.stopLap();
         
+        ArrayVisualizer.updateNow();
         Delays.sleep(pause);
     }
 
@@ -238,6 +240,7 @@ final public class Writes {
 
         Timer.stopLap();
         
+        ArrayVisualizer.updateNow();
         Delays.sleep(pause);
     }
 
@@ -254,6 +257,7 @@ final public class Writes {
 
         Timer.stopLap();
         
+        ArrayVisualizer.updateNow();
         Delays.sleep(pause);
     }
 
@@ -269,6 +273,7 @@ final public class Writes {
 
         Timer.stopLap();
         
+        ArrayVisualizer.updateNow();
         Delays.sleep(pause);
     }
 
@@ -364,6 +369,7 @@ final public class Writes {
         this.allocAmount += newLength;
         int[] result = Arrays.copyOf(original, newLength);
         ArrayVisualizer.getArrays().add(result);
+        ArrayVisualizer.updateNow();
         return result;
     }
 
@@ -371,6 +377,7 @@ final public class Writes {
         this.allocAmount += to - from;
         int[] result = Arrays.copyOfRange(original, from, to);
         ArrayVisualizer.getArrays().add(result);
+        ArrayVisualizer.updateNow();
         return result;
     }
     
@@ -389,12 +396,14 @@ final public class Writes {
         this.allocAmount += length;
         int[] result = new int[length];
         ArrayVisualizer.getArrays().add(result);
+        ArrayVisualizer.updateNow();
         return result;
     }
 
     public void deleteExternalArray(int[] array) {
         this.allocAmount -= array.length;
         ArrayVisualizer.getArrays().remove(array);
+        ArrayVisualizer.updateNow();
     }
 
     public void arrayListAdd(ArrayList<Integer> aList, int value) {

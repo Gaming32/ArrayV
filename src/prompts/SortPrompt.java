@@ -5,6 +5,9 @@
 package prompts;
 
 import java.awt.event.ActionListener;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -12,6 +15,9 @@ import java.util.Hashtable;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import dialogs.ImportSortDialog;
 import frames.AppFrame;
@@ -54,6 +60,39 @@ SOFTWARE.
 
 final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
+    public class PlaceholderTextField extends JTextField {
+        /**
+         * Shamelessly copied from https://stackoverflow.com/a/16229082/8840278
+         */
+        private static final long serialVersionUID = 1L;
+        private String placeholder;
+    
+        public String getPlaceholder() {
+            return placeholder;
+        }
+    
+        @Override
+        protected void paintComponent(final Graphics pG) {
+            super.paintComponent(pG);
+    
+            if (placeholder == null || placeholder.length() == 0 || getText().length() > 0) {
+                return;
+            }
+    
+            final Graphics2D g = (Graphics2D) pG;
+            g.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+            g.setColor(getDisabledTextColor());
+            g.drawString(placeholder, getInsets().left, pG.getFontMetrics()
+                .getMaxAscent() + getInsets().top);
+        }
+    
+        public void setPlaceholder(final String s) {
+            placeholder = s;
+        }
+    }
+
     private static int lastCategory = -1;
 
     private static final long serialVersionUID = 1L;
@@ -77,7 +116,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         loadSortThreads();
         initComponents();
         if (lastCategory == -1) {
-            for (lastCategory = 0; ; lastCategory++) {
+            for (lastCategory = 1; ; lastCategory++) {
                 jComboBox1.setSelectedIndex(lastCategory);
                 if (jComboBox1.getSelectedItem().equals("Hybrid Sorts")) {
                     break;
@@ -87,6 +126,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         else {
             jComboBox1.setSelectedIndex(lastCategory);
         }
+        jTextField1.requestFocusInWindow();
         loadSorts();
         reposition();
         setVisible(true);
@@ -120,10 +160,12 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         this.jButton1 = new javax.swing.JButton();
         this.jButton2 = new javax.swing.JButton();
         this.jButton3 = new javax.swing.JButton();
+        this.jTextField1 = new PlaceholderTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jComboBox1.setModel(new DefaultComboBoxModel<>(SortPair.getCategories(ArrayVisualizer.getAllSorts())));
+        jComboBox1.insertItemAt("All Sorts", 0);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         
@@ -151,6 +193,22 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1SelectionChanged(evt);
+            }
+        });
+
+        jTextField1.setPlaceholder("Search");
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
             }
         });
 
@@ -187,6 +245,10 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                     .addComponent(this.jComboBox1)
                     .addGap(25, 25, 25))
                 .addGroup(layout.createSequentialGroup()
+                    .addGap(45, 45, 45)
+                    .addComponent(this.jTextField1)
+                    .addGap(45, 45, 45))
+                .addGroup(layout.createSequentialGroup()
                     .addGap(25, 25, 25)
                     .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(25, 25, 25))
@@ -203,6 +265,9 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(this.jComboBox1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(this.jTextField1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(this.jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
@@ -289,21 +354,36 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     @SuppressWarnings("unchecked")
     private void loadSorts() {
+        int index = jComboBox1.getSelectedIndex();
         String category = (String)jComboBox1.getSelectedItem();
         ArrayList<String> sorts = new ArrayList<>();
         for (SortPair sort : ArrayVisualizer.getAllSorts()) {
-            if (sort.category.equals(category)) {
+            if (index == 0 || sort.category.equals(category)) {
+                if (jTextField1.getText().length() > 0 &&
+                    !sort.listName.toLowerCase().contains(jTextField1.getText().toLowerCase()))
+                    continue;
                 sorts.add(sort.listName);
             }
         }
         jList1.setListData(sorts.toArray());
-        jButton3.setText("Run All ".concat(category));
-        jButton3.setEnabled(categorySortThreads.containsKey(category));
+        if (index == 0) {
+            jButton3.setEnabled(false);
+        }
+        else {
+            jButton3.setText("Run All ".concat(category));
+            jButton3.setEnabled(categorySortThreads.containsKey(category));
+        }
     }
 
     private void jComboBox1SelectionChanged(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         loadSorts();
         SortPrompt.lastCategory = jComboBox1.getSelectedIndex();
+    }//GEN-LAST:event_jList1ValueChanged
+
+    private void jTextField1TextChanged(DocumentEvent e) {//GEN-FIRST:event_jList1ValueChanged
+        if (e.getLength() == jTextField1.getText().length())
+            jComboBox1.setSelectedIndex(0);
+        loadSorts();
     }//GEN-LAST:event_jList1ValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -315,5 +395,6 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private PlaceholderTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
