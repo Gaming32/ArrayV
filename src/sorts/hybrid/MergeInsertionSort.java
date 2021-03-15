@@ -82,7 +82,7 @@ final public class MergeInsertionSort extends Sort {
 		for(int i = a, j = i+s; j < b; i+=s, j+=2*s)
 			this.blockInsert(array, j, i, s, sleep);
 		
-		int m = (a+b)/2;
+		int m = a+(((b-a)/s)/2)*s;
 		this.blockReversal(array, m, b, s, 1);
     }
 	
@@ -102,15 +102,15 @@ final public class MergeInsertionSort extends Sort {
 			int a = k-1, i = a+2*k, g = 2, p = 4;
 			double sleep = Math.min(1, delay);
 			
-			while(i+2*k*g <= length) {
-				this.order(array, i, i+2*k*g, k, sleep);
+			while(i+2*k*g-k <= length) {
+				this.order(array, i, i+2*k*g-k, k, sleep);
 				int b = a+k*(p-1);
 				
-				i += k*g;
+				i += k*g-k;
 				for(int j = i; j < i+k*g; j+=k)
 					this.blockInsert(array, j, this.blockSearch(array, a, b, k, array[j]), k, sleep);
 				
-				i += k*g;
+				i += k*g+k;
 				g = p-g;
 				p *= 2;
 			}
