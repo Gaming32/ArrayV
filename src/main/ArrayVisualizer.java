@@ -88,7 +88,7 @@ final public class ArrayVisualizer {
     final private int MAX_ARRAY_VAL;
 
     final int[] array;
-    final int[] shadowArray;
+    final int[] stabilityTable;
     final ArrayList<int[]> arrays;
 
     private SortPair[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
@@ -252,13 +252,13 @@ final public class ArrayVisualizer {
         this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
         
         this.array = new int[this.MAX_ARRAY_VAL];
-        this.shadowArray = new int[this.MAX_ARRAY_VAL];
+        this.stabilityTable = new int[this.MAX_ARRAY_VAL];
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
         
         this.sortLength = (int)Math.min(2048, this.MAX_ARRAY_VAL);
         this.uniqueItems = this.sortLength;
-		this.resetShadowArray();
+		this.resetStabilityTable();
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
@@ -468,17 +468,17 @@ final public class ArrayVisualizer {
         return this.benchmarking;
     }
     
-	public int getShadowValue(int n) {
-		return this.shadowArray[n];
+	public int getStabilityValue(int n) {
+		return this.stabilityTable[n];
 	}
 	
-    public int[] getShadowArray() {
-        return this.shadowArray;
+    public int[] getStabilityTable() {
+        return this.stabilityTable;
     }
 
-	public void resetShadowArray() {
+	public void resetStabilityTable() {
         for(int i = 0; i < this.sortLength; i++) {
-            this.shadowArray[i] = i;
+            this.stabilityTable[i] = i;
         }
     }
 	

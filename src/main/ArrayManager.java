@@ -103,7 +103,7 @@ final public class ArrayManager {
     //TODO: Fix minimum to zero
     public void initializeArray(int[] array) {
 		if(ArrayVisualizer.doingStabilityCheck())
-			ArrayVisualizer.resetShadowArray();
+			ArrayVisualizer.resetStabilityTable();
 			
         int currentLen = ArrayVisualizer.getCurrentLength();
 		
@@ -192,9 +192,9 @@ final public class ArrayManager {
             Delays.setSleepRatio(sleepRatio);
         }
 		
-		int[] counts = new int[length];
+		int[] counts    = new int[length];
 		int[] prefixSum = new int[length];
-		int[] shadowArray = ArrayVisualizer.getShadowArray();
+		int[] table     = ArrayVisualizer.getStabilityTable();
 		
 		for(int i = 0; i < length; i++)
 			counts[array[i]]++;
@@ -205,7 +205,7 @@ final public class ArrayManager {
 		
 		for(int i = 0, j = 0; j < length; i++) {
 			while(counts[i] > 0) {
-				shadowArray[j++] = i;
+				table[j++] = i;
 				counts[i]--;
 			}
 		}
