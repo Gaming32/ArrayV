@@ -88,7 +88,7 @@ final public class ArrayVisualizer {
     final private int MAX_ARRAY_VAL;
 
     final int[] array;
-    private int[] shadowArray;
+    final int[] shadowArray;
     final ArrayList<int[]> arrays;
 
     private SortPair[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
@@ -143,7 +143,6 @@ final public class ArrayVisualizer {
 
     private volatile boolean ANTIQSORT;
     private volatile boolean STABILITY;
-    public  volatile int stabilityOffset;
 
     private volatile boolean isCanceled;
 
@@ -253,12 +252,13 @@ final public class ArrayVisualizer {
         this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
         
         this.array = new int[this.MAX_ARRAY_VAL];
-        this.shadowArray = new int[this.array.length];
+        this.shadowArray = new int[this.MAX_ARRAY_VAL];
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
         
         this.sortLength = (int)Math.min(2048, this.MAX_ARRAY_VAL);
         this.uniqueItems = this.sortLength;
+		this.resetShadowArray();
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
@@ -468,15 +468,20 @@ final public class ArrayVisualizer {
         return this.benchmarking;
     }
     
+	public int getShadowValue(int n) {
+		return this.shadowArray[n];
+	}
+	
     public int[] getShadowArray() {
         return this.shadowArray;
     }
-    public void setShadowArray() {
+
+	public void resetShadowArray() {
         for(int i = 0; i < this.sortLength; i++) {
-            this.shadowArray[this.array[i]] = i;
+            this.shadowArray[i] = i;
         }
     }
-
+	
     public boolean isSorted() {
         return this.statSnapshot.findSegments(this.array, this.sortLength)[0] == 1;
     }
@@ -801,9 +806,6 @@ final public class ArrayVisualizer {
         
         String temp = this.heading;
         this.heading = "Verifying sort...";
-
-        boolean tempStability = this.STABILITY;
-        this.STABILITY = false;
         
         boolean success = true;
         this.updateNow(10);
@@ -812,11 +814,7 @@ final public class ArrayVisualizer {
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
-                if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == 1) {
-                    boolean wasStabilityIssue = false;
-                    if (tempStability) {
-                        wasStabilityIssue = this.array[i] / this.stabilityOffset <= this.array[i + 1] / this.stabilityOffset;
-                    }
+                if(this.Reads.compareNonOriginalValues(this.array[i], this.array[i + 1]) == 1) {
                     this.Highlights.clearMark(1);
                     
                     this.Sounds.toggleSound(false);
@@ -827,7 +825,7 @@ final public class ArrayVisualizer {
                         this.Delays.sleep(sleepRatio);
                     }
                     
-                    if (tempStability && wasStabilityIssue) {
+                    if (this.STABILITY) {
                         JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
                     }
                     else {
@@ -853,8 +851,6 @@ final public class ArrayVisualizer {
 
         // if (tempStability && success)
         //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
-        
-        this.STABILITY = tempStability;
 
         this.heading = temp;
         this.Reads.setComparisons(tempComps);

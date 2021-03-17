@@ -561,14 +561,6 @@ final public class UtilFrame extends javax.swing.JFrame {
                     break;
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(2);
-                try {
-                    ArrayVisualizer.stabilityOffset = getCustomInput("How many equal values would you like?", "Randomize (5-54 inclusive)");
-                }
-                catch (Exception e) {
-                    Random random = new Random();
-                    ArrayVisualizer.stabilityOffset = random.nextInt(50) + 5;
-                }
-                System.out.println("N/" + ArrayVisualizer.stabilityOffset + " unique values");
                 break;
 
             case "*Simple* Benchmarking":

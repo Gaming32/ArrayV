@@ -85,8 +85,8 @@ final public class Reads {
         this.comparisons++;
 
         if (ArrayVisualizer.doingStabilityCheck()) {
-            left /= ArrayVisualizer.stabilityOffset;
-            right /= ArrayVisualizer.stabilityOffset;
+            left  = ArrayVisualizer.getShadowValue(left);
+            right = ArrayVisualizer.getShadowValue(right);
         }
 
         int cmpVal = 0;

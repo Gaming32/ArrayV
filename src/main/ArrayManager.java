@@ -171,8 +171,6 @@ final public class ArrayManager {
 			this.Shuffles = Shuffles.ALREADY;
 		Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
 		this.Shuffles = tempShuffle;
-		
-        this.ArrayVisualizer.setShadowArray();
         
         Delays.setSleepRatio(speed);
         
@@ -181,17 +179,38 @@ final public class ArrayManager {
     }
 
     private void stableShuffle(int[] array, int length) {
-        int blockSize = ArrayVisualizer.stabilityOffset;
         boolean delay = ArrayVisualizer.shuffleEnabled();
         double sleep = delay ? 1 : 0;
-
-        Hashtable<Integer, Integer> table = new Hashtable<>();
-        for (int i = 0; i < length; i++) {
-            int divided = array[i] / blockSize;
-            table.putIfAbsent(divided, -1);
-            table.put(divided, table.get(divided) + 1);
-            Writes.write(array, i, divided * blockSize + table.get(divided), sleep, true, false);
+		
+		double speed = Delays.getSleepRatio();
+        
+        if(ArrayVisualizer.isActive()) {
+            double sleepRatio = ArrayVisualizer.getCurrentLength()/1024d;
+            Delays.setSleepRatio(sleepRatio);
         }
+		
+		int[] counts = new int[length];
+		int[] prefixSum = new int[length];
+		int[] shadowArray = ArrayVisualizer.getShadowArray();
+		
+		for(int i = 0; i < length; i++)
+			counts[array[i]]++;
+		
+		prefixSum[0] = counts[0];
+		for(int i = 1; i < length; i++)
+			prefixSum[i] = counts[i] + prefixSum[i-1];
+		
+		for(int i = length-1; i >= 0; i--)
+			Writes.write(array, i, --prefixSum[array[i]], 1, true, false);
+		
+        Delays.setSleepRatio(speed);
+		
+		for(int i = 0, j = 0; j < length; i++) {
+			while(counts[i] > 0) {
+				shadowArray[j++] = i;
+				counts[i]--;
+			}
+		}
     }
     
     public void refreshArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
@@ -205,14 +224,14 @@ final public class ArrayManager {
         Highlights.clearAllMarks();
         
         ArrayVisualizer.setHeading("");
-        if (ArrayVisualizer.useAntiQSort()) {}
-        else if (ArrayVisualizer.doingStabilityCheck()) {
-            ArrayVisualizer.setUniqueItems(ArrayVisualizer.getCurrentLength());
+        if (!ArrayVisualizer.useAntiQSort()) {
+			if(ArrayVisualizer.doingStabilityCheck())
+				ArrayVisualizer.resetShadowArray();
+			
             this.shuffleArray(array, currentLen, ArrayVisualizer);
-            this.stableShuffle(array, currentLen);
-        }
-        else {
-            this.shuffleArray(array, currentLen, ArrayVisualizer);
+			
+			if(ArrayVisualizer.doingStabilityCheck())
+				this.stableShuffle(array, currentLen);
         }
         
         Highlights.clearAllMarks();
