@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -32,35 +32,35 @@ SOFTWARE.
 
 final public class Reads {
     private volatile long comparisons;
-    
+
     private ArrayVisualizer ArrayVisualizer;
-    
+
     private DecimalFormat formatter;
-    
+
     private Delays Delays;
     private Highlights Highlights;
     private Timer Timer;
-    
+
     public Reads(ArrayVisualizer arrayVisualizer) {
         this.ArrayVisualizer = arrayVisualizer;
-        
+
         this.comparisons = 0;
-        
+
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
         this.Timer = ArrayVisualizer.getTimer();
-        
+
         this.formatter = ArrayVisualizer.getNumberFormat();
     }
-    
+
     public void resetStatistics() {
         this.comparisons = 0;
     }
-    
+
     public void addComparison() {
         this.comparisons++;
     }
-    
+
     public String getStats() {
         if(this.comparisons < 0) {
             this.comparisons = Long.MIN_VALUE;
@@ -71,15 +71,15 @@ final public class Reads {
             else                      return this.formatter.format(this.comparisons) + " Comparisons";
         }
     }
-    
+
     public long getComparisons() {
         return this.comparisons;
     }
-    
+
     public void setComparisons(long value) {
         this.comparisons = value;
     }
-    
+
     public int compareValues(int left, int right) {
         if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         this.comparisons++;
@@ -88,9 +88,9 @@ final public class Reads {
             left /= ArrayVisualizer.stabilityOffset;
             right /= ArrayVisualizer.stabilityOffset;
         }
-        
+
         int cmpVal = 0;
-        
+
         Timer.startLap("Compare");
 
         if(left > right)      cmpVal =  1;
@@ -98,13 +98,30 @@ final public class Reads {
         else                  cmpVal =  0;
 
         Timer.stopLap();
-        
+
         if (!ArrayVisualizer.useAntiQSort()) {
             return cmpVal;
         }
         else {
             return ArrayVisualizer.antiqCompare(left, right);
         }
+    }
+
+    public int compareNonOriginalValues(int left, int right) {
+        if (ArrayVisualizer.sortCanceled()) throw new StopSort();
+        this.comparisons++;
+
+        int cmpVal = 0;
+
+        Timer.startLap("Compare");
+
+        if(left > right)      cmpVal =  1;
+        else if(left < right) cmpVal = -1;
+        else                  cmpVal =  0;
+
+        Timer.stopLap();
+
+        return cmpVal;
     }
 
     public int compareIndices(int[] array, int left, int right, double sleep, boolean mark) {
@@ -115,27 +132,36 @@ final public class Reads {
         }
         return this.compareValues(array[left], array[right]);
     }
-    
+
+    public int compareNonOriginalIndices(int[] array, int left, int right, double sleep, boolean mark) {
+        if(mark) {
+            Highlights.markArray(1, left);
+            Highlights.markArray(2, right);
+            Delays.sleep(sleep);
+        }
+        return this.compareNonOriginalValues(array[left], array[right]);
+    }
+
     public int analyzeMax(int[] array, int length, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
         ArrayVisualizer.updateNow();
-        
+
         int max = 0;
 
         for(int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             Timer.startLap("Analysis");
-            
+
             if(array[i] > max) max = array[i];
-            
+
             Timer.stopLap();
-            
+
             if(mark) {
                 Highlights.markArray(1, i);
                 Delays.sleep(sleep);
             }
         }
-        
+
         ArrayVisualizer.toggleAnalysis(false);
         ArrayVisualizer.updateNow();
 
@@ -145,117 +171,117 @@ final public class Reads {
     public int analyzeMin(int[] array, int length, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
         ArrayVisualizer.updateNow();
-        
+
         int max = 0;
 
         for(int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             Timer.startLap("Analysis");
-            
+
             if(array[i] < max) max = array[i];
-            
+
             Timer.stopLap();
-            
+
             if(mark) {
                 Highlights.markArray(1, i);
                 Delays.sleep(sleep);
             }
         }
-        
+
         ArrayVisualizer.toggleAnalysis(false);
         ArrayVisualizer.updateNow();
-        
+
         return max;
     }
-    
+
     public int analyzeMaxLog(int[] array, int length, int base, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
         ArrayVisualizer.updateNow();
-        
+
         int max = 0;
-        
-        for(int i = 0; i < length; i++) { 
+
+        for(int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             int log = (int) (Math.log(array[i]) / Math.log(base));
-            
+
             Timer.startLap("Analysis");
-            
+
             if(log > max) max = log;
-            
+
             Timer.stopLap();
-            
+
             if(mark) {
                 Highlights.markArray(1, i);
                 Delays.sleep(sleep);
             }
         }
-        
+
         ArrayVisualizer.toggleAnalysis(false);
         ArrayVisualizer.updateNow();
-        
+
         return max;
     }
-    
+
     public int analyzeMaxCeilingLog(int[] array, int length, int base, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
         ArrayVisualizer.updateNow();
-        
+
         int max = 0;
-        
-        for(int i = 0; i < length; i++) { 
+
+        for(int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             int log = (int)Math.ceil(Math.log(array[i]) / Math.log(base));
-            
+
             Timer.startLap("Analysis");
-            
+
             if(log > max) max = log;
-            
+
             Timer.stopLap();
-            
+
             if(mark) {
                 Highlights.markArray(1, i);
                 Delays.sleep(sleep);
             }
         }
-        
+
         ArrayVisualizer.toggleAnalysis(false);
         ArrayVisualizer.updateNow();
-        
+
         return max;
     }
-    
+
     public int analyzeBit(int[] array, int length) {
         ArrayVisualizer.toggleAnalysis(true);
         ArrayVisualizer.updateNow();
-        
+
         // Find highest bit of highest value
         int max = 0;
-        
+
         for(int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
             Timer.startLap("Analysis");
-            
+
             max = Math.max(max, array[i]);
-            
+
             Timer.stopLap();
-            
+
             Highlights.markArray(1, i);
             Delays.sleep(0.75);
         }
-        
+
         int analysis;
-        
+
         Timer.startLap();
-        
+
         analysis = 31 - Integer.numberOfLeadingZeros(max);
-        
+
         Timer.stopLap();
-        
+
         ArrayVisualizer.toggleAnalysis(false);
         ArrayVisualizer.updateNow();
         return analysis;
     }
-    
+
     public int getDigit(int a, int power, int radix) {
         int digit;
         Timer.startLap();
@@ -263,7 +289,7 @@ final public class Reads {
         Timer.stopLap();
         return digit;
     }
-    
+
     public boolean getBit(int n, int k) {
         // Find boolean value of bit k in n
         boolean result;
