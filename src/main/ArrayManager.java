@@ -203,17 +203,17 @@ final public class ArrayManager {
 		for(int i = 1; i < length; i++)
 			prefixSum[i] = counts[i] + prefixSum[i-1];
 		
-		for(int i = length-1; i >= 0; i--)
-			Writes.write(array, i, --prefixSum[array[i]], 1, true, false);
-		
-        Delays.setSleepRatio(speed);
-		
 		for(int i = 0, j = 0; j < length; i++) {
 			while(counts[i] > 0) {
 				shadowArray[j++] = i;
 				counts[i]--;
 			}
 		}
+		
+		for(int i = length-1; i >= 0; i--)
+			Writes.write(array, i, --prefixSum[array[i]], 1, true, false);
+		
+        Delays.setSleepRatio(speed);
     }
     
     public void refreshArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
