@@ -102,8 +102,10 @@ final public class ArrayManager {
 
     //TODO: Fix minimum to zero
     public void initializeArray(int[] array) {
-		if(ArrayVisualizer.doingStabilityCheck())
+		if(ArrayVisualizer.doingStabilityCheck()) {
 			ArrayVisualizer.resetStabilityTable();
+			ArrayVisualizer.resetIndexTable();
+		}
 			
         int currentLen = ArrayVisualizer.getCurrentLength();
 		
@@ -211,7 +213,9 @@ final public class ArrayManager {
 		}
 		
 		for(int i = length-1; i >= 0; i--)
-			Writes.write(array, i, --prefixSum[array[i]], 1, true, false);
+			Writes.write(array, i, --prefixSum[array[i]], 0.5, true, false);
+		
+		ArrayVisualizer.setIndexTable();
 		
         Delays.setSleepRatio(speed);
     }

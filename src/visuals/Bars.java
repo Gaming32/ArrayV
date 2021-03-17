@@ -48,7 +48,8 @@ final public class Bars extends Visual {
                     this.mainRender.setColor(Color.GREEN);
                 }
                 else if(ArrayVisualizer.rainbowEnabled() || ArrayVisualizer.colorEnabled()) { 
-                    this.mainRender.setColor(getIntColor(array[i], Renderer.getArrayLength()));
+					int val = (ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled()) ? ArrayVisualizer.getIndexValue(array[i]) : array[i];
+                    this.mainRender.setColor(getIntColor(val, Renderer.getArrayLength()));
                 }
                 else this.mainRender.setColor(Color.WHITE);
 
@@ -56,7 +57,8 @@ final public class Bars extends Visual {
             }
             else {
                 if(ArrayVisualizer.rainbowEnabled() || ArrayVisualizer.colorEnabled()) {
-                    this.mainRender.setColor(getIntColor(array[i], Renderer.getArrayLength()));
+					int val = (ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled()) ? ArrayVisualizer.getIndexValue(array[i]) : array[i];
+                    this.mainRender.setColor(getIntColor(val, Renderer.getArrayLength()));
                     //if(array[i] > -1) this.mainRender.setColor(getIntColor(ArrayVisualizer.getShadowArray()[array[i]], Renderer.getArrayLength()));
                 }
                 else this.mainRender.setColor(Color.WHITE);

@@ -89,6 +89,7 @@ final public class ArrayVisualizer {
 
     final int[] array;
     final int[] stabilityTable;
+	final int[] indexTable;
     final ArrayList<int[]> arrays;
 
     private SortPair[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
@@ -253,12 +254,15 @@ final public class ArrayVisualizer {
         
         this.array = new int[this.MAX_ARRAY_VAL];
         this.stabilityTable = new int[this.MAX_ARRAY_VAL];
+        this.indexTable = new int[this.MAX_ARRAY_VAL];
+		
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
         
         this.sortLength = (int)Math.min(2048, this.MAX_ARRAY_VAL);
         this.uniqueItems = this.sortLength;
 		this.resetStabilityTable();
+		this.resetIndexTable();
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
@@ -475,10 +479,30 @@ final public class ArrayVisualizer {
     public int[] getStabilityTable() {
         return this.stabilityTable;
     }
-
+	
 	public void resetStabilityTable() {
         for(int i = 0; i < this.sortLength; i++) {
             this.stabilityTable[i] = i;
+        }
+    }
+	
+	public int getIndexValue(int n) {
+		return this.indexTable[n];
+	}
+	
+	public int[] getIndexTable() {
+		return this.indexTable;
+	}
+	
+	public void setIndexTable() {
+        for(int i = 0; i < this.sortLength; i++) {
+            this.indexTable[array[i]] = i;
+        }
+    }
+	
+	public void resetIndexTable() {
+        for(int i = 0; i < this.sortLength; i++) {
+            this.indexTable[i] = i;
         }
     }
 	
