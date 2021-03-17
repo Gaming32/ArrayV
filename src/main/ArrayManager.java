@@ -102,6 +102,9 @@ final public class ArrayManager {
 
     //TODO: Fix minimum to zero
     public void initializeArray(int[] array) {
+		if(ArrayVisualizer.doingStabilityCheck())
+			ArrayVisualizer.resetShadowArray();
+			
         int currentLen = ArrayVisualizer.getCurrentLength();
 		
 		int[] temp = new int[currentLen];
@@ -225,9 +228,6 @@ final public class ArrayManager {
         
         ArrayVisualizer.setHeading("");
         if (!ArrayVisualizer.useAntiQSort()) {
-			if(ArrayVisualizer.doingStabilityCheck())
-				ArrayVisualizer.resetShadowArray();
-			
             this.shuffleArray(array, currentLen, ArrayVisualizer);
 			
 			if(ArrayVisualizer.doingStabilityCheck())

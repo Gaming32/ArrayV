@@ -92,9 +92,10 @@ final public class Bars extends Visual {
                     gap = 5;
                 }
                 */
-
-                y = (int) (((Renderer.getViewSize() - 20)) - (ArrayVisualizer.getShadowValue(array[i]) + 1) * Renderer.getYScale());
-                mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, (int) ((ArrayVisualizer.getShadowValue(array[i]) + 1) * Renderer.getYScale()));
+				
+				int val = (ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled()) ? ArrayVisualizer.getShadowValue(array[i]) : array[i];
+                y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+                mainRender.fillRect(Renderer.getOffset() + 20, Renderer.getYOffset() + y, width, (int) ((val + 1) * Renderer.getYScale()));
                 
                 //mainRender.fillRect(Renderer.getOffset() + 20, y /*- markHeight*/, width /*- gap*/, (int) ((array[i] + 1) * Renderer.getYScale()) /*+ markHeight*/);
                 
