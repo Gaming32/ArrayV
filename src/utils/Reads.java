@@ -107,7 +107,7 @@ final public class Reads {
         }
     }
 
-    public int compareNonOriginalValues(int left, int right) {
+    public int compareOriginalValues(int left, int right) {
         if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         this.comparisons++;
 
@@ -133,13 +133,13 @@ final public class Reads {
         return this.compareValues(array[left], array[right]);
     }
 
-    public int compareNonOriginalIndices(int[] array, int left, int right, double sleep, boolean mark) {
+    public int compareOriginalIndices(int[] array, int left, int right, double sleep, boolean mark) {
         if(mark) {
             Highlights.markArray(1, left);
             Highlights.markArray(2, right);
             Delays.sleep(sleep);
         }
-        return this.compareNonOriginalValues(array[left], array[right]);
+        return this.compareOriginalValues(array[left], array[right]);
     }
 
     public int analyzeMax(int[] array, int length, double sleep, boolean mark) {

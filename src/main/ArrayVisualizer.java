@@ -656,6 +656,7 @@ final public class ArrayVisualizer {
     }
     public void setCurrentLength(int newLength) {
         this.sortLength = newLength;
+		this.Delays.setSleepRatio(this.sortLength/1024d);
     }
 
     public void setUniqueItems(int newCount) {
@@ -840,7 +841,7 @@ final public class ArrayVisualizer {
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
-                if(this.Reads.compareNonOriginalValues(this.array[i], this.array[i + 1]) == 1) {
+                if(this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == 1) {
                     this.Highlights.clearMark(1);
                     
                     this.Sounds.toggleSound(false);
