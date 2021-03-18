@@ -256,13 +256,15 @@ final public class ArrayVisualizer {
         this.stabilityTable = new int[this.MAX_ARRAY_VAL];
         this.indexTable = new int[this.MAX_ARRAY_VAL];
 		
+		this.sortLength = this.MAX_ARRAY_VAL;
+		this.resetStabilityTable();
+		this.resetIndexTable();
+		
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
         
         this.sortLength = (int)Math.min(2048, this.MAX_ARRAY_VAL);
         this.uniqueItems = this.sortLength;
-		this.resetStabilityTable();
-		this.resetIndexTable();
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         this.symbols = this.formatter.getDecimalFormatSymbols();
