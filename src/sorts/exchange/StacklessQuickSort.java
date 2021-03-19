@@ -1,6 +1,5 @@
-package sorts.hybrid;
+package sorts.exchange;
 
-import sorts.insert.BinaryInsertionSort;
 import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
@@ -8,7 +7,7 @@ import main.ArrayVisualizer;
  * 
 MIT License
 
-Copyright (c) 2020-2021 aphitorite
+Copyright (c) 2021 aphitorite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,14 +29,14 @@ SOFTWARE.
  *
  */
 
-final public class StacklessHybridQuickSort extends Sort {
-    public StacklessHybridQuickSort(ArrayVisualizer arrayVisualizer) {
+final public class StacklessQuickSort extends Sort {
+    public StacklessQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Stackless Hybrid Quick");
-        this.setRunAllSortsName("Stackless Hybrid Quicksort");
-        this.setRunSortName("Stackless Hybrid Quicksort");
-        this.setCategory("Hybrid Sorts");
+        this.setSortListName("Stackless Quick");
+        this.setRunAllSortsName("Stackless Quick Sort");
+        this.setRunSortName("Stackless Quicksort");
+        this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
@@ -97,7 +96,7 @@ final public class StacklessHybridQuickSort extends Sort {
 		while(a < b) {
 			int m = a+(b-a)/2;
 			
-			if(Reads.compareIndices(array, p, m, 1, true) <= 0) 
+			if(Reads.compareIndices(array, p, m, 0.5, true) <= 0) 
 				b = m;
 			else     
 				a = m+1;
@@ -117,16 +116,17 @@ final public class StacklessHybridQuickSort extends Sort {
 		Writes.write(array, b, array[b]+1, 1, true, false);
 		
 		int b1 = b;
-		BinaryInsertionSort smallSort = new BinaryInsertionSort(this.arrayVisualizer);
 		
 		do {
-			while(b1-a > 16) {
+			while(b1-a > 2) {
 				int p = this.partition(array, a, b1);
 				Writes.swap(array, p, b, 1, true, false);
 				
 				b1 = p;
 			}
-			smallSort.customBinaryInsert(array, a, b1, 0.25);
+			
+			if(b1-a == 2 && Reads.compareIndices(array, a, a+1, 0.5, true) == 1)
+				Writes.swap(array, a, a+1, 1, true, false);
 				
 			a = b1+1;
 			if(a >= b) {

@@ -51,7 +51,7 @@ final public class FlanSort extends Sort {
 	private final int G = 14;
 	private final int R = 4;
 	
-	private static int ceilPow2(int n) {
+	private int ceilPow2(int n) {
 		int r = 1;
 		while(r < n) r *= 2;
 		return r;
@@ -214,8 +214,8 @@ final public class FlanSort extends Sort {
 		}
 		
 		do {
-			Writes.swap(array, p++, pa[tree[0]], 1, true, false);
-			Writes.write(pa, tree[0], pa[tree[0]]+1, 0, false, true);
+			Writes.swap(array, p++, pa[tree[0]], 0, true, false);
+			Writes.write(pa, tree[0], pa[tree[0]]+1, 1, false, true);
 			
 			int m = pow, i = m+tree[0], j = k;
 			
@@ -333,7 +333,9 @@ final public class FlanSort extends Sort {
 		int[] pa   = new int[G+2]; 
 		int[] pb   = new int[G+2];
 		int[] tree = new int[ceilPow2(G+2)+G+1];
-		Writes.changeAllocAmount(pa.length + pb.length + tree.length);
+		
+		int alloc = pa.length + pb.length + tree.length;
+		Writes.changeAllocAmount(alloc);
 		
 		int a = 0, b = length;
 		
@@ -416,6 +418,6 @@ final public class FlanSort extends Sort {
 			}
 		}
 		this.binaryInsertion(array, a, b);
-		Writes.changeAllocAmount(-pa.length - pb.length - tree.length);
+		Writes.changeAllocAmount(-alloc);
     }
 }

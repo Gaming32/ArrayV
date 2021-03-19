@@ -8,7 +8,7 @@ import main.ArrayVisualizer;
  * 
 MIT License
 
-Copyright (c) 2020-2021 aphitorite
+Copyright (c) 2021 aphitorite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,13 +30,13 @@ SOFTWARE.
  *
  */
 
-final public class StacklessHybridQuickSort extends Sort {
-    public StacklessHybridQuickSort(ArrayVisualizer arrayVisualizer) {
+final public class StacklessDualPivotQuickSort extends Sort {
+    public StacklessDualPivotQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Stackless Hybrid Quick");
-        this.setRunAllSortsName("Stackless Hybrid Quicksort");
-        this.setRunSortName("Stackless Hybrid Quicksort");
+        this.setSortListName("Stackless Dual-Pivot Quick");
+        this.setRunAllSortsName("Stackless Dual-Pivot Quicksort");
+        this.setRunSortName("Stackless Dual-Pivot Quicksort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
@@ -46,51 +46,47 @@ final public class StacklessHybridQuickSort extends Sort {
         this.setBogoSort(false);
     }
 	
-	private void medianOfThree(int[] array, int a, int b) {
-		int m = a+(b-1-a)/2;
+	public int partition(int[] array, int a, int b, int p) {
+		int m1 = (a+a+b)/3, m2 = (a+b+b)/3;
 		
-		if(Reads.compareIndices(array, a, m, 1, true) == 1)
-			Writes.swap(array, a, m, 1, true, false);
-		
-		if(Reads.compareIndices(array, m, b-1, 1, true) == 1) {
-			Writes.swap(array, m, b-1, 1, true, false);
-			
-			if(Reads.compareIndices(array, a, m, 1, true) == 1)
-				return;
+		if(Reads.compareIndices(array, m1, m2, 1, true) > 0) {
+			Writes.swap(array, m1, a, 1, true, false);
+			Writes.swap(array, m2, --b, 1, true, false);
+		}
+		else {
+			Writes.swap(array, m2, a, 1, true, false);
+			Writes.swap(array, m1, --b, 1, true, false);
 		}
 		
-		Writes.swap(array, a, m, 1, true, false);
-	}
-	
-	public int partition(int[] array, int a, int b) {
-        int i = a, j = b;
+		int i = a, j = b;
 		
-		this.medianOfThree(array, a, b);
-		Highlights.markArray(3, a);
-		
-        do {
-			do {
-				i++;
-                Highlights.markArray(1, i);
-                Delays.sleep(0.5);
-			}
-			while(i < j && Reads.compareIndices(array, i, a, 0, false) < 0);
-			
-			do {
-				j--;
-                Highlights.markArray(2, j);
-                Delays.sleep(0.5);
-			}
-            while(j >= i && Reads.compareIndices(array, j, a, 0, false) >= 0);
+		for(int k = i+1; k < j; k++) {
+			if(Reads.compareValues(array[k], array[b]) < 0)
+				Writes.swap(array, k, ++i, 1, true, false);
 				
-            if(i < j) Writes.swap(array, i, j, 1, true, false);
-            else {
-				Writes.swap(array, a, j, 1, true, false);
+			else if(Reads.compareValues(array[k], array[a]) >= 0) {
+				do {
+					j--;
+					Highlights.markArray(3, j);
+					Delays.sleep(1);
+				}
+				while(j > k && Reads.compareValues(array[j], array[a]) >= 0);
+				
+				Writes.swap(array, k, j, 1, true, false);
 				Highlights.clearMark(3);
-				return j;
+				
+				if(Reads.compareValues(array[k], array[b]) < 0)
+					Writes.swap(array, k, ++i, 1, true, false);
 			}
-        }
-		while(true);
+		}
+		
+		Writes.swap(array, a, i, 1, true, false);
+		int t = array[b];
+		Writes.write(array, b, array[j], 1, true, false);
+		Writes.write(array, j, array[p], 1, true, false);
+		Writes.write(array, p, t, 1, true, false);
+		
+		return i;
     }
 	
 	private int leftBinSearch(int[] array, int a, int b, int p) {
@@ -120,12 +116,7 @@ final public class StacklessHybridQuickSort extends Sort {
 		BinaryInsertionSort smallSort = new BinaryInsertionSort(this.arrayVisualizer);
 		
 		do {
-			while(b1-a > 16) {
-				int p = this.partition(array, a, b1);
-				Writes.swap(array, p, b, 1, true, false);
-				
-				b1 = p;
-			}
+			while(b1-a > 24) b1 = this.partition(array, a, b1, b);
 			smallSort.customBinaryInsert(array, a, b1, 0.25);
 				
 			a = b1+1;
