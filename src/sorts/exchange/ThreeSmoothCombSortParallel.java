@@ -30,7 +30,7 @@ final public class ThreeSmoothCombSortParallel extends Sort {
     public ThreeSmoothCombSortParallel(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("3-Smooth Comb (Para.)");
+        this.setSortListName("3-Smooth Comb (Parallel)");
         this.setRunAllSortsName("Parallel 3-Smooth Comb Sort");
         this.setRunSortName("Parallel 3-Smooth Combsort");
         this.setCategory("Exchange Sorts");

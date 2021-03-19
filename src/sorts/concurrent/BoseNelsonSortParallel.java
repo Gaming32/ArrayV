@@ -8,7 +8,7 @@ final public class BoseNelsonSortParallel extends Sort {
     public BoseNelsonSortParallel(ArrayVisualizer arrayVisualizer) {
     	super(arrayVisualizer);
         
-    	this.setSortListName("Bose-Nelson (Para.)");
+    	this.setSortListName("Bose-Nelson (Parallel)");
     	this.setRunAllSortsName("Recursive Bose-Nelson Sorting Network");
     	this.setRunSortName("Recursive Bose-Nelson Sort");
         this.setCategory("Concurrent Sorts");

@@ -222,13 +222,14 @@ final public class RemiSort extends Sort {
 				this.multiWrite(array, p, a + i*bLen, bLen);
 				int val = i, j = func[i];
 				
-				while(j != i) {
+				do {
 					if(val >= bLen-1) this.multiWrite(array, a + val*bLen, a + j*bLen, bLen);
 					Writes.swap(func, i, j, 1, true, true);
 					
 					val = j;
 					j = func[i];
 				}
+				while(j != i);
 				
 				this.multiWrite(array, a + val*bLen, p, bLen);
 			}

@@ -6,7 +6,7 @@ import sorts.templates.Sort;
 public final class BitonicSortParallel extends Sort {
     private int[] arr;
     private final double DELAY = 1;
-    public ParallelBitonicSort(ArrayVisualizer arrayVisualizer) {
+    public BitonicSortParallel(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.setSortListName("Bitonic (Parallel)");
         this.setRunAllSortsName("Parallel Bitonic Sort");
@@ -29,7 +29,7 @@ public final class BitonicSortParallel extends Sort {
             this.ascending = ascending;
         }
         public void run() {
-            ParallelBitonicSort.this.bitonicSort(this.start, this.stop, this.ascending);
+            BitonicSortParallel.this.bitonicSort(this.start, this.stop, this.ascending);
         }
     }
 
@@ -43,7 +43,7 @@ public final class BitonicSortParallel extends Sort {
             this.flag = flag;
         }
         public void run() {
-            ParallelBitonicSort.this.bitonicMerge(this.start, this.mid, this.stop, this.gap, this.flag);
+            BitonicSortParallel.this.bitonicMerge(this.start, this.mid, this.stop, this.gap, this.flag);
         }
     }
 

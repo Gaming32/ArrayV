@@ -7,7 +7,7 @@ final public class LRQuickSortParallel extends Sort {
     public LRQuickSortParallel(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Left/Right Quick (Para.)");
+        this.setSortListName("Left/Right Quick (Parallel)");
         this.setRunAllSortsName("Quick Sort, Left/Right Pointers");
         this.setRunSortName("Left/Right Quicksort");
         this.setCategory("Exchange Sorts");
