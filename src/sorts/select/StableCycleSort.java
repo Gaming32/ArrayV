@@ -1,4 +1,4 @@
-package sorts.exchange;
+package sorts.select;
 
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
