@@ -33,7 +33,7 @@ final public class OptimizedOddEvenMergeSort extends Sort {
 	public OptimizedOddEvenMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Opti. Odd-Even Merge");
+        this.setSortListName("Optimized Odd-Even Merge");
         this.setRunAllSortsName("Optimized Odd-Even Merge Sort");
         this.setRunSortName("Optimized Odd-Even Mergesort");
         this.setCategory("Concurrent Sorts");
