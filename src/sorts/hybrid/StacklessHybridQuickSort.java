@@ -107,14 +107,20 @@ final public class StacklessHybridQuickSort extends Sort {
 	}
 	
 	private void quickSort(int[] array, int a, int b) {
-		int max = a;
-		for(int i = a+1; i < b; i++)
-			if(Reads.compareIndices(array, i, max, 0.5, true) == 1)
-				max = i;
-		
-		Writes.swap(array, max, --b, 1, true, false);
-		int t = array[b];
-		Writes.write(array, b, array[b]+1, 1, true, false);
+		int max = array[a];
+		for(int i = a+1; i < b; i++) {
+			Highlights.markArray(1, i);
+			Delays.sleep(0.5);
+			
+			if(Reads.compareValues(array[i], max) > 0) max = array[i];
+		}
+		for(int i = b-1; i >= 0; i--) {
+			Highlights.markArray(1, i);
+			Delays.sleep(0.5);
+			
+			if(Reads.compareValues(array[i], max) == 0)
+				Writes.swap(array, i, --b, 1, true, false);
+		}
 		
 		int b1 = b;
 		BinaryInsertionSort smallSort = new BinaryInsertionSort(this.arrayVisualizer);
@@ -131,7 +137,6 @@ final public class StacklessHybridQuickSort extends Sort {
 			a = b1+1;
 			if(a >= b) {
 				if(a-1 < b) Writes.swap(array, a-1, b, 1, true, false);
-				Writes.write(array, b, t, 1, true, false);
 				return;
 			}
 			
