@@ -112,13 +112,15 @@ final public class RemiSort extends Sort {
 				int t = array[a+i];
 				int j = i, next = keys[i];
 				
-				while(next != i) {
+				do {
 					Writes.write(array, a+j, array[a+next], 1, true, false);
 					Writes.write(keys, j, j, 1, true, true);
 					
 					j = next;
 					next = keys[next];
 				}
+				while(next != i);
+				
 				Writes.write(array, a+j, t, 1, true, false);
 				Writes.write(keys, j, j, 1, true, true);
 			}
