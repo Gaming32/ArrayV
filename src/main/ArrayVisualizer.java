@@ -368,26 +368,32 @@ final public class ArrayVisualizer {
                             e.printStackTrace();
                         }
                     }
-                    if(ArrayVisualizer.this.updateVisualsForced > 0) {
-                        ArrayVisualizer.this.updateVisualsForced--;
-                        ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
-                        int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
-                        ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
+                    try {
+                        if(ArrayVisualizer.this.updateVisualsForced > 0) {
+                            ArrayVisualizer.this.updateVisualsForced--;
+                            ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
+                            int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
+                            ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
 
-                        if(ArrayVisualizer.this.TEXTDRAW) {
-                            ArrayVisualizer.this.statSnapshot.updateStats(ArrayVisualizer.this);
-                            ArrayVisualizer.this.updateFontSize();
-                            ArrayVisualizer.this.drawStats(Color.BLACK, true);
-                            ArrayVisualizer.this.drawStats(Color.WHITE, false);
+                            if(ArrayVisualizer.this.TEXTDRAW) {
+                                ArrayVisualizer.this.statSnapshot.updateStats(ArrayVisualizer.this);
+                                ArrayVisualizer.this.updateFontSize();
+                                ArrayVisualizer.this.drawStats(Color.BLACK, true);
+                                ArrayVisualizer.this.drawStats(Color.WHITE, false);
+                            }
+                            background.drawImage(ArrayVisualizer.this.img, 0, 0, null);
+                            Toolkit.getDefaultToolkit().sync();
                         }
-                        background.drawImage(ArrayVisualizer.this.img, 0, 0, null);
-                        Toolkit.getDefaultToolkit().sync();
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
                     }
                     // See: https://stackoverflow.com/questions/580419/how-can-i-stop-a-java-while-loop-from-eating-50-of-my-cpu/583537#583537
                     try {
                         Thread.sleep(ArrayVisualizer.this.benchmarking ? 1000 : 0);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
+                        ArrayVisualizer.this.visualsEnabled = false;
                     }
 
                 }}};
