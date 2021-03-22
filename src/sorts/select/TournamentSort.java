@@ -1,7 +1,5 @@
 package sorts.select;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
@@ -134,23 +132,17 @@ final public class TournamentSort extends Sort {
     }
     
 	private void sort(int[] arr, int currentLen) {
-        ArrayList<Integer> copy = new ArrayList<>(currentLen);
-        Writes.changeAllocAmount(currentLen);
+        int[] copy = Writes.createExternalArray(currentLen);
+		
 		for (int i = 0; i < currentLen; i++) {
 		    int result = this.pop(arr);
-		    
-		    Writes.mockWrite(currentLen, copy.size(), result, 0);
-		    copy.add(result);
+		    Writes.write(copy, i, result, 1, true, true);
 		}
 
 		Highlights.clearAllMarks();
-
-		for (int i = 0; i < currentLen; i++) {
-			Integer selected = copy.get(i);
-			
-			Writes.write(arr, i, selected, 1, true, false);
-        }
-        Writes.changeAllocAmount(-currentLen);
+		Writes.arraycopy(copy, 0, arr, 0, currentLen, 1, true, false);
+		
+        Writes.deleteExternalArray(copy);
 	}
 
     @Override
