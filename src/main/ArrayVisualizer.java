@@ -475,6 +475,8 @@ final public class ArrayVisualizer {
     }
     
 	public int getStabilityValue(int n) {
+		n = Math.max(0, Math.min(n, this.sortLength-1));
+		
 		return this.stabilityTable[n];
 	}
 	
@@ -489,6 +491,8 @@ final public class ArrayVisualizer {
     }
 	
 	public int getIndexValue(int n) {
+		n = Math.max(0, Math.min(n, this.sortLength-1));
+		
 		return this.indexTable[n];
 	}
 	
