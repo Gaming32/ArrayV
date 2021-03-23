@@ -154,7 +154,7 @@ final public class LazierSort extends Sort {
 			this.insertTo(array, i, this.rightBinSearch(array, a, i, array[i]));
     }
     
-    private void inPlaceMerge(int[] array, int a, int m, int b) {
+    public void inPlaceMerge(int[] array, int a, int m, int b) {
 		int i = a, j = m, k;
 		
 		while(i < j && j < b) {
