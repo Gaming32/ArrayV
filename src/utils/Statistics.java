@@ -32,11 +32,12 @@ final public class Statistics {
         this.updateStats(ArrayVisualizer);
     }
 
-    public int[] findSegments(int[] array, int length) {
+    public int[] findSegments(int[] array, int length, boolean reversed) {
         int runs = 1;
         int correct = 0;
         for (int i = 0; i < length-1; i++) {
-            if (array[i] > array[i+1]) runs++;
+            if (!reversed && array[i] > array[i+1]) runs++;
+            else if (reversed && array[i] < array[i+1]) runs++;
             else correct++;
         }
         int[] result = new int[2];
@@ -67,7 +68,7 @@ final public class Statistics {
         this.auxAllocAmount = ArrayVisualizer.getWrites().getAllocAmount();
 
         int[] shadowarray    = ArrayVisualizer.getArray();
-        int[] rawSegments    = this.findSegments(shadowarray, ArrayVisualizer.getCurrentLength());
+        int[] rawSegments    = this.findSegments(shadowarray, ArrayVisualizer.getCurrentLength(), ArrayVisualizer.reversedComparator());
         String plural = rawSegments[0] == 1 ? "" : "s";
         this.segments        = String.valueOf(rawSegments[1]) + "% Sorted (" + String.valueOf(rawSegments[0]) + " Segment" + plural + ")";
     }

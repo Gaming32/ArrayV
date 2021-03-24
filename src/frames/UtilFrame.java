@@ -305,7 +305,8 @@ final public class UtilFrame extends javax.swing.JFrame {
         jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] {
             "Sorting",
             "AntiQSort",
-            "Stability Check"
+            "Stability Check",
+            "Reversed Sorting"
             // "*Simple* Benchmarking"
         }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -561,6 +562,13 @@ final public class UtilFrame extends javax.swing.JFrame {
                     break;
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(2);
+                break;
+
+            case "Reversed Sorting":
+                if (ArrayVisualizer.enableBenchmarking(false))
+                    break;
+                jButton6.setEnabled(true);
+                ArrayVisualizer.setComparator(3);
                 break;
 
             case "*Simple* Benchmarking":

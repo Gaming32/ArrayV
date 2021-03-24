@@ -144,6 +144,7 @@ final public class ArrayVisualizer {
 
     private volatile boolean ANTIQSORT;
     private volatile boolean STABILITY;
+    private volatile boolean REVERSED;
 
     private volatile boolean isCanceled;
 
@@ -612,16 +613,24 @@ final public class ArrayVisualizer {
     public void setComparator(int comparator) {
         switch (comparator) {
             case 0:
+                this.REVERSED = false;
                 this.ANTIQSORT = false;
                 this.STABILITY = false;
                 break;
             case 1:
+                this.REVERSED = false;
                 this.ANTIQSORT = true;
                 this.STABILITY = false;
                 break;
             case 2:
+                this.REVERSED = false;
                 this.STABILITY = true;
                 this.ANTIQSORT = false;
+                break;
+            case 3:
+                this.REVERSED = true;
+                this.ANTIQSORT = false;
+                this.STABILITY = false;
                 break;
         }
     }
@@ -658,6 +667,10 @@ final public class ArrayVisualizer {
 
     public boolean doingStabilityCheck() {
         return this.STABILITY;
+    }
+
+    public boolean reversedComparator() {
+        return this.REVERSED;
     }
     
     // These next five methods should be part of ArrayManager
@@ -843,6 +856,8 @@ final public class ArrayVisualizer {
         
         String temp = this.heading;
         this.heading = "Verifying sort...";
+
+        int cmpVal = this.REVERSED ? -1 : 1;
         
         boolean success = true;
         this.updateNow(10);
@@ -851,7 +866,7 @@ final public class ArrayVisualizer {
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
-                if(this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == 1) {
+                if(this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     this.Highlights.clearMark(1);
                     
                     this.Sounds.toggleSound(false);

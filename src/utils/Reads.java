@@ -100,6 +100,9 @@ final public class Reads {
         Timer.stopLap();
 
         if (!ArrayVisualizer.useAntiQSort()) {
+            if (ArrayVisualizer.reversedComparator()) {
+                return -cmpVal;
+            }
             return cmpVal;
         }
         else {
