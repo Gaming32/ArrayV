@@ -520,7 +520,7 @@ final public class ArrayVisualizer {
     }
 	
     public boolean isSorted() {
-        return this.statSnapshot.findSegments(this.array, this.sortLength)[0] == 1;
+        return this.statSnapshot.findSegments(this.array, this.sortLength, this.REVERSED)[0] == 1;
     }
 
     public int[] getArray() {
