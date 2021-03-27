@@ -198,7 +198,7 @@ final public class RemiSort extends Sort {
 					m /= 2;
 				}
 			}
-			Writes.write(keys, ta[c], tVal++, 0, false, true);
+			Writes.write(keys, tVal++, ta[c], 0, false, true);
 			Writes.write(ta, c, ta[c]+1, 1, true, true);
 		}
 		while(pa[tree[0]] < pb[tree[0]]);
@@ -207,7 +207,7 @@ final public class RemiSort extends Sort {
 		
 		for(int i = 0; i < k; i++) {
 			while(bSize[i] > 0) {
-				Writes.write(keys, ta[i], tVal++, 0, false, true);
+				Writes.write(keys, tVal++, ta[i], 0, false, true);
 				Writes.write(ta, i, ta[i]+1, 1, true, true);
 				bSize[i] -= bLen;
 			}
@@ -215,21 +215,21 @@ final public class RemiSort extends Sort {
 		this.multiWrite(array, pb[k-1]-bLen, a, bLen);
 	}
 	
-	private void blockCycle(int[] array, int[] func, int a, int bLen, int bCnt) {
+	private void blockCycle(int[] array, int[] keys, int a, int bLen, int bCnt) {
 		int p = a;
 		a += bLen;
 		
 		for(int i = 0; i < bCnt; i++) {
-			if(i != func[i]) {
+			if(i != keys[i]) {
 				this.multiWrite(array, p, a + i*bLen, bLen);
-				int val = i, j = func[i];
+				int val = i, j = keys[i];
 				
 				do {
 					if(val >= bLen-1) this.multiWrite(array, a + val*bLen, a + j*bLen, bLen);
-					Writes.swap(func, i, j, 1, true, true);
+					Writes.swap(keys, i, j, 1, true, true);
 					
 					val = j;
-					j = func[i];
+					j = keys[i];
 				}
 				while(j != i);
 				
@@ -251,7 +251,6 @@ final public class RemiSort extends Sort {
 		
 		int[] keys = Writes.createExternalArray(rLen+a);
 		int[] buf  = Writes.createExternalArray(rLen+a);
-		int[] func = Writes.createExternalArray(bCnt);
 		
 		int[] tree  = new int[this.ceilPow2(rCnt)+rCnt-1];
 		int[] p     = new int[rCnt];
@@ -281,18 +280,15 @@ final public class RemiSort extends Sort {
 		if(rCnt > 0) {
 			Writes.write(p, 0, a, 0, false, true);
 			Writes.write(bSize, 0, rLen, 0, false, true);
+			Writes.write(ta, 0, -1, 0, false, true);
+			
 			for(int j = 1; j < rCnt; j++) {
 				Writes.write(p, j, pa[j], 0, false, true);
-				Writes.write(ta, j, (j+1)*bLen, 0, false, true);
+				Writes.write(ta, j, (j+1)*bLen-1, 0, false, true);
 			}
 			
 			this.kWayMerge(array, keys, tree, p, pa, pb, bSize, ta, bLen);
-			
-			if(rCnt > 1) {
-				for(int j = 0; j < bCnt; j++)
-					Writes.write(func, keys[j+1], j, 0, false, true);
-				this.blockCycle(array, func, a, bLen, bCnt);
-			}
+			if(rCnt > 1) this.blockCycle(array, keys, a, bLen, bCnt);
 			
 			i = 0;
 			Highlights.markArray(2, i);
@@ -313,7 +309,6 @@ final public class RemiSort extends Sort {
 		
 		Writes.deleteExternalArray(keys);
 		Writes.deleteExternalArray(buf);
-		Writes.deleteExternalArray(func);
 		Writes.changeAllocAmount(-alloc);
     }
 }
