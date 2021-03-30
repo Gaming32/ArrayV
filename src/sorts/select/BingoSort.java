@@ -37,6 +37,8 @@ final public class BingoSort extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
+		double sleep = Math.min(Math.max(10d/this.arrayVisualizer.getUniqueItems(), 0.001), 1);
+		
         int maximum = length - 1;
         int next = array[maximum];
         
@@ -58,7 +60,7 @@ final public class BingoSort extends Sort {
         		Highlights.markArray(2, val);
         		
         		if(Reads.compareValues(array[j], val) == 0) {
-        			Writes.swap(array, j, maximum, 0.02, true, false);
+        			Writes.swap(array, j, maximum, 2*sleep, true, false);
         			maximum--;
         			
         		}
@@ -67,7 +69,7 @@ final public class BingoSort extends Sort {
         				next = array[j];
         			}
         		}
-        		Delays.sleep(0.01);
+        		Delays.sleep(sleep);
         	}
         	while(maximum > 0 && array[maximum] == next) {
         		maximum--;
