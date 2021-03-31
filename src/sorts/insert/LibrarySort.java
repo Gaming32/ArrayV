@@ -7,7 +7,7 @@ import main.ArrayVisualizer;
  * 
 MIT License
 
-Copyright (c) 2020 aphitorite
+Copyright (c) 2020-2021 aphitorite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -45,12 +45,14 @@ final public class LibrarySort extends Sort {
         this.setBogoSort(false);
     }
 	
-	//implementation of stable library sort with O(n) extra memory + counter & pointer array (n/2 size each)
+	//simple library sort with O(n) extra memory + counter & pointer array (n size combined)
+	
+	private final int R = 4; //rebalancing factor
 	
 	private BinaryInsertionSort binaryInsert;
 	
-	public static int getMinLevel(int n) {
-		while(n >= 32) n = (n+1)/2;
+	private int getMinLevel(int n) {
+		while(n >= 32) n = (n-1)/R+1;
 		return n;
 	}
 	
@@ -110,18 +112,18 @@ final public class LibrarySort extends Sort {
 			return;
 		}
 		
-		int j = getMinLevel(length);
+		int j = this.getMinLevel(length);
 		this.binaryInsert.customBinaryInsert(array, 0, j, 1);
 		
 		int maxLevel = j;
-		for(; maxLevel*2 < length; maxLevel *= 2);
+		for(; maxLevel*R < length; maxLevel *= R);
 		
 		int[] temp = Writes.createExternalArray(length), 
 			  cnts = Writes.createExternalArray(maxLevel+2),
 			  locs = Writes.createExternalArray(length-maxLevel);
 		
 		for(int i = j, k = 0; i < length; i++) {
-			if(2*j == i) {
+			if(R*j == i) {
 				this.rebalance(array, temp, cnts, locs, j, i);
 				j = i;
 				k = 0;
