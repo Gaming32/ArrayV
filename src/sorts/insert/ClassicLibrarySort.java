@@ -4,7 +4,6 @@ import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
 import java.util.Arrays;
-import java.util.Random;
 
 /*
  * 
@@ -47,6 +46,9 @@ final public class ClassicLibrarySort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
+	
+	//possible implementation of the library sort here https://en.wikipedia.org/wiki/Library_sort
+	//makes O(1) insertions into gaps of constant size on random data using an extra (1+G)*n space
 	
 	private final int G = 15;
 	private final int R = 4;
@@ -184,11 +186,8 @@ final public class ClassicLibrarySort extends Sort {
 				Writes.swap(array, i, --length, 1, true, false);
 		}
 		
-		Random random = new Random();
-		for(int i = 0; i < length; i++){
-			int r = random.nextInt(length - i) + i;
-			Writes.swap(array, i, r, 1, true, false);
-        }
+		//there is supposed to be a shuffle here between [0, length)
+		//but for the sake of demonstrating O(n^2) worst case it has been removed
 		
 		int[] tmp = Writes.createExternalArray(length*(G+1)-1);
 		Arrays.fill(tmp, this.max);
