@@ -185,7 +185,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     int currentLength = ArrayVisualizer.getCurrentLength();
                     jSlider1.setValue(calculateSliderValue(currentLength));
                 }
-                if(ArrayVisualizer.getVisualStyles() == visuals.VisualStyles.CIRCULAR && jSlider1.getValue() == 1) jSlider1.setValue(2);
+                //if(ArrayVisualizer.getVisualStyles() == visuals.VisualStyles.CIRCULAR && jSlider1.getValue() == 1) jSlider1.setValue(2);
                 
                 Highlights.clearAllMarks();
             }

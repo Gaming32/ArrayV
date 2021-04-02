@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import visuals.CustomImage;
+import visuals.image.CustomImage;
 import javax.swing.SwingConstants;
 
 public class ImageFrame extends JFrame {

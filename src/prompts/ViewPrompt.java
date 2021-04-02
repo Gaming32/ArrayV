@@ -20,6 +20,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -74,27 +75,29 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        this.jLabel1       = new javax.swing.JLabel();
+        this.jLabel1           = new javax.swing.JLabel();
 		
-        this.barGraph      = new javax.swing.JButton();
-        this.dotGraph      = new javax.swing.JButton();
-        this.colorCircle   = new javax.swing.JButton();
-        this.triangleMesh  = new javax.swing.JButton();
-        this.spiral        = new javax.swing.JButton();
-        this.disparity     = new javax.swing.JButton();
-        this.disparityDots = new javax.swing.JButton();
-        this.spiralDots    = new javax.swing.JButton();
-        this.rainbow       = new javax.swing.JButton();
-        this.customImage   = new javax.swing.JButton();
-        this.sineWave      = new javax.swing.JButton();
-        this.waveDots      = new javax.swing.JButton();
-		this.hoopStack     = new javax.swing.JButton();//add later
+        this.barGraph          = new javax.swing.JButton();
+        this.dotGraph          = new javax.swing.JButton();
+        this.colorCircle       = new javax.swing.JButton();
+        this.pixelMesh         = new javax.swing.JButton();
+        this.spiral            = new javax.swing.JButton();
+        this.disparity         = new javax.swing.JButton();
+        this.disparityDots     = new javax.swing.JButton();
+        this.spiralDots        = new javax.swing.JButton();
+        this.rainbow           = new javax.swing.JButton();
+        this.customImage       = new javax.swing.JButton();
+        this.sineWave          = new javax.swing.JButton();
+        this.waveDots          = new javax.swing.JButton();
+		this.hoopStack         = new javax.swing.JButton();
+		this.disparityBarGraph = new javax.swing.JButton();
+		this.disparityGraph    = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setText("Select Visual Style");
-
+		
         barGraph.setText("Bar Graph");
         barGraph.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -119,8 +122,8 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
             }
         });
 
-        triangleMesh.setText("Triangle Mesh");
-        triangleMesh.addActionListener(new java.awt.event.ActionListener() {
+        pixelMesh.setText("Pixel Mesh");
+        pixelMesh.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 triangleMeshActionPerformed(evt);
@@ -197,6 +200,22 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                 hoopStackActionPerformed(evt);
             }
         });
+		
+		disparityBarGraph.setText("Disparity Bar Graph");
+        disparityBarGraph.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disparityBarGraphActionPerformed(evt);
+            }
+        });
+		
+		disparityGraph.setText("Disparity Graph");
+        disparityGraph.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disparityGraphActionPerformed(evt);
+            }
+        });
         
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
@@ -208,7 +227,8 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                         .addComponent(barGraph, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                         .addComponent(rainbow, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(colorCircle, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                        .addComponent(disparity, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(disparity, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(disparityBarGraph, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(Alignment.LEADING)
                         .addComponent(disparityDots, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
@@ -218,10 +238,11 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                         .addComponent(hoopStack, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(Alignment.LEADING)
-                        .addComponent(triangleMesh, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                        .addComponent(pixelMesh, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                         .addComponent(spiral, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(customImage, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                        .addComponent(spiralDots, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(spiralDots, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(disparityGraph, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(18))
         );
         layout.setVerticalGroup(
@@ -233,7 +254,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
                         .addComponent(barGraph)
                         .addComponent(disparityDots)
-                        .addComponent(triangleMesh))
+                        .addComponent(pixelMesh))
                     .addPreferredGap(ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
                         .addComponent(rainbow)
@@ -251,7 +272,9 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                         .addComponent(spiralDots))
                     .addPreferredGap(ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
-                        .addComponent(hoopStack))
+                        .addComponent(hoopStack)
+                        .addComponent(disparityBarGraph)
+                        .addComponent(disparityGraph))
                     .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         getContentPane().setLayout(layout);
@@ -267,7 +290,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         ArrayVisualizer.toggleSpiral(false);
         ArrayVisualizer.toggleWave(false);
     }
-
+	
     private void barGraphActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
         ArrayVisualizer.setVisual(VisualStyles.BARS);
@@ -276,92 +299,91 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     }
     private void dotGraphActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.PIXELS);
+        ArrayVisualizer.setVisual(VisualStyles.DOTS);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void rainbowActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.BARS);
-        ArrayVisualizer.toggleRainbow(true);
+        ArrayVisualizer.setVisual(VisualStyles.RAINBOW);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void triangleMeshActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.MESH);
+        ArrayVisualizer.setVisual(VisualStyles.PIXEL_MESH);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void colorCircleActionPerformed(java.awt.event.ActionEvent evt) {
         //TODO: Pointer as separate option
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.CIRCULAR);
-        ArrayVisualizer.togglePointer(true);
-        ArrayVisualizer.toggleRainbow(true);
+        ArrayVisualizer.setVisual(VisualStyles.COLOR_CIRCLE);
         if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void spiralActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.CIRCULAR);
-        ArrayVisualizer.toggleSpiral(true);
+        ArrayVisualizer.setVisual(VisualStyles.SPIRAL);
         if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void disparityActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.CIRCULAR);
-        ArrayVisualizer.toggleDistance(true);
-        //ArrayVisualizer.togglePointer(true);
+        ArrayVisualizer.setVisual(VisualStyles.DISP_CIRCLE);
         if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void customImageActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.CUSTOMIMAGE);
+        ArrayVisualizer.setVisual(VisualStyles.CUSTOM_IMAGE);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void disparityDotsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.CIRCULAR);
-        ArrayVisualizer.toggleDistance(true);
-        ArrayVisualizer.togglePixels(true);
+        ArrayVisualizer.setVisual(VisualStyles.DISP_DOTS);
         if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void spiralDotsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.CIRCULAR);
-        ArrayVisualizer.togglePixels(true);
-        ArrayVisualizer.toggleSpiral(true);
+        ArrayVisualizer.setVisual(VisualStyles.SPIRAL_DOTS);
         if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void sineWaveActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.BARS);
-        ArrayVisualizer.toggleWave(true);
+        ArrayVisualizer.setVisual(VisualStyles.SINE_WAVE);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void waveDotsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.PIXELS);
-        ArrayVisualizer.togglePixels(true);
-        ArrayVisualizer.toggleWave(true);
+        ArrayVisualizer.setVisual(VisualStyles.WAVE_DOTS);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void hoopStackActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.HOOPSTACK);
+        ArrayVisualizer.setVisual(VisualStyles.HOOP_STACK);
+        UtilFrame.jButton2ResetText();
+        dispose();
+    }
+    private void disparityBarGraphActionPerformed(java.awt.event.ActionEvent evt) {
+        setAllFieldsFalse();
+        ArrayVisualizer.setVisual(VisualStyles.DISP_BARS);
+        UtilFrame.jButton2ResetText();
+        dispose();
+    }
+    private void disparityGraphActionPerformed(java.awt.event.ActionEvent evt) {
+        setAllFieldsFalse();
+        ArrayVisualizer.setVisual(VisualStyles.DISP_GRAPH);
         UtilFrame.jButton2ResetText();
         dispose();
     }
@@ -370,7 +392,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private javax.swing.JButton barGraph;
     private javax.swing.JButton dotGraph;
     private javax.swing.JButton colorCircle;
-    private javax.swing.JButton triangleMesh;
+    private javax.swing.JButton pixelMesh;
     private javax.swing.JButton spiral;
     private javax.swing.JButton spiralDots;
     private javax.swing.JButton disparity;
@@ -380,5 +402,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private javax.swing.JButton sineWave;
     private javax.swing.JButton waveDots;
 	private javax.swing.JButton hoopStack;
+    private javax.swing.JButton disparityBarGraph;
+	private javax.swing.JButton disparityGraph;
     private javax.swing.JLabel jLabel1;
 }

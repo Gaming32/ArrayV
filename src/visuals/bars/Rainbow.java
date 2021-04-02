@@ -1,16 +1,17 @@
-package visuals;
+package visuals.bars;
 
 import java.awt.Color;
 
 import main.ArrayVisualizer;
 import utils.Highlights;
 import utils.Renderer;
+import visuals.Visual;
 
 /*
  * 
 MIT License
 
-Copyright (c) 2020 ArrayV 4.0 Team
+Copyright (c) 2019 w0rthy
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,41 +33,34 @@ SOFTWARE.
  *
  */
 
-final public class HoopStack extends Visual {
-    public HoopStack(ArrayVisualizer ArrayVisualizer) {
+final public class Rainbow extends Visual {
+    public Rainbow(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }
-	
-	private void drawEllipseFromCenter(int x, int y, int rx, int ry) {
-		this.mainRender.drawOval(x - rx, y - ry, 2*rx, 2*ry);
-	}
-	
-	@Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-		if (Renderer.auxActive)
-            return;
 
-		int width = ArrayVisualizer.windowWidth();
-		int height = ArrayVisualizer.windowHeight();
-		int length = ArrayVisualizer.getCurrentLength();
-			
-		for(int i = length - 1; i >= 0; i--) {
-			double scale = (array[i] + 1) / (double) (length + 1);
-			int radiusX = height / 3;
-			int radiusY = height / 9;
-					
-			int y = (int) ((height - radiusY * 4) * i / (double) (length - 1));
-			
+    @Override
+    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+        for(int i = 0, j = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
 			if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
 				this.mainRender.setColor(Color.GREEN);
 			
-			else if(Highlights.containsPosition(i)) {
-				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
-				else this.mainRender.setColor(Color.WHITE);
-			}
-			else this.mainRender.setColor(getIntColor(array[i], length));
+			else this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
 			
-			this.drawEllipseFromCenter(width / 2, y + radiusY * 2, (int) (scale * radiusX + 0.5), (int) (scale * radiusY + 0.5));
+            int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+			
+			if(width > 0) mainRender.fillRect(j + 20, 0, width, ArrayVisualizer.windowHeight());
+			
+			j += width;
+        }
+		this.mainRender.setColor(Color.WHITE);
+		
+		for(int i = 0, j = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
+			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+			
+			if(Highlights.containsPosition(i))
+				this.mainRender.fillRect(j + 20, 0, Math.max(width, 2), ArrayVisualizer.windowHeight());
+			
+			j += width;
 		}
     }
 }

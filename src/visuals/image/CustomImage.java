@@ -1,24 +1,27 @@
 package visuals.image;
 
 import java.awt.Color;
-import java.awt.Dialog.ModalityType;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
+import visuals.Visual;
+import dialogs.CustomImageDialog;
+import dialogs.LoadingDialog;
+import dialogs.SoundbankDialog;
+import frames.ImageFrame;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
 import resources.image.ImgFetcher;
 import utils.Highlights;
 import utils.Renderer;
-import visuals.Visual;
 
 /*
  * 
@@ -52,26 +55,54 @@ SOFTWARE.
  *  aphitorite (https://github.com/aphitorite/ArrayVisualizer)
  */
 final public class CustomImage extends Visual {
-	private BufferedImage img;
-	private int imgHeight;
-    private int imgWidth;
+    public static CustomImage visual;
+
+	private volatile BufferedImage img;
+	private volatile int imgHeight;
+    private volatile int imgWidth;
     
 	private boolean imgImported;
 	private boolean imgScaled;
+	private boolean openImgMenu;
 	
 	private int windowHeight;
 	private int windowWidth;
 	
-	private JOptionPane info;
-	private JDialog infoMsg;
+	private volatile ImageFrame pictureMenu;
+	private volatile LoadingDialog infoMsg;
+	
+	final private String defaultArtwork = "Summer Sorting by aphitorite";
+	private String currentImage;
+	private File imageFile;
 	
 	public CustomImage(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
+        CustomImage.visual = this;
         this.imgImported = false; // Don't load the image unless the user selects the
                                   // 'Custom Image' visual. Program initially boots up
                                   // faster this way.
+        this.enableImgMenu();
         this.updateWindowDims(ArrayVisualizer);
+        this.currentImage = this.defaultArtwork;
     }
+	
+	public BufferedImage getImage() {
+	    return this.img;
+	}
+	public int getImgHeight() {
+	    return this.imgHeight;
+	}
+	public int getImgWidth() {
+	    return this.imgWidth;
+	}
+	
+	public String getCurrentImageName() {
+	    return this.currentImage;
+	}
+	
+	public void enableImgMenu() {
+	    this.openImgMenu = true;
+	}
 	
 	private void updateImageDims() throws Exception {
 	    this.imgHeight = this.img.getHeight();
@@ -83,24 +114,61 @@ final public class CustomImage extends Visual {
         this.windowWidth = ArrayVisualizer.windowWidth();
 	}
 	
+	private void refreshCustomImage(ImageFrame menu) {
+	    menu.dispose();
+	    this.imgImported = false;
+	    this.imgScaled = false;
+	    this.openImgMenu = true;
+	}
+	
+	public void loadDefaultArtwork(ImageFrame menu) {
+	    this.currentImage = this.defaultArtwork;
+	    this.refreshCustomImage(menu);
+	}
+	public void loadCustomImage(ImageFrame menu) {
+	    CustomImageDialog dialog = new CustomImageDialog();
+        this.imageFile = dialog.getFile();
+        if(this.imageFile != null) {
+            this.currentImage = this.imageFile.getName();
+            this.refreshCustomImage(menu);
+        }
+	}
+	public void loadCustomImage(File file) {
+        this.imageFile = file;
+        if(this.imageFile != null) {
+            this.currentImage = this.imageFile.getName();
+            this.refreshCustomImage(ImageFrame.defaultFrame);
+        }
+	}
+	
 	@SuppressWarnings("unused")
 	private boolean fetchBufferedImage(boolean showInfoMsg, JFrame window) {
-	    // New copy of pic.jpg being imported; has not been scaled yet
+	    // New copy of image being imported; has not been scaled yet
 	    this.imgScaled = false;
 	    
+	    boolean defaultImage = this.currentImage.equals(this.defaultArtwork);
+	    
 	    if(showInfoMsg) {
-	        this.info = new JOptionPane("Loading image/pic.jpg...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {}, null);
-	        this.infoMsg = this.info.createDialog(window, "Info");
-	        this.infoMsg.setModalityType(ModalityType.MODELESS);
-	        this.infoMsg.setAlwaysOnTop(this.infoMsg.isAlwaysOnTopSupported());
-	        this.infoMsg.pack();
-	        this.infoMsg.setVisible(true);
+	        String message;
+	        if(defaultImage) {
+	            message = "resources/image/pic.jpg";
+	        }
+	        else {
+	            message = this.currentImage;
+	        }
+	        this.infoMsg = new LoadingDialog(message, window);
 	    }
 
 	    boolean success = true;
 	    
-	    ImgFetcher imgFetcher = new ImgFetcher();
-        InputStream stream = imgFetcher.getStream();
+	    ImgFetcher imgFetcher;
+	    if(defaultImage) {
+            imgFetcher = new ImgFetcher();
+        }
+        else {
+            imgFetcher = new ImgFetcher(this.imageFile);
+        }
+        BufferedInputStream stream = imgFetcher.getStream();
         
         try {
             this.img = ImageIO.read(stream);
@@ -111,11 +179,19 @@ final public class CustomImage extends Visual {
         }
         catch (IllegalArgumentException e) {
             success = false;
-            JErrorPane.invokeCustomErrorMessage("image/pic.jpg missing: Couldn't find the default image for the program's 'Custom Image' visual!");
+            if(defaultImage) {
+                JErrorPane.invokeCustomErrorMessage("image/pic.jpg missing: Couldn't find the default image for the program's 'Custom Image' visual!");
+            }
+            else {
+                JErrorPane.invokeCustomErrorMessage(this.currentImage + " missing: ArrayV couldn't find your picture at the given location!");
+            }
         }
         finally {
             try {
                 stream.close();
+            }
+            catch (NullPointerException e) {
+                success = false; // A NullPointerException means a null stream, which would have already thrown an IllegalArgumentException
             }
             catch (Exception e) {
                 success = false;
@@ -123,20 +199,39 @@ final public class CustomImage extends Visual {
             }
         }
         
-        // Update the image dimensions. If this fails, the file wasn't a jpg
-        try {
-            this.updateImageDims();
-        }
-        catch (Exception e) {
-            success = false;
-            JErrorPane.invokeCustomErrorMessage("image/pic.jpg invalid or corrupt: The file for the program's 'Custom Image' visual was not recognized as a proper JPEG!");
+        // Update the image dimensions. If this fails, the file wasn't a proper image
+        if(success) {
+            try {
+                this.updateImageDims();
+            }
+            catch (Exception e) {
+                success = false;
+                if(defaultImage) {
+                    JErrorPane.invokeCustomErrorMessage("image/pic.jpg invalid or corrupt: The file for the program's 'Custom Image' visual was not recognized as a valid image!");
+                }
+                else {
+                    JErrorPane.invokeCustomErrorMessage(this.currentImage + " invalid or corrupt: Your picture was not recognized as a valid image!");
+                }
+            }
         }
         
         if(showInfoMsg) {
-            this.infoMsg.setVisible(false);
-            this.infoMsg.dispose();
+            this.infoMsg.closeDialog();
         }
-        return success;
+        
+        if(!success) {
+            // If loading a custom file didn't work, then try loading the default artwork instead.
+            if(!defaultImage) {
+                this.currentImage = this.defaultArtwork;
+                return this.fetchBufferedImage(true, window);
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
 	}
 	
 	// Many thanks to Jörn Horstmann for providing fast image scaling code.
@@ -180,9 +275,44 @@ final public class CustomImage extends Visual {
 	    return success;
 	}
 	
+	public static void markCustomBar(ArrayVisualizer ArrayVisualizer, Graphics2D bar, Renderer Renderer, int width, boolean analysis) {
+        if(analysis) {
+            bar.setColor(new Color(0, 0, 1, .5f));
+        }
+        else {
+            bar.setColor(new Color(1, 0, 0, .5f));
+        }
+        bar.fillRect(Renderer.getOffset() + 20, 0, width, ArrayVisualizer.windowHeight());
+    }
+	    
+	@SuppressWarnings("fallthrough")
+    //The longer the array length, the more bars marked. Makes the visual easier to see when bars are thinner.
+    public static void colorCustomBars(int logOfLen, int index, Highlights Highlights, ArrayVisualizer ArrayVisualizer, Graphics2D bar, Renderer Renderer, int width, boolean analysis) {
+        switch(logOfLen) {
+        case 15: if(Highlights.containsPosition(index - 15)) { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 14)) { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 13)) { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 12)) { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 11)) { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+        case 14: if(Highlights.containsPosition(index - 10)) { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 9))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 8))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+        case 13: if(Highlights.containsPosition(index - 7))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 6))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 5))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+        case 12: if(Highlights.containsPosition(index - 4))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+                 if(Highlights.containsPosition(index - 3))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+        case 11: if(Highlights.containsPosition(index - 2))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+        case 10: if(Highlights.containsPosition(index - 1))  { markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis); break; }
+        default: if(Highlights.containsPosition(index))        markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis);
+        }
+    }
+	
     @Override
-    @SuppressWarnings("unused")
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+        if (Renderer.auxActive)
+            return;
+
         try {
             /*
              * Load the image on first use of the 'Custom Image' visual or if the program failed to read the image file previously.
@@ -190,9 +320,11 @@ final public class CustomImage extends Visual {
              * handling exceptions whenever the user clicks the 'Custom Image' button.
              */
             if(!this.imgImported) {
-                this.imgImported = this.fetchBufferedImage(true, ArrayVisualizer.getMainWindow());
-                if(!this.imgImported) {
+                if(!this.fetchBufferedImage(true, ArrayVisualizer.getMainWindow())) {
                     throw new Exception();
+                }
+                else {
+                    this.imgImported = true;
                 }
             }
             /*
@@ -205,40 +337,50 @@ final public class CustomImage extends Visual {
                 }
                 this.updateWindowDims(ArrayVisualizer);
             }
+            
+            if(this.openImgMenu) {
+                this.pictureMenu = new ImageFrame(this);
+                this.pictureMenu.setVisible(true);
+                this.pictureMenu.updatePreview(this);
+                this.openImgMenu = false;
+            }
         }
         catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e);
             ArrayVisualizer.setVisual(visuals.VisualStyles.BARS);
             return;
         }
         
         for(int i = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
-			int width = (int) (Renderer.getXScale() * (i + 1) - Renderer.getOffset());
-			
-			if(i < Highlights.getFancyFinishPosition() || Highlights.containsPosition(i)) {
-				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.WHITE);
-				else this.mainRender.setColor(Color.BLACK);
-				
-				this.mainRender.fillRect(Renderer.getOffset() + 20, 0, width, ArrayVisualizer.windowHeight());
-			} else {
-				//Cuts the image in respect to each item in the array
-				this.mainRender.drawImage(
-					this.img,
-					
-					Renderer.getOffset() + 20,
-					0, 
-					Renderer.getOffset() + 20 + width, 
-					ArrayVisualizer.windowHeight(),
-					
-					(int) ((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * array[i]),
-					0, 
-					(int) Math.ceil((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * (array[i] + 1)),
-					this.imgHeight,
-					
-					null
-				);
-			}
-			
-			Renderer.setOffset(Renderer.getOffset() + width);
-		}
+            int width = (int) (Renderer.getXScale() * (i + 1) - Renderer.getOffset());
+            if (width == 0) continue;
+            
+            //Cuts the image in respect to each item in the array
+            this.mainRender.drawImage(
+				this.img,
+
+				Renderer.getOffset() + 20,
+				0, 
+				Renderer.getOffset() + 20 + width, 
+				ArrayVisualizer.windowHeight(),
+
+				(int) ((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * array[i]),
+				0, 
+				(int) Math.ceil((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * (array[i] + 1)),
+				this.imgHeight,
+
+				null
+			);
+            
+            if(Highlights.fancyFinishActive()) {
+                if(i < Highlights.getFancyFinishPosition()) {
+                    this.extraRender.setColor(new Color(0, 1, 0, .5f));
+                    this.extraRender.fillRect(Renderer.getOffset() + 20, 0, width, ArrayVisualizer.windowHeight());
+                }
+            }
+            else CustomImage.colorCustomBars(ArrayVisualizer.getLogBaseTwoOfLength(), i, Highlights, ArrayVisualizer, this.extraRender, Renderer, width, ArrayVisualizer.analysisEnabled());
+            
+            Renderer.setOffset(Renderer.getOffset() + width);
+        }
     }
 }

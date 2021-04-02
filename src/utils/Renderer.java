@@ -1,7 +1,5 @@
 package utils;
 
-import java.awt.BasicStroke;
-
 import main.ArrayVisualizer;
 import visuals.VisualStyles;
 
@@ -73,7 +71,6 @@ final public class Renderer {
     public Renderer(ArrayVisualizer ArrayVisualizer) {
         ArrayVisualizer.setWindowHeight();
         ArrayVisualizer.setWindowWidth();
-        ArrayVisualizer.setThickStroke(new BasicStroke(8));
     }
     
     public double getXScale() {
