@@ -356,7 +356,7 @@ final public class ArrayVisualizer {
                 ArrayVisualizer.this.visualClasses[2]  = new DisparityBarGraph(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[3]  = new       ColorCircle(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[4]  = new   DisparityCircle(ArrayVisualizer.this);
-                ArrayVisualizer.this.visualClasses[5]  = new    DisparityGraph(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[5]  = new   DisparityChords(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[6]  = new     DisparityDots(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[7]  = new       ScatterPlot(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[8]  = new          WaveDots(ArrayVisualizer.this);

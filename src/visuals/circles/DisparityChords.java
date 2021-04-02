@@ -36,9 +36,9 @@ SOFTWARE.
  *
  */
 
-final public class DisparityGraph extends Visual {
+final public class DisparityChords extends Visual {
 	
-    public DisparityGraph(ArrayVisualizer ArrayVisualizer) {
+    public DisparityChords(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }
     

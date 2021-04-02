@@ -91,7 +91,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         this.waveDots          = new javax.swing.JButton();
 		this.hoopStack         = new javax.swing.JButton();
 		this.disparityBarGraph = new javax.swing.JButton();
-		this.disparityGraph    = new javax.swing.JButton();
+		this.disparityChords   = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -209,11 +209,11 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
             }
         });
 		
-		disparityGraph.setText("Disparity Graph");
-        disparityGraph.addActionListener(new java.awt.event.ActionListener() {
+		disparityChords.setText("Disparity Chords");
+        disparityChords.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                disparityGraphActionPerformed(evt);
+                disparityChordsActionPerformed(evt);
             }
         });
         
@@ -242,7 +242,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                         .addComponent(spiral, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(customImage, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
                         .addComponent(spiralDots, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(disparityGraph, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(disparityChords, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGap(18))
         );
         layout.setVerticalGroup(
@@ -274,7 +274,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                     .addGroup(layout.createParallelGroup(Alignment.BASELINE)
                         .addComponent(hoopStack)
                         .addComponent(disparityBarGraph)
-                        .addComponent(disparityGraph))
+                        .addComponent(disparityChords))
                     .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         getContentPane().setLayout(layout);
@@ -381,9 +381,9 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         UtilFrame.jButton2ResetText();
         dispose();
     }
-    private void disparityGraphActionPerformed(java.awt.event.ActionEvent evt) {
+    private void disparityChordsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.DISP_GRAPH);
+        ArrayVisualizer.setVisual(VisualStyles.DISP_CHORDS);
         UtilFrame.jButton2ResetText();
         dispose();
     }
@@ -403,6 +403,6 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private javax.swing.JButton waveDots;
 	private javax.swing.JButton hoopStack;
     private javax.swing.JButton disparityBarGraph;
-	private javax.swing.JButton disparityGraph;
+	private javax.swing.JButton disparityChords;
     private javax.swing.JLabel jLabel1;
 }

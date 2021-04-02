@@ -61,7 +61,7 @@ public enum VisualStyles {
             ArrayVisualizer.getVisuals()[4].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
     },
-	DISP_GRAPH {
+	DISP_CHORDS {
         @Override
         public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
             ArrayVisualizer.getVisuals()[5].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
