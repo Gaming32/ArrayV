@@ -53,7 +53,7 @@ final public class SineWave extends Visual {
 			
             int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
-			int y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+			int y = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
             this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 1), 20);
 			
 			j += width;
@@ -65,7 +65,7 @@ final public class SineWave extends Visual {
 				if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
 				else                               this.mainRender.setColor(Color.RED);
 				
-				int y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+				int y = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
                 this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), 20);
 			}
 			j += width;

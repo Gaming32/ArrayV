@@ -46,7 +46,7 @@ final public class WaveDots extends Visual {
 		
         if(ArrayVisualizer.linesEnabled()) {
 			int lastX = 0;
-			int lastY = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[0] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+			int lastY = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[0] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
 			this.mainRender.setStroke(ArrayVisualizer.getThinStroke());
 			
 			for(int i = 1, j = (int) Renderer.getXScale(); i < Renderer.getArrayLength(); i++) {
@@ -66,7 +66,7 @@ final public class WaveDots extends Visual {
 				
 				else this.mainRender.setColor(Color.WHITE);
 				
-				int y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+				int y = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
 				
 				this.mainRender.drawLine(lastX + offset, Renderer.getYOffset() + lastY, j + offset, Renderer.getYOffset() + y);
 				
@@ -92,7 +92,7 @@ final public class WaveDots extends Visual {
 					
 				else this.mainRender.setColor(Color.WHITE);
 				
-				int y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+				int y = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
 				
 				this.mainRender.fillRect(j + offset, Renderer.getYOffset() + y, dotS, dotS);
 				
@@ -104,7 +104,7 @@ final public class WaveDots extends Visual {
 					if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
 					else                               this.mainRender.setColor(Color.RED);
 					
-					int y = (int) ((Renderer.getViewSize() / 4) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+					int y = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
 					this.mainRender.fillRect(j + offset - (int)(1.5*dotS), Renderer.getYOffset() + y - (int)(1.5*dotS), 4*dotS, 4*dotS);
 				}
 				int width = (int) (Renderer.getXScale() * (i + 1)) - j;
