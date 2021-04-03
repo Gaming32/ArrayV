@@ -47,7 +47,7 @@ final public class SineWave extends Visual {
 				this.mainRender.setColor(Color.GREEN);
 			
 			else if(ArrayVisualizer.colorEnabled()) 
-					this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+				this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
 				
 			else this.mainRender.setColor(Color.WHITE);
 			

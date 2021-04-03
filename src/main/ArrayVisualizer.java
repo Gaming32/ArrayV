@@ -991,7 +991,7 @@ final public class ArrayVisualizer {
     
     public void setVisual(VisualStyles choice) {
         if(choice == visuals.VisualStyles.CUSTOM_IMAGE) {
-            ((CustomImage) this.visualClasses[2]).enableImgMenu();
+            ((CustomImage) this.visualClasses[9]).enableImgMenu();
         }
         this.VisualStyles = choice;
     }

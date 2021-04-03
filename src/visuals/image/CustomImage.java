@@ -310,8 +310,7 @@ final public class CustomImage extends Visual {
 	
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if (Renderer.auxActive)
-            return;
+        if(Renderer.auxActive) return;
 
         try {
             /*
@@ -351,17 +350,17 @@ final public class CustomImage extends Visual {
             return;
         }
         
-        for(int i = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
-            int width = (int) (Renderer.getXScale() * (i + 1) - Renderer.getOffset());
-            if (width == 0) continue;
+        for(int i = 0, j = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
+            int width = (int) (Renderer.getXScale() * (i + 1) - j);
+            if(width == 0) continue;
             
             //Cuts the image in respect to each item in the array
             this.mainRender.drawImage(
 				this.img,
 
-				Renderer.getOffset() + 20,
+				j + 20,
 				0, 
-				Renderer.getOffset() + 20 + width, 
+				j + 20 + width, 
 				ArrayVisualizer.windowHeight(),
 
 				(int) ((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * array[i]),
@@ -371,16 +370,23 @@ final public class CustomImage extends Visual {
 
 				null
 			);
-            
-            if(Highlights.fancyFinishActive()) {
-                if(i < Highlights.getFancyFinishPosition()) {
-                    this.extraRender.setColor(new Color(0, 1, 0, .5f));
-                    this.extraRender.fillRect(Renderer.getOffset() + 20, 0, width, ArrayVisualizer.windowHeight());
-                }
-            }
-            else CustomImage.colorCustomBars(ArrayVisualizer.getLogBaseTwoOfLength(), i, Highlights, ArrayVisualizer, this.extraRender, Renderer, width, ArrayVisualizer.analysisEnabled());
-            
-            Renderer.setOffset(Renderer.getOffset() + width);
+			j += width;
         }
+		for(int i = 0, j = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
+			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+			
+			if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition()) {
+				this.mainRender.setColor(new Color(0, 1, 0, .5f));
+				
+				if(width > 0) this.mainRender.fillRect(j + 20, 0, width, ArrayVisualizer.windowHeight());
+            }
+            else if(Highlights.containsPosition(i)) {
+				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(new Color(0, 0, 1, .5f));
+				else                                  this.mainRender.setColor(new Color(1, 0, 0, .5f));
+				
+				this.mainRender.fillRect(j + 20, 0, Math.max(width, 2), ArrayVisualizer.windowHeight());
+			}
+			j += width;
+		}
     }
 }
