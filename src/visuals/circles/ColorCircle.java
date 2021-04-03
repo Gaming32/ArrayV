@@ -52,7 +52,7 @@ final public class ColorCircle extends Visual {
 		int n = ArrayVisualizer.getCurrentLength();
 		
 		double r = Math.min(width, height)/2.75;
-		int p = (int)(r/10);
+		int p = (int)(r/16);
 		
 		int[] x  = new int[3];
 		int[] y  = new int[3];
