@@ -49,51 +49,77 @@ final public class RunMergeSorts extends MultipleSortThread {
     private Sort SplitSixteenMergeSort;
     private Sort StrandSort;
     private Sort OutOfPlaceWeaveMergeSort;
+    private Sort BufferedStoogeSort;
+    private Sort IndexMergeSort;
+    private Sort IterativeTopDownMergeSort;
+    private Sort MergeSortParallel;
+    private Sort NewShuffleMergeSort;
+    private Sort OptimizedPancakeSort;
+    private Sort RotateMergeSortParallel;
+    private Sort StacklessRotateMergeSort;
+    private Sort WeavedMergeSort;
     
     public RunMergeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 17;
+        this.sortCount = 25;
         this.categoryCount = this.sortCount;
 
-        MergeSort                = new                MergeSort(this.arrayVisualizer);
-        BottomUpMergeSort        = new        BottomUpMergeSort(this.arrayVisualizer);
-        PartialMergeSort         = new         PartialMergeSort(this.arrayVisualizer);
-        TwinSort                 = new                 TwinSort(this.arrayVisualizer);
-        NaturalMergeSort         = new         NaturalMergeSort(this.arrayVisualizer);
-        PDMergeSort              = new              PDMergeSort(this.arrayVisualizer);
-        InPlaceMergeSort         = new         InPlaceMergeSort(this.arrayVisualizer);
-        ImprovedInPlaceMergeSort = new ImprovedInPlaceMergeSort(this.arrayVisualizer);
-        OutOfPlaceWeaveMergeSort = new OutOfPlaceWeaveMergeSort(this.arrayVisualizer);
-        LazyStableSort           = new           LazyStableSort(this.arrayVisualizer);
-        ReverseLazyStableSort    = new    ReverseLazyStableSort(this.arrayVisualizer);
-        ModuloMergeSort          = new          ModuloMergeSort(this.arrayVisualizer);
-        BlockSwapMergeSort       = new       BlockSwapMergeSort(this.arrayVisualizer);
-        RotateMergeSort          = new          RotateMergeSort(this.arrayVisualizer);
-        AndreySort               = new               AndreySort(this.arrayVisualizer);
-        SplitSixteenMergeSort    = new             Split16Merge(this.arrayVisualizer);
-        StrandSort               = new               StrandSort(this.arrayVisualizer);
+        MergeSort                 = new                 MergeSort(this.arrayVisualizer);
+        BottomUpMergeSort         = new         BottomUpMergeSort(this.arrayVisualizer);
+        PartialMergeSort          = new          PartialMergeSort(this.arrayVisualizer);
+        TwinSort                  = new                  TwinSort(this.arrayVisualizer);
+        NaturalMergeSort          = new          NaturalMergeSort(this.arrayVisualizer);
+        PDMergeSort               = new               PDMergeSort(this.arrayVisualizer);
+        InPlaceMergeSort          = new          InPlaceMergeSort(this.arrayVisualizer);
+        ImprovedInPlaceMergeSort  = new  ImprovedInPlaceMergeSort(this.arrayVisualizer);
+        OutOfPlaceWeaveMergeSort  = new  OutOfPlaceWeaveMergeSort(this.arrayVisualizer);
+        LazyStableSort            = new            LazyStableSort(this.arrayVisualizer);
+        ReverseLazyStableSort     = new     ReverseLazyStableSort(this.arrayVisualizer);
+        ModuloMergeSort           = new           ModuloMergeSort(this.arrayVisualizer);
+        BlockSwapMergeSort        = new        BlockSwapMergeSort(this.arrayVisualizer);
+        RotateMergeSort           = new           RotateMergeSort(this.arrayVisualizer);
+        AndreySort                = new                AndreySort(this.arrayVisualizer);
+        SplitSixteenMergeSort     = new              Split16Merge(this.arrayVisualizer);
+        StrandSort                = new                StrandSort(this.arrayVisualizer);
+        BufferedStoogeSort        = new        BufferedStoogeSort(this.arrayVisualizer);
+        IndexMergeSort            = new            IndexMergeSort(this.arrayVisualizer);
+        IterativeTopDownMergeSort = new IterativeTopDownMergeSort(this.arrayVisualizer);
+        MergeSortParallel         = new         MergeSortParallel(this.arrayVisualizer);
+        NewShuffleMergeSort       = new       NewShuffleMergeSort(this.arrayVisualizer);
+        OptimizedPancakeSort      = new      OptimizedPancakeSort(this.arrayVisualizer);
+        RotateMergeSortParallel   = new   RotateMergeSortParallel(this.arrayVisualizer);
+        StacklessRotateMergeSort  = new  StacklessRotateMergeSort(this.arrayVisualizer);
+        WeavedMergeSort           = new           WeavedMergeSort(this.arrayVisualizer);
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunMergeSorts.this.runIndividualSort(MergeSort,                0, array, 2048, 1.5,  false);
-        RunMergeSorts.this.runIndividualSort(BottomUpMergeSort,        0, array, 2048, 1.5,  false);
-        RunMergeSorts.this.runIndividualSort(PartialMergeSort,         0, array, 2048, 1.5,  false);
-        RunMergeSorts.this.runIndividualSort(TwinSort,                 0, array, 2048, 1.5,  false);
-        RunMergeSorts.this.runIndividualSort(NaturalMergeSort,         0, array, 2048, 1.5,  false);
-        RunMergeSorts.this.runIndividualSort(PDMergeSort,              0, array, 2048, 1,    false);
-        RunMergeSorts.this.runIndividualSort(InPlaceMergeSort,         0, array, 2048, 1.5,  false);
-        RunMergeSorts.this.runIndividualSort(ImprovedInPlaceMergeSort, 0, array, 2048, 1.5,  false);
-        RunMergeSorts.this.runIndividualSort(OutOfPlaceWeaveMergeSort, 0, array, 2048, 1,    false);
-        RunMergeSorts.this.runIndividualSort(LazyStableSort,           0, array,  256, 0.2,  false);
-        RunMergeSorts.this.runIndividualSort(ReverseLazyStableSort,    0, array,  256, 0.1,  false);
-        RunMergeSorts.this.runIndividualSort(ModuloMergeSort,          0, array, 2048, 3,    false);
-        RunMergeSorts.this.runIndividualSort(BlockSwapMergeSort,       0, array,  256, 0.1,  false);
-        RunMergeSorts.this.runIndividualSort(RotateMergeSort,          0, array,  512, 0.2,  false);
-        RunMergeSorts.this.runIndividualSort(AndreySort,               0, array, 2048, 1,    false);
-        RunMergeSorts.this.runIndividualSort(SplitSixteenMergeSort,    0, array,  512, 0.75, false);
-        RunMergeSorts.this.runIndividualSort(StrandSort,               0, array, 2048, 1,    false);
-    }
+        RunMergeSorts.this.runIndividualSort(MergeSort,                 0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(BottomUpMergeSort,         0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(MergeSortParallel,         0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(PartialMergeSort,          0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(IterativeTopDownMergeSort, 0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(WeavedMergeSort,           0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(TwinSort,                  0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(NaturalMergeSort,          0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(PDMergeSort,               0, array, 2048, 1,    false);
+        RunMergeSorts.this.runIndividualSort(InPlaceMergeSort,          0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(ImprovedInPlaceMergeSort,  0, array, 2048, 1.5,  false);
+        RunMergeSorts.this.runIndividualSort(OutOfPlaceWeaveMergeSort,  0, array, 2048, 1,    false);
+        RunMergeSorts.this.runIndividualSort(LazyStableSort,            0, array,  256, 0.2,  false);
+        RunMergeSorts.this.runIndividualSort(ReverseLazyStableSort,     0, array,  256, 0.1,  false);
+        RunMergeSorts.this.runIndividualSort(ModuloMergeSort,           0, array, 2048, 3,    false);
+        RunMergeSorts.this.runIndividualSort(BlockSwapMergeSort,        0, array,  256, 0.1,  false);
+        RunMergeSorts.this.runIndividualSort(RotateMergeSort,           0, array,  512, 0.2,  false);
+        RunMergeSorts.this.runIndividualSort(RotateMergeSortParallel,   0, array,  512, 0.2,  false);
+        RunMergeSorts.this.runIndividualSort(AndreySort,                0, array, 2048, 1,    false);
+        RunMergeSorts.this.runIndividualSort(SplitSixteenMergeSort,     0, array,  512, 0.75, false);
+        RunMergeSorts.this.runIndividualSort(IndexMergeSort,            0, array, 2048, 1,    false);
+        RunMergeSorts.this.runIndividualSort(NewShuffleMergeSort,       0, array, 1024, 1,    false);
+        RunMergeSorts.this.runIndividualSort(StrandSort,                0, array, 2048, 1,    false);
+        RunMergeSorts.this.runIndividualSort(BufferedStoogeSort,        0, array,  256, 0.2,  false);
+        RunMergeSorts.this.runIndividualSort(OptimizedPancakeSort,      0, array, 2048, 1,    false);
+    } 
     
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
