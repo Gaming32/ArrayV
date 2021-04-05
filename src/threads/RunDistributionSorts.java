@@ -10,6 +10,7 @@ import sorts.templates.Sort;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -54,50 +55,59 @@ final public class RunDistributionSorts extends MultipleSortThread {
     private Sort ImmediateShatterSort;
     private Sort TimeSort;
     private Sort LMSDRadixSort;
-    
+    private Sort OptimizedIndexSort;
+    private Sort QuickBinaryRadixSort;
+    private Sort StacklessAmericanFlagSort;
+    private Sort StacklessBinaryQuickSort;
     
     public RunDistributionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 20;
         this.categoryCount = this.sortCount;
         
-        CountingSort             = new             CountingSort(this.arrayVisualizer);
-        PigeonholeSort           = new           PigeonholeSort(this.arrayVisualizer);
-        OptimizedPigeonholeSort  = new  OptimizedPigeonholeSort(this.arrayVisualizer);
-        FeatureSort              = new              FeatureSort(this.arrayVisualizer);
-        GravitySort              = new              GravitySort(this.arrayVisualizer);
-        ClassicGravitySort       = new       ClassicGravitySort(this.arrayVisualizer);
-        StaticSort               = new               StaticSort(this.arrayVisualizer);
-        IndexSort                = new                IndexSort(this.arrayVisualizer);
-        AmericanFlagSort         = new         AmericanFlagSort(this.arrayVisualizer);
-        DivisorSort              = new              DivisorSort(this.arrayVisualizer);
-        LSDRadixSort             = new             LSDRadixSort(this.arrayVisualizer);
-        InPlaceLSDRadixSort      = new      InPlaceLSDRadixSort(this.arrayVisualizer);
-        MSDRadixSort             = new             MSDRadixSort(this.arrayVisualizer);
-        InPlaceMSDRadixSort      = new      InPlaceMSDRadixSort(this.arrayVisualizer);
-        FlashSort                = new                FlashSort(this.arrayVisualizer);
-        BinaryQuickSortIterative = new BinaryQuickSortIterative(this.arrayVisualizer);
-        BinaryQuickSortRecursive = new BinaryQuickSortRecursive(this.arrayVisualizer);
-        ShatterSort              = new              ShatterSort(this.arrayVisualizer);
-        SimpleShatterSort        = new        SimpleShatterSort(this.arrayVisualizer);
-        ImmediateShatterSort     = new     ImmediateShatterSort(this.arrayVisualizer);
-        TimeSort                 = new                 TimeSort(this.arrayVisualizer);
-        LMSDRadixSort            = new            LMSDRadixSort(this.arrayVisualizer);
+        CountingSort              = new             CountingSort(this.arrayVisualizer);
+        PigeonholeSort            = new           PigeonholeSort(this.arrayVisualizer);
+        OptimizedPigeonholeSort   = new  OptimizedPigeonholeSort(this.arrayVisualizer);
+        FeatureSort               = new              FeatureSort(this.arrayVisualizer);
+        GravitySort               = new              GravitySort(this.arrayVisualizer);
+        ClassicGravitySort        = new       ClassicGravitySort(this.arrayVisualizer);
+        StaticSort                = new               StaticSort(this.arrayVisualizer);
+        IndexSort                 = new                IndexSort(this.arrayVisualizer);
+        AmericanFlagSort          = new         AmericanFlagSort(this.arrayVisualizer);
+        DivisorSort               = new              DivisorSort(this.arrayVisualizer);
+        LSDRadixSort              = new             LSDRadixSort(this.arrayVisualizer);
+        InPlaceLSDRadixSort       = new      InPlaceLSDRadixSort(this.arrayVisualizer);
+        MSDRadixSort              = new             MSDRadixSort(this.arrayVisualizer);
+        InPlaceMSDRadixSort       = new      InPlaceMSDRadixSort(this.arrayVisualizer);
+        FlashSort                 = new                FlashSort(this.arrayVisualizer);
+        BinaryQuickSortIterative  = new BinaryQuickSortIterative(this.arrayVisualizer);
+        BinaryQuickSortRecursive  = new BinaryQuickSortRecursive(this.arrayVisualizer);
+        ShatterSort               = new              ShatterSort(this.arrayVisualizer);
+        SimpleShatterSort         = new        SimpleShatterSort(this.arrayVisualizer);
+        ImmediateShatterSort      = new     ImmediateShatterSort(this.arrayVisualizer);
+        TimeSort                  = new                 TimeSort(this.arrayVisualizer);
+        LMSDRadixSort             = new            LMSDRadixSort(this.arrayVisualizer);
+        OptimizedIndexSort        = new            OptimizedIndexSort(this.arrayVisualizer);
+        QuickBinaryRadixSort      = new            QuickBinaryRadixSort(this.arrayVisualizer);
+        StacklessAmericanFlagSort = new            StacklessAmericanFlagSort(this.arrayVisualizer);
+        StacklessBinaryQuickSort  = new            StacklessBinaryQuickSort(this.arrayVisualizer);
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunDistributionSorts.this.runIndividualSort(CountingSort,             0, array, 2048, 1.5,  false);
-        RunDistributionSorts.this.runIndividualSort(PigeonholeSort,           0, array, 2048, 1.5,  false);
-        RunDistributionSorts.this.runIndividualSort(OptimizedPigeonholeSort,  0, array, 2048, 1.5,  false);
-        RunDistributionSorts.this.runIndividualSort(FeatureSort,              0, array, 2048, 0.75, false);
-        RunDistributionSorts.this.runIndividualSort(GravitySort,              0, array, 1024, 0.5,  false);
-        RunDistributionSorts.this.runIndividualSort(ClassicGravitySort,       0, array, 1024, 1,    false);
-        RunDistributionSorts.this.runIndividualSort(StaticSort,               0, array, 2048, 1,    false);
-        RunDistributionSorts.this.runIndividualSort(IndexSort,                0, array, 2048, 1,    false);
-        RunDistributionSorts.this.runIndividualSort(AmericanFlagSort,       128, array, 2048, 0.75, false);
+        RunDistributionSorts.this.runIndividualSort(CountingSort,                0, array, 2048, 1.5,  false);
+        RunDistributionSorts.this.runIndividualSort(PigeonholeSort,              0, array, 2048, 1.5,  false);
+        RunDistributionSorts.this.runIndividualSort(OptimizedPigeonholeSort,     0, array, 2048, 1.5,  false);
+        RunDistributionSorts.this.runIndividualSort(FeatureSort,                 0, array, 2048, 0.75, false);
+        RunDistributionSorts.this.runIndividualSort(GravitySort,                 0, array, 1024, 0.5,  false);
+        RunDistributionSorts.this.runIndividualSort(ClassicGravitySort,          0, array, 1024, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(StaticSort,                  0, array, 2048, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(IndexSort,                   0, array, 2048, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(OptimizedIndexSort,          0, array, 2048, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(AmericanFlagSort,          128, array, 2048, 0.75, false);
+        RunDistributionSorts.this.runIndividualSort(StacklessAmericanFlagSort, 128, array, 2048, 0.75, false);
         // RunDistributionSorts.this.runIndividualSort(DivisorSort,            128, array, 2048, 0.5,  false);
-        RunDistributionSorts.this.runIndividualSort(LSDRadixSort,             4, array, 2048, 1.5,  false);
+        RunDistributionSorts.this.runIndividualSort(LSDRadixSort,                4, array, 2048, 1.5,  false);
         
         Sounds.toggleSofterSounds(true);
         RunDistributionSorts.this.runIndividualSort(InPlaceLSDRadixSort,     10, array, 2048, 1,    false);
@@ -109,6 +119,8 @@ final public class RunDistributionSorts extends MultipleSortThread {
         RunDistributionSorts.this.runIndividualSort(FlashSort,                0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(BinaryQuickSortIterative, 0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(BinaryQuickSortRecursive, 0, array, 2048, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(StacklessBinaryQuickSort, 0, array, 2048, 1,    false);
+        RunDistributionSorts.this.runIndividualSort(QuickBinaryRadixSort,     0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(ShatterSort,            128, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(SimpleShatterSort,      128, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(ImmediateShatterSort,     0, array, 2048, 1,    false);
