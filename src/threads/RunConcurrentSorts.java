@@ -58,7 +58,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 14;
+        this.sortCount = 23;
         this.categoryCount = this.sortCount;
         
         FoldSort                   = new                   FoldSort(this.arrayVisualizer);
