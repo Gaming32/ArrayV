@@ -130,12 +130,12 @@ final public class RunHybridSorts extends MultipleSortThread {
         PDQBranchedSort                  = new                  PDQBranchedSort(this.arrayVisualizer);
         PDQBranchlessSort                = new                PDQBranchlessSort(this.arrayVisualizer);
         DropMergeSort                    = new                    DropMergeSort(this.arrayVisualizer);
-        BubblescanQuickSort              = new                    BubblescanQuickSort(this.arrayVisualizer);
-        BufferPartitionMergeSort         = new                    BufferPartitionMergeSort(this.arrayVisualizer);
-        ParallelBlockMergeSort           = new                    ParallelBlockMergeSort(this.arrayVisualizer);
-        ParallelGrailSort                = new                    ParallelGrailSort(this.arrayVisualizer);
-        RemiSort                         = new                    RemiSort(this.arrayVisualizer);
-        StacklessDualPivotQuickSort      = new                    StacklessDualPivotQuickSort(this.arrayVisualizer);
+        BubblescanQuickSort              = new              BubblescanQuickSort(this.arrayVisualizer);
+        BufferPartitionMergeSort         = new         BufferPartitionMergeSort(this.arrayVisualizer);
+        ParallelBlockMergeSort           = new           ParallelBlockMergeSort(this.arrayVisualizer);
+        ParallelGrailSort                = new                ParallelGrailSort(this.arrayVisualizer);
+        RemiSort                         = new                         RemiSort(this.arrayVisualizer);
+        StacklessDualPivotQuickSort      = new      StacklessDualPivotQuickSort(this.arrayVisualizer);
     }
     
     @Override
