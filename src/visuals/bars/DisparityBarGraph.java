@@ -48,5 +48,9 @@ final public class DisparityBarGraph extends Visual {
 			}
 			j += width;
 		}
+		if(ArrayVisualizer.externalArraysEnabled()) {
+			this.mainRender.setColor(Color.BLUE);
+			this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
+		}
     }
 }

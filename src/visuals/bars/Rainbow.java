@@ -40,7 +40,7 @@ final public class Rainbow extends Visual {
 
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        for(int i = 0, j = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
+        for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
 			if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
 				this.mainRender.setColor(Color.GREEN);
 			
@@ -48,19 +48,23 @@ final public class Rainbow extends Visual {
 			
             int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
-			if(width > 0) mainRender.fillRect(j + 20, 0, width, ArrayVisualizer.windowHeight());
+			if(width > 0) this.mainRender.fillRect(j + 20, Renderer.getYOffset() - 20, width, (int) (Renderer.getViewSize()));
 			
 			j += width;
         }
-		this.mainRender.setColor(Color.WHITE);
-		
-		for(int i = 0, j = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
+		for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
 			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
-			if(Highlights.containsPosition(i))
-				this.mainRender.fillRect(j + 20, 0, Math.max(width, 2), ArrayVisualizer.windowHeight());
-			
+			if(Highlights.containsPosition(i)) {
+				this.mainRender.setColor(Color.WHITE);
+				
+				this.mainRender.fillRect(j + 20, Renderer.getYOffset() - 20, Math.max(width, 2), (int) (Renderer.getViewSize()));
+			}
 			j += width;
+		}
+		if(ArrayVisualizer.externalArraysEnabled()) {
+			this.mainRender.setColor(Color.BLUE);
+			this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
 		}
     }
 }

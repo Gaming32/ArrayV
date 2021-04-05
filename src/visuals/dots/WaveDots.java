@@ -66,7 +66,7 @@ final public class WaveDots extends Visual {
 				
 				else this.mainRender.setColor(Color.WHITE);
 				
-				int y = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+				int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
 				
 				this.mainRender.drawLine(lastX + offset, Renderer.getYOffset() + lastY, j + offset, Renderer.getYOffset() + y);
 				
@@ -92,7 +92,7 @@ final public class WaveDots extends Visual {
 					
 				else this.mainRender.setColor(Color.WHITE);
 				
-				int y = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+				int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
 				
 				this.mainRender.fillRect(j + offset, Renderer.getYOffset() + y, dotS, dotS);
 				
@@ -104,12 +104,16 @@ final public class WaveDots extends Visual {
 					if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
 					else                               this.mainRender.setColor(Color.RED);
 					
-					int y = (int) ((Renderer.getViewSize() / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize());
+					int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
 					this.mainRender.fillRect(j + offset - (int)(1.5*dotS), Renderer.getYOffset() + y - (int)(1.5*dotS), 4*dotS, 4*dotS);
 				}
 				int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 				j += width;
 			}
+		}
+		if(ArrayVisualizer.externalArraysEnabled()) {
+			this.mainRender.setColor(Color.BLUE);
+			this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
 		}
     }
 }
