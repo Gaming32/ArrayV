@@ -76,6 +76,12 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort DropMergeSort;
     private Sort OptimizedPDMergeSort;
     private Sort FlanSort;
+    private Sort BubblescanQuickSort;
+    private Sort BufferPartitionMergeSort;
+    private Sort ParallelBlockMergeSort;
+    private Sort ParallelGrailSort;
+    private Sort RemiSort;
+    private Sort StacklessDualPivotQuickSort;
     
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -124,6 +130,12 @@ final public class RunHybridSorts extends MultipleSortThread {
         PDQBranchedSort                  = new                  PDQBranchedSort(this.arrayVisualizer);
         PDQBranchlessSort                = new                PDQBranchlessSort(this.arrayVisualizer);
         DropMergeSort                    = new                    DropMergeSort(this.arrayVisualizer);
+        BubblescanQuickSort              = new                    BubblescanQuickSort(this.arrayVisualizer);
+        BufferPartitionMergeSort         = new                    BufferPartitionMergeSort(this.arrayVisualizer);
+        ParallelBlockMergeSort           = new                    ParallelBlockMergeSort(this.arrayVisualizer);
+        ParallelGrailSort                = new                    ParallelGrailSort(this.arrayVisualizer);
+        RemiSort                         = new                    RemiSort(this.arrayVisualizer);
+        StacklessDualPivotQuickSort      = new                    StacklessDualPivotQuickSort(this.arrayVisualizer);
     }
     
     @Override
@@ -146,19 +158,24 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(LaziestSort,                      0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(WikiSort,                         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(GrailSort,                        0, array, 2048, 1,    false);
-        RunHybridSorts.this.runIndividualSort(HolyGrailSort,                    0, array, 2048, 1,    false);
+        // RunHybridSorts.this.runIndividualSort(HolyGrailSort,                    0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(UnstableGrailSort,                0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(SqrtSort,                         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(KotaSort,                         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(EctaSort,                         0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(ParallelBlockMergeSort,           0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(ParallelGrailSort,                0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(FlanSort,                         0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(RemiSort,                         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(BufferedMergeSort,                0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(OOPBufferedMergeSort,             0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(BlockSelectionMergeSort,          0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(ImprovedBlockSelectionSort,       0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(MedianMergeSort,                  0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(BufferPartitionMergeSort,         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(ThirdMergeSort,                   0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(StableThirdMergeSort,             0, array, 2048, 0.75, false);
+        RunHybridSorts.this.runIndividualSort(BubblescanQuickSort,              0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(IntroSort,                        0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(OptimizedBottomUpMergeSort,       0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(OptimizedDualPivotQuickSort,      0, array, 2048, 0.75, false);
@@ -167,6 +184,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(LAQuickSort,                      0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(MedianOfSixteenAdaptiveQuickSort, 0, array, 1024, 0.25, false);
         RunHybridSorts.this.runIndividualSort(StacklessHybridQuickSort,         0, array, 2048, 0.75, false);
+        RunHybridSorts.this.runIndividualSort(StacklessDualPivotQuickSort,      0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(PDQBranchedSort,                  0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(PDQBranchlessSort,                0, array, 2048, 0.75, false);
         RunHybridSorts.this.runIndividualSort(DropMergeSort,                    0, array, 2048, 0.75, false);
