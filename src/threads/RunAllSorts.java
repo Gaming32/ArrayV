@@ -39,6 +39,7 @@ final public class RunAllSorts {
         this.arrayVisualizer = arrayVisualizer;
         this.allSortThreads = new ArrayList<>();
         this.allSortThreads.add(new RunExchangeSorts(arrayVisualizer));
+        this.allSortThreads.add(new RunQuickSorts(arrayVisualizer));
         this.allSortThreads.add(new RunSelectionSorts(arrayVisualizer));
         this.allSortThreads.add(new RunInsertionSorts(arrayVisualizer));
         this.allSortThreads.add(new RunMergeSorts(arrayVisualizer));
