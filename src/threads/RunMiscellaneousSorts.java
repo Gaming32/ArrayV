@@ -37,7 +37,7 @@ final public class RunMiscellaneousSorts extends MultipleSortThread {
     
     public RunMiscellaneousSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 1;
+        this.sortCount = 2;
         this.categoryCount = this.sortCount;
         
         PancakeSort      = new      PancakeSort(this.arrayVisualizer);

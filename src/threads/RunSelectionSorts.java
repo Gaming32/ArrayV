@@ -58,7 +58,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
     
     public RunSelectionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 16;
+        this.sortCount = 23;
         this.categoryCount = this.sortCount;
         
         SelectionSort         = new         SelectionSort(this.arrayVisualizer);
