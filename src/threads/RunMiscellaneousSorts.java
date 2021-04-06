@@ -2,7 +2,7 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.misc.PancakeSort;
+import sorts.misc.*;
 import sorts.templates.Sort;
 
 /*
@@ -33,18 +33,21 @@ SOFTWARE.
 
 final public class RunMiscellaneousSorts extends MultipleSortThread {
     private Sort PancakeSort;
+    private Sort BurntPancakeSort;
     
     public RunMiscellaneousSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 1;
         this.categoryCount = this.sortCount;
         
-        PancakeSort = new PancakeSort(this.arrayVisualizer);
+        PancakeSort      = new      PancakeSort(this.arrayVisualizer);
+        BurntPancakeSort = new BurntPancakeSort(this.arrayVisualizer);
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunMiscellaneousSorts.this.runIndividualSort(PancakeSort, 0, array, 128, 0.015, false);
+        RunMiscellaneousSorts.this.runIndividualSort(PancakeSort,      0, array, 128, 0.015, false);
+        RunMiscellaneousSorts.this.runIndividualSort(BurntPancakeSort, 0, array, 128, 0.015, false);
     }
     
     @Override
