@@ -45,7 +45,7 @@ final public class RunQuickSorts extends MultipleSortThread {
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunQuickSorts.this.runIndividualSort(CubeRootQuickSort, 0, array, 2048, 1, false);
+        RunQuickSorts.this.runIndividualSort(CubeRootQuickSort, 0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5, false);
     }
     
     @Override
