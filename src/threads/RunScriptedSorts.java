@@ -104,6 +104,7 @@ final public class RunScriptedSorts extends MultipleSortThread {
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run " + RunScriptedSorts.this.currentCategory);
                         arrayVisualizer.setHeading("Done");
+                        arrayVisualizer.updateNow();
                     }
                     
                     arrayManager.toggleMutableLength(true);

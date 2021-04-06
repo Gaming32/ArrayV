@@ -69,5 +69,6 @@ final public class RunAllSorts {
         
         this.arrayVisualizer.setCategory("Run All Sorts");
         this.arrayVisualizer.setHeading("Finished!!");
+        this.arrayVisualizer.updateNow();
     }
 }
