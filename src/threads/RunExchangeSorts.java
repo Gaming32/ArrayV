@@ -112,7 +112,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         ClassicThreeSmoothCombSort   = new   ClassicThreeSmoothCombSort(this.arrayVisualizer);
         IndexQuickSort               = new               IndexQuickSort(this.arrayVisualizer);
         LRQuickSortParallel          = new          LRQuickSortParallel(this.arrayVisualizer);
-        ReverseBubbleSort            = new          LRQuickSortParallel(this.arrayVisualizer);
+        ReverseBubbleSort            = new            ReverseBubbleSort(this.arrayVisualizer);
         ReverseGnomeSort             = new             ReverseGnomeSort(this.arrayVisualizer);
         StableQuickSortParallel      = new      StableQuickSortParallel(this.arrayVisualizer);
         StacklessQuickSort           = new           StacklessQuickSort(this.arrayVisualizer);
