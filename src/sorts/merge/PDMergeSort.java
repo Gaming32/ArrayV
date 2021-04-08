@@ -146,7 +146,7 @@ final public class PDMergeSort extends Sort {
     }
 
     private int[] findRuns(int[] array, int maxIndex) {
-        int[] runs = Writes.createExternalArray((maxIndex + 2) / 2);
+        int[] runs = Writes.createExternalArray(maxIndex / 2 + 2);
         runCount = 0;
 
         int lastRun = 0;
