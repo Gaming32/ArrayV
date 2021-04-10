@@ -114,9 +114,9 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
 
         if(Reads.compareIndices(array, a, m, 1, true) == 1)
           return;
-		  }
+      }
 		
-		  Writes.swap(array, a, m, 1, true, false);
+      Writes.swap(array, a, m, 1, true, false);
     }
 
     private void compNSwap(int[] array, int a, int b, int gap, int start) {
@@ -128,7 +128,8 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
     private void medianOfSixteen(int[] array, int a, int b) {
         int gap = (b - 1 - a) / 16;
         
-        for (int i = 0; i < this.medianOfSixteenSwaps.length; i += 2) this.compNSwap(array, this.medianOfSixteenSwaps[i], this.medianOfSixteenSwaps[i+1], gap, a);
+        for (int i = 0; i < this.medianOfSixteenSwaps.length; i += 2) 
+		this.compNSwap(array, this.medianOfSixteenSwaps[i], this.medianOfSixteenSwaps[i+1], gap, a);
 
         Writes.swap(array, a, a + (8*gap), 1, true, false);
     }
@@ -155,12 +156,12 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
     }
 
     public void quickSort(int[] arr, int low, int high, int depthLimit) {
-        if (this.getSortedRuns(arr, low, high)) return;
-        if (depthLimit == 0){
-            heapSorter.heapSort(arr, low, high);
-            return;
-        }
-        if (high-low > 16) {
+        while (high - low > 16) {
+            if (this.getSortedRuns(arr, low, high)) return;
+            if (depthLimit == 0){
+                heapSorter.heapSort(arr, low, high);
+                return;
+            }
             this.medianOfThree(arr, low, high);
             int pi = this.partition(arr, low, high, low);
             int left  = pi-low;
@@ -176,13 +177,13 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
             }
 
             Writes.swap(arr, low, pi, 1, true, false);
-            
+                
             depthLimit--;
-            this.quickSort(arr, low, pi, depthLimit);
+                
             this.quickSort(arr, pi+1, high, depthLimit);
-        } else {
-            insertSorter.unstableInsertionSort(arr, low, high);
+            high = pi;
         }
+        insertSorter.unstableInsertionSort(arr, low, high);
     }
 
     @Override
