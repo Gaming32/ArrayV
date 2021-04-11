@@ -1,7 +1,6 @@
 package sorts.hybrid;
 
 import main.ArrayVisualizer;
-import sorts.insert.InsertionSort;
 import sorts.templates.Sort;
 
 /*
@@ -48,6 +47,20 @@ final public class OptimizedPDMergeSort extends Sort {
         this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
+    }
+
+    private void insertSort(int[] array, int start, int mid, int end) {
+        int pos;
+        int cur;
+        for (int i = mid; i < end; i++) {
+            cur = array[i];
+            pos = i - 1;
+            while (pos >= start && Reads.compareValues(array[pos], cur) > 0) {
+                Writes.write(array, pos + 1, array[pos], 0.5, true, false);
+                pos--;
+            }
+            Writes.write(array, pos + 1, cur, 0.5, true, false);
+        }
     }
 
     private void mergeUp(int[] array, int start, int mid, int end) {
@@ -135,20 +148,20 @@ final public class OptimizedPDMergeSort extends Sort {
         }
         Delays.sleep(1);
 
+        if (!cmp) {
+            // arrayVisualizer.setHeading("PDMerge -- Reversing Run");
+            Writes.reversal(array, startIndex, index, 1, true, false);
+            Highlights.clearMark(2);
+            // arrayVisualizer.setHeading("PDMerge -- Finding Runs");
+        }
         int length = index - startIndex + 1;
         if (length < MIN_RUN_SIZE) {
             int end = startIndex + MIN_RUN_SIZE;
             if (end > maxIndex + 1) {
                 end = maxIndex + 1;
             }
-            new InsertionSort(arrayVisualizer).customInsertSort(array, startIndex, end, 0.5, false);
+            insertSort(array, startIndex, index + 1, end);
             return end > maxIndex ? -1 : end;
-        }
-        if (!cmp) {
-            // arrayVisualizer.setHeading("PDMerge -- Reversing Run");
-            Writes.reversal(array, startIndex, index, 1, true, false);
-            Highlights.clearMark(2);
-            // arrayVisualizer.setHeading("PDMerge -- Finding Runs");
         }
         if (index >= maxIndex) {
             return -1;
