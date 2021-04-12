@@ -58,13 +58,12 @@ final public class SineWave extends Visual {
 			
 			j += width;
         }
+		this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+		
 		for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
 			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
 			if(Highlights.containsPosition(i)) {
-				if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
-				else                               this.mainRender.setColor(Color.RED);
-				
 				int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
                 this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), 20);
 			}

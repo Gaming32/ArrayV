@@ -65,7 +65,7 @@ final public class HoopStack extends Visual {
 			
 			else if(Highlights.containsPosition(i)) {
 				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
-				else this.mainRender.setColor(Color.WHITE);
+				else                                  this.mainRender.setColor(Color.WHITE);
 				
 				this.mainRender.setStroke(ArrayVisualizer.getDefaultStroke());
 			}

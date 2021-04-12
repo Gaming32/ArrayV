@@ -785,6 +785,23 @@ final public class ArrayVisualizer {
     public int windowYCoordinate() {
         return this.cy;
     }
+	
+	public Color getHighlightColor() {
+		if(this.colorEnabled()) {
+			if(this.analysisEnabled()) 
+				return Color.LIGHT_GRAY;
+			
+			else
+				return Color.WHITE;
+		}
+		else {
+			if(this.analysisEnabled()) 
+				return Color.BLUE;
+			
+			else
+				return Color.RED;
+		}
+	}
     
     public void createVolatileImage() {
         this.img = this.window.getGraphicsConfiguration().createCompatibleVolatileImage(this.cw, this.ch);
@@ -797,6 +814,9 @@ final public class ArrayVisualizer {
     }
     public Stroke getThinStroke() {
         return new BasicStroke((float) (this.getWindowRatio()));
+    }
+    public Stroke getCustomStroke(double size) {
+        return new BasicStroke((float) (size * this.getWindowRatio()));
     }
     public Graphics2D getMainRender() {
         return this.mainRender;

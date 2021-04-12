@@ -62,7 +62,7 @@ final public class PixelMesh extends Visual {
 			
 			else if(Highlights.containsPosition(idx)) {
 				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
-				else this.mainRender.setColor(Color.WHITE);
+				else                                  this.mainRender.setColor(Color.WHITE);
 			}
 			else this.mainRender.setColor(getIntColor(array[idx], length));
 			

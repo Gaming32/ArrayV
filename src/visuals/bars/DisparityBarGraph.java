@@ -34,13 +34,12 @@ final public class DisparityBarGraph extends Visual {
 			}
 			j += width;
         }
+		this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+		
 		for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
 			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
 			if(Highlights.containsPosition(i)) {
-				if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
-				else                               this.mainRender.setColor(Color.RED);
-				
 				double disp = (1 + Math.cos((Math.PI * (array[i] - i)) / (ArrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
 				int y = (int) (((Renderer.getViewSize() - 20)) - disp * (array[i] + 1) * Renderer.getYScale());
 				

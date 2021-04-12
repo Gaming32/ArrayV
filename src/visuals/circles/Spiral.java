@@ -53,9 +53,7 @@ final public class Spiral extends Visual {
 		double r = Math.min(width, height)/2.5;
 		
 		this.extraRender.setStroke(ArrayVisualizer.getThickStroke());
-		
-		if(ArrayVisualizer.colorEnabled()) this.extraRender.setColor(Color.WHITE);
-		else                               this.extraRender.setColor(Color.RED);
+		this.extraRender.setColor(ArrayVisualizer.getHighlightColor());
 		
 		int[] x =  {width/2, 0, 0};
 		int[] y = {height/2, 0, 0};
@@ -76,9 +74,7 @@ final public class Spiral extends Visual {
 				this.mainRender.setColor(Color.GREEN);
 				
 			else if(Highlights.containsPosition(i)) {
-				if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
-				else                               this.mainRender.setColor(Color.RED);
-				
+				this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
 				this.extraRender.drawPolygon(x, y, 3); 
 			}
 			else if(ArrayVisualizer.colorEnabled()) 

@@ -32,13 +32,12 @@ final public class BarGraph extends Visual {
 			}
 			j += width;
         }
+		this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+		
 		for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
 			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
 			if(Highlights.containsPosition(i)) {
-				if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
-				else                               this.mainRender.setColor(Color.RED);
-				
 				int y = (int) (((Renderer.getViewSize() - 20)) - (array[i] + 1) * Renderer.getYScale());
 				this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), (int) ((array[i] + 1) * Renderer.getYScale()));
 			}

@@ -78,8 +78,9 @@ final public class DisparityChords extends Visual {
 				this.mainRender.drawLine(ax, ay, bx, by); 
 			}
 			else if(Highlights.containsPosition(i)) {
-				this.mainRender.setColor(Color.WHITE);
-			
+				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
+				else                                  this.mainRender.setColor(Color.WHITE);
+				
 				int ax =  width/2 + (int)(r * Math.cos(Math.PI * (2d*i / n - 0.5)));
 				int ay = height/2 + (int)(r * Math.sin(Math.PI * (2d*i / n - 0.5)));
 				int bx =  width/2 + (int)(r * Math.cos(Math.PI * (2d*array[i] / n - 0.5)));

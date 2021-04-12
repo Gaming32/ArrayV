@@ -62,9 +62,7 @@ final public class SpiralDots extends Visual {
 					this.mainRender.setColor(Color.GREEN);
 				
 				if(Highlights.containsPosition(i)) {
-					if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
-					else                               this.mainRender.setColor(Color.RED);
-					
+					this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
 					this.mainRender.setStroke(ArrayVisualizer.getThickStroke());
 				}
 				else if(ArrayVisualizer.colorEnabled()) 
@@ -101,11 +99,10 @@ final public class SpiralDots extends Visual {
 				
 				this.mainRender.fillRect(x, y, dotS, dotS);
 			}
+			this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+			
 			for(int i = 0; i < n; i++) {
 				if(Highlights.containsPosition(i)) {
-					if(ArrayVisualizer.colorEnabled()) this.mainRender.setColor(Color.WHITE);
-					else                               this.mainRender.setColor(Color.RED);
-				
 					double mult = (double) array[i] / ArrayVisualizer.getCurrentLength();
 					int x =  width/2 + (int)(mult * r * Math.cos(Math.PI * (2d*i / n - 0.5)));
 					int y = height/2 + (int)(mult * r * Math.sin(Math.PI * (2d*i / n - 0.5)));
