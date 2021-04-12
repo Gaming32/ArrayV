@@ -25,6 +25,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
@@ -33,9 +34,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
-import dialogs.CustomImageDialog;
 import dialogs.FileDialog;
-import dialogs.RunScriptDialog;
+import dialogs.SaveArrayDialog;
 import frames.ArrayFrame;
 import frames.SoundFrame;
 import frames.UtilFrame;
@@ -214,6 +214,12 @@ final public class ArrayVisualizer {
                         }
                     };
                     thread.start();
+                    return true;
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_S && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
+                    int[] snapshot = Arrays.copyOfRange(ArrayVisualizer.this.getArray(), 0, ArrayVisualizer.this.getCurrentLength());
+                    FileDialog selected = new SaveArrayDialog();
+                    ArrayFileWriter.writeArray(selected.getFile(), snapshot, snapshot.length);
                     return true;
                 }
                 return false;
@@ -644,18 +650,21 @@ final public class ArrayVisualizer {
     public void finishAntiQSort(String name) {
         int[] result = this.AntiQSort.getResult();
         String outName = "antiqsort_" + name + "_" + this.sortLength;
-        try {
-            FileWriter writer = new FileWriter(outName);
-            for (int i = 0; i < this.sortLength - 1; i++) {
-                writer.write(result[i] + " ");
-            }
-            writer.write("" + result[this.sortLength - 1]);
-            writer.close();
-        }
-        catch (IOException e) {
-            JErrorPane.invokeErrorMessage(e);
+        if (!ArrayFileWriter.writeArray(outName, result, sortLength)) {
             return;
         }
+        // try {
+        //     FileWriter writer = new FileWriter(outName);
+        //     for (int i = 0; i < this.sortLength - 1; i++) {
+        //         writer.write(result[i] + " ");
+        //     }
+        //     writer.write("" + result[this.sortLength - 1]);
+        //     writer.close();
+        // }
+        // catch (IOException e) {
+        //     JErrorPane.invokeErrorMessage(e);
+        //     return;
+        // }
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + outName + "\"", "AntiQSort", JOptionPane.INFORMATION_MESSAGE);
     }
     public int antiqCompare(int left, int right) {

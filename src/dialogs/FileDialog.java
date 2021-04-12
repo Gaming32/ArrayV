@@ -30,6 +30,7 @@ public abstract class FileDialog {
             e.printStackTrace();
         }
         FileDialog.fileDialog = new JFileChooser();
+        FileDialog.fileDialog.setCurrentDirectory(new File(System.getProperty("user.dir")));
         FileDialog.fileDialog.setMultiSelectionEnabled(false);
         FileDialog.initialized = true;
     }
