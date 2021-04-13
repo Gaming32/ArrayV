@@ -7,7 +7,7 @@ import sorts.templates.Sort;
  * 
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2020-2021 Gaming32 and Morewenn
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -45,24 +45,20 @@ final public class DoubleInsertionSort extends Sort {
         this.setBogoSort(false);
     }
 
-    protected void insertUp(int[] array, int left, int current, boolean canEqual, double sleep, boolean auxwrite) {
+    protected void insertUp(int[] array, int left, int current, int cmp, double sleep, boolean auxwrite) {
         int pos = left + 1;
 
-        int cmp = canEqual ? 0 : -1;
-
-        while (Reads.compareValues(array[pos], current) <= cmp) {
+        while (Reads.compareValues(array[pos], current) < cmp) {
             Writes.write(array, pos - 1, array[pos], sleep, true, auxwrite);
             pos++;
         }
         Writes.write(array, pos - 1, current, sleep, true, auxwrite);
     }
 
-    protected void insertDown(int[] array, int right, int current, boolean canEqual, double sleep, boolean auxwrite) {
+    protected void insertDown(int[] array, int right, int current, int cmp, double sleep, boolean auxwrite) {
         int pos = right - 1;
 
-        int cmp = canEqual ? 0 : 1;
-
-        while (Reads.compareValues(array[pos], current) >= cmp) {
+        while (Reads.compareValues(array[pos], current) > cmp) {
             Writes.write(array, pos + 1, array[pos], sleep, true, auxwrite);
             pos--;
         }
@@ -78,27 +74,28 @@ final public class DoubleInsertionSort extends Sort {
         right++;
 
         while (left >= start && right < end) {
-            boolean swapped;
+            int leftCmp, rightCmp;
             int leftItem, rightItem;
             if (Reads.compareIndices(array, left, right, sleep, true) > 0) {
                 leftItem = array[right];
                 rightItem = array[left];
-                swapped = true;
+                leftCmp = 1;
+                rightCmp = -1;
             }
             else {
                 leftItem = array[left];
                 rightItem = array[right];
-                swapped = false;
+                leftCmp = rightCmp = 0;
             }
 
-            insertUp(array, left, leftItem, swapped, sleep, auxwrite);
-            insertDown(array, right, rightItem, swapped, sleep, auxwrite);
+            insertUp(array, left, leftItem, leftCmp, sleep, auxwrite);
+            insertDown(array, right, rightItem, rightCmp, sleep, auxwrite);
 
             left--;
             right++;
         }
 
-        if (right < end) insertDown(array, right, array[right], false, sleep, auxwrite);
+        if (right < end) insertDown(array, right, array[right], 0, sleep, auxwrite);
     }
 
     public void customInsertSort(int[] array, int start, int end, double sleep, boolean auxwrite) {
