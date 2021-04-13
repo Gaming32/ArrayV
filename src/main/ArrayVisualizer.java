@@ -43,14 +43,13 @@ import main.SortAnalyzer.SortPair;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
 import utils.*;
-import visuals.Bars;
-import visuals.Circular;
-import visuals.CustomImage;
-import visuals.Mesh;
-import visuals.Pixels;
-import visuals.HoopStack;
 import visuals.Visual;
 import visuals.VisualStyles;
+import visuals.bars.*;
+import visuals.circles.*;
+import visuals.dots.*;
+import visuals.image.*;
+import visuals.misc.*;
 
 /*
  * 
@@ -156,7 +155,6 @@ final public class ArrayVisualizer {
     private Image img;
     private Graphics2D mainRender;
     private Graphics2D extraRender;
-    private Stroke thickStroke;
 
     private Delays Delays;
     private Highlights Highlights;
@@ -357,13 +355,23 @@ final public class ArrayVisualizer {
                 background.setColor(Color.BLACK);
                 int coltmp = 255;
                 
-                ArrayVisualizer.this.visualClasses = new Visual[6];
-                ArrayVisualizer.this.visualClasses[0] = new Bars(ArrayVisualizer.this);
-                ArrayVisualizer.this.visualClasses[1] = new Circular(ArrayVisualizer.this);
-                ArrayVisualizer.this.visualClasses[2] = new CustomImage(ArrayVisualizer.this);
-                ArrayVisualizer.this.visualClasses[3] = new Mesh(ArrayVisualizer.this);
-                ArrayVisualizer.this.visualClasses[4] = new Pixels(ArrayVisualizer.this);
-				ArrayVisualizer.this.visualClasses[5] = new HoopStack(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses = new Visual[15];
+				
+                ArrayVisualizer.this.visualClasses[0]  = new          BarGraph(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[1]  = new           Rainbow(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[2]  = new DisparityBarGraph(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[3]  = new       ColorCircle(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[4]  = new   DisparityCircle(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[5]  = new   DisparityChords(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[6]  = new     DisparityDots(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[7]  = new       ScatterPlot(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[8]  = new          WaveDots(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[9]  = new       CustomImage(ArrayVisualizer.this);
+				ArrayVisualizer.this.visualClasses[10] = new          SineWave(ArrayVisualizer.this);
+				ArrayVisualizer.this.visualClasses[11] = new         HoopStack(ArrayVisualizer.this);
+				ArrayVisualizer.this.visualClasses[12] = new         PixelMesh(ArrayVisualizer.this);
+				ArrayVisualizer.this.visualClasses[13] = new            Spiral(ArrayVisualizer.this);
+				ArrayVisualizer.this.visualClasses[14] = new        SpiralDots(ArrayVisualizer.this);
                 
                 while(ArrayVisualizer.this.visualsEnabled) {
                     if (ArrayVisualizer.this.updateVisualsForced == 0) {
@@ -786,18 +794,38 @@ final public class ArrayVisualizer {
     public int windowYCoordinate() {
         return this.cy;
     }
+	
+	public Color getHighlightColor() {
+		if(this.colorEnabled()) {
+			if(this.analysisEnabled()) 
+				return Color.LIGHT_GRAY;
+			
+			else
+				return Color.WHITE;
+		}
+		else {
+			if(this.analysisEnabled()) 
+				return Color.BLUE;
+			
+			else
+				return Color.RED;
+		}
+	}
     
     public void createVolatileImage() {
         this.img = this.window.getGraphicsConfiguration().createCompatibleVolatileImage(this.cw, this.ch);
     }
-    public void setThickStroke(Stroke stroke) {
-        this.thickStroke = stroke;
-    }
     public Stroke getThickStroke() {
-        return this.thickStroke;
+        return new BasicStroke((float) (5 * this.getWindowRatio()));
     }
     public Stroke getDefaultStroke() {
         return new BasicStroke((float) (3 * this.getWindowRatio()));
+    }
+    public Stroke getThinStroke() {
+        return new BasicStroke((float) (this.getWindowRatio()));
+    }
+    public Stroke getCustomStroke(double size) {
+        return new BasicStroke((float) (size * this.getWindowRatio()));
     }
     public Graphics2D getMainRender() {
         return this.mainRender;
@@ -991,8 +1019,8 @@ final public class ArrayVisualizer {
     }
     
     public void setVisual(VisualStyles choice) {
-        if(choice == visuals.VisualStyles.CUSTOMIMAGE) {
-            ((CustomImage) this.visualClasses[2]).enableImgMenu();
+        if(choice == visuals.VisualStyles.CUSTOM_IMAGE) {
+            ((CustomImage) this.visualClasses[9]).enableImgMenu();
         }
         this.VisualStyles = choice;
     }

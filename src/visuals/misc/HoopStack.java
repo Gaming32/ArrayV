@@ -1,8 +1,6 @@
-package visuals.circles;
+package visuals.misc;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Polygon;
 
 import main.ArrayVisualizer;
 import utils.Highlights;
@@ -13,8 +11,7 @@ import visuals.Visual;
  * 
 MIT License
 
-Copyright (c) 2019 w0rthy
-Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2020-2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,66 +33,47 @@ SOFTWARE.
  *
  */
 
-final public class ColorCircle extends Visual {
-	
-    public ColorCircle(ArrayVisualizer ArrayVisualizer) {
+final public class HoopStack extends Visual {
+    public HoopStack(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }
-    
-    @Override
+	
+	private void drawEllipseFromCenter(int x, int y, int rx, int ry) {
+		this.mainRender.drawOval(x - rx, y - ry, 2*rx, 2*ry);
+	}
+	
+	@Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
 		if(Renderer.auxActive) return;
-		
-		int width  = ArrayVisualizer.windowWidth();
+
+		int width = ArrayVisualizer.windowWidth();
 		int height = ArrayVisualizer.windowHeight();
+		int length = ArrayVisualizer.getCurrentLength();
 		
-		int n = ArrayVisualizer.getCurrentLength();
+		int radiusX = height / 3;
+		int radiusY = height / 9;
 		
-		double r = Math.min(width, height)/2.75;
-		int p = (int)(r/16);
-		
-		int[] x  = new int[3];
-		int[] y  = new int[3];
-		
-		int[] px = new int[3];
-		int[] py = new int[3];
-		
-		this.extraRender.setColor(Color.WHITE);
-		
-		x[0] =  width/2;
-		y[0] = height/2;
-		
-		x[2] =  width/2 + (int)(r * Math.cos(Math.PI * (2d*(n-1) / n - 0.5)));
-		y[2] = height/2 + (int)(r * Math.sin(Math.PI * (2d*(n-1) / n - 0.5)));
-		
-		for(int i = 0; i < n; i++) {
-			x[1] = x[2];
-			y[1] = y[2];
+		this.mainRender.setStroke(ArrayVisualizer.getThinStroke());
 			
-			x[2] =  width/2 + (int)(r * Math.cos(Math.PI * (2d*i / n - 0.5)));
-			y[2] = height/2 + (int)(r * Math.sin(Math.PI * (2d*i / n - 0.5)));
+		for(int i = length - 1; i >= 0; i--) {
+			double scale = (array[i] + 1) / (double) (length + 1);
+					
+			int y = (int) ((height - radiusY * 4) * i / (double) (length - 1));
 			
 			if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
 				this.mainRender.setColor(Color.GREEN);
-				
+			
 			else if(Highlights.containsPosition(i)) {
 				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
 				else                                  this.mainRender.setColor(Color.WHITE);
 				
-				px[0] =  width/2 + (int)((r + p/4) * Math.cos(Math.PI * ((2d*i - 1) / n - 0.5)));
-				py[0] = height/2 + (int)((r + p/4) * Math.sin(Math.PI * ((2d*i - 1) / n - 0.5)));
-				
-				px[1] = px[0] + (int)(p * Math.cos(Math.PI * ((2d*i - 1) / n - 0.67)));
-				py[1] = py[0] + (int)(p * Math.sin(Math.PI * ((2d*i - 1) / n - 0.67)));
-				
-				px[2] = px[0] + (int)(p * Math.cos(Math.PI * ((2d*i - 1) / n - 0.33)));
-				py[2] = py[0] + (int)(p * Math.sin(Math.PI * ((2d*i - 1) / n - 0.33)));
-				
-				this.extraRender.fillPolygon(px, py, 3); 
+				this.mainRender.setStroke(ArrayVisualizer.getDefaultStroke());
 			}
-			else this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+			else this.mainRender.setColor(getIntColor(array[i], length));
 			
-			if(x[1] != x[2] || y[1] != y[2]) this.mainRender.fillPolygon(x, y, 3); 
+			this.drawEllipseFromCenter(width / 2, y + radiusY * 2, (int) (scale * radiusX + 0.5), (int) (scale * radiusY + 0.5));
+			this.mainRender.setStroke(ArrayVisualizer.getThinStroke());
 		}
+		this.mainRender.setStroke(ArrayVisualizer.getDefaultStroke());
     }
-}   
+}

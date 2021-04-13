@@ -37,34 +37,88 @@ public enum VisualStyles {
             ArrayVisualizer.getVisuals()[0].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
     },
-    CIRCULAR {
+	RAINBOW {
         @Override
         public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
             ArrayVisualizer.getVisuals()[1].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
     },
-    CUSTOMIMAGE {
+	DISP_BARS {
         @Override
         public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
             ArrayVisualizer.getVisuals()[2].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
     },
-    MESH {
+    COLOR_CIRCLE {
         @Override
         public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
             ArrayVisualizer.getVisuals()[3].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
     },
-    PIXELS {
+	DISP_CIRCLE {
         @Override
         public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
             ArrayVisualizer.getVisuals()[4].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
     },
-	HOOPSTACK {
+	DISP_CHORDS {
         @Override
         public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
             ArrayVisualizer.getVisuals()[5].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+    DISP_DOTS {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[6].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+    DOTS {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[7].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+    WAVE_DOTS {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[8].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+    CUSTOM_IMAGE {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[9].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+    SINE_WAVE {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[10].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+    HOOP_STACK {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[11].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+	PIXEL_MESH {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[12].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+    SPIRAL {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[13].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        }
+    },
+	SPIRAL_DOTS {
+        @Override
+        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
+            ArrayVisualizer.getVisuals()[14].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
     };
     
