@@ -1,5 +1,7 @@
 package sorts.exchange;
 
+import java.util.Random;
+
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
@@ -69,7 +71,10 @@ final public class StableQuickSortParallel extends Sort {
 	}
 	
 	private int partitionInt(int a, int b) {
-		int p = (a+b)/2, piv = array[p];
+		Random r = new Random();
+		int p = a + r.nextInt(b-a);
+		
+		int piv = array[p];
 		int j = a, k = b-1;
 		
 		while(j < p && Reads.compareValues(array[j], piv) <= 0) j++;
@@ -98,7 +103,10 @@ final public class StableQuickSortParallel extends Sort {
 		return j;
 	}
 	private int partitionExt(int a, int b) {
-		int p = (a+b)/2, piv = tmp[p];
+		Random r = new Random();
+		int p = a + r.nextInt(b-a);
+		
+		int piv = tmp[p];
 		int j = b-1, k = a;
 		
 		while(j > p && Reads.compareValues(tmp[j], piv) > 0) j--;

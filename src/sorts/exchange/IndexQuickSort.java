@@ -1,5 +1,7 @@
 package sorts.exchange;
 
+import java.util.Random;
+
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
@@ -57,8 +59,10 @@ final public class IndexQuickSort extends Sort {
 	}
     
     private int partition(int[] array, int[] idx, int a, int b) {
-		int c0 = a, c1 = c0,
-			m = (a+b)/2, i;
+		int c0 = a, c1 = c0, i;
+		
+		Random r = new Random();
+		int m = a + r.nextInt(b-a);
 			
 		Highlights.markArray(2, m);
 		for(i = a; i < m; i++) {
