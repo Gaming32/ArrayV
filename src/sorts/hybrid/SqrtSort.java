@@ -232,14 +232,14 @@ final public class SqrtSort extends Sort {
         }
 
         int leftOverLen = regBlockLen;
-        int leftOverFrag = Reads.compareValues(keys[0], midkey) < 0 ? 0 : 1;
+        int leftOverFrag = Reads.compareOriginalValues(keys[0], midkey) < 0 ? 0 : 1;
         int processIndex = regBlockLen;
 
         int restToProcess;
         
         for(int keyIndex = 1; keyIndex < blockCount; keyIndex++, processIndex += regBlockLen) {
             restToProcess = processIndex - leftOverLen;
-            int nextFrag = Reads.compareValues(keys[keyIndex], midkey) < 0 ? 0 : 1;
+            int nextFrag = Reads.compareOriginalValues(keys[keyIndex], midkey) < 0 ? 0 : 1;
 
             if(nextFrag == leftOverFrag) {
                 Writes.arraycopy(arr, pos + restToProcess, arr, pos + restToProcess - regBlockLen, leftOverLen, 1, true, auxwrite);

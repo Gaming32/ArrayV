@@ -45,6 +45,10 @@ final public class StacklessAmericanFlagSort extends Sort {
         this.setBogoSort(false);
     }
 	
+	private int stabVal(int idx) {
+		return arrayVisualizer.getStabilityValue(idx);
+	}
+	
 	private static int shift(int n, int q, int r) {
 		while(q > 0) {
 			n /= r;
@@ -101,7 +105,7 @@ final public class StacklessAmericanFlagSort extends Sort {
 				}
 				
 				i = b;
-				while(b < length && shift(array[b], q+1, r) == shift(m, q+1, r)) {
+				while(b < length && shift(this.stabVal(array[b]), q+1, r) == shift(m, q+1, r)) {
 					Highlights.markArray(1, b);
 					int digit = Reads.getDigit(array[b], q, r);
 					Writes.write(cnts, digit, cnts[digit]+1, 0.5, false, true);

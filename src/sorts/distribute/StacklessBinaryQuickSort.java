@@ -45,6 +45,10 @@ final public class StacklessBinaryQuickSort extends Sort {
         this.setBogoSort(false);
     }
 	
+	private int stabVal(int idx) {
+		return arrayVisualizer.getStabilityValue(idx);
+	}
+	
 	private int partition(int[] array, int a, int b, int bit) {
         int i = a-1, j = b;
         
@@ -83,7 +87,7 @@ final public class StacklessBinaryQuickSort extends Sort {
 				i = b;
 				Highlights.clearMark(2);
 				arrayVisualizer.toggleAnalysis(true);
-				while(b < length && (array[b] >> (q+1)) == (m >> (q+1))) {
+				while(b < length && (this.stabVal(array[b]) >> (q+1)) == (m >> (q+1))) {
 					Highlights.markArray(1, b);
 					Delays.sleep(0.5);
 					b++;

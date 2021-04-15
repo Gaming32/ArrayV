@@ -494,7 +494,7 @@ final public class WikiSorting {
 
     void NetSwap(int[] array, int[] order, Range range, int x, int y) {
         int compare = Reads.compareValues(array[range.start + x], array[range.start + y]);
-        if (compare > 0 || (Reads.compareValues(order[x], order[y]) == 1 && compare == 0)) {
+        if (compare > 0 || (Reads.compareOriginalValues(order[x], order[y]) == 1 && compare == 0)) {
             Writes.swap(array, range.start + x, range.start + y, 1, true, false);
             Writes.swap(order, x, y, 0, false, false);
         }
