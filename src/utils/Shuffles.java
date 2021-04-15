@@ -137,22 +137,11 @@ public enum Shuffles {
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
 			boolean delay = ArrayVisualizer.shuffleEnabled();
-			Random random = new Random();
+			int len = Math.max(1, currentLen/8);
 			
-			int j = 0, k = currentLen;
-			int[] temp = new int[currentLen];
-
-			for(int i = 0; j < k; i++) {
-				if(random.nextDouble() < 1/8d)
-					Writes.write(temp, --k, array[i], 0, false, true);
-				else
-					Writes.write(temp, j++, array[i], 0, false, true);
-			}
-
-			for(int i = 0; i < currentLen; i++)
-				Writes.write(array, i, temp[i], delay ? 1 : 0, true, false);
-
-			shuffle(array, k, currentLen, delay ? 4 : 0, Writes);
+			this.shuffle(array, 0, currentLen, delay ? 0.5 : 0, Writes);
+			Highlights.clearMark(2);
+			this.sort(array, 0, currentLen-len, delay ? 0.5 : 0, Writes);
         }
     },
 	SHUFFLED_HEAD {
@@ -163,22 +152,11 @@ public enum Shuffles {
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
 			boolean delay = ArrayVisualizer.shuffleEnabled();
-			Random random = new Random();
+			int len = Math.max(1, currentLen/8);
 			
-			int j = currentLen, k = 0;
-			int[] temp = new int[currentLen];
-
-			for(int i = currentLen-1; j > k; i--) {
-				if(random.nextDouble() < 1/8d)
-					Writes.write(temp, k++, array[i], 0, false, true);
-				else
-					Writes.write(temp, --j, array[i], 0, false, true);
-			}
-
-			for(int i = 0; i < currentLen; i++)
-				Writes.write(array, i, temp[i], delay ? 1 : 0, true, false);
-
-			shuffle(array, 0, k, delay ? 4 : 0, Writes);
+			this.shuffle(array, 0, currentLen, delay ? 0.5 : 0, Writes);
+			Highlights.clearMark(2);
+			this.sort(array, len, currentLen, delay ? 0.5 : 0, Writes);
         }
     },
     NOISY {
@@ -221,7 +199,6 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			
             boolean delay = ArrayVisualizer.shuffleEnabled();
 			int count = 2;
 			
@@ -243,12 +220,12 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			
             boolean delay = ArrayVisualizer.shuffleEnabled();
 			
-			this.shuffle(array, 0, currentLen, delay ? 1 : 0, Writes);
-			this.sort(array, 0, currentLen / 2, delay ? 1 : 0, Writes);
-			this.sort(array, currentLen / 2, currentLen, delay ? 1 : 0, Writes);
+			this.shuffle(array, 0, currentLen, delay ? 0.5 : 0, Writes);
+			Highlights.clearMark(2);
+			this.sort(array, 0, currentLen / 2, delay ? 0.5 : 0, Writes);
+			this.sort(array, currentLen / 2, currentLen, delay ? 0.5 : 0, Writes);
         }
     },
 	SHUFFLED_HALF {
@@ -258,11 +235,26 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			
             boolean delay = ArrayVisualizer.shuffleEnabled();
 			
-			this.shuffle(array, 0, currentLen, delay ? 1 : 0, Writes);
-			this.sort(array, 0, currentLen / 2, delay ? 1 : 0, Writes);
+			this.shuffle(array, 0, currentLen, delay ? 2/3d : 0, Writes);
+			Highlights.clearMark(2);
+			this.sort(array, 0, currentLen / 2, delay ? 2/3d : 0, Writes);
+        }
+    },
+	PARTITIONED {
+        public String getName() {
+            return "Partitioned";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+			int currentLen = ArrayVisualizer.getCurrentLength();
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+			
+			this.sort(array, 0, currentLen, delay ? 0.5 : 0, Writes);
+			Highlights.clearMark(2);
+			this.shuffle(array, 0, currentLen/2, delay ? 0.5 : 0, Writes);
+			this.shuffle(array, currentLen/2, currentLen, delay ? 0.5 : 0, Writes);
         }
     },
 	SAWTOOTH {
@@ -272,7 +264,6 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			
             boolean delay = ArrayVisualizer.shuffleEnabled();
 			int count = 4;
 			
@@ -294,7 +285,6 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			
             boolean delay = ArrayVisualizer.shuffleEnabled();
 			int count = 2;
 			
@@ -318,7 +308,6 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
 			int currentLen = ArrayVisualizer.getCurrentLength();
-			
             boolean delay = ArrayVisualizer.shuffleEnabled();
 			int count = 4;
 			
@@ -1010,7 +999,7 @@ public enum Shuffles {
 			int[] bits = Arrays.copyOf(array, currentLen);
 			
 			for(int i = 0; i < currentLen; i++)
-				Writes.write(array, i, temp[bits[i]], delay ? 0.5 : 0, true, false);
+				Writes.write(array, i, temp[bits[i]], delay ? 0.25 : 0, true, false);
 		}
 	},
 	BLOCK_RANDOMLY {
