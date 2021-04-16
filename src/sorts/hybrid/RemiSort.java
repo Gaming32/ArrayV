@@ -68,35 +68,37 @@ final public class RemiSort extends Sort {
 	}
 	
 	private void siftDown(int[] array, int[] keys, int r, int len, int a, int t) {
-		while(4*r+1 < len) {
-			int start = 4*r+1;
-			int max = start++;
+		int j = r;
+		
+		while(2*j + 1 < len) {
+			j = 2*j + 1;
 			
-			for(int i = start; i < Math.min(start+3, len); i++) {
-				int cmp = Reads.compareIndices(array, a+keys[i], a+keys[max], 0.1, true);
+			if(j+1 < len) {
+				int cmp = Reads.compareIndices(array, a+keys[j+1], a+keys[j], 0.2, true);
 				
-				if(cmp > 0 || (cmp == 0 && Reads.compareOriginalValues(keys[i], keys[max]) > 0))
-					max = i;
+				if(cmp > 0 || (cmp == 0 && Reads.compareOriginalValues(keys[j+1], keys[j]) > 0)) j++;
 			}
-			
-			int cmp = Reads.compareIndices(array, a+keys[max], a+t, 0.1, true);
-			
-			if(cmp > 0 || (cmp == 0 && Reads.compareOriginalValues(keys[max], t) > 0)) {
-				Highlights.markArray(3, r);
-				Writes.write(keys, r, keys[max], 0.5, false, true);
-				r = max;
-			}
-			else break;
 		}
-		Highlights.markArray(3, r);
-		Writes.write(keys, r, t, 0.5, false, true);
-		Highlights.clearMark(3);
+		for(int cmp = Reads.compareIndices(array, a+t, a+keys[j], 0.2, true);
+		
+			cmp > 0 || (cmp == 0 && Reads.compareOriginalValues(t, keys[j]) > 0);
+			
+			j = (j-1)/2,
+			cmp = Reads.compareIndices(array, a+t, a+keys[j], 0.2, true));
+		
+		Highlights.clearMark(2);
+		for(int t2; j > r; j = (j-1)/2) {
+			t2 = keys[j];
+			Writes.write(keys, j, t, 0.2, true, true);
+			t = t2;
+		}
+		Writes.write(keys, r, t, 0.2, true, true);
 	}
 	
 	private void tableSort(int[] array, int[] keys, int a, int b) {
 		int len = b-a;
 		
-		for(int i = len/4; i >= 0; i--)
+		for(int i = (len-1)/2; i >= 0; i--)
 			this.siftDown(array, keys, i, len, a, keys[i]);
 		
 		for(int i = len-1; i > 0; i--) {
