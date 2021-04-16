@@ -109,7 +109,7 @@ final public class RemiSort extends Sort {
 		
 		for(int i = 0; i < len; i++) {
 			Highlights.markArray(2, i);
-			if(i != keys[i]) {
+			if(Reads.compareOriginalValues(i, keys[i]) != 0) {
 				int t = array[a+i];
 				int j = i, next = keys[i];
 				
@@ -120,7 +120,7 @@ final public class RemiSort extends Sort {
 					j = next;
 					next = keys[next];
 				}
-				while(next != i);
+				while(Reads.compareOriginalValues(next, i) != 0);
 				
 				Writes.write(array, a+j, t, 1, true, false);
 				Writes.write(keys, j, j, 1, true, true);
@@ -221,7 +221,7 @@ final public class RemiSort extends Sort {
 		a += bLen;
 		
 		for(int i = 0; i < bCnt; i++) {
-			if(i != keys[i]) {
+			if(Reads.compareOriginalValues(i, keys[i]) != 0) {
 				this.multiWrite(array, p, a + i*bLen, bLen);
 				int j = i, next = keys[i];
 				
@@ -232,7 +232,7 @@ final public class RemiSort extends Sort {
 					j = next;
 					next = keys[next];
 				}
-				while(next != i);
+				while(Reads.compareOriginalValues(next, i) != 0);
 				
 				this.multiWrite(array, a + j*bLen, p, bLen);
 				Writes.write(keys, j, j, 1, true, true);
