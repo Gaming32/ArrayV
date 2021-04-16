@@ -19,16 +19,19 @@ final public class BarGraph extends Visual {
 			if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
 				this.mainRender.setColor(Color.GREEN);
 			
-			else if(ArrayVisualizer.colorEnabled()) 
-				this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
-				
+			else if(ArrayVisualizer.colorEnabled()) {
+				int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getIndexValue(array[i]): array[i];
+				this.mainRender.setColor(getIntColor(val, ArrayVisualizer.getCurrentLength()));
+			}
 			else this.mainRender.setColor(Color.WHITE);
 			
             int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
 			if(width > 0) {
-				int y = (int) (((Renderer.getViewSize() - 20)) - (array[i] + 1) * Renderer.getYScale());
-				this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, width, (int) ((array[i] + 1) * Renderer.getYScale()));
+				int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
+				int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+				
+				this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, width, (int) ((val + 1) * Renderer.getYScale()));
 			}
 			j += width;
         }
@@ -38,8 +41,10 @@ final public class BarGraph extends Visual {
 			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
 			if(Highlights.containsPosition(i)) {
-				int y = (int) (((Renderer.getViewSize() - 20)) - (array[i] + 1) * Renderer.getYScale());
-				this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), (int) ((array[i] + 1) * Renderer.getYScale()));
+				int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
+				int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+				
+				this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), (int) ((val + 1) * Renderer.getYScale()));
 			}
 			j += width;
 		}
