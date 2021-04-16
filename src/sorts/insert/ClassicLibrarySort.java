@@ -98,7 +98,7 @@ final public class ClassicLibrarySort extends Sort {
 		while(a < b) {
 			int m = a+(b-a)/2;
 			
-			if(Reads.compareValues(this.max, array[m]) <= 0) 
+			if(Reads.compareOriginalValues(this.max, array[m]) <= 0) 
 				b = m;
 			else     
 				a = m+1;
@@ -171,20 +171,7 @@ final public class ClassicLibrarySort extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-		this.max = array[0];
-		for(int i = 1; i < length; i++) {
-			Highlights.markArray(1, i);
-			Delays.sleep(0.5);
-			
-			if(Reads.compareValues(array[i], max) > 0) max = array[i];
-		}
-		for(int i = length-1; i >= 0; i--) {
-			Highlights.markArray(1, i);
-			Delays.sleep(0.5);
-			
-			if(Reads.compareValues(array[i], this.max) == 0)
-				Writes.swap(array, i, --length, 1, true, false);
-		}
+		this.max = length;
 		
 		//there is supposed to be a shuffle here between [0, length)
 		//but for the sake of demonstrating O(n^2) worst case it has been removed
