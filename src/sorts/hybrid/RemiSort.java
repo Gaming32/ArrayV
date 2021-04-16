@@ -67,9 +67,7 @@ final public class RemiSort extends Sort {
 		return r;
 	}
 	
-	private void siftDown(int[] array, int[] keys, int r, int len, int a) {
-		int t = keys[r];
-		
+	private void siftDown(int[] array, int[] keys, int r, int len, int a, int t) {
 		while(4*r+1 < len) {
 			int start = 4*r+1;
 			int max = start++;
@@ -99,11 +97,12 @@ final public class RemiSort extends Sort {
 		int len = b-a;
 		
 		for(int i = len/4; i >= 0; i--)
-			this.siftDown(array, keys, i, len, a);
+			this.siftDown(array, keys, i, len, a, keys[i]);
 		
 		for(int i = len-1; i > 0; i--) {
-			Writes.swap(keys, 0, i, 1, true, true);
-			this.siftDown(array, keys, 0, i, a);
+			int t = keys[i];
+			Writes.write(keys, i, keys[0], 1, true, true);
+			this.siftDown(array, keys, 0, i, a, t);
 		}
 		
 		for(int i = 0; i < len; i++) {
@@ -222,18 +221,19 @@ final public class RemiSort extends Sort {
 		for(int i = 0; i < bCnt; i++) {
 			if(i != keys[i]) {
 				this.multiWrite(array, p, a + i*bLen, bLen);
-				int val = i, j = keys[i];
+				int j = i, next = keys[i];
 				
 				do {
-					if(val >= bLen-1) this.multiWrite(array, a + val*bLen, a + j*bLen, bLen);
-					Writes.swap(keys, i, j, 1, true, true);
+					if(j >= bLen-1) this.multiWrite(array, a + j*bLen, a + next*bLen, bLen);
+					Writes.write(keys, j, j, 1, true, true);
 					
-					val = j;
-					j = keys[i];
+					j = next;
+					next = keys[next];
 				}
-				while(j != i);
+				while(next != i);
 				
-				this.multiWrite(array, a + val*bLen, p, bLen);
+				this.multiWrite(array, a + j*bLen, p, bLen);
+				Writes.write(keys, j, j, 1, true, true);
 			}
 		}
 	}
@@ -306,7 +306,6 @@ final public class RemiSort extends Sort {
 				Writes.write(array, k++, buf[i++], 1, true, false);
 			}
 		}
-		
 		Writes.deleteExternalArray(keys);
 		Writes.deleteExternalArray(buf);
 		Writes.changeAllocAmount(-alloc);
