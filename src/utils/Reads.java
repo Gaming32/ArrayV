@@ -216,15 +216,12 @@ final public class Reads {
         for(int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
 			
-			int val = array[i];
 			if(ArrayVisualizer.doingStabilityCheck())
 				val = ArrayVisualizer.getStabilityValue(val);
-			
-            int log = (int) (Math.log(val) / Math.log(base));
 
             Timer.startLap("Analysis");
 
-            if(log > max) max = log;
+            if(array[i] > max) max = array[i];
 
             Timer.stopLap();
 
@@ -236,8 +233,8 @@ final public class Reads {
 
         ArrayVisualizer.toggleAnalysis(false);
         ArrayVisualizer.updateNow();
-
-        return max;
+	
+        return (int) (Math.log(max) / Math.log(base));
     }
 
     public int analyzeMaxCeilingLog(int[] array, int length, int base, double sleep, boolean mark) {
