@@ -251,11 +251,9 @@ final public class Reads {
 			if(ArrayVisualizer.doingStabilityCheck())
 				val = ArrayVisualizer.getStabilityValue(val);
 			
-            int log = (int)Math.ceil(Math.log(val) / Math.log(base));
-
             Timer.startLap("Analysis");
 
-            if(log > max) max = log;
+            if(val > max) max = val;
 
             Timer.stopLap();
 
@@ -268,7 +266,7 @@ final public class Reads {
         ArrayVisualizer.toggleAnalysis(false);
         ArrayVisualizer.updateNow();
 
-        return max;
+        return (int) (Math.log(max) / Math.log(base));
     }
 
     public int analyzeBit(int[] array, int length) {
@@ -287,7 +285,7 @@ final public class Reads {
 			
             Timer.startLap("Analysis");
 
-            max = Math.max(max, val);
+	    if (val > max) max = val;
 
             Timer.stopLap();
 
