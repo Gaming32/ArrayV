@@ -5,7 +5,7 @@ import java.util.Arrays;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -32,56 +32,61 @@ SOFTWARE.
 
 final public class Highlights {
     private volatile int[] Highlights;
-    
+    private volatile long[] markedBits;
+
     private volatile int maxIndexMarked;    // The Highlights array is huge and slows down the visualizer if all its indices are read.
                                             // In an attempt to speed up the containsPosition() method while also giving anyone room
                                             // to use the full array, this variable keeps track of the farthest index an array position
                                             // has been highlighted at. The containsPosition() method only scans the Highlights array
                                             // up to index maxIndexMarked.
-    
+
                                             // If an index is used in markArray() that is higher than maxPossibleMarked, the variable
                                             // is updated. If the highest index used in Highlights is removed with clearMark(), the
                                             // next biggest index (less than what was removed) is found and updates maxIndexMarked.
-                                            
+
                                             // Trivially, clearAllMarks() resets maxIndexMarked to zero. This variable also serves
                                             // as a subtle design hint for anyone who wants to add an algorithm to the app to highlight
                                             // array positions at low indices which are close together.
-                                            
+
                                             // This way, the program runs more efficiently, and looks pretty. :)
-    
+
     private volatile int markCount;
-    
+    private volatile int highestArrayIndexMarked;
+
     private boolean FANCYFINISH;
     private volatile boolean fancyFinish;
     private volatile int trackFinish;
-    
+
     private ArrayVisualizer ArrayVisualizer;
-    
+
     public Highlights(ArrayVisualizer ArrayVisualizer, int maximumLength) {
         this.ArrayVisualizer = ArrayVisualizer;
-        
+
         this.Highlights = new int[maximumLength];
+        this.markedBits = new long[maximumLength / 64];
         this.FANCYFINISH = true;
         this.maxIndexMarked = 0;
+        this.highestArrayIndexMarked = 0;
         this.markCount = 0;
-        
+
         Arrays.fill(Highlights, -1);
+        Arrays.fill(markedBits, 0);
     }
-    
+
     public boolean fancyFinishEnabled() {
         return this.FANCYFINISH;
     }
     public void toggleFancyFinishes(boolean Bool) {
         this.FANCYFINISH = Bool;
     }
-    
+
     public boolean fancyFinishActive() {
         return this.fancyFinish;
     }
     public void toggleFancyFinish(boolean Bool) {
         this.fancyFinish = Bool;
     }
-    
+
     public int getFancyFinishPosition() {
         return this.trackFinish;
     }
@@ -91,24 +96,40 @@ final public class Highlights {
     public void resetFancyFinish() {
         this.trackFinish = -1; // Magic number that clears the green sweep animation
     }
-    
+
     //TODO: Move Analysis to Highlights
     public void toggleAnalysis(boolean Bool) {
         this.ArrayVisualizer.toggleAnalysis(Bool);
     }
-    
+
     public int getMaxIndex() {
         return this.maxIndexMarked;
     }
     public int getMarkCount() {
         return this.markCount;
     }
-    
+
+    private boolean getBit(int i) {
+        return (markedBits[i / 64] & (1 << (i % 64))) != 0;
+    }
+
+    private void setBit(int i, boolean bbit) {
+        int bit = 1 << (i % 64);
+        if (bbit)
+            markedBits[i / 64] |= bit;
+        else
+            markedBits[i / 64] &= ~bit;
+    }
+
     //Consider revising highlightList().
     public int[] highlightList() {
         return this.Highlights;
     }
     public boolean containsPosition(int arrayPosition) {
+        return arrayPosition <= this.highestArrayIndexMarked && getBit(arrayPosition);
+    }
+
+    private boolean arrayContainsPosition(int arrayPosition) {
         for(int i = 0; i <= this.maxIndexMarked; i++) {
             if(Highlights[i] == -1) {
                 continue;
@@ -128,26 +149,37 @@ final public class Highlights {
                 else throw new Exception("Highlights.markArray(): Invalid position!");
             }
             else {
+                int oldMarkPosition = Highlights[marker];
+                setBit(markPosition, true);
                 Highlights[marker] = markPosition;
+                if (!arrayContainsPosition(oldMarkPosition)) {
+                    setBit(oldMarkPosition, false);
+                }
                 this.markCount++;
-                
+
                 if(marker > this.maxIndexMarked) {
                     this.maxIndexMarked = marker;
                 }
+                if (markPosition > this.highestArrayIndexMarked) {
+                    this.highestArrayIndexMarked = markPosition;
+                }
             }
-        } 
+        }
         catch (Exception e) {
             e.printStackTrace();
         }
         ArrayVisualizer.updateNow();
     }
     public void clearMark(int marker) {
+        int markPos = Highlights[marker];
         Highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
+        if (!arrayContainsPosition(markPos))
+            setBit(Highlights[marker], false);
         this.markCount--;
-        
+
         if(marker == this.maxIndexMarked) {
             this.maxIndexMarked = 0;
-            
+
             for(int i = marker - 1; i >= 0; i--) {
                 if(Highlights[i] != -1) {
                     this.maxIndexMarked = i;
@@ -155,12 +187,12 @@ final public class Highlights {
                 }
             }
         }
-        synchronized (ArrayVisualizer) {
-            ArrayVisualizer.notify();;
-        }
+        ArrayVisualizer.updateNow();
     }
     public void clearAllMarks() {
         Arrays.fill(this.Highlights, 0, this.maxIndexMarked + 1, -1);
+        Arrays.fill(this.markedBits, 0, (this.highestArrayIndexMarked + 63) / 64 + 1, 0);
+        this.highestArrayIndexMarked = 0;
         this.maxIndexMarked = 0;
         this.markCount = 0;
         ArrayVisualizer.updateNow();
