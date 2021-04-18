@@ -159,6 +159,26 @@ public enum Shuffles {
             this.sort(array, len, currentLen, delay ? 0.5 : 0, Writes);
         }
     },
+    MOVED_ELEMENT {
+        public String getName() {
+            return "Shifted Element";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+            Random random = new Random();
+
+			int start = random.nextInt(currentLen);
+			int dest = random.nextInt(currentLen);
+			if (dest < start) {
+				IndexedRotations.holyGriesMills(array, dest, start, start + 1, delay ? 1 : 0, true, false);
+			}
+			else {
+				IndexedRotations.holyGriesMills(array, start, start + 1, dest, delay ? 1 : 0, true, false);
+			}
+        }
+    },
     NOISY {
         public String getName() {
             return "Noisy";
