@@ -216,12 +216,13 @@ final public class Reads {
         for(int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
 			
+			int val = array[i];
 			if(ArrayVisualizer.doingStabilityCheck())
 				val = ArrayVisualizer.getStabilityValue(val);
 
             Timer.startLap("Analysis");
 
-            if(array[i] > max) max = array[i];
+            if(val > max) max = val;
 
             Timer.stopLap();
 
