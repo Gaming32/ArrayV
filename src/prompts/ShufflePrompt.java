@@ -201,8 +201,6 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         Distributions[] distributions = ArrayManager.getDistributions();
         if (selection >= 0 && selection < distributions.length)
             ArrayManager.setDistribution(distributions[selection]);
-        UtilFrame.jButton6ResetText();
-        dispose();
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
@@ -213,8 +211,6 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         Shuffles[] shuffles = ArrayManager.getShuffles();
         if (selection >= 0 && selection < shuffles.length)
             ArrayManager.setShuffle(shuffles[selection]);
-        UtilFrame.jButton6ResetText();
-        dispose();
     }//GEN-LAST:event_jList1ValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
