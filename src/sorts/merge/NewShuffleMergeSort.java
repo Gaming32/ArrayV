@@ -56,19 +56,19 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
         this.setBogoSort(false);
     }
 
-    private void rotateEqual(int[] array, int a, int b, int size) {
+    private void rotateEqual(int[] array, int a, int b, int size, double sleep) {
         for (int i=0; i<size; ++i)
-            Writes.swap(array, a+i, b+i, 1, true, false);
+            Writes.swap(array, a+i, b+i, sleep, true, false);
     }
 
-    private void rotate(int[] array, int mid, int a, int b) {
+    private void rotate(int[] array, int mid, int a, int b, double sleep) {
         while (a>0 && b>0) {
             if (a > b) {
-                rotateEqual(array, mid-b, mid, b);
+                rotateEqual(array, mid-b, mid, b, sleep);
                 mid -= b;
                 a -= b;
             } else {
-                rotateEqual(array, mid-a, mid, a);
+                rotateEqual(array, mid-a, mid, a, sleep);
                 mid += a;
                 b -= a;
             }
@@ -76,6 +76,7 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
     }
 
     private void shuffleEasy(int[] array, int start, int size) {
+		Highlights.clearMark(2);
         for (int i=1; i<size; i*=3) {
             int val = array[start+i-1];
             for (int j=i*2%size; j!=i; j=j*2%size) {
@@ -94,7 +95,7 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
             while (l*3-1<=2*n) l *= 3;
             int m = (l-1)/2;
 
-            rotate(array, start+n, n-m, m);
+            rotate(array, start+n, n-m, m, 1);
             shuffleEasy(array, start, l);
             start += l-1;
         }
@@ -102,7 +103,7 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
 
     private void rotateShuffledEqual(int[] array, int a, int b, int size) {
         for (int i=0; i<size; i+=2)
-            Writes.swap(array, a+i, b+i, 1, true, false);
+            Writes.swap(array, a+i, b+i, 0.25, true, false);
     }
 
     private void rotateShuffled(int[] array, int mid, int a, int b) {
@@ -138,10 +139,10 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
             int prev = i;
             int val = array[start+i-1];
             for (int j=i*2%size; j!=i; j=j*2%size) {
-                Writes.write(array, start+prev-1, array[start+j-1], 1, true, false);
+                Writes.write(array, start+prev-1, array[start+j-1], 0.25, true, false);
                 prev = j;
             }
-            Writes.write(array, start+prev-1, val, 1, true, false);
+            Writes.write(array, start+prev-1, val, 0.25, true, false);
         }
     }
 
@@ -162,7 +163,7 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
         int i = start;
         int j = i+1;
         while (j < end) {
-            int cmp = Reads.compareIndices(array, i, j, 1, true);
+            int cmp = Reads.compareIndices(array, i, j, 0, true);
             if (cmp==-1 || !type && cmp==0) {
                 ++i;
                 if (i == j) {
@@ -170,15 +171,15 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
                     type = !type;
                 }
             } else if (end-j == 1) {
-                rotate(array, j, j-i, 1);
+                rotate(array, j, j-i, 1, 0.25);
                 break;
             } else {
                 int r = 0;
-                if (type) while (j+2*r<end && Reads.compareIndices(array, j+2*r, i, 1, true)!=1) ++r;
-                else while (j+2*r<end && Reads.compareIndices(array, j+2*r, i, 1, true)==-1) ++r;
+                if (type) while (j+2*r<end && Reads.compareIndices(array, j+2*r, i, 0, true)!=1) ++r;
+                else while (j+2*r<end && Reads.compareIndices(array, j+2*r, i, 0, true)==-1) ++r;
                 --j;
                 unshuffle(array, j, j+2*r);
-                rotate(array, j, j-i, r);
+                rotate(array, j, j-i, r, 0.25);
                 i += r+1;
                 j += 2*r+1;
             }

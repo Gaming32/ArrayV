@@ -159,8 +159,9 @@ final public class BufferPartitionMergeSort extends Sort {
         }
     }
 	
-	private void quickSelect(int[] array, int a, int b, int m) {
+	private int quickSelect(int[] array, int a, int b, int m) {
 		boolean badPartition = false, mom = false;
+		int m1 = (m+b+1)/2;
 		
 		while(true) {
 			if(badPartition) {
@@ -172,13 +173,13 @@ final public class BufferPartitionMergeSort extends Sort {
 			int p = this.partition(array, a, b);
 			Writes.swap(array, a, p, 1, true, false);
 			
-			int l = p-a;
-			int r = b-(p+1);
-			badPartition = !mom && ((l == 0 || r == 0) || (l/r >= 16 || r/l >= 16));
+			int l = Math.max(1, p-a);
+			int r = Math.max(1, b-(p+1));
+			badPartition = !mom && (l/r >= 16 || r/l >= 16);
 			
-			if(p < m)      a = p+1;
-			else if(p > m) b = p;
-			else           return;
+			if(p >= m && p < m1) return p;
+			else if(p < m) a = p+1;
+			else           b = p;
 		}
 	}
 	
@@ -256,12 +257,12 @@ final public class BufferPartitionMergeSort extends Sort {
 		
 		while(m-a > minLvl) {
 			int m1 = (a+m+1)/2;
-			int bSize = m1-a;
 			
-			this.quickSelect(array, a, m, m1);
+			m1 = this.quickSelect(array, a, m, m1);
 			this.mergeSort(array, m1, m, a);
 			
-			int m2 = m+bSize;
+			int bSize = m1-a;
+			int m2 = Math.min(m1+bSize, b);
 			m1 = this.mergeFW(array, a, m1, m, m2);
 			
 			while(m1 < m) {
