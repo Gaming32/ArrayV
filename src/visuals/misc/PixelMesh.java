@@ -57,6 +57,7 @@ final public class PixelMesh extends Visual {
 		
 		for(int i = 0; i < square; i++) {
 			int idx = (int)(i * scale);
+			
 			if(Highlights.fancyFinishActive() && idx < Highlights.getFancyFinishPosition())
 				this.mainRender.setColor(Color.GREEN);
 			

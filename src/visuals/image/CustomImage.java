@@ -359,9 +359,9 @@ final public class CustomImage extends Visual {
 				this.img,
 
 				j + 20,
-				0, 
+				40, 
 				j + 20 + width, 
-				ArrayVisualizer.windowHeight(),
+				ArrayVisualizer.windowHeight()-10,
 
 				(int) ((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * array[i]),
 				0, 
@@ -378,13 +378,13 @@ final public class CustomImage extends Visual {
 			if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition()) {
 				this.mainRender.setColor(new Color(0, 1, 0, .5f));
 				
-				if(width > 0) this.mainRender.fillRect(j + 20, 0, width, ArrayVisualizer.windowHeight());
+				if(width > 0) this.mainRender.fillRect(j + 20, 40, width, ArrayVisualizer.windowHeight()-10);
             }
             else if(Highlights.containsPosition(i)) {
 				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(new Color(0, 0, 1, .5f));
 				else                                  this.mainRender.setColor(new Color(1, 0, 0, .5f));
 				
-				this.mainRender.fillRect(j + 20, 0, Math.max(width, 2), ArrayVisualizer.windowHeight());
+				this.mainRender.fillRect(j + 20, 40, Math.max(width, 2), ArrayVisualizer.windowHeight()-10);
 			}
 			j += width;
 		}
