@@ -29,53 +29,56 @@ SOFTWARE.
  *
  */
 
-public final class BogoBogoSort extends BogoSorting {
-    public BogoBogoSort(ArrayVisualizer arrayVisualizer) {
+public final class MergeBogoSort extends BogoSorting {
+    public MergeBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Bogo Bogo");
-        this.setRunAllSortsName("Bogo Bogo Sort");
-        this.setRunSortName("Bogobogosort");
+        this.setSortListName("Merge Bogo");
+        this.setRunAllSortsName("Merge Bogo Sort");
+        this.setRunSortName("Merge Bogosort");
         this.setCategory("Impractical Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(5);
+        this.setUnreasonableLimit(22);
         this.setBogoSort(true);
     }
 
-    private boolean bogoBogoIsSorted(int[] array, int length) {
-        if (length == 1)
-            return true;
+    private void bogoWeave(int[] array, int[] tmp, int start, int mid, int end) {
+        int size = mid-start;
+        this.bogoCombo(array, start, end, size, false);
 
-        int[] tmp = Writes.createExternalArray(length);
-        Writes.arraycopy(array, 0, tmp, 0, length, 0.0, true, true);
-
-        bogoBogo(tmp, length-1, true);
-        while (tmp[length-2] > tmp[length-1]) {
-            this.bogoSwap(tmp, 0, length, true);
-            bogoBogo(tmp, length-1, true);
+        int low = start;
+        int high = mid;
+        for (int i = start; i < end; ++i) {
+            if (Reads.compareValues(array[i], 0) == 0)
+                Writes.write(array, i, tmp[low++], 0, false, true);
+            else
+                Writes.write(array, i, tmp[high++], 0, false, true);
         }
-
-        for (int i = 0; i < length; ++i) {
-            Highlights.markArray(1, i);
-            if (Reads.compareValues(array[i], tmp[i]) != 0) {
-                Writes.deleteExternalArray(tmp);
-                return false;
-            }
-        }
-        Writes.deleteExternalArray(tmp);
-        return true;
     }
 
-    private void bogoBogo(int[] array, int length, boolean aux) {
-        while (!bogoBogoIsSorted(array, length))
-            this.bogoSwap(array, 0, length, aux);
+    private void mergeBogo(int[] array, int[] tmp, int start, int end) {
+        if (start >= end-1) return;
+
+        int mid = (start+end)/2;
+        mergeBogo(array, tmp, start, mid);
+        mergeBogo(array, tmp, mid, end);
+
+        for (int i = start; i < end; ++i)
+            Writes.write(tmp, i, array[i], 0, true, false);
+
+        while (!this.isRangeSorted(array, start, end))
+            bogoWeave(array, tmp, start, mid, end);
     }
 
     @Override
-    public void runSort(int[] array, int length, int bucketCount) {
-        bogoBogo(array, length, false);
+    public void runSort(int[] array, int sortLength, int bucketCount) {
+        int[] tmp = Writes.createExternalArray(sortLength);
+
+        mergeBogo(array, tmp, 0, sortLength);
+
+        Writes.deleteExternalArray(tmp);
     }
 }

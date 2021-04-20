@@ -1,13 +1,13 @@
-package sorts.exchange;
+package sorts.distribute;
 
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
 /*
- * 
+ *
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2021 EmeraldBlock
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,29 +29,48 @@ SOFTWARE.
  *
  */
 
-public final class BubbleBogoSort extends BogoSorting {
-    public BubbleBogoSort(ArrayVisualizer arrayVisualizer) {
+public final class QuickBogoSort extends BogoSorting {
+    public QuickBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Bubble Bogo");
-        this.setRunAllSortsName("Bubble Bogo Sort");
-        this.setRunSortName("Bubble Bogosort");
+        this.setSortListName("Quick Bogo");
+        this.setRunAllSortsName("Quick Bogo Sort");
+        this.setRunSortName("Quick Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
+        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(1024);
+        this.setUnreasonableLimit(22);
         this.setBogoSort(true);
     }
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
-        while (!this.bogoIsSorted(array, length)) {
-            int index = BogoSorting.randInt(0, length);
-
-            if (Reads.compareIndices(array, index, index+1, 0, true) > 0)
-                Writes.swap(array, index, index+1, 1, true, false);
+    private int quickBogoSwap(int[] array, int start, int pivot, int end){
+        for(int i = start; i < end; i++) {
+            int j = BogoSorting.randInt(i, end);
+            if (pivot == i)
+                pivot = j;
+            else if (pivot == j)
+                pivot = i;
+            Writes.swap(array, i, j, 0, true, false);
         }
+        return pivot;
+    }
+
+    private void quickBogo(int[] array, int start, int end) {
+        if (start >= end-1)
+            return;
+
+        int pivot = start;
+        while (!isRangePartitioned(array, start, pivot, end))
+            pivot = quickBogoSwap(array, start, pivot, end);
+
+        quickBogo(array, start, pivot);
+        quickBogo(array, pivot+1, end);
+    }
+
+    @Override
+    public void runSort(int[] array, int sortLength, int bucketCount) {
+        quickBogo(array, 0, sortLength);
     }
 }

@@ -1,5 +1,7 @@
 package sorts.templates;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import main.ArrayVisualizer;
 
 /*
@@ -7,6 +9,7 @@ import main.ArrayVisualizer;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2021 EmeraldBlock
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,58 +35,76 @@ public abstract class BogoSorting extends Sort {
     protected BogoSorting(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }
-    
-    private static int randomPosition(int length, int offset) {
-        return (int) (Math.random() * (length - offset));
+
+    protected static int randInt(int start, int end) {
+        return ThreadLocalRandom.current().nextInt(start, end);
     }
-    
-    protected void bogoSwap(int[] array, int length, int offset){
-        for(int i = offset; i < length; i++) {
-            Writes.swap(array, i, BogoSorting.randomPosition(length, i) + i, 0, true, false);
+
+    protected static boolean randBoolean() {
+        return ThreadLocalRandom.current().nextBoolean();
+    }
+
+    protected void bogoSwap(int[] array, int start, int end, boolean aux){
+        for(int i = start; i < end; ++i)
+            Writes.swap(array, i, BogoSorting.randInt(i, end), 0.0, true, aux);
+    }
+
+    protected void bogoCombo(int[] array, int start, int end, int size, boolean aux) {
+        for (int i = start; i < end; ++i)
+            Writes.write(array, i, 1, 0.0, true, aux);
+
+        for (int i = end-size; i < end; ++i) {
+            int j = BogoSorting.randInt(start, i+1);
+            Highlights.markArray(1, j);
+            Writes.write(array, Reads.compareValues(array[j], 1) == 0 ? j : i, 0, 0.0, true, aux);
         }
     }
-    
+
+    protected boolean isRangeSorted(int[] array, int start, int end) {
+        for (int i = start; i < end - 1; ++i) {
+            if (Reads.compareIndices(array, i, i + 1, 0.0, true) > 0)
+                return false;
+        }
+        return true;
+    }
+
     protected boolean bogoIsSorted(int[] array, int length) {
-        for(int i = 0; i < length - 1; i++) {
-            if(Reads.compareValues(array[i], array[i + 1]) == 1) {
-                Highlights.markArray(1, i);
-                return false;
-            }
-        }
-        Highlights.clearMark(1);
-        return true;
+        return isRangeSorted(array, 0, length);
     }
-    
-    protected boolean isMinSorted(int[] array, int length, int offset) {
-        Highlights.clearAllMarks();
-        
-        //Highlights.markArray(2, offset);
-        //Highlights.markArray(3, length);
-        
-        for(int i = offset + 1; i < length; i++) {
-            Highlights.markArray(1, i);
-            Delays.sleep(0.075);
-            
-            if(Reads.compareValues(array[offset], array[i]) == 1) {
+
+    protected boolean isRangePartitioned(int[] array, int start, int pivot, int end) {
+        for (int i = start; i < pivot; i++) {
+            if (Reads.compareIndices(array, i, pivot, 0.0, true) > 0)
                 return false;
-            }
+        }
+        for (int i = pivot + 1; i < end; i++) {
+            if (Reads.compareIndices(array, pivot, i, 0.0, true) > 0)
+                return false;
         }
         return true;
     }
-    
-    protected boolean isMaxSorted(int[] array, int minIterator, int maxIterator) {
-        Highlights.clearAllMarks();
-        
-        //Highlights.markArray(2, minIterator);
-        //Highlights.markArray(3, maxIterator);
-        
-        for(int i = maxIterator; i >= minIterator; i--) {
+
+    protected boolean isMinSorted(int[] array, int start, int end) {
+        return isRangePartitioned(array, start, start, end);
+    }
+
+    protected boolean isMaxSorted(int[] array, int start, int end) {
+        return isRangePartitioned(array, start, end-1, end);
+    }
+
+    protected boolean isRangeSplit(int[] array, int start, int mid, int end) {
+        Highlights.markArray(1, start);
+        int lowMax = array[start];
+        for (int i = start+1; i < mid; ++i) {
             Highlights.markArray(1, i);
-            Delays.sleep(0.075);
-            
-            if(Reads.compareValues(array[maxIterator], array[i]) == -1) {
+            if (Reads.compareValues(lowMax, array[i]) < 0)
+                lowMax = array[i];
+        }
+
+        for (int i = mid; i < end; ++i) {
+            Highlights.markArray(1, i);
+            if (Reads.compareValues(lowMax, array[i]) > 0)
                 return false;
-            }
         }
         return true;
     }

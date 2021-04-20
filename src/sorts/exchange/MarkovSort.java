@@ -1,20 +1,19 @@
 package sorts.exchange;
 
-import java.util.Random;
-
 import main.ArrayVisualizer;
-import sorts.templates.Sort;
+import sorts.templates.BogoSorting;
 
 /**
  * Markov Sort, which is in a sense a gnome bogo sort.
  * 
  * @author invented by Blasterfreund
  * @author implemented in Java by Sam Walko (Anonymous0726)
+ * @author refactored by EmeraldBlock
  */
-final public class MarkovSort extends Sort {
+final public class MarkovSort extends BogoSorting {
     public MarkovSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Markov");
         this.setRunAllSortsName("Markov Sort");
         this.setRunSortName("Markov sort");
@@ -26,45 +25,19 @@ final public class MarkovSort extends Sort {
         this.setUnreasonableLimit(1024);
         this.setBogoSort(true);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-    	Random random = new Random();
-    	
-    	for(int s = 0; s < length-1; s++) {
-    		int i = s+1;
-    		
-    		boolean isSorted = Reads.compareIndices(array, i-1, i, 0.25, true) <= 0;
-    		
-    		while(!isSorted) {
-    			Highlights.clearAllMarks();
-    			
-    			if(i == 0) {
-    				Writes.swap(array, i, i+1, 0.25, true, false);
-    				i++;
-    			} else if(i >= s) {
-    				Writes.swap(array, i, i-1, 0.25, true, false);
-    				i--;
-    			} else {
-    				int c = 1;
-    				if(random.nextBoolean())
-    					c = -1;
-    				Writes.swap(array, i, i+c, 0.25, true, false);
-    				i += c;
-    			}
-    			
-    			if(i == 0) {
-    				isSorted = Reads.compareIndices(array, i-1, i, 0.25, true) <= 0;
-    			} else if(i >= s) {
-    				isSorted = Reads.compareIndices(array, i-1, i, 0.25, true) <= 0;
-    			} else {
-    				boolean leftSort = Reads.compareIndices(array, i-1, i, 0.25, true) <= 0;
-    				boolean rightSort = Reads.compareIndices(array, i, i+1, 0.25, true) <= 0;
-    				
-    				isSorted = leftSort && rightSort;
-    			}
-    		}
-    		Highlights.clearAllMarks();
-    	}
+        for (int i = 0; i < length-1; ++i) {
+            int walk = i+1;
+            while (
+                   (walk==0 ? false : Reads.compareIndices(array, walk-1, walk, 0.25, true)>0)
+                || (walk>i ? false : Reads.compareIndices(array, walk, walk+1, 0.25, true)>0)
+            ) {
+                int c = (walk==0 || walk<=i && BogoSorting.randBoolean()) ? 1 : -1;
+                Writes.swap(array, walk, walk+c, 0.25, true, false);
+                walk += c;
+            }
+        }
     }
 }

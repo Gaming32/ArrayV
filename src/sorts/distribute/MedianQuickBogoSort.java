@@ -1,13 +1,13 @@
-package sorts.exchange;
+package sorts.distribute;
 
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
 /*
- * 
+ *
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2021 EmeraldBlock
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,29 +29,36 @@ SOFTWARE.
  *
  */
 
-public final class BubbleBogoSort extends BogoSorting {
-    public BubbleBogoSort(ArrayVisualizer arrayVisualizer) {
+public final class MedianQuickBogoSort extends BogoSorting {
+    public MedianQuickBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Bubble Bogo");
-        this.setRunAllSortsName("Bubble Bogo Sort");
-        this.setRunSortName("Bubble Bogosort");
+        this.setSortListName("Median Quick Bogo");
+        this.setRunAllSortsName("Median Quick Bogo Sort");
+        this.setRunSortName("Median Quick Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
+        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(1024);
+        this.setUnreasonableLimit(23);
         this.setBogoSort(true);
     }
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
-        while (!this.bogoIsSorted(array, length)) {
-            int index = BogoSorting.randInt(0, length);
+    private void medianQuickBogo(int[] array, int start, int end) {
+        if (start >= end-1)
+            return;
 
-            if (Reads.compareIndices(array, index, index+1, 0, true) > 0)
-                Writes.swap(array, index, index+1, 1, true, false);
-        }
+        int mid = (start+end)/2;
+        while (!isRangeSplit(array, start, mid, end))
+            this.bogoSwap(array, start, end, false);
+
+        medianQuickBogo(array, start, mid);
+        medianQuickBogo(array, mid, end);
+    }
+
+    @Override
+    public void runSort(int[] array, int sortLength, int bucketCount) {
+        medianQuickBogo(array, 0, sortLength);
     }
 }

@@ -1,13 +1,13 @@
-package sorts.exchange;
+package sorts.distribute;
 
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
 /*
- * 
+ *
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2021 EmeraldBlock
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,29 +29,32 @@ SOFTWARE.
  *
  */
 
-public final class BubbleBogoSort extends BogoSorting {
-    public BubbleBogoSort(ArrayVisualizer arrayVisualizer) {
+/*
+ * The original Selection Bogo Sort algorithm was created and implemented by fluffyyboii.
+ * However, the original implementation seems to never have been added
+ * and this version makes it more concise with some helper methods.
+ */
+
+public final class SelectionBogoSort extends BogoSorting {
+    public SelectionBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Bubble Bogo");
-        this.setRunAllSortsName("Bubble Bogo Sort");
-        this.setRunSortName("Bubble Bogosort");
+        this.setSortListName("Selection Bogo");
+        this.setRunAllSortsName("Selection Bogo Sort");
+        this.setRunSortName("Selection Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
+        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(1024);
+        this.setUnreasonableLimit(4096);
         this.setBogoSort(true);
     }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        while (!this.bogoIsSorted(array, length)) {
-            int index = BogoSorting.randInt(0, length);
-
-            if (Reads.compareIndices(array, index, index+1, 0, true) > 0)
-                Writes.swap(array, index, index+1, 1, true, false);
-        }
+        for (int i = 0; i < length; ++i)
+            while (!this.isMinSorted(array, i, length))
+                Writes.swap(array, i, BogoSorting.randInt(i, length), 0, true, false);
     }
 }

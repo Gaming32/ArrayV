@@ -29,15 +29,15 @@ SOFTWARE.
  *
  */
 
-final public class BogoSort extends BogoSorting {
+public final class BogoSort extends BogoSorting {
     public BogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Bogo");
         this.setRunAllSortsName("Bogo Sort");
         this.setRunSortName("Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(false); //Comparisons are not used to swap elements
+        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
@@ -46,9 +46,8 @@ final public class BogoSort extends BogoSorting {
     }
 
     @Override
-    public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        while(!this.bogoIsSorted(array, sortLength)) {
-            this.bogoSwap(array, sortLength, 0);
-        }
+    public void runSort(int[] array, int length, int bucketCount) {
+        while(!this.bogoIsSorted(array, length))
+            this.bogoSwap(array, 0, length, false);
     }
 }

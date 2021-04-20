@@ -3,15 +3,15 @@ package sorts.distribute;
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
-final public class CocktailBogoSort extends BogoSorting {
+public final class CocktailBogoSort extends BogoSorting {
     public CocktailBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Cocktail Bogo");
         this.setRunAllSortsName("Cocktail Bogo Sort");
         this.setRunSortName("Cocktail Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(false); //Comparisons are not used to swap elements
+        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
@@ -20,31 +20,21 @@ final public class CocktailBogoSort extends BogoSorting {
     }
 
     @Override
-    public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        int minIterator = 0;
-        int maxIterator = sortLength - 1;
-        
-        while(minIterator < maxIterator) {
-            boolean maxSorted = this.isMaxSorted(array, minIterator, maxIterator);
-            boolean minSorted = this.isMinSorted(array, maxIterator + 1, minIterator);
-            
-            while(!maxSorted && !minSorted) {
-                this.bogoSwap(array, maxIterator + 1, minIterator);
-                
-                maxSorted = this.isMaxSorted(array, minIterator, maxIterator);
-                minSorted = this.isMinSorted(array, maxIterator + 1, minIterator);
+    public void runSort(int[] array, int length, int bucketCount) {
+        int min = 0;
+        int max = length;
+
+        while (min < max-1) {
+            if (this.isMinSorted(array, min, max)) {
+                Highlights.markArray(3, min);
+                ++min;
             }
-            
-            if(minSorted) {
-                //Highlights.markArray(1, minIterator);
-                minIterator++;
-                minSorted = false;
+            if (this.isMaxSorted(array, min, max)) {
+                Highlights.markArray(4, max-1);
+                --max;
             }
-            if(maxSorted) {
-                //Highlights.markArray(2, maxIterator);
-                maxIterator--;
-                maxSorted = false;
-            }
+
+            this.bogoSwap(array, min, max, false);
         }
     }
 }
