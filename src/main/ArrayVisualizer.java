@@ -220,6 +220,9 @@ final public class ArrayVisualizer {
                     ArrayFileWriter.writeArray(selected.getFile(), snapshot, snapshot.length);
                     return true;
                 }
+                else if (e.getKeyCode() == KeyEvent.VK_F5) {
+                    ArrayVisualizer.this.updateNow();
+                }
                 return false;
             }
         });
