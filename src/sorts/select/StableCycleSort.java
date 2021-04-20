@@ -45,7 +45,19 @@ final public class StableCycleSort extends Sort {
         this.setBogoSort(false);
     }
 	
-	private int destination1(int[] array, boolean[] m, int a, int b1, int b) {
+	private final int WLEN = 3;
+	
+	private boolean getBit(int[] bits, int idx) {
+		int b = (bits[idx >> WLEN]) >> (idx & ((1 << WLEN) - 1)) & 1;
+		return b == 1;
+	}
+	
+	private void flag(int[] bits, int idx) {
+		Highlights.markArray(4, idx >> WLEN);
+		Writes.write(bits, idx >> WLEN, bits[idx >> WLEN] | (1 << (idx & ((1 << WLEN) - 1))), 0.02, false, true);
+	}
+	
+	private int destination1(int[] array, int[] bits, int a, int b1, int b) {
 		int d = 0, e = 0;
 		
 		while(d < a && Reads.compareValues(array[d], array[a]) == -1) {
@@ -63,11 +75,11 @@ final public class StableCycleSort extends Sort {
 		}
 		for(int i = a+1; i < b1; i++) {
 			Highlights.markArray(2, i);
-			if(!m[i] && Reads.compareValues(array[i], array[a]) == 0) e++;
+			if(!this.getBit(bits, i) && Reads.compareValues(array[i], array[a]) == 0) e++;
 			
 			Delays.sleep(0.01);
 		}
-		while(m[d] || e-- > 0) {
+		while(this.getBit(bits, d) || e-- > 0) {
 			d++;
 			
 			Highlights.markArray(3, d);
@@ -77,34 +89,24 @@ final public class StableCycleSort extends Sort {
 		return d;
 	}
 	
-	private void flag(boolean[] m, int at) {
-		Writes.startLap();
-		m[at] = true;
-		Writes.stopLap();
-		
-		Writes.changeAuxWrites(1);
-	}
-	
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-		boolean[] m = new boolean[length];
-		Writes.changeAllocAmount(length);
+		int[] bits = Writes.createExternalArray(((length-1) >> WLEN) + 1);
 		
 		for(int i = 0; i < length-1; i++) {
-			if(!m[i]) {
+			if(!this.getBit(bits, i)) {
 				Highlights.markArray(1, i);
 				int j = i;
 				
 				do {
-					int k = this.destination1(array, m, i, j, length);
+					int k = this.destination1(array, bits, i, j, length);
 					Writes.swap(array, i, k, 0.02, true, false);
-					this.flag(m, k);
+					this.flag(bits, k);
 					j = k;
 				}
 				while(j != i);
 			}
 		}
-		
-		Writes.clearAllocAmount();
+		Writes.deleteExternalArray(bits);
     }
 }

@@ -60,9 +60,9 @@ final public class WeakHeapSort extends Sort {
             
             while ((j & 1) == WeakHeapSort.getBitwiseFlag(bits, j >> 1))
                 j >>= 1;
-                Gparent = j >> 1;
+            Gparent = j >> 1;
                 
-                this.weakHeapMerge(array, bits, Gparent, i);
+            this.weakHeapMerge(array, bits, Gparent, i);
         }
         
         for (i = n - 1; i >= 2; --i) {
