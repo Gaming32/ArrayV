@@ -254,6 +254,24 @@ final public class ParallelGrailSort extends Sort {
 		return nKeys;
 	}
 	
+	private void blockSelect(int a, int b, int t, int bLen) {
+		for(int j = a; j < b; j += bLen) {
+			int min = j;
+			
+			for(int i = min+bLen; i < b; i += bLen) {
+				int cmp = Reads.compareValues(array[i], array[min]);
+				
+				if(cmp < 0 || (cmp == 0 && Reads.compareValues(array[t+(i-a)/bLen], array[t+(min-a)/bLen]) < 0))
+					min = i;
+			}
+				
+			if(min != j) {
+				this.multiSwap(j, min, bLen);
+				Writes.swap(array, t+(j-a)/bLen, t+(min-a)/bLen, 1, true, false);
+			}
+		}
+	}
+	
 	private void blockMerge(int t, int a, int m, int b, int bLen) {
 		int a1 = a+(m-a)%bLen;
 		int b1 = b-(b-m)%bLen;
@@ -263,21 +281,7 @@ final public class ParallelGrailSort extends Sort {
 		int f = a;
 		boolean frag = true;
 		
-		for(int j = a1; j < b1; j += bLen) {
-			int min = j;
-			
-			for(int k = min+bLen; k < b1; k += bLen) {
-				int cmp = Reads.compareValues(array[k], array[min]);
-				
-				if(cmp < 0 || (cmp == 0 && Reads.compareValues(array[t+(k-a1)/bLen], array[t+(min-a1)/bLen]) < 0))
-					min = k;
-			}
-				
-			if(min != j) {
-				this.multiSwap(j, min, bLen);
-				Writes.swap(array, t+(j-a1)/bLen, t+(min-a1)/bLen, 1, true, false);
-			}
-		}
+		this.blockSelect(a1, b1, t, bLen);
 		
 		while(l < m && r < b1) {
 			boolean curr = Reads.compareValues(array[t++], mKey) < 0;
@@ -319,21 +323,7 @@ final public class ParallelGrailSort extends Sort {
 		int f = a;
 		boolean frag = true;
 		
-		for(int j = a1; j < b1; j += bLen) {
-			int min = j;
-			
-			for(int k = min+bLen; k < b1; k += bLen) {
-				int cmp = Reads.compareValues(array[k], array[min]);
-				
-				if(cmp < 0 || (cmp == 0 && Reads.compareValues(array[t+(k-a1)/bLen], array[t+(min-a1)/bLen]) < 0))
-					min = k;
-			}
-				
-			if(min != j) {
-				this.multiSwap(j, min, bLen);
-				Writes.swap(array, t+(j-a1)/bLen, t+(min-a1)/bLen, 1, true, false);
-			}
-		}
+		this.blockSelect(a1, b1, t, bLen);
 		
 		while(l < m && r < b1) {
 			boolean curr = Reads.compareValues(array[t++], mKey) < 0;

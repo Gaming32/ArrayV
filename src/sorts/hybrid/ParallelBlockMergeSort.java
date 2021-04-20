@@ -130,6 +130,20 @@ final public class ParallelBlockMergeSort extends Sort {
 		}
 	}
 	
+	private void mergeFW(int p, int a, int m, int b) {
+		int len2 = m-a, pEnd = p+len2;
+		
+		this.multiSwap(p, a, len2);
+		
+		while(p < pEnd && m < b) {
+			if(Reads.compareValues(array[p], array[m]) <= 0)
+				Writes.swap(array, a++, p++, 1, true, false);
+			
+			else Writes.swap(array, a++, m++, 1, true, false);
+		}
+		while(p < pEnd)
+			Writes.swap(array, a++, p++, 1, true, false);
+	}
 	private void mergeBW(int p, int a, int m, int b) {
 		int len2 = b-m, pEnd = p+len2-1;
 		
@@ -163,6 +177,15 @@ final public class ParallelBlockMergeSort extends Sort {
 		this.rotate(a, p, pEnd);
 		
 		return found;
+	}
+	
+	private int selectMin(int a, int b, int bLen) {
+		int min = a;
+		for(int i = min+bLen; i < b; i += bLen)
+			if(Reads.compareValues(array[i], array[min]) < 0)
+				min = i;
+			
+		return min;
 	}
 	
 	private void blockMerge(int a, int m, int b) {
@@ -202,10 +225,7 @@ final public class ParallelBlockMergeSort extends Sort {
 					m += bLen;
 				}
 				else {
-					int min = i;
-					for(int j = min+bLen; j < m; j += bLen)
-						if(Reads.compareValues(array[j], array[min]) < 0)
-							min = j;
+					int min = this.selectMin(i, m, bLen);
 							
 					if(min != i) this.multiSwap(i, min, bLen);
 					Writes.swap(array, t++, i, 1, true, false);
@@ -214,10 +234,7 @@ final public class ParallelBlockMergeSort extends Sort {
 			}
 			if(i < m) {
 				do {
-					int min = i;
-					for(int j = min+bLen; j < m; j += bLen)
-						if(Reads.compareValues(array[j], array[min]) < 0)
-							min = j;
+					int min = this.selectMin(i, m, bLen);
 							
 					this.multiSwap(i, min, bLen);
 					Writes.swap(array, t++, i, 1, true, false);
@@ -228,11 +245,12 @@ final public class ParallelBlockMergeSort extends Sort {
 				this.mergeBW(p, a1, b1, b);
 			}
 			else {
-				while(m < b1 && Reads.compareValues(array[m-1], array[m]) > 0) {
+				while(m < b1 && Reads.compareValues(array[m-bLen], array[m]) > 0) {
 					this.mergeBW(p, a1, m, m+bLen);
 					m += bLen;
 				}
 				if(m == b1) this.mergeBW(p, a1, b1, b);
+				else        this.mergeFW(p, m-bLen+1, m, b);
 			}
 			
 			BinaryInsertionSort insertion = new BinaryInsertionSort(this.arrayVisualizer);
@@ -257,10 +275,7 @@ final public class ParallelBlockMergeSort extends Sort {
 					m += bLen;
 				}
 				else {
-					int min = i;
-					for(int j = min+bLen; j < m; j += bLen)
-						if(Reads.compareValues(array[j], array[min]) < 0)
-							min = j;
+					int min = this.selectMin(i, m, bLen);
 							
 					if(min != i) this.multiSwap(i, min, bLen);
 					Writes.swap(array, t++, i, 1, true, false);
@@ -269,10 +284,7 @@ final public class ParallelBlockMergeSort extends Sort {
 			}
 			if(i < m) {
 				do {
-					int min = i;
-					for(int j = min+bLen; j < m; j += bLen)
-						if(Reads.compareValues(array[j], array[min]) < 0)
-							min = j;
+					int min = this.selectMin(i, m, bLen);
 							
 					this.multiSwap(i, min, bLen);
 					Writes.swap(array, t++, i, 1, true, false);
@@ -283,11 +295,12 @@ final public class ParallelBlockMergeSort extends Sort {
 				this.inPlaceMergeBW(a1, b1, b);
 			}
 			else {
-				while(m < b1 && Reads.compareValues(array[m-1], array[m]) > 0) {
+				while(m < b1 && Reads.compareValues(array[m-bLen], array[m]) > 0) {
 					this.inPlaceMergeBW(a1, m, m+bLen);
 					m += bLen;
 				}
 				if(m == b1) this.inPlaceMergeBW(a1, b1, b);
+				else        this.inPlaceMergeFW(m-bLen+1, m, b);
 			}
 			this.inPlaceMergeFW(a, a+keys, b);
 		}

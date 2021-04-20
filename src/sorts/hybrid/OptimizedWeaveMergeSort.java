@@ -47,7 +47,7 @@ final public class OptimizedWeaveMergeSort extends Sort {
 	
 	private void insertTo(int[] array, int a, int b) {
 		int temp = array[a];
-		while(a > b) Writes.write(array, a, array[(a--)-1], 0.25, true, false);
+		while(a > b) Writes.write(array, a, array[--a], 0.25, true, false);
 		Writes.write(array, b, temp, 0.25, true, false);
 	}
 	
@@ -75,20 +75,19 @@ final public class OptimizedWeaveMergeSort extends Sort {
         }
     }
     
-	//pow of 2 only
+	//pow of 2 only (O(n))
 	private void bitReversal(int[] array, int a, int b) {
-		int len = b-a, d = len >> 1, m = 0;
+		int len = b-a, m = 0;
+		int d1 = len>>1, d2 = d1+(d1>>1);
 					
 		for(int i = 1; i < len-1; i++) {
-			int j = d, n = d, k = i;
+			int j = d1;
 			
-			while((k & 1) == 0) {
-				k >>= 1;
-				j -= n;
-				n >>= 1;
-				j -= n;
-			}
-			
+			for(
+				int k = i, n = d2; 
+				(k&1) == 0; 
+				j -= n, k >>= 1, n >>= 1
+			);
 			m += j;
 			if(m > i) Writes.swap(array, a+i, a+m, 1, true, false);
 		}
@@ -98,9 +97,7 @@ final public class OptimizedWeaveMergeSort extends Sort {
 		int i = a, j = i+1;
 		
 		while(j < b) {
-			Highlights.markArray(2, i);
-			Highlights.markArray(3, j);
-			while(i < j && Reads.compareIndices(array, i, j, 0, false) < (right ? 1 : 0)) i++;
+			while(i < j && Reads.compareIndices(array, i, j, 0, true) < (right ? 1 : 0)) i++;
 			
 			if(i == j) {
 				right = !right;
