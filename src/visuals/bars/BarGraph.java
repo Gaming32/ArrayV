@@ -16,9 +16,6 @@ final public class BarGraph extends Visual {
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
         for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
-			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
-			if (width == 0) continue;
-
 			if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
 				this.mainRender.setColor(Color.GREEN);
 			
@@ -28,14 +25,18 @@ final public class BarGraph extends Visual {
 			}
 			else this.mainRender.setColor(Color.WHITE);
 			
-			int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
-			int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+            int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
-			this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, width, (int) ((val + 1) * Renderer.getYScale()));
+			if(width > 0) {
+				int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
+				int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+				
+				this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, width, (int) ((val + 1) * Renderer.getYScale()));
+			}
 			j += width;
         }
 		this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
-
+		
 		for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
 			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
