@@ -179,6 +179,15 @@ final public class ParallelBlockMergeSort extends Sort {
 		return found;
 	}
 	
+	private int selectMin(int a, int b, int bLen) {
+		int min = a;
+		for(int i = min+bLen; i < b; i += bLen)
+			if(Reads.compareValues(array[i], array[min]) < 0)
+				min = i;
+			
+		return min;
+	}
+	
 	private void blockMerge(int a, int m, int b) {
 		if(Reads.compareValues(array[m-1], array[m]) <= 0) return;
 		
@@ -216,10 +225,7 @@ final public class ParallelBlockMergeSort extends Sort {
 					m += bLen;
 				}
 				else {
-					int min = i;
-					for(int j = min+bLen; j < m; j += bLen)
-						if(Reads.compareValues(array[j], array[min]) < 0)
-							min = j;
+					int min = this.selectMin(i, m, bLen);
 							
 					if(min != i) this.multiSwap(i, min, bLen);
 					Writes.swap(array, t++, i, 1, true, false);
@@ -228,10 +234,7 @@ final public class ParallelBlockMergeSort extends Sort {
 			}
 			if(i < m) {
 				do {
-					int min = i;
-					for(int j = min+bLen; j < m; j += bLen)
-						if(Reads.compareValues(array[j], array[min]) < 0)
-							min = j;
+					int min = this.selectMin(i, m, bLen);
 							
 					this.multiSwap(i, min, bLen);
 					Writes.swap(array, t++, i, 1, true, false);
@@ -272,10 +275,7 @@ final public class ParallelBlockMergeSort extends Sort {
 					m += bLen;
 				}
 				else {
-					int min = i;
-					for(int j = min+bLen; j < m; j += bLen)
-						if(Reads.compareValues(array[j], array[min]) < 0)
-							min = j;
+					int min = this.selectMin(i, m, bLen);
 							
 					if(min != i) this.multiSwap(i, min, bLen);
 					Writes.swap(array, t++, i, 1, true, false);
@@ -284,10 +284,7 @@ final public class ParallelBlockMergeSort extends Sort {
 			}
 			if(i < m) {
 				do {
-					int min = i;
-					for(int j = min+bLen; j < m; j += bLen)
-						if(Reads.compareValues(array[j], array[min]) < 0)
-							min = j;
+					int min = this.selectMin(i, m, bLen);
 							
 					this.multiSwap(i, min, bLen);
 					Writes.swap(array, t++, i, 1, true, false);
