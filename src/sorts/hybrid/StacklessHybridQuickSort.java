@@ -123,10 +123,13 @@ final public class StacklessHybridQuickSort extends Sort {
 		}
 		
 		int b1 = b;
+		boolean med = true; //flag to improve pivot selection in the case of many similar elements
 		BinaryInsertionSort smallSort = new BinaryInsertionSort(this.arrayVisualizer);
 		
 		do {
 			while(b1-a > 16) {
+				if(med) this.medianOfThree(array, a, b1);
+				
 				int p = this.partition(array, a, b1);
 				Writes.swap(array, p, b, 1, true, false);
 				
@@ -143,7 +146,12 @@ final public class StacklessHybridQuickSort extends Sort {
 			b1 = this.leftBinSearch(array, a, b, a-1);
 			Writes.swap(array, a-1, b, 1, true, false);
 			
-			while(a < b1 && Reads.compareIndices(array, a-1, a, 0.5, true) == 0) a++;
+			med = true;
+			while(a < b1 && Reads.compareIndices(array, a-1, a, 0.5, true) == 0) {
+				med = false;
+				a++;
+			}
+			if(a == b1) med = true;
 		}
 		while(true);
 	}
