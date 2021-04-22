@@ -33,10 +33,12 @@ public final class CocktailBogoSort extends BogoSorting {
             if (this.isMinSorted(array, min, max)) {
                 Highlights.markArray(3, min);
                 ++min;
+                continue;
             }
             if (this.isMaxSorted(array, min, max)) {
                 Highlights.markArray(4, max-1);
                 --max;
+                continue;
             }
 
             this.bogoSwap(array, min, max, false);

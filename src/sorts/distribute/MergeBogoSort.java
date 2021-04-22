@@ -50,8 +50,7 @@ public final class MergeBogoSort extends BogoSorting {
     }
 
     private void bogoWeave(int[] array, int[] tmp, int start, int mid, int end) {
-        int size = mid-start;
-        this.bogoCombo(array, start, end, size, false);
+        this.bogoCombo(array, start, end, end-mid, false);
 
         int low = start;
         int high = mid;

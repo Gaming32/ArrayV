@@ -47,7 +47,7 @@ public final class DeterministicBogoSort extends BogoSorting {
 
     private boolean permutationSort(int[] array, int min, int max) {
         if (min >= max-1)
-            return this.bogoIsSorted(array, max);
+            return this.isArraySorted(array, max);
 
         for (int i = max-1; i > min; --i) {
             if (permutationSort(array, min+1, max))

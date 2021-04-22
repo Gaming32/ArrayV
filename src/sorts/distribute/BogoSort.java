@@ -50,7 +50,7 @@ public final class BogoSort extends BogoSorting {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        while(!this.bogoIsSorted(array, length))
+        while(!this.isArraySorted(array, length))
             this.bogoSwap(array, 0, length, false);
     }
 }

@@ -80,22 +80,22 @@ public abstract class BogoSorting extends Sort {
 
     /**
      * Sets a random combination of {@code size} elements
-     * in the range {@code [start, end)} of {@code array} to {@code 0}, and the rest to {@code 1}.
+     * in the range {@code [start, end)} of {@code array} to {@code 1}, and the rest to {@code 0}.
      *
      * @param array the array
      * @param start the start of the range, inclusive
      * @param end the end of the range, exclusive
-     * @param size the number of elements to set to 0
+     * @param size the number of elements to set to 1
      * @param aux whether the array is auxililary
      */
     protected void bogoCombo(int[] array, int start, int end, int size, boolean aux) {
         for (int i = start; i < end; ++i)
-            Writes.write(array, i, 1, 0.0, true, aux);
+            Writes.write(array, i, 0, 0.0, true, aux);
 
         for (int i = end-size; i < end; ++i) {
             int j = BogoSorting.randInt(start, i+1);
             Highlights.markArray(1, j);
-            Writes.write(array, Reads.compareValues(array[j], 1) == 0 ? j : i, 0, 0.0, true, aux);
+            Writes.write(array, Reads.compareValues(array[j], 0) == 0 ? j : i, 1, 0.0, true, aux);
         }
     }
 
@@ -123,7 +123,7 @@ public abstract class BogoSorting extends Sort {
      * @param length the length of the array or prefix
      * @return whether the array or prefix is sorted
      */
-    protected boolean bogoIsSorted(int[] array, int length) {
+    protected boolean isArraySorted(int[] array, int length) {
         return isRangeSorted(array, 0, length);
     }
 

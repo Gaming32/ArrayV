@@ -50,7 +50,7 @@ public final class BubbleBogoSort extends BogoSorting {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        while (!this.bogoIsSorted(array, length)) {
+        while (!this.isArraySorted(array, length)) {
             int index = BogoSorting.randInt(0, length);
 
             if (Reads.compareIndices(array, index, index+1, 0, true) > 0)

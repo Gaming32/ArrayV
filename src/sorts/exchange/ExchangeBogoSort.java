@@ -24,11 +24,9 @@ public final class ExchangeBogoSort extends BogoSorting {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        while (!this.bogoIsSorted(array, length)) {
+        while (!this.isArraySorted(array, length)) {
             int index1 = BogoSorting.randInt(0, length),
-                index2 = BogoSorting.randInt(0, length-1);
-            if (index2 == index1)
-                index2 = length-1;
+                index2 = BogoSorting.randInt(0, length);
 
             int comp = Reads.compareIndices(array, index1, index2, 0.0, true);
             if (index1 < index2 ? comp > 0 : comp < 0)

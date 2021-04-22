@@ -24,7 +24,7 @@ public final class SliceBogoSort extends BogoSorting {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        while (!this.bogoIsSorted(array, length)) {
+        while (!this.isArraySorted(array, length)) {
             int index1 = BogoSorting.randInt(0, length),
                 index2 = BogoSorting.randInt(0, length);
 
