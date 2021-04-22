@@ -46,7 +46,7 @@ final public class StacklessDualPivotQuickSort extends Sort {
         this.setBogoSort(false);
     }
 	
-	public int partition(int[] array, int a, int b, int p) {
+	private int partition(int[] array, int a, int b, int p) {
 		int m1 = (a+a+b)/3, m2 = (a+b+b)/3;
 		
 		if(Reads.compareIndices(array, m1, m2, 1, true) > 0) {
@@ -104,6 +104,7 @@ final public class StacklessDualPivotQuickSort extends Sort {
 	
 	private void quickSort(int[] array, int a, int b) {
 		int max = array[a];
+		
 		for(int i = a+1; i < b; i++) {
 			Highlights.markArray(1, i);
 			Delays.sleep(0.5);

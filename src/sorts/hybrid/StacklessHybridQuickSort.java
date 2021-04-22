@@ -62,7 +62,7 @@ final public class StacklessHybridQuickSort extends Sort {
 		Writes.swap(array, a, m, 1, true, false);
 	}
 	
-	public int partition(int[] array, int a, int b) {
+	private int partition(int[] array, int a, int b) {
         int i = a, j = b;
 		
 		this.medianOfThree(array, a, b);
