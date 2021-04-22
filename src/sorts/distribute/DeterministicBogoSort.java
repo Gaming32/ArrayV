@@ -26,7 +26,7 @@ SOFTWARE.
  * Deterministic Bogosort cycles through
  * every permutation of the array until it is sorted.
  * <p>
- * This implementation uses Heap's algorithm.
+ * Uses Heap's algorithm.
  */
 public final class DeterministicBogoSort extends BogoSorting {
 

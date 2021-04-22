@@ -39,6 +39,10 @@ SOFTWARE.
  * This is typically done through randomness.
  */
 public abstract class BogoSorting extends Sort {
+    /**
+     * Constructs a new instance of this sort.
+     * @param arrayVisualizer the Array Visualizer instance
+     */
     protected BogoSorting(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }
@@ -66,7 +70,7 @@ public abstract class BogoSorting extends Sort {
     /**
      * Randomly shuffles the range {@code [start, end)} of {@code array}.
      * <p>
-     * This implementation uses the Fisher–Yates shuffle.
+     * Uses the Fisher–Yates shuffle.
      *
      * @param array the array
      * @param start the start of the range, inclusive
