@@ -7,7 +7,7 @@ import sorts.templates.Sort;
  * 
 MIT License
 
-Copyright (c) 2020 aphitorite
+Copyright (c) 2020-2021 aphitorite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -64,14 +64,26 @@ final public class StacklessAmericanFlagSort extends Sort {
 		}
 		for(int i = 0; i < r-1; i++) {
 			int pos = a+offs[i];
-			while(cnts[i] > offs[i]) {
-				int digit = Reads.getDigit(array[pos], q, r);
-				Writes.write(cnts, digit, cnts[digit]-1, 0, false, true);
-				Writes.swap(array, pos, a+cnts[digit], 0.5, true, false);
+			
+			if(cnts[i] > offs[i]) {
+				Highlights.markArray(2, pos);
+				int t = array[pos];
+				
+				do {
+					int digit = Reads.getDigit(t, q, r);
+					Writes.write(cnts, digit, cnts[digit]-1, 0, false, true);
+					
+					int t1 = array[a+cnts[digit]];
+					Writes.write(array, a+cnts[digit], t, 0.5, true, false);
+					t = t1;
+				}
+				while(cnts[i] > offs[i]);
+				
+				Highlights.clearMark(2);
 			}
 		}
-		Highlights.clearMark(2);
 		int p = a+offs[1];
+		
 		for(int i = 0; i < r; i++) {
 			Writes.write(cnts, i, 0, 0, false, true);
 			Writes.write(offs, i, 0, 0, false, true);
@@ -99,6 +111,7 @@ final public class StacklessAmericanFlagSort extends Sort {
 			if(q == 0) {
 				m += r;
 				int t = m/r;
+				
 				while(t%r == 0) {
 					t /= r;
 					q++;
@@ -123,7 +136,6 @@ final public class StacklessAmericanFlagSort extends Sort {
 				}
 			}
 		}
-		
 		Writes.deleteExternalArray(cnts);
 		Writes.deleteExternalArray(offs);
     }
