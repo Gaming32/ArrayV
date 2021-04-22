@@ -33,21 +33,17 @@ public final class ReverseBubbleSort extends Sort {
 	@Override
 	public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
 		// TODO Auto-generated method stub
-		boolean sorted = false;
 
-        while(!sorted) {
-            sorted = true;
-            for(int i = sortLength - 1; i > 0; i--) {             
-                if(Reads.compareValues(array[i], array[i - 1]) == -1){
-                    Writes.swap(array, i, i - 1, 0.075, true, false);
+		for(int i = 0; i < sortLength - 1; i++) {
+			boolean sorted = true;
+			for(int j = sortLength - 1; j > i; j--) {
+                if(Reads.compareIndices(array, j - 1, j, 0.05, true) == 1){
+                    Writes.swap(array, j - 1, j, 0.075, true, false);
                     sorted = false;
                 }
-
-                Highlights.markArray(1, i);
-                Highlights.markArray(2, i - 1);
-                Delays.sleep(0.05);
-            }
-        } 
+			}
+			if(sorted) break;
+		}
 
 	}
 
