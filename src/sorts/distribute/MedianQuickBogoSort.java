@@ -29,6 +29,10 @@ SOFTWARE.
  *
  */
 
+/**
+ * Median Quick Bogosort repeatedly shuffles the array until the left and right halves are split.
+ * It then recursively sorts each half.
+ */
 public final class MedianQuickBogoSort extends BogoSorting {
     public MedianQuickBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

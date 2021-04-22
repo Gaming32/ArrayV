@@ -3,6 +3,10 @@ package sorts.distribute;
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
+/**
+ * Less Bogosort repeatedly shuffles the array,
+ * dropping the first remaining element when it is in the correct place.
+ */
 public final class LessBogoSort extends BogoSorting {
     public LessBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

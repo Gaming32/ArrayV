@@ -29,6 +29,9 @@ SOFTWARE.
  *
  */
 
+/**
+ * Bubble Bogosort is like Bubble Sort, but randomly sorts adjacent pairs of elements until the array is sorted.
+ */
 public final class BubbleBogoSort extends BogoSorting {
     public BubbleBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

@@ -3,6 +3,9 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
+/**
+ * Exchange Bogosort randomly sorts any two elements until the array is sorted.
+ */
 public final class ExchangeBogoSort extends BogoSorting {
     public ExchangeBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

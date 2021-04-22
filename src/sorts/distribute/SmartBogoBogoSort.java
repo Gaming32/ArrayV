@@ -29,6 +29,16 @@ SOFTWARE.
  *
  */
 
+/**
+ * Smart Bogobogosort is like bogosort, but it makes the observation that
+ * the sorted copy produced to check if the array is sorted, is sorted.
+ * This is then simplified so that no copy of the array is needed.
+ * <ul>
+ * <li>All but the last element of the array are sorted using Bogobogosort.
+ * <li>If the last element of the sorted section is no greater than the last element of the array,
+ * then the copy is sorted. Otherwise, the array is shuffled and the process is repeated.
+ * </ul>
+ */
 public final class SmartBogoBogoSort extends BogoSorting {
     public SmartBogoBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

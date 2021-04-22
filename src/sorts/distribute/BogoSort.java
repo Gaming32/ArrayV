@@ -29,6 +29,9 @@ SOFTWARE.
  *
  */
 
+/**
+ * Bogosort randomly shuffles the array until it is sorted.
+ */
 public final class BogoSort extends BogoSorting {
     public BogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

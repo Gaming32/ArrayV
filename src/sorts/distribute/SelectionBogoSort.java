@@ -30,11 +30,18 @@ SOFTWARE.
  */
 
 /*
- * The original Selection Bogo Sort algorithm was created and implemented by fluffyyboii.
- * However, the original implementation seems to never have been added
+ * The original Selection Bogosort algorithm was created and implemented by fluffyyboii.
+ * However, the original implementation seems to never have been added,
  * and this version makes it more concise with some helper methods.
  */
 
+/**
+ * Selection Bogosort is like Selection Sort,
+ * but it randomly swaps an element out of the remaining unsorted elements
+ * to the front of them until it is the smallest.
+ * <p>
+ * Selection Bogosort can also be viewed as an optimized variation of Less Bogosort.
+ */
 public final class SelectionBogoSort extends BogoSorting {
     public SelectionBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

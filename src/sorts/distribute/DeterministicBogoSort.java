@@ -22,6 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+/**
+ * Deterministic Bogosort cycles through
+ * every permutation of the array until it is sorted.
+ * <p>
+ * This implementation uses Heap's algorithm.
+ */
 public final class DeterministicBogoSort extends BogoSorting {
 
     public DeterministicBogoSort(ArrayVisualizer arrayVisualizer) {

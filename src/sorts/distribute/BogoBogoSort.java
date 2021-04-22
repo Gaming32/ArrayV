@@ -29,6 +29,19 @@ SOFTWARE.
  *
  */
 
+/**
+ * Implements https://www.dangermouse.net/esoteric/bogobogosort.html.
+ * <p>
+ * Bogobogosort is like Bogosort, but in order to check whether the array is sorted, it performs the following procedure:
+ * <ul>
+ *     <li>It makes a copy, then shuffles it and sorts all but the last element using Bogobogosort.
+ *     <li>If the last element of the sorted section is no greater than the last element of the copy,
+ *     then the copy is sorted.
+ *     <li>Otherwise, the shuffling-sorting process is repeated.
+ *     <li>The original array is then compared to the copy to determine whether the array is sorted.
+ * </ul>
+ * Like in Bogosort, if the array is not sorted, it shuffles it and repeats the entire process.
+ */
 public final class BogoBogoSort extends BogoSorting {
     public BogoBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

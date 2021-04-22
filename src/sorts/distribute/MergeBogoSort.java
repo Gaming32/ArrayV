@@ -29,6 +29,10 @@ SOFTWARE.
  *
  */
 
+/**
+ * Merge Bogosort is like Merge Sort, but when merging,
+ * it randomly weaves the two subarrays together until they are sorted.
+ */
 public final class MergeBogoSort extends BogoSorting {
     public MergeBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
