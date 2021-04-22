@@ -45,20 +45,20 @@ public final class DeterministicBogoSort extends BogoSorting {
         this.setBogoSort(true);
     }
 
-    private boolean permutationSort(int[] array, int min, int max) {
-        if (min >= max-1)
-            return this.isArraySorted(array, max);
+    private boolean permutationSort(int[] array, int depth, int length) {
+        if (depth >= length-1)
+            return this.isArraySorted(array, length);
 
-        for (int i = max-1; i > min; --i) {
-            if (permutationSort(array, min+1, max))
+        for (int i = length-1; i > depth; --i) {
+            if (permutationSort(array, depth+1, length))
                 return true;
 
-            if ((max-min)%2 == 0)
-                Writes.swap(array, min, i, 0, true, false);
+            if ((length-depth)%2 == 0)
+                Writes.swap(array, depth, i, 0, true, false);
             else
-                Writes.swap(array, min, max-1, 0, true, false);
+                Writes.swap(array, depth, length-1, 0, true, false);
         }
-        return permutationSort(array, min+1, max);
+        return permutationSort(array, depth+1, length);
     }
 
     @Override
