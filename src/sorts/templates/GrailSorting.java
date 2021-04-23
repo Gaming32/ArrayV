@@ -1,7 +1,7 @@
 package sorts.templates;
 
 import main.ArrayVisualizer;
-import sorts.exchange.SmartGnomeSort;
+import sorts.exchange.OptimizedGnomeSort;
 
 /*
  * 
@@ -66,7 +66,7 @@ final class GrailPair {
 }
 
 public abstract class GrailSorting extends Sort {
-    private SmartGnomeSort grailInsertSorter;
+    private OptimizedGnomeSort grailInsertSorter;
     
     final private int grailStaticBufferLen = 32; //Buffer length changed due to less numbers in this program being sorted than what Mr. Astrelin used for testing.
     
@@ -657,7 +657,7 @@ public abstract class GrailSorting extends Sort {
     }
 
     protected void grailCommonSort(int[] arr, int pos, int len, int[] buffer, int bufferPos, int bufferLen) {
-        this.grailInsertSorter = new SmartGnomeSort(this.arrayVisualizer);
+        this.grailInsertSorter = new OptimizedGnomeSort(this.arrayVisualizer);
         
         if(len <= 16) {
             this.grailInsertSort(arr, pos, len);

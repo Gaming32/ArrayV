@@ -1,7 +1,7 @@
 package sorts.templates;
 
 import main.ArrayVisualizer;
-import sorts.exchange.SmartGnomeSort;
+import sorts.exchange.OptimizedGnomeSort;
 
 /*
  * 
@@ -48,7 +48,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /*********************************************************/
 
 public abstract class UnstableGrailSorting extends Sort {
-    private SmartGnomeSort grailInsertSorter;
+    private OptimizedGnomeSort grailInsertSorter;
     
     protected UnstableGrailSorting(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -329,7 +329,7 @@ public abstract class UnstableGrailSorting extends Sort {
     }
 
     protected void grailCommonSort(int[] arr, int pos, int len) {
-        this.grailInsertSorter = new SmartGnomeSort(this.arrayVisualizer);
+        this.grailInsertSorter = new OptimizedGnomeSort(this.arrayVisualizer);
         
         if(len <= 16) {
             this.grailInsertSort(arr, pos, len);
