@@ -63,7 +63,7 @@ public final class BogoBogoSort extends BogoSorting {
             return true;
 
         int[] tmp = Writes.createExternalArray(length);
-        Writes.arraycopy(array, 0, tmp, 0, length, 0.0, true, true);
+        Writes.arraycopy(array, 0, tmp, 0, length, this.delay, true, true);
 
         bogoBogo(tmp, length-1, true);
         while (tmp[length-2] > tmp[length-1]) {
@@ -73,6 +73,7 @@ public final class BogoBogoSort extends BogoSorting {
 
         for (int i = 0; i < length; ++i) {
             Highlights.markArray(1, i);
+            Delays.sleep(this.delay);
             if (Reads.compareValues(array[i], tmp[i]) != 0) {
                 Writes.deleteExternalArray(tmp);
                 return false;

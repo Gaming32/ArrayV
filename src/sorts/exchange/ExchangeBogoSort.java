@@ -28,9 +28,9 @@ public final class ExchangeBogoSort extends BogoSorting {
             int index1 = BogoSorting.randInt(0, length),
                 index2 = BogoSorting.randInt(0, length);
 
-            int comp = Reads.compareIndices(array, index1, index2, 0.0, true);
+            int comp = Reads.compareIndices(array, index1, index2, this.delay, true);
             if (index1 < index2 ? comp > 0 : comp < 0)
-                Writes.swap(array, index1, index2, 1, true, false);
+                Writes.swap(array, index1, index2, this.delay, true, false);
         }
     }
 }

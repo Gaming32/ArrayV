@@ -40,11 +40,36 @@ SOFTWARE.
  */
 public abstract class BogoSorting extends Sort {
     /**
+     * The length of each delay, in milliseconds.
+     * <p>
+     * This is set to a small, nonzero number by default
+     * to not affect sorting speed
+     * while still allowing for slowing down the sort.
+     */
+    protected double delay = 1e-9;
+
+    /**
      * Constructs a new instance of this sort.
      * @param arrayVisualizer the Array Visualizer instance
      */
     protected BogoSorting(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
+    }
+
+    /**
+     * Gets the length of each delay, in milliseconds.
+     * @return the length of delay
+     */
+    public double setDelay() {
+        return this.delay;
+    }
+
+    /**
+     * Sets the length of each delay, in milliseconds.
+     * @param delay the length of delay
+     */
+    public void setDelay(double delay) {
+        this.delay = delay;
     }
 
     /**
@@ -79,7 +104,7 @@ public abstract class BogoSorting extends Sort {
      */
     protected void bogoSwap(int[] array, int start, int end, boolean aux){
         for(int i = start; i < end; ++i)
-            Writes.swap(array, i, BogoSorting.randInt(i, end), 0.0, true, aux);
+            Writes.swap(array, i, BogoSorting.randInt(i, end), this.delay, true, aux);
     }
 
     /**
@@ -94,12 +119,13 @@ public abstract class BogoSorting extends Sort {
      */
     protected void bogoCombo(int[] array, int start, int end, int size, boolean aux) {
         for (int i = start; i < end; ++i)
-            Writes.write(array, i, 0, 0.0, true, aux);
+            Writes.write(array, i, 0, this.delay, true, aux);
 
         for (int i = end-size; i < end; ++i) {
             int j = BogoSorting.randInt(start, i+1);
             Highlights.markArray(1, j);
-            Writes.write(array, Reads.compareValues(array[j], 0) == 0 ? j : i, 1, 0.0, true, aux);
+            Delays.sleep(this.delay);
+            Writes.write(array, Reads.compareValues(array[j], 0) == 0 ? j : i, 1, this.delay, true, aux);
         }
     }
 
@@ -113,7 +139,7 @@ public abstract class BogoSorting extends Sort {
      */
     protected boolean isRangeSorted(int[] array, int start, int end) {
         for (int i = start; i < end - 1; ++i) {
-            if (Reads.compareIndices(array, i, i + 1, 0.0, true) > 0)
+            if (Reads.compareIndices(array, i, i + 1, this.delay, true) > 0)
                 return false;
         }
         return true;
@@ -145,11 +171,11 @@ public abstract class BogoSorting extends Sort {
      */
     protected boolean isRangePartitioned(int[] array, int start, int pivot, int end) {
         for (int i = start; i < pivot; i++) {
-            if (Reads.compareIndices(array, i, pivot, 0.0, true) > 0)
+            if (Reads.compareIndices(array, i, pivot, this.delay, true) > 0)
                 return false;
         }
         for (int i = pivot + 1; i < end; i++) {
-            if (Reads.compareIndices(array, pivot, i, 0.0, true) > 0)
+            if (Reads.compareIndices(array, pivot, i, this.delay, true) > 0)
                 return false;
         }
         return true;
@@ -196,12 +222,14 @@ public abstract class BogoSorting extends Sort {
         int lowMax = array[start];
         for (int i = start+1; i < mid; ++i) {
             Highlights.markArray(1, i);
+            Delays.sleep(this.delay);
             if (Reads.compareValues(lowMax, array[i]) < 0)
                 lowMax = array[i];
         }
 
         for (int i = mid; i < end; ++i) {
             Highlights.markArray(1, i);
+            Delays.sleep(this.delay);
             if (Reads.compareValues(lowMax, array[i]) > 0)
                 return false;
         }

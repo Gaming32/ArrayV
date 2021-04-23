@@ -53,8 +53,8 @@ public final class BubbleBogoSort extends BogoSorting {
         while (!this.isArraySorted(array, length)) {
             int index = BogoSorting.randInt(0, length);
 
-            if (Reads.compareIndices(array, index, index+1, 0, true) > 0)
-                Writes.swap(array, index, index+1, 1, true, false);
+            if (Reads.compareIndices(array, index, index+1, this.delay, true) > 0)
+                Writes.swap(array, index, index+1, this.delay, true, false);
         }
     }
 }

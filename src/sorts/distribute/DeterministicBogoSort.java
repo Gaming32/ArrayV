@@ -54,9 +54,9 @@ public final class DeterministicBogoSort extends BogoSorting {
                 return true;
 
             if ((length-depth)%2 == 0)
-                Writes.swap(array, depth, i, 0, true, false);
+                Writes.swap(array, depth, i, this.delay, true, false);
             else
-                Writes.swap(array, depth, length-1, 0, true, false);
+                Writes.swap(array, depth, length-1, this.delay, true, false);
         }
         return permutationSort(array, depth+1, length);
     }

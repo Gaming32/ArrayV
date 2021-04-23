@@ -57,7 +57,7 @@ public final class QuickBogoSort extends BogoSorting {
                 pivot = j;
             else if (pivot == j)
                 pivot = i;
-            Writes.swap(array, i, j, 0, true, false);
+            Writes.swap(array, i, j, this.delay, true, false);
         }
         return pivot;
     }

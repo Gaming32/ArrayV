@@ -62,6 +62,6 @@ public final class SelectionBogoSort extends BogoSorting {
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 0; i < length; ++i)
             while (!this.isMinSorted(array, i, length))
-                Writes.swap(array, i, BogoSorting.randInt(i, length), 0, true, false);
+                Writes.swap(array, i, BogoSorting.randInt(i, length), this.delay, true, false);
     }
 }

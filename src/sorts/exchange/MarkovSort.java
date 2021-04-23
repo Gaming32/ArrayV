@@ -32,11 +32,11 @@ final public class MarkovSort extends BogoSorting {
         for (int i = 0; i < length-1; ++i) {
             int walk = i+1;
             while (
-                   (walk==0 ? false : Reads.compareIndices(array, walk-1, walk, 0.25, true)>0)
-                || (walk>i ? false : Reads.compareIndices(array, walk, walk+1, 0.25, true)>0)
+                   (walk==0 ? false : Reads.compareIndices(array, walk-1, walk, this.delay, true)>0)
+                || (walk>i ? false : Reads.compareIndices(array, walk, walk+1, this.delay, true)>0)
             ) {
                 int c = (walk==0 || walk<=i && BogoSorting.randBoolean()) ? 1 : -1;
-                Writes.swap(array, walk, walk+c, 0.25, true, false);
+                Writes.swap(array, walk, walk+c, this.delay, true, false);
                 walk += c;
             }
         }

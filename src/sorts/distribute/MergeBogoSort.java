@@ -55,10 +55,11 @@ public final class MergeBogoSort extends BogoSorting {
         int low = start;
         int high = mid;
         for (int i = start; i < end; ++i) {
+            Delays.sleep(this.delay);
             if (Reads.compareValues(array[i], 0) == 0)
-                Writes.write(array, i, tmp[low++], 0, false, true);
+                Writes.write(array, i, tmp[low++], this.delay, true, false);
             else
-                Writes.write(array, i, tmp[high++], 0, false, true);
+                Writes.write(array, i, tmp[high++], this.delay, true, false);
         }
     }
 
@@ -69,8 +70,7 @@ public final class MergeBogoSort extends BogoSorting {
         mergeBogo(array, tmp, start, mid);
         mergeBogo(array, tmp, mid, end);
 
-        for (int i = start; i < end; ++i)
-            Writes.write(tmp, i, array[i], 0, true, false);
+        Writes.arraycopy(array, start, tmp, start, end-start, this.delay, true, true);
 
         while (!this.isRangeSorted(array, start, end))
             bogoWeave(array, tmp, start, mid, end);
