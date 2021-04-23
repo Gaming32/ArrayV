@@ -29,13 +29,13 @@ SOFTWARE.
  *
  */
 
-final public class BubbleSort extends Sort {
-    public BubbleSort(ArrayVisualizer arrayVisualizer) {
+final public class UnoptimizedBubbleSort extends Sort {
+    public UnoptimizedBubbleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Bubble");
-        this.setRunAllSortsName("Bubble Sort");
-        this.setRunSortName("Bubblesort");
+        this.setSortListName("Unoptimized Bubble");
+        this.setRunAllSortsName("Unoptimized Bubble Sort");
+        this.setRunSortName("Unoptimized Bubblesort");
         this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
@@ -44,22 +44,23 @@ final public class BubbleSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
-    public void runSort(int[] array, int length, int bucketCount) {
-        for(int i = length - 1; i > 0; i--) {
-            boolean sorted = true;
-            for(int j = 0; j < i; j++) {
-                if(Reads.compareValues(array[j], array[j + 1]) == 1){
-                    Writes.swap(array, j, j + 1, 0.075, true, false);
+    public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
+        boolean sorted = false;
+
+        while(!sorted) {
+            sorted = true;
+            for(int i = 0; i < sortLength - 1; i++) {             
+                if(Reads.compareValues(array[i], array[i + 1]) == 1){
+                    Writes.swap(array, i, i + 1, 0.075, true, false);
                     sorted = false;
                 }
-                
-                Highlights.markArray(1, j);
-                Highlights.markArray(2, j + 1);
-                Delays.sleep(0.025);
+
+                Highlights.markArray(1, i);
+                Highlights.markArray(2, i + 1);
+                Delays.sleep(0.05);
             }
-            if(sorted) break;
-        }
+        }    
     }
 }

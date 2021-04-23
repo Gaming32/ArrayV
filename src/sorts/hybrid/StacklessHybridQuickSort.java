@@ -108,6 +108,7 @@ final public class StacklessHybridQuickSort extends Sort {
 	
 	private void quickSort(int[] array, int a, int b) {
 		int max = array[a];
+		
 		for(int i = a+1; i < b; i++) {
 			Highlights.markArray(1, i);
 			Delays.sleep(0.5);

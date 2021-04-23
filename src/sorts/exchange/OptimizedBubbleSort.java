@@ -3,13 +3,13 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class SmarterBubbleSort extends Sort {
-    public SmarterBubbleSort(ArrayVisualizer arrayVisualizer) {
+final public class OptimizedBubbleSort extends Sort {
+    public OptimizedBubbleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Smarter Bubble");
-        this.setRunAllSortsName("More Optimized Bubble Sort");
-        this.setRunSortName("More Optimized Bubblesort");
+        this.setSortListName("Optimized Bubble");
+        this.setRunAllSortsName("Optimized Bubble Sort");
+        this.setRunSortName("Optimized Bubblesort");
         this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);

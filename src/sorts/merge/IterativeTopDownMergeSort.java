@@ -34,7 +34,7 @@ public class IterativeTopDownMergeSort extends Sort {
     public IterativeTopDownMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Top-down Merge (Iter.)");
+        this.setSortListName("Iterative Top-down Merge");
         this.setRunAllSortsName("Iterative Top-down Merge Sort");
         this.setRunSortName("Iterative Top-down Mergesort");
         this.setCategory("Merge Sorts");

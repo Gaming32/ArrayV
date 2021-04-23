@@ -3,13 +3,13 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class SmarterCocktailSort extends Sort {
-    public SmarterCocktailSort(ArrayVisualizer arrayVisualizer) {
+final public class OptimizedCocktailShakerSort extends Sort {
+    public OptimizedCocktailShakerSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Smarter Cocktail");
-        this.setRunAllSortsName("More Optimized Cocktail Shaker Sort");
-        this.setRunSortName("More Optimized Cocktailsort");
+        this.setSortListName("Optimized Cocktail");
+        this.setRunAllSortsName("Optimized Cocktail Shaker Sort");
+        this.setRunSortName("Optimized Cocktailsort");
         this.setCategory("Exchange Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);

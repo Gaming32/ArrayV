@@ -3,11 +3,11 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class SmartGnomeSort extends Sort {
-    public SmartGnomeSort(ArrayVisualizer arrayVisualizer) {
+final public class OptimizedGnomeSort extends Sort {
+    public OptimizedGnomeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Smart Gnome");
+        this.setSortListName("Optimized Gnome");
         this.setRunAllSortsName("Optimized Gnome Sort");
         this.setRunSortName("Optimized Gnomesort");
         this.setCategory("Exchange Sorts");

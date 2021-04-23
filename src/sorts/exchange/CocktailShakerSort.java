@@ -33,7 +33,7 @@ final public class CocktailShakerSort extends Sort {
     public CocktailShakerSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Cocktail Shaker");
+        this.setSortListName("Cocktail");
         this.setRunAllSortsName("Cocktail Shaker Sort");
         this.setRunSortName("Cocktail Shaker Sort");
         this.setCategory("Exchange Sorts");
@@ -45,12 +45,14 @@ final public class CocktailShakerSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private void cocktailShaker(int[] array, int start, int end, double sleep) {
+    private void smartCocktailShaker(int[] array, int start, int end, double sleep) {
         int i = start;
         while(i < ((end / 2) + start)) {
+            boolean sorted = true;
             for(int j = i; j < end + start - i - 1; j++) {
                 if(Reads.compareValues(array[j], array[j + 1]) == 1) {
                     Writes.swap(array, j, j + 1, sleep, true, false);
+                    sorted = false;
                 }
                 
                 Highlights.markArray(1, j);
@@ -61,6 +63,7 @@ final public class CocktailShakerSort extends Sort {
             for(int j = end + start - i - 1; j > i; j--){
                 if(Reads.compareValues(array[j], array[j - 1]) == -1) {
                     Writes.swap(array, j, j - 1, sleep, true, false);
+                    sorted = false;
                 }
                 
                 Highlights.markArray(1, j);
@@ -68,17 +71,17 @@ final public class CocktailShakerSort extends Sort {
                 
                 Delays.sleep(sleep / 2);
             }
-            
-            i++;
+            if(sorted) break;
+            else i++;
         }
     }
     
     public void customSort(int[] array, int start, int end) {
-        this.cocktailShaker(array, start, end, 1);
+        this.smartCocktailShaker(array, start, end, 1);
     }
     
     @Override
-    public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        this.cocktailShaker(array, 0, sortLength, 0.1);
+    public void runSort(int[] array, int length, int bucketCount) {
+        this.smartCocktailShaker(array, 0, length, 0.1);
     }
 }
