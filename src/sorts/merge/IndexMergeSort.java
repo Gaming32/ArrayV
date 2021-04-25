@@ -46,11 +46,23 @@ final public class IndexMergeSort extends Sort {
 	
 	private void indexSort(int[] array, int[] idx, int a, int b) {
 		while(a < b) {
-			int nxt = idx[a];
-			while(Reads.compareOriginalValues(a, nxt) != 0) {
-				Writes.swap(idx, a, nxt, 0, true, false);
-				Writes.swap(array, a, nxt, 0.5, true, false);
-				nxt = idx[a];
+			Highlights.markArray(2, a);
+			
+			if(Reads.compareOriginalValues(a, idx[a]) != 0) {
+				int t = array[a];
+				int i = a, nxt = idx[a];
+				
+				do {
+					Writes.write(array, i, array[nxt], 0, true, false);
+					Writes.write(idx, i, i, 0.5, false, true);
+					
+					i = nxt;
+					nxt = idx[nxt];
+				}
+				while(Reads.compareOriginalValues(nxt, a) != 0);
+				
+				Writes.write(array, i, t, 0, true, false);
+				Writes.write(idx, i, i, 0.5, false, true);
 			}
 			a++;
 		}
@@ -58,23 +70,26 @@ final public class IndexMergeSort extends Sort {
 	
 	private void merge(int[] array, int[] idx, int a, int m, int b) {
 		int i = a, j = m, c = a;
+		Highlights.clearAllMarks();
 		
 		while(i < m && j < b) {
-			if(Reads.compareValues(array[i], array[j]) <= 0)
-				Writes.write(idx, i++, c++, 0.5, true, true);
-			
+			if(Reads.compareValues(array[i], array[j]) <= 0) {
+				Highlights.markArray(1, i);
+				Writes.write(idx, c++, i++, 0.5, false, true);
+			}
 			else {
 				Highlights.markArray(2, j);
-				Writes.write(idx, j++, c++, 0.5, false, true);
+				Writes.write(idx, c++, j++, 0.5, false, true);
 			}
 		}
 		
-		while(i < m) 
-			Writes.write(idx, i++, c++, 0.5, true, true);
-		
+		while(i < m) {
+			Highlights.markArray(1, i);
+			Writes.write(idx, c++, i++, 0.5, false, true);
+		}
 		while(j < b) {
 			Highlights.markArray(2, j);
-			Writes.write(idx, j++, c++, 0.5, false, true);
+			Writes.write(idx, c++, j++, 0.5, false, true);
 		}
 		
 		this.indexSort(array, idx, a, b);

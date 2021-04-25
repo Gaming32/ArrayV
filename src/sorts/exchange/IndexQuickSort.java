@@ -48,11 +48,23 @@ final public class IndexQuickSort extends Sort {
 	
 	private void indexSort(int[] array, int[] idx, int a, int b) {
 		while(a < b) {
-			int nxt = idx[a];
-			while(Reads.compareOriginalValues(a, nxt) != 0) {
-				Writes.swap(idx, a, nxt, 0, true, false);
-				Writes.swap(array, a, nxt, 0.5, true, false);
-				nxt = idx[a];
+			Highlights.markArray(2, a);
+			
+			if(Reads.compareOriginalValues(a, idx[a]) != 0) {
+				int t = array[a];
+				int i = a, nxt = idx[a];
+				
+				do {
+					Writes.write(array, i, array[nxt], 0, true, false);
+					Writes.write(idx, i, i, 0.5, false, true);
+					
+					i = nxt;
+					nxt = idx[nxt];
+				}
+				while(Reads.compareOriginalValues(nxt, a) != 0);
+				
+				Writes.write(array, i, t, 0, true, false);
+				Writes.write(idx, i, i, 0.5, false, true);
 			}
 			a++;
 		}
@@ -85,17 +97,23 @@ final public class IndexQuickSort extends Sort {
 		int p = c1-1;
 		
 		for(i = a; i < m; i++) {
+			Highlights.markArray(1, i);
+		
 			if(Reads.compareValues(array[i], array[m]) <= 0)
-				Writes.write(idx, i, c0++, 0.25, true, true);
+				Writes.write(idx, c0++, i, 0.25, false, true);
 			
-			else Writes.write(idx, i, c1++, 0.25, true, true);
+			else Writes.write(idx, c1++, i, 0.25, false, true);
 		}
-		Writes.write(idx, i++, p, 0.25, true, true);
+		Highlights.markArray(1, i);
+		Writes.write(idx, p, i++, 0.25, false, true);
+		
 		for(; i < b; i++) {
+			Highlights.markArray(1, i);
+		
 			if(Reads.compareValues(array[i], array[m]) < 0)
-				Writes.write(idx, i, c0++, 0.25, true, true);
+				Writes.write(idx, c0++, i, 0.25, false, true);
 			
-			else Writes.write(idx, i, c1++, 0.25, true, true);
+			else Writes.write(idx, c1++, i, 0.25, false, true);
 		}
 		
 		this.indexSort(array, idx, a, b);

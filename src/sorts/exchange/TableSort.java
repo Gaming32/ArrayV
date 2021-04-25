@@ -109,17 +109,20 @@ final public class TableSort extends Sort {
 		
 		for(int i = 0; i < table.length; i++) {
 			Highlights.markArray(2, i);
+			
 			if(i != table[i]) {
 				int t = array[i];
 				int j = i, next = table[i];
 				
-				while(next != i) {
+				do {
 					Writes.write(array, j, array[next], 1, true, false);
 					Writes.write(table, j, j, 1, true, true);
 					
 					j = next;
 					next = table[next];
 				}
+				while(next != i);
+				
 				Writes.write(array, j, t, 1, true, false);
 				Writes.write(table, j, j, 1, true, true);
 			}
