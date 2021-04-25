@@ -50,9 +50,10 @@ final public class ShellSortParallel extends ShellSorting {
 		for(; this.gaps[k] >= len; k++);
 		for(; k < this.gaps.length; k++) {
 			int g = this.gaps[k];
+			int t = Math.min(g, len-g);
 			
-			GappedInsertionSort[] ins = new GappedInsertionSort[g];
-			for(int i = 0; i < g; i++)
+			GappedInsertionSort[] ins = new GappedInsertionSort[t];
+			for(int i = 0; i < t; i++)
 				ins[i] = new GappedInsertionSort(i, len, g);
 			
 			for(GappedInsertionSort s : ins) s.start();
