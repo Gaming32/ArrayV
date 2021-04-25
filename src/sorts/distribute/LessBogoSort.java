@@ -25,8 +25,8 @@ public final class LessBogoSort extends BogoSorting {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        for(int i = 0; i < length; ++i) {
-            while(!this.isMinSorted(array, i, length))
+        for (int i = 0; i < length; ++i) {
+            while (!this.isMinSorted(array, i, length))
                 this.bogoSwap(array, i, length, false);
             Highlights.markArray(3, i);
         }

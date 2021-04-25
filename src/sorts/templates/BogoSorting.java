@@ -103,7 +103,7 @@ public abstract class BogoSorting extends Sort {
      * @param aux whether the array is auxililary
      */
     protected void bogoSwap(int[] array, int start, int end, boolean aux){
-        for(int i = start; i < end; ++i)
+        for (int i = start; i < end; ++i)
             Writes.swap(array, i, BogoSorting.randInt(i, end), this.delay, true, aux);
     }
 
