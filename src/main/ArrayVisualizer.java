@@ -582,6 +582,10 @@ final public class ArrayVisualizer {
         return this.UtilFrame;
     }
     
+    public ArrayFrame getArrayFrame() {
+        return this.ArrayFrame;
+    }
+    
     public SortPair[] getAllSorts() {
         return this.AllSorts;
     }

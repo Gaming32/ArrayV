@@ -2,6 +2,7 @@ package threads;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
+import frames.ArrayFrame;
 import sorts.templates.Sort;
 import utils.Delays;
 import utils.Highlights;
@@ -14,6 +15,7 @@ import utils.Writes;
 public abstract class MultipleSortThread {
     protected ArrayManager arrayManager;
     protected ArrayVisualizer arrayVisualizer;
+    protected ArrayFrame arrayFrame;
     protected Delays Delays;
     protected Highlights Highlights;
     protected Reads Reads;
@@ -31,6 +33,7 @@ public abstract class MultipleSortThread {
     public MultipleSortThread(ArrayVisualizer arrayVisualizer) {
         this.arrayVisualizer = arrayVisualizer;
         this.arrayManager = arrayVisualizer.getArrayManager();
+        this.arrayFrame = arrayVisualizer.getArrayFrame();
         this.Delays = arrayVisualizer.getDelays();
         this.Highlights = arrayVisualizer.getHighlights();
         this.Reads = arrayVisualizer.getReads();
@@ -68,7 +71,7 @@ public abstract class MultipleSortThread {
             sortLength = this.calculateLength(defaultLength);
         }
         if(sortLength != arrayVisualizer.getCurrentLength()) {
-            arrayVisualizer.setCurrentLength(sortLength);
+            arrayFrame.setLengthSlider(sortLength);
         }
         
         arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), this.arrayVisualizer);

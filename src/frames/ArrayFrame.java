@@ -94,6 +94,20 @@ final public class ArrayFrame extends javax.swing.JFrame {
             abstractFrame.reposition();
     }
 
+    public void setLengthSlider(int length) {
+        boolean mutable = ArrayManager.isLengthMutable();
+        ArrayManager.toggleMutableLength(true);
+        jSlider1.setValue(calculateSliderValue(length));
+        ArrayManager.toggleMutableLength(mutable);
+    }
+
+    public void setUniqueSlider(int length) {
+        boolean mutable = ArrayManager.isLengthMutable();
+        ArrayManager.toggleMutableLength(true);
+        jSlider2.setValue(calculateSliderValue(length));
+        ArrayManager.toggleMutableLength(mutable);
+    }
+
     private int getSomethingSize(String title, String message) throws Exception {
         String input = JEnhancedOptionPane.showInputDialog(title, message, new Object[] {"Ok", "Cancel"});
         int integer = Integer.parseInt(input);
