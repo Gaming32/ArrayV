@@ -20,7 +20,7 @@ public final class CocktailBogoSort extends BogoSorting {
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(512);
+        this.setUnreasonableLimit(1024);
         this.setBogoSort(true);
     }
 

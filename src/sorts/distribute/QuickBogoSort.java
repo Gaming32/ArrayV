@@ -67,6 +67,9 @@ public final class QuickBogoSort extends BogoSorting {
             return;
 
         int pivot = start;
+        // worst-case pivot (linear distribution)
+        // for (; pivot < end; ++pivot)
+        //     if (array[pivot] == (start+end)/2) break;
         while (!isRangePartitioned(array, start, pivot, end))
             pivot = quickBogoSwap(array, start, pivot, end);
 
