@@ -110,7 +110,7 @@ final public class TableSort extends Sort {
 		for(int i = 0; i < table.length; i++) {
 			Highlights.markArray(2, i);
 			
-			if(i != table[i]) {
+			if(Reads.compareOriginalValues(i, table[i]) != 0) {
 				int t = array[i];
 				int j = i, next = table[i];
 				
@@ -121,7 +121,7 @@ final public class TableSort extends Sort {
 					j = next;
 					next = table[next];
 				}
-				while(next != i);
+				while(Reads.compareOriginalValues(next, i) != 0);
 				
 				Writes.write(array, j, t, 1, true, false);
 				Writes.write(table, j, j, 1, true, true);
