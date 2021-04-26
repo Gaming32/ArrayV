@@ -15,8 +15,8 @@ To compile (After -cp, use ";" with Windows and ":" with Mac/Linux):
 ant
 java -cp bin;lib/classgraph-4.8.47.jar main.ArrayVisualizer
 ```
-To build a runnable jar, simply run Apache Ant inside the 'dist' directory!
-If you don't want to use Apache Ant or the Java command line, a runnable jar that is potentially a month old is available from the `dist` directory. 
+To build a runnable jar, simply run Apache Ant inside the 'dist' directory (but make sure you did the above first)!
+If you don't want to use Apache Ant or the Java command line, a runnable jar that is up to a month old is available from the `dist` directory. 
 
 ### Features:
 - 40+ new sorting algorithms
