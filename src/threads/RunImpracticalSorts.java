@@ -27,6 +27,7 @@ import sorts.distribute.SliceBogoSort;
 import sorts.distribute.BogoSort;
 import sorts.distribute.OptimizedGuessSort;
 import sorts.distribute.RandomGuessSort;
+import sorts.distribute.GuessSort;
 import sorts.distribute.BogoBogoSort;
 import sorts.templates.Sort;
 
@@ -82,11 +83,12 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort BogoSort;
     private Sort OptimizedGuessSort;
     private Sort RandomGuessSort;
+    private Sort GuessSort;
     private Sort BogoBogoSort;
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 26;
+        this.sortCount = 27;
         this.categoryCount = this.sortCount;
 
         BadSort                   = new                   BadSort(this.arrayVisualizer);
@@ -114,6 +116,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         BogoSort                  = new                  BogoSort(this.arrayVisualizer);
         OptimizedGuessSort        = new        OptimizedGuessSort(this.arrayVisualizer);
         RandomGuessSort           = new           RandomGuessSort(this.arrayVisualizer);
+        GuessSort                 = new                 GuessSort(this.arrayVisualizer);
         BogoBogoSort              = new              BogoBogoSort(this.arrayVisualizer);        
     }
 
@@ -150,6 +153,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         RunImpracticalSorts.this.runIndividualSort(BogoSort,                  0, array,  6,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(OptimizedGuessSort,        0, array,  5,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(RandomGuessSort,           0, array,  5,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(GuessSort,                 0, array,  4,  1e-9,   true);
         // aaaaa
         RunImpracticalSorts.this.runIndividualSort(BogoBogoSort,              0, array,  4,  1e-9,   true);
         Sounds.toggleSofterSounds(false);
