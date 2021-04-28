@@ -135,14 +135,37 @@ public abstract class BogoSorting extends Sort {
      * @param array the array
      * @param start the start of the range, inclusive
      * @param end the end of the range, exclusive
+     * @param mark whether to mark each comparison
+     * @param markLast whether to mark the element that is not sorted
      * @return whether the range is sorted
      */
-    protected boolean isRangeSorted(int[] array, int start, int end) {
+    protected boolean isRangeSorted(int[] array, int start, int end, boolean mark, boolean markLast) {
         for (int i = start; i < end - 1; ++i) {
-            if (Reads.compareIndices(array, i, i + 1, this.delay, true) > 0)
+            if (Reads.compareIndices(array, i, i + 1, this.delay, mark) > 0) {
+                if (markLast) Highlights.markArray(3, i + 1);
                 return false;
+            }
         }
         return true;
+    }
+
+    /**
+     * Checks if the range {@code [start, end)} of {@code array} is sorted.
+     * <ul>
+     *     <li>{@code mark} defaults to {@code true}.
+     *     <li>{@code markLast} defaults to {@code false}.
+     * </ul>
+     * <br>
+     *
+     * @param array the array
+     * @param start the start of the range, inclusive
+     * @param end the end of the range, exclusive
+     * @return whether the range is sorted
+     *
+     * @see #isRangeSorted(int[], int, int, boolean, boolean)
+     */
+    protected boolean isRangeSorted(int[] array, int start, int end) {
+        return isRangeSorted(array, start, end, true, false);
     }
 
     /**
