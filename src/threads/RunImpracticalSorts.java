@@ -59,13 +59,13 @@ SOFTWARE.
 final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort BadSort;
     private Sort StoogeSort;
+    private Sort StableStoogeSort;
     private Sort SillySort;
     private Sort SlowSort;
     private Sort SnuffleSort;
-    private Sort NapoleonSort;
     private Sort HanoiSort;
     private Sort StableHanoiSort;
-    private Sort StableStoogeSort;
+    private Sort NapoleonSort;
     private Sort SelectionBogoSort;
     private Sort BubbleBogoSort;
     private Sort CocktailBogoSort;
@@ -86,18 +86,18 @@ final public class RunImpracticalSorts extends MultipleSortThread {
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 18;
+        this.sortCount = 26;
         this.categoryCount = this.sortCount;
 
         BadSort                   = new                   BadSort(this.arrayVisualizer);
         StoogeSort                = new                StoogeSort(this.arrayVisualizer);
+        StableStoogeSort          = new          StableStoogeSort(this.arrayVisualizer);
         SillySort                 = new                 SillySort(this.arrayVisualizer);
         SlowSort                  = new                  SlowSort(this.arrayVisualizer);
         SnuffleSort               = new               SnuffleSort(this.arrayVisualizer);
-        NapoleonSort              = new              NapoleonSort(this.arrayVisualizer);
         HanoiSort                 = new                 HanoiSort(this.arrayVisualizer);
         StableHanoiSort           = new           StableHanoiSort(this.arrayVisualizer);
-        StableStoogeSort          = new          StableStoogeSort(this.arrayVisualizer);
+        NapoleonSort              = new              NapoleonSort(this.arrayVisualizer);
         SelectionBogoSort         = new         SelectionBogoSort(this.arrayVisualizer);
         BubbleBogoSort            = new            BubbleBogoSort(this.arrayVisualizer);
         CocktailBogoSort          = new          CocktailBogoSort(this.arrayVisualizer);
@@ -120,7 +120,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunImpracticalSorts.this.runIndividualSort(BadSort,                   0, array, 64,  0.0075, true);
-        RunImpracticalSorts.this.runIndividualSort(MarkovSort,                0, array, 64,  0.2,    true);
         RunImpracticalSorts.this.runIndividualSort(StoogeSort,                0, array, 64,  0.005,  true);
         RunImpracticalSorts.this.runIndividualSort(StableStoogeSort,          0, array, 64,  0.005,  true);
         RunImpracticalSorts.this.runIndividualSort(SillySort,                 0, array, 64,  0.5,    true);
