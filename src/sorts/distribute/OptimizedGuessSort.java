@@ -3,13 +3,13 @@ package sorts.distribute;
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
-public final class GuessSort extends BogoSorting {
-    public GuessSort(ArrayVisualizer arrayVisualizer) {
+public final class OptimizedGuessSort extends BogoSorting {
+    public OptimizedGuessSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Guess");
-        this.setRunAllSortsName("Guess Sort");
-        this.setRunSortName("Guess Sort");
+        this.setSortListName("Optimized Guess");
+        this.setRunAllSortsName("Optimized Guess Sort");
+        this.setRunSortName("Optimized Guess Sort");
         this.setCategory("Impractical Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
@@ -20,12 +20,12 @@ public final class GuessSort extends BogoSorting {
     }
 
     // PROGRAMMER'S NOTE: This sort is intentionally bad, it is purposefully un-optimized.
-    // OTHER PROGRAMMER'S NOTE: haha too bad this isn't even the same sort anymore
+    // OTHER PROGRAMMER'S NOTE: haha too bad not any more
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        // just guessing the indices
+        // "nested for-loop" with depth `length` to iterate over all n-tuples of indices
         int[] loops = Writes.createExternalArray(length);
-        // hello, randomness!
+        // we don't care if we've been through every n-tuple, we go down in flames!
         while (true) {
             // check if the array is stably sorted (doubles as duplicate-detection)
             boolean sorted = true;
@@ -42,9 +42,13 @@ public final class GuessSort extends BogoSorting {
             Highlights.clearAllMarks();
             if (sorted)
                 break;
-            // guess
+            // progress the loops
             for (int pos = 0; pos < length; ++pos)
-                Writes.write(loops, pos, BogoSort.randInt(0, length), this.delay, true, true);
+                if (loops[pos] < length - 1) {
+                    Writes.write(loops, pos, loops[pos] + 1, this.delay, true, true);
+                    break;
+                } else
+                    Writes.write(loops, pos, 0, this.delay, true, true);
         }
         // write the indexes to the array
         for (int i = 0; i < length; i++)

@@ -3,13 +3,13 @@ package sorts.distribute;
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
-public final class DeterministicGuessSort extends BogoSorting {
-    public DeterministicGuessSort(ArrayVisualizer arrayVisualizer) {
+public final class RandomGuessSort extends BogoSorting {
+    public RandomGuessSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Deterministic Guess");
-        this.setRunAllSortsName("Deterministic Guess Sort");
-        this.setRunSortName("Deterministic Guess Sort");
+        this.setSortListName("Random Guess");
+        this.setRunAllSortsName("Random Guess Sort");
+        this.setRunSortName("Random Guess Sort");
         this.setCategory("Impractical Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
@@ -20,12 +20,12 @@ public final class DeterministicGuessSort extends BogoSorting {
     }
 
     // PROGRAMMER'S NOTE: This sort is intentionally bad, it is purposefully un-optimized.
-    // OTHER PROGRAMMER'S NOTE: haha too bad not any more
+    // OTHER PROGRAMMER'S NOTE: haha too bad this isn't even the same sort anymore
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        // "nested for-loop" with depth `length` to iterate over all n-tuples of indices
+        // just guessing the indices
         int[] loops = Writes.createExternalArray(length);
-        // we don't care if we've been through every n-tuple, we go down in flames!
+        // hello, randomness!
         while (true) {
             // check if the array is stably sorted (doubles as duplicate-detection)
             boolean sorted = true;
@@ -42,13 +42,9 @@ public final class DeterministicGuessSort extends BogoSorting {
             Highlights.clearAllMarks();
             if (sorted)
                 break;
-            // progress the loops
+            // guess
             for (int pos = 0; pos < length; ++pos)
-                if (loops[pos] < length - 1) {
-                    Writes.write(loops, pos, loops[pos] + 1, this.delay, true, true);
-                    break;
-                } else
-                    Writes.write(loops, pos, 0, this.delay, true, true);
+                Writes.write(loops, pos, BogoSort.randInt(0, length), this.delay, true, true);
         }
         // write the indexes to the array
         for (int i = 0; i < length; i++)
