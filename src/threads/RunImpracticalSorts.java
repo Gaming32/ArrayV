@@ -20,6 +20,7 @@ import sorts.exchange.ExchangeBogoSort;
 import sorts.distribute.MedianQuickBogoSort;
 import sorts.distribute.QuickBogoSort;
 import sorts.distribute.MergeBogoSort;
+import sorts.distribute.SmartGuessSort;
 import sorts.distribute.BozoSort;
 import sorts.distribute.DeterministicBogoSort;
 import sorts.distribute.SmartBogoBogoSort;
@@ -76,6 +77,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort MedianQuickBogoSort;
     private Sort QuickBogoSort;
     private Sort MergeBogoSort;
+    private Sort SmartGuessSort;
     private Sort BozoSort;
     private Sort DeterministicBogoSort;
     private Sort SmartBogoBogoSort;
@@ -88,7 +90,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 27;
+        this.sortCount = 28;
         this.categoryCount = this.sortCount;
 
         BadSort                   = new                   BadSort(this.arrayVisualizer);
@@ -109,6 +111,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         MedianQuickBogoSort       = new       MedianQuickBogoSort(this.arrayVisualizer);
         QuickBogoSort             = new             QuickBogoSort(this.arrayVisualizer);
         MergeBogoSort             = new             MergeBogoSort(this.arrayVisualizer);
+        SmartGuessSort            = new            SmartGuessSort(this.arrayVisualizer);
         BozoSort                  = new                  BozoSort(this.arrayVisualizer);
         DeterministicBogoSort     = new     DeterministicBogoSort(this.arrayVisualizer);
         SmartBogoBogoSort         = new         SmartBogoBogoSort(this.arrayVisualizer);
@@ -145,6 +148,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         RunImpracticalSorts.this.runIndividualSort(MedianQuickBogoSort,       0, array, 12,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(QuickBogoSort,             0, array,  9,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(MergeBogoSort,             0, array,  9,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(SmartGuessSort,            0, array,  8,  1e-9,   true);
         // the scary ones
         RunImpracticalSorts.this.runIndividualSort(BozoSort,                  0, array,  7,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(DeterministicBogoSort,     0, array,  7,  1e-9,   true);
