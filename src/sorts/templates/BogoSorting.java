@@ -60,7 +60,7 @@ public abstract class BogoSorting extends Sort {
      * Gets the length of each delay, in milliseconds.
      * @return the length of delay
      */
-    public double setDelay() {
+    public double getDelay() {
         return this.delay;
     }
 
