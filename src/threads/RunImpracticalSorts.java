@@ -8,7 +8,6 @@ import sorts.exchange.StableStoogeSort;
 import sorts.exchange.SillySort;
 import sorts.exchange.SlowSort;
 import sorts.exchange.SnuffleSort;
-import sorts.distribute.GuessSort;
 import sorts.insert.HanoiSort;
 import sorts.insert.StableHanoiSort;
 import sorts.exchange.NapoleonSort;
@@ -26,6 +25,8 @@ import sorts.distribute.DeterministicBogoSort;
 import sorts.distribute.SmartBogoBogoSort;
 import sorts.distribute.SliceBogoSort;
 import sorts.distribute.BogoSort;
+import sorts.distribute.DeterministicGuessSort;
+import sorts.distribute.GuessSort;
 import sorts.distribute.BogoBogoSort;
 import sorts.templates.Sort;
 
@@ -61,7 +62,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort SillySort;
     private Sort SlowSort;
     private Sort SnuffleSort;
-    private Sort GuessSort;
     private Sort NapoleonSort;
     private Sort HanoiSort;
     private Sort StableHanoiSort;
@@ -80,6 +80,8 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort SmartBogoBogoSort;
     private Sort SliceBogoSort;
     private Sort BogoSort;
+    private Sort DeterministicGuessSort;
+    private Sort GuessSort;
     private Sort BogoBogoSort;
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
@@ -87,68 +89,70 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         this.sortCount = 18;
         this.categoryCount = this.sortCount;
 
-        BadSort                  = new                  BadSort(this.arrayVisualizer);
-        StoogeSort               = new               StoogeSort(this.arrayVisualizer);
-        SillySort                = new                SillySort(this.arrayVisualizer);
-        SlowSort                 = new                 SlowSort(this.arrayVisualizer);
-        SnuffleSort              = new              SnuffleSort(this.arrayVisualizer);
-        GuessSort                = new                GuessSort(this.arrayVisualizer);
-        NapoleonSort             = new             NapoleonSort(this.arrayVisualizer);
-        HanoiSort                = new                HanoiSort(this.arrayVisualizer);
-        StableHanoiSort          = new          StableHanoiSort(this.arrayVisualizer);
-        StableStoogeSort         = new         StableStoogeSort(this.arrayVisualizer);
-        SelectionBogoSort        = new        SelectionBogoSort(this.arrayVisualizer);
-        BubbleBogoSort           = new           BubbleBogoSort(this.arrayVisualizer);
-        CocktailBogoSort         = new         CocktailBogoSort(this.arrayVisualizer);
-        MarkovSort               = new               MarkovSort(this.arrayVisualizer);
-        LessBogoSort             = new             LessBogoSort(this.arrayVisualizer);
-        ExchangeBogoSort         = new         ExchangeBogoSort(this.arrayVisualizer);
-        MedianQuickBogoSort      = new      MedianQuickBogoSort(this.arrayVisualizer);
-        QuickBogoSort            = new            QuickBogoSort(this.arrayVisualizer);
-        MergeBogoSort            = new            MergeBogoSort(this.arrayVisualizer);
-        BozoSort                 = new                 BozoSort(this.arrayVisualizer);
-        DeterministicBogoSort    = new    DeterministicBogoSort(this.arrayVisualizer);
-        SmartBogoBogoSort        = new        SmartBogoBogoSort(this.arrayVisualizer);
-        SliceBogoSort            = new            SliceBogoSort(this.arrayVisualizer);
-        BogoSort                 = new                 BogoSort(this.arrayVisualizer);
-        BogoBogoSort             = new             BogoBogoSort(this.arrayVisualizer);        
+        BadSort                   = new                   BadSort(this.arrayVisualizer);
+        StoogeSort                = new                StoogeSort(this.arrayVisualizer);
+        SillySort                 = new                 SillySort(this.arrayVisualizer);
+        SlowSort                  = new                  SlowSort(this.arrayVisualizer);
+        SnuffleSort               = new               SnuffleSort(this.arrayVisualizer);
+        NapoleonSort              = new              NapoleonSort(this.arrayVisualizer);
+        HanoiSort                 = new                 HanoiSort(this.arrayVisualizer);
+        StableHanoiSort           = new           StableHanoiSort(this.arrayVisualizer);
+        StableStoogeSort          = new          StableStoogeSort(this.arrayVisualizer);
+        SelectionBogoSort         = new         SelectionBogoSort(this.arrayVisualizer);
+        BubbleBogoSort            = new            BubbleBogoSort(this.arrayVisualizer);
+        CocktailBogoSort          = new          CocktailBogoSort(this.arrayVisualizer);
+        MarkovSort                = new                MarkovSort(this.arrayVisualizer);
+        LessBogoSort              = new              LessBogoSort(this.arrayVisualizer);
+        ExchangeBogoSort          = new          ExchangeBogoSort(this.arrayVisualizer);
+        MedianQuickBogoSort       = new       MedianQuickBogoSort(this.arrayVisualizer);
+        QuickBogoSort             = new             QuickBogoSort(this.arrayVisualizer);
+        MergeBogoSort             = new             MergeBogoSort(this.arrayVisualizer);
+        BozoSort                  = new                  BozoSort(this.arrayVisualizer);
+        DeterministicBogoSort     = new     DeterministicBogoSort(this.arrayVisualizer);
+        SmartBogoBogoSort         = new         SmartBogoBogoSort(this.arrayVisualizer);
+        SliceBogoSort             = new             SliceBogoSort(this.arrayVisualizer);
+        BogoSort                  = new                  BogoSort(this.arrayVisualizer);
+        DeterministicGuessSort    = new    DeterministicGuessSort(this.arrayVisualizer);
+        GuessSort                 = new                 GuessSort(this.arrayVisualizer);
+        BogoBogoSort              = new              BogoBogoSort(this.arrayVisualizer);        
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunImpracticalSorts.this.runIndividualSort(BadSort,                  0, array, 64,  0.0075, true);
-        RunImpracticalSorts.this.runIndividualSort(MarkovSort,               0, array, 64,  0.2,    true);
-        RunImpracticalSorts.this.runIndividualSort(StoogeSort,               0, array, 64,  0.005,  true);
-        RunImpracticalSorts.this.runIndividualSort(StableStoogeSort,         0, array, 64,  0.005,  true);
-        RunImpracticalSorts.this.runIndividualSort(SillySort,                0, array, 64,  0.5,    true);
-        RunImpracticalSorts.this.runIndividualSort(SlowSort,                 0, array, 64,  0.5,    true);
-        RunImpracticalSorts.this.runIndividualSort(SnuffleSort,              0, array, 64,  0.25,   true);
-        RunImpracticalSorts.this.runIndividualSort(GuessSort,                0, array, 6,   5,      true);
-        RunImpracticalSorts.this.runIndividualSort(HanoiSort,                0, array, 8,   0.025,  true);
-        RunImpracticalSorts.this.runIndividualSort(StableHanoiSort,          0, array, 8,   0.025,  true);
-        RunImpracticalSorts.this.runIndividualSort(NapoleonSort,             0, array, 6,   0.005,  true);
+        RunImpracticalSorts.this.runIndividualSort(BadSort,                   0, array, 64,  0.0075, true);
+        RunImpracticalSorts.this.runIndividualSort(MarkovSort,                0, array, 64,  0.2,    true);
+        RunImpracticalSorts.this.runIndividualSort(StoogeSort,                0, array, 64,  0.005,  true);
+        RunImpracticalSorts.this.runIndividualSort(StableStoogeSort,          0, array, 64,  0.005,  true);
+        RunImpracticalSorts.this.runIndividualSort(SillySort,                 0, array, 64,  0.5,    true);
+        RunImpracticalSorts.this.runIndividualSort(SlowSort,                  0, array, 64,  0.5,    true);
+        RunImpracticalSorts.this.runIndividualSort(SnuffleSort,               0, array, 64,  0.25,   true);
+        RunImpracticalSorts.this.runIndividualSort(HanoiSort,                 0, array, 8,   0.025,  true);
+        RunImpracticalSorts.this.runIndividualSort(StableHanoiSort,           0, array, 8,   0.025,  true);
+        RunImpracticalSorts.this.runIndividualSort(NapoleonSort,              0, array, 6,   0.005,  true);
         
         // Bogosorts
         Sounds.toggleSofterSounds(true);
         // the not-bad ones
-        RunImpracticalSorts.this.runIndividualSort(SelectionBogoSort,        0, array, 64,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(BubbleBogoSort,           0, array, 40,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(CocktailBogoSort,         0, array, 40,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(MarkovSort,               0, array, 40,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(LessBogoSort,             0, array, 32,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(ExchangeBogoSort,         0, array, 28,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(SelectionBogoSort,         0, array, 64,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(BubbleBogoSort,            0, array, 40,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(CocktailBogoSort,          0, array, 40,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(MarkovSort,                0, array, 40,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(LessBogoSort,              0, array, 32,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(ExchangeBogoSort,          0, array, 28,  1e-9,   true);
         // the meh ones
-        RunImpracticalSorts.this.runIndividualSort(MedianQuickBogoSort,      0, array, 12,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(QuickBogoSort,            0, array,  9,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(MergeBogoSort,            0, array,  9,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(MedianQuickBogoSort,       0, array, 12,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(QuickBogoSort,             0, array,  9,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(MergeBogoSort,             0, array,  9,  1e-9,   true);
         // the scary ones
-        RunImpracticalSorts.this.runIndividualSort(BozoSort,                 0, array,  7,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(DeterministicBogoSort,    0, array,  7,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(SmartBogoBogoSort,        0, array,  7,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(SliceBogoSort,            0, array,  6,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(BogoSort,                 0, array,  6,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(BozoSort,                  0, array,  7,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(DeterministicBogoSort,     0, array,  7,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(SmartBogoBogoSort,         0, array,  7,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(SliceBogoSort,             0, array,  6,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(BogoSort,                  0, array,  6,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(DeterministicGuessSort,    0, array,  5,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(GuessSort,                 0, array,  5,  1e-9,   true);
         // aaaaa
-        RunImpracticalSorts.this.runIndividualSort(BogoBogoSort,             0, array,  4,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(BogoBogoSort,              0, array,  4,  1e-9,   true);
         Sounds.toggleSofterSounds(false);
     }
     
