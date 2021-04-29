@@ -36,33 +36,17 @@ final public class ShellSortParallel extends ShellSorting {
 	
 	private void gappedInsertion(int a, int b, int g) {
 		for(int i = a+g; i < b; i+=g) {
-			int tmp = this.array[i], j = i;
+			if(Reads.compareIndices(this.array, i-g, i, 1, true) > 0) {
+				int tmp = this.array[i], j = i;
+				Highlights.clearMark(2);
 			
-			for(; j-g >= a && Reads.compareValues(this.array[j-g], tmp) > 0; j-=g)
-				Writes.write(this.array, j, this.array[j-g], 1, true, false);
-			Writes.write(this.array, j, tmp, 1, true, false);
-		}
-	}
-	
-	private void parallelShellSort(int len) {
-		int k = 0;
-		
-		for(; this.gaps[k] >= len; k++);
-		for(; k < this.gaps.length; k++) {
-			int g = this.gaps[k];
-			int t = Math.min(g, len-g);
-			
-			GappedInsertionSort[] ins = new GappedInsertionSort[t];
-			for(int i = 0; i < t; i++)
-				ins[i] = new GappedInsertionSort(i, len, g);
-			
-			for(GappedInsertionSort s : ins) s.start();
-			for(GappedInsertionSort s : ins) {
-				try {
-					s.join();
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
+				do {
+					Writes.write(this.array, j, this.array[j-g], 1, true, false);
+					j -= g;
 				}
+				while(j-g >= a && Reads.compareValues(this.array[j-g], tmp) > 0);
+				
+				Writes.write(this.array, j, tmp, 1, true, false);
 			}
 		}
 	}
@@ -71,6 +55,27 @@ final public class ShellSortParallel extends ShellSorting {
     public void runSort(int[] array, int currentLength, int bucketCount) {
 		this.array = array;
 		this.gaps = this.ExtendedCiuraGaps;
-		this.parallelShellSort(currentLength);
+		
+		int k = 0;
+		
+		for(; this.gaps[k] >= currentLength; k++);
+		for(; k < this.gaps.length; k++) {
+			int g = this.gaps[k];
+			int t = Math.min(g, currentLength-g);
+			
+			GappedInsertionSort[] ins = new GappedInsertionSort[t];
+			for(int i = 0; i < t; i++)
+				ins[i] = new GappedInsertionSort(i, currentLength, g);
+			
+			for(GappedInsertionSort s : ins) s.start();
+			for(GappedInsertionSort s : ins) {
+				try {
+					s.join();
+				} 
+				catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			}
+		}
     }
 }
