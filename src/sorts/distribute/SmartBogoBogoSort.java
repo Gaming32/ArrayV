@@ -47,7 +47,7 @@ public final class SmartBogoBogoSort extends BogoSorting {
         this.setRunAllSortsName("Smart Bogo Bogo Sort");
         this.setRunSortName("Smart Bogobogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(false);
+        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

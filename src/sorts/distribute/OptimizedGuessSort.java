@@ -11,7 +11,7 @@ public final class OptimizedGuessSort extends BogoSorting {
         this.setRunAllSortsName("Optimized Guess Sort");
         this.setRunSortName("Optimized Guess Sort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(false);
+        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

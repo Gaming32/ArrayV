@@ -50,7 +50,7 @@ public final class BogoBogoSort extends BogoSorting {
         this.setRunAllSortsName("Bogo Bogo Sort");
         this.setRunSortName("Bogobogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(false);
+        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

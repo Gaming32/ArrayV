@@ -41,7 +41,7 @@ public final class MergeBogoSort extends BogoSorting {
         this.setRunAllSortsName("Merge Bogo Sort");
         this.setRunSortName("Merge Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(false);
+        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
