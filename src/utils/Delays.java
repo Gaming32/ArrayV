@@ -63,16 +63,16 @@ final public class Delays {
         String currDelay = "";
         
         if(this.currentDelay == 0 || this.SKIPPED) {
-            currDelay = "0";
+            currDelay = "0ms";
         }
         else if(this.paused) {
             currDelay = "Paused";
         }
         else if(this.currentDelay < 0.001) {
-            currDelay = "< 0.001";
+            currDelay = "< 0.001ms";
         }
         else {
-            currDelay = formatter.format(this.currentDelay);
+            currDelay = formatter.format(this.currentDelay) + "ms";
         }
         
         return currDelay;

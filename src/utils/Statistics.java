@@ -54,7 +54,7 @@ final public class Statistics {
         this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers" 
         + ", " + this.formatter.format(showUnique) + " Unique";
         
-        this.sortDelay = "Delay: " + ArrayVisualizer.getDelays().displayCurrentDelay() + "ms";
+        this.sortDelay = "Delay: " + ArrayVisualizer.getDelays().displayCurrentDelay();
         this.visualTime = "Visual Time: " + ArrayVisualizer.getTimer().getVisualTime();
         this.estSortTime = "Sort Time: " + ArrayVisualizer.getTimer().getRealTime();
         
