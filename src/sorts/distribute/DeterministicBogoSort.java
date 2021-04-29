@@ -22,14 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-final public class SmartBogoSort extends BogoSorting {
-	
-	private int max;
-	
-    public SmartBogoSort(ArrayVisualizer arrayVisualizer) {
+/**
+ * Deterministic Bogosort cycles through
+ * every permutation of the array until it is sorted.
+ * <p>
+ * Uses Heap's algorithm.
+ */
+public final class DeterministicBogoSort extends BogoSorting {
+
+    public DeterministicBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
-        this.setSortListName("Smart Bogo");
+
+        this.setSortListName("Deterministic Bogo");
         this.setRunAllSortsName("Deterministic Bogo Sort");
         this.setRunSortName("Deterministic Bogosort");
         this.setCategory("Impractical Sorts");
@@ -41,37 +45,24 @@ final public class SmartBogoSort extends BogoSorting {
         this.setBogoSort(true);
     }
 
-    @Override
-    public void runSort(int[] array, int currentLen, int bucketCount) {
-    	max = currentLen - 1;
-        permutationSort(array, 0);
+    private boolean permutationSort(int[] array, int depth, int length) {
+        if (depth >= length-1)
+            return this.isArraySorted(array, length);
+
+        for (int i = length-1; i > depth; --i) {
+            if (permutationSort(array, depth+1, length))
+                return true;
+
+            if ((length-depth)%2 == 0)
+                Writes.swap(array, depth, i, this.delay, true, false);
+            else
+                Writes.swap(array, depth, length-1, this.delay, true, false);
+        }
+        return permutationSort(array, depth+1, length);
     }
 
-    private boolean permutationSort(int[] array, int min)
-    {
-        boolean sorted = false;
-        int i;
-        for(i = max; i > min; i--)
-        {
-            if(max > min+1)
-            {
-                sorted = permutationSort(array, min+1); //permutation = recurrence relation
-            }
-            if(sorted || this.bogoIsSorted(array, max+1))
-            {
-                return true;
-            }
-			if((max+1-min)%2 == 0)
-			{
-				Writes.swap(array, min, i, 0, true, false);
-			} else {
-				Writes.swap(array, min, max, 0, true, false);
-			}
-		}
-        if(max > min+1)
-        {
-            return permutationSort(array, min+1); //permutation = recurrence relation
-        }
-        return false;
+    @Override
+    public void runSort(int[] array, int length, int bucketCount) {
+        permutationSort(array, 0, length);
     }
 }

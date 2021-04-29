@@ -4,10 +4,10 @@ import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
 /*
- * 
+ *
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2021 EmeraldBlock
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,27 +30,39 @@ SOFTWARE.
  */
 
 /**
- * Bogosort randomly shuffles the array until it is sorted.
+ * Median Quick Bogosort repeatedly shuffles the array until the left and right halves are split.
+ * It then recursively sorts each half.
  */
-public final class BogoSort extends BogoSorting {
-    public BogoSort(ArrayVisualizer arrayVisualizer) {
+public final class MedianQuickBogoSort extends BogoSorting {
+    public MedianQuickBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Bogo");
-        this.setRunAllSortsName("Bogo Sort");
-        this.setRunSortName("Bogosort");
+        this.setSortListName("Median Quick Bogo");
+        this.setRunAllSortsName("Median Quick Bogo Sort");
+        this.setRunSortName("Median Quick Bogosort");
         this.setCategory("Impractical Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(10);
+        this.setUnreasonableLimit(23);
         this.setBogoSort(true);
     }
 
+    private void medianQuickBogo(int[] array, int start, int end) {
+        if (start >= end-1)
+            return;
+
+        int mid = (start+end)/2;
+        while (!isRangeSplit(array, start, mid, end))
+            this.bogoSwap(array, start, end, false);
+
+        medianQuickBogo(array, start, mid);
+        medianQuickBogo(array, mid, end);
+    }
+
     @Override
-    public void runSort(int[] array, int length, int bucketCount) {
-        while(!this.isArraySorted(array, length))
-            this.bogoSwap(array, 0, length, false);
+    public void runSort(int[] array, int sortLength, int bucketCount) {
+        medianQuickBogo(array, 0, sortLength);
     }
 }

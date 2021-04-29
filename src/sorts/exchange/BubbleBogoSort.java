@@ -29,15 +29,18 @@ SOFTWARE.
  *
  */
 
-final public class BubbleBogoSort extends BogoSorting {
+/**
+ * Bubble Bogosort is like Bubble Sort, but randomly sorts adjacent pairs of elements until the array is sorted.
+ */
+public final class BubbleBogoSort extends BogoSorting {
     public BubbleBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Bubble Bogo");
         this.setRunAllSortsName("Bubble Bogo Sort");
         this.setRunSortName("Bubble Bogosort");
-        this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true); //Comparisons ARE used to swap elements
+        this.setCategory("Impractical Sorts");
+        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
@@ -46,15 +49,12 @@ final public class BubbleBogoSort extends BogoSorting {
     }
 
     @Override
-    public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        while(!this.bogoIsSorted(array, sortLength)){
-            int index1 = (int) (Math.random() * (sortLength - 1));
-            
-            Highlights.markArray(1, index1);
-            
-            if(Reads.compareValues(array[index1], array[index1 + 1]) == 1){
-                Writes.swap(array, index1, index1 + 1, 1, true, false);
-            }
+    public void runSort(int[] array, int length, int bucketCount) {
+        while (!this.isRangeSorted(array, 0, length, false, true)) {
+            int index = BogoSorting.randInt(0, length-1);
+
+            if (Reads.compareIndices(array, index, index+1, this.delay, true) > 0)
+                Writes.swap(array, index, index+1, this.delay, true, false);
         }
     }
 }

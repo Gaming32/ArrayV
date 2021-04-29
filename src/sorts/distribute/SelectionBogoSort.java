@@ -4,10 +4,10 @@ import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
 /*
- * 
+ *
 MIT License
 
-Copyright (c) 2019 w0rthy
+Copyright (c) 2021 EmeraldBlock
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,28 +29,41 @@ SOFTWARE.
  *
  */
 
-/**
- * Bogosort randomly shuffles the array until it is sorted.
+/*
+ * The original Selection Bogosort algorithm was created and implemented by fluffyyboii.
+ * However, the original implementation seems to never have been added,
+ * and this version makes it more concise with some helper methods.
  */
-public final class BogoSort extends BogoSorting {
-    public BogoSort(ArrayVisualizer arrayVisualizer) {
+
+/**
+ * Selection Bogosort is like Selection Sort,
+ * but it randomly swaps an element out of the remaining unsorted elements
+ * to the front of them until it is the smallest.
+ * <p>
+ * Selection Bogosort can also be viewed as an optimized variation of Less Bogosort.
+ */
+public final class SelectionBogoSort extends BogoSorting {
+    public SelectionBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
-        this.setSortListName("Bogo");
-        this.setRunAllSortsName("Bogo Sort");
-        this.setRunSortName("Bogosort");
+        this.setSortListName("Selection Bogo");
+        this.setRunAllSortsName("Selection Bogo Sort");
+        this.setRunSortName("Selection Bogosort");
         this.setCategory("Impractical Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(10);
+        this.setUnreasonableLimit(4096);
         this.setBogoSort(true);
     }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        while(!this.isArraySorted(array, length))
-            this.bogoSwap(array, 0, length, false);
+        for (int i = 0; i < length; ++i) {
+            while (!this.isMinSorted(array, i, length))
+                Writes.swap(array, i, BogoSorting.randInt(i, length), this.delay, true, false);
+            Highlights.markArray(3, i);
+        }
     }
 }
