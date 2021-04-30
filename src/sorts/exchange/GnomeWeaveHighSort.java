@@ -9,27 +9,10 @@ PORTED TO ARRAYV BY PCBOYGAMES
 - SORTING ALGORITHM MADHOUSE -
 ------------------------------
 
-Gnome Weave by Lowest Prime is a mix of OptiGnome Sort and prime numbers.
+Gnome Weave by Highest Prime is a reversal of Gnome Weave by Lowest Prime.
 
-The sorting begins with setting up a gap, G. Any items a multiple of G away
-from a target item, T, are compared, starting with items T and T + G. After
-swapping them as needed, if an item exists at T + 2G, then T + G and T + 2G
-are compared. If T + 2G is less than T + G, these two items will swap. If
-this new T + G is also less than T, these two swap as well. If the upper
-item in either case is greater than the other, no swap is needed and the
-sort will skip forward to check for T + 3G. When the next T + XG item does
-not exist, the target changes by 1, and so on until T is G - 1.
-
-Upon reaching the last unique target value, the gap value is tested for the
-smallest possible prime number, P, it can evenly divide by. The next value
-is then set to G/P, the target resets to the first value, and the sorting
-continues. This repeats until G is 1, and after this, the sort is complete.
-
-The way I coded the prime check in the original Scratch project as well as
-in the ArrayV port is a bit crude, because composite numbers are also being
-checked for in this gap division. However, I get away with it since running
-possible divisions that all occur evenly would attempt the prime factors of
-a composite number before the composite number itself.
+The prime check runs to the first result in Lowest Prime, but Highest Prime
+runs it to the last result.
 
 Because the sorting algorithm divides by prime numbers over and over again,
 list lengths with recurrent factor trees cause it to act accordingly. Also,
@@ -37,12 +20,12 @@ if the length is a prime number itself, it will resort to plain OptiGnome.
 Try lengths like 1365, 2310, or 4199, and it will appear more diverse.
 
 */
-final public class GnomeWeaveLowSort extends Sort {
-	public GnomeWeaveLowSort(ArrayVisualizer arrayVisualizer) {
+final public class GnomeWeaveHighSort extends Sort {
+	public GnomeWeaveHighSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		this.setSortListName("Gnome Weave (Low Prime)");
-		this.setRunAllSortsName("Gnome Weave Sort (Low Prime)");
-		this.setRunSortName("Gnome Weave (Low Prime)");
+		this.setSortListName("Gnome Weave (High Prime)");
+		this.setRunAllSortsName("Gnome Weave Sort (High Prime)");
+		this.setRunSortName("Gnome Weave (High Prime)");
 		this.setCategory("Exchange Sorts");
 		this.setComparisonBased(true);
 		this.setBucketSort(false);
@@ -83,7 +66,7 @@ final public class GnomeWeaveLowSort extends Sort {
 			}
 			if (icheck + 1 > gap && !finalgap) {
 				primetestrunning = gap;
-				while (primetestrunning == gap) {
+				while (primetestrunning != 1) {
 					primetest = false;
 					primetesti = 2;
 					while (!primetest) {
