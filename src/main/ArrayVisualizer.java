@@ -203,12 +203,23 @@ final public class ArrayVisualizer {
                 try {
                     e.acceptDrop(DnDConstants.ACTION_COPY);
                     List<File> droppedFiles = (List<File>)e.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                    int success = 0;
                     for (File file : droppedFiles) {
-                        ArrayVisualizer.this.SortAnalyzer.importSort(file, false);
+                        if (ArrayVisualizer.this.SortAnalyzer.importSort(file, false)) {
+                            success++;
+                        }
                     }
                     ArrayVisualizer.this.SortAnalyzer.sortSorts();
                     ArrayVisualizer.this.refreshSorts();
-                    JOptionPane.showMessageDialog(null, "Successfully imported " + droppedFiles.size() + " sorts", "Import Sorts", JOptionPane.INFORMATION_MESSAGE);
+                    if (success == 0) {
+                        JErrorPane.invokeCustomErrorMessage("Failed to import all " + droppedFiles.size() + " sorts");
+                    } else {
+                        String message = "Successfully imported " + success + " sorts";
+                        if (success < droppedFiles.size()) {
+                            message += " and failed to import " + (droppedFiles.size() - success);
+                        }
+                        JOptionPane.showMessageDialog(null, message, "Import Sorts", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

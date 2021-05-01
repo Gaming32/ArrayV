@@ -157,7 +157,7 @@ final public class SortAnalyzer {
         }
     }
 
-    public void importSort(File file, boolean showConfirmation) {
+    public boolean importSort(File file, boolean showConfirmation) {
         Pattern packagePattern = Pattern.compile("^\\s*package ([a-zA-Z\\.]+);");
         String contents;
         try {
@@ -165,12 +165,12 @@ final public class SortAnalyzer {
         }
         catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
-            return;
+            return false;
         }
         Matcher matcher = packagePattern.matcher(contents);
         if (!matcher.find()) {
             JErrorPane.invokeCustomErrorMessage("No package specifed");
-            return;
+            return false;
         }
         String packageName = matcher.group(1);
         String name = packageName + "." + file.getName().split("\\.")[0];
@@ -182,23 +182,23 @@ final public class SortAnalyzer {
         }
         catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
-            return;
+            return false;
         }
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         int success = compiler.run(null, null, null, destPath.getAbsolutePath());
         if (success != 0) {
             JErrorPane.invokeCustomErrorMessage("Failed to compile: " + destPath.getPath() + "\nError code " + success);
-            return;
+            return false;
         }
 
         try {
             if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File(".").toURI().toURL() })))
-                return;
+                return false;
         }
         catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
-            return;
+            return false;
         }
 
         if (showConfirmation) {
@@ -206,10 +206,11 @@ final public class SortAnalyzer {
             arrayVisualizer.refreshSorts();
             JOptionPane.showMessageDialog(null, "Successfully imported sort " + name, "Import Sort", JOptionPane.INFORMATION_MESSAGE);
         }
+        return true;
     }
 
-    public void importSort(File file) {
-        importSort(file, true);
+    public boolean importSort(File file) {
+        return importSort(file, true);
     }
 
     public void sortSorts() {
