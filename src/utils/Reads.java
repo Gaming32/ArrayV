@@ -145,6 +145,38 @@ final public class Reads {
         return this.compareOriginalValues(array[left], array[right]);
     }
 
+    public int compareIndexValue(int[] array, int index, int value, double sleep, boolean mark) {
+        if(mark) {
+            Highlights.markArray(1, index);
+            Delays.sleep(sleep);
+        }
+        return this.compareValues(array[index], value);
+    }
+
+    public int compareOriginalIndexValue(int[] array, int index, int value, double sleep, boolean mark) {
+        if(mark) {
+            Highlights.markArray(1, index);
+            Delays.sleep(sleep);
+        }
+        return this.compareOriginalValues(array[index], value);
+    }
+
+    public int compareValueIndex(int[] array, int value, int index, double sleep, boolean mark) {
+        if(mark) {
+            Highlights.markArray(1, index);
+            Delays.sleep(sleep);
+        }
+        return this.compareValues(value, array[index]);
+    }
+
+    public int compareOriginalValueIndex(int[] array, int value, int index, double sleep, boolean mark) {
+        if(mark) {
+            Highlights.markArray(1, index);
+            Delays.sleep(sleep);
+        }
+        return this.compareOriginalValues(value, array[index]);
+    }
+
     public int analyzeMax(int[] array, int length, double sleep, boolean mark) {
         ArrayVisualizer.toggleAnalysis(true);
         ArrayVisualizer.updateNow();
