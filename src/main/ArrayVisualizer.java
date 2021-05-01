@@ -10,6 +10,10 @@ import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.Stroke;
 import java.awt.Toolkit;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DnDConstants;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -27,6 +31,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -190,6 +195,23 @@ final public class ArrayVisualizer {
             }
             @Override
             public void keyReleased(KeyEvent e) {
+            }
+        });
+        this.window.setDropTarget(new DropTarget() {
+            @SuppressWarnings("unchecked")
+            public synchronized void drop(DropTargetDropEvent e) {
+                try {
+                    e.acceptDrop(DnDConstants.ACTION_COPY);
+                    List<File> droppedFiles = (List<File>)e.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                    for (File file : droppedFiles) {
+                        ArrayVisualizer.this.SortAnalyzer.importSort(file, false);
+                    }
+                    ArrayVisualizer.this.SortAnalyzer.sortSorts();
+                    ArrayVisualizer.this.refreshSorts();
+                    JOptionPane.showMessageDialog(null, "Successfully imported " + droppedFiles.size() + " sorts", "Import Sorts", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 

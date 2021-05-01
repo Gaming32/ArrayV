@@ -151,15 +151,13 @@ final public class SortAnalyzer {
             for(int i = 0; i < sortFiles.size(); i++) {
                 this.compileSingle(sortFiles.get(i).getName(), null);
             }
-            SortComparator sortComparator = new SortComparator();
-            Collections.sort(comparisonSorts, sortComparator);
-            Collections.sort(distributionSorts, sortComparator);
+            sortSorts();
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
         }
     }
 
-    public void importSort(File file) {
+    public void importSort(File file, boolean showConfirmation) {
         Pattern packagePattern = Pattern.compile("^\\s*package ([a-zA-Z\\.]+);");
         String contents;
         try {
@@ -203,12 +201,21 @@ final public class SortAnalyzer {
             return;
         }
 
+        if (showConfirmation) {
+            sortSorts();
+            arrayVisualizer.refreshSorts();
+            JOptionPane.showMessageDialog(null, "Successfully imported sort " + name, "Import Sort", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void importSort(File file) {
+        importSort(file, true);
+    }
+
+    public void sortSorts() {
         SortComparator sortComparator = new SortComparator();
         Collections.sort(comparisonSorts, sortComparator);
         Collections.sort(distributionSorts, sortComparator);
-
-        arrayVisualizer.refreshSorts();
-        JOptionPane.showMessageDialog(null, "Successfully imported sort " + name, "Import Sort", JOptionPane.INFORMATION_MESSAGE);
     }
     
     private boolean verifySort(Sort sort) {
