@@ -1,6 +1,7 @@
 package sorts.hybrid;
 
 import main.ArrayVisualizer;
+import sorts.merge.PDMergeSort;
 import sorts.templates.Sort;
 
 /*
@@ -29,10 +30,8 @@ SOFTWARE.
  *
  */
 
-final public class OptimizedPDMergeSort extends Sort {
+public class OptimizedPDMergeSort extends PDMergeSort {
     final static int MIN_RUN_SIZE = 16;
-    int[] copied;
-    int runCount;
 
     public OptimizedPDMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -63,69 +62,7 @@ final public class OptimizedPDMergeSort extends Sort {
         }
     }
 
-    private void mergeUp(int[] array, int start, int mid, int end) {
-        for (int i = 0; i < mid - start; i++) {
-            Highlights.markArray(1, i + start);
-            Writes.write(copied, i, array[i + start], 1, false, true);
-        }
-
-        int bufferPointer = 0;
-        int left = start;
-        int right = mid;
-
-        while (left < right && right < end) {
-            Highlights.markArray(2, right);
-            if (Reads.compareValues(copied[bufferPointer], array[right]) <= 0)
-                Writes.write(array, left++, copied[bufferPointer++], 1, true, false);
-            else
-                Writes.write(array, left++, array[right++], 1, true, false);
-        }
-        Highlights.clearMark(2);
-    
-        while (left < right)
-            Writes.write(array, left++, copied[bufferPointer++], 0.5, true, false);
-        Highlights.clearAllMarks();
-    }
-
-    private void mergeDown(int[] array, int start, int mid, int end) {
-        for (int i = 0; i < end - mid; i++) {
-            Highlights.markArray(1, i + mid);
-            Writes.write(copied, i, array[i + mid], 1, false, true);
-        }
-
-        int bufferPointer = end - mid - 1;
-        int left = mid - 1;
-        int right = end - 1;
-
-        while (right > left && left >= start) {
-            Highlights.markArray(2, left);
-            if (Reads.compareValues(copied[bufferPointer], array[left]) >= 0)
-                Writes.write(array, right--, copied[bufferPointer--], 1, true, false);
-            else
-                Writes.write(array, right--, array[left--], 1, true, false);
-        }
-        Highlights.clearMark(2);
-
-        while (left < right)
-            Writes.write(array, right--, copied[bufferPointer--], 0.5, true, false);
-        Highlights.clearAllMarks();
-    }
-
-    private void merge(int[] array, int leftStart, int rightStart, int end) {
-        if (end - rightStart < rightStart - leftStart) {
-            // arrayVisualizer.setHeading("PDMerge -- Merging Down");
-            mergeDown(array, leftStart, rightStart, end);
-        } else {
-            // arrayVisualizer.setHeading("PDMerge -- Merging Up");
-            mergeUp(array, leftStart, rightStart, end);
-        }
-    }
-
-    private boolean compare(int a, int b) {
-        return Reads.compareValues(a, b) <= 0;
-    }
-
-    private int identifyRun(int[] array, int index, int maxIndex) {
+    protected int identifyRun(int[] array, int index, int maxIndex) {
         int startIndex = index;
 
         Highlights.markArray(1, index);
@@ -169,7 +106,7 @@ final public class OptimizedPDMergeSort extends Sort {
         return index + 1;
     }
 
-    private int[] findRuns(int[] array, int maxIndex) {
+    protected int[] findRuns(int[] array, int maxIndex) {
         int[] runs = Writes.createExternalArray(maxIndex / MIN_RUN_SIZE + 2);
         runCount = 0;
 
@@ -181,28 +118,5 @@ final public class OptimizedPDMergeSort extends Sort {
         }
 
         return runs;
-    }
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
-        // arrayVisualizer.setHeading("PDMerge -- Finding Runs");
-        int[] runs = findRuns(array, length - 1);
-        copied = Writes.createExternalArray(length / 2);
-        
-        // arrayVisualizer.setHeading("PDMerge -- Merging Runs");
-        while (runCount > 1) {
-            for (int i = 0; i < runCount - 1; i += 2) {
-                int end = i + 2 >= runCount ? length : (runs[i + 2]);
-                merge(array, runs[i], runs[i + 1], end);
-            }
-            for (int i = 1, j = 2; i < runCount; i++, j+=2, runCount--) {
-                Writes.write(runs, i, runs[j], 0.5, true, true);
-            }
-        }
-
-        // arrayVisualizer.setHeading("Pattern-Defeating Mergesort");
-
-        Writes.deleteExternalArray(runs);
-        Writes.deleteExternalArray(copied);
     }
 }
