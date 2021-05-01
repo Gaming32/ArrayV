@@ -108,6 +108,9 @@ public class ThreadedPDMergeSort extends BinaryPDMergeSort {
                     ThreadedPDMergeSort.super.merge(array, start, mid, end);
                     countLock.lock();
                     threadCount--;
+                    synchronized (countLock) {
+                        countLock.notify();
+                    }
                     countLock.unlock();
                 }
             }.start();
@@ -131,13 +134,14 @@ public class ThreadedPDMergeSort extends BinaryPDMergeSort {
                 int end = i + 2 >= runCount ? length : (runs[i + 2]);
                 merge(array, runs[i], runs[i + 1], end);
             }
-            for (;;) {
-                countLock.lock();
-                if (threadCount == 0) {
-                    countLock.unlock();
-                    break;
+            while (threadCount > 0) {
+                synchronized (countLock) {
+                    try {
+                        countLock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                countLock.unlock();
             }
             for (int i = 1, j = 2; i < runCount; i++, j+=2, runCount--) {
                 Writes.write(runs, i, runs[j], 0.5, true, true);
