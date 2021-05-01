@@ -178,6 +178,21 @@ final public class ArrayVisualizer {
 
     public ArrayVisualizer() {
         this.window = new JFrame();
+        this.window.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_K || e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    ArrayVisualizer.this.getDelays().togglePaused();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
@@ -209,10 +224,6 @@ final public class ArrayVisualizer {
                 }
                 else if (e.getKeyCode() == KeyEvent.VK_F5) {
                     ArrayVisualizer.this.updateNow();
-                    return true;
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_K || e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    ArrayVisualizer.this.getDelays().togglePaused();
                     return true;
                 }
                 return false;
