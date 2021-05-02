@@ -91,7 +91,7 @@ public class PDMergeSort extends Sort {
         }
         Highlights.clearMark(2);
 
-        while (left < right)
+        while (right > left)
             Writes.write(array, right--, copied[bufferPointer--], 0.5, true, false);
         Highlights.clearAllMarks();
     }
@@ -158,7 +158,7 @@ public class PDMergeSort extends Sort {
 
         return runs;
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         // arrayVisualizer.setHeading("PDMerge -- Finding Runs");
