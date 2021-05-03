@@ -55,16 +55,17 @@ public final class TriangularHeapSort extends Sort {
 		  } 
 		  this.Writes.write(array, root, temp, 0.25D, true, false);
 		}
-
+	public void triangularHeapify(int[] array, int length) {
+		for (int i = length - 1; i >= 0; i--) {
+		  siftDown(array, length, i);
+		}
+	}
 
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
 		// TODO Auto-generated method stub
-		int i;
-		for (i = length - 1; i >= 0; i--) {
-		  siftDown(array, length, i);
-		}
-		for (i = 1; i < length - 1; i++) {
+		triangularHeapify(array, length);
+		for (int i = 1; i < length - 1; i++) {
 		  this.Writes.swap(array, 0, length - i, 0.5D, true, false);
 		  siftDown(array, length - i, 0);
 		} 
