@@ -8,7 +8,9 @@ import java.util.Random;
 import main.ArrayVisualizer;
 
 import sorts.select.PoplarHeapSort;
+import sorts.select.SmoothSort;
 import sorts.select.MaxHeapSort;
+import sorts.select.TriangularHeapSort;
 
 /*
  * 
@@ -635,6 +637,20 @@ public enum Shuffles {
             heapSort.makeHeap(array, 0, currentLen, delay ? 1 : 0);
         }
     },
+	REV_SMOOTH {
+        public String getName() {
+            return "Reversed Smoothified";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+            
+            Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
+            SmoothSort smoothSort = new SmoothSort(ArrayVisualizer);
+            smoothSort.smoothHeapify(array, currentLen);
+        }
+    },
     REV_POPLAR {
         public String getName() {
             return "Reversed Poplarified";
@@ -649,6 +665,25 @@ public enum Shuffles {
             poplarHeapSort.poplarHeapify(array, 0, currentLen);
         }
     },
+	TRI_HEAP {
+		public String getName() {
+            return "Triangular Heapified";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+            
+			if(delay) Delays.setSleepRatio(Delays.getSleepRatio()*10);
+			else	  Delays.changeSkipped(true);
+			
+            TriangularHeapSort triangularHeapSort = new TriangularHeapSort(ArrayVisualizer);
+            triangularHeapSort.triangularHeapify(array, currentLen);
+			
+			if(delay) Delays.setSleepRatio(Delays.getSleepRatio()/10);
+			else	  Delays.changeSkipped(false);
+        }
+	},
     CIRCLE {
         public String getName() {
             return "First Circle Pass";
@@ -1014,12 +1049,12 @@ public enum Shuffles {
                     cnt[i] += cnt[i-1];
                 
                 for(int i = currentLen-1; i >= 0; i--)
-                    Writes.write(array, i, --cnt[array[i]], 0.25, true, false);
+                    Writes.write(array, i, --cnt[array[i]], 0.5, true, false);
             }
             int[] bits = Arrays.copyOf(array, currentLen);
             
             for(int i = 0; i < currentLen; i++)
-                Writes.write(array, i, temp[bits[i]], delay ? 0.25 : 0, true, false);
+                Writes.write(array, i, temp[bits[i]], 0, true, false);
         }
     },
     BLOCK_RANDOMLY {
