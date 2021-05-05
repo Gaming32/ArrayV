@@ -98,7 +98,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 28;
+        this.sortCount = 32;
         this.categoryCount = this.sortCount;
 
         BadSort                   = new                   BadSort(this.arrayVisualizer);

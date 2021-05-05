@@ -89,7 +89,7 @@ final public class RunHybridSorts extends MultipleSortThread {
     
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 47;
+        this.sortCount = 51;
         this.categoryCount = this.sortCount;
         
         HybridCombSort                   = new                   HybridCombSort(this.arrayVisualizer);

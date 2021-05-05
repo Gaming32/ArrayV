@@ -60,7 +60,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
     
     public RunInsertionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 21;
+        this.sortCount = 24;
         this.categoryCount = this.sortCount;
     
         InsertionSort               = new               InsertionSort(this.arrayVisualizer);
