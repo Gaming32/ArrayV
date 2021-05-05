@@ -81,6 +81,8 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort IterativeQuickSort;
     private Sort PseudoHeapSort;
     private Sort SlopeSort;
+    private Sort TriSearchGnomeSort;
+    private Sort WiggleSort;
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -135,6 +137,8 @@ final public class RunExchangeSorts extends MultipleSortThread {
         IterativeQuickSort            = new            IterativeQuickSort(this.arrayVisualizer);
         PseudoHeapSort                = new                PseudoHeapSort(this.arrayVisualizer);
         SlopeSort                     = new                     SlopeSort(this.arrayVisualizer);
+        TriSearchGnomeSort            = new            TriSearchGnomeSort(this.arrayVisualizer);
+        WiggleSort                    = new                    WiggleSort(this.arrayVisualizer);
     }
 
     @Override
@@ -147,6 +151,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(CocktailShakerSort,            0,   array,  512, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(OptimizedCocktailShakerSort,   0,   array,  512, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(ChinottoSort,                  0,   array,  512, 1.25,  false);
+        RunExchangeSorts.this.runIndividualSort(WiggleSort,                    0,   array,  512, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(OddEvenSort,                   0,   array,  512, 1,     false);
         RunExchangeSorts.this.runIndividualSort(SwapMapSort,                   0,   array,  512, 0.125, false);
         RunExchangeSorts.this.runIndividualSort(OptimizedStoogeSort,           0,   array,  512, 1,     false);
@@ -158,6 +163,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(GnomeSort,                     0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(OptimizedGnomeSort,            0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(BinaryGnomeSort,               0,   array,  128, 0.025, false);
+        RunExchangeSorts.this.runIndividualSort(TriSearchGnomeSort,            0,   array,  128, 1,     false);
         RunExchangeSorts.this.runIndividualSort(ReverseGnomeSort,              0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(GnomeWeaveHighSort,            0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(GnomeWeaveLowSort,             0,   array,  128, 0.025, false);
