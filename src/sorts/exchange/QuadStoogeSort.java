@@ -30,33 +30,32 @@ public final class QuadStoogeSort extends Sort {
 		setBogoSort(false);
 
 	}
-	
-	   private void quadStooge(int[] array, int pos, int len) {
-		     if (len >= 2 && this.Reads.compareValues(array[pos], array[pos + len - 1]) == 1) {
-		       this.Writes.swap(array, pos, pos + len - 1, 0.005D, true, false);
-		     }
-		     if (len <= 2) {
-		       return;
-		     }
-		     this.Delays.sleep(0.0025D);
-		     
-		     this.Highlights.markArray(1, pos);
-		     this.Highlights.markArray(2, pos + len - 1);
-		     
-		     int len1 = len / 2;
-		     int len2 = (len + 1) / 2;
-		     int len3 = (len1 + 1) / 2 + (len2 + 1) / 2;
-		     
-		     quadStooge(array, pos, len1);
-		     quadStooge(array, pos + len1, len2);
-		     quadStooge(array, pos + len1 / 2, len3);
-		     quadStooge(array, pos + len1, len2);
-		     quadStooge(array, pos, len1);
-		     if (len > 3) {
-		       quadStooge(array, pos + len1 / 2, len3);
-		     }
-	   }
 
+	private void quadStooge(int[] array, int pos, int len) {
+		if (len >= 2 && this.Reads.compareValues(array[pos], array[pos + len - 1]) == 1) {
+			this.Writes.swap(array, pos, pos + len - 1, 0.005D, true, false);
+		}
+		if (len <= 2) {
+			return;
+		}
+		this.Delays.sleep(0.0025D);
+
+		this.Highlights.markArray(1, pos);
+		this.Highlights.markArray(2, pos + len - 1);
+
+		int len1 = len / 2;
+		int len2 = (len + 1) / 2;
+		int len3 = (len1 + 1) / 2 + (len2 + 1) / 2;
+
+		quadStooge(array, pos, len1);
+		quadStooge(array, pos + len1, len2);
+		quadStooge(array, pos + len1 / 2, len3);
+		quadStooge(array, pos + len1, len2);
+		quadStooge(array, pos, len1);
+		if (len > 3) {
+			quadStooge(array, pos + len1 / 2, len3);
+		}
+	}
 
 	@Override
 	public void runSort(int[] array, int sortLength, int bucketCount) {

@@ -78,6 +78,8 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort ReverseGrateSort;
     private Sort GnomeWeaveHighSort;
     private Sort GnomeWeaveLowSort;
+    private Sort IterativeQuickSort;
+    private Sort PseudoHeapSort;
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -129,6 +131,8 @@ final public class RunExchangeSorts extends MultipleSortThread {
         ReverseGrateSort              = new              ReverseGrateSort(this.arrayVisualizer);
         GnomeWeaveHighSort            = new            GnomeWeaveHighSort(this.arrayVisualizer);
         GnomeWeaveLowSort             = new             GnomeWeaveLowSort(this.arrayVisualizer);
+        IterativeQuickSort            = new            IterativeQuickSort(this.arrayVisualizer);
+        PseudoHeapSort                = new                PseudoHeapSort(this.arrayVisualizer);
     }
 
     @Override
@@ -163,12 +167,15 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(CircleSortRecursive,           0,   array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(CircleSortIterative,           0,   array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(CircleMergeSort,               0,   array, 1024, 0.75,  false);
+        RunExchangeSorts.this.runIndividualSort(CircleMergeSort,               0,   array, 1024, 0.75,  false);
+        RunExchangeSorts.this.runIndividualSort(PseudoHeapSort,                0,   array, 1024, 1.5,   false);
         RunExchangeSorts.this.runIndividualSort(LLQuickSort,                   0,   array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.5 : 5, false);
         RunExchangeSorts.this.runIndividualSort(LLQuickSortMiddlePivot,        0,   array, 2048, 1.5,   false);
         RunExchangeSorts.this.runIndividualSort(LRQuickSort,                   0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(LRQuickSortParallel,           0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(DualPivotQuickSort,            0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(StacklessQuickSort,            0,   array, 2048, 1,     false);
+        RunExchangeSorts.this.runIndividualSort(IterativeQuickSort,            0,   array, 2048, 1,     false);
         // RunExchangeSorts.this.runIndividualSort(MeanQuickSort,                0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(StableQuickSort,               0,   array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5,    false);
         RunExchangeSorts.this.runIndividualSort(StableQuickSortMiddlePivot,    0,   array, 2048, 1,     false);
