@@ -8,6 +8,7 @@ import sorts.exchange.StableStoogeSort;
 import sorts.exchange.SillySort;
 import sorts.exchange.SlowSort;
 import sorts.exchange.SnuffleSort;
+import sorts.exchange.FireSort;
 import sorts.insert.HanoiSort;
 import sorts.insert.StableHanoiSort;
 import sorts.exchange.NapoleonSort;
@@ -87,6 +88,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort RandomGuessSort;
     private Sort GuessSort;
     private Sort BogoBogoSort;
+    private Sort FireSort;
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -121,10 +123,12 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         RandomGuessSort           = new           RandomGuessSort(this.arrayVisualizer);
         GuessSort                 = new                 GuessSort(this.arrayVisualizer);
         BogoBogoSort              = new              BogoBogoSort(this.arrayVisualizer);        
+        FireSort                  = new                  FireSort(this.arrayVisualizer);        
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
+        RunImpracticalSorts.this.runIndividualSort(FireSort,                  0, array, 256, 0.25, true);
         RunImpracticalSorts.this.runIndividualSort(BadSort,                   0, array, 64,  0.0075, true);
         RunImpracticalSorts.this.runIndividualSort(StoogeSort,                0, array, 64,  0.005,  true);
         RunImpracticalSorts.this.runIndividualSort(StableStoogeSort,          0, array, 64,  0.005,  true);

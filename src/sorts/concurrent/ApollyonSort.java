@@ -1,7 +1,6 @@
-package sorts.exchange;
+package sorts.concurrent;
 
 import main.ArrayVisualizer;
-import sorts.templates.Sort;
 import sorts.insert.InsertionSort;
 import sorts.templates.CircleSorting;
 
