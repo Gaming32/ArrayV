@@ -75,6 +75,7 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort PDQBranchlessSort;
     private Sort DropMergeSort;
     private Sort OptimizedPDMergeSort;
+    private Sort BinaryPDMergeSort;
     private Sort FlanSort;
     private Sort BubblescanQuickSort;
     private Sort BufferPartitionMergeSort;
@@ -82,6 +83,9 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort ParallelGrailSort;
     private Sort RemiSort;
     private Sort StacklessDualPivotQuickSort;
+    private Sort AdaptiveGrailSort;
+    private Sort BubbleMergeSort;
+    private Sort ThreadedPDMergeSort;
     
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -136,6 +140,10 @@ final public class RunHybridSorts extends MultipleSortThread {
         ParallelGrailSort                = new                ParallelGrailSort(this.arrayVisualizer);
         RemiSort                         = new                         RemiSort(this.arrayVisualizer);
         StacklessDualPivotQuickSort      = new      StacklessDualPivotQuickSort(this.arrayVisualizer);
+        AdaptiveGrailSort                = new                AdaptiveGrailSort(this.arrayVisualizer);
+        BinaryPDMergeSort                = new                BinaryPDMergeSort(this.arrayVisualizer);
+        BubbleMergeSort                  = new                  BubbleMergeSort(this.arrayVisualizer);
+        ThreadedPDMergeSort              = new              ThreadedPDMergeSort(this.arrayVisualizer);
     }
     
     @Override
@@ -153,11 +161,15 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(ImprovedWeaveMergeSort,           0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.65 : 6.5, false);
         RunHybridSorts.this.runIndividualSort(TimSort,                          0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(CocktailMergeSort,                0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(BubbleMergeSort,                  0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(OptimizedPDMergeSort,             0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(BinaryPDMergeSort,                0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(ThreadedPDMergeSort,              0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(LazierSort,                       0, array, 1024, 0.4,  false);
         RunHybridSorts.this.runIndividualSort(LaziestSort,                      0, array, 1024, 1,    false);
         RunHybridSorts.this.runIndividualSort(WikiSort,                         0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(GrailSort,                        0, array, 2048, 1,    false);
+        RunHybridSorts.this.runIndividualSort(AdaptiveGrailSort,                0, array, 2048, 1,    false);
         // RunHybridSorts.this.runIndividualSort(HolyGrailSort,                    0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(UnstableGrailSort,                0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(SqrtSort,                         0, array, 2048, 1,    false);
