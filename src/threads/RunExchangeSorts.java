@@ -80,6 +80,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort GnomeWeaveLowSort;
     private Sort IterativeQuickSort;
     private Sort PseudoHeapSort;
+    private Sort SlopeSort;
     
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -133,6 +134,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         GnomeWeaveLowSort             = new             GnomeWeaveLowSort(this.arrayVisualizer);
         IterativeQuickSort            = new            IterativeQuickSort(this.arrayVisualizer);
         PseudoHeapSort                = new                PseudoHeapSort(this.arrayVisualizer);
+        SlopeSort                     = new                     SlopeSort(this.arrayVisualizer);
     }
 
     @Override
@@ -159,6 +161,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(ReverseGnomeSort,              0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(GnomeWeaveHighSort,            0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(GnomeWeaveLowSort,             0,   array,  128, 0.025, false);
+        RunExchangeSorts.this.runIndividualSort(SlopeSort,                     0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(CombSort,                      130, array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(ThreeSmoothCombSortRecursive,  0,   array, 1024, 1.25,  false);
         RunExchangeSorts.this.runIndividualSort(ThreeSmoothCombSortParallel,   0,   array, 1024, 1.25,  false);
