@@ -59,35 +59,41 @@ final public class FlanSort extends Sort {
 	
 	private int medianOfThree(int[] array, int a, int m, int b) {
 		if(Reads.compareValues(array[m], array[a]) > 0) {
-			if(Reads.compareValues(array[m], array[b]) < 0) {
+			if(Reads.compareValues(array[m], array[b]) < 0)
 				return m;
-			}
-			if(Reads.compareValues(array[a], array[b]) > 0) {
+			
+			if(Reads.compareValues(array[a], array[b]) > 0)
 				return a;
-			}
-			else {
+			
+			else
 				return b;
-			}
 		}
 		else {
-			if(Reads.compareValues(array[m], array[b]) > 0) {
+			if(Reads.compareValues(array[m], array[b]) > 0)
 				return m;
-			}
-			if(Reads.compareValues(array[a], array[b]) < 0) {
+			
+			if(Reads.compareValues(array[a], array[b]) < 0)
 				return a;
-			}
-			else {
+			
+			else
 				return b;
-			}
 		}
 	}
-	
 	private int ninther(int[] array, int a, int b) {
-		int s = (b-a+5)/9;
+		int s = (b-a)/9;
 		
-		int a1 = this.medianOfThree(array,   a + s, a + 2*s, a + 3*s);
-		int m1 = this.medianOfThree(array, a + 4*s, a + 5*s, a + 6*s);
-		int b1 = this.medianOfThree(array, a + 7*s, a + 8*s, b-1);
+		int a1 = this.medianOfThree(array, a,       a +   s, a + 2*s);
+		int m1 = this.medianOfThree(array, a + 3*s, a + 4*s, a + 5*s);
+		int b1 = this.medianOfThree(array, a + 6*s, a + 7*s, a + 8*s);
+		
+		return this.medianOfThree(array, a1, m1, b1);
+	}
+	private int medianOfThreeNinthers(int[] array, int a, int b) {
+		int s = (b-a+2)/3;
+		
+		int a1 = this.ninther(array, a      , a +   s);
+		int m1 = this.ninther(array, a +   s, a + 2*s);
+		int b1 = this.ninther(array, a + 2*s, b);
 		
 		return this.medianOfThree(array, a1, m1, b1);
 	}
@@ -132,29 +138,17 @@ final public class FlanSort extends Sort {
 	}
 	
     private int rightBinSearch(int[] array, int a, int b, int val, boolean bw) {
-		if(bw) {
-			while(a < b) {
-				int m = a+(b-a)/2;
-				Highlights.markArray(3, m);
-				Delays.sleep(0.25);
-				
-				if(Reads.compareValues(val, array[m]) > 0) 
-					b = m;
-				else
-					a = m+1;
-			}
-		}
-		else {
-			while(a < b) {
-				int m = a+(b-a)/2;
-				Highlights.markArray(3, m);
-				Delays.sleep(0.25);
-				
-				if(Reads.compareValues(val, array[m]) < 0) 
-					b = m;
-				else
-					a = m+1;
-			}
+		int cmp = bw ? 1 : -1;
+		
+		while(a < b) {
+			int m = a+(b-a)/2;
+			Highlights.markArray(3, m);
+			Delays.sleep(0.125);
+			
+			if(Reads.compareValues(val, array[m]) == cmp) 
+				b = m;
+			else
+				a = m+1;
 		}
 		
 		Highlights.clearMark(3);
@@ -340,7 +334,7 @@ final public class FlanSort extends Sort {
 		int a = 0, b = length;
 		
 		while(b-a >= 32) {
-			int piv = array[this.ninther(array, a, b)];
+			int piv = array[this.medianOfThreeNinthers(array, a, b)];
 			
 			//partition -> [a][E > piv][i][E == piv][j][E < piv][b]
 			int i = a, j = b;
