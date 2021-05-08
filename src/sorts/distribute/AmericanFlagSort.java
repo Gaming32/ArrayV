@@ -81,8 +81,9 @@ final public class AmericanFlagSort extends Sort {
         
         private void sort(int[] array, int start, int length, int divisor) {
             // First pass - find counts
-            int[] count = Writes.createExternalArray(this.NUMBER_OF_BUCKETS);
-            int[] offset = Writes.createExternalArray(this.NUMBER_OF_BUCKETS);
+            int[] count = new int[this.NUMBER_OF_BUCKETS];
+            int[] offset = new int[this.NUMBER_OF_BUCKETS];
+            Writes.changeAllocAmount(2 * this.NUMBER_OF_BUCKETS);
             int digit = 0;
             
             for (int i = start; i < length; i++) {
@@ -136,8 +137,7 @@ final public class AmericanFlagSort extends Sort {
                 }
             }
 
-            Writes.deleteExternalArray(count);
-            Writes.deleteExternalArray(offset);
+            Writes.changeAllocAmount(-2 * this.NUMBER_OF_BUCKETS);
         }
 
         @Override

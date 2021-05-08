@@ -96,8 +96,9 @@ final public class StacklessAmericanFlagSort extends Sort {
 		int r = bucketCount, q = Reads.analyzeMaxLog(array, length, r, 0.5, true), m = 0,
 			i = 0, b = length;
 			
-		int[] cnts = Writes.createExternalArray(r),
-			  offs = Writes.createExternalArray(r);
+		int[] cnts = new int[r],
+			  offs = new int[r];
+		Writes.changeAllocAmount(2 * r);
 			  
 		for(int j = i; j < b; j++) {
 			Highlights.markArray(1, j);
@@ -136,7 +137,6 @@ final public class StacklessAmericanFlagSort extends Sort {
 				}
 			}
 		}
-		Writes.deleteExternalArray(cnts);
-		Writes.deleteExternalArray(offs);
+		Writes.changeAllocAmount(-2 * r);
     }
 }

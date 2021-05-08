@@ -51,7 +51,8 @@ final public class InPlaceLSDRadixSort extends Sort {
         this.setRunAllSortsName("In-Place LSD Radix Sort, Base " + bucketCount);
         
         int pos = 0;
-        int[] vregs = Writes.createExternalArray(bucketCount - 1);
+        int[] vregs = new int[bucketCount - 1];
+        Writes.changeAllocAmount(vregs.length);
         
         int maxpower = Reads.analyzeMaxLog(array, sortLength, bucketCount, 0.5, true);
         
@@ -82,6 +83,6 @@ final public class InPlaceLSDRadixSort extends Sort {
             }
         }
 
-        Writes.deleteExternalArray(vregs);
+        Writes.changeAllocAmount(-vregs.length);
     }
 }
