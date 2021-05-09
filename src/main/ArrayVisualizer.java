@@ -939,14 +939,20 @@ final public class ArrayVisualizer {
 
         int cmpVal = this.REVERSED ? -1 : 1;
         
-        boolean success = true;
+        boolean success = true, stable = true;
+		int idx = 0;
+		
         this.updateNow(10);
         for(int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
             if(i < this.sortLength) this.Highlights.markArray(1, i);
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
-                if(this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
+				if(stable && this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
+					stable = false;
+					idx = i;
+				}
+                if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     this.Highlights.clearMark(1);
                     
                     this.Sounds.toggleSound(false);
@@ -956,14 +962,8 @@ final public class ArrayVisualizer {
                         this.Highlights.markArray(j, j);
                         this.Delays.sleep(sleepRatio);
                     }
-                    
-                    if (this.STABILITY) {
-                        JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
-                    }
-
+					
+                    JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
                     success = false;
                     
                     this.Highlights.clearAllMarks();
@@ -983,6 +983,8 @@ final public class ArrayVisualizer {
 
         // if (tempStability && success)
         //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
+		if(this.STABILITY && success && !stable)
+			JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + idx + " and " + (idx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
 
         this.heading = temp;
         this.Reads.setComparisons(tempComps);
