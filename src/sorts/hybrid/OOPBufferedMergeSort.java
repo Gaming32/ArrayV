@@ -31,18 +31,18 @@ SOFTWARE.
  *
  */
 
-final public class StableBufferedMerge extends Sort {
+final public class OOPBufferedMergeSort extends Sort {
     private BinaryInsertionSort binaryInserter;
     private ReverseLazyStableSort finalMerger;
 
     private int[] buffer;
 
-    public StableBufferedMerge(ArrayVisualizer arrayVisualizer) {
+    public OOPBufferedMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Stable Buffered Merge");
-        this.setRunAllSortsName("Stable Buffered Merge Sort");
-        this.setRunSortName("Stable Buffered Mergesort");
+        this.setSortListName("Out-of-Place Buffered Merge");
+        this.setRunAllSortsName("Out-of-Place Buffered Merge Sort");
+        this.setRunSortName("Out-of-Place Buffered Mergesort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
@@ -156,7 +156,7 @@ final public class StableBufferedMerge extends Sort {
         binaryInserter = new BinaryInsertionSort(arrayVisualizer);
         finalMerger = new ReverseLazyStableSort(arrayVisualizer);
         
-        int bufferSize = StableBufferedMerge.getBufferSize(sortLength);
+        int bufferSize = OOPBufferedMergeSort.getBufferSize(sortLength);
         int length = sortLength - ((sortLength - bufferSize) % (bufferSize / 2));
         if (bufferSize * 2 >= length) {
             binaryInserter.customBinaryInsert(array, 0, sortLength, 0.333);

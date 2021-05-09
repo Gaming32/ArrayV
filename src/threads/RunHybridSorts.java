@@ -117,7 +117,7 @@ final public class RunHybridSorts extends MultipleSortThread {
         EctaSort                         = new                         EctaSort(this.arrayVisualizer);
         FlanSort                         = new                         FlanSort(this.arrayVisualizer);
         BufferedMergeSort                = new                BufferedMergeSort(this.arrayVisualizer);
-        OOPBufferedMergeSort             = new              StableBufferedMerge(this.arrayVisualizer);
+        OOPBufferedMergeSort             = new             OOPBufferedMergeSort(this.arrayVisualizer);
         BlockSelectionMergeSort          = new          BlockSelectionMergeSort(this.arrayVisualizer);
         ImprovedBlockSelectionSort       = new       ImprovedBlockSelectionSort(this.arrayVisualizer);
         MedianMergeSort                  = new                  MedianMergeSort(this.arrayVisualizer);
