@@ -955,6 +955,7 @@ final public class ArrayVisualizer {
                 if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     this.Highlights.clearMark(1);
                     
+					boolean tempSound = this.Sounds.isEnabled();
                     this.Sounds.toggleSound(false);
                     this.Highlights.toggleFancyFinish(false);
                     
@@ -970,7 +971,7 @@ final public class ArrayVisualizer {
                     
                     i = this.sortLength + this.getLogBaseTwoOfLength();
                     
-                    this.Sounds.toggleSound(true);
+                    this.Sounds.toggleSound(tempSound);
                 }
             }
             
@@ -983,8 +984,21 @@ final public class ArrayVisualizer {
 
         // if (tempStability && success)
         //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
-		if(this.STABILITY && success && !stable)
+		if(this.STABILITY && success && !stable) {
+			boolean tempSound = this.Sounds.isEnabled();
+			this.Sounds.toggleSound(false);
+			this.Highlights.toggleFancyFinish(false);
+			
+			for(int j = idx + 1; j < this.sortLength; j++) {
+				this.Highlights.markArray(j, j);
+				this.Delays.sleep(sleepRatio);
+			}
+			
 			JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + idx + " and " + (idx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+			
+			this.Highlights.clearAllMarks();
+            this.Sounds.toggleSound(tempSound);
+		}
 
         this.heading = temp;
         this.Reads.setComparisons(tempComps);
