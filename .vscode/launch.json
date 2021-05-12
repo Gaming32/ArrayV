@@ -5,10 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            // should match run.bat
             "type": "java",
-            "name": "Debug (Launch)",
+            "name": "Debug ArrayV",
             "request": "launch",
-            "mainClass": "main.ArrayVisualizer"
+            "mainClass": "main.ArrayVisualizer",
+            "vmArgs": ["-Dsun.java2d.d3d=false", "-cp", "bin;lib/classgraph-4.8.47.jar"]
+        },
+        {
+            // should match run.bat
+            "type": "java",
+            "name": "Debug ArrayV (custom max length)",
+            "request": "launch",
+            "mainClass": "main.ArrayVisualizer",
+            "args": ["${input:length}"],
+            "vmArgs": ["-Dsun.java2d.d3d=false", "-cp", "bin;lib/classgraph-4.8.47.jar"]
         },
         {
             "name": "Python: Current File",
@@ -17,6 +28,13 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args": ["stable_checker:inplace_sort"]
+        }
+    ],
+    "inputs": [
+        {
+            "id": "length",
+            "description": "Maximum length of array, as a base-2 power",
+            "type":"promptString"
         }
     ]
 }
