@@ -32,22 +32,25 @@ SOFTWARE.
 
 final public class Highlights {
     private volatile int[] Highlights;
+    private volatile byte[] markCounts;
     
-    private volatile int maxIndexMarked;    // The Highlights array is huge and slows down the visualizer if all its indices are read.
-                                            // In an attempt to speed up the containsPosition() method while also giving anyone room
-                                            // to use the full array, this variable keeps track of the farthest index an array position
-                                            // has been highlighted at. The containsPosition() method only scans the Highlights array
-                                            // up to index maxIndexMarked.
-    
-                                            // If an index is used in markArray() that is higher than maxPossibleMarked, the variable
-                                            // is updated. If the highest index used in Highlights is removed with clearMark(), the
-                                            // next biggest index (less than what was removed) is found and updates maxIndexMarked.
-                                            
-                                            // Trivially, clearAllMarks() resets maxIndexMarked to zero. This variable also serves
-                                            // as a subtle design hint for anyone who wants to add an algorithm to the app to highlight
-                                            // array positions at low indices which are close together.
-                                            
-                                            // This way, the program runs more efficiently, and looks pretty. :)
+    private volatile int maxHighlightMarked;    // IMPORTANT: This stores the index one past the farthest highlight used, so that a value
+                                                // of 0 means no highlights are in use, and iteration is more convenient.
+                                                
+                                                // The Highlights array is huge and slows down the visualizer if all its indices are read.
+                                                // In an attempt to speed up scanning through all highlights while also giving anyone room
+                                                // to use the full array, this variable keeps track of the farthest highlight in use. The
+                                                // Highlights array thus only needs to be scanned up to index maxHighightMarked.
+                                                
+                                                // If an highlight is used with markArray() that is higher than maxPossibleMarked, the
+                                                // variable is updated. If the farthest highlight is removed with clearMark(), the next
+                                                // farthest highlight is found and updates maxIndexMarked.
+                                                
+                                                // Trivially, clearAllMarks() resets maxIndexMarked to zero. This variable also serves
+                                                // as a subtle design hint for anyone who wants to add an algorithm to the app to highlight
+                                                // array positions at low indices which are close together.
+                                                
+                                                // This way, the program runs more efficiently, and looks pretty. :)
     
     private volatile int markCount;
     
@@ -61,11 +64,13 @@ final public class Highlights {
         this.ArrayVisualizer = ArrayVisualizer;
         
         this.Highlights = new int[maximumLength];
+        this.markCounts = new byte[maximumLength];
         this.FANCYFINISH = true;
-        this.maxIndexMarked = 0;
+        this.maxHighlightMarked = 0;
         this.markCount = 0;
         
         Arrays.fill(Highlights, -1);
+        Arrays.fill(markCounts, (byte)0);
     }
     
     public boolean fancyFinishEnabled() {
@@ -97,11 +102,31 @@ final public class Highlights {
         this.ArrayVisualizer.toggleAnalysis(Bool);
     }
     
-    public int getMaxIndex() {
-        return this.maxIndexMarked;
+    public int getMaxHighlight() {
+        return this.maxHighlightMarked;
     }
     public int getMarkCount() {
         return this.markCount;
+    }
+    
+    private void incrementIndexMarkCount(int i) {
+        if(markCounts[i] != (byte)-1) {
+            markCounts[i]++;
+        }
+    }
+    private void decrementIndexMarkCount(int i) {
+        if(markCounts[i] == (byte)-1) {
+            int count = 0;
+            for(int h = 0; h < this.maxHighlightMarked; h++) {
+                if(Highlights[h] == i) {
+                    count++;
+                    if(count > Byte.toUnsignedInt((byte)-1)) {
+                        return;
+                    }
+                }
+            }
+        }
+        markCounts[i]--;
     }
     
     //Consider revising highlightList().
@@ -109,16 +134,7 @@ final public class Highlights {
         return this.Highlights;
     }
     public boolean containsPosition(int arrayPosition) {
-        for(int i = 0; i <= this.maxIndexMarked; i++) {
-            if(Highlights[i] == -1) {
-                continue;
-            }
-            else if(Highlights[i] == arrayPosition) {
-                return true;
-            }
-        }
-
-        return false;
+        return this.markCounts[arrayPosition] != 0;
     }
     public void markArray(int marker, int markPosition) {
         try {
@@ -128,11 +144,20 @@ final public class Highlights {
                 else throw new Exception("Highlights.markArray(): Invalid position!");
             }
             else {
+                if(Highlights[marker] == markPosition) {
+                    return;
+                }
+                if(Highlights[marker] == -1) {
+                    this.markCount++;
+                }
+                else {
+                    decrementIndexMarkCount(Highlights[marker]);
+                }
                 Highlights[marker] = markPosition;
-                this.markCount++;
+                incrementIndexMarkCount(markPosition);
                 
-                if(marker > this.maxIndexMarked) {
-                    this.maxIndexMarked = marker;
+                if(marker >= this.maxHighlightMarked) {
+                    this.maxHighlightMarked = marker + 1;
                 }
             }
         } 
@@ -142,26 +167,29 @@ final public class Highlights {
         ArrayVisualizer.updateNow();
     }
     public void clearMark(int marker) {
-        Highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
+        if(Highlights[marker] == -1) {
+            return;
+        }
         this.markCount--;
+        decrementIndexMarkCount(Highlights[marker]);
+        Highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
         
-        if(marker == this.maxIndexMarked) {
-            this.maxIndexMarked = 0;
-            
-            for(int i = marker - 1; i >= 0; i--) {
-                if(Highlights[i] != -1) {
-                    this.maxIndexMarked = i;
-                    break;
-                }
+        if(marker == this.maxHighlightMarked) {
+            this.maxHighlightMarked = marker;
+            while(maxHighlightMarked > 0 && Highlights[maxHighlightMarked-1] == -1) {
+                maxHighlightMarked--;
             }
         }
-        synchronized (ArrayVisualizer) {
-            ArrayVisualizer.notify();;
-        }
+        ArrayVisualizer.updateNow();
     }
     public void clearAllMarks() {
-        Arrays.fill(this.Highlights, 0, this.maxIndexMarked + 1, -1);
-        this.maxIndexMarked = 0;
+        for(int i = 0; i < this.maxHighlightMarked; i++) {
+            if(Highlights[i] != -1) {
+                markCounts[Highlights[i]] = 0;
+            }
+        }
+        Arrays.fill(this.Highlights, 0, this.maxHighlightMarked, -1);
+        this.maxHighlightMarked = 0;
         this.markCount = 0;
         ArrayVisualizer.updateNow();
     }
