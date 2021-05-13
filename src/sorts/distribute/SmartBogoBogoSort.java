@@ -60,7 +60,7 @@ public final class SmartBogoBogoSort extends BogoSorting {
             return;
 
         smartBogoBogo(array, length-1);
-        while (array[length-2] > array[length-1]) {
+        while (Reads.compareIndices(array, length-2, length-1, this.delay, true) > 0) {
             this.bogoSwap(array, 0, length, false);
             smartBogoBogo(array, length-1);
         }
