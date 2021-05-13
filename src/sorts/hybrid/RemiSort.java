@@ -134,11 +134,11 @@ final public class RemiSort extends Sort {
 			Writes.write(array, a+i, array[b+i], 1, true, false);
 	}
 	
-	private boolean idxCmp(int[] array, int[] pa, int[] pb, int a, int b) {
-		return pa[a] < pb[a] && (pa[b] == pb[b] || Reads.compareValues(array[pa[a]], array[pa[b]]) <= 0);
+	private boolean idxCmp(int[] array, int[] pa, int a, int b, int a1, int b1, int rLen) {
+		return pa[a] < a1 + a*rLen && (pa[b] == Math.min(b1, a1 + b*rLen) || Reads.compareValues(array[pa[a]], array[pa[b]]) <= 0);
 	}
 	
-	private void kWayMerge(int[] array, int[] keys, int[] tree, int[] p, int[] pa, int[] pb, int[] bSize, int[] ta, int bLen) {
+	private void kWayMerge(int[] array, int[] keys, int[] tree, int a, int a1, int b, int[] p, int[] pa, int bLen, int rLen) {
 		int k = p.length;
 		if(k < 2) return;
 		
@@ -157,20 +157,17 @@ final public class RemiSort extends Sort {
 			if(i < j) Writes.write(tree, next, tree[m+i], 0, false, true);
 		}
 		
-		int a = p[0], tVal = bLen-1;
+		int tVal = bLen-1;
 		
 		do {
 			int c = 0;
-			while(bSize[c] < bLen) c++;
+			while(pa[c] - (a + p[c]*bLen) < bLen) c++;
 			
 			for(int n = 0; n < bLen; n++) {
 				int min = tree[0];
 				
-				Writes.write(array, p[c]++, array[pa[min]], 0, true, false);
-				Writes.write(bSize, c, bSize[c]-1, 0, false, true);
-				
-				Writes.write(pa, min, pa[min]+1, 0, false, true);
-				Writes.write(bSize, min, bSize[min]+1, 1, false, true);
+				Writes.write(array, a + p[c]*bLen + n, array[pa[min]], 0, true, false);
+				Writes.write(pa, min, pa[min]+1, 1, false, true);
 				
 				int m = pow, i = m+min, j = k;
 				
@@ -183,7 +180,7 @@ final public class RemiSort extends Sort {
 						
 						if(sib == m+j) Writes.write(tree, next, tree[i], 0, false, true);
 						else {
-							int t = this.idxCmp(array, pa, pb, tree[i], tree[sib]) ? tree[i] : tree[sib];
+							int t = this.idxCmp(array, pa, tree[i], tree[sib], a1, b, rLen) ? tree[i] : tree[sib];
 							Writes.write(tree, next, t, 0, false, true);
 						}
 					}
@@ -191,7 +188,7 @@ final public class RemiSort extends Sort {
 						int sib = i-1;
 						next = sib/2;
 						
-						int t = this.idxCmp(array, pa, pb, tree[sib], tree[i]) ? tree[sib] : tree[i];
+						int t = this.idxCmp(array, pa, tree[sib], tree[i], a1, b, rLen) ? tree[sib] : tree[i];
 						Writes.write(tree, next, t, 0, false, true);
 					}
 					i = next;
@@ -199,21 +196,20 @@ final public class RemiSort extends Sort {
 					m /= 2;
 				}
 			}
-			Writes.write(keys, tVal++, ta[c], 0, false, true);
-			Writes.write(ta, c, ta[c]+1, 1, true, true);
+			Writes.write(keys, tVal++, p[c]-1, 0, false, true);
+			Writes.write(p, c, p[c]+1, 1, true, true);
 		}
-		while(pa[tree[0]] < pb[tree[0]]);
+		while(pa[tree[0]] < Math.min(b, a1 + tree[0]*rLen));
 		
 		tVal = 0;
 		
 		for(int i = 0; i < k; i++) {
-			while(bSize[i] > 0) {
-				Writes.write(keys, tVal++, ta[i], 0, false, true);
-				Writes.write(ta, i, ta[i]+1, 1, true, true);
-				bSize[i] -= bLen;
+			while(a + p[i]*bLen < pa[i]) {
+				Writes.write(keys, tVal++, p[i]-1, 0, false, true);
+				Writes.write(p, i, p[i]+1, 1, true, true);
 			}
 		}
-		this.multiWrite(array, pb[k-1]-bLen, a, bLen);
+		this.multiWrite(array, b-bLen, a, bLen);
 	}
 	
 	private void blockCycle(int[] array, int[] keys, int a, int bLen, int bCnt) {
@@ -257,11 +253,8 @@ final public class RemiSort extends Sort {
 		int[] tree  = new int[this.ceilPow2(rCnt)+rCnt-1];
 		int[] p     = new int[rCnt];
 		int[] pa    = new int[rCnt];
-		int[] pb    = new int[rCnt];
-		int[] bSize = new int[rCnt];
-		int[] ta    = new int[rCnt];
 		
-		int alloc = tree.length + 5*rCnt;
+		int alloc = tree.length + 2*rCnt;
 		Writes.changeAllocAmount(alloc);
 		
 		for(int i = 0; i < keys.length; i++)
@@ -276,20 +269,13 @@ final public class RemiSort extends Sort {
 			this.tableSort(array, keys, i, e);
 			
 			Writes.write(pa, j, i, 0, false, true);
-			Writes.write(pb, j, e, 0, false, true);
 		}
 		
 		if(rCnt > 0) {
-			Writes.write(p, 0, a, 0, false, true);
-			Writes.write(bSize, 0, rLen, 0, false, true);
-			Writes.write(ta, 0, -1, 0, false, true);
+			for(int j = 1; j < rCnt; j++)
+				Writes.write(p, j, (j+1)*bLen, 0, false, true);
 			
-			for(int j = 1; j < rCnt; j++) {
-				Writes.write(p, j, pa[j], 0, false, true);
-				Writes.write(ta, j, (j+1)*bLen-1, 0, false, true);
-			}
-			
-			this.kWayMerge(array, keys, tree, p, pa, pb, bSize, ta, bLen);
+			this.kWayMerge(array, keys, tree, a, a+2*rLen, b, p, pa, bLen, rLen);
 			if(rCnt > 1) this.blockCycle(array, keys, a, bLen, bCnt);
 			
 			i = 0;

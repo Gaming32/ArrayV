@@ -168,7 +168,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         // the scary ones
         RunImpracticalSorts.this.runIndividualSort(BozoSort,                  0, array,  7,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(DeterministicBogoSort,     0, array,  7,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(SmartBogoBogoSort,         0, array,  7,  1e-9,   true);
+        RunImpracticalSorts.this.runIndividualSort(SmartBogoBogoSort,         0, array,  6,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(SliceBogoSort,             0, array,  6,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(BogoSort,                  0, array,  6,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(OptimizedGuessSort,        0, array,  5,  1e-9,   true);
