@@ -136,7 +136,7 @@ final public class Highlights {
     public boolean containsPosition(int arrayPosition) {
         return this.markCounts[arrayPosition] != 0;
     }
-    public void markArray(int marker, int markPosition) {
+    public synchronized void markArray(int marker, int markPosition) {
         try {
             if(markPosition < 0) {
                 if(markPosition == -1) throw new Exception("Highlights.markArray(): Invalid position! -1 is reserved for the clearMark method.");
@@ -166,7 +166,7 @@ final public class Highlights {
         }
         ArrayVisualizer.updateNow();
     }
-    public void clearMark(int marker) {
+    public synchronized void clearMark(int marker) {
         if(Highlights[marker] == -1) {
             return;
         }
