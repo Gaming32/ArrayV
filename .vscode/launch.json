@@ -20,14 +20,6 @@
             "mainClass": "main.ArrayVisualizer",
             "args": ["${input:length}"],
             "vmArgs": ["-Dsun.java2d.d3d=false", "-cp", "bin;lib/classgraph-4.8.47.jar"]
-        },
-        {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "args": ["stable_checker:inplace_sort"]
         }
     ],
     "inputs": [
