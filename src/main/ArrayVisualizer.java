@@ -1149,7 +1149,7 @@ final public class ArrayVisualizer {
         
         this.window.setLocation(0, 0);
         this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorts, 13 Visual Styles, and " + (Distributions.values().length * Shuffles.values().length) + " Inputs to Sort");
+        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorts, 15 Visual Styles, and " + (Distributions.values().length * Shuffles.values().length) + " Inputs to Sort");
         this.window.setBackground(Color.BLACK);
         this.window.setIgnoreRepaint(true);
         
@@ -1181,11 +1181,10 @@ final public class ArrayVisualizer {
         }
         if(this.sortSuggestions != null) {
             String output = parseStringArray(this.sortSuggestions);
-            JOptionPane.showMessageDialog(this.window, "Here's a list of suggestions based on your custom sorts:\n" + output, "Info", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this.window, "Here's a list of suggestions based on your sorts:\n" + output, "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
-    @SuppressWarnings("unused")
+
     public static void main(String[] args) {
         System.setProperty("sun.java2d.d3d", "false");
         if (args.length > 0) {
