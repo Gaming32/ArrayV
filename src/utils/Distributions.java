@@ -472,6 +472,17 @@ public enum Distributions {
             }
         }
 	},
+	MODULO {
+        public String getName() {
+            return "Modulo Function";
+        }
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+            int n = ArrayVisualizer.getCurrentLength();
+			
+            for(int i = 0; i < n; i++) array[i] = 2*(n%(i+1));
+        }
+	},
 	CUSTOM {
 		private int[] refarray;
 		private int length;
