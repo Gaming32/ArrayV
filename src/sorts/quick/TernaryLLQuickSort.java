@@ -5,7 +5,7 @@ import sorts.templates.Sort;
 
 /**
  * @author Timo Bingmann
- * Implemented by Gaming32
+ * Implemented in ArrayV by Gaming32
  * https://github.com/bingmann/sound-of-sorting/blob/master/src/SortAlgo.cpp#L536-L595
  */
 final public class TernaryLLQuickSort extends Sort {
