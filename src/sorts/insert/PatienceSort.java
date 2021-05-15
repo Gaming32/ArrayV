@@ -50,20 +50,23 @@ final public class PatienceSort extends Sort {
     }
     
     private void binarySearch(ArrayList<Pile> list, Pile find) {
-		int at = list.size() / 2;
+        int at = list.size() / 2;
 		int change = list.size() / 4;
 		
+        long compsBefore = Reads.getComparisons();
 		while(list.get(at).compare(find) != 0 && change > 0){
-			Highlights.markArray(1, at);
+            Reads.setComparisons(compsBefore);
+            Highlights.markArray(1, at);
 			Delays.sleep(0.5);
 			
 			if(list.get(at).compare(find) < 0)
-				at += change;
+                at += change;
 			else
-				at -= change;
+                at -= change;
 			
 			change /= 2;
 		}
+        Reads.setComparisons(compsBefore);
 		
 		Highlights.markArray(1, at);
 		Delays.sleep(0.5);
