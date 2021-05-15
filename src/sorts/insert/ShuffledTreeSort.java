@@ -55,7 +55,7 @@ final public class ShuffledTreeSort extends Sort {
 	}
 	
 	private void traverse(int[] array, int[] keys, int[] lower, int[] upper, int r) {
-		Highlights.markArray(1, r);
+		Highlights.markArray(2, r);
 		Delays.sleep(1);
 		
 		if(lower[r] != 0) this.traverse(array, keys, lower, upper, lower[r]);
