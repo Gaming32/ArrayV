@@ -45,6 +45,10 @@ final public class RotateMSDRadixSort extends Sort {
         this.setBogoSort(false);
     }
 	
+	private int stabVal(int idx) {
+		return arrayVisualizer.getStabilityValue(idx);
+	}
+	
 	private int base;
 	
 	private int shift(int n, int q) {
@@ -142,7 +146,7 @@ final public class RotateMSDRadixSort extends Sort {
 				i = b;
 				Highlights.clearMark(2);
 				arrayVisualizer.toggleAnalysis(true);
-				while(b < length && this.shift(array[b], q+1) == this.shift(m, q+1)) {
+				while(b < length && this.shift(this.stabVal(array[b]), q+1) == this.shift(m, q+1)) {
 					Highlights.markArray(1, b);
 					Delays.sleep(0.5);
 					b++;
