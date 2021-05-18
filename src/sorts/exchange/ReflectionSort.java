@@ -48,7 +48,7 @@ final public class ReflectionSort extends Sort {
 					i = (currentLength - 1) - i;
 					anyswap = true;
 				} else {
-					i = i + 1;
+					i++;
 				}
 			}
 			i = currentLength;
@@ -62,7 +62,7 @@ final public class ReflectionSort extends Sort {
 					i = (currentLength - 1) - i;
 					anyswap = true;
 				} else {
-					i = i - 1;
+					i--;
 				}
 			}
 		}
