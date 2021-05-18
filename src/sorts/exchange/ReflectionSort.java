@@ -13,7 +13,7 @@ Reflection Sort is an algorithm developed with unwritten impracticalities.
 
 Reflection Sort starts running a Cocktail Shaker. When a swap is found, the
 target position is then set to a reflection across the length of the list.
-Upon reaching either bound of the lise, exactly like Cocktail Shaker Sort,
+Upon reaching either bound of the list, exactly like Cocktail Shaker Sort,
 the search direction is turned opposite, and the swap hunt restarts. This
 continues until a sweep in descending order can be made without any swaps.
 

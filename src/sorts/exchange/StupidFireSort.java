@@ -55,8 +55,8 @@ final public class StupidFireSort extends Sort {
 			}
 			anyswaps = false;
 			while (i + 1 <= currentLength && i >= 1 && !anyswaps) {
-				if (Reads.compareValues(array[i - 1], array[i]) == twist) {
-					Writes.swap(array, i - 1, i, 0, true, false);
+				if (Reads.compareValues(array[i - 1], array[i]) * twist > 0) {
+					Writes.swap(array, i - 1, i, 0.001, true, false);
 					i -= twist;
 					anyswaps = true;
 				} else {
@@ -84,6 +84,7 @@ final public class StupidFireSort extends Sort {
 					}
 				}
 				if (testreverse) {
+					i = 1;
 					twistwait = 0;
 				}
 			}
@@ -108,6 +109,7 @@ final public class StupidFireSort extends Sort {
 					}
 				}
 				if (testreverse) {
+					i = currentLength - 1;
 					twistwait = 0;
 				}
 			}
