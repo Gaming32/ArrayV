@@ -50,15 +50,22 @@ final public class SwaplessBubbleSort extends Sort {
         int last;
         for (int i = length; i > 0; i = last) {
             last = 0;
+            int pos = 0;
             int comp = array[0];
             for (int j = 1; j < i; j++) {
-                if(Reads.compareValues(comp, array[j]) == 1) {
-                    Writes.write(array, j - 1, array[j], 0.075, true, false);
+                if (Reads.compareValues(comp, array[j]) == 1) {
+                    Writes.write(array, j - 1, array[j], 0.075, false, false);
                     last = j;
                 } else {
-                    Writes.write(array, j - 1, comp, 0.075, true, false);
+                    // This code will also handle incrementing pos so this optimization works next time
+                    if (pos + 1 < j)
+                        Writes.write(array, j - 1, comp, 0.075, false, false);
+                    pos = j;
                     comp = array[j];
                 }
+
+                Highlights.markArray(1, j - 1);
+                Delays.sleep(0.025);
             }
             Writes.write(array, i - 1, comp, 0.075, true, false);
         }
