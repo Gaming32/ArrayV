@@ -55,10 +55,11 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     private Sort PairwiseMergeSortIterative;
     private Sort PairwiseMergeSortRecursive;
     private Sort WeaveSortParallel;
+    private Sort ApollyonSort;
     
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 23;
+        this.sortCount = 24;
         this.categoryCount = this.sortCount;
         
         FoldSort                   = new                   FoldSort(this.arrayVisualizer);
@@ -84,6 +85,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         PairwiseMergeSortIterative = new PairwiseMergeSortIterative(this.arrayVisualizer);
         PairwiseMergeSortRecursive = new PairwiseMergeSortRecursive(this.arrayVisualizer);
         WeaveSortParallel          = new          WeaveSortParallel(this.arrayVisualizer);
+        ApollyonSort               = new               ApollyonSort(this.arrayVisualizer);
     }
 
     @Override
@@ -91,6 +93,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         // Other
         RunConcurrentSorts.this.runIndividualSort(FoldSort,                   0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(CreaseSort,                 0, array, 1024, 1,     false);
+        RunConcurrentSorts.this.runIndividualSort(ApollyonSort,               0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(MatrixSort,                 0, array, 256,  0.667, false);
         RunConcurrentSorts.this.runIndividualSort(OptimizedOddEvenMergeSort,  0, array, 1024, 1,     false);
 

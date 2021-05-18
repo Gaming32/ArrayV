@@ -68,12 +68,12 @@ final public class RunQuickSorts extends MultipleSortThread {
                     
                     arrayManager.toggleMutableLength(false);
 
-                    arrayVisualizer.setCategory("Exchange Sorts");
+                    arrayVisualizer.setCategory("Quick Sorts");
 
                     RunQuickSorts.this.executeSortList(array);
                     
                     if(!runAllActive) {
-                        arrayVisualizer.setCategory("Run Exchange Sorts");
+                        arrayVisualizer.setCategory("Run Quick Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
                     

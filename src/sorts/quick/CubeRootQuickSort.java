@@ -26,7 +26,8 @@ public class CubeRootQuickSort extends Sort {
             int root = (int) cbrt(len);
             int newStart = start + root;
             this.sort(arr, start, newStart);
-            int[] pivots = Writes.createExternalArray(root);
+            int[] pivots = new int[root];
+            Writes.changeAllocAmount(pivots.length);
             for (int i = 0; i < root; i++)
                 Writes.write(pivots, i, i + start, 0, false, true);
             for (int i = newStart; i < stop; i++) {
@@ -49,7 +50,7 @@ public class CubeRootQuickSort extends Sort {
             for (int i = 1; i < root; i++)
                 this.sort(arr, pivots[i - 1] + 1, pivots[i]);
             this.sort(arr, pivots[root - 1] + 1, stop);
-            Writes.deleteExternalArray(pivots);
+            Writes.changeAllocAmount(-pivots.length);
         }
     }
 

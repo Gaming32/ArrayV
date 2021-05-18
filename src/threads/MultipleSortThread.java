@@ -2,6 +2,7 @@ package threads;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
+import panes.JErrorPane;
 import frames.ArrayFrame;
 import sorts.templates.Sort;
 import utils.Delays;
@@ -88,6 +89,9 @@ public abstract class MultipleSortThread {
             sort.runSort(array, arrayVisualizer.getCurrentLength(), bucketCount);
         }
         catch (StopSort e) { }
+        catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e);
+        }
         // arrayVisualizer.toggleVisualUpdates(false);
         
         arrayVisualizer.endSort();

@@ -10,6 +10,10 @@ import java.awt.Image;
 import java.awt.KeyEventDispatcher;
 import java.awt.Stroke;
 import java.awt.Toolkit;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DnDConstants;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -27,6 +31,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -178,6 +183,49 @@ final public class ArrayVisualizer {
 
     public ArrayVisualizer() {
         this.window = new JFrame();
+        this.window.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_K || e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    ArrayVisualizer.this.getDelays().togglePaused();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
+        this.window.setDropTarget(new DropTarget() {
+            @SuppressWarnings("unchecked")
+            public synchronized void drop(DropTargetDropEvent e) {
+                try {
+                    e.acceptDrop(DnDConstants.ACTION_COPY);
+                    List<File> droppedFiles = (List<File>)e.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+                    int success = 0;
+                    for (File file : droppedFiles) {
+                        if (ArrayVisualizer.this.SortAnalyzer.importSort(file, false)) {
+                            success++;
+                        }
+                    }
+                    ArrayVisualizer.this.SortAnalyzer.sortSorts();
+                    ArrayVisualizer.this.refreshSorts();
+                    if (success == 0) {
+                        JErrorPane.invokeCustomErrorMessage("Failed to import all " + droppedFiles.size() + " sorts");
+                    } else {
+                        String message = "Successfully imported " + success + " sorts";
+                        if (success < droppedFiles.size()) {
+                            message += " and failed to import " + (droppedFiles.size() - success);
+                        }
+                        JOptionPane.showMessageDialog(null, message, "Import Sorts", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
@@ -209,10 +257,6 @@ final public class ArrayVisualizer {
                 }
                 else if (e.getKeyCode() == KeyEvent.VK_F5) {
                     ArrayVisualizer.this.updateNow();
-                    return true;
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_K || e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    ArrayVisualizer.this.getDelays().togglePaused();
                     return true;
                 }
                 return false;
@@ -895,16 +939,23 @@ final public class ArrayVisualizer {
 
         int cmpVal = this.REVERSED ? -1 : 1;
         
-        boolean success = true;
+        boolean success = true, stable = true;
+		int idx = 0;
+		
         this.updateNow(10);
         for(int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
             if(i < this.sortLength) this.Highlights.markArray(1, i);
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
-                if(this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
+				if(stable && this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
+					stable = false;
+					idx = i;
+				}
+                if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     this.Highlights.clearMark(1);
                     
+					boolean tempSound = this.Sounds.isEnabled();
                     this.Sounds.toggleSound(false);
                     this.Highlights.toggleFancyFinish(false);
                     
@@ -912,21 +963,15 @@ final public class ArrayVisualizer {
                         this.Highlights.markArray(j, j);
                         this.Delays.sleep(sleepRatio);
                     }
-                    
-                    if (this.STABILITY) {
-                        JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
-                    }
-
+					
+                    JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
                     success = false;
                     
                     this.Highlights.clearAllMarks();
                     
                     i = this.sortLength + this.getLogBaseTwoOfLength();
                     
-                    this.Sounds.toggleSound(true);
+                    this.Sounds.toggleSound(tempSound);
                 }
             }
             
@@ -939,6 +984,21 @@ final public class ArrayVisualizer {
 
         // if (tempStability && success)
         //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
+		if(this.STABILITY && success && !stable) {
+			boolean tempSound = this.Sounds.isEnabled();
+			this.Sounds.toggleSound(false);
+			this.Highlights.toggleFancyFinish(false);
+			
+			for(int j = idx + 1; j < this.sortLength; j++) {
+				this.Highlights.markArray(j, j);
+				this.Delays.sleep(sleepRatio);
+			}
+			
+			JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + idx + " and " + (idx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+			
+			this.Highlights.clearAllMarks();
+            this.Sounds.toggleSound(tempSound);
+		}
 
         this.heading = temp;
         this.Reads.setComparisons(tempComps);
@@ -1089,7 +1149,7 @@ final public class ArrayVisualizer {
         
         this.window.setLocation(0, 0);
         this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorts, 13 Visual Styles, and " + (Distributions.values().length * Shuffles.values().length) + " Inputs to Sort");
+        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorts, 15 Visual Styles, and " + (Distributions.values().length * Shuffles.values().length) + " Inputs to Sort");
         this.window.setBackground(Color.BLACK);
         this.window.setIgnoreRepaint(true);
         
@@ -1121,11 +1181,10 @@ final public class ArrayVisualizer {
         }
         if(this.sortSuggestions != null) {
             String output = parseStringArray(this.sortSuggestions);
-            JOptionPane.showMessageDialog(this.window, "Here's a list of suggestions based on your custom sorts:\n" + output, "Info", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this.window, "Here's a list of suggestions based on your sorts:\n" + output, "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-    
-    @SuppressWarnings("unused")
+
     public static void main(String[] args) {
         System.setProperty("sun.java2d.d3d", "false");
         if (args.length > 0) {

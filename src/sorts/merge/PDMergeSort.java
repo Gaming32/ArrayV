@@ -29,9 +29,9 @@ SOFTWARE.
  *
  */
 
-final public class PDMergeSort extends Sort {
-    int[] copied;
-    int runCount;
+public class PDMergeSort extends Sort {
+    protected int[] copied;
+    protected int runCount;
 
     public PDMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -48,7 +48,7 @@ final public class PDMergeSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private void mergeUp(int[] array, int start, int mid, int end) {
+    protected void mergeUp(int[] array, int start, int mid, int end) {
         for (int i = 0; i < mid - start; i++) {
             Highlights.markArray(1, i + start);
             Writes.write(copied, i, array[i + start], 1, false, true);
@@ -72,7 +72,7 @@ final public class PDMergeSort extends Sort {
         Highlights.clearAllMarks();
     }
 
-    private void mergeDown(int[] array, int start, int mid, int end) {
+    protected void mergeDown(int[] array, int start, int mid, int end) {
         for (int i = 0; i < end - mid; i++) {
             Highlights.markArray(1, i + mid);
             Writes.write(copied, i, array[i + mid], 1, false, true);
@@ -91,12 +91,12 @@ final public class PDMergeSort extends Sort {
         }
         Highlights.clearMark(2);
 
-        while (left < right)
+        while (right > left)
             Writes.write(array, right--, copied[bufferPointer--], 0.5, true, false);
         Highlights.clearAllMarks();
     }
 
-    private void merge(int[] array, int leftStart, int rightStart, int end) {
+    protected void merge(int[] array, int leftStart, int rightStart, int end) {
         if (end - rightStart < rightStart - leftStart) {
             // arrayVisualizer.setHeading("PDMerge -- Merging Down");
             mergeDown(array, leftStart, rightStart, end);
@@ -106,11 +106,11 @@ final public class PDMergeSort extends Sort {
         }
     }
 
-    private boolean compare(int a, int b) {
+    protected boolean compare(int a, int b) {
         return Reads.compareValues(a, b) <= 0;
     }
 
-    private int identifyRun(int[] array, int index, int maxIndex) {
+    protected int identifyRun(int[] array, int index, int maxIndex) {
         int startIndex = index;
 
         Highlights.markArray(1, index);
@@ -145,7 +145,7 @@ final public class PDMergeSort extends Sort {
         return index + 1;
     }
 
-    private int[] findRuns(int[] array, int maxIndex) {
+    protected int[] findRuns(int[] array, int maxIndex) {
         int[] runs = Writes.createExternalArray(maxIndex / 2 + 2);
         runCount = 0;
 
@@ -158,7 +158,7 @@ final public class PDMergeSort extends Sort {
 
         return runs;
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         // arrayVisualizer.setHeading("PDMerge -- Finding Runs");

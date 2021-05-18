@@ -55,12 +55,12 @@ final public class ShuffledTreeSort extends Sort {
 	}
 	
 	private void traverse(int[] array, int[] keys, int[] lower, int[] upper, int r) {
-		Highlights.markArray(1, r);
+		Highlights.markArray(2, r);
 		Delays.sleep(1);
 		
 		if(lower[r] != 0) this.traverse(array, keys, lower, upper, lower[r]);
 		
-		Writes.write(keys, r, this.idx++, 1, true, true);
+		Writes.write(keys, this.idx++, r, 1, true, true);
 		
 		if(upper[r] != 0) this.traverse(array, keys, lower, upper, upper[r]);
 	}
@@ -104,9 +104,26 @@ final public class ShuffledTreeSort extends Sort {
 		this.idx = 0;
 		this.traverse(array, keys, lower, upper, 0);
 		
-		for(int i = 0; i < currentLength-1; i++)
-			while(Reads.compareOriginalValues(i, keys[i]) != 0)
-				this.stableSwap(array, keys, i, keys[i]);
+		for(int i = 0; i < currentLength-1; i++) {
+			Highlights.markArray(2, i);
+			
+			if(Reads.compareOriginalValues(i, keys[i]) != 0) {
+				int t = array[i];
+				int j = i, k = keys[i];
+				
+				do {
+					Writes.write(array, j, array[k], 1, true, false);
+					Writes.write(keys, j, j, 1, true, true);
+					
+					j = k;
+					k = keys[k];
+				}
+				while(Reads.compareOriginalValues(k, i) != 0);
+				
+				Writes.write(array, j, t, 1, true, false);
+				Writes.write(keys, j, j, 1, true, true);
+			}
+		}
 		
 		Writes.deleteExternalArray(lower);
 		Writes.deleteExternalArray(upper);

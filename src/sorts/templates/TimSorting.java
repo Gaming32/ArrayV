@@ -146,7 +146,7 @@ final public class TimSorting {
     public TimSorting(int[] a, int currentLen, ArrayVisualizer arrayVisualizer) {
         this.a = a;
         this.len = currentLen;
-                
+        
         this.Delays = arrayVisualizer.getDelays();
         this.Highlights = arrayVisualizer.getHighlights();
         this.Reads = arrayVisualizer.getReads();

@@ -58,7 +58,9 @@ final public class Spiral extends Visual {
 		int[] x =  {width/2, 0, 0};
 		int[] y = {height/2, 0, 0};
 		
-		double mult = (double) array[n-1] / ArrayVisualizer.getCurrentLength();
+		double mult = (double) array[n-1] / ArrayVisualizer.getCurrentLength() - 1;
+		mult = 1 - mult*mult;
+		
 		x[2] =  width/2 + (int)(mult * r * Math.cos(Math.PI * (2d*(n-1) / n - 0.5)));
 		y[2] = height/2 + (int)(mult * r * Math.sin(Math.PI * (2d*(n-1) / n - 0.5)));
 		
@@ -66,7 +68,9 @@ final public class Spiral extends Visual {
 			x[1] = x[2];
 			y[1] = y[2];
 			
-			mult = (double) array[i] / ArrayVisualizer.getCurrentLength();
+			mult = (double) array[i] / ArrayVisualizer.getCurrentLength() - 1;
+			mult = 1 - mult*mult;
+		
 			x[2] =  width/2 + (int)(mult * r * Math.cos(Math.PI * (2d*i / n - 0.5)));
 			y[2] = height/2 + (int)(mult * r * Math.sin(Math.PI * (2d*i / n - 0.5)));
 			

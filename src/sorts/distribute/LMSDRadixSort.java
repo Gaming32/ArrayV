@@ -41,6 +41,7 @@ final public class LMSDRadixSort extends Sort {
     int base;
 
     public ArrayList<Integer>[] radixSort(int[] array, int start, int end, int place) {
+        @SuppressWarnings("unchecked")
         ArrayList<Integer>[] registers = new ArrayList[this.base];
 
         for(int i = 0; i < this.base; i++) registers[i] = new ArrayList<>();

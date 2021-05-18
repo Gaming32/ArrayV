@@ -49,7 +49,8 @@ final public class BaseNMergeSort extends Sort {
     }
 
     private int[] copyStarts(int[] starts, int baseCount) {
-        int[] copy = Writes.createExternalArray(baseCount);
+        int[] copy = new int[baseCount];
+        Writes.changeAllocAmount(copy.length);
         for (int i = 0; i < baseCount; i++) {
             copy[i] = starts[i];
             Writes.write(copy, i, starts[i], 0, false, true);
@@ -98,7 +99,7 @@ final public class BaseNMergeSort extends Sort {
             Writes.write(array, starts[0] + i, result[i], 1, true, false);
         }
         
-        Writes.deleteExternalArray(copiedStarts);
+        Writes.changeAllocAmount(-copiedStarts.length);
         Writes.deleteExternalArray(result);
     }
 
@@ -117,11 +118,12 @@ final public class BaseNMergeSort extends Sort {
 
         merge(array, starts, end, baseCount);
 
-        Writes.deleteExternalArray(starts);
+        Writes.changeAllocAmount(-starts.length);
     }
 
     private int[] calculateStarts(int start, int length, int baseCount) {
-        int[] starts = Writes.createExternalArray(baseCount);
+        int[] starts = new int[baseCount];
+        Writes.changeAllocAmount(starts.length);
         int size = length / baseCount;
         int current = start;
 

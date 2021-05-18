@@ -39,7 +39,7 @@ final public class StableThirdMergeSort extends Sort {
     public StableThirdMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Stable 3rd Merge");
+        this.setSortListName("Stable Third Merge");
         this.setRunAllSortsName("Stable Third Merge Sort");
         this.setRunSortName("Stable Third Mergesort");
         this.setCategory("Hybrid Sorts");

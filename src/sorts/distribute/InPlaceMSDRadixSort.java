@@ -52,7 +52,8 @@ final public class InPlaceMSDRadixSort extends Sort {
         Highlights.markArray(3, max - 1);
         Highlights.markArray(4, min);
         
-        int[] indices = Writes.createExternalArray(radix);
+        int[] indices = new int[radix];
+        Writes.changeAllocAmount(indices.length);
         for (int i = 0; i < radix; i++) {
             indices[i] = min;
         }
@@ -75,7 +76,7 @@ final public class InPlaceMSDRadixSort extends Sort {
             this.radixMSD(array, length, subMin, indices[i], radix, pow - 1, sleep);
         }
 
-        Writes.deleteExternalArray(indices);
+        Writes.changeAllocAmount(-indices.length);
     }
     
     @Override
