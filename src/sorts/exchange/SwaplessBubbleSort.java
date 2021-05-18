@@ -59,9 +59,6 @@ final public class SwaplessBubbleSort extends Sort {
                     Writes.write(array, j - 1, comp, 0.075, true, false);
                     comp = array[j];
                 }
-                
-                Highlights.markArray(1, j);
-                Delays.sleep(0.025);
             }
             Writes.write(array, i - 1, comp, 0.075, true, false);
         }
