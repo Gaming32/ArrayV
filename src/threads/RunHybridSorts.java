@@ -51,7 +51,6 @@ final public class RunHybridSorts extends MultipleSortThread {
     private Sort LaziestSort;
     private Sort WikiSort;
     private Sort GrailSort;
-    private Sort HolyGrailSort;
     private Sort UnstableGrailSort;
     private Sort SqrtSort;
     private Sort KotaSort;
@@ -110,7 +109,6 @@ final public class RunHybridSorts extends MultipleSortThread {
         LaziestSort                      = new                      LaziestSort(this.arrayVisualizer);
         WikiSort                         = new                         WikiSort(this.arrayVisualizer);
         GrailSort                        = new                        GrailSort(this.arrayVisualizer);
-        HolyGrailSort                    = new                    HolyGrailSort(this.arrayVisualizer);
         UnstableGrailSort                = new                UnstableGrailSort(this.arrayVisualizer);
         SqrtSort                         = new                         SqrtSort(this.arrayVisualizer);
         KotaSort                         = new                         KotaSort(this.arrayVisualizer);
