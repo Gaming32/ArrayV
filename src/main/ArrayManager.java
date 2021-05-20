@@ -12,7 +12,7 @@ import utils.Statistics;
 import utils.Writes;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -41,43 +41,28 @@ SOFTWARE.
 final public class ArrayManager {
     private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
-	private utils.Distributions[] distributionTypes;
-    private String[] shuffleIDs/* = { 
-			"Randomly", "Backwards", "Slight Shuffle", "No Shuffle", "Sorted", "Reverse Sorted", 
-            "Scrambled Tail", "Scrambled Head", "Noisy", "Scrambled Odds",
-			"Final Merge Pass", "Sawtooth", "Reversed Final Merge", "Reversed Sawtooth", "Pipe Organ", "Final Bitonic Pass",
-			"Interlaced", "Double Layered", "Final Radix", "Recursive Final Radix", 
-            "Half Rotation", "Half Reversed", "BST Traversal", "Logarithmic Slopes",
-            "Heapified", "Reversed Poplarified", "First Circle Pass", "Final Pairwise Pass",
-			"Recursive Reversal", "Gray Code Fractal", "Sierpinski Triangle",
-            "Triangular"
-			}*/;
-    private String[] distributionIDs/* = {
-			"Linear", "Few Unique", "Random", 
-			"Quadratic", "Square Root", "Centered Cubic", "Centered Quintic",
-			"Perlin Noise", "Perlin Noise Curve", "Bell Curve", 
-			"Ruler", "Blancmange Curve", "Cantor Function", 
-			"Sum of Divisors", "Fly Straight, Damnit!", "Decreasing Random"
-			}*/;
-	
+    private utils.Distributions[] distributionTypes;
+    private String[] shuffleIDs;
+    private String[] distributionIDs;
+
     private volatile boolean MUTABLE;
 
     private ArrayVisualizer ArrayVisualizer;
     private Delays Delays;
     private Highlights Highlights;
     private Shuffles Shuffles;
-	private Distributions Distributions;
+    private Distributions Distributions;
     private Writes Writes;
-    
+
     public ArrayManager(ArrayVisualizer arrayVisualizer) {
         this.ArrayVisualizer = arrayVisualizer;
         this.presortedArray = new int[ArrayVisualizer.getMaximumLength()];
-        
+
         this.Shuffles = utils.Shuffles.RANDOM;
-		this.Distributions = utils.Distributions.LINEAR;
+        this.Distributions = utils.Distributions.LINEAR;
         this.shuffleTypes = utils.Shuffles.values();
-		this.distributionTypes = utils.Distributions.values();
-        
+        this.distributionTypes = utils.Distributions.values();
+
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
         this.Writes = ArrayVisualizer.getWrites();
@@ -89,10 +74,10 @@ final public class ArrayManager {
         this.distributionIDs = new String[this.distributionTypes.length];
         for (int i = 0; i < this.distributionTypes.length; i++)
             this.distributionIDs[i] = this.distributionTypes[i].getName();
-        
+
         this.MUTABLE = true;
     }
-    
+
     public boolean isLengthMutable() {
         return this.MUTABLE;
     }
@@ -102,33 +87,34 @@ final public class ArrayManager {
 
     //TODO: Fix minimum to zero
     public void initializeArray(int[] array) {
-		if(ArrayVisualizer.doingStabilityCheck()) {
-			ArrayVisualizer.resetStabilityTable();
-			ArrayVisualizer.resetIndexTable();
-		}
-			
+        if(ArrayVisualizer.doingStabilityCheck()) {
+            ArrayVisualizer.resetStabilityTable();
+            ArrayVisualizer.resetIndexTable();
+        }
+
         int currentLen = ArrayVisualizer.getCurrentLength();
-		
-		int[] temp = new int[currentLen];
-		Distributions.initializeArray(temp, this.ArrayVisualizer);
-		
+
+        int[] temp = new int[currentLen];
+        Distributions.initializeArray(temp, this.ArrayVisualizer);
+
         double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();
-		for(int i = 0; i < currentLen; i++)
-			temp[i] = (int)(uniqueFactor*(int)(temp[i]/uniqueFactor))+(int)uniqueFactor/2;
-		
-		System.arraycopy(temp, 0, array, 0, currentLen);
+        for(int i = 0; i < currentLen; i++)
+            temp[i] = (int)(uniqueFactor*(int)(temp[i]/uniqueFactor))+(int)uniqueFactor/2;
+
+        System.arraycopy(temp, 0, array, 0, currentLen);
+        ArrayVisualizer.updateNow();
     }
-    
+
     public void initializePresortedArray() {
         for (int i = 0; i < this.presortedArray.length; i++) {
             this.presortedArray[i] = i;
         }
-        
+
         for(int i = 0; i < Math.max((this.presortedArray.length / 10), 1); i++){
             Writes.swap(this.presortedArray, (int) (Math.random() * this.presortedArray.length), (int) (Math.random() * this.presortedArray.length), 0, true, false);
         }
     }
-    
+
     public String[] getShuffleIDs() {
         return this.shuffleIDs;
     }
@@ -141,8 +127,8 @@ final public class ArrayManager {
     public void setShuffle(Shuffles choice) {
         this.Shuffles = choice;
     }
-	
-	public String[] getDistributionIDs() {
+
+    public String[] getDistributionIDs() {
         return this.distributionIDs;
     }
     public Distributions[] getDistributions() {
@@ -157,28 +143,28 @@ final public class ArrayManager {
         if (!ArrayVisualizer.isActive())
             this.initializeArray(ArrayVisualizer.getArray());
     }
-    
+
     public void shuffleArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
         this.initializeArray(array);
 
         String tmp = ArrayVisualizer.getHeading();
         ArrayVisualizer.setHeading("Shuffling...");
-        
+
         double speed = Delays.getSleepRatio();
-        
+
         if(ArrayVisualizer.isActive()) {
             double sleepRatio = ArrayVisualizer.getCurrentLength()/1024d;
             Delays.setSleepRatio(sleepRatio);
         }
-        
-		Shuffles tempShuffle = this.Shuffles;
-		if(Distributions == Distributions.RANDOM || Distributions == Distributions.EQUAL)
-			this.Shuffles = Shuffles.ALREADY;
-		Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
-		this.Shuffles = tempShuffle;
-        
+
+        Shuffles tempShuffle = this.Shuffles;
+        if(Distributions == Distributions.RANDOM || Distributions == Distributions.EQUAL)
+            this.Shuffles = Shuffles.ALREADY;
+        Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
+        this.Shuffles = tempShuffle;
+
         Delays.setSleepRatio(speed);
-        
+
         Highlights.clearAllMarks();
         ArrayVisualizer.setHeading(tmp);
     }
@@ -186,66 +172,66 @@ final public class ArrayManager {
     private void stableShuffle(int[] array, int length) {
         boolean delay = ArrayVisualizer.shuffleEnabled();
         double sleep = delay ? 1 : 0;
-		
-		double speed = Delays.getSleepRatio();
-        
+
+        double speed = Delays.getSleepRatio();
+
         if(ArrayVisualizer.isActive()) {
             double sleepRatio = ArrayVisualizer.getCurrentLength()/1024d;
             Delays.setSleepRatio(sleepRatio);
         }
-		
-		int[] counts    = new int[length];
-		int[] prefixSum = new int[length];
-		int[] table     = ArrayVisualizer.getStabilityTable();
-		
-		for(int i = 0; i < length; i++)
-			counts[array[i]]++;
-		
-		prefixSum[0] = counts[0];
-		for(int i = 1; i < length; i++)
-			prefixSum[i] = counts[i] + prefixSum[i-1];
-		
-		for(int i = 0, j = 0; j < length; i++) {
-			while(counts[i] > 0) {
-				table[j++] = i;
-				counts[i]--;
-			}
-		}
-		
-		for(int i = length-1; i >= 0; i--)
-			Writes.write(array, i, --prefixSum[array[i]], 0.5, true, false);
-		
-		ArrayVisualizer.setIndexTable();
-		
+
+        int[] counts    = new int[length];
+        int[] prefixSum = new int[length];
+        int[] table     = ArrayVisualizer.getStabilityTable();
+
+        for(int i = 0; i < length; i++)
+            counts[array[i]]++;
+
+        prefixSum[0] = counts[0];
+        for(int i = 1; i < length; i++)
+            prefixSum[i] = counts[i] + prefixSum[i-1];
+
+        for(int i = 0, j = 0; j < length; i++) {
+            while(counts[i] > 0) {
+                table[j++] = i;
+                counts[i]--;
+            }
+        }
+
+        for(int i = length-1; i >= 0; i--)
+            Writes.write(array, i, --prefixSum[array[i]], 0.5, true, false);
+
+        ArrayVisualizer.setIndexTable();
+
         Delays.setSleepRatio(speed);
     }
-    
+
     public void refreshArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             JErrorPane.invokeErrorMessage(e);
         }
-        
+
         ArrayVisualizer.resetAllStatistics();
         Highlights.clearAllMarks();
-        
+
         ArrayVisualizer.setHeading("");
         if (!ArrayVisualizer.useAntiQSort()) {
             this.shuffleArray(array, currentLen, ArrayVisualizer);
-			
-			if(ArrayVisualizer.doingStabilityCheck())
-				this.stableShuffle(array, currentLen);
+
+            if(ArrayVisualizer.doingStabilityCheck())
+                this.stableShuffle(array, currentLen);
         }
-        
+
         Highlights.clearAllMarks();
-        
+
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             JErrorPane.invokeErrorMessage(e);
         }
-        
+
         ArrayVisualizer.resetAllStatistics();
     }
 }
