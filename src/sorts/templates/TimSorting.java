@@ -173,6 +173,13 @@ final public class TimSorting {
         this.runLen = Writes.createExternalArray(stackLen);
     }
     
+    public void customSort(int[] a, int start, int length) {
+        TimSorting.sort(this, a, start, length);
+        this.Writes.deleteExternalArray(this.tmp);
+        this.Writes.deleteExternalArray(this.runBase);
+        this.Writes.deleteExternalArray(this.runLen);
+    }
+
     /*
      * The next two methods (which are static, one being package private) constitute
      * the entire API of this class.  Each of these methods obeys the contract
