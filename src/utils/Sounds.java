@@ -127,6 +127,13 @@ final public class Sounds {
                         channel.allNotesOff();
                     }
                     if(SOUND == false || MIDI == false || JErrorPane.errorMessageActive) {
+                        synchronized (Sounds.this) {
+                            try {
+                                Sounds.this.wait();
+                            } catch (InterruptedException e) {
+                                break;
+                            }
+                        }
                         continue;
                     }
 
@@ -505,10 +512,12 @@ final public class Sounds {
     
     public synchronized void toggleSounds(boolean val) {
         this.SOUND = val;
+        this.notifyAll();
     }
     
     public synchronized void toggleSound(boolean val) {
         this.MIDI = val;
+        this.notifyAll();
     }
     
     //Double check logic
