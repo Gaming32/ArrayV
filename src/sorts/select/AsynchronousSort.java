@@ -1,6 +1,7 @@
 package sorts.select;
 
 import main.ArrayVisualizer;
+import sorts.insert.InsertionSort;
 import sorts.templates.Sort;
 
 /*
@@ -49,20 +50,25 @@ final public class AsynchronousSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
         int[] ext = Writes.createExternalArray(length);
 
-        int min = Integer.MAX_VALUE;
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
         for (int i = 0; i < length; i++) {
             Writes.write(ext, i, array[i], 0.5, true, true);
             if (array[i] < min) {
                 min = array[i];
             }
+            if (array[i] > max) {
+                max = array[i];
+            }
         }
+        max++;
 
         int cur = min, i = 0;
         while (i < length) {
             for (int j = 0; j < length; j++) {
                 Highlights.markArray(2, j);
-                if (Reads.compareValues(ext[j], cur) == 0) {
+                if (Reads.compareValues(ext[j], cur) <= 0) {
                     Writes.write(array, i, ext[j], 0.01, true, false);
+                    Writes.write(ext, j, max, 0, false, true);
                     i++;
                 }
                 Delays.sleep(0.01);
@@ -71,5 +77,10 @@ final public class AsynchronousSort extends Sort {
         }
 
         Writes.deleteExternalArray(ext);
+
+        // Necessary for floats
+        InsertionSort insertSort = new InsertionSort(arrayVisualizer);
+        Highlights.clearMark(2);
+        insertSort.customInsertSort(array, 0, cur, 0.2, false);
     }
 }
