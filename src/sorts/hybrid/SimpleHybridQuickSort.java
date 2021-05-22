@@ -99,6 +99,7 @@ public final class SimpleHybridQuickSort extends Sort {
             }
             int piv = medianOfThreeNinthers(array, a, b - 1);
             int p = partition(array, a, b - 1, array[piv]);
+            depthLimit--;
             sort(array, p, b, depthLimit);
             b = p;
         }
