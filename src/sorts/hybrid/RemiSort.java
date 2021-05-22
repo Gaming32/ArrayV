@@ -86,13 +86,14 @@ final public class RemiSort extends Sort {
 			j = (j-1)/2,
 			cmp = Reads.compareIndices(array, a+t, a+keys[j], 0.2, true));
 		
-		Highlights.clearMark(2);
 		for(int t2; j > r; j = (j-1)/2) {
 			t2 = keys[j];
-			Writes.write(keys, j, t, 0.2, true, true);
+			Highlights.markArray(3, j);
+			Writes.write(keys, j, t, 0.2, false, true);
 			t = t2;
 		}
-		Writes.write(keys, r, t, 0.2, true, true);
+		Highlights.markArray(3, r);
+		Writes.write(keys, r, t, 0.2, false, true);
 	}
 	
 	private void tableSort(int[] array, int[] keys, int a, int b) {
@@ -103,9 +104,11 @@ final public class RemiSort extends Sort {
 		
 		for(int i = len-1; i > 0; i--) {
 			int t = keys[i];
-			Writes.write(keys, i, keys[0], 1, true, true);
+			Highlights.markArray(3, i);
+			Writes.write(keys, i, keys[0], 1, false, true);
 			this.siftDown(array, keys, 0, i, a, t);
 		}
+		Highlights.clearMark(3);
 		
 		for(int i = 0; i < len; i++) {
 			Highlights.markArray(2, i);
