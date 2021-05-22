@@ -114,7 +114,7 @@ final public class SynchronousSqrtSort extends Sort {
 		}
 		Highlights.clearMark(2);
 	}
-	private void mergeBlocksBW(int[] array, int[] tags, int a, int b, int ti, int tb, int bLen, int bCnt) {
+	private void mergeBlocksBW(int[] array, int[] tags, int a, int b, int ti, int tb, int bLen) {
 		int tj = tb-1, mkv = tags.length;
 		int f = b, a1 = f-bLen;
 		boolean rev = Reads.compareValues(tags[tj], mkv) < 0;
@@ -191,10 +191,10 @@ final public class SynchronousSqrtSort extends Sort {
 			
 			a -= bLen; b -= bLen; i -= bLen;
 			
-			if(noFrag) this.mergeBlocksBW(array, tags, i, b, ti, ti+p, bLen, tj/2);
+			if(noFrag) this.mergeBlocksBW(array, tags, i, b, ti, ti+p, bLen);
 				
 			for(i -= 2*j, ti -= tj; i >= a; i -= 2*j, ti -= tj)
-				this.mergeBlocksBW(array, tags, i, i+2*j, ti, ti+tj, bLen, tj/2);
+				this.mergeBlocksBW(array, tags, i, i+2*j, ti, ti+tj, bLen);
 			
 			a += bLen; b += bLen;
 		}
