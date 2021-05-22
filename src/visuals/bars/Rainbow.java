@@ -41,14 +41,15 @@ final public class Rainbow extends Visual {
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
         for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+			if (width == 0) continue;
+
 			if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
 				this.mainRender.setColor(Color.GREEN);
 			
 			else this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
 			
-            int width = (int) (Renderer.getXScale() * (i + 1)) - j;
-			
-			if(width > 0) this.mainRender.fillRect(j + 20, Renderer.getYOffset() - 20, width, (int) (Renderer.getViewSize()));
+			this.mainRender.fillRect(j + 20, Renderer.getYOffset() - 20, width, (int) (Renderer.getViewSize()));
 			
 			j += width;
         }
