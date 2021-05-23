@@ -61,21 +61,30 @@ final public class SynchronousSqrtSort extends Sort {
 		int i = a, j = m;
 		
 		while(i < m && j < b) {
+			Highlights.markArray(2, j);
+			
 			if(Reads.compareValues(array[i], array[j]) <= 0)
 				Writes.write(array, p++, array[i++], 1, true, false);
 			else
 				Writes.write(array, p++, array[j++], 1, true, false);
 		}
+		Highlights.clearMark(2);
+		
 		if(i > p)
 			while(i < m) Writes.write(array, p++, array[i++], 1, true, false);
 		
-		while(j < b) Writes.write(array, p++, array[j++], 1, true, false);
+		while(j < b) {
+			Highlights.markArray(2, j);
+			Writes.write(array, p++, array[j++], 1, true, false);
+		}
 	}
 	private int smartMergeBW(int[] array, int a, int m, int b, int p, boolean rev) {
 		int i = m-1, j = b-1;
 		int cmp = rev ? -1 : 0;
 		
 		while(i >= a && j >= m) {
+			Highlights.markArray(2, i);
+			
 			if(Reads.compareValues(array[i], array[j]) > cmp)
 				Writes.write(array, --p, array[i--], 1, true, false);
 			else
@@ -86,6 +95,7 @@ final public class SynchronousSqrtSort extends Sort {
 	private void mergeBW(int[] array, int a, int m, int b, int p) {
 		int bLen = p-b;
 		p = this.smartMergeBW(array, a, m, b, p, false);
+		Highlights.clearMark(2);
 		this.shiftBW(array, a, p, p+bLen);
 	}
 	
@@ -112,7 +122,6 @@ final public class SynchronousSqrtSort extends Sort {
 			
 			if(p == j || p == min) p ^= j ^ min;
 		}
-		Highlights.clearMark(2);
 	}
 	private void mergeBlocksBW(int[] array, int[] tags, int a, int b, int ti, int tb, int bLen) {
 		int tj = tb-1, mkv = tags.length;
