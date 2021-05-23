@@ -27,7 +27,7 @@ public final class CiuraCocktailShellSort extends Sort {
         this.setBogoSort(false);
     }
     
-    int[] gaps = {1, 4, 10, 23, 57, 132, 301, 701}
+    int[] gaps = {1, 4, 10, 23, 57, 132, 301, 701};
     
     private int ciura(int n) {
         if (n <= gaps.length) {
