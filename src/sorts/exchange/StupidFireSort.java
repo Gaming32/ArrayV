@@ -47,11 +47,11 @@ final public class StupidFireSort extends Sort {
 		boolean anyswaps = false;
 		while (!testpass) {
 			if (twistwait < 1) {
-				twistcheck += 1;
+				twistcheck++;
 				twistwait = twistcheck;
 				twist *= -1;
 			} else {
-				twistwait -= 1;
+				twistwait--;
 			}
 			anyswaps = false;
 			while (i + 1 <= currentLength && i >= 1 && !anyswaps) {
@@ -69,14 +69,14 @@ final public class StupidFireSort extends Sort {
 				testpass = true;
 				while (testi != currentLength && testpass) {
 					if (Reads.compareValues(array[testi - 1], array[testi]) <= 0) {
-						testi += 1;
+						testi++;
 					} else {
 						testpass = false;
 						testi = 1;
 						testreverse = true;
 						while (testi != currentLength && testreverse) {
 							if (Reads.compareValues(array[testi - 1], array[testi]) >= 0) {
-								testi += 1;
+								testi++;
 							} else {
 								testreverse = false;
 							}
@@ -94,14 +94,14 @@ final public class StupidFireSort extends Sort {
 				testpass = true;
 				while (testi != currentLength && testpass) {
 					if (Reads.compareValues(array[testi - 1], array[testi]) <= 0) {
-						testi += 1;
+						testi++;
 					} else {
 						testpass = false;
 						testi = 1;
 						testreverse = true;
 						while (testi != currentLength && testreverse) {
 							if (Reads.compareValues(array[testi - 1], array[testi]) >= 0) {
-								testi += 1;
+								testi++;
 							} else {
 								testreverse = false;
 							}
