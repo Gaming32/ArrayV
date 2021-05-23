@@ -182,7 +182,7 @@ final public class Highlights {
         }
         ArrayVisualizer.updateNow();
     }
-    public void clearAllMarks() {
+    public synchronized void clearAllMarks() {
         for(int i = 0; i < this.maxHighlightMarked; i++) {
             if(Highlights[i] != -1) {
                 markCounts[Highlights[i]] = 0;

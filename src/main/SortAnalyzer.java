@@ -149,6 +149,7 @@ final public class SortAnalyzer {
             sortFiles = scanResult.getAllClasses();
             
             for(int i = 0; i < sortFiles.size(); i++) {
+                if (sortFiles.get(i).getName().contains("$")) continue; // Ignore inner classes
                 this.compileSingle(sortFiles.get(i).getName(), null);
             }
             sortSorts();

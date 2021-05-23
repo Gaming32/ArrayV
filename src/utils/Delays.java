@@ -129,7 +129,7 @@ final public class Delays {
         this.changePaused(!this.paused);;
     }
     
-    public void sleep(double millis){
+    public void sleep(double millis) {
         if(millis <= 0) {
             return;
         }

@@ -307,7 +307,7 @@ final public class ArrayVisualizer {
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
         
-        this.sortLength = (int)Math.min(2048, this.MAX_ARRAY_VAL);
+        this.sortLength = Math.min(2048, this.MAX_ARRAY_VAL);
         this.uniqueItems = this.sortLength;
         
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
