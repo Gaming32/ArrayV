@@ -44,7 +44,7 @@ final public class AdaptiveInsertionSort extends Sort {
         Highlights.clearMark(2);
         m--;
         while (mini > m) {
-            Writes.write(array, mini, array[mini - 1], 0.5, true, false);
+            Writes.write(array, mini, array[mini - 1], sleep, true, false);
             mini--;
         }
         // mini--;
