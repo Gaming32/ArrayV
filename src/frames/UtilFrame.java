@@ -26,6 +26,7 @@ import prompts.SortPrompt;
 import prompts.ViewPrompt;
 import utils.Delays;
 import utils.Highlights;
+import utils.SortingNetworkGenerator;
 import utils.Sounds;
 import utils.Timer;
  
@@ -306,6 +307,7 @@ final public class UtilFrame extends javax.swing.JFrame {
             "Sorting",
             "AntiQSort",
             "Stability Check",
+            "Sorting Networks",
             "Reversed Sorting"
             // "*Simple* Benchmarking"
         }));
@@ -562,6 +564,14 @@ final public class UtilFrame extends javax.swing.JFrame {
                     break;
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(2);
+                break;
+
+            case "Sorting Networks":
+                if (ArrayVisualizer.enableBenchmarking(false))
+                    break;
+                    jButton6.setEnabled(true);
+                    ArrayVisualizer.setComparator(4);
+                SortingNetworkGenerator.verifyPythonVersionAndDialog();    
                 break;
 
             case "Reversed Sorting":
