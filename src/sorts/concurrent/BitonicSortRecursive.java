@@ -41,7 +41,7 @@ final public class BitonicSortRecursive extends Sort {
     	
     	Delays.sleep(0.5);
     	
-    	int cmp = Reads.compareValues(A[i], A[j]);
+    	int cmp = Reads.compareIndices(A, i, j, 0, false);
     	
 	    if (dir == (cmp == 1)) Writes.swap(A, i, j, 0.5, true, false);
 	}

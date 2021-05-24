@@ -54,7 +54,7 @@ final public class PairwiseSortIterative extends Sort {
                 Delays.sleep(sleep);
                 Highlights.markArray(1, b - a);
                 Highlights.markArray(2, b);
-                if(Reads.compareValues(array[b - a], array[b]) == 1) {
+                if(Reads.compareIndices(array, b - a, b, 0, false) == 1) {
                     Writes.swap(array, b - a, b, sleep, true, false);
                 }
                 c = (c + 1) % a;
@@ -76,7 +76,7 @@ final public class PairwiseSortIterative extends Sort {
                     Delays.sleep(sleep);
                     Highlights.markArray(1, b - (d * a));
                     Highlights.markArray(2, b);
-                    if(Reads.compareValues(array[b - (d * a)], array[b]) == 1) {
+                    if(Reads.compareIndices(array, b - (d * a), b, 0, false) == 1) {
                         Writes.swap(array, b - (d * a), b, sleep, true, false);
                     }
                     c = (c + 1) % a;

@@ -31,7 +31,7 @@ final public class OddEvenMergeSortRecursive extends Sort {
         Highlights.markArray(1, i);
         Highlights.markArray(2, j);
         Delays.sleep(0.5);
-        if (Reads.compareValues(array[i], array[j]) > 0)
+        if (Reads.compareIndices(array, i, j, 0, false) > 0)
             Writes.swap(array, i, j, 0.5, true, false);
     }
 

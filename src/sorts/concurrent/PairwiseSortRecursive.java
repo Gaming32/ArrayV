@@ -50,7 +50,7 @@ final public class PairwiseSortRecursive extends Sort {
             Delays.sleep(sleep);
             Highlights.markArray(1, b - gap);
             Highlights.markArray(2, b);
-            if(Reads.compareValues(array[b - gap], array[b]) == 1) {
+            if(Reads.compareIndices(array, b - gap, b, 0, false) == 1) {
                 Writes.swap(array, b - gap, b, sleep, true, false);
             }
             b += (2 * gap);
@@ -76,7 +76,7 @@ final public class PairwiseSortRecursive extends Sort {
                     Delays.sleep(sleep);
                     Highlights.markArray(1, b);
                     Highlights.markArray(2, b + (c * gap));
-                    if(Reads.compareValues(array[b], array[b + (c * gap)]) == 1) {
+                    if(Reads.compareIndices(array, b, b + (c * gap), 0, false) == 1) {
                         Writes.swap(array, b, b + (c * gap), sleep, true, false);
                     }
                 }
