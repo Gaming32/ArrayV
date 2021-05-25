@@ -314,7 +314,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed();
+                jComboBox1ActionPerformed(evt);
             }
         });
 
@@ -390,6 +390,10 @@ final public class UtilFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void setMode(String mode) {
+        this.jComboBox1.setSelectedItem(mode);
+    }
 
     private void jButton1ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
         //CHANGE SORT
@@ -539,7 +543,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         ArrayVisualizer.toggleExternalArrays(jCheckBox9.isSelected());
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
-    private void jComboBox1ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         switch ((String)jComboBox1.getSelectedItem()) {
             case "Sorting":
                 if (ArrayVisualizer.enableBenchmarking(false))
@@ -571,7 +575,13 @@ final public class UtilFrame extends javax.swing.JFrame {
                     break;
                     jButton6.setEnabled(true);
                     ArrayVisualizer.setComparator(4);
-                SortingNetworkGenerator.verifyPythonVersionAndDialog();    
+                if (!SortingNetworkGenerator.verifyPythonVersionAndDialog())
+                    jComboBox1.setSelectedIndex(0); // Failure to find Python installation
+                if (ArrayVisualizer.getCurrentLength() >= 512) {
+                    JOptionPane.showMessageDialog(null, "Array lengths greater than 512 can take a really long time to generate.",
+                        "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE);
+                    ArrayVisualizer.getArrayFrame().setLengthSlider(256);
+                }
                 break;
 
             case "Reversed Sorting":

@@ -10,6 +10,7 @@ import panes.JEnhancedOptionPane;
 import panes.JErrorPane;
 import sorts.templates.Sort;
 import utils.Delays;
+import utils.SortingNetworkGenerator;
 import utils.Sounds;
 import utils.StopSort;
 import utils.Timer;
@@ -174,14 +175,25 @@ final public class RunComparisonSort {
                         
                         realTimer.enableRealTimer();
                         boolean antiq = arrayVisualizer.useAntiQSort();
+                        boolean networks = arrayVisualizer.generateSortingNetworks();
                         if (antiq)
                             arrayVisualizer.initAntiQSort();
+                        else if (networks)
+                            arrayVisualizer.getReads().networkIndices.clear();
+
                         try {
                             sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
                         }
                         catch (StopSort e) { }
+
                         if (antiq)
                             arrayVisualizer.finishAntiQSort(sort.getClass().getSimpleName());
+                        else if (networks)
+                            SortingNetworkGenerator.encodeNetworkAndDisplay(
+                                sort.getClass().getSimpleName(),
+                                arrayVisualizer.getReads().networkIndices.toArray(new Integer[] {}),
+                                arrayVisualizer.getCurrentLength()
+                            );
                     }
                     else {
                         arrayManager.initializeArray(array);
