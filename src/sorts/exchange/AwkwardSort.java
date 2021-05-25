@@ -38,7 +38,7 @@ public final class AwkwardSort extends Sort {
             this.Highlights.markArray(1, a);
             this.Highlights.markArray(2, b);
             this.Delays.sleep(0.5D);
-            if (this.Reads.compareValues(arr[a], arr[b]) == 1) {
+            if (this.Reads.compareIndices(arr, a, b, 0, false) == 1) {
                 this.Writes.swap(arr, a, b, 1.0D, true, false);
             }
         }

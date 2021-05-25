@@ -38,7 +38,7 @@ public final class SlopeSort extends Sort {
 				this.Highlights.markArray(1, i);
 				this.Highlights.markArray(2, k);
 				this.Delays.sleep(0.05D);
-				if (this.Reads.compareValues(array[i], array[k]) < 0) {
+				if (this.Reads.compareIndices(array, i, k, 0, false) < 0) {
 					this.Writes.swap(array, i, k, 0.02D, true, false);
 				}
 			}

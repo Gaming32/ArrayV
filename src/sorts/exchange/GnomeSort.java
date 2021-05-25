@@ -25,7 +25,7 @@ final public class GnomeSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 1; i < length;)
         {
-            if (Reads.compareValues(array[i], array[i-1]) >= 0)
+            if (Reads.compareIndices(array, i, i - 1, 0, false) >= 0)
             {
                 i++;
                 Highlights.markArray(1, i);
