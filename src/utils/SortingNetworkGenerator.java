@@ -47,7 +47,8 @@ public class SortingNetworkGenerator {
     public static boolean verifyPythonVersion() {
         return (hasPython = hasPython // This caches the result if it's true
             || verifyPythonVersion("3, 2, 0", "python3")
-            || verifyPythonVersion("3, 2, 0", "python"));
+            || verifyPythonVersion("3, 2, 0", "python")
+            || verifyPythonVersion("3, 2, 0", "py"));
     }
 
     public static boolean verifyPythonVersionAndDialog() {
