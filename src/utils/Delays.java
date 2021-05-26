@@ -60,22 +60,20 @@ final public class Delays {
     }
     
     public String displayCurrentDelay() {
-        String currDelay = "";
+        if (this.paused)
+            return "Paused";
         
+        String currDelay = "";
         if(this.currentDelay == 0 || this.SKIPPED) {
-            currDelay = "0ms";
-        }
-        else if(this.paused) {
-            currDelay = "Paused";
+            currDelay = "0";
         }
         else if(this.currentDelay < 0.001) {
-            currDelay = "< 0.001ms";
+            currDelay = "< 0.001";
         }
         else {
-            currDelay = formatter.format(this.currentDelay) + "ms";
+            currDelay = formatter.format(this.currentDelay);
         }
-        
-        return currDelay;
+        return currDelay + "ms";
     }
     //TODO: This is a mess.
     public double getDisplayedDelay() {
