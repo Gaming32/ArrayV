@@ -19,7 +19,7 @@ public final class FloatSort extends Sort {
         setComparisonBased(true);
         setBucketSort(false);
         setRadixSort(false);
-        setUnreasonablySlow(true);
+        setUnreasonablySlow(false);
         setUnreasonableLimit(8192);
         setBogoSort(false);
 

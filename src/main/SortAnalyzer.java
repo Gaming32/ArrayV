@@ -257,10 +257,6 @@ final public class SortAnalyzer {
             suggestions.append("- A warning will pop up every time you select " + sort.getRunSortName() + ". You might want to change its 'unreasonable limit'.\n");
             warned = true;
         }
-        if(!sort.isUnreasonablySlow() && sort.getUnreasonableLimit() != 0) {
-            suggestions.append("- You might want to set " + sort.getRunSortName() + "'s 'unreasonable limit' to 0. It's not marked 'unreasonably slow'.\n");
-            warned = true;
-        }
         if(sort.isRadixSort() && !sort.usesBuckets()) {
             suggestions.append("- " + sort.getRunSortName() + " is a radix sort and should also be classified as a bucket sort.\n");
             warned = true;

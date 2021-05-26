@@ -25,7 +25,7 @@ final public class StoogeSort extends Sort {
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
+        this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(1024);
         this.setBogoSort(false);
     }

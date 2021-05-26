@@ -19,7 +19,7 @@ final public class BadSort extends Sort {
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
+        this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(2048);
         this.setBogoSort(false);
     }

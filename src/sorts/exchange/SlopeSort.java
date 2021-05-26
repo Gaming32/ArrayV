@@ -25,7 +25,7 @@ public final class SlopeSort extends Sort {
 		setComparisonBased(true);
 		setBucketSort(false);
 		setRadixSort(false);
-		setUnreasonablySlow(true);
+		setUnreasonablySlow(false);
 		setUnreasonableLimit(16384);
 		setBogoSort(false);
 

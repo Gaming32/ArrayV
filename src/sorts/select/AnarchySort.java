@@ -16,7 +16,7 @@ public final class AnarchySort extends Sort {
         setComparisonBased(true);
         setBucketSort(false);
         setRadixSort(false);
-        setUnreasonablySlow(true);
+        setUnreasonablySlow(false);
         setUnreasonableLimit(1024);
         setBogoSort(false);
 

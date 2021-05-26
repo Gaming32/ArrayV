@@ -27,7 +27,7 @@ public final class ReverseGrateSort extends Sort {
 		setComparisonBased(true);
 		setBucketSort(false);
 		setRadixSort(false);
-		setUnreasonablySlow(true);
+		setUnreasonablySlow(false);
 		setUnreasonableLimit(512);
 		setBogoSort(false);
 
