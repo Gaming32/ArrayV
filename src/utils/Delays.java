@@ -60,11 +60,13 @@ final public class Delays {
     }
     
     public String displayCurrentDelay() {
-        if (this.paused)
+        if(this.SKIPPED)
+            return "Canceled";
+        if(this.paused)
             return "Paused";
         
         String currDelay = "";
-        if(this.currentDelay == 0 || this.SKIPPED) {
+        if(this.currentDelay == 0) {
             currDelay = "0";
         }
         else if(this.currentDelay < 0.001) {
