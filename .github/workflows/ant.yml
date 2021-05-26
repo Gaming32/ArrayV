@@ -21,5 +21,6 @@ jobs:
           uses: actions/setup-java@v2.1.0
           with:
               java-version: ${{ matrix.java }}
+              distribution: adopt
         - name: Build with Ant
           run: ant -noinput -buildfile build.xml
