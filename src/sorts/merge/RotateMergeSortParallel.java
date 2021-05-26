@@ -40,8 +40,8 @@ final public class RotateMergeSortParallel extends Sort {
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
+        this.setUnreasonablySlow(true);
+        this.setUnreasonableLimit(4096);
         this.setBogoSort(false);
     }
 	
@@ -148,7 +148,8 @@ final public class RotateMergeSortParallel extends Sort {
 		try {
 			l.join();
 			r.join();
-		} catch (InterruptedException e) {
+		} 
+		catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
 		this.rotateMerge(a, m, b);

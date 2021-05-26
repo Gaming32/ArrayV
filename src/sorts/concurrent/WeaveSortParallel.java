@@ -16,8 +16,8 @@ final public class WeaveSortParallel extends Sort {
         this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
+        this.setUnreasonablySlow(true);
+        this.setUnreasonableLimit(4096);
         this.setBogoSort(false);
     }
 
