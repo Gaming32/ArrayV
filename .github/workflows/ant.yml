@@ -7,7 +7,7 @@ jobs:
       matrix:
         # Use these Java versions
         java: [
-          1.8,  # Minimum supported
+          8,  # Minimum supported
           11,   # Current Java LTS
           15,   # Last version
           16    # Most recent version
