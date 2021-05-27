@@ -172,4 +172,76 @@ public class Rotations {
                 }
         }
     }
+	
+	//by Scandum
+	public static void bridge(int[] array, int pos, int left, int right, double pause, boolean mark, boolean auxwrite) {
+		if(left < 1 || right < 1) return;
+		int pta = pos, ptb = pos + left, ptc = pos + right, ptd = ptb + right, alloc;
+
+		if(left < right) {
+			int bridge = right - left;
+
+			if(bridge < left) {
+				int loop = left;
+
+				int[] swap = new int[bridge];
+				alloc = bridge;
+				Writes.changeAllocAmount(alloc);
+
+				Writes.arraycopy(array, ptb, swap, 0, bridge, pause, mark, true);
+
+				while(loop-- > 0) {
+					Writes.write(array, --ptc, array[--ptd], pause/2d, mark, auxwrite);
+					Writes.write(array,   ptd, array[--ptb], pause/2d, mark, auxwrite);
+				}
+				Writes.arraycopy(swap, 0, array, pta, bridge, pause, mark, auxwrite);
+			}
+			else {
+				int[] swap = new int[left];
+				alloc = left;
+				Writes.changeAllocAmount(alloc);
+				
+				Writes.arraycopy(array, pta, swap, 0, left, pause, mark, true);
+				Writes.arraycopy(array, ptb, array, pta, right, pause, mark, auxwrite);
+				Writes.arraycopy(swap, 0, array, ptc, left, pause, mark, auxwrite);
+			}
+		}
+		else if(right < left) {
+			int bridge = left - right;
+
+			if(bridge < right) {
+				int loop = right;
+
+				int[] swap = new int[bridge];
+				alloc = bridge;
+				Writes.changeAllocAmount(alloc);
+				
+				Writes.arraycopy(array, ptc, swap, 0, bridge, pause, mark, true);
+				
+				while(loop-- > 0) {
+					Writes.write(array, ptc++, array[pta],   pause/2d, mark, auxwrite); 
+					Writes.write(array, pta++, array[ptb++], pause/2d, mark, auxwrite);
+				}
+				Writes.arraycopy(swap, 0, array, ptd - bridge, bridge, pause, mark, auxwrite);
+			}
+			else {
+				int[] swap = new int[right];
+				alloc = right;
+				Writes.changeAllocAmount(alloc);
+				
+				Writes.arraycopy(array, ptb, swap, 0, right, pause, mark, true);
+				while(left-- > 0)
+					Writes.write(array, --ptd, array[--ptb], pause, mark, auxwrite);
+				Writes.arraycopy(swap, 0, array, pta, right, pause, mark, auxwrite);
+			}
+		}
+		else {
+			alloc = 0;
+			
+			while(left-- > 0) 
+				Writes.swap(array, pta++, ptb++, pause, mark, auxwrite);
+			Highlights.clearMark(2);
+		}
+		Writes.changeAllocAmount(-alloc);
+	}
 }
