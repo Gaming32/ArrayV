@@ -314,7 +314,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jComboBox1ActionPerformed();
             }
         });
 
@@ -543,7 +543,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         ArrayVisualizer.toggleExternalArrays(jCheckBox9.isSelected());
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jComboBox1ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
         switch ((String)jComboBox1.getSelectedItem()) {
             case "Sorting":
                 if (ArrayVisualizer.enableBenchmarking(false))
@@ -573,8 +573,8 @@ final public class UtilFrame extends javax.swing.JFrame {
             case "Sorting Networks":
                 if (ArrayVisualizer.enableBenchmarking(false))
                     break;
-                    jButton6.setEnabled(true);
-                    ArrayVisualizer.setComparator(4);
+                jButton6.setEnabled(true);
+                ArrayVisualizer.setComparator(4);
                 if (!SortingNetworkGenerator.verifyPythonVersionAndDialog())
                     jComboBox1.setSelectedIndex(0); // Failure to find Python installation
                 if (ArrayVisualizer.getCurrentLength() >= 512) {
