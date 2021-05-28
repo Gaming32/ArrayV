@@ -117,7 +117,7 @@ public class Rotations {
 
     // by Scandum and Control
     public static void cycleReverse(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
-		if(left < 1 || right < 1) return;
+		if(lenA < 1 || lenB < 1) return;
 		
         int a = pos,
             b = pos + lenA - 1,
@@ -144,10 +144,10 @@ public class Rotations {
             Writes.write(array, d--, array[a], pause/2d, mark, auxwrite);
             Writes.write(array, a++, swap,     pause/2d, mark, auxwrite);
         }
-        while (a < d) {
-            Writes.swap(array, a++, d--, pause, mark, auxwrite);
+		if (a < d) { //dont count reversals that dont do anything
+			Writes.reversal(array, a, d, pause, mark, auxwrite);
 			Highlights.clearMark(2);
-        }
+		}
     }
 
     public static void juggling(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
