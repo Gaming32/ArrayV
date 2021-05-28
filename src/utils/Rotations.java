@@ -117,6 +117,8 @@ public class Rotations {
 
     // by Scandum and Control
     public static void cycleReverse(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
+		if(left < 1 || right < 1) return;
+		
         int a = pos,
             b = pos + lenA - 1,
             c = pos + lenA,
@@ -125,27 +127,26 @@ public class Rotations {
 
         while (a < b && c < d) {
             swap = array[b];
-            Writes.write(array, b--, array[a], pause, mark, auxwrite);
-            Writes.write(array, a++, array[c], pause, mark, auxwrite);
-            Writes.write(array, c++, array[d], pause, mark, auxwrite);
-            Writes.write(array, d--, swap, pause, mark, auxwrite);
+            Writes.write(array, b--, array[a], pause/2d, mark, auxwrite);
+            Writes.write(array, a++, array[c], pause/2d, mark, auxwrite);
+            Writes.write(array, c++, array[d], pause/2d, mark, auxwrite);
+            Writes.write(array, d--, swap,     pause/2d, mark, auxwrite);
         }
         while (a < b) {
             swap = array[b];
-            Writes.write(array, b--, array[a], pause, mark, auxwrite);
-            Writes.write(array, a++, array[d], pause, mark, auxwrite);
-            Writes.write(array, d--, swap, pause, mark, auxwrite);
+            Writes.write(array, b--, array[a], pause/2d, mark, auxwrite);
+            Writes.write(array, a++, array[d], pause/2d, mark, auxwrite);
+            Writes.write(array, d--, swap,     pause/2d, mark, auxwrite);
         }
         while (c < d) {
             swap = array[c];
-            Writes.write(array, c++, array[d], pause, mark, auxwrite);
-            Writes.write(array, d--, array[a], pause, mark, auxwrite);
-            Writes.write(array, a++, swap, pause, mark, auxwrite);
+            Writes.write(array, c++, array[d], pause/2d, mark, auxwrite);
+            Writes.write(array, d--, array[a], pause/2d, mark, auxwrite);
+            Writes.write(array, a++, swap,     pause/2d, mark, auxwrite);
         }
         while (a < d) {
-            swap = array[a];
-            Writes.write(array, a++, array[d], pause, mark, auxwrite);
-            Writes.write(array, d--, swap, pause, mark, auxwrite);
+            Writes.swap(array, a++, d--, pause, mark, auxwrite);
+			Highlights.clearMark(2);
         }
     }
 
@@ -176,6 +177,7 @@ public class Rotations {
 	//by Scandum
 	public static void bridge(int[] array, int pos, int left, int right, double pause, boolean mark, boolean auxwrite) {
 		if(left < 1 || right < 1) return;
+		
 		int pta = pos, ptb = pos + left, ptc = pos + right, ptd = ptb + right, alloc;
 
 		if(left < right) {
