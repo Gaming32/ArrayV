@@ -70,8 +70,8 @@ public class SortingNetworkGenerator {
 			return false;
 		}
         String result = indices[0] + ":" + indices[1];
-        for (int i = 2; i < indices.length; i += 2) {
-            result += "," + indices[i] + ":" + indices[i + 1];
+        for (int i = 3; i < indices.length; i += 2) {
+            result += "," + indices[i - 1] + ":" + indices[i];
         }
         SortingNetworkFetcher fetcher = new SortingNetworkFetcher();
         try {
