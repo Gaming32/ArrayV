@@ -23,7 +23,7 @@ public class SortingNetworkGenerator {
     static boolean hasPython = false;
     static String pythonCommand = null;
 	
-	final static int LIMIT = 7000;
+	final static int LIMIT = 20000;
 
     static boolean verifyPythonVersion(String minVersion, String command) {
         try {
@@ -66,9 +66,18 @@ public class SortingNetworkGenerator {
     }
 
     public static boolean encodeNetwork(int[] indices, String path) {
-		if (indices.length == 0 || indices.length > LIMIT) {
+		if (indices.length == 0) {
 			return false;
 		}
+		else if (indices.length > 2*LIMIT) {
+			String[] options = {"Yes", "Cancel"};
+			int choice = JOptionPane.showOptionDialog(null, "Sorting network is very large and exceeds the " + formatter.format(LIMIT) + " comparator limit. Generate anyway?",
+				"Warning!", 2, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+				
+			if (choice == 1) {
+				return false;
+			}
+		}			
         String result = indices[0] + ":" + indices[1];
         for (int i = 3; i < indices.length; i += 2) {
             result += "," + indices[i - 1] + ":" + indices[i];
@@ -109,10 +118,6 @@ public class SortingNetworkGenerator {
         if (!encodeNetwork(indicesInt, path)) {
 			if (indicesInt.length == 0) {
 				JOptionPane.showMessageDialog(null, "Sort does not compare indices; An empty sorting network cannot be generated.",
-					"File not saved", JOptionPane.ERROR_MESSAGE);
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "Sorting network too large. (Exceeds " + formatter.format(LIMIT) + " comparators)",
 					"File not saved", JOptionPane.ERROR_MESSAGE);
 			}
             return null;
