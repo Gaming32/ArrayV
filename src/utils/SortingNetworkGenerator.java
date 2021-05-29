@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.stream.Collectors;
+import java.text.DecimalFormat;
 
 import javax.swing.JOptionPane;
 
@@ -17,8 +18,12 @@ import panes.JErrorPane;
 import resources.sorting_network_master.SortingNetworkFetcher;
 
 public class SortingNetworkGenerator {
+    static DecimalFormat formatter = new DecimalFormat();
+	
     static boolean hasPython = false;
     static String pythonCommand = null;
+	
+	final static int LIMIT = 7000;
 
     static boolean verifyPythonVersion(String minVersion, String command) {
         try {
@@ -61,6 +66,9 @@ public class SortingNetworkGenerator {
     }
 
     public static boolean encodeNetwork(int[] indices, String path) {
+		if (indices.length == 0 || indices.length > LIMIT) {
+			return false;
+		}
         String result = indices[0] + ":" + indices[1];
         for (int i = 2; i < indices.length; i += 2) {
             result += "," + indices[i] + ":" + indices[i + 1];
@@ -99,6 +107,14 @@ public class SortingNetworkGenerator {
             indicesInt[i] = indices[i];
         }
         if (!encodeNetwork(indicesInt, path)) {
+			if (indicesInt.length == 0) {
+				JOptionPane.showMessageDialog(null, "Sort does not compare indices; An empty sorting network cannot be generated.",
+					"File not saved", JOptionPane.ERROR_MESSAGE);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Sorting network too large. (Exceeds " + formatter.format(LIMIT) + " comparators)",
+					"File not saved", JOptionPane.ERROR_MESSAGE);
+			}
             return null;
         }
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + path + "\"",
@@ -107,7 +123,8 @@ public class SortingNetworkGenerator {
         Desktop desktop = Desktop.getDesktop();
         try {
             desktop.open(file);
-        } catch (IOException e) {
+        } 
+		catch (IOException e) {
             e.printStackTrace();
         }
         return path;
