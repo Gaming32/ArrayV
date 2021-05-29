@@ -66,7 +66,7 @@ public class SortingNetworkGenerator {
     }
 
     public static boolean encodeNetwork(int[] indices, String path) {
-		if (indices.length == 0) {
+		if (indices.length < 2) {
 			return false;
 		}
 		else if (indices.length > 2*LIMIT) {
