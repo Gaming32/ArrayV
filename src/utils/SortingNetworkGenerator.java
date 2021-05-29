@@ -67,6 +67,9 @@ public class SortingNetworkGenerator {
 
     public static boolean encodeNetwork(int[] indices, String path) {
 		if (indices.length < 2) {
+			JOptionPane.showMessageDialog(null, "Sort does not compare indices; An empty sorting network cannot be generated.",
+				"File not saved", JOptionPane.ERROR_MESSAGE);
+				
 			return false;
 		}
 		else if (indices.length > 2*LIMIT) {
@@ -116,10 +119,6 @@ public class SortingNetworkGenerator {
             indicesInt[i] = indices[i];
         }
         if (!encodeNetwork(indicesInt, path)) {
-			if (indicesInt.length == 0) {
-				JOptionPane.showMessageDialog(null, "Sort does not compare indices; An empty sorting network cannot be generated.",
-					"File not saved", JOptionPane.ERROR_MESSAGE);
-			}
             return null;
         }
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + path + "\"",
