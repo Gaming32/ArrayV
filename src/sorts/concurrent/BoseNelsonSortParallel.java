@@ -51,10 +51,7 @@ final public class BoseNelsonSortParallel extends Sort {
 	}
 	
     private void compareSwap(int start, int end, double sleep) {
-        Highlights.markArray(1, start);
-        Highlights.markArray(2, end);
-        Delays.sleep(sleep);
-    	if (Reads.compareIndices(array, start, end, 0, false) == 1) {
+    	if (Reads.compareIndices(array, start, end, sleep, true) == 1) {
     	    Writes.swap(array, start, end, 2*sleep, true, false);
         }
     }
