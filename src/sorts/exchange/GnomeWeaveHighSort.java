@@ -49,10 +49,13 @@ final public class GnomeWeaveHighSort extends Sort {
 			bound = icheck;
 			Highlights.markArray(1, i - 1);
 			Highlights.markArray(2, (i - 1) + gap);
-			Delays.sleep(0.5);
+			Delays.sleep(0.25);
 			while ((i - 1) + gap < currentLength) {
+				Highlights.markArray(1, i - 1);
+				Highlights.markArray(2, (i - 1) + gap);
+				Delays.sleep(0.25);
 				if (Reads.compareValues(array[i - 1], array[(i - 1) + gap]) > 0) {
-					Writes.swap(array, i - 1, (i - 1) + gap, 0.5, true, false);
+					Writes.swap(array, i - 1, (i - 1) + gap, 0.25, true, false);
 					if (i - gap > 0) {
 						i -= gap;
 					}

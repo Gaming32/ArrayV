@@ -165,8 +165,8 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(BinaryGnomeSort,               0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(TriSearchGnomeSort,            0,   array,  128, 1,     false);
         RunExchangeSorts.this.runIndividualSort(ReverseGnomeSort,              0,   array,  128, 0.025, false);
-        RunExchangeSorts.this.runIndividualSort(GnomeWeaveHighSort,            0,   array,  128, 0.025, false);
-        RunExchangeSorts.this.runIndividualSort(GnomeWeaveLowSort,             0,   array,  128, 0.025, false);
+        RunExchangeSorts.this.runIndividualSort(GnomeWeaveHighSort,            0,   array,  126, 0.025, false);
+        RunExchangeSorts.this.runIndividualSort(GnomeWeaveLowSort,             0,   array,  126, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(SlopeSort,                     0,   array,  128, 0.025, false);
         RunExchangeSorts.this.runIndividualSort(CombSort,                      130, array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(ThreeSmoothCombSortRecursive,  0,   array, 1024, 1.25,  false);
