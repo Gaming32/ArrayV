@@ -46,7 +46,10 @@ final public class RotateMSDRadixSort extends Sort {
     }
 	
 	private int stabVal(int idx) {
-		return arrayVisualizer.getStabilityValue(idx);
+		if(arrayVisualizer.doingStabilityCheck())
+			return arrayVisualizer.getStabilityValue(idx);
+		else
+			return idx;
 	}
 	
 	private int base;

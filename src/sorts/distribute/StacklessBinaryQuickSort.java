@@ -7,7 +7,7 @@ import sorts.templates.Sort;
  * 
 MIT License
 
-Copyright (c) 2020 aphitorite
+Copyright (c) 2020-2021 aphitorite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,10 @@ final public class StacklessBinaryQuickSort extends Sort {
     }
 	
 	private int stabVal(int idx) {
-		return arrayVisualizer.getStabilityValue(idx);
+		if(arrayVisualizer.doingStabilityCheck())
+			return arrayVisualizer.getStabilityValue(idx);
+		else
+			return idx;
 	}
 	
 	private int partition(int[] array, int a, int b, int bit) {
