@@ -4,3 +4,4 @@ __pycache__
 sorts
 !src/sorts
 antiqsort_*
+network_*.svg

@@ -25,22 +25,16 @@ final public class GnomeSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 1; i < length;)
         {
-            if (Reads.compareValues(array[i], array[i-1]) >= 0)
+            if (Reads.compareIndices(array, i, i - 1, 0.04, true) >= 0)
             {
                 i++;
-                Highlights.markArray(1, i);
-                Delays.sleep(0.04);
             }
             else
             {
                 Writes.swap(array, i, i - 1, 0.02, true, false);
                 
-                Highlights.clearMark(2);
-                
                 if (i > 1) {
                     i--;
-                    Highlights.markArray(1, i);
-                    Delays.sleep(0.02);
                 }
             }
         }

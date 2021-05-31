@@ -26,6 +26,7 @@ import prompts.SortPrompt;
 import prompts.ViewPrompt;
 import utils.Delays;
 import utils.Highlights;
+import utils.SortingNetworkGenerator;
 import utils.Sounds;
 import utils.Timer;
  
@@ -306,6 +307,7 @@ final public class UtilFrame extends javax.swing.JFrame {
             "Sorting",
             "AntiQSort",
             "Stability Check",
+            "Sorting Networks",
             "Reversed Sorting"
             // "*Simple* Benchmarking"
         }));
@@ -388,6 +390,10 @@ final public class UtilFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void setMode(String mode) {
+        this.jComboBox1.setSelectedItem(mode);
+    }
 
     private void jButton1ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
         //CHANGE SORT
@@ -562,6 +568,20 @@ final public class UtilFrame extends javax.swing.JFrame {
                     break;
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(2);
+                break;
+
+            case "Sorting Networks":
+                if (ArrayVisualizer.enableBenchmarking(false))
+                    break;
+                jButton6.setEnabled(true);
+                ArrayVisualizer.setComparator(4);
+                if (!SortingNetworkGenerator.verifyPythonVersionAndDialog())
+                    jComboBox1.setSelectedIndex(0); // Failure to find Python installation
+                if (ArrayVisualizer.getCurrentLength() > 256) {
+                    JOptionPane.showMessageDialog(null, "Large sorting networks take too long and will not be generated. Array lengths less than or equal to 256 are recommended.",
+                        "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE);
+                    ArrayVisualizer.getArrayFrame().setLengthSlider(256);
+                }
                 break;
 
             case "Reversed Sorting":

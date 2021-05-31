@@ -1,6 +1,7 @@
 package utils;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import main.ArrayVisualizer;
 
@@ -32,6 +33,7 @@ SOFTWARE.
 
 final public class Reads {
     private volatile long comparisons;
+    public volatile ArrayList<Integer> networkIndices;
 
     private ArrayVisualizer ArrayVisualizer;
 
@@ -45,6 +47,7 @@ final public class Reads {
         this.ArrayVisualizer = arrayVisualizer;
 
         this.comparisons = 0;
+        this.networkIndices = new ArrayList<>();
 
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
@@ -132,6 +135,10 @@ final public class Reads {
             Highlights.markArray(1, left);
             Highlights.markArray(2, right);
             Delays.sleep(sleep);
+        }
+        if (ArrayVisualizer.generateSortingNetworks()) {
+            networkIndices.add(left);
+            networkIndices.add(right);
         }
         return this.compareValues(array[left], array[right]);
     }

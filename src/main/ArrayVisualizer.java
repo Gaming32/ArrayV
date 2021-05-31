@@ -148,6 +148,7 @@ final public class ArrayVisualizer {
 
     private volatile boolean ANTIQSORT;
     private volatile boolean STABILITY;
+    private volatile boolean NETWORKS;
     private volatile boolean REVERSED;
 
     private volatile boolean isCanceled;
@@ -366,6 +367,7 @@ final public class ArrayVisualizer {
 
         this.ANTIQSORT = false;
         this.STABILITY = false;
+        this.NETWORKS = false;
         
         this.isCanceled = false;
 
@@ -673,25 +675,39 @@ final public class ArrayVisualizer {
                 this.REVERSED = false;
                 this.ANTIQSORT = false;
                 this.STABILITY = false;
+                this.NETWORKS = false;
                 break;
             case 1:
                 this.REVERSED = false;
                 this.ANTIQSORT = true;
                 this.STABILITY = false;
+                this.NETWORKS = false;
                 break;
             case 2:
                 this.REVERSED = false;
-                this.STABILITY = true;
                 this.ANTIQSORT = false;
+                this.STABILITY = true;
+                this.NETWORKS = false;
                 break;
             case 3:
                 this.REVERSED = true;
                 this.ANTIQSORT = false;
                 this.STABILITY = false;
+                this.NETWORKS = false;
+                break;
+            case 4:
+                this.REVERSED = false;
+                this.ANTIQSORT = false;
+                this.STABILITY = false;
+                this.NETWORKS = true;
                 break;
         }
     }
     
+    public boolean generateSortingNetworks() {
+        return this.NETWORKS;
+    }
+
     public boolean useAntiQSort() {
         return this.ANTIQSORT;
     }
@@ -704,18 +720,6 @@ final public class ArrayVisualizer {
         if (!ArrayFileWriter.writeArray(outName, result, sortLength)) {
             return;
         }
-        // try {
-        //     FileWriter writer = new FileWriter(outName);
-        //     for (int i = 0; i < this.sortLength - 1; i++) {
-        //         writer.write(result[i] + " ");
-        //     }
-        //     writer.write("" + result[this.sortLength - 1]);
-        //     writer.close();
-        // }
-        // catch (IOException e) {
-        //     JErrorPane.invokeErrorMessage(e);
-        //     return;
-        // }
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + outName + "\"", "AntiQSort", JOptionPane.INFORMATION_MESSAGE);
     }
     public int antiqCompare(int left, int right) {
