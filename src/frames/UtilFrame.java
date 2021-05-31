@@ -63,6 +63,8 @@ SOFTWARE.
 final public class UtilFrame extends javax.swing.JFrame {
     final private static long serialVersionUID = 1L;
 
+    private boolean jCheckBox9WarningShown = false;
+
     private int[] array;
     
     private ArrayManager ArrayManager;
@@ -540,6 +542,21 @@ final public class UtilFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
     private void jCheckBox9ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
+        if (!jCheckBox9WarningShown && jCheckBox9.isSelected()) {
+            if (JOptionPane.showConfirmDialog(
+                null,
+                "<html>This will cause some sorts have extreme strobing/flashing."
+                    + "<br><strong>It is highly recommended to NOT enable the \"" + jCheckBox9.getText() + "\" option if you may be at risk of seizures.</strong>"
+                    + "<br>Are you sure you wish to enable this option?</html>",
+                "Seizure Warning",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            ) == JOptionPane.NO_OPTION) {
+                jCheckBox9.setSelected(false);
+                return;
+            }
+            jCheckBox9WarningShown = true;
+        }
         ArrayVisualizer.toggleExternalArrays(jCheckBox9.isSelected());
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
