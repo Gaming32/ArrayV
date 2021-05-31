@@ -62,11 +62,11 @@ final public class FireSort extends Sort {
 				twistwait = twistcheck;
 				twist *= -1;
 			} else {
-				twistwait -= 1;
+				twistwait--;
 			}
 			anyswaps = false;
 			while (i + 1 <= currentLength && i >= 1 && !anyswaps) {
-				if (Reads.compareValues(array[i - 1], array[i]) == twist) {
+				if (Reads.compareValues(array[i - 1], array[i]) * twist > 0) {
 					Writes.swap(array, i - 1, i, 0.005, true, false);
 					i -= twist;
 					anyswaps = true;
@@ -80,14 +80,14 @@ final public class FireSort extends Sort {
 				testpass = true;
 				while (testi != currentLength && testpass) {
 					if (Reads.compareValues(array[testi - 1], array[testi]) <= 0) {
-						testi += 1;
+						testi++;
 					} else {
 						testpass = false;
 						testi = 1;
 						testreverse = true;
 						while (testi != currentLength && testreverse) {
 							if (Reads.compareValues(array[testi - 1], array[testi]) >= 0) {
-								testi += 1;
+								testi++;
 							} else {
 								testreverse = false;
 							}
@@ -95,6 +95,7 @@ final public class FireSort extends Sort {
 					}
 				}
 				if (testreverse) {
+					i = 1;
 					twistwait = 0;
 				}
 			}
@@ -104,14 +105,14 @@ final public class FireSort extends Sort {
 				testpass = true;
 				while (testi != currentLength && testpass) {
 					if (Reads.compareValues(array[testi - 1], array[testi]) <= 0) {
-						testi += 1;
+						testi++;
 					} else {
 						testpass = false;
 						testi = 1;
 						testreverse = true;
 						while (testi != currentLength && testreverse) {
 							if (Reads.compareValues(array[testi - 1], array[testi]) >= 0) {
-								testi += 1;
+								testi++;
 							} else {
 								testreverse = false;
 							}
@@ -119,6 +120,7 @@ final public class FireSort extends Sort {
 					}
 				}
 				if (testreverse) {
+					i = currentLength - 1;
 					twistwait = 0;
 				}
 			}

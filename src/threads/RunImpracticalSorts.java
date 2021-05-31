@@ -138,7 +138,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunImpracticalSorts.this.runIndividualSort(FireSort,                  0, array, 256, 0.25,   true);
-        RunImpracticalSorts.this.runIndividualSort(StupidFireSort,            0, array, 128, 0.25,   true);
+        RunImpracticalSorts.this.runIndividualSort(StupidFireSort,            0, array, 128, 1,      true);
         RunImpracticalSorts.this.runIndividualSort(ReflectionSort,            0, array, 128, 0.25,   true);
         RunImpracticalSorts.this.runIndividualSort(BadSort,                   0, array, 64,  0.0075, true);
         RunImpracticalSorts.this.runIndividualSort(StoogeSort,                0, array, 64,  0.005,  true);

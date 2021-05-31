@@ -46,7 +46,10 @@ final public class StacklessAmericanFlagSort extends Sort {
     }
 	
 	private int stabVal(int idx) {
-		return arrayVisualizer.getStabilityValue(idx);
+		if(arrayVisualizer.doingStabilityCheck())
+			return arrayVisualizer.getStabilityValue(idx);
+		else
+			return idx;
 	}
 	
 	private static int shift(int n, int q, int r) {
