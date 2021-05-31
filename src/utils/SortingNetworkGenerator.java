@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.stream.Collectors;
+import java.text.DecimalFormat;
 
 import javax.swing.JOptionPane;
 
@@ -17,8 +18,12 @@ import panes.JErrorPane;
 import resources.sorting_network_master.SortingNetworkFetcher;
 
 public class SortingNetworkGenerator {
+    static DecimalFormat formatter = new DecimalFormat();
+
     static boolean hasPython = false;
     static String pythonCommand = null;
+
+    final static int LIMIT = 20000;
 
     static boolean verifyPythonVersion(String minVersion, String command) {
         try {
@@ -61,9 +66,24 @@ public class SortingNetworkGenerator {
     }
 
     public static boolean encodeNetwork(int[] indices, String path) {
+        if (indices.length < 2) {
+            JOptionPane.showMessageDialog(null, "Sort does not compare indices; An empty sorting network cannot be generated.",
+                "File not saved", JOptionPane.ERROR_MESSAGE);
+
+            return false;
+        }
+        else if (indices.length > 2*LIMIT) {
+            String[] options = {"Yes", "Cancel"};
+            int choice = JOptionPane.showOptionDialog(null, "Sorting network is very large and exceeds the " + formatter.format(LIMIT) + " comparator limit. Generate anyway?",
+                "Warning!", 2, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+
+            if (choice == 1) {
+                return false;
+            }
+        }
         String result = indices[0] + ":" + indices[1];
-        for (int i = 2; i < indices.length; i += 2) {
-            result += "," + indices[i] + ":" + indices[i + 1];
+        for (int i = 3; i < indices.length; i += 2) {
+            result += "," + indices[i - 1] + ":" + indices[i];
         }
         SortingNetworkFetcher fetcher = new SortingNetworkFetcher();
         try {
@@ -107,7 +127,8 @@ public class SortingNetworkGenerator {
         Desktop desktop = Desktop.getDesktop();
         try {
             desktop.open(file);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         return path;

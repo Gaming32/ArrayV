@@ -577,8 +577,8 @@ final public class UtilFrame extends javax.swing.JFrame {
                 ArrayVisualizer.setComparator(4);
                 if (!SortingNetworkGenerator.verifyPythonVersionAndDialog())
                     jComboBox1.setSelectedIndex(0); // Failure to find Python installation
-                if (ArrayVisualizer.getCurrentLength() >= 512) {
-                    JOptionPane.showMessageDialog(null, "Array lengths greater than 512 can take a really long time to generate.",
+                if (ArrayVisualizer.getCurrentLength() > 256) {
+                    JOptionPane.showMessageDialog(null, "Large sorting networks take too long and will not be generated. Array lengths less than or equal to 256 are recommended.",
                         "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE);
                     ArrayVisualizer.getArrayFrame().setLengthSlider(256);
                 }

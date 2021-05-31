@@ -34,12 +34,9 @@ public final class AwkwardSort extends Sort {
         for (int i = 0; i < l / 2; i++) {
             int a = pos + i;
             int b = pos + l / 2 + l % 2 + i;
-
-            this.Highlights.markArray(1, a);
-            this.Highlights.markArray(2, b);
-            this.Delays.sleep(0.5D);
-            if (this.Reads.compareIndices(arr, a, b, 0, false) == 1) {
-                this.Writes.swap(arr, a, b, 1.0D, true, false);
+			
+            if (this.Reads.compareIndices(arr, a, b, 0.02D, true) == 1) {
+                this.Writes.swap(arr, a, b, 0.02D, true, false);
             }
         }
         awkward(arr, l / 2 + l % 2, pos + l / 4);

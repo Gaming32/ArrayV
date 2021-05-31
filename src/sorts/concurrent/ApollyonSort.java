@@ -32,12 +32,7 @@ final public class ApollyonSort extends CircleSorting {
     
     private void compare(int[] A, int i, int j, boolean dir)
 	{
-    	Highlights.markArray(1, i);
-    	Highlights.markArray(2, j);
-    	
-    	Delays.sleep(0.5);
-    	
-    	int cmp = Reads.compareIndices(A, i, j, 0, false);
+    	int cmp = Reads.compareIndices(A, i, j, 0.5, true);
     	
 	    if (dir == (cmp == 1)) Writes.swap(A, i, j, 0.5, true, false);
 	}
