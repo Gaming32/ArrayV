@@ -73,7 +73,7 @@ final public class Sounds {
     final private int SUSTAIN_PEDAL = 64;
     final private int REVERB = 91;
     
-    private String defaultSoundbank = "Default (Roland SoundCanvas Sound Set)";
+    private String defaultSoundbank = "Default (Yamaha XG Sound Set)";
     private String selectedSoundbank;
     
     private int sineWaveIndex;
