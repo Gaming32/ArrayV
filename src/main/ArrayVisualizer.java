@@ -440,8 +440,8 @@ final public class ArrayVisualizer {
                             background.drawImage(ArrayVisualizer.this.img, 0, 0, null);
                             Toolkit.getDefaultToolkit().sync();
                         }
-                        if (ArrayVisualizer.this.updateVisualsForced > 1000) {
-                            ArrayVisualizer.this.updateVisualsForced = 1;
+                        if (ArrayVisualizer.this.updateVisualsForced > 10000) {
+                            ArrayVisualizer.this.updateVisualsForced = 100;
                         }
                     }
                     catch (Exception e) {
