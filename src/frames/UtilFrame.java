@@ -26,6 +26,7 @@ import prompts.SortPrompt;
 import prompts.ViewPrompt;
 import utils.Delays;
 import utils.Highlights;
+import utils.SortingNetworkGenerator;
 import utils.Sounds;
 import utils.Timer;
  
@@ -61,6 +62,8 @@ SOFTWARE.
  */
 final public class UtilFrame extends javax.swing.JFrame {
     final private static long serialVersionUID = 1L;
+
+    private boolean jCheckBox9WarningShown = false;
 
     private int[] array;
     
@@ -306,6 +309,7 @@ final public class UtilFrame extends javax.swing.JFrame {
             "Sorting",
             "AntiQSort",
             "Stability Check",
+            "Sorting Networks",
             "Reversed Sorting"
             // "*Simple* Benchmarking"
         }));
@@ -388,6 +392,10 @@ final public class UtilFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    public void setMode(String mode) {
+        this.jComboBox1.setSelectedItem(mode);
+    }
 
     private void jButton1ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
         //CHANGE SORT
@@ -534,6 +542,21 @@ final public class UtilFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
     private void jCheckBox9ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
+        if (!jCheckBox9WarningShown && jCheckBox9.isSelected()) {
+            if (JOptionPane.showConfirmDialog(
+                null,
+                "<html>This will cause some sorts have extreme strobing/flashing."
+                    + "<br><strong>It is highly recommended to NOT enable the \"" + jCheckBox9.getText() + "\" option if you may be at risk of seizures.</strong>"
+                    + "<br>Are you sure you wish to enable this option?</html>",
+                "Seizure Warning",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+            ) == JOptionPane.NO_OPTION) {
+                jCheckBox9.setSelected(false);
+                return;
+            }
+            jCheckBox9WarningShown = true;
+        }
         ArrayVisualizer.toggleExternalArrays(jCheckBox9.isSelected());
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
@@ -562,6 +585,20 @@ final public class UtilFrame extends javax.swing.JFrame {
                     break;
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(2);
+                break;
+
+            case "Sorting Networks":
+                if (ArrayVisualizer.enableBenchmarking(false))
+                    break;
+                jButton6.setEnabled(true);
+                ArrayVisualizer.setComparator(4);
+                if (!SortingNetworkGenerator.verifyPythonVersionAndDialog())
+                    jComboBox1.setSelectedIndex(0); // Failure to find Python installation
+                if (ArrayVisualizer.getCurrentLength() > 256) {
+                    JOptionPane.showMessageDialog(null, "Large sorting networks take too long and will not be generated. Array lengths less than or equal to 256 are recommended.",
+                        "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE);
+                    ArrayVisualizer.getArrayFrame().setLengthSlider(256);
+                }
                 break;
 
             case "Reversed Sorting":
