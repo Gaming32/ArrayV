@@ -147,6 +147,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         categorySortThreads.put("Insertion Sorts",     new RunInsertionSorts    (ArrayVisualizer));
         categorySortThreads.put("Merge Sorts",         new RunMergeSorts        (ArrayVisualizer));
         categorySortThreads.put("Miscellaneous Sorts", new RunMiscellaneousSorts(ArrayVisualizer));
+        categorySortThreads.put("Quick Sorts",         new RunQuickSorts        (ArrayVisualizer));
         categorySortThreads.put("Selection Sorts",     new RunSelectionSorts    (ArrayVisualizer));
     }
 

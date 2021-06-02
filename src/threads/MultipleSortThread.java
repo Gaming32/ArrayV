@@ -45,14 +45,14 @@ public abstract class MultipleSortThread {
         this.startingLength = arrayVisualizer.getCurrentLength();
     }
     
-    private int calculateLength(int defaultLength) {
+    protected int calculateLength(int defaultLength) {
         return (int) Math.max((defaultLength / 2048d) * this.startingLength, 2);
     }
-    private int calculateLengthSlow(int defaultLength, int unreasonableLimit) {
+    protected int calculateLengthSlow(int defaultLength, int unreasonableLimit) {
         return Math.min(this.calculateLength(defaultLength), unreasonableLimit);
     }
     
-    private double calculateSpeed(double defaultDelay, int length) {
+    protected double calculateSpeed(double defaultDelay, int length) {
         if(length < (this.startingLength / 2)) {
             return defaultDelay * Math.pow((this.startingLength / 2048d), 2);
         }
