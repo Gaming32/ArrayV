@@ -1085,6 +1085,9 @@ final public class ArrayVisualizer {
             ((CustomImage) this.visualClasses[9]).enableImgMenu();
         }
         this.VisualStyles = choice;
+        synchronized (this) {
+            this.updateNow();
+        }
     }
     
     public int getCurrentGap() {
