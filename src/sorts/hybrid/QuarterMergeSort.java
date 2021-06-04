@@ -31,16 +31,16 @@ SOFTWARE.
  *
  */
 
-final public class ThirdMergeSort extends Sort {
+final public class QuarterMergeSort extends Sort {
     private BinaryInsertionSort binaryInserter;
     private BlockSwapMergeSort finalMerger;
 
-    public ThirdMergeSort(ArrayVisualizer arrayVisualizer) {
+    public QuarterMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Third Merge");
-        this.setRunAllSortsName("Third Merge Sort");
-        this.setRunSortName("Third Mergesort");
+        this.setSortListName("Quarter Merge");
+        this.setRunAllSortsName("Quarter Merge Sort");
+        this.setRunSortName("Quarter Mergesort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
@@ -63,16 +63,16 @@ final public class ThirdMergeSort extends Sort {
         int left = start, right = mid;
 
         while (left < right && right < end) {
-            if (Reads.compareIndices(array, bufferPointer, right, 0.1, true) <= 0) {
-                Writes.swap(array, bufferPointer++, left++, 0.25, true, false);
+            if (Reads.compareIndices(array, bufferPointer, right, 0.5, true) <= 0) {
+                Writes.swap(array, bufferPointer++, left++, 0.5, true, false);
             }
             else {
-                Writes.swap(array, left++, right++, 0.25, true, false);
+                Writes.swap(array, left++, right++, 0.5, true, false);
             }
         }
 
         while (left < right) {
-            Writes.swap(array, bufferPointer++, left++, 0.25, true, false);
+            Writes.swap(array, bufferPointer++, left++, 0.5, true, false);
         }
     }
 
@@ -82,7 +82,7 @@ final public class ThirdMergeSort extends Sort {
         return val >> 1;
     }
 
-    public void thirdMergeSort(int[] array, int length) {
+    public void quarterMergeSort(int[] array, int length) {
         if (finalMerger == null) {
             binaryInserter = new BinaryInsertionSort(arrayVisualizer);
             finalMerger = new BlockSwapMergeSort(arrayVisualizer);
@@ -92,28 +92,28 @@ final public class ThirdMergeSort extends Sort {
             binaryInserter.customBinaryInsert(array, 0, length, 0.333);
             return;
         }
-        int thirdSize = length / 3;
-        int useLength = thirdSize * 3;
+        int quarterSize = length / 4;
+        int useLength = quarterSize * 4;
 
-        for (int i = thirdSize; i < useLength - 1; i += 2) {
+        for (int i = quarterSize; i < useLength - 1; i += 2) {
             if (Reads.compareIndices(array, i, i + 1, 0.5, true) == 1) {
                 Writes.swap(array, i, i + 1, 0.5, true, false);
             }
         }
 
-        int subStart, subEnd = useLength, subLength = useLength - thirdSize;
+        int subStart, subEnd = useLength, subLength = useLength - quarterSize;
         int gap;
-        for (int parlen = subLength; parlen >= 2; parlen = subEnd - thirdSize) {
+        for (int parlen = subLength; parlen >= 2; parlen = subEnd - quarterSize) {
             subLength = pow2lte(parlen);
             subStart = subEnd - subLength;
             
             for (gap = 4; gap <= subLength; gap *= 2) {
                 for (int i = subStart; i + gap <= subEnd; i += gap) {
-                    merge(array, thirdSize, i, i + gap / 2, i + gap);
+                    merge(array, quarterSize, i, i + gap / 2, i + gap);
                 }
             }
-            if (parlen != useLength - thirdSize) {
-                merge(array, thirdSize, subStart, subEnd, useLength);
+            if (parlen != useLength - quarterSize) {
+                merge(array, quarterSize, subStart, subEnd, useLength);
             }
             subEnd = subStart;
         }
@@ -123,11 +123,11 @@ final public class ThirdMergeSort extends Sort {
             if (extra > 1 && Reads.compareIndices(array, length - 2, length - 1, 0.5, true) == 1) {
                 Writes.swap(array, length - 2, length - 1, 0.5, true, false);
             }
-            finalMerger.multiSwapMerge(array, thirdSize, useLength, length);
+            finalMerger.multiSwapMerge(array, quarterSize, useLength, length);
         }
 
-        thirdMergeSort(array, thirdSize);
-        finalMerger.multiSwapMerge(array, 0, thirdSize, length);
+        quarterMergeSort(array, quarterSize);
+        finalMerger.multiSwapMerge(array, 0, quarterSize, length);
     }
 
     @Override
@@ -135,6 +135,6 @@ final public class ThirdMergeSort extends Sort {
         binaryInserter = new BinaryInsertionSort(arrayVisualizer);
         finalMerger = new BlockSwapMergeSort(arrayVisualizer);
         
-        this.thirdMergeSort(array, sortLength);
+        this.quarterMergeSort(array, sortLength);
     }
 }

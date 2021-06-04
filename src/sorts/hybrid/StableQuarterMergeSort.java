@@ -31,17 +31,17 @@ SOFTWARE.
  *
  */
 
-final public class StableThirdMergeSort extends Sort {
+final public class StableQuarterMergeSort extends Sort {
     ReverseLazyStableSort rotater;
-    ThirdMergeSort sort;
+    QuarterMergeSort sort;
     BlockSwapMergeSort fallbackSort;
 
-    public StableThirdMergeSort(ArrayVisualizer arrayVisualizer) {
+    public StableQuarterMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
-        this.setSortListName("Stable Third Merge");
-        this.setRunAllSortsName("Stable Third Merge Sort");
-        this.setRunSortName("Stable Third Mergesort");
+        this.setSortListName("Stable Quarter Merge");
+        this.setRunAllSortsName("Stable Quarter Merge Sort");
+        this.setRunSortName("Stable Quarter Mergesort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(true);
@@ -133,13 +133,13 @@ final public class StableThirdMergeSort extends Sort {
     @Override
     public void runSort(int[] array, int length, int baseCount) throws Exception {
         rotater = new ReverseLazyStableSort(arrayVisualizer);
-        sort = new ThirdMergeSort(arrayVisualizer);
+        sort = new QuarterMergeSort(arrayVisualizer);
         fallbackSort = new BlockSwapMergeSort(arrayVisualizer);
 
-        int required = (int)Math.ceil(length / 4d);
+        int required = length / 4;
         if (ejectDuplicates(array, 0, required, length) < required)
             fallbackSort.multiSwapMergeSort(array, 0, length);
         else
-            sort.thirdMergeSort(array, length);
+            sort.quarterMergeSort(array, length);
     }
 }
