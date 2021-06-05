@@ -1088,6 +1088,39 @@ public enum Shuffles {
             for (val = 1; val <= value; val <<= 1);
             return val >> 1;
         }
+    },
+    BLOCK_REVERSE {
+        @Override
+        public String getName() {
+            return "Block Reverse";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            int blockSize = pow2lte((int)Math.sqrt(currentLen));
+            currentLen -= currentLen % blockSize;
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+            double sleep = delay ? 1 : 0;
+            
+            int i = 0, j = currentLen - blockSize;
+            while (i < j) {
+                blockSwap(array, i, j, blockSize, Writes, sleep);
+                i += blockSize;
+                j -= blockSize;
+            }
+        }
+
+        private void blockSwap(int[] array, int a, int b, int len, Writes Writes, double sleep) {
+            for (int i = 0; i < len; i++) {
+                Writes.swap(array, a + i, b + i, sleep, true, false);
+            }
+        }
+
+        private int pow2lte(int value) {
+            int val;
+            for (val = 1; val <= value; val <<= 1);
+            return val >> 1;
+        }
     };
     
     public void sort(int[] array, int start, int end, double sleep, Writes Writes) {
