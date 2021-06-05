@@ -42,7 +42,11 @@ public class AntiQSort {
             return -1;
         }
 
-        return data[a] - data[b];
+        if (data[a] < data[b])
+            return -1;
+        if (data[a] > data[b])
+            return 1;
+        return 0;
     }
 
     public void beginSort(int[] refs, int nmemb) {
@@ -50,7 +54,8 @@ public class AntiQSort {
         this.frozen = 1;
 
         this.nmemb = nmemb;
-        this.data = new int[nmemb];
+        this.data = arrayVisualizer.getWrites().createExternalArray(nmemb);
+        arrayVisualizer.getWrites().changeAllocAmount(-nmemb);
         this.gas = nmemb;
         for (int i = 0; i < nmemb; i++) {
             refs[i] = i;
@@ -60,5 +65,10 @@ public class AntiQSort {
 
     public int[] getResult() {
         return this.data;
+    }
+
+    public void hideResult() {
+        arrayVisualizer.getWrites().changeAllocAmount(nmemb);
+        arrayVisualizer.getWrites().deleteExternalArray(this.data);
     }
 }

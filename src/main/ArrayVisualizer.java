@@ -719,6 +719,7 @@ final public class ArrayVisualizer {
     }
     public void finishAntiQSort(String name) {
         int[] result = this.AntiQSort.getResult();
+        this.AntiQSort.hideResult();
         String outName = "antiqsort_" + name + "_" + this.sortLength;
         if (!ArrayFileWriter.writeArray(outName, result, sortLength)) {
             return;
