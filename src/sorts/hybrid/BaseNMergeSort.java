@@ -31,6 +31,8 @@ SOFTWARE.
  */
 
 final public class BaseNMergeSort extends Sort {
+    int[] tmp;
+
     private InsertionSort insertSorter;
 
     public BaseNMergeSort(ArrayVisualizer arrayVisualizer) {
@@ -73,10 +75,9 @@ final public class BaseNMergeSort extends Sort {
     private void merge(int[] array, int[] starts, int end, int baseCount) {
         int[] copiedStarts = copyStarts(starts, baseCount);
 
-        int[] result = Writes.createExternalArray(end - starts[0]);
-        // int size = starts[1] - starts[0];
+        int length = end - starts[0];
 
-        for (int nxt = 0; nxt < result.length; nxt++) {
+        for (int nxt = 0; nxt < length; nxt++) {
             highlightMerge(starts, copiedStarts, end, baseCount);
             int minValue = Integer.MAX_VALUE;
             int minIndex = 0;
@@ -90,17 +91,16 @@ final public class BaseNMergeSort extends Sort {
                     minIndex = i;
                 }
             }
-            Writes.write(result, nxt, minValue, 1, false, true);
+            Writes.write(tmp, nxt, minValue, 1, false, true);
             Writes.write(copiedStarts, minIndex, copiedStarts[minIndex] + 1, 0, false, true);
         }
         Highlights.clearAllMarks();
 
-        for(int i = 0; i < result.length; i++){
-            Writes.write(array, starts[0] + i, result[i], 1, true, false);
+        for(int i = 0; i < length; i++){
+            Writes.write(array, starts[0] + i, tmp[i], 1, true, false);
         }
         
         Writes.changeAllocAmount(-copiedStarts.length);
-        Writes.deleteExternalArray(result);
     }
 
     private void mergeRun(int[] array, int[] starts, int end, int baseCount) {
@@ -146,12 +146,12 @@ final public class BaseNMergeSort extends Sort {
     // Copied from MergeSorting.java:52
     // Used for merging wrong powers
     private void mergeBase2(int[] array, int start, int mid, int end) {
-        int[] tmp = Writes.createExternalArray(end - start);
+        int length = end - start;
         
         int low = start;
         int high = mid;
         
-        for(int nxt = 0; nxt < tmp.length; nxt++){
+        for(int nxt = 0; nxt < length; nxt++){
             if(low >= mid && high >= end) break;
             
             Highlights.markArray(1, low);
@@ -174,19 +174,12 @@ final public class BaseNMergeSort extends Sort {
         }
         Highlights.clearMark(2);
         
-        for(int i = 0; i < tmp.length; i++){
+        for(int i = 0; i < length; i++){
             Writes.write(array, start + i, tmp[i], 1, true, false);
         }
-
-        Writes.deleteExternalArray(tmp);
     }
-    
-    @Override
-    public void runSort(int[] array, int length, int baseCount) throws Exception {
-        this.setRunAllSortsName("Base-N Merge Sort, " + baseCount + " Bases");
 
-        insertSorter = new InsertionSort(arrayVisualizer);
-
+    private void baseNMerge(int[] array, int length, int baseCount) {
         boolean useBinary = false;
         double logBaseCount = logBase(baseCount, 2);
         if (Math.pow(2, logBaseCount) == Math.pow(2, (int)logBaseCount)) {
@@ -206,8 +199,21 @@ final public class BaseNMergeSort extends Sort {
         mergeRun(array, starts, length, baseCount);
 
         if (start > 0) {
-            runSort(array, start, baseCount);
+            baseNMerge(array, start, baseCount);
             mergeBase2(array, 0, start, length);
         }
+    }
+    
+    @Override
+    public void runSort(int[] array, int length, int baseCount) throws Exception {
+        this.setRunAllSortsName("Base-N Merge Sort, " + baseCount + " Bases");
+
+        insertSorter = new InsertionSort(arrayVisualizer);
+
+        tmp = Writes.createExternalArray(length);
+
+        baseNMerge(array, length, baseCount);
+
+        Writes.deleteExternalArray(tmp);
     }
 }
