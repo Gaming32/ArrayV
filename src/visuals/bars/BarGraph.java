@@ -35,8 +35,9 @@ final public class BarGraph extends Visual {
 			j += width;
         }
 		this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+		int length = Math.min(Renderer.getArrayLength(), ArrayVisualizer.getCurrentLength());
 		
-		for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+		for(int i = 0, j = 0; i < length; i++) {
 			int width = (int) (Renderer.getXScale() * (i + 1)) - j;
 			
 			if(Highlights.containsPosition(i)) {
