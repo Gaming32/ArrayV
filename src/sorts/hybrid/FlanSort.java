@@ -3,6 +3,8 @@ package sorts.hybrid;
 import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
+import java.util.Random;
+
 /*
  * 
 MIT License
@@ -143,7 +145,7 @@ final public class FlanSort extends Sort {
 		while(a < b) {
 			int m = a+(b-a)/2;
 			Highlights.markArray(3, m);
-			Delays.sleep(0.125);
+			Delays.sleep(0.25);
 			
 			if(Reads.compareValues(val, array[m]) == cmp) 
 				b = m;
@@ -152,21 +154,6 @@ final public class FlanSort extends Sort {
 		}
 		
 		Highlights.clearMark(3);
-		return a;
-	}
-	
-	private int eqNextGapSearch(int[] array, int a, int b, int bsv, boolean bw) {
-		int s = G+1;
-		
-		while(a < b) {
-			int m = a+(((b-a)/s)/2)*s;
-			
-			if(this.rightBinSearch(array, m-G, m, bsv, bw) < m) 
-				b = m;
-			else     
-				a = m+s;
-		}
-		
 		return a;
 	}
 	
@@ -258,10 +245,13 @@ final public class FlanSort extends Sort {
 	//buffer length is at least sortLength*(G+1)-1
 	private void librarySort(int[] array, int a, int b, int p, int bsv, boolean bw) {
 		int len = b-a;
+		
 		if(len < 32) {
 			this.binaryInsertion(array, a, b);
 			return;
 		}
+		
+		Random rng = new Random();
 		
 		int s = len;
 		while(s >= 32) s = (s-1)/R + 1;
@@ -286,13 +276,13 @@ final public class FlanSort extends Sort {
 			int bLoc = this.leftBlockSearch(array, p+G, pEnd-(G+1), array[i]); //search gap location
 			
 			if(Reads.compareValues(array[i], array[bLoc]) == 0) { //handle equal values to prevent worst case O(n^2)
-				int eqEnd = this.rightBlockSearch(array, bLoc, pEnd-(G+1), array[i]);
-				bLoc = this.eqNextGapSearch(array, bLoc, eqEnd, bsv, bw);
+				int eqEnd = this.rightBlockSearch(array, bLoc+(G+1), pEnd-(G+1), array[i]); //find the endpoint of the gaps with equal head element
+				bLoc += rng.nextInt((eqEnd-bLoc)/(G+1))*(G+1);						  //choose a random gap from the range of gaps
 			}
 			
 			int loc  = this.rightBinSearch(array, bLoc-G, bLoc, bsv, bw); //search next empty space in gap
 			
-			if(loc == bLoc) { //filled elements in gaps are split
+			if(loc == bLoc) { //if there is no empty space filled elements in gap are split
 				do bLoc += G+1; 
 				while(bLoc < pEnd && this.rightBinSearch(array, bLoc-G, bLoc, bsv, bw) == bLoc);
 				

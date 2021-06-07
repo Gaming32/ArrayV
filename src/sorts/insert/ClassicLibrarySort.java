@@ -4,6 +4,7 @@ import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /*
  * 
@@ -65,7 +66,7 @@ final public class ClassicLibrarySort extends Sort {
 		while(a < b) {
 			int m = a+(((b-a)/s)/2)*s;
 			Highlights.markArray(2, m/s);
-			Delays.sleep(0.5);
+			Delays.sleep(0.25);
 			
 			if(Reads.compareValues(val, array[m]) <= 0) 
 				b = m;
@@ -119,24 +120,6 @@ final public class ClassicLibrarySort extends Sort {
 		return a;
 	}
 	
-	private int eqNextGapSearch(int[] array, int a, int b) {
-		int s = G+1;
-		
-		while(a < b) {
-			int m = a+(((b-a)/s)/2)*s;
-			Highlights.markArray(2, m/s);
-			Delays.sleep(0.25);
-			
-			if(this.locSearch(array, m-G, m) < m) 
-				b = m;
-			else     
-				a = m+s;
-		}
-		
-		Highlights.clearMark(2);
-		return a;
-	}
-	
 	private void insertTo(int[] array, int a, int b, boolean aux) {
 		Highlights.clearMark(2);
 		int temp = array[a];
@@ -179,6 +162,8 @@ final public class ClassicLibrarySort extends Sort {
 		int[] tmp = Writes.createExternalArray(length*(G+1)-1);
 		Arrays.fill(tmp, this.max);
 		
+		Random rng = new Random();
+		
 		int s = length;
 		while(s >= 32) s = (s-1)/R + 1;
 		
@@ -208,8 +193,8 @@ final public class ClassicLibrarySort extends Sort {
 			int bLoc = this.leftBlockSearch(tmp, G, pEnd-(G+1), array[i]);
 			
 			if(Reads.compareValues(array[i], tmp[bLoc]) == 0) {
-				int eqEnd = this.rightBlockSearch(tmp, bLoc, pEnd-(G+1), array[i]);
-				bLoc = this.eqNextGapSearch(tmp, bLoc, eqEnd);
+				int eqEnd = this.rightBlockSearch(tmp, bLoc+(G+1), pEnd-(G+1), array[i]);
+				bLoc += rng.nextInt((eqEnd-bLoc)/(G+1))*(G+1);
 			}
 			int loc  = this.locSearch(tmp, bLoc-G, bLoc);
 			
