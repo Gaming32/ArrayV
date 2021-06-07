@@ -92,6 +92,6 @@ final public class BidirectionalInsertionSort extends Sort {
     
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
-        insertionSort(array, 0, currentLength, 1, false);
+        insertionSort(array, 0, currentLength, 0.015, false);
     }
 }
