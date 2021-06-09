@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020-2021 Gaming32 and Morewenn
@@ -32,7 +32,7 @@ SOFTWARE.
 final public class DoubleInsertionSort extends Sort {
     public DoubleInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Double Insertion");
         this.setRunAllSortsName("Double Insertion Sort");
         this.setRunSortName("Double Insertsort");
@@ -45,17 +45,7 @@ final public class DoubleInsertionSort extends Sort {
         this.setBogoSort(false);
     }
 
-    protected void insertDown(int[] array, int right, int current, int cmp, double sleep, boolean auxwrite) {
-        int pos = right - 1;
-
-        while (Reads.compareValues(array[pos], current) > cmp) {
-            Writes.write(array, pos + 1, array[pos], sleep, true, auxwrite);
-            pos--;
-        }
-        Writes.write(array, pos + 1, current, sleep, true, auxwrite);
-    }
-
-    protected void insertionSort(int[] array, int start, int end, double sleep, boolean auxwrite) {    
+    protected void insertionSort(int[] array, int start, int end, double sleep, boolean auxwrite) {
         int left = start + (end - start) / 2 - 1, right = left + 1;
         if (Reads.compareIndices(array, left, right, sleep, true) > 0) {
             Writes.swap(array, left, right, sleep, true, auxwrite);
@@ -120,7 +110,7 @@ final public class DoubleInsertionSort extends Sort {
     public void customInsertSort(int[] array, int start, int end, double sleep, boolean auxwrite) {
         this.insertionSort(array, start, end, sleep, auxwrite);
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         this.insertionSort(array, 0, currentLength, 0.015, false);
