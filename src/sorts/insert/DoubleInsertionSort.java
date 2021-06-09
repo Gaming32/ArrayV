@@ -45,16 +45,6 @@ final public class DoubleInsertionSort extends Sort {
         this.setBogoSort(false);
     }
 
-    protected void insertUp(int[] array, int left, int current, int cmp, double sleep, boolean auxwrite) {
-        int pos = left + 1;
-
-        while (Reads.compareValues(array[pos], current) < cmp) {
-            Writes.write(array, pos - 1, array[pos], sleep, true, auxwrite);
-            pos++;
-        }
-        Writes.write(array, pos - 1, current, sleep, true, auxwrite);
-    }
-
     protected void insertDown(int[] array, int right, int current, int cmp, double sleep, boolean auxwrite) {
         int pos = right - 1;
 
@@ -74,28 +64,57 @@ final public class DoubleInsertionSort extends Sort {
         right++;
 
         while (left >= start && right < end) {
-            int leftCmp, rightCmp;
             int leftItem, rightItem;
             if (Reads.compareIndices(array, left, right, sleep, true) > 0) {
                 leftItem = array[right];
                 rightItem = array[left];
-                leftCmp = 1;
-                rightCmp = -1;
+
+                int pos = left + 1;
+                while (pos <= right && Reads.compareValues(array[pos], leftItem) <= 0) {
+                    Writes.write(array, pos - 1, array[pos], sleep, true, auxwrite);
+                    pos++;
+                }
+                Writes.write(array, pos - 1, leftItem, sleep, true, auxwrite);
+
+                pos = right - 1;
+                while (pos >= left && Reads.compareValues(array[pos], rightItem) >= 0) {
+                    Writes.write(array, pos + 1, array[pos], sleep, true, auxwrite);
+                    pos--;
+                }
+                Writes.write(array, pos + 1, rightItem, sleep, true, auxwrite);
             }
             else {
                 leftItem = array[left];
                 rightItem = array[right];
-                leftCmp = rightCmp = 0;
-            }
 
-            insertUp(array, left, leftItem, leftCmp, sleep, auxwrite);
-            insertDown(array, right, rightItem, rightCmp, sleep, auxwrite);
+                int pos = left + 1;
+                while (Reads.compareValues(array[pos], leftItem) < 0) {
+                    Writes.write(array, pos - 1, array[pos], sleep, true, auxwrite);
+                    pos++;
+                }
+                Writes.write(array, pos - 1, leftItem, sleep, true, auxwrite);
+
+                pos = right - 1;
+                while (Reads.compareValues(array[pos], rightItem) > 0) {
+                    Writes.write(array, pos + 1, array[pos], sleep, true, auxwrite);
+                    pos--;
+                }
+                Writes.write(array, pos + 1, rightItem, sleep, true, auxwrite);
+            }
 
             left--;
             right++;
         }
 
-        if (right < end) insertDown(array, right, array[right], 0, sleep, auxwrite);
+        if (right < end) {
+            int pos = right - 1;
+            int current = array[right];
+            while (Reads.compareValues(array[pos], current) > 0) {
+                Writes.write(array, pos + 1, array[pos], sleep, true, auxwrite);
+                pos--;
+            }
+            Writes.write(array, pos + 1, current, sleep, true, auxwrite);
+        }
     }
 
     public void customInsertSort(int[] array, int start, int end, double sleep, boolean auxwrite) {
