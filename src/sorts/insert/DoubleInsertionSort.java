@@ -53,8 +53,8 @@ final public class DoubleInsertionSort extends Sort {
         left--;
         right++;
 
+        int leftItem, rightItem;
         while (left >= start && right < end) {
-            int leftItem, rightItem;
             if (Reads.compareIndices(array, left, right, sleep, true) > 0) {
                 leftItem = array[right];
                 rightItem = array[left];
