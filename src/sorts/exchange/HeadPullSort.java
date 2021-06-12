@@ -50,7 +50,6 @@ final public class HeadPullSort extends Sort {
 	@Override
 	public void runSort(int[] array, int currentLength, int bucketCount) {
 		int i = 1;
-		int verifyi = 1;
 		int pull = 1;
 		i = 1;
 		while (i + 1 <= currentLength) {
