@@ -67,6 +67,7 @@ public class WikiSort extends Sort {
         this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
+        this.setQuestion("Enter external buffer size (0 for in-place):", 0);
     }
     
     @Override

@@ -48,6 +48,7 @@ final public class BaseNMergeSort extends Sort {
         this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
+        this.setQuestion("Enter the number of bases for this sort:", 4);
     }
 
     private int[] copyStarts(int[] starts, int baseCount) {
