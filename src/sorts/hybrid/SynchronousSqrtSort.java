@@ -110,31 +110,36 @@ final public class SynchronousSqrtSort extends Sort {
 				if(i != p) {
 					int cmp = Reads.compareValues(array[i], array[min]);
 					
-					if(cmp == -1 || (cmp == 0 && Reads.compareValues(tags[t + (i-a)/bLen], tags[t + (min-a)/bLen]) == -1))
+					if(cmp == -1 || (cmp == 0 && Reads.compareOriginalValues(tags[t + (i-a)/bLen], tags[t + (min-a)/bLen]) == -1))
 						min = i;
 				}
 			}
 			if(min > j) {
-				if(p == j) Writes.arraycopy(array, min, array, j, bLen, 1, true, false);
-				else	   this.multiSwap(array, j, min, bLen);
+				if(p == j) {
+					Writes.arraycopy(array, min, array, j, bLen, 1, true, false);
+					Writes.write(tags, t + (j-a)/bLen, tags[t + (min-a)/bLen], 1, true, false);
+					
+					p = min;
+				}
+				else {
+					this.multiSwap(array, j, min, bLen);
+					Writes.swap(tags, t + (j-a)/bLen, t + (min-a)/bLen, 1, true, false);
+				}
 			}
-			Writes.swap(tags, t + (j-a)/bLen, t + (min-a)/bLen, 1, true, false);
-			
-			if(p == j || p == min) p ^= j ^ min;
 		}
 	}
 	private void mergeBlocksBW(int[] array, int[] tags, int a, int b, int ti, int tb, int bLen) {
 		int tj = tb-1, mkv = tags.length;
 		int f = b, a1 = f-bLen;
-		boolean rev = Reads.compareValues(tags[tj], mkv) < 0;
+		boolean rev = Reads.compareOriginalValues(tags[tj], mkv) < 0;
 		
 		while(true) {
 			do {
 				tj--;
 				a1 -= bLen;
 			}
-			while(tj >= ti && (rev ? Reads.compareValues(tags[tj], mkv) < 0
-								   : Reads.compareValues(tags[tj], mkv) >= 0));
+			while(tj >= ti && (rev ? Reads.compareOriginalValues(tags[tj], mkv) < 0
+								   : Reads.compareOriginalValues(tags[tj], mkv) >= 0));
 			if(tj < ti) {
 				this.shiftBW(array, a, f, f+bLen);
 				break;
