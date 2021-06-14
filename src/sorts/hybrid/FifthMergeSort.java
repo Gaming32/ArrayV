@@ -31,12 +31,6 @@ final public class FifthMergeSort extends Sort {
         this.setBogoSort(false);
     }
 
-    protected void blockSwap(int[] array, int a, int b, int len) {
-        while (len-- > 0) {
-            Writes.swap(array, a++, b++, 0.5, true, false);
-        }
-    }
-
     protected void mergeInPlaceForwards(int[] array, int buffer, int start, int mid, int end) {
         int left = start, right = mid;
         while (left < mid && right < end) {
@@ -83,7 +77,7 @@ final public class FifthMergeSort extends Sort {
         while (left < leftEnd && right < end) {
             Highlights.markArray(2, left);
             Highlights.markArray(3, right);
-			Delays.sleep(0.5);
+            Delays.sleep(0.5);
             if (Reads.compareValueIndex(array, buffer[left], right, 0, false) <= 0) {
                 Writes.write(array, dest++, buffer[left++], 0.5, true, false);
             } else {  
