@@ -58,27 +58,6 @@ final public class FifthMergeSort extends Sort {
         }
     }
 
-    protected void mergeRemainingBackwards(int[] array, int buffer, int start, int mid, int end) {
-        int left = mid - 1, right = end - 1;
-        while (left >= start && right >= mid) {
-            if (Reads.compareIndices(array, left, right, 0.5, true) > 0) {
-                Writes.write(array, buffer--, array[left--], 0.5, false, false);
-                Highlights.markArray(3, buffer);
-            } else {
-                Writes.write(array, buffer--, array[right--], 0.5, false, false);
-                Highlights.markArray(3, buffer);
-            }
-        }
-        Highlights.clearAllMarks();
-
-        while (left >= start) {
-            Writes.write(array, buffer--, array[left--], 0.5, true, false);
-        }
-        while (right >= mid) {
-            Writes.write(array, buffer--, array[right--], 0.5, true, false);
-        }
-     }
-
     protected IndexPair mergeInPlaceBackwards(int[] array, int buffer, int bufferLen, int mid, int end) {
         int left = mid - 1, right = end - 1;
         while (buffer > right && right > left) {
@@ -205,9 +184,6 @@ final public class FifthMergeSort extends Sort {
 
         IndexPair finalMerge = mergeInPlaceBackwards(array, currentLength - 1, bufferLen, twoFifths, 2 * twoFifths);
         if (finalMerge.bEnd > 0) {
-            // int lastBlockLen = finalMerge.bEnd - twoFifths;
-            // blockSwap(array, finalMerge.aEnd, twoFifths, lastBlockLen);
-            // mergeRemainingBackwards(array, finalMerge.bEnd - 1, 0, finalMerge.aEnd, finalMerge.aEnd + lastBlockLen);
             mergeForwardsWithBuffer(array, array, bufferLen, 0, finalMerge.aEnd, twoFifths, currentLength);
         }
 
