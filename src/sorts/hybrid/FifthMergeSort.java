@@ -83,7 +83,8 @@ final public class FifthMergeSort extends Sort {
         while (left < leftEnd && right < end) {
             Highlights.markArray(2, left);
             Highlights.markArray(3, right);
-            if (Reads.compareValueIndex(array, buffer[left], right, 0.5, false) <= 0) {
+			Delays.sleep(0.5);
+            if (Reads.compareValueIndex(array, buffer[left], right, 0, false) <= 0) {
                 Writes.write(array, dest++, buffer[left++], 0.5, true, false);
             } else {  
                 Writes.write(array, dest++, array[right++], 0.5, true, false);
