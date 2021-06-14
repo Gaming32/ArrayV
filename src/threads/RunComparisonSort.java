@@ -84,6 +84,17 @@ final public class RunComparisonSort {
                     Class<?> sortClass = arrayVisualizer.getComparisonSorts()[selection].sortClass;
                     Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
                     Sort sort = (Sort) newSort.newInstance(RunComparisonSort.this.arrayVisualizer);
+
+                    int extra = 0;
+
+                    if (sort.getQuestion() != null) {
+                        try {
+                            extra = sort.validateAnswer(getCustomInput(sort.getQuestion()));
+                        }
+                        catch(Exception e) {
+                            extra = sort.getDefaultAnswer();
+                        }
+                    }
                 
                     boolean goAhead;
                     
@@ -116,16 +127,6 @@ final public class RunComparisonSort {
                     }
                     
                     if(goAhead) {
-                        int extra = 0;
-                        if (sort.getQuestion() != null) {
-                            try {
-                                extra = sort.validateAnswer(getCustomInput(sort.getQuestion()));
-                            }
-                            catch(Exception e) {
-                                extra = sort.getDefaultAnswer();
-                            }
-                        }
-                    
                         arrayManager.toggleMutableLength(false);
                         arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), arrayVisualizer);
 
