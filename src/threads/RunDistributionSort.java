@@ -138,12 +138,12 @@ final public class RunDistributionSort {
 
                     int bucketCount;
                     
-                    if(sort.getRunSortName().equals("Timesort")) {
+                    if (sort.getQuestion() != null) {
                         try {
-                            bucketCount = RunDistributionSort.this.getCustomInput("Enter delay per number in milliseconds:");
+                            bucketCount = sort.validateAnswer(getCustomInput(sort.getQuestion()));
                         }
                         catch(Exception e) {
-                            bucketCount = 10;
+                            bucketCount = sort.getDefaultAnswer();
                         }
                     }
                     else {

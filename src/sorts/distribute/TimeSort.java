@@ -55,6 +55,7 @@ final public class TimeSort extends Sort {
         this.setUnreasonablySlow(true);
         this.setUnreasonableLimit(1); //See threads.RunDistributionSort for details
         this.setBogoSort(false);
+        this.setQuestion("Enter delay per number in milliseconds:", 10);
     }
     
     private synchronized void report(int[] array, int a){
