@@ -54,7 +54,7 @@ final public class FifthMergeSort extends Sort {
 
     protected IndexPair mergeInPlaceBackwards(int[] array, int buffer, int bufferLen, int mid, int end) {
         int left = mid - 1, right = end - 1;
-        while (buffer > right && right > left) {
+        while (buffer > right && right >= mid) {
             if (Reads.compareIndices(array, left, right, 0.5, true) > 0) {
                 Highlights.markArray(3, buffer);
                 Writes.write(array, buffer--, array[left--], 0.5, false, false);
@@ -67,6 +67,10 @@ final public class FifthMergeSort extends Sort {
         if (right == left) {
             while (right >= 0) {
                 Writes.write(array, buffer--, array[right--], 0.5, true, false);
+            }
+        } else if (right < mid) {
+            while (left >= 0) {
+                Writes.write(array, buffer--, array[left--], 0.5, true, false);
             }
         }
         return new IndexPair(left + 1, right + 1);
@@ -132,8 +136,9 @@ final public class FifthMergeSort extends Sort {
         for (i = start; i + 8 < end; i += 8) {
             inserter.insertionSort(array, i, i + 8, 0.5, false);
         }
-        if (end - i > 1)
+        if (end - i > 1) {
             inserter.insertionSort(array, i, end, 0.5, false);
+        }
 
         int length = end - start;
         boolean fromBuffer = false;
