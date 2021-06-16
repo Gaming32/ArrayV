@@ -63,7 +63,7 @@ SOFTWARE.
 final public class UtilFrame extends javax.swing.JFrame {
     final private static long serialVersionUID = 1L;
 
-    private boolean jCheckBox9WarningShown = false;
+    private boolean jCheckBox9WarningShown = true; //set to false to enable warning
 
     private int[] array;
     

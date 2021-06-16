@@ -46,6 +46,9 @@ public abstract class PDQSorting extends Sort {
     final private int partialInsertSortLimit = 8;
     final private int blockSize = 64;
     final private int cachelineSize = 64;
+	
+	private int[] leftOffsets;
+    private int[] rightOffsets;
 
     protected PDQSorting(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -54,6 +57,16 @@ public abstract class PDQSorting extends Sort {
     protected void newHeapSorter(MaxHeapSort heapSort) {
         heapSorter = heapSort;
     }
+	
+	protected void visualizeAux() {
+		leftOffsets = Writes.createExternalArray(blockSize + cachelineSize);
+		rightOffsets = Writes.createExternalArray(blockSize + cachelineSize);
+	}
+	
+	protected void deleteAux() {
+		Writes.deleteExternalArray(leftOffsets);
+		Writes.deleteExternalArray(rightOffsets);
+	}
     
     // Returns floor(log2(n)), assumes n > 0.
     public static int pdqLog(int n) {
@@ -218,8 +231,8 @@ public abstract class PDQSorting extends Sort {
 
         // The following branchless partitioning is derived from "BlockQuicksort: How Branch
         // Mispredictions don’t affect Quicksort" by Stefan Edelkamp and Armin Weiss.
-        int[] leftOffsets = Writes.createExternalArray(blockSize + cachelineSize);
-        int[] rightOffsets = Writes.createExternalArray(blockSize + cachelineSize);
+        //int[] leftOffsets = Writes.createExternalArray(blockSize + cachelineSize);
+        //int[] rightOffsets = Writes.createExternalArray(blockSize + cachelineSize);
         int leftNum, rightNum, leftStart, rightStart;
         leftNum = rightNum = leftStart = rightStart = 0;
 
@@ -348,9 +361,6 @@ public abstract class PDQSorting extends Sort {
         int pivotPos = first - 1;
         Writes.write(array, begin, array[pivotPos], 1, true, false);
         Writes.write(array, pivotPos, pivot, 1, true, false);
-
-        Writes.deleteExternalArray(leftOffsets);
-        Writes.deleteExternalArray(rightOffsets);
 
         return new PDQPair(pivotPos, alreadyParted);
     }
