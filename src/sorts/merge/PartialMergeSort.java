@@ -46,7 +46,7 @@ final public class PartialMergeSort extends Sort {
     }
 
     private void merge(int[] array, int[] copied, int leftStart, int rightStart, int end) {
-		Writes.arraycopy(array, leftStart, copied, 0, rightStart-leftStart, 1, true, true);
+        Writes.arraycopy(array, leftStart, copied, 0, rightStart-leftStart, 1, true, true);
 
         int left = leftStart;
         int right = rightStart;
@@ -87,7 +87,7 @@ final public class PartialMergeSort extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-		int[] copied = Writes.createExternalArray(length/2);
+        int[] copied = Writes.createExternalArray(length/2);
         int start = 0;
         int end = length;
         int mid = start + ((end - start) / 2);

@@ -46,8 +46,8 @@ public abstract class PDQSorting extends Sort {
     final private int partialInsertSortLimit = 8;
     final private int blockSize = 64;
     final private int cachelineSize = 64;
-	
-	private int[] leftOffsets;
+    
+    private int[] leftOffsets;
     private int[] rightOffsets;
 
     protected PDQSorting(ArrayVisualizer arrayVisualizer) {
@@ -57,16 +57,16 @@ public abstract class PDQSorting extends Sort {
     protected void newHeapSorter(MaxHeapSort heapSort) {
         heapSorter = heapSort;
     }
-	
-	protected void visualizeAux() {
-		leftOffsets = Writes.createExternalArray(blockSize + cachelineSize);
-		rightOffsets = Writes.createExternalArray(blockSize + cachelineSize);
-	}
-	
-	protected void deleteAux() {
-		Writes.deleteExternalArray(leftOffsets);
-		Writes.deleteExternalArray(rightOffsets);
-	}
+    
+    protected void visualizeAux() {
+        leftOffsets = Writes.createExternalArray(blockSize + cachelineSize);
+        rightOffsets = Writes.createExternalArray(blockSize + cachelineSize);
+    }
+    
+    protected void deleteAux() {
+        Writes.deleteExternalArray(leftOffsets);
+        Writes.deleteExternalArray(rightOffsets);
+    }
     
     // Returns floor(log2(n)), assumes n > 0.
     public static int pdqLog(int n) {
@@ -380,22 +380,22 @@ public abstract class PDQSorting extends Sort {
         // Find the first element greater than or equal than the pivot (the median of 3 guarantees
         // this exists).
         while (Reads.compareValues(array[++first], pivot) < 0) {
-			Highlights.markArray(1, first);
-			Delays.sleep(0.25);
-		}
+            Highlights.markArray(1, first);
+            Delays.sleep(0.25);
+        }
 
         // Find the first element strictly smaller than the pivot. We have to guard this search if
         // there was no element before *first.
         if (first - 1 == begin) 
-			while (first < last && !(Reads.compareValues(array[--last], pivot) < 0)) {
-				Highlights.markArray(2, last);
-				Delays.sleep(0.25);
-			}
+            while (first < last && !(Reads.compareValues(array[--last], pivot) < 0)) {
+                Highlights.markArray(2, last);
+                Delays.sleep(0.25);
+            }
         else
-			while (                !(Reads.compareValues(array[--last], pivot) < 0)) {
-				Highlights.markArray(2, last);
-				Delays.sleep(0.25);
-			}
+            while (                !(Reads.compareValues(array[--last], pivot) < 0)) {
+                Highlights.markArray(2, last);
+                Delays.sleep(0.25);
+            }
 
         // If the first pair of elements that should be swapped to partition are the same element,
         // the passed in sequence already was correctly partitioned.
@@ -407,13 +407,13 @@ public abstract class PDQSorting extends Sort {
         while (first < last) {
             Writes.swap(array, first, last, 1, true, false);
             while (Reads.compareValues(array[++first], pivot) < 0) {
-				Highlights.markArray(1, first);
-				Delays.sleep(0.5);
-			}
+                Highlights.markArray(1, first);
+                Delays.sleep(0.5);
+            }
             while (!(Reads.compareValues(array[--last], pivot) < 0)) {
-				Highlights.markArray(2, last);
-				Delays.sleep(0.5);
-			}
+                Highlights.markArray(2, last);
+                Delays.sleep(0.5);
+            }
         }
         Highlights.clearMark(2);
 
@@ -437,31 +437,31 @@ public abstract class PDQSorting extends Sort {
         int last = end;
 
         while (Reads.compareValues(pivot, array[--last]) < 0) {
-			Highlights.markArray(2, last);
-			Delays.sleep(0.25);
-		}
+            Highlights.markArray(2, last);
+            Delays.sleep(0.25);
+        }
 
         if (last + 1 == end) 
-			while (first < last && !(Reads.compareValues(pivot, array[++first]) < 0)) {
-				Highlights.markArray(1, first);
-				Delays.sleep(0.25);
-			}
+            while (first < last && !(Reads.compareValues(pivot, array[++first]) < 0)) {
+                Highlights.markArray(1, first);
+                Delays.sleep(0.25);
+            }
         else                 
-			while (                !(Reads.compareValues(pivot, array[++first]) < 0)) {
-				Highlights.markArray(1, first);
-				Delays.sleep(0.25);
-			}
+            while (                !(Reads.compareValues(pivot, array[++first]) < 0)) {
+                Highlights.markArray(1, first);
+                Delays.sleep(0.25);
+            }
 
         while (first < last) {
             Writes.swap(array, first, last, 1, true, false);
             while (Reads.compareValues(pivot, array[--last]) < 0) {
-				Highlights.markArray(2, last);
-				Delays.sleep(0.5);
-			}
+                Highlights.markArray(2, last);
+                Delays.sleep(0.5);
+            }
             while (!(Reads.compareValues(pivot, array[++first]) < 0)) {
-				Highlights.markArray(1, first);
-				Delays.sleep(0.5);
-			}
+                Highlights.markArray(1, first);
+                Delays.sleep(0.5);
+            }
         }
         Highlights.clearMark(2);
 
