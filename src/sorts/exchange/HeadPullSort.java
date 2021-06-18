@@ -1,6 +1,8 @@
 package sorts.exchange;
+
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
+
 /*
 
 PORTED TO ARRAYV BY PCBOYGAMES
@@ -34,38 +36,39 @@ Qcy1zYvNnMywQ8y2zYHMkM2FRcy2zJLMjSHMt8yTzZfMncywCgogLSBUaGUgTWFkaG91c2UgQ0VP
 
 */
 final public class HeadPullSort extends Sort {
-	public HeadPullSort(ArrayVisualizer arrayVisualizer) {
-		super(arrayVisualizer);
-		this.setSortListName("Head Pull");
-		this.setRunAllSortsName("Head Pull Sort");
-		this.setRunSortName("Head Pull Sort");
-		this.setCategory("Impractical Sorts");
-		this.setComparisonBased(true);
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(true);
-		this.setUnreasonableLimit(32);
-		this.setBogoSort(false);
-	}
-	@Override
-	public void runSort(int[] array, int currentLength, int bucketCount) {
-		int i = 1;
-		int pull = 1;
-		i = 1;
-		while (i + 1 <= currentLength) {
-			Highlights.markArray(1, i - 1);
-			Highlights.markArray(2, i);
-			Delays.sleep(0.1);
-			if (Reads.compareValues(array[i - 1], array[i]) > 0) {
-				pull = i;
-				while (pull > 0) {
-					Writes.swap(array, pull - 1, pull, 0.1, true, false);
-					pull--;
-				}
-				i = 1;
-			} else {
-				i++;
-			}
-		}
-	}
+    public HeadPullSort(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
+        this.setSortListName("Head Pull");
+        this.setRunAllSortsName("Head Pull Sort");
+        this.setRunSortName("Head Pull Sort");
+        this.setCategory("Impractical Sorts");
+        this.setComparisonBased(true);
+        this.setBucketSort(false);
+        this.setRadixSort(false);
+        this.setUnreasonablySlow(true);
+        this.setUnreasonableLimit(32);
+        this.setBogoSort(false);
+    }
+
+    @Override
+    public void runSort(int[] array, int currentLength, int bucketCount) {
+        int i = 1;
+        int pull = 1;
+        i = 1;
+        while (i + 1 <= currentLength) {
+            Highlights.markArray(1, i - 1);
+            Highlights.markArray(2, i);
+            Delays.sleep(0.1);
+            if (Reads.compareValues(array[i - 1], array[i]) > 0) {
+                pull = i;
+                while (pull > 0) {
+                    Writes.swap(array, pull - 1, pull, 0.1, true, false);
+                    pull--;
+                }
+                i = 1;
+            } else {
+                i++;
+            }
+        }
+    }
 }

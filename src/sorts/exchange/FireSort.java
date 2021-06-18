@@ -1,6 +1,8 @@
 package sorts.exchange;
+
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
+
 /*
 
 PORTED TO ARRAYV BY PCBOYGAMES
@@ -33,97 +35,98 @@ swaps, which is (0.25N(N + 4))/(N - 1) times more swaps than Gnome Sort.
 
 */
 final public class FireSort extends Sort {
-	public FireSort(ArrayVisualizer arrayVisualizer) {
-		super(arrayVisualizer);
-		this.setSortListName("Fire");
-		this.setRunAllSortsName("Fire Sort");
-		this.setRunSortName("Firesort");
-		this.setCategory("Impractical Sorts");
-		this.setComparisonBased(true);
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(true);
-		this.setUnreasonableLimit(1024);
-		this.setBogoSort(false);
-	}
-	@Override
-	public void runSort(int[] array, int currentLength, int bucketCount) {
-		int i = 1;
-		int twistcheck = 0;
-		int twistwait = 0;
-		int twist = -1;
-		int testi = 1;
-		boolean testpass = false;
-		boolean testreverse = false;
-		boolean anyswaps = false;
-		while (!testpass) {
-			if (twistwait < 1) {
-				twistcheck += currentLength;
-				twistwait = twistcheck;
-				twist *= -1;
-			} else {
-				twistwait--;
-			}
-			anyswaps = false;
-			while (i + 1 <= currentLength && i >= 1 && !anyswaps) {
-				if (Reads.compareValues(array[i - 1], array[i]) * twist > 0) {
-					Writes.swap(array, i - 1, i, 0.005, true, false);
-					i -= twist;
-					anyswaps = true;
-				} else {
-					i += twist;
-				}
-			}
-			if (i < 1) {
-				i = currentLength - 1;
-				testi = 1;
-				testpass = true;
-				while (testi != currentLength && testpass) {
-					if (Reads.compareValues(array[testi - 1], array[testi]) <= 0) {
-						testi++;
-					} else {
-						testpass = false;
-						testi = 1;
-						testreverse = true;
-						while (testi != currentLength && testreverse) {
-							if (Reads.compareValues(array[testi - 1], array[testi]) >= 0) {
-								testi++;
-							} else {
-								testreverse = false;
-							}
-						}
-					}
-				}
-				if (testreverse) {
-					i = 1;
-					twistwait = 0;
-				}
-			}
-			if (i + 1 > currentLength) {
-				i = 1;
-				testi = 1;
-				testpass = true;
-				while (testi != currentLength && testpass) {
-					if (Reads.compareValues(array[testi - 1], array[testi]) <= 0) {
-						testi++;
-					} else {
-						testpass = false;
-						testi = 1;
-						testreverse = true;
-						while (testi != currentLength && testreverse) {
-							if (Reads.compareValues(array[testi - 1], array[testi]) >= 0) {
-								testi++;
-							} else {
-								testreverse = false;
-							}
-						}
-					}
-				}
-				if (testreverse) {
-					i = currentLength - 1;
-					twistwait = 0;
-				}
-			}
-		}
-	}
+    public FireSort(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
+        this.setSortListName("Fire");
+        this.setRunAllSortsName("Fire Sort");
+        this.setRunSortName("Firesort");
+        this.setCategory("Impractical Sorts");
+        this.setComparisonBased(true);
+        this.setBucketSort(false);
+        this.setRadixSort(false);
+        this.setUnreasonablySlow(true);
+        this.setUnreasonableLimit(1024);
+        this.setBogoSort(false);
+    }
+
+    @Override
+    public void runSort(int[] array, int currentLength, int bucketCount) {
+        int i = 1;
+        int twistcheck = 0;
+        int twistwait = 0;
+        int twist = -1;
+        int testi = 1;
+        boolean testpass = false;
+        boolean testreverse = false;
+        boolean anyswaps = false;
+        while (!testpass) {
+            if (twistwait < 1) {
+                twistcheck += currentLength;
+                twistwait = twistcheck;
+                twist *= -1;
+            } else {
+                twistwait--;
+            }
+            anyswaps = false;
+            while (i + 1 <= currentLength && i >= 1 && !anyswaps) {
+                if (Reads.compareValues(array[i - 1], array[i]) * twist > 0) {
+                    Writes.swap(array, i - 1, i, 0.005, true, false);
+                    i -= twist;
+                    anyswaps = true;
+                } else {
+                    i += twist;
+                }
+            }
+            if (i < 1) {
+                i = currentLength - 1;
+                testi = 1;
+                testpass = true;
+                while (testi != currentLength && testpass) {
+                    if (Reads.compareValues(array[testi - 1], array[testi]) <= 0) {
+                        testi++;
+                    } else {
+                        testpass = false;
+                        testi = 1;
+                        testreverse = true;
+                        while (testi != currentLength && testreverse) {
+                            if (Reads.compareValues(array[testi - 1], array[testi]) >= 0) {
+                                testi++;
+                            } else {
+                                testreverse = false;
+                            }
+                        }
+                    }
+                }
+                if (testreverse) {
+                    i = 1;
+                    twistwait = 0;
+                }
+            }
+            if (i + 1 > currentLength) {
+                i = 1;
+                testi = 1;
+                testpass = true;
+                while (testi != currentLength && testpass) {
+                    if (Reads.compareValues(array[testi - 1], array[testi]) <= 0) {
+                        testi++;
+                    } else {
+                        testpass = false;
+                        testi = 1;
+                        testreverse = true;
+                        while (testi != currentLength && testreverse) {
+                            if (Reads.compareValues(array[testi - 1], array[testi]) >= 0) {
+                                testi++;
+                            } else {
+                                testreverse = false;
+                            }
+                        }
+                    }
+                }
+                if (testreverse) {
+                    i = currentLength - 1;
+                    twistwait = 0;
+                }
+            }
+        }
+    }
 }

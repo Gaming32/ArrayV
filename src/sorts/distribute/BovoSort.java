@@ -1,6 +1,8 @@
 package sorts.distribute;
+
 import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
+
 /*
 
 PORTED TO ARRAYV BY PCBOYGAMES
@@ -24,15 +26,16 @@ public final class BovoSort extends BogoSorting {
         this.setUnreasonableLimit(11);
         this.setBogoSort(true);
     }
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
-		int pull = 1;
+        int pull = 1;
         while (!this.isArraySorted(array, currentLength)) {
             pull = BogoSorting.randInt(0, currentLength - 1);
-			while (pull >= 0) {
-				Writes.swap(array, pull, pull + 1, this.delay, true, false);
-				pull--;
-			}
-		}
+            while (pull >= 0) {
+                Writes.swap(array, pull, pull + 1, this.delay, true, false);
+                pull--;
+            }
+        }
     }
 }
