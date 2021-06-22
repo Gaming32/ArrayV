@@ -4,6 +4,13 @@ import main.ArrayVisualizer;
 import sorts.insert.InsertionSort;
 import sorts.templates.Sort;
 
+/*
+ * The original Pseudo-Heapsort was made by yuji and fungamer2.
+ * This variant uses Insertion Sort when it reaches
+ * the predefined threshold (sqrt(n)/2).
+ *  
+ */
+
 /**
  * @author mingyue12
  *

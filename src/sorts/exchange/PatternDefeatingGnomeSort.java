@@ -3,6 +3,12 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
+/*
+ * The Pattern-Defeating Insertion Sort was made by Gaming32.
+ * This variant replaced overwrites with swaps.
+ *  
+ */
+
 /**
  * @author Yuri-chan2007
  *

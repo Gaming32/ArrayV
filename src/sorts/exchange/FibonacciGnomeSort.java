@@ -3,6 +3,11 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
+/*
+ * The Fibonacci Insertion Sort was made by fungamer2.
+ * This variant replaced overwrites with swaps.
+ *  
+ */
 
 /**
  * @author mingyue12
