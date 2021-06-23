@@ -84,11 +84,19 @@ final public class RunComparisonSort {
                     Class<?> sortClass = arrayVisualizer.getComparisonSorts()[selection].sortClass;
                     Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
                     Sort sort = (Sort) newSort.newInstance(RunComparisonSort.this.arrayVisualizer);
+
+                    int extra = 0;
+
+                    if (sort.getQuestion() != null) {
+                        try {
+                            extra = sort.validateAnswer(getCustomInput(sort.getQuestion()));
+                        }
+                        catch(Exception e) {
+                            extra = sort.getDefaultAnswer();
+                        }
+                    }
                 
                     boolean goAhead;
-                    
-                    arrayManager.toggleMutableLength(false);
-                    arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), arrayVisualizer);
                     
                     if(sort.isUnreasonablySlow() && arrayVisualizer.getCurrentLength() > sort.getUnreasonableLimit()) {
                         goAhead = false;
@@ -119,56 +127,8 @@ final public class RunComparisonSort {
                     }
                     
                     if(goAhead) {
-                        int extra = 0;
-                        if (sort.getRunSortName().equals("Base-N Mergesort")) {
-                            try {
-                                extra = getCustomInput("Enter the number of bases for this sort:");
-                            }
-                            catch(Exception e) {
-                                extra = 4;
-                            }
-                        }
-                        else if (sort.getRunSortName().equals("Base-N Max Heapsort")) {
-                            try {
-                                extra = getCustomInput("Enter the base for this sort:");
-                            }
-                            catch(Exception e) {
-                                extra = 4;
-                            }
-                        }
-						else if (sort.getRunSortName().equals("Combsort")) {
-                            try {
-                                extra = getCustomInput("Enter shrink factor (input/100):");
-								if(extra < 110) extra = 130;
-                            }
-                            catch(Exception e) {
-								extra = 130;
-                            }
-                        }
-						else if (sort.getRunSortName().equals("Wikisort")) {
-                            try {
-                                extra = getCustomInput("Enter external buffer size (0 for in-place):");
-                            }
-                            catch(Exception e) {
-                                extra = 0;
-                            }
-                        }
-						else if (sort.getRunSortName().equals("Grailsort")) {
-                            try {
-                                extra = getCustomInput("Enter external buffer type (0 = in-place, 1 = static, 2 = dynamic):");
-                            }
-                            catch(Exception e) {
-                                extra = 0;
-                            }
-                        }
-						else if (sort.getRunSortName().equals("Adaptive Grailsort")) {
-                            try {
-                                extra = getCustomInput("Enter external buffer size (0 for in-place):");
-                            }
-                            catch(Exception e) {
-                                extra = 0;
-                            }
-                        }
+                        arrayManager.toggleMutableLength(false);
+                        arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), arrayVisualizer);
 
                         arrayVisualizer.setHeading(sort.getRunSortName());
                         arrayVisualizer.setCategory(sort.getCategory());

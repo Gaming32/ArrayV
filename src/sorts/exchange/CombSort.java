@@ -42,6 +42,13 @@ final public class CombSort extends CombSorting {
         this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
+        this.setQuestion("Enter shrink factor (input/100):", 130);
+    }
+
+    @Override
+    public int validateAnswer(int answer) {
+        if (answer < 110) return 130;
+        return answer;
     }
 
     @Override

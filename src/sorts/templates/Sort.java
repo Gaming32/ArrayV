@@ -22,6 +22,9 @@ public abstract class Sort {
     private boolean bogoSort;
     
     private int unreasonableLimit;
+
+    private String question;
+    private int defaultAnswer;
     
     protected ArrayVisualizer arrayVisualizer;
     
@@ -45,6 +48,8 @@ public abstract class Sort {
         this.setUnreasonablySlow(false); // Indicates a sort is so inefficient that it will run for a very long time even after clicking 'Skip Sort'
         this.setUnreasonableLimit(0);    // If a sort is 'unreasonably slow', a warning will pop up if the array length is more than this number
         this.setBogoSort(false);         // Slightly changes the 'unreasonably slow' dialog
+
+        this.setQuestion(null, 0);       // Asks a specific question before this sort is run
         
         this.arrayVisualizer = arrayVisualizer;
         
@@ -87,6 +92,12 @@ public abstract class Sort {
     public boolean isBogoSort() {
         return this.bogoSort;
     }
+    public String getQuestion() {
+        return this.question;
+    }
+    public int getDefaultAnswer() {
+        return this.defaultAnswer;
+    }
     
     protected void enableSort(boolean Bool) {
         this.sortEnabled = Bool;
@@ -120,6 +131,17 @@ public abstract class Sort {
     }
     protected void setBogoSort(boolean Bool) {
         this.bogoSort = Bool;
+    }
+    protected void setQuestion(String question) {
+        this.question = question;
+    }
+    protected void setQuestion(String question, int defaultAnswer) {
+        this.question = question;
+        this.defaultAnswer = defaultAnswer;
+    }
+
+    public int validateAnswer(int answer) {
+        return answer;
     }
     
     public abstract void runSort(int[] array, int sortLength, int bucketCount) throws Exception; //bucketCount will be zero for comparison-based sorts

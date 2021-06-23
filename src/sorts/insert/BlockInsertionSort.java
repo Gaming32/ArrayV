@@ -50,6 +50,8 @@ final public class BlockInsertionSort extends GrailSorting {
 
     private int findRun(int[] array, int a, int b) {
         int i = a + 1;
+        if (i == b)
+            return i;
         if(Reads.compareIndices(array, i - 1, i++, 1, true) == 1) {
             while(i < b && Reads.compareIndices(array, i - 1, i, 1, true) == 1) i++;
             Writes.reversal(array, a, i - 1, 1, true, false);

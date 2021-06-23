@@ -45,12 +45,8 @@ final public class PartialMergeSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private void merge(int[] array, int leftStart, int rightStart, int end) {
-        int[] copied = Writes.createExternalArray(rightStart - leftStart);
-        for (int i = 0; i < copied.length; i++) {
-            Highlights.markArray(1, i + leftStart);
-            Writes.write(copied, i, array[i + leftStart], 1, false, true);
-        }
+    private void merge(int[] array, int[] copied, int leftStart, int rightStart, int end) {
+        Writes.arraycopy(array, leftStart, copied, 0, rightStart-leftStart, 1, true, true);
 
         int left = leftStart;
         int right = rightStart;
@@ -78,24 +74,25 @@ final public class PartialMergeSort extends Sort {
 
         Highlights.clearAllMarks();
 
-        Writes.deleteExternalArray(copied);
     }
 
-    private void mergeRun(int[] array, int start, int mid, int end) {
+    private void mergeRun(int[] array, int[] copied, int start, int mid, int end) {
         if(start == mid) return;
 
-        mergeRun(array, start, (mid+start)/2, mid);
-        mergeRun(array, mid, (mid+end)/2, end);
+        mergeRun(array, copied, start, (mid+start)/2, mid);
+        mergeRun(array, copied, mid, (mid+end)/2, end);
 
-        merge(array, start, mid, end);
+        merge(array, copied, start, mid, end);
     }
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
+        int[] copied = Writes.createExternalArray(length/2);
         int start = 0;
         int end = length;
         int mid = start + ((end - start) / 2);
         
-        mergeRun(array, start, mid, end);
+        mergeRun(array, copied, start, mid, end);
+        Writes.deleteExternalArray(copied);
     }
 }

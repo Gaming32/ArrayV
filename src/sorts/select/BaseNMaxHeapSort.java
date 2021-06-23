@@ -16,6 +16,7 @@ final public class BaseNMaxHeapSort extends Sort {
         this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
+        this.setQuestion("Enter the base for this sort:", 4);
     }
 
     private void siftDown(int[] arr, int base, int node, int stop, double sleep) {

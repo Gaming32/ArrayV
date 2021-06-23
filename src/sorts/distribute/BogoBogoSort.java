@@ -57,29 +57,29 @@ public final class BogoBogoSort extends BogoSorting {
         this.setUnreasonableLimit(5);
         this.setBogoSort(true);
     }
+    
+    private int[][] tmp; //fix seizure aux using 2d array
 
     private boolean bogoBogoIsSorted(int[] array, int length) {
         if (length == 1)
             return true;
 
-        int[] tmp = Writes.createExternalArray(length);
-        Writes.arraycopy(array, 0, tmp, 0, length, this.delay, true, true);
+        int idx = length-2;
+        Writes.arraycopy(array, 0, tmp[idx], 0, length, this.delay, true, true);
 
-        bogoBogo(tmp, length-1, true);
-        while (tmp[length-2] > tmp[length-1]) {
-            this.bogoSwap(tmp, 0, length, true);
-            bogoBogo(tmp, length-1, true);
+        bogoBogo(tmp[idx], length-1, true);
+        while (Reads.compareValues(tmp[idx][length-2], tmp[idx][length-1]) > 0) {
+            this.bogoSwap(tmp[idx], 0, length, true);
+            bogoBogo(tmp[idx], length-1, true);
         }
 
         for (int i = 0; i < length; ++i) {
             Highlights.markArray(1, i);
             Delays.sleep(this.delay);
-            if (Reads.compareValues(array[i], tmp[i]) != 0) {
-                Writes.deleteExternalArray(tmp);
+            if (Reads.compareValues(array[i], tmp[idx][i]) != 0) {
                 return false;
             }
         }
-        Writes.deleteExternalArray(tmp);
         return true;
     }
 
@@ -90,6 +90,14 @@ public final class BogoBogoSort extends BogoSorting {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
+        tmp = new int[length-1][];
+        
+        for(int i = length; i > 1; i--)
+            tmp[i-2] = Writes.createExternalArray(i);
+        
         bogoBogo(array, length, false);
+        
+        for(int i = length; i > 1; i--)
+            Writes.deleteExternalArray(tmp[i-2]);
     }
 }

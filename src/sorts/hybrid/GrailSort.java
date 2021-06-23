@@ -63,6 +63,7 @@ final public class GrailSort extends GrailSorting {
         this.setUnreasonablySlow(false);
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
+        this.setQuestion("Enter external buffer type (0 = in-place, 1 = static, 2 = dynamic):", 0);
     }
     
     public void rotateLength(int[] array, int leftLength, int rightLength) {
