@@ -48,12 +48,12 @@ final public class StrangeSort extends Sort {
             while (offset != currentLength) {
                 mult = 1;
                 bound = 1;
-                while (offset + (mult) <= currentLength) {
-                    Highlights.markArray(1, (int) (offset + Math.floor(mult / base)) - 1);
-                    Highlights.markArray(2, (int) (offset + Math.floor(mult * base)) - 1);
+                while (offset + mult <= currentLength) {
+                    Highlights.markArray(1, (int) (offset + mult / base) - 1);
+                    Highlights.markArray(2, (int) (offset + mult) - 1);
                     Delays.sleep(0.1);
-                    if (Reads.compareValues(array[(int) (offset + Math.floor(mult / base)) - 1], array[(int) (offset + Math.floor(mult)) - 1]) > 0) {
-                        Writes.swap(array, (int) (offset + Math.floor(mult / base)) - 1, (int) (offset + Math.floor(mult)) - 1, 0.1, true, false);
+                    if (Reads.compareValues(array[(int) (offset + mult / base) - 1], array[(int) (offset + mult) - 1]) > 0) {
+                        Writes.swap(array, (int) (offset + mult / base) - 1, (int) (offset + mult) - 1, 0.1, true, false);
                         if (mult == 1 / base) {
                             bound *= base;
                             mult = bound;
