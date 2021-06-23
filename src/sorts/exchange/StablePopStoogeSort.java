@@ -3,6 +3,13 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
+/*
+ * The Pop Stooge Sort was made by Lancewer.
+ * This variant used Stable Stooge Sort as it's underlying sort
+ * (special thanks to fungamer2).
+ *  
+ */
+
 /**
  * @author Yuri-chan2007
  *
