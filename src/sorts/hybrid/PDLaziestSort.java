@@ -4,6 +4,13 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 import utils.IndexedRotations;
 
+/*
+ * The original Laziest Stable Sort was made by aphitorite.
+ * This variant uses Pattern-Defeating Insertion Sort (thanks to
+ * Gaming32) to create sorted segments.
+ *  
+ */
+
 /**
  * @author Yuri-chan2007
  *
