@@ -12,7 +12,7 @@ public final class ThreeWayGapSort extends Sort {
     public ThreeWayGapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         setSortListName("3-Way Gap");
-        setRunAllSortsName("3-Way Gap Sort (By thatsOven)");
+        setRunAllSortsName("3-Way Gap Sort");
         setRunSortName("3-Way Gap Sort");
         setCategory("Exchange Sorts");
         setComparisonBased(true);
