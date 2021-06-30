@@ -186,9 +186,8 @@ final public class FifthMergeSort extends Sort {
             Writes.arraycopy(buffer, 0, array, start, length, 0.5, true, false);
         }
     }
-    
-    @Override
-    public void runSort(int[] array, int currentLength, int bucketCount) {
+	
+	public void fifthMergeSort(int[] array, int currentLength) {
         inserter = new PatternDefeatingInsertionSort(arrayVisualizer);
 
         int fifthLen = currentLength / 5;
@@ -214,5 +213,10 @@ final public class FifthMergeSort extends Sort {
         mergeForwardsWithBuffer(array, buffer, 0, 0, bufferLen, bufferLen, currentLength);
 
         Writes.deleteExternalArray(buffer);
+	}
+    
+    @Override
+    public void runSort(int[] array, int currentLength, int bucketCount) {
+		fifthMergeSort(array, currentLength);
     }
 }
