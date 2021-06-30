@@ -22,7 +22,7 @@ final public class MergeExchangeSortIterative extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        int t = (int)(Math.log(length) / Math.log(2));
+        int t = (int)(Math.log(length-1) / Math.log(2))+1;
         int p0 = 1 << (t - 1);
         for (int p = p0; p > 0; p >>= 1) {
         	int q = p0;
