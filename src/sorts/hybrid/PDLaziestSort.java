@@ -93,7 +93,7 @@ public final class PDLaziestSort extends Sort {
         }
     }
     
-    protected void laziestStableSort(int[] array, int start, int end) {
+    public void laziestStableSort(int[] array, int start, int end) {
         int len = end - start;
         if(len <= 16) {
             insertionSort(array, start, end, 0.5, false);
