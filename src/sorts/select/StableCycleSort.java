@@ -30,20 +30,20 @@ SOFTWARE.
  */
 
 final public class StableCycleSort extends Sort {
-    public StableCycleSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
+	public StableCycleSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
 
-        this.setSortListName("Stable Cycle");
-        this.setRunAllSortsName("Stable Cycle Sort");
-        this.setRunSortName("Stable Cyclesort");
-        this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+		this.setSortListName("Stable Cycle");
+		this.setRunAllSortsName("Stable Cycle Sort");
+		this.setRunSortName("Stable Cyclesort");
+		this.setCategory("Selection Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private final int WLEN = 3;
 	
@@ -89,8 +89,8 @@ final public class StableCycleSort extends Sort {
 		return d;
 	}
 	
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		int[] bits = Writes.createExternalArray(((length-1) >> WLEN) + 1);
 		
 		for(int i = 0; i < length-1; i++) {
@@ -108,5 +108,5 @@ final public class StableCycleSort extends Sort {
 			}
 		}
 		Writes.deleteExternalArray(bits);
-    }
+	}
 }

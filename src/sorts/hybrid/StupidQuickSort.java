@@ -27,7 +27,7 @@ SOFTWARE.
  */
 
 final public class StupidQuickSort extends Sort {
-	
+    
     public StupidQuickSort(ArrayVisualizer arrayVisualizer)  {
         super(arrayVisualizer);
         
@@ -45,7 +45,7 @@ final public class StupidQuickSort extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-    	int times = (int)Math.sqrt(length);
+        int times = (int)Math.sqrt(length);
         for (int count = 0; count < times; count++) {
             int i = 0;
             int j = length - 1;
@@ -53,7 +53,7 @@ final public class StupidQuickSort extends Sort {
             int pivotPos = (int)(Math.random() * length);
             int pivot = array[pivotPos];
             
-        	while (i < j) {
+            while (i < j) {
                 while (Reads.compareValues(array[i], pivot) == -1){
                     i++;
                     Highlights.markArray(1, i);

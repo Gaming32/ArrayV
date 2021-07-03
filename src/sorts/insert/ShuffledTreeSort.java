@@ -32,20 +32,20 @@ SOFTWARE.
  */
  
 final public class ShuffledTreeSort extends Sort {
-    public ShuffledTreeSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Shuffled Tree");
-        this.setRunAllSortsName("Shuffled Tree Sort");
-        this.setRunSortName("Shuffled Treesort");
-        this.setCategory("Insertion Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public ShuffledTreeSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Shuffled Tree");
+		this.setRunAllSortsName("Shuffled Tree Sort");
+		this.setRunSortName("Shuffled Treesort");
+		this.setCategory("Insertion Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private int idx;
 	
@@ -65,8 +65,8 @@ final public class ShuffledTreeSort extends Sort {
 		if(upper[r] != 0) this.traverse(array, keys, lower, upper, upper[r]);
 	}
 
-    @Override
-    public void runSort(int[] array, int currentLength, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int currentLength, int bucketCount) {
 		int[] keys  = Writes.createExternalArray(currentLength);
 		for(int i = 0; i < currentLength; i++)
 			Writes.write(keys, i, i, 1, true, true);
@@ -75,7 +75,7 @@ final public class ShuffledTreeSort extends Sort {
 		for(int i = 0; i < currentLength; i++){
 			int r = random.nextInt(currentLength - i) + i;
 			this.stableSwap(array, keys, i, r);
-        }
+		}
 		
 		int[] lower = Writes.createExternalArray(currentLength);
 		int[] upper = Writes.createExternalArray(currentLength);
@@ -128,5 +128,5 @@ final public class ShuffledTreeSort extends Sort {
 		Writes.deleteExternalArray(lower);
 		Writes.deleteExternalArray(upper);
 		Writes.deleteExternalArray(keys);
-    }
+	}
 }

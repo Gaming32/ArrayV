@@ -117,8 +117,8 @@ public class Rotations {
 
     // by Scandum and Control
     public static void cycleReverse(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
-		if(lenA < 1 || lenB < 1) return;
-		
+        if(lenA < 1 || lenB < 1) return;
+        
         int a = pos,
             b = pos + lenA - 1,
             c = pos + lenA,
@@ -144,10 +144,10 @@ public class Rotations {
             Writes.write(array, d--, array[a], pause/2d, mark, auxwrite);
             Writes.write(array, a++, swap,     pause/2d, mark, auxwrite);
         }
-		if (a < d) { //dont count reversals that dont do anything
-			Writes.reversal(array, a, d, pause, mark, auxwrite);
-			Highlights.clearMark(2);
-		}
+        if (a < d) { //dont count reversals that dont do anything
+            Writes.reversal(array, a, d, pause, mark, auxwrite);
+            Highlights.clearMark(2);
+        }
     }
 
     public static void juggling(int[] array, int pos, int lenA, int lenB, double pause, boolean mark, boolean auxwrite) {
@@ -173,77 +173,77 @@ public class Rotations {
                 }
         }
     }
-	
-	//by Scandum
-	public static void bridge(int[] array, int pos, int left, int right, double pause, boolean mark, boolean auxwrite) {
-		if(left < 1 || right < 1) return;
-		
-		int pta = pos, ptb = pos + left, ptc = pos + right, ptd = ptb + right, alloc;
+    
+    //by Scandum
+    public static void bridge(int[] array, int pos, int left, int right, double pause, boolean mark, boolean auxwrite) {
+        if(left < 1 || right < 1) return;
+        
+        int pta = pos, ptb = pos + left, ptc = pos + right, ptd = ptb + right, alloc;
 
-		if(left < right) {
-			int bridge = right - left;
+        if(left < right) {
+            int bridge = right - left;
 
-			if(bridge < left) {
-				int loop = left;
+            if(bridge < left) {
+                int loop = left;
 
-				int[] swap = new int[bridge];
-				alloc = bridge;
-				Writes.changeAllocAmount(alloc);
+                int[] swap = new int[bridge];
+                alloc = bridge;
+                Writes.changeAllocAmount(alloc);
 
-				Writes.arraycopy(array, ptb, swap, 0, bridge, pause, mark, true);
+                Writes.arraycopy(array, ptb, swap, 0, bridge, pause, mark, true);
 
-				while(loop-- > 0) {
-					Writes.write(array, --ptc, array[--ptd], pause/2d, mark, auxwrite);
-					Writes.write(array,   ptd, array[--ptb], pause/2d, mark, auxwrite);
-				}
-				Writes.arraycopy(swap, 0, array, pta, bridge, pause, mark, auxwrite);
-			}
-			else {
-				int[] swap = new int[left];
-				alloc = left;
-				Writes.changeAllocAmount(alloc);
-				
-				Writes.arraycopy(array, pta, swap, 0, left, pause, mark, true);
-				Writes.arraycopy(array, ptb, array, pta, right, pause, mark, auxwrite);
-				Writes.arraycopy(swap, 0, array, ptc, left, pause, mark, auxwrite);
-			}
-		}
-		else if(right < left) {
-			int bridge = left - right;
+                while(loop-- > 0) {
+                    Writes.write(array, --ptc, array[--ptd], pause/2d, mark, auxwrite);
+                    Writes.write(array,   ptd, array[--ptb], pause/2d, mark, auxwrite);
+                }
+                Writes.arraycopy(swap, 0, array, pta, bridge, pause, mark, auxwrite);
+            }
+            else {
+                int[] swap = new int[left];
+                alloc = left;
+                Writes.changeAllocAmount(alloc);
+                
+                Writes.arraycopy(array, pta, swap, 0, left, pause, mark, true);
+                Writes.arraycopy(array, ptb, array, pta, right, pause, mark, auxwrite);
+                Writes.arraycopy(swap, 0, array, ptc, left, pause, mark, auxwrite);
+            }
+        }
+        else if(right < left) {
+            int bridge = left - right;
 
-			if(bridge < right) {
-				int loop = right;
+            if(bridge < right) {
+                int loop = right;
 
-				int[] swap = new int[bridge];
-				alloc = bridge;
-				Writes.changeAllocAmount(alloc);
-				
-				Writes.arraycopy(array, ptc, swap, 0, bridge, pause, mark, true);
-				
-				while(loop-- > 0) {
-					Writes.write(array, ptc++, array[pta],   pause/2d, mark, auxwrite); 
-					Writes.write(array, pta++, array[ptb++], pause/2d, mark, auxwrite);
-				}
-				Writes.arraycopy(swap, 0, array, ptd - bridge, bridge, pause, mark, auxwrite);
-			}
-			else {
-				int[] swap = new int[right];
-				alloc = right;
-				Writes.changeAllocAmount(alloc);
-				
-				Writes.arraycopy(array, ptb, swap, 0, right, pause, mark, true);
-				while(left-- > 0)
-					Writes.write(array, --ptd, array[--ptb], pause, mark, auxwrite);
-				Writes.arraycopy(swap, 0, array, pta, right, pause, mark, auxwrite);
-			}
-		}
-		else {
-			alloc = 0;
-			
-			while(left-- > 0) 
-				Writes.swap(array, pta++, ptb++, pause, mark, auxwrite);
-			Highlights.clearMark(2);
-		}
-		Writes.changeAllocAmount(-alloc);
-	}
+                int[] swap = new int[bridge];
+                alloc = bridge;
+                Writes.changeAllocAmount(alloc);
+                
+                Writes.arraycopy(array, ptc, swap, 0, bridge, pause, mark, true);
+                
+                while(loop-- > 0) {
+                    Writes.write(array, ptc++, array[pta],   pause/2d, mark, auxwrite); 
+                    Writes.write(array, pta++, array[ptb++], pause/2d, mark, auxwrite);
+                }
+                Writes.arraycopy(swap, 0, array, ptd - bridge, bridge, pause, mark, auxwrite);
+            }
+            else {
+                int[] swap = new int[right];
+                alloc = right;
+                Writes.changeAllocAmount(alloc);
+                
+                Writes.arraycopy(array, ptb, swap, 0, right, pause, mark, true);
+                while(left-- > 0)
+                    Writes.write(array, --ptd, array[--ptb], pause, mark, auxwrite);
+                Writes.arraycopy(swap, 0, array, pta, right, pause, mark, auxwrite);
+            }
+        }
+        else {
+            alloc = 0;
+            
+            while(left-- > 0) 
+                Writes.swap(array, pta++, ptb++, pause, mark, auxwrite);
+            Highlights.clearMark(2);
+        }
+        Writes.changeAllocAmount(-alloc);
+    }
 }

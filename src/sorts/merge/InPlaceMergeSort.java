@@ -65,23 +65,23 @@ final public class InPlaceMergeSort extends Sort {
         }
     }
 
-	private void mergeSort(int[] array, int min,int max) {
-		if(max - min == 0) {      //only one element.
-		    Delays.sleep(1);      //no swap
-		}
-		else if(max - min == 1) { //only two elements and swaps them
-			if(Reads.compareValues(array[min], array[max]) == 1) {
-				Writes.swap(array, min, max, 0.035, true, false);
-			}
-		}
-		else {
-			int mid = ((int) Math.floor((min + max) / 2)); //The midpoint
+    private void mergeSort(int[] array, int min,int max) {
+        if(max - min == 0) {      //only one element.
+            Delays.sleep(1);      //no swap
+        }
+        else if(max - min == 1) { //only two elements and swaps them
+            if(Reads.compareValues(array[min], array[max]) == 1) {
+                Writes.swap(array, min, max, 0.035, true, false);
+            }
+        }
+        else {
+            int mid = ((int) Math.floor((min + max) / 2)); //The midpoint
 
-			mergeSort(array, min, mid);      //sort the left side
-			mergeSort(array, mid + 1, max);  //sort the right side
-			merge(array, min, max, mid);     //combines them
-		}
-	}
+            mergeSort(array, min, mid);      //sort the left side
+            mergeSort(array, mid + 1, max);  //sort the right side
+            merge(array, min, max, mid);     //combines them
+        }
+    }
 
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {

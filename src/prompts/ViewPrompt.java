@@ -76,7 +76,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private void initComponents() {
 
         this.jLabel1           = new javax.swing.JLabel();
-		
+        
         this.barGraph          = new javax.swing.JButton();
         this.dotGraph          = new javax.swing.JButton();
         this.colorCircle       = new javax.swing.JButton();
@@ -89,15 +89,15 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         this.customImage       = new javax.swing.JButton();
         this.sineWave          = new javax.swing.JButton();
         this.waveDots          = new javax.swing.JButton();
-		this.hoopStack         = new javax.swing.JButton();
-		this.disparityBarGraph = new javax.swing.JButton();
-		this.disparityChords   = new javax.swing.JButton();
+        this.hoopStack         = new javax.swing.JButton();
+        this.disparityBarGraph = new javax.swing.JButton();
+        this.disparityChords   = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setText("Select Visual Style");
-		
+        
         barGraph.setText("Bar Graph");
         barGraph.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -200,16 +200,16 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                 hoopStackActionPerformed(evt);
             }
         });
-		
-		disparityBarGraph.setText("Disparity Bar Graph");
+        
+        disparityBarGraph.setText("Disparity Bar Graph");
         disparityBarGraph.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 disparityBarGraphActionPerformed(evt);
             }
         });
-		
-		disparityChords.setText("Disparity Chords");
+        
+        disparityChords.setText("Disparity Chords");
         disparityChords.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -290,7 +290,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         ArrayVisualizer.toggleSpiral(false);
         ArrayVisualizer.toggleWave(false);
     }
-	
+    
     private void barGraphActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
         ArrayVisualizer.setVisual(VisualStyles.BARS);
@@ -401,8 +401,8 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private javax.swing.JButton customImage;
     private javax.swing.JButton sineWave;
     private javax.swing.JButton waveDots;
-	private javax.swing.JButton hoopStack;
+    private javax.swing.JButton hoopStack;
     private javax.swing.JButton disparityBarGraph;
-	private javax.swing.JButton disparityChords;
+    private javax.swing.JButton disparityChords;
     private javax.swing.JLabel jLabel1;
 }

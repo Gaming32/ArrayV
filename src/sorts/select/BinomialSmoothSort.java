@@ -44,7 +44,7 @@ final public class BinomialSmoothSort extends Sort {
     @Override
     public void runSort(int[] array, int length, int bucketCount){
         //heapify from 0 to length - 1
-    	int Node;
+        int Node;
         for (Node = 1; Node < length; Node++)
             thrift(array, Node, Node % 2 == 1, (Node + (1 << height(Node)) >= length));
         for (Node -= (Node - 1) % 2; Node > 2; Node -= 2)

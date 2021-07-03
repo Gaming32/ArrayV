@@ -81,17 +81,17 @@ final public class TournamentSort extends Sort {
         return i <= 0 ? Math.abs(i) : this.getWinner(i);
     }
     
-	private int pop(int[] arr) {
-		int result = arr[this.getPlayer(tourney)];
-		tourney = TournamentSort.isPlayer(tourney) ? 0 : this.rebuild(arr, tourney);
-		return result;
-	}
+    private int pop(int[] arr) {
+        int result = arr[this.getPlayer(tourney)];
+        tourney = TournamentSort.isPlayer(tourney) ? 0 : this.rebuild(arr, tourney);
+        return result;
+    }
 
-	private static int makePlayer(int i) {
-	    return -i;
-	}
+    private static int makePlayer(int i) {
+        return -i;
+    }
 
-	private int makeMatch(int[] arr, int top, int bot, int root) {
+    private int makeMatch(int[] arr, int top, int bot, int root) {
         int top_w = this.getPlayer(top);
         int bot_w = this.getPlayer(bot);
         
@@ -102,7 +102,7 @@ final public class TournamentSort extends Sort {
         
         return root;
     }
-	
+    
     private int knockout(int[] arr, int i, int k, int root) {
         if (i == k) return TournamentSort.makePlayer(i);
         
@@ -131,19 +131,19 @@ final public class TournamentSort extends Sort {
         return root;
     }
     
-	private void sort(int[] arr, int currentLen) {
+    private void sort(int[] arr, int currentLen) {
         int[] copy = Writes.createExternalArray(currentLen);
-		
-		for (int i = 0; i < currentLen; i++) {
-		    int result = this.pop(arr);
-		    Writes.write(copy, i, result, 1, true, true);
-		}
+        
+        for (int i = 0; i < currentLen; i++) {
+            int result = this.pop(arr);
+            Writes.write(copy, i, result, 1, true, true);
+        }
 
-		Highlights.clearAllMarks();
-		Writes.arraycopy(copy, 0, arr, 0, currentLen, 1, true, false);
-		
+        Highlights.clearAllMarks();
+        Writes.arraycopy(copy, 0, arr, 0, currentLen, 1, true, false);
+        
         Writes.deleteExternalArray(copy);
-	}
+    }
 
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {

@@ -31,20 +31,20 @@ SOFTWARE.
  */
 
 final public class StacklessHybridQuickSort extends Sort {
-    public StacklessHybridQuickSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Stackless Hybrid Quick");
-        this.setRunAllSortsName("Stackless Hybrid Quicksort");
-        this.setRunSortName("Stackless Hybrid Quicksort");
-        this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public StacklessHybridQuickSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Stackless Hybrid Quick");
+		this.setRunAllSortsName("Stackless Hybrid Quicksort");
+		this.setRunSortName("Stackless Hybrid Quicksort");
+		this.setCategory("Hybrid Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private void medianOfThree(int[] array, int a, int b) {
 		int m = a+(b-1-a)/2;
@@ -63,35 +63,35 @@ final public class StacklessHybridQuickSort extends Sort {
 	}
 	
 	private int partition(int[] array, int a, int b) {
-        int i = a, j = b;
+		int i = a, j = b;
 		
 		this.medianOfThree(array, a, b);
 		Highlights.markArray(3, a);
 		
-        do {
+		do {
 			do {
 				i++;
-                Highlights.markArray(1, i);
-                Delays.sleep(0.5);
+				Highlights.markArray(1, i);
+				Delays.sleep(0.5);
 			}
 			while(i < j && Reads.compareIndices(array, i, a, 0, false) < 0);
 			
 			do {
 				j--;
-                Highlights.markArray(2, j);
-                Delays.sleep(0.5);
+				Highlights.markArray(2, j);
+				Delays.sleep(0.5);
 			}
-            while(j >= i && Reads.compareIndices(array, j, a, 0, false) >= 0);
+			while(j >= i && Reads.compareIndices(array, j, a, 0, false) >= 0);
 				
-            if(i < j) Writes.swap(array, i, j, 1, true, false);
-            else {
+			if(i < j) Writes.swap(array, i, j, 1, true, false);
+			else {
 				Writes.swap(array, a, j, 1, true, false);
 				Highlights.clearMark(3);
 				return j;
 			}
-        }
+		}
 		while(true);
-    }
+	}
 	
 	private int leftBinSearch(int[] array, int a, int b, int p) {
 		while(a < b) {
@@ -99,7 +99,7 @@ final public class StacklessHybridQuickSort extends Sort {
 			
 			if(Reads.compareIndices(array, p, m, 1, true) <= 0) 
 				b = m;
-			else     
+			else	 
 				a = m+1;
 		}
 		
@@ -156,9 +156,9 @@ final public class StacklessHybridQuickSort extends Sort {
 		}
 		while(true);
 	}
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.quickSort(array, 0, length);
-    }
+	}
 }

@@ -31,20 +31,20 @@ SOFTWARE.
  */
 
 final public class StacklessDualPivotQuickSort extends Sort {
-    public StacklessDualPivotQuickSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Stackless Dual-Pivot Quick");
-        this.setRunAllSortsName("Stackless Dual-Pivot Quicksort");
-        this.setRunSortName("Stackless Dual-Pivot Quicksort");
-        this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public StacklessDualPivotQuickSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Stackless Dual-Pivot Quick");
+		this.setRunAllSortsName("Stackless Dual-Pivot Quicksort");
+		this.setRunSortName("Stackless Dual-Pivot Quicksort");
+		this.setCategory("Hybrid Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private int partition(int[] array, int a, int b, int p) {
 		int m1 = (a+a+b)/3, m2 = (a+b+b)/3;
@@ -87,7 +87,7 @@ final public class StacklessDualPivotQuickSort extends Sort {
 		Writes.write(array, p, t, 1, true, false);
 		
 		return i;
-    }
+	}
 	
 	private int leftBinSearch(int[] array, int a, int b, int p) {
 		while(a < b) {
@@ -95,7 +95,7 @@ final public class StacklessDualPivotQuickSort extends Sort {
 			
 			if(Reads.compareIndices(array, p, m, 1, true) <= 0) 
 				b = m;
-			else     
+			else
 				a = m+1;
 		}
 		
@@ -149,9 +149,9 @@ final public class StacklessDualPivotQuickSort extends Sort {
 		}
 		while(true);
 	}
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.quickSort(array, 0, length);
-    }
+	}
 }

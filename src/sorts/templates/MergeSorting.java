@@ -90,7 +90,7 @@ public abstract class MergeSorting extends Sort {
         }
         
         int[] tmp = Writes.createExternalArray(length);
-		
+        
         int start = 0;
         int end = length;
         int mid = start + ((end - start) / 2);

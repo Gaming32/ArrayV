@@ -60,36 +60,36 @@ final public class WeaveMergeSort extends Sort {
             }
         }
     }
-	
-	private void weaveMerge(int[] arr, int min, int max, int mid) {
-	    int i = 1;
-	    int target = (mid - min);
-	    
-	    while(i <= target) {
-	        Writes.multiSwap(arr, mid + i, min + (i * 2) - 1, 0.05, true, false);
-	        i++;
-	    }
-	    
-	    this.weaveInsert(arr, min, max + 1);
-	}
+    
+    private void weaveMerge(int[] arr, int min, int max, int mid) {
+        int i = 1;
+        int target = (mid - min);
+        
+        while(i <= target) {
+            Writes.multiSwap(arr, mid + i, min + (i * 2) - 1, 0.05, true, false);
+            i++;
+        }
+        
+        this.weaveInsert(arr, min, max + 1);
+    }
 
-	private void weaveMergeSort(int[] array, int min, int max) {
-		if(max - min == 0) {      //only one element.
-			Delays.sleep(1);      //no swap
-		}
-		else if(max - min == 1) { //only two elements and swaps them
-			if(Reads.compareValues(array[min], array[max]) == 1) {
-				Writes.swap(array, min, max, 0.01, true, false);
-			}
-		}
-		else {
-			int mid = (int) Math.floor((min + max) / 2); //The midpoint
+    private void weaveMergeSort(int[] array, int min, int max) {
+        if(max - min == 0) {      //only one element.
+            Delays.sleep(1);      //no swap
+        }
+        else if(max - min == 1) { //only two elements and swaps them
+            if(Reads.compareValues(array[min], array[max]) == 1) {
+                Writes.swap(array, min, max, 0.01, true, false);
+            }
+        }
+        else {
+            int mid = (int) Math.floor((min + max) / 2); //The midpoint
 
-			this.weaveMergeSort(array, min, mid);     //sort the left side
-			this.weaveMergeSort(array, mid + 1, max); //sort the right side
-			this.weaveMerge(array, min, max, mid);    //combines them
-		}
-	}
+            this.weaveMergeSort(array, min, mid);     //sort the left side
+            this.weaveMergeSort(array, mid + 1, max); //sort the right side
+            this.weaveMerge(array, min, max, mid);    //combines them
+        }
+    }
 
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {

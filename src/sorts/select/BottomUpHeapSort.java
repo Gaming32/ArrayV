@@ -30,20 +30,20 @@ SOFTWARE.
  */
 
 final public class BottomUpHeapSort extends Sort {
-    public BottomUpHeapSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
+	public BottomUpHeapSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
 
-        this.setSortListName("Bottom-up Heap");
-        this.setRunAllSortsName("Bottom-up Heap Sort");
-        this.setRunSortName("Bottom-up Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+		this.setSortListName("Bottom-up Heap");
+		this.setRunAllSortsName("Bottom-up Heap Sort");
+		this.setRunSortName("Bottom-up Heapsort");
+		this.setCategory("Selection Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	//source: https://en.wikipedia.org/wiki/Heapsort#Bottom-up_heapsort
 	
@@ -54,8 +54,8 @@ final public class BottomUpHeapSort extends Sort {
 		for(; j > i; j = (j-1)/2) Writes.swap(array, i, j, 1, true, false);
 	}
 	
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		for(int i = (length-1)/2; i >= 0; i--)
 			this.siftDown(array, i, length);
 		
@@ -63,5 +63,5 @@ final public class BottomUpHeapSort extends Sort {
 			Writes.swap(array, 0, i, 1, true, false);
 			this.siftDown(array, 0, i);
 		}
-    }
+	}
 }

@@ -4,23 +4,23 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 final public class BinomialHeapSort extends Sort {
-    public BinomialHeapSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Binomial Heap");
-        this.setRunAllSortsName("Binomial Heap Sort");
-        this.setRunSortName("Binomial Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public BinomialHeapSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Binomial Heap");
+		this.setRunAllSortsName("Binomial Heap Sort");
+		this.setRunSortName("Binomial Heapsort");
+		this.setCategory("Selection Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		int maxNode, focus, index, depth;
 		for (index = 2; index <= length; index+=2){
 		   maxNode = index;
@@ -57,5 +57,5 @@ final public class BinomialHeapSort extends Sort {
 			  } while (focus != maxNode);
 		   }
 		}
-    }
+	}
 }

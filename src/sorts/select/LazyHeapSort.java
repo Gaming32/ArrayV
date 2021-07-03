@@ -30,20 +30,20 @@ SOFTWARE.
  */
 
 final public class LazyHeapSort extends Sort {
-    public LazyHeapSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
+	public LazyHeapSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
 
-        this.setSortListName("Lazy Heap");
-        this.setRunAllSortsName("Lazy Heap Sort");
-        this.setRunSortName("Lazy Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+		this.setSortListName("Lazy Heap");
+		this.setRunAllSortsName("Lazy Heap Sort");
+		this.setRunSortName("Lazy Heapsort");
+		this.setCategory("Selection Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private void maxToFront(int[] array, int a, int b) {
 		int max = a;
@@ -55,8 +55,8 @@ final public class LazyHeapSort extends Sort {
 		Writes.swap(array, max, a, 1, true, false);
 	}
 	
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		int s = (int)Math.sqrt(length-1)+1;
 		
 		for(int i = 0; i < length; i += s)
@@ -72,5 +72,5 @@ final public class LazyHeapSort extends Sort {
 			Writes.swap(array, max, --j, 1, true, false);
 			this.maxToFront(array, max, Math.min(max+s, j));
 		}
-    }
+	}
 }

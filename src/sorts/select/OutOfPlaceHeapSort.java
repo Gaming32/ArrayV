@@ -30,20 +30,20 @@ SOFTWARE.
  */
 
 final public class OutOfPlaceHeapSort extends Sort {
-    public OutOfPlaceHeapSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
+	public OutOfPlaceHeapSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
 
-        this.setSortListName("Out-of-Place Heap");
-        this.setRunAllSortsName("Out-of-Place Heap Sort");
-        this.setRunSortName("Out-of-Place Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+		this.setSortListName("Out-of-Place Heap");
+		this.setRunAllSortsName("Out-of-Place Heap Sort");
+		this.setRunSortName("Out-of-Place Heapsort");
+		this.setCategory("Selection Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	//source: https://en.wikipedia.org/wiki/Heapsort#Bottom-up_heapsort
 	
@@ -83,8 +83,8 @@ final public class OutOfPlaceHeapSort extends Sort {
 			Writes.swap(array, i, l, 1, true, false);
 	}
 	
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		for(int i = (length-1)/2; i >= 0; i--)
 			this.siftDown(array, i, length);
 		
@@ -99,5 +99,5 @@ final public class OutOfPlaceHeapSort extends Sort {
 		Highlights.clearMark(2);
 		Writes.arraycopy(tmp, 0, array, 0, length, 1, true, false);
 		Writes.deleteExternalArray(tmp);
-    }
+	}
 }

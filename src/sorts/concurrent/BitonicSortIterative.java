@@ -26,7 +26,7 @@ final public class BitonicSortIterative extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    	
+        
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         int i, j, k;

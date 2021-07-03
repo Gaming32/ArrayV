@@ -27,19 +27,19 @@ final public class StableHanoiSort extends Sort {
 	private int targetMoves;
 
 	public StableHanoiSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Stable Hanoi");
-        this.setRunAllSortsName("Stable Hanoi Sort");
-        this.setRunSortName("Stable Hanoi sort");
-        this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(32);
-        this.setBogoSort(false);
-    }
+		super(arrayVisualizer);
+		
+		this.setSortListName("Stable Hanoi");
+		this.setRunAllSortsName("Stable Hanoi Sort");
+		this.setRunSortName("Stable Hanoi sort");
+		this.setCategory("Impractical Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(true);
+		this.setUnreasonableLimit(32);
+		this.setBogoSort(false);
+	}
 
 	/**
 	 * Moves an element (or group of identical elements) from the unsorted portion
@@ -315,21 +315,21 @@ final public class StableHanoiSort extends Sort {
 			Delays.sleep(0.25);
 		}
 	}
-    
 	
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
-    	// Initialize local variables
-    	this.array = array;
-    	this.length = length;
-    	stack2 = new Stack<Integer>();
-    	stack3 = new Stack<Integer>();
-    	sp = 0;
-    	unsorted = 0;
-    	
-    	while(unsorted < length)
-    		removeFromMainStack();
-    	
-    	returnToMainStack();
-    }
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
+		// Initialize local variables
+		this.array = array;
+		this.length = length;
+		stack2 = new Stack<Integer>();
+		stack3 = new Stack<Integer>();
+		sp = 0;
+		unsorted = 0;
+		
+		while(unsorted < length)
+			removeFromMainStack();
+		
+		returnToMainStack();
+	}
 }

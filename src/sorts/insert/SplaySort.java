@@ -4,10 +4,10 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 final public class SplaySort extends Sort {
-	
+    
     //Splay sort is an adaptive algorithm based on splay tree data structure
     //It is O(n log n) in the average/worst case, and O(n) in the best case when the data is mostly sorted
-	
+    
     public SplaySort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -61,7 +61,7 @@ final public class SplaySort extends Sort {
     }
     
     private Node rightRotate(Node x, int depth) {
-    	Node y = x.left;
+        Node y = x.left;
         x.left = treeWrite(y.right, depth * 2);
         y.right = treeWrite(x, depth * 4 + 1);
         return y; 
@@ -73,20 +73,20 @@ final public class SplaySort extends Sort {
     } 
     
     private Node splay(Node root, int key, int depth) {
-    	if (root == null) {
-    	    return root;
+        if (root == null) {
+            return root;
         }
         
         if (Reads.compareValues(root.key, key) == 1) {
             if (root.left == null) {
-        	return root;
+            return root;
             }
             
             if (Reads.compareValues(root.left.key, key) == 1) {
-            	root.left.left = treeWrite(splay(root.left.left, key, depth * 4), depth * 4);
+                root.left.left = treeWrite(splay(root.left.left, key, depth * 4), depth * 4);
                 root = treeWrite(rightRotate(root, depth), depth);
             } else {
-            	root.left.right = treeWrite(splay(root.left.right, key, depth * 4 + 1), depth * 4 + 1);
+                root.left.right = treeWrite(splay(root.left.right, key, depth * 4 + 1), depth * 4 + 1);
                 if (root.left.right != null) {
                     root.left = treeWrite(leftRotate(root.left, depth * 2), depth * 2);
                 }
@@ -94,16 +94,16 @@ final public class SplaySort extends Sort {
             return (root.left == null) ? root : rightRotate(root, depth);
         } else {
             if (root.right == null) {
-        	return root;
+            return root;
             }
             
             if (Reads.compareValues(root.right.key, key) == 1) {
-            	root.right.left = treeWrite(splay(root.right.left, key, depth * 4 + 2), depth * 4 + 2);
+                root.right.left = treeWrite(splay(root.right.left, key, depth * 4 + 2), depth * 4 + 2);
                 if (root.right.left != null) {
                     root.right = treeWrite(rightRotate(root.right, depth * 2), depth * 2);
                 }
             } else {
-            	root.right.right = treeWrite(splay(root.right.right, key, depth * 4 + 3), depth * 4 + 3);
+                root.right.right = treeWrite(splay(root.right.right, key, depth * 4 + 3), depth * 4 + 3);
                 root = treeWrite(leftRotate(root, depth), depth);
             }
             return (root.right == null) ? root : leftRotate(root, depth);

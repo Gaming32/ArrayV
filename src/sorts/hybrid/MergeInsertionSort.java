@@ -30,20 +30,20 @@ SOFTWARE.
  */
 
 final public class MergeInsertionSort extends Sort {
-    public MergeInsertionSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
+	public MergeInsertionSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
 
 		this.setSortListName("Merge-Insertion");//aka ford-johnson algorithm (in place version)
-        this.setRunAllSortsName("Merge-Insertion Sort");
-        this.setRunSortName("Merge-Insertsort");
-        this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+		this.setRunAllSortsName("Merge-Insertion Sort");
+		this.setRunSortName("Merge-Insertsort");
+		this.setCategory("Hybrid Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private void blockSwap(int[] array, int a, int b, int s, double sleep) {
 		while(s-- > 0) Writes.swap(array, a--, b--, sleep, true, false);
@@ -71,7 +71,7 @@ final public class MergeInsertionSort extends Sort {
 			
 			if(Reads.compareValues(val, array[m]) < 0) 
 				b = m;
-			else     
+			else
 				a = m+s;
 		}
 		
@@ -84,10 +84,10 @@ final public class MergeInsertionSort extends Sort {
 		
 		int m = a+(((b-a)/s)/2)*s;
 		this.blockReversal(array, m, b, s, 1);
-    }
+	}
 	
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		int k = 1;
 		while(2*k <= length) {
 			for(int i = 2*k-1; i < length; i+=2*k)
@@ -122,5 +122,5 @@ final public class MergeInsertionSort extends Sort {
 			k /= 2;
 			delay /= 2;
 		}
-    }
+	}
 }

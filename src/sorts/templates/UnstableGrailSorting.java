@@ -317,7 +317,7 @@ public abstract class UnstableGrailSorting extends Sort {
             if(lastLen != 0) {
                 while(aBlockCount < blockCount && Reads.compareValues(arr[blockPos + blockCount * regBlockLen],
                                                                       arr[blockPos + (blockCount - aBlockCount - 1) * regBlockLen])
-																	  < 0) {
+                                                                      < 0) {
                     aBlockCount++;
                 }
             }

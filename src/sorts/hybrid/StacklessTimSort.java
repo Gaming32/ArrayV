@@ -31,20 +31,20 @@ SOFTWARE.
  */
 
 final public class StacklessTimSort extends Sort {
-    public StacklessTimSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Stackless Tim");
-        this.setRunAllSortsName("Stackless Tim Sort");
-        this.setRunSortName("Stackless Timsort");
-        this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public StacklessTimSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Stackless Tim");
+		this.setRunAllSortsName("Stackless Tim Sort");
+		this.setRunSortName("Stackless Timsort");
+		this.setCategory("Hybrid Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private final int M = 7;
 	
@@ -58,14 +58,14 @@ final public class StacklessTimSort extends Sort {
 			
 			if(Reads.compareValues(val, array[m]) <= 0) 
 				b = m;
-			else     
+			else
 				a = m+1;
 		}
 		
 		return a;
 	}
-    
-    private int rightBinSearch(int[] array, int a, int b, int val) {
+	
+	private int rightBinSearch(int[] array, int a, int b, int val) {
 		while(a < b) {
 			int m = a+(b-a)/2;
 			Highlights.markArray(2, this.highlight+m);
@@ -73,7 +73,7 @@ final public class StacklessTimSort extends Sort {
 			
 			if(Reads.compareValues(val, array[m]) < 0) 
 				b = m;
-			else     
+			else
 				a = m+1;
 		}
 		
@@ -81,32 +81,32 @@ final public class StacklessTimSort extends Sort {
 	}
 	
 	private int leftExpSearch(int[] array, int a, int b, int val) {
-    	int i = 1;
-    	while(a-1+i < b && Reads.compareValues(val, array[a-1+i]) > 0) i *= 2;
-    	
-    	return this.leftBinSearch(array, a+i/2, Math.min(b, a-1+i), val);
-    }
+		int i = 1;
+		while(a-1+i < b && Reads.compareValues(val, array[a-1+i]) > 0) i *= 2;
+		
+		return this.leftBinSearch(array, a+i/2, Math.min(b, a-1+i), val);
+	}
 	
 	private int rightExpSearch(int[] array, int a, int b, int val) {
-    	int i = 1;
-    	while(b-i >= a && Reads.compareValues(val, array[b-i]) < 0) i *= 2;
-    	
-    	return this.rightBinSearch(array, Math.max(a, b-i+1), b-i/2, val);
-    }
+		int i = 1;
+		while(b-i >= a && Reads.compareValues(val, array[b-i]) < 0) i *= 2;
+		
+		return this.rightBinSearch(array, Math.max(a, b-i+1), b-i/2, val);
+	}
 	
 	private int leftBoundSearch(int[] array, int a, int b, int val) {
-    	int i = 1;
-    	while(a-1+i < b && Reads.compareValues(val, array[a-1+i]) >= 0) i *= 2;
-    	
-    	return this.rightBinSearch(array, a+i/2, Math.min(b, a-1+i), val);
-    }
+		int i = 1;
+		while(a-1+i < b && Reads.compareValues(val, array[a-1+i]) >= 0) i *= 2;
+		
+		return this.rightBinSearch(array, a+i/2, Math.min(b, a-1+i), val);
+	}
 	
 	private int rightBoundSearch(int[] array, int a, int b, int val) {
-    	int i = 1;
-    	while(b-i >= a && Reads.compareValues(val, array[b-i]) <= 0) i *= 2;
-    	
-    	return this.leftBinSearch(array, Math.max(a, b-i+1), b-i/2, val);
-    }
+		int i = 1;
+		while(b-i >= a && Reads.compareValues(val, array[b-i]) <= 0) i *= 2;
+		
+		return this.leftBinSearch(array, Math.max(a, b-i+1), b-i/2, val);
+	}
 	
 	private void insertTo(int[] array, int a, int b) {
 		Highlights.clearMark(2);
@@ -285,9 +285,9 @@ final public class StacklessTimSort extends Sort {
 		if(b-m < m-a) this.mergeBW(array, tmp, a, m, b);
 		else		  this.mergeFW(array, tmp, a, m, b);
 	}
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		int[] tmp = Writes.createExternalArray(length/2);
 		
 		int mRun = length;
@@ -302,5 +302,5 @@ final public class StacklessTimSort extends Sort {
 			if(i+j < length) this.smartMerge(array, tmp, i, i+j, length);
 		}
 		Writes.deleteExternalArray(tmp);
-    }
+	}
 }

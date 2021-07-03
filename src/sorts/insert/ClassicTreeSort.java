@@ -30,20 +30,20 @@ SOFTWARE.
  */
  
 final public class ClassicTreeSort extends Sort {
-    public ClassicTreeSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Classic Tree");
-        this.setRunAllSortsName("Classic Unbalanced Tree Sort");
-        this.setRunSortName("Classic Unbalanced Treesort");
-        this.setCategory("Insertion Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public ClassicTreeSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Classic Tree");
+		this.setRunAllSortsName("Classic Unbalanced Tree Sort");
+		this.setRunSortName("Classic Unbalanced Treesort");
+		this.setCategory("Insertion Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private int idx;
 	
@@ -60,8 +60,8 @@ final public class ClassicTreeSort extends Sort {
 		if(upper[r] != 0) this.traverse(array, temp, lower, upper, upper[r]);
 	}
 
-    @Override
-    public void runSort(int[] array, int currentLength, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int currentLength, int bucketCount) {
 		int[] lower = Writes.createExternalArray(currentLength);
 		int[] upper = Writes.createExternalArray(currentLength);
 		int[] next;
@@ -93,5 +93,5 @@ final public class ClassicTreeSort extends Sort {
 		Writes.deleteExternalArray(lower);
 		Writes.deleteExternalArray(upper);
 		Writes.deleteExternalArray(temp);
-    }
+	}
 }

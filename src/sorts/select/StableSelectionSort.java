@@ -26,7 +26,7 @@ SOFTWARE.
  */
 
 final public class StableSelectionSort extends Sort {
-	
+    
     public StableSelectionSort(ArrayVisualizer arrayVisualizer)  {
         super(arrayVisualizer);
         
@@ -47,7 +47,7 @@ final public class StableSelectionSort extends Sort {
         for (int i = 0; i < length - 1; i++) {
             int min = i;
             for (int j = i + 1; j < length; j++) {
-            	Highlights.markArray(1, j);
+                Highlights.markArray(1, j);
                 if (Reads.compareValues(array[j], array[min]) == -1) {
                     min = j;
                     Highlights.markArray(2, j);
@@ -58,7 +58,7 @@ final public class StableSelectionSort extends Sort {
             int tmp = array[min];
             int pos = min;
             while (pos > i) {
-            	Writes.write(array, pos, array[pos - 1], 0.5, true, false);
+                Writes.write(array, pos, array[pos - 1], 0.5, true, false);
                 pos--;
             }
             Writes.write(array, pos, tmp, 0.5, true, false);

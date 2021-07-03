@@ -38,42 +38,42 @@ final public class PixelMesh extends Visual {
         super(ArrayVisualizer);
     }
 
-	@Override
+    @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-		if(Renderer.auxActive) return;
-		
-		int width = ArrayVisualizer.windowWidth()-40;
-		int height = ArrayVisualizer.windowHeight()-50;
-		int length = ArrayVisualizer.getCurrentLength();
-		
-		int sqrt = (int)Math.ceil(Math.sqrt(length));
-		int square = sqrt*sqrt;
-		double scale = (double)length / square;
-		
-		int x = 0;
-		int y = 0;
-		double xStep = (double)width / sqrt;
-		double yStep = (double)height / sqrt;
-		
-		for(int i = 0; i < square; i++) {
-			int idx = (int)(i * scale);
-			
-			if(Highlights.fancyFinishActive() && idx < Highlights.getFancyFinishPosition())
-				this.mainRender.setColor(Color.GREEN);
-			
-			else if(Highlights.containsPosition(idx)) {
-				if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
-				else                                  this.mainRender.setColor(Color.WHITE);
-			}
-			else this.mainRender.setColor(getIntColor(array[idx], length));
-			
-			this.mainRender.fillRect(20 + (int)(x * xStep), 40 + (int)(y * yStep), 
-									 (int)((x+1)*xStep - x*xStep)+1, (int)((y+1)*yStep - y*yStep)+1);
-			
-			if(++x == sqrt) {
-				x = 0;
-				y++;
-			}
-		}
+        if(Renderer.auxActive) return;
+        
+        int width = ArrayVisualizer.windowWidth()-40;
+        int height = ArrayVisualizer.windowHeight()-50;
+        int length = ArrayVisualizer.getCurrentLength();
+        
+        int sqrt = (int)Math.ceil(Math.sqrt(length));
+        int square = sqrt*sqrt;
+        double scale = (double)length / square;
+        
+        int x = 0;
+        int y = 0;
+        double xStep = (double)width / sqrt;
+        double yStep = (double)height / sqrt;
+        
+        for(int i = 0; i < square; i++) {
+            int idx = (int)(i * scale);
+            
+            if(Highlights.fancyFinishActive() && idx < Highlights.getFancyFinishPosition())
+                this.mainRender.setColor(Color.GREEN);
+            
+            else if(Highlights.containsPosition(idx)) {
+                if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
+                else                                  this.mainRender.setColor(Color.WHITE);
+            }
+            else this.mainRender.setColor(getIntColor(array[idx], length));
+            
+            this.mainRender.fillRect(20 + (int)(x * xStep), 40 + (int)(y * yStep), 
+                                     (int)((x+1)*xStep - x*xStep)+1, (int)((y+1)*yStep - y*yStep)+1);
+            
+            if(++x == sqrt) {
+                x = 0;
+                y++;
+            }
+        }
     }
 }

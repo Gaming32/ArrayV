@@ -29,20 +29,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 final public class MergeSortParallel extends Sort {
-    public MergeSortParallel(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Merge (Parallel)");
-        this.setRunAllSortsName("Parallel Merge Sort");
-        this.setRunSortName("Parallel Mergesort");
-        this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public MergeSortParallel(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Merge (Parallel)");
+		this.setRunAllSortsName("Parallel Merge Sort");
+		this.setRunSortName("Parallel Mergesort");
+		this.setCategory("Merge Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private int[] array;
 	private int[] tmp;
@@ -105,12 +105,12 @@ final public class MergeSortParallel extends Sort {
 		
 		this.merge(a, m, b);
 	}
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.array = array;
 		this.tmp = Writes.createExternalArray(length);
 		this.mergeSort(0, length);
 		Writes.deleteExternalArray(tmp);
-    }
+	}
 }

@@ -93,7 +93,7 @@ final public class ArrayVisualizer {
 
     final int[] array;
     final int[] stabilityTable;
-	final int[] indexTable;
+    final int[] indexTable;
     final ArrayList<int[]> arrays;
 
     private SortPair[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
@@ -300,11 +300,11 @@ final public class ArrayVisualizer {
         this.array = new int[this.MAX_ARRAY_VAL];
         this.stabilityTable = new int[this.MAX_ARRAY_VAL];
         this.indexTable = new int[this.MAX_ARRAY_VAL];
-		
-		this.sortLength = this.MAX_ARRAY_VAL;
-		this.resetStabilityTable();
-		this.resetIndexTable();
-		
+        
+        this.sortLength = this.MAX_ARRAY_VAL;
+        this.resetStabilityTable();
+        this.resetIndexTable();
+        
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
         
@@ -397,7 +397,7 @@ final public class ArrayVisualizer {
                 int coltmp = 255;
                 
                 ArrayVisualizer.this.visualClasses = new Visual[15];
-				
+                
                 ArrayVisualizer.this.visualClasses[0]  = new          BarGraph(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[1]  = new           Rainbow(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[2]  = new DisparityBarGraph(ArrayVisualizer.this);
@@ -408,11 +408,11 @@ final public class ArrayVisualizer {
                 ArrayVisualizer.this.visualClasses[7]  = new       ScatterPlot(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[8]  = new          WaveDots(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[9]  = new       CustomImage(ArrayVisualizer.this);
-				ArrayVisualizer.this.visualClasses[10] = new          SineWave(ArrayVisualizer.this);
-				ArrayVisualizer.this.visualClasses[11] = new         HoopStack(ArrayVisualizer.this);
-				ArrayVisualizer.this.visualClasses[12] = new         PixelMesh(ArrayVisualizer.this);
-				ArrayVisualizer.this.visualClasses[13] = new            Spiral(ArrayVisualizer.this);
-				ArrayVisualizer.this.visualClasses[14] = new        SpiralDots(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[10] = new          SineWave(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[11] = new         HoopStack(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[12] = new         PixelMesh(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[13] = new            Spiral(ArrayVisualizer.this);
+                ArrayVisualizer.this.visualClasses[14] = new        SpiralDots(ArrayVisualizer.this);
                 
                 while(ArrayVisualizer.this.visualsEnabled) {
                     if (ArrayVisualizer.this.updateVisualsForced == 0) {
@@ -539,44 +539,44 @@ final public class ArrayVisualizer {
         return this.benchmarking;
     }
     
-	public int getStabilityValue(int n) {
-		n = Math.max(0, Math.min(n, this.sortLength-1));
-		
-		return this.stabilityTable[n];
-	}
-	
+    public int getStabilityValue(int n) {
+        n = Math.max(0, Math.min(n, this.sortLength-1));
+        
+        return this.stabilityTable[n];
+    }
+    
     public int[] getStabilityTable() {
         return this.stabilityTable;
     }
-	
-	public void resetStabilityTable() {
+    
+    public void resetStabilityTable() {
         for(int i = 0; i < this.sortLength; i++) {
             this.stabilityTable[i] = i;
         }
     }
-	
-	public int getIndexValue(int n) {
-		n = Math.max(0, Math.min(n, this.sortLength-1));
-		
-		return this.indexTable[n];
-	}
-	
-	public int[] getIndexTable() {
-		return this.indexTable;
-	}
-	
-	public void setIndexTable() {
+    
+    public int getIndexValue(int n) {
+        n = Math.max(0, Math.min(n, this.sortLength-1));
+        
+        return this.indexTable[n];
+    }
+    
+    public int[] getIndexTable() {
+        return this.indexTable;
+    }
+    
+    public void setIndexTable() {
         for(int i = 0; i < this.sortLength; i++) {
             this.indexTable[array[i]] = i;
         }
     }
-	
-	public void resetIndexTable() {
+    
+    public void resetIndexTable() {
         for(int i = 0; i < this.sortLength; i++) {
             this.indexTable[i] = i;
         }
     }
-	
+    
     public boolean isSorted() {
         return this.statSnapshot.findSegments(this.array, this.sortLength, this.REVERSED)[0] == 1;
     }
@@ -747,7 +747,7 @@ final public class ArrayVisualizer {
     }
     public void setCurrentLength(int newLength) {
         this.sortLength = newLength;
-		this.Delays.setSleepRatio(this.sortLength/1024d);
+        this.Delays.setSleepRatio(this.sortLength/1024d);
     }
 
     public void setUniqueItems(int newCount) {
@@ -845,23 +845,23 @@ final public class ArrayVisualizer {
     public int windowYCoordinate() {
         return this.cy;
     }
-	
-	public Color getHighlightColor() {
-		if(this.colorEnabled()) {
-			if(this.analysisEnabled()) 
-				return Color.LIGHT_GRAY;
-			
-			else
-				return Color.WHITE;
-		}
-		else {
-			if(this.analysisEnabled()) 
-				return Color.BLUE;
-			
-			else
-				return Color.RED;
-		}
-	}
+    
+    public Color getHighlightColor() {
+        if(this.colorEnabled()) {
+            if(this.analysisEnabled()) 
+                return Color.LIGHT_GRAY;
+            
+            else
+                return Color.WHITE;
+        }
+        else {
+            if(this.analysisEnabled()) 
+                return Color.BLUE;
+            
+            else
+                return Color.RED;
+        }
+    }
     
     public void createVolatileImage() {
         this.img = this.window.getGraphicsConfiguration().createCompatibleVolatileImage(this.cw, this.ch);
@@ -935,11 +935,11 @@ final public class ArrayVisualizer {
     public synchronized void verifySortAndSweep() {
         this.Highlights.toggleFancyFinish(true);
         this.Highlights.resetFancyFinish();
-		
+        
         this.Delays.setSleepRatio(1);
 
         double sleepRatio = 256d/this.sortLength;
-		long tempComps = this.Reads.getComparisons();
+        long tempComps = this.Reads.getComparisons();
         this.Reads.setComparisons(0);
         
         String temp = this.heading;
@@ -948,21 +948,21 @@ final public class ArrayVisualizer {
         int cmpVal = this.REVERSED ? -1 : 1;
         
         boolean success = true, stable = true;
-		int idx = 0;
-		
+        int idx = 0;
+        
         for(int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
             if(i < this.sortLength) this.Highlights.markArray(1, i);
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
-				if(stable && this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
-					stable = false;
-					idx = i;
-				}
+                if(stable && this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
+                    stable = false;
+                    idx = i;
+                }
                 if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     this.Highlights.clearMark(1);
                     
-					boolean tempSound = this.Sounds.isEnabled();
+                    boolean tempSound = this.Sounds.isEnabled();
                     this.Sounds.toggleSound(false);
                     this.Highlights.toggleFancyFinish(false);
                     
@@ -970,7 +970,7 @@ final public class ArrayVisualizer {
                         this.Highlights.markArray(j, j);
                         this.Delays.sleep(sleepRatio);
                     }
-					
+                    
                     JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
                     success = false;
                     
@@ -990,21 +990,21 @@ final public class ArrayVisualizer {
 
         // if (tempStability && success)
         //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
-		if(this.STABILITY && success && !stable) {
-			boolean tempSound = this.Sounds.isEnabled();
-			this.Sounds.toggleSound(false);
-			this.Highlights.toggleFancyFinish(false);
-			
-			for(int j = idx + 1; j < this.sortLength; j++) {
-				this.Highlights.markArray(j, j);
-				this.Delays.sleep(sleepRatio);
-			}
-			
-			JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + idx + " and " + (idx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
-			
-			this.Highlights.clearAllMarks();
+        if(this.STABILITY && success && !stable) {
+            boolean tempSound = this.Sounds.isEnabled();
+            this.Sounds.toggleSound(false);
+            this.Highlights.toggleFancyFinish(false);
+            
+            for(int j = idx + 1; j < this.sortLength; j++) {
+                this.Highlights.markArray(j, j);
+                this.Delays.sleep(sleepRatio);
+            }
+            
+            JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + idx + " and " + (idx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+            
+            this.Highlights.clearAllMarks();
             this.Sounds.toggleSound(tempSound);
-		}
+        }
 
         this.heading = temp;
         this.Reads.setComparisons(tempComps);

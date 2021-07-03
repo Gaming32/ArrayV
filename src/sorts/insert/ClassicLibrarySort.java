@@ -33,20 +33,20 @@ SOFTWARE.
  */
 
 final public class ClassicLibrarySort extends Sort {
-    public ClassicLibrarySort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Classic Library");
-        this.setRunAllSortsName("Classic Library Sort");
-        this.setRunSortName("Classic Library Sort");
-        this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public ClassicLibrarySort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Classic Library");
+		this.setRunAllSortsName("Classic Library Sort");
+		this.setRunSortName("Classic Library Sort");
+		this.setCategory("Hybrid Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	//possible implementation of the library sort here https://en.wikipedia.org/wiki/Library_sort
 	//makes O(1) insertions into gaps of constant size on random data using an extra (1+G)*n space
@@ -70,7 +70,7 @@ final public class ClassicLibrarySort extends Sort {
 			
 			if(Reads.compareValues(val, array[m]) <= 0) 
 				b = m;
-			else     
+			else
 				a = m+s;
 		}
 		
@@ -87,7 +87,7 @@ final public class ClassicLibrarySort extends Sort {
 			
 			if(Reads.compareValues(val, array[m]) < 0) 
 				b = m;
-			else     
+			else
 				a = m+s;
 		}
 		
@@ -101,19 +101,19 @@ final public class ClassicLibrarySort extends Sort {
 			
 			if(Reads.compareOriginalValues(this.max, array[m]) <= 0) 
 				b = m;
-			else     
+			else	 
 				a = m+1;
 		}
 		
 		return a;
 	}
-    private int rightBinSearch(int[] array, int a, int b, int val) {
+	private int rightBinSearch(int[] array, int a, int b, int val) {
 		while(a < b) {
 			int m = a+(b-a)/2;
 			
 			if(Reads.compareValues(val, array[m]) < 0) 
 				b = m;
-			else     
+			else
 				a = m+1;
 		}
 		
@@ -128,9 +128,9 @@ final public class ClassicLibrarySort extends Sort {
 	}
 	
 	private void binaryInsertion(int[] array, int a, int b) {
-    	for(int i = a+1; i < b; i++)
+		for(int i = a+1; i < b; i++)
 			this.insertTo(array, i, this.rightBinSearch(array, a, i, array[i]), false);
-    }
+	}
 	
 	private void retrieve(int[] array, int[] tmp, int i, int pEnd) {
 		int loc = i-1; 
@@ -151,9 +151,9 @@ final public class ClassicLibrarySort extends Sort {
 			Writes.write(tmp, m--, max, 1, false, true);
 		}
 	}
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.max = length;
 		
 		//there is supposed to be a shuffle here between [0, length)
@@ -228,5 +228,5 @@ final public class ClassicLibrarySort extends Sort {
 		}
 		this.retrieve(array, tmp, length, pEnd);
 		Writes.deleteExternalArray(tmp);
-    }
+	}
 }

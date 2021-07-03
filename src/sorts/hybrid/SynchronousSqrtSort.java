@@ -31,20 +31,20 @@ SOFTWARE.
  */
 
 final public class SynchronousSqrtSort extends Sort {
-    public SynchronousSqrtSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Synchronous Sqrt");
-        this.setRunAllSortsName("Synchronous Sqrt Sort");
-        this.setRunSortName("Synchronous Sqrtsort");
-        this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public SynchronousSqrtSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Synchronous Sqrt");
+		this.setRunAllSortsName("Synchronous Sqrt Sort");
+		this.setRunSortName("Synchronous Sqrtsort");
+		this.setCategory("Hybrid Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private void shift(int[] array, int a, int m, int b) {
 		while(m < b) Writes.write(array, a++, array[m++], 1, true, false);
@@ -148,9 +148,9 @@ final public class SynchronousSqrtSort extends Sort {
 			rev = !rev;
 		}
 	}
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		BinaryDoubleInsertionSort smallSort = new BinaryDoubleInsertionSort(this.arrayVisualizer);
 		
 		if(length <= 16) {
@@ -228,5 +228,5 @@ final public class SynchronousSqrtSort extends Sort {
 		}
 		Writes.deleteExternalArray(temp);
 		Writes.deleteExternalArray(tags);
-    }
+	}
 }

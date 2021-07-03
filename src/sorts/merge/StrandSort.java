@@ -30,38 +30,38 @@ SOFTWARE.
  */
  
 public final class StrandSort extends Sort {
-    public StrandSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
+	public StrandSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
 
-        this.setSortListName("Strand");
-        this.setRunAllSortsName("Strand Sort");
-        this.setRunSortName("Strandsort");
-        this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
-    
-    //reverses equal items order
-    private void mergeTo(int[] array, int[] subList, int a, int m, int b) {
-    	int i = 0, s = m-a;
-    	
-    	while(i < s && m < b) {
-        	if(Reads.compareValues(subList[i], array[m]) < 0)
-        		Writes.write(array, a++, subList[i++], 0.5, true, false);
-        	
-        	else Writes.write(array, a++, array[m++], 0.5, true, false);
-    	}
-    	
-    	while(i < s)
-    		Writes.write(array, a++, subList[i++], 0.5, true, false);
-    }
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+		this.setSortListName("Strand");
+		this.setRunAllSortsName("Strand Sort");
+		this.setRunSortName("Strandsort");
+		this.setCategory("Merge Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
+	
+	//reverses equal items order
+	private void mergeTo(int[] array, int[] subList, int a, int m, int b) {
+		int i = 0, s = m-a;
+		
+		while(i < s && m < b) {
+			if(Reads.compareValues(subList[i], array[m]) < 0)
+				Writes.write(array, a++, subList[i++], 0.5, true, false);
+			
+			else Writes.write(array, a++, array[m++], 0.5, true, false);
+		}
+		
+		while(i < s)
+			Writes.write(array, a++, subList[i++], 0.5, true, false);
+	}
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		int[] subList = Writes.createExternalArray(length);
 		
 		int j = length, k = j;
@@ -86,5 +86,5 @@ public final class StrandSort extends Sort {
 			j = k;
 		}
 		Writes.deleteExternalArray(subList);
-    }
+	}
 }

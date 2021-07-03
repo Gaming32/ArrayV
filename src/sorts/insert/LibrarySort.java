@@ -30,20 +30,20 @@ SOFTWARE.
  */
 
 final public class LibrarySort extends Sort {
-    public LibrarySort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
+	public LibrarySort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
 
 		this.setSortListName("Library");
-        this.setRunAllSortsName("Library Sort");
-        this.setRunSortName("Library Sort");
-        this.setCategory("Insertion Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+		this.setRunAllSortsName("Library Sort");
+		this.setRunSortName("Library Sort");
+		this.setCategory("Insertion Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	//simple library sort with O(n) extra memory + counter & pointer array (n size combined)
 	
@@ -64,7 +64,7 @@ final public class LibrarySort extends Sort {
 			
 			if(Reads.compareValues(val, array[m]) < 0) 
 				b = m;
-			else     
+			else
 				a = m+1;
 		}
 		Highlights.clearMark(3);
@@ -103,8 +103,8 @@ final public class LibrarySort extends Sort {
 			Writes.write(cnts, i, 0, 0, false, true);
 	}
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.binaryInsert = new BinaryInsertionSort(this.arrayVisualizer);
 		
 		if(length < 32) {
@@ -141,5 +141,5 @@ final public class LibrarySort extends Sort {
 		Writes.deleteExternalArray(temp);
 		Writes.deleteExternalArray(cnts);
 		Writes.deleteExternalArray(locs);
-    }
+	}
 }

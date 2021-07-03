@@ -76,7 +76,7 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
     }
 
     private void shuffleEasy(int[] array, int start, int size) {
-		Highlights.clearMark(2);
+        Highlights.clearMark(2);
         for (int i=1; i<size; i*=3) {
             int val = array[start+i-1];
             for (int j=i*2%size; j!=i; j=j*2%size) {

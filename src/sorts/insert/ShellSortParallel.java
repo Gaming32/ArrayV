@@ -4,34 +4,34 @@ import main.ArrayVisualizer;
 import sorts.templates.ShellSorting;
 
 final public class ShellSortParallel extends ShellSorting {
-    public ShellSortParallel(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Shell (Parallel)");
-        this.setRunAllSortsName("Parallel Shell Sort");
-        this.setRunSortName("Parallel Shellsort");
-        this.setCategory("Insertion Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public ShellSortParallel(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Shell (Parallel)");
+		this.setRunAllSortsName("Parallel Shell Sort");
+		this.setRunSortName("Parallel Shellsort");
+		this.setCategory("Insertion Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private int[] array;
 	private int[] gaps;
 	
 	private class GappedInsertionSort extends Thread {
-        private int a, b, g;
-        GappedInsertionSort(int a, int b, int g) {
-            this.a = a;
-            this.b = b;
+		private int a, b, g;
+		GappedInsertionSort(int a, int b, int g) {
+			this.a = a;
+			this.b = b;
 			this.g = g;
-        }
-        public void run() {
-            ShellSortParallel.this.gappedInsertion(a, b, g);
-        }
+		}
+		public void run() {
+			ShellSortParallel.this.gappedInsertion(a, b, g);
+		}
 	}
 	
 	private void gappedInsertion(int a, int b, int g) {
@@ -50,9 +50,9 @@ final public class ShellSortParallel extends ShellSorting {
 			}
 		}
 	}
-    
-    @Override
-    public void runSort(int[] array, int currentLength, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int currentLength, int bucketCount) {
 		this.array = array;
 		this.gaps = this.ExtendedCiuraGaps;
 		
@@ -77,5 +77,5 @@ final public class ShellSortParallel extends ShellSorting {
 				}
 			}
 		}
-    }
+	}
 }

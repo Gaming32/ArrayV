@@ -32,21 +32,21 @@ final public class HeavyHeapSort extends HeapSorting {
     }
 
     private void bitReversal(int[] array, int a, int b) {
-		int len = b-a, m = 0;
-		int d1 = len>>1, d2 = d1+(d1>>1);
-					
-		for(int i = 1; i < len-1; i++) {
-			int j = d1;
-			
-			for(
-				int k = i, n = d2; 
-				(k&1) == 0; 
-				j -= n, k >>= 1, n >>= 1
-			);
-			m += j;
-			if(m > i) Writes.swap(array, a+i, a+m, 1, true, false);
-		}
-	}
+        int len = b-a, m = 0;
+        int d1 = len>>1, d2 = d1+(d1>>1);
+                    
+        for(int i = 1; i < len-1; i++) {
+            int j = d1;
+            
+            for(
+                int k = i, n = d2; 
+                (k&1) == 0; 
+                j -= n, k >>= 1, n >>= 1
+            );
+            m += j;
+            if(m > i) Writes.swap(array, a+i, a+m, 1, true, false);
+        }
+    }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {

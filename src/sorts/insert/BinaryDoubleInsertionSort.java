@@ -30,20 +30,20 @@ SOFTWARE.
  */
 
 final public class BinaryDoubleInsertionSort extends Sort {
-    public BinaryDoubleInsertionSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Binary Double Insertion");
-        this.setRunAllSortsName("Binary Double Insertion Sort");
-        this.setRunSortName("Binary Double Insertsort");
-        this.setCategory("Insertion Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public BinaryDoubleInsertionSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Binary Double Insertion");
+		this.setRunAllSortsName("Binary Double Insertion Sort");
+		this.setRunSortName("Binary Double Insertsort");
+		this.setCategory("Insertion Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private int leftBinarySearch(int[] array, int a, int b, int val, double sleep) {
 		while(a < b) {
@@ -56,13 +56,13 @@ final public class BinaryDoubleInsertionSort extends Sort {
 			
 			if(Reads.compareValues(val, array[m]) <= 0) 
 				b = m;
-			else     
+			else
 				a = m+1;
 		}
 		
 		return a;
 	}
-    private int rightBinarySearch(int[] array, int a, int b, int val, double sleep) {
+	private int rightBinarySearch(int[] array, int a, int b, int val, double sleep) {
 		while(a < b) {
 			int m = a+(b-a)/2;
 			
@@ -73,7 +73,7 @@ final public class BinaryDoubleInsertionSort extends Sort {
 			
 			if(Reads.compareValues(val, array[m]) < 0) 
 				b = m;
-			else     
+			else
 				a = m+1;
 		}
 		
@@ -86,7 +86,7 @@ final public class BinaryDoubleInsertionSort extends Sort {
 		while(a > b) Writes.write(array, a, array[--a], sleep, true, false);
 		Writes.write(array, b, temp, sleep, true, false);
 	}
-    private void insertToRight(int[] array, int a, int b, int temp, double sleep) {
+	private void insertToRight(int[] array, int a, int b, int temp, double sleep) {
 		Highlights.clearMark(2);
 		
 		while(a < b) Writes.write(array, a, array[++a], sleep, true, false);
@@ -130,9 +130,9 @@ final public class BinaryDoubleInsertionSort extends Sort {
 	public void customDoubleInsert(int[] array, int a, int b, double sleep) {
 		this.doubleInsertion(array, a, b, sleep, sleep);
 	}
-    
-    @Override
-    public void runSort(int[] array, int currentLength, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int currentLength, int bucketCount) {
 		this.doubleInsertion(array, 0, currentLength, 1, 0.05);
-    }
+	}
 }

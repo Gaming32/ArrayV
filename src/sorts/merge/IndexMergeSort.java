@@ -29,20 +29,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 final public class IndexMergeSort extends Sort {
-    public IndexMergeSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Index Merge");
-        this.setRunAllSortsName("Index Merge Sort");
-        this.setRunSortName("Index Mergesort");
-        this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public IndexMergeSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Index Merge");
+		this.setRunAllSortsName("Index Merge Sort");
+		this.setRunSortName("Index Mergesort");
+		this.setCategory("Merge Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	private void indexSort(int[] array, int[] idx, int a, int b) {
 		while(a < b) {
@@ -103,11 +103,11 @@ final public class IndexMergeSort extends Sort {
 		this.sort(array, idx, m, b);
 		this.merge(array, idx, a, m, b);
 	}
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		int[] idx = Writes.createExternalArray(length);
 		this.sort(array, idx, 0, length);
 		Writes.deleteExternalArray(idx);
-    }
+	}
 }

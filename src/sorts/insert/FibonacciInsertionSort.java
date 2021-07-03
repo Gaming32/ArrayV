@@ -26,7 +26,7 @@ SOFTWARE.
  */
 
 final public class FibonacciInsertionSort extends Sort {
-	
+    
     public FibonacciInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -43,19 +43,19 @@ final public class FibonacciInsertionSort extends Sort {
     }
     
     public void fibonacciInsertionSort(int[] array, int length) {
-    	for (int i = 1; i < length; i++) {
-    	    int tmp = array[i];
+        for (int i = 1; i < length; i++) {
+            int tmp = array[i];
             int position = this.fibonacciSearch(array, 0, i - 1, tmp);
             int j = i - 1;
             while (j >= position) {
-            	Writes.write(array, j + 1, array[j--], 0.15, true, false);
+                Writes.write(array, j + 1, array[j--], 0.15, true, false);
             }
             Writes.write(array, j + 1, tmp, 0.15, true, false);
-    	}
+        }
     }
     
     public int fibonacciSearch(int[] array, int start, int end, int item) {
-    	int fibM2 = 0;
+        int fibM2 = 0;
         int fibM1 = 1;
         int fibM = 1;
         while (fibM <= end - start) {
@@ -67,19 +67,19 @@ final public class FibonacciInsertionSort extends Sort {
         int offset = start - 1;
         
         while (fibM > 1) {
-        	
+            
             int i = Math.min(offset + fibM2, end);
             
             Highlights.markArray(1, offset + 1);
             Highlights.markArray(2, i);
             
             if (Reads.compareValues(array[i], item) <= 0) {
-            	fibM = fibM1;
+                fibM = fibM1;
                 fibM1 = fibM2;
                 fibM2 = fibM - fibM1;
                 offset = i;
             } else {
-            	fibM = fibM2;
+                fibM = fibM2;
                 fibM1 -= fibM2;
                 fibM2 = fibM - fibM1;
             }

@@ -29,20 +29,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 final public class OptimizedPancakeSort extends Sort {
-    public OptimizedPancakeSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-        
-        this.setSortListName("Optimized Pancake");
-        this.setRunAllSortsName("Optimized Pancake Sort");
-        this.setRunSortName("Optimized Pancake Sort");
-        this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public OptimizedPancakeSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+		
+		this.setSortListName("Optimized Pancake");
+		this.setRunAllSortsName("Optimized Pancake Sort");
+		this.setRunSortName("Optimized Pancake Sort");
+		this.setCategory("Merge Sorts");
+		this.setComparisonBased(true);
+		this.setBucketSort(false);
+		this.setRadixSort(false);
+		this.setUnreasonablySlow(false);
+		this.setUnreasonableLimit(0);
+		this.setBogoSort(false);
+	}
 	
 	//special thanks to Anonymous0726 !!!
 	
@@ -65,7 +65,7 @@ final public class OptimizedPancakeSort extends Sort {
 								: Reads.compareValues(value, array[m]) < 0;
 			
 			if(comp) b = m;
-			else     a = m+1;
+			else	 a = m+1;
 		}
 		
 		return a;
@@ -124,9 +124,9 @@ final public class OptimizedPancakeSort extends Sort {
 			this.pancakeMerge(array, m, n);
 		}
 	}
-    
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.pancakeMergeSort(array, length);
-    }
+	}
 }
