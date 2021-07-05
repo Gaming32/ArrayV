@@ -157,16 +157,15 @@ final public class FlanSort extends Sort {
 		return a;
 	}
 	
-	private void insertTo(int[] array, int a, int b) {
+	private void insertTo(int[] array, int tmp, int a, int b) {
 		Highlights.clearMark(2);
-		int temp = array[a];
 		while(a > b) Writes.write(array, a, array[--a], 0.5, true, false);
-		Writes.write(array, b, temp, 0.5, true, false);
+		Writes.write(array, b, tmp, 0.5, true, false);
 	}
 	
 	private void binaryInsertion(int[] array, int a, int b) {
     	for(int i = a+1; i < b; i++)
-			this.insertTo(array, i, this.rightBinSearch(array, a, i, array[i], false));
+			this.insertTo(array, array[i], i, this.rightBinSearch(array, a, i, array[i], false));
     }
 	
 	private boolean idxCmp(int[] array, int[] pa, int[] pb, int a, int b) {
@@ -277,7 +276,7 @@ final public class FlanSort extends Sort {
 			
 			if(Reads.compareValues(array[i], array[bLoc]) == 0) { //handle equal values to prevent worst case O(n^2)
 				int eqEnd = this.rightBlockSearch(array, bLoc+(G+1), pEnd-(G+1), array[i]); //find the endpoint of the gaps with equal head element
-				bLoc += rng.nextInt((eqEnd-bLoc)/(G+1))*(G+1);						  //choose a random gap from the range of gaps
+				bLoc += rng.nextInt((eqEnd-bLoc)/(G+1))*(G+1);                              //choose a random gap from the range of gaps
 			}
 			
 			int loc  = this.rightBinSearch(array, bLoc-G, bLoc, bsv, bw); //search next empty space in gap
@@ -303,8 +302,9 @@ final public class FlanSort extends Sort {
 				}
 			}
 			else {
-				Writes.swap(array, i++, loc, 1, true, false);
-				this.insertTo(array, loc, this.rightBinSearch(array, bLoc-G, loc, array[loc], false));
+				int t = array[i];
+				Writes.write(array, i++, array[loc], 1, true, false);
+				this.insertTo(array, t, loc, this.rightBinSearch(array, bLoc-G, loc, t, false));
 			}
 		}
 		this.retrieve(array, b, p, pEnd, bsv, bw);
