@@ -123,11 +123,13 @@ public abstract class TwinSorting extends Sort {
                     d--;
                     c_max--;
                 }
+				Highlights.clearMark(1);
 
                 c = s;
                 d = a + block;
 
                 while (c < c_max) {
+					Highlights.markArray(2, d);
                     Writes.write(swap, c++, array[d++], 1, false, true);
                 }
                 c--;
@@ -139,8 +141,7 @@ public abstract class TwinSorting extends Sort {
                     Writes.write(array, e--, array[d--], 1, true, false);
 
                     while (c >= s) {
-                        Highlights.markArray(0, d);
-                        Delays.sleep(1);
+                        Highlights.markArray(2, d);
                         while (Reads.compareValues(array[d], swap[c]) > 0) {
                             Writes.write(array, e--, array[d--], 1, true, false);
                         }
@@ -151,8 +152,7 @@ public abstract class TwinSorting extends Sort {
                     Writes.write(array, e--, array[d--], 1, true, false);
 
                     while (d >= a) {
-                        Highlights.markArray(0, d);
-                        Delays.sleep(1);
+                        Highlights.markArray(2, d);
                         while (Reads.compareValues(array[d], swap[c]) <= 0) {
                             Writes.write(array, e--, swap[c--], 1, true, false);
                         }
