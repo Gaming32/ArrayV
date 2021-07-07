@@ -39,7 +39,6 @@ SOFTWARE.
  */
 
 final public class ArrayManager {
-    private int[] presortedArray;
     private utils.Shuffles[] shuffleTypes;
     private utils.Distributions[] distributionTypes;
     private String[] shuffleIDs;
@@ -56,7 +55,6 @@ final public class ArrayManager {
 
     public ArrayManager(ArrayVisualizer arrayVisualizer) {
         this.ArrayVisualizer = arrayVisualizer;
-        this.presortedArray = new int[ArrayVisualizer.getMaximumLength()];
 
         this.Shuffles = utils.Shuffles.RANDOM;
         this.Distributions = utils.Distributions.LINEAR;
@@ -103,16 +101,6 @@ final public class ArrayManager {
 
         System.arraycopy(temp, 0, array, 0, currentLen);
         ArrayVisualizer.updateNow();
-    }
-
-    public void initializePresortedArray() {
-        for (int i = 0; i < this.presortedArray.length; i++) {
-            this.presortedArray[i] = i;
-        }
-
-        for(int i = 0; i < Math.max((this.presortedArray.length / 10), 1); i++){
-            Writes.swap(this.presortedArray, (int) (Math.random() * this.presortedArray.length), (int) (Math.random() * this.presortedArray.length), 0, true, false);
-        }
     }
 
     public String[] getShuffleIDs() {
