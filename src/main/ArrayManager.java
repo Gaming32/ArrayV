@@ -44,6 +44,8 @@ final public class ArrayManager {
     private String[] shuffleIDs;
     private String[] distributionIDs;
 
+    private boolean hadDistributionAllocationError;
+
     private volatile boolean MUTABLE;
 
     private ArrayVisualizer ArrayVisualizer;
@@ -60,6 +62,8 @@ final public class ArrayManager {
         this.Distributions = utils.Distributions.LINEAR;
         this.shuffleTypes = utils.Shuffles.values();
         this.distributionTypes = utils.Distributions.values();
+
+        hadDistributionAllocationError = false;
 
         this.Delays = ArrayVisualizer.getDelays();
         this.Highlights = ArrayVisualizer.getHighlights();
@@ -92,7 +96,15 @@ final public class ArrayManager {
 
         int currentLen = ArrayVisualizer.getCurrentLength();
 
-        int[] temp = new int[currentLen];
+        int[] temp;
+        try {
+            temp = new int[currentLen];
+        } catch (OutOfMemoryError e) {
+            if (!hadDistributionAllocationError)
+                JErrorPane.invokeCustomErrorMessage("Failed to allocate temporary array for distribution. (will use main array, which may have side-effects.)");
+            hadDistributionAllocationError = true;
+            temp = array;
+        }
         Distributions.initializeArray(temp, this.ArrayVisualizer);
 
         double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();

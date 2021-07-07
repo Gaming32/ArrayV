@@ -117,6 +117,7 @@ final public class ArrayVisualizer {
     private Thread visualsThread;
 
     private volatile boolean visualsEnabled;
+    public final boolean disabledStabilityCheck;
 
     private String category;
     private String heading;
@@ -297,9 +298,22 @@ final public class ArrayVisualizer {
         this.MIN_ARRAY_VAL = 2;
         this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
         
+        int[] stabilityTable, indexTable;
+        boolean disabledStabilityCheck;
         this.array = new int[this.MAX_ARRAY_VAL];
-        this.stabilityTable = new int[this.MAX_ARRAY_VAL];
-        this.indexTable = new int[this.MAX_ARRAY_VAL];
+        try {
+            stabilityTable = new int[this.MAX_ARRAY_VAL];
+            indexTable = new int[this.MAX_ARRAY_VAL];
+            disabledStabilityCheck = false;
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeCustomErrorMessage("Failed to allocate arrays for stability check. This will be disabled.");
+            stabilityTable = null;
+            indexTable = null;
+            disabledStabilityCheck = true;
+        }
+        this.stabilityTable = stabilityTable;
+        this.indexTable = indexTable;
+        this.disabledStabilityCheck = disabledStabilityCheck;
         
         this.sortLength = this.MAX_ARRAY_VAL;
         this.resetStabilityTable();

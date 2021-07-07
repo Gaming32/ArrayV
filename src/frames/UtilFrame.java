@@ -319,6 +319,9 @@ final public class UtilFrame extends javax.swing.JFrame {
                 jComboBox1ActionPerformed();
             }
         });
+        if (ArrayVisualizer.disabledStabilityCheck) {
+            jComboBox1.removeItem("Stability Check");
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
