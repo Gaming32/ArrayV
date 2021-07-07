@@ -145,6 +145,10 @@ final public class RunComparisonSort {
                             sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
                         }
                         catch (StopSort e) { }
+                        catch (OutOfMemoryError e) {
+                            JErrorPane.invokeCustomErrorMessage(sort.getRunAllSortsName() + " ran out of memory: " + e.getMessage());
+                            throw new RuntimeException(e);
+                        }
 
                         if (antiq)
                             arrayVisualizer.finishAntiQSort(sort.getClass().getSimpleName());
