@@ -21,7 +21,6 @@ final public class StalinSort extends Sort {
     
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
-        if (true) return;
         for (int i = 1; i < currentLength; i++) {
             Highlights.markArray(1, i);
             Delays.sleep(0.5);

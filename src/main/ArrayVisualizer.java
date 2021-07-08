@@ -299,33 +299,17 @@ final public class ArrayVisualizer {
         this.MIN_ARRAY_VAL = 2;
         this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
         
-        int[] stabilityTable, indexTable, validateArray;
-        boolean disabledStabilityCheck;
-        this.array = new int[this.MAX_ARRAY_VAL];
+        int[] array;
         try {
-            stabilityTable = new int[this.MAX_ARRAY_VAL];
-            indexTable = new int[this.MAX_ARRAY_VAL];
-            disabledStabilityCheck = false;
+            array = new int[this.MAX_ARRAY_VAL];
         } catch (OutOfMemoryError e) {
-            JErrorPane.invokeCustomErrorMessage("Failed to allocate arrays for stability check. This feature will be disabled.");
-            stabilityTable = null;
-            indexTable = null;
-            disabledStabilityCheck = true;
+            JErrorPane.invokeCustomErrorMessage("Failed to allocate main array. The program will now exit.");
+            System.exit(1);
+            array = null;
         }
-        try {
-            validateArray = new int[this.MAX_ARRAY_VAL];
-        } catch (OutOfMemoryError e) {
-            JErrorPane.invokeCustomErrorMessage("Failed to allocate array for improved validation. This feature will be disabled.");
-            validateArray = null;
-        }
-        this.validateArray = validateArray;;
-        this.stabilityTable = stabilityTable;
-        this.indexTable = indexTable;
-        this.disabledStabilityCheck = disabledStabilityCheck;
+        this.array = array;
         
         this.sortLength = this.MAX_ARRAY_VAL;
-        this.resetStabilityTable();
-        this.resetIndexTable();
         
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
@@ -358,6 +342,33 @@ final public class ArrayVisualizer {
         
         this.SortAnalyzer.analyzeSorts();
         this.refreshSorts();
+
+        int[] stabilityTable, indexTable, validateArray;
+        boolean disabledStabilityCheck;
+        try {
+            stabilityTable = new int[this.MAX_ARRAY_VAL];
+            indexTable = new int[this.MAX_ARRAY_VAL];
+            disabledStabilityCheck = false;
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeCustomErrorMessage("Failed to allocate arrays for stability check. This feature will be disabled.");
+            stabilityTable = null;
+            indexTable = null;
+            disabledStabilityCheck = true;
+        }
+        try {
+            validateArray = new int[this.MAX_ARRAY_VAL];
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeCustomErrorMessage("Failed to allocate array for improved validation. This feature will be disabled.");
+            validateArray = null;
+        }
+        this.validateArray = validateArray;;
+        this.stabilityTable = stabilityTable;
+        this.indexTable = indexTable;
+        this.disabledStabilityCheck = disabledStabilityCheck;
+        if (!this.disabledStabilityCheck) {
+            this.resetStabilityTable();
+            this.resetIndexTable();
+        }
 
         this.MultipleScript = new MultipleScript(this);
         

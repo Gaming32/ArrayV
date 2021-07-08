@@ -3,6 +3,7 @@ package utils;
 import java.util.Arrays;
 
 import main.ArrayVisualizer;
+import panes.JErrorPane;
 
 /*
  * 
@@ -63,8 +64,13 @@ final public class Highlights {
     public Highlights(ArrayVisualizer ArrayVisualizer, int maximumLength) {
         this.ArrayVisualizer = ArrayVisualizer;
         
-        this.Highlights = new int[maximumLength];
-        this.markCounts = new byte[maximumLength];
+        try {
+            this.Highlights = new int[maximumLength];
+            this.markCounts = new byte[maximumLength];
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeCustomErrorMessage("Failed to allocate mark arrays. The program will now exit.");
+            System.exit(1);
+        }
         this.FANCYFINISH = true;
         this.maxHighlightMarked = 0;
         this.markCount = 0;
