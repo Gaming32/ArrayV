@@ -985,25 +985,26 @@ final public class ArrayVisualizer {
         int cmpVal = this.REVERSED ? -1 : 1;
         
         boolean success = true, stable = true;
-        int idx = 0;
+        int unstableIdx = 0;
 
         boolean validate = this.validateArray != null;
         boolean validateFailed = false;
+        int invalidateIdx = 0;
         
         for(int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
             if(i < this.sortLength) this.Highlights.markArray(1, i);
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
-                if (validate && this.Reads.compareOriginalValues(this.array[i], this.validateArray[i]) != 0) {
+                if (validate && !validateFailed && this.Reads.compareOriginalValues(this.array[i], this.validateArray[i]) != 0) {
                     validateFailed = true;
+                    invalidateIdx = i;
                 }
                 if(stable && this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     stable = false;
-                    idx = i;
+                    unstableIdx = i;
                 }
-                int cmp = this.Reads.compareValues(this.array[i], this.array[i + 1]);
-                if(cmp == cmpVal || validateFailed) {
+                if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     this.Highlights.clearMark(1);
                     
                     boolean tempSound = this.Sounds.isEnabled();
@@ -1015,11 +1016,7 @@ final public class ArrayVisualizer {
                         this.Delays.sleep(sleepRatio);
                     }
                     
-                    if (cmp == cmpVal) {
-                        JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
-                    } else {
-                        JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\narray[" + i + "] != validateArray[" + i + "]", "Error", JOptionPane.OK_OPTION, null);
-                    }
+                    JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
                     success = false;
                     
                     this.Highlights.clearAllMarks();
@@ -1043,12 +1040,27 @@ final public class ArrayVisualizer {
             this.Sounds.toggleSound(false);
             this.Highlights.toggleFancyFinish(false);
             
-            for(int j = idx + 1; j < this.sortLength; j++) {
+            for(int j = unstableIdx; j < this.sortLength; j++) {
                 this.Highlights.markArray(j, j);
                 this.Delays.sleep(sleepRatio);
             }
             
-            JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + idx + " and " + (idx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+            JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + unstableIdx + " and " + (unstableIdx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+            
+            this.Highlights.clearAllMarks();
+            this.Sounds.toggleSound(tempSound);
+        }
+        else if(success && validateFailed) {
+            boolean tempSound = this.Sounds.isEnabled();
+            this.Sounds.toggleSound(false);
+            this.Highlights.toggleFancyFinish(false);
+            
+            for(int j = invalidateIdx + 1; j < this.sortLength; j++) {
+                this.Highlights.markArray(j, j);
+                this.Delays.sleep(sleepRatio);
+            }
+            
+            JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\narray[" + invalidateIdx + "] != validateArray[" + invalidateIdx + "]", "Error", JOptionPane.OK_OPTION, null);
             
             this.Highlights.clearAllMarks();
             this.Sounds.toggleSound(tempSound);
