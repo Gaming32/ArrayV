@@ -172,14 +172,14 @@ public enum Shuffles {
             boolean delay = ArrayVisualizer.shuffleEnabled();
             Random random = new Random();
 
-			int start = random.nextInt(currentLen);
-			int dest = random.nextInt(currentLen);
-			if (dest < start) {
-				IndexedRotations.holyGriesMills(array, dest, start, start + 1, delay ? 1 : 0, true, false);
-			}
-			else {
-				IndexedRotations.holyGriesMills(array, start, start + 1, dest, delay ? 1 : 0, true, false);
-			}
+            int start = random.nextInt(currentLen);
+            int dest = random.nextInt(currentLen);
+            if (dest < start) {
+                IndexedRotations.holyGriesMills(array, dest, start, start + 1, delay ? 1 : 0, true, false);
+            }
+            else {
+                IndexedRotations.holyGriesMills(array, start, start + 1, dest, delay ? 1 : 0, true, false);
+            }
         }
     },
     NOISY {
@@ -638,7 +638,7 @@ public enum Shuffles {
             heapSort.makeHeap(array, 0, currentLen, delay ? 1 : 0);
         }
     },
-	REV_SMOOTH {
+    REV_SMOOTH {
         public String getName() {
             return "Reversed Smoothified";
         }
@@ -666,8 +666,8 @@ public enum Shuffles {
             poplarHeapSort.poplarHeapify(array, 0, currentLen);
         }
     },
-	TRI_HEAP {
-		public String getName() {
+    TRI_HEAP {
+        public String getName() {
             return "Triangular Heapified";
         }
         @Override
@@ -675,16 +675,16 @@ public enum Shuffles {
             int currentLen = ArrayVisualizer.getCurrentLength();
             boolean delay = ArrayVisualizer.shuffleEnabled();
             
-			if(delay) Delays.setSleepRatio(Delays.getSleepRatio()*10);
-			else	  Delays.changeSkipped(true);
-			
+            if(delay) Delays.setSleepRatio(Delays.getSleepRatio()*10);
+            else      Delays.changeSkipped(true);
+            
             TriangularHeapSort triangularHeapSort = new TriangularHeapSort(ArrayVisualizer);
             triangularHeapSort.triangularHeapify(array, currentLen);
-			
-			if(delay) Delays.setSleepRatio(Delays.getSleepRatio()/10);
-			else	  Delays.changeSkipped(false);
+            
+            if(delay) Delays.setSleepRatio(Delays.getSleepRatio()/10);
+            else      Delays.changeSkipped(false);
         }
-	},
+    },
     CIRCLE {
         public String getName() {
             return "First Circle Pass";

@@ -92,6 +92,7 @@ final public class ArrayVisualizer {
     final private int MAX_ARRAY_VAL;
 
     final int[] array;
+    final int[] validateArray;
     final int[] stabilityTable;
     final int[] indexTable;
     final ArrayList<int[]> arrays;
@@ -298,7 +299,7 @@ final public class ArrayVisualizer {
         this.MIN_ARRAY_VAL = 2;
         this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
         
-        int[] stabilityTable, indexTable;
+        int[] stabilityTable, indexTable, validateArray;
         boolean disabledStabilityCheck;
         this.array = new int[this.MAX_ARRAY_VAL];
         try {
@@ -306,11 +307,18 @@ final public class ArrayVisualizer {
             indexTable = new int[this.MAX_ARRAY_VAL];
             disabledStabilityCheck = false;
         } catch (OutOfMemoryError e) {
-            JErrorPane.invokeCustomErrorMessage("Failed to allocate arrays for stability check. This will be disabled.");
+            JErrorPane.invokeCustomErrorMessage("Failed to allocate arrays for stability check. This feature will be disabled.");
             stabilityTable = null;
             indexTable = null;
             disabledStabilityCheck = true;
         }
+        try {
+            validateArray = new int[this.MAX_ARRAY_VAL];
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeCustomErrorMessage("Failed to allocate array for improved validation. This feature will be disabled.");
+            validateArray = null;
+        }
+        this.validateArray = validateArray;;
         this.stabilityTable = stabilityTable;
         this.indexTable = indexTable;
         this.disabledStabilityCheck = disabledStabilityCheck;
@@ -551,6 +559,10 @@ final public class ArrayVisualizer {
         this.benchmarking = enabled;
         this.updateVisuals = !benchmarking;
         return this.benchmarking;
+    }
+
+    public int[] getValidationArray() {
+        return this.validateArray;
     }
     
     public int getStabilityValue(int n) {
@@ -963,17 +975,24 @@ final public class ArrayVisualizer {
         
         boolean success = true, stable = true;
         int idx = 0;
+
+        boolean validate = this.validateArray != null;
+        boolean validateFailed = false;
         
         for(int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
             if(i < this.sortLength) this.Highlights.markArray(1, i);
             this.Highlights.incrementFancyFinishPosition();
             
             if(i < this.sortLength - 1) {
+                if (validate && this.Reads.compareOriginalValues(this.array[i], this.validateArray[i]) != 0) {
+                    validateFailed = true;
+                }
                 if(stable && this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     stable = false;
                     idx = i;
                 }
-                if(this.Reads.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
+                int cmp = this.Reads.compareValues(this.array[i], this.array[i + 1]);
+                if(cmp == cmpVal || validateFailed) {
                     this.Highlights.clearMark(1);
                     
                     boolean tempSound = this.Sounds.isEnabled();
@@ -985,7 +1004,11 @@ final public class ArrayVisualizer {
                         this.Delays.sleep(sleepRatio);
                     }
                     
-                    JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    if (cmp == cmpVal) {
+                        JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    } else {
+                        JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\narray[" + i + "] != validateArray[" + i + "]", "Error", JOptionPane.OK_OPTION, null);
+                    }
                     success = false;
                     
                     this.Highlights.clearAllMarks();

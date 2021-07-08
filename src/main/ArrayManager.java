@@ -1,7 +1,10 @@
 package main;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Random;
+import java.util.function.IntConsumer;
 
 import panes.JErrorPane;
 import utils.Delays;
@@ -219,6 +222,24 @@ final public class ArrayManager {
         ArrayVisualizer.setHeading("");
         if (!ArrayVisualizer.useAntiQSort()) {
             this.shuffleArray(array, currentLen, ArrayVisualizer);
+
+            int mult = ArrayVisualizer.reversedComparator() ? -1 : 1;
+            int[] validateArray = ArrayVisualizer.getValidationArray();
+            if (validateArray != null) {
+                Integer[] copy = Arrays.stream(array, 0, currentLen).boxed().toArray(Integer[]::new);
+                Arrays.sort(copy, new Comparator<Integer>(){
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return Integer.compare(o1, o2) * mult;
+                    }
+                });
+                Arrays.stream(copy).mapToInt(Integer::intValue).forEach(new IntConsumer() {
+                    @Override
+                    public void accept(int value) {
+                        validateArray[value] = value;
+                    }
+                });
+            }
 
             if(ArrayVisualizer.doingStabilityCheck())
                 this.stableShuffle(array, currentLen);
