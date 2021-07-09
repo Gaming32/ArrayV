@@ -25,20 +25,14 @@ public final class TinyGnomeSort extends Sort {
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) {
-        for(int i = 1; i < sortLength; i++) {
-            if (Reads.compareIndices(array, i - 1, i, 0.05, true) > 0) {
-                for (int j = i; j > 0; j--) {
-                    boolean foobar = true;
-                    for (int k = 0; k < j; k++) {
-                        if (Reads.compareIndices(array, k, k + 1, 0.05, true) > 0) {
-                            Writes.swap(array, k, k + 1, 0.1, true, false);
-                            foobar = false;
-                        }
-                    }
-                    if (foobar)
-                        break;
-                } 
+        for(int i = 1; i < sortLength; ) {
+            if(Reads.compareIndices(array, i, i - 1, 0.05, true) >= 0) {
+                i++;
+            } else {
+                Writes.swap(array, i, i - 1, 0.1, true, false);
+                i = 1;
             }
+            
         }
 
     }
