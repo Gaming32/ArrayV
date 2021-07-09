@@ -223,22 +223,17 @@ final public class ArrayManager {
         if (!ArrayVisualizer.useAntiQSort()) {
             this.shuffleArray(array, currentLen, ArrayVisualizer);
 
-            int mult = ArrayVisualizer.reversedComparator() ? -1 : 1;
             int[] validateArray = ArrayVisualizer.getValidationArray();
             if (validateArray != null) {
-                Integer[] copy = Arrays.stream(array, 0, currentLen).boxed().toArray(Integer[]::new);
-                Arrays.sort(copy, new Comparator<Integer>(){
-                    @Override
-                    public int compare(Integer o1, Integer o2) {
-                        return Integer.compare(o1, o2) * mult;
+                System.arraycopy(array, 0, validateArray, 0, currentLen);
+                Arrays.sort(validateArray, 0, currentLen);
+                if (ArrayVisualizer.reversedComparator()) {
+                    for (int i = 0, j = currentLen - 1; i < j; i++, j--) {
+                        int temp = validateArray[i];
+                        validateArray[i] = validateArray[j];
+                        validateArray[j] = temp;
                     }
-                });
-                Arrays.stream(copy).mapToInt(Integer::intValue).forEach(new IntConsumer() {
-                    @Override
-                    public void accept(int value) {
-                        validateArray[value] = value;
-                    }
-                });
+                }
             }
 
             if(ArrayVisualizer.doingStabilityCheck())
