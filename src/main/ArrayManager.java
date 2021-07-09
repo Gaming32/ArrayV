@@ -223,6 +223,9 @@ final public class ArrayManager {
         if (!ArrayVisualizer.useAntiQSort()) {
             this.shuffleArray(array, currentLen, ArrayVisualizer);
 
+            if(ArrayVisualizer.doingStabilityCheck())
+                this.stableShuffle(array, currentLen);
+
             int[] validateArray = ArrayVisualizer.getValidationArray();
             if (validateArray != null) {
                 System.arraycopy(array, 0, validateArray, 0, currentLen);
@@ -235,9 +238,6 @@ final public class ArrayManager {
                     }
                 }
             }
-
-            if(ArrayVisualizer.doingStabilityCheck())
-                this.stableShuffle(array, currentLen);
         }
 
         Highlights.clearAllMarks();
