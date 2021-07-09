@@ -930,13 +930,13 @@ public enum Shuffles {
             this.Highlights = Highlights;
 
             int[] copy = new int[currentLen];
-            Writes.arraycopy(array, 0, copy, 0, currentLen, sleep, true, true);
             
             hasCandidate = false;
             frozen = 1;
             temp = new int[currentLen];
             gas = currentLen;
             for (int i = 0; i < currentLen; i++) {
+                Writes.write(copy, i, array[i], 0, false, false);
                 Writes.write(array, i, i, 0, false, false);
                 Writes.write(temp, i, gas, sleep, true, true);
             }
