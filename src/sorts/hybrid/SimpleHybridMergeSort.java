@@ -14,16 +14,17 @@ import utils.IndexedRotations;
 
 /**
  * @author aphitorite - the creator of Stackless Timsort
- * @author Yuri-chan2007 - who implemented this sorting algorithm from Stackless Timsort
- * @implNote This sorting algorithm is based on Stackless Timsort, 
- *           which is written by aphitorite.
+ * @author Yuri-chan2007 - who implemented this sorting algorithm from Stackless
+ *         Timsort
+ * @implNote This sorting algorithm is based on Stackless Timsort, which is
+ *           written by aphitorite.
  * 
  */
 public final class SimpleHybridMergeSort extends Sort {
 
     public SimpleHybridMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Simple Hybrid Merge");
         this.setRunAllSortsName("Simple Hybrid Merge Sort");
         this.setRunSortName("Simple Hybrid Mergesort");
@@ -36,7 +37,8 @@ public final class SimpleHybridMergeSort extends Sort {
         this.setBogoSort(false);
     }
 
-    //The next 10 methods are refactored from Stackless Timsort (special thanks to aphitorite)
+    // The next 10 methods are refactored from Stackless Timsort (special thanks to
+    // aphitorite)
     private int leftBinSearch(int[] array, int a, int b, int val) {
         while (a < b) {
             int m = a + (b - a) / 2;
@@ -94,7 +96,7 @@ public final class SimpleHybridMergeSort extends Sort {
     }
 
     private void rotate(int[] array, int a, int m, int b) {
-        IndexedRotations.bridge(array, a, m, b, 1.0, true, false);
+        IndexedRotations.holyGriesMills(array, a, m, b, 1.0, true, false);
     }
 
     private void buildRuns(int[] array, int a, int b, int mRun) {
@@ -169,32 +171,33 @@ public final class SimpleHybridMergeSort extends Sort {
     }
 
     protected void smartMerge(int[] array, int[] tmp, int a, int m, int b) {
-        if (Reads.compareIndices(array, a, b - 1, 0.5, true) > 0) {
+        if (Reads.compareIndices(array, m - 1, m, 0.0, true) <= 0)
+            return;
+        a = this.leftBoundSearch(array, a, m, array[m]);
+        b = this.rightBoundSearch(array, m, b, array[m - 1]);
+        if (Reads.compareIndices(array, a, b - 1, 0.0, true) > 0)
             rotate(array, a, m, b);
-        } else if (Reads.compareIndices(array, m - 1, m, 0.5, true) > 0) {
+        else if (b - m < m - a)
+            this.mergeBW(array, tmp, a, m, b);
+        else
+            this.mergeFW(array, tmp, a, m, b);
 
-            a = this.leftBoundSearch(array, a, m, array[m]);
-            b = this.rightBoundSearch(array, m, b, array[m - 1]);
-
-            if (b - m < m - a)
-                this.mergeBW(array, tmp, a, m, b);
-            else
-                this.mergeFW(array, tmp, a, m, b);
-        }
     }
-    
+
     public void adaptiveMergeSort(int[] array, int start, int end) {
-        int[] tmp = Writes.createExternalArray((end - start)/2);
+        int[] tmp = Writes.createExternalArray((end - start) / 2);
         int mRun = end - start;
-        for(; mRun >= 32; mRun = (mRun+1)/2);
-        
+        for (; mRun >= 32; mRun = (mRun + 1) / 2)
+            ;
+
         this.buildRuns(array, start, end, mRun);
-        
-        for(int i, j = mRun; j < (end - start); j *= 2) {
-            for(i = start; i+2*j <= end; i += 2*j)
-                this.smartMerge(array, tmp, i, i+j, i+2*j);
-            
-            if(i+j < end) this.smartMerge(array, tmp, i, i+j, end);
+
+        for (int i, j = mRun; j < (end - start); j *= 2) {
+            for (i = start; i + 2 * j <= end; i += 2 * j)
+                this.smartMerge(array, tmp, i, i + j, i + 2 * j);
+
+            if (i + j < end)
+                this.smartMerge(array, tmp, i, i + j, end);
         }
         Writes.deleteExternalArray(tmp);
     }
