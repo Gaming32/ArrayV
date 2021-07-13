@@ -4,6 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
@@ -105,7 +107,7 @@ final public class Sounds {
         try {
             MidiSystem.getSequencer(false);
             this.synth = MidiSystem.getSynthesizer();
-            this.synth.open();
+            synth.open();
         }
         catch (MidiUnavailableException e) {
             JErrorPane.invokeCustomErrorMessage("The default MIDI device is unavailable, possibly because it is already being used by another application.");
@@ -181,10 +183,10 @@ final public class Sounds {
         };
     }
     
-	public boolean isEnabled() {
-		return this.soundEnabled;
-	}
-	
+    public boolean isEnabled() {
+        return this.soundEnabled;
+    }
+    
     public int getInstrumentChoice() {
         return this.instrumentChoice;
     }

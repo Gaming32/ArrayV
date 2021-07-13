@@ -1,7 +1,7 @@
 package utils;
 
 import java.util.Arrays;
-
+import java.util.List;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -406,12 +406,12 @@ final public class Writes {
         ArrayVisualizer.updateNow();
     }
 
-    public void arrayListAdd(ArrayList<Integer> aList, int value) {
+    public void arrayListAdd(List<Integer> aList, int value) {
         allocAmount++;
         aList.add(value);
     }
 
-    public void arrayListAdd(ArrayList<Integer> aList, int value, boolean mockWrite, double sleep) {
+    public void arrayListAdd(List<Integer> aList, int value, boolean mockWrite, double sleep) {
         allocAmount++;
         aList.add(value);
         if (mockWrite) {
@@ -422,22 +422,26 @@ final public class Writes {
         }
     }
 
-    public void arrayListRemoveAt(ArrayList<Integer> aList, int index) {
+    public void arrayListRemoveAt(List<Integer> aList, int index) {
         allocAmount--;
         aList.remove(index);
     }
 
-    public void arrayListClear(ArrayList<Integer> aList) {
+    public void arrayListClear(List<Integer> aList) {
         allocAmount -= aList.size();
         aList.clear();
     }
 
-    public void deleteArrayList(ArrayList<Integer> aList) {
-        allocAmount -= aList.size();
+    public void deleteArrayList(List<Integer> aList) {
+        if (aList instanceof ArrayVList) {
+            ((ArrayVList)aList).delete();
+        } else {
+            allocAmount -= aList.size();
+        }
     }
 
-    public void deleteExternalArray(ArrayList<Integer>[] array) {
-        for (ArrayList<Integer> aList : array) {
+    public void deleteExternalArray(List<Integer>[] array) {
+        for (List<Integer> aList : array) {
             deleteArrayList(aList);
         }
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
+import utils.ArrayVList;
 
 /*
  * 
@@ -50,7 +51,7 @@ final public class StableQuickSort extends Sort {
     // Author: Rodney Shaghoulian
     // Github: github.com/RodneyShag
 
-    private void copy(ArrayList<Integer> list, int [] array, int startIndex) {
+    private void copy(ArrayVList list, int [] array, int startIndex) {
         for (int num : list) {
             Writes.write(array, startIndex++, num, 0.25, false, false);
             Highlights.markArray(1, startIndex);
@@ -62,19 +63,21 @@ final public class StableQuickSort extends Sort {
         int pivotValue = array[start]; //poor pivot choice
         Highlights.markArray(3, start);
         
-        ArrayList<Integer> leftList  = new ArrayList<>();
-        ArrayList<Integer> rightList = new ArrayList<>();
+        ArrayVList leftList  = new ArrayVList();
+        ArrayVList rightList = new ArrayVList();
 
         for (int i = start + 1 ; i <= end; i++) {
             Highlights.markArray(1, i);
             
             if (Reads.compareValues(array[i], pivotValue) == -1) {
-                Writes.mockWrite(end - start, leftList.size(), array[i], 0.25);
-                Writes.arrayListAdd(leftList, array[i]);
+                // Writes.mockWrite(end - start, leftList.size(), array[i], 0.25);
+                // Writes.arrayListAdd(leftList, array[i]);
+                leftList.add(array[i], 0.25, false);
             } 
             else {
-                Writes.mockWrite(end - start, rightList.size(), array[i], 0.25);
-                Writes.arrayListAdd(rightList, array[i]);
+                // Writes.mockWrite(end - start, rightList.size(), array[i], 0.25);
+                // Writes.arrayListAdd(rightList, array[i]);
+                rightList.add(array[i], 0.25, false);
             }
         }
 

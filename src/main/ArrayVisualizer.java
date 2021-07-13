@@ -86,6 +86,8 @@ SOFTWARE.
  */
 
 final public class ArrayVisualizer {
+    static ArrayVisualizer instance;
+
     final JFrame window;
 
     final private int MIN_ARRAY_VAL;
@@ -185,6 +187,8 @@ final public class ArrayVisualizer {
     private volatile boolean frameSkipped;
 
     public ArrayVisualizer() {
+        ArrayVisualizer.instance = this;
+
         this.window = new JFrame();
         this.window.addKeyListener(new KeyListener() {
             @Override
@@ -492,6 +496,10 @@ final public class ArrayVisualizer {
 
         this.Sounds.startAudioThread();
         this.drawWindows();
+    }
+
+    public static ArrayVisualizer getInstance() {
+        return ArrayVisualizer.instance;
     }
 
     public void refreshSorts() {
