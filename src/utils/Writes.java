@@ -412,6 +412,10 @@ final public class Writes {
     }
 
     public void arrayListAdd(List<Integer> aList, int value, boolean mockWrite, double sleep) {
+        if (aList instanceof ArrayVList) {
+            ((ArrayVList)aList).add(value, sleep, false);
+            return;
+        }
         allocAmount++;
         aList.add(value);
         if (mockWrite) {
@@ -428,7 +432,8 @@ final public class Writes {
     }
 
     public void arrayListClear(List<Integer> aList) {
-        allocAmount -= aList.size();
+        if (!(aList instanceof ArrayVList))
+            allocAmount -= aList.size();
         aList.clear();
     }
 

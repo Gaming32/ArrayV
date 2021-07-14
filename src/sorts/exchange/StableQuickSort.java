@@ -33,6 +33,8 @@ SOFTWARE.
  */
 
 final public class StableQuickSort extends Sort {
+    int length;
+
     public StableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -63,8 +65,8 @@ final public class StableQuickSort extends Sort {
         int pivotValue = array[start]; //poor pivot choice
         Highlights.markArray(3, start);
         
-        ArrayVList leftList  = new ArrayVList();
-        ArrayVList rightList = new ArrayVList();
+        ArrayVList leftList  = new ArrayVList(this.length);
+        ArrayVList rightList = new ArrayVList(this.length);
 
         for (int i = start + 1 ; i <= end; i++) {
             Highlights.markArray(1, i);
@@ -107,6 +109,7 @@ final public class StableQuickSort extends Sort {
     
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
+        this.length = length;
         this.stableQuickSort(array, 0, length - 1);
     }
 }

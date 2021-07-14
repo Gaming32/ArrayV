@@ -1,11 +1,13 @@
 package sorts.hybrid;
 
 import sorts.templates.Sort;
+import utils.ArrayVList;
 import main.ArrayVisualizer;
 
 import sorts.hybrid.PDQBranchedSort;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
  * 
@@ -49,10 +51,9 @@ final public class DropMergeSort extends Sort {
     private final int EARLY_OUT_TEST_AT = 4;
     private final double EARLY_OUT_DISORDER_FRACTION = 0.6;
     
-    private void truncateArrayList(ArrayList<Integer> arrayList, int len) {
+    private void truncateArrayList(List<Integer> arrayList, int len) {
     	int size = arrayList.size();
     	arrayList.subList(len, size).clear();
-        Writes.changeAllocAmount(len - size);
     }
     
     @Override
@@ -60,7 +61,7 @@ final public class DropMergeSort extends Sort {
         if (length < 2) return;
         
         PDQBranchedSort pdqSort = new PDQBranchedSort(arrayVisualizer);
-        ArrayList<Integer> dropped = new ArrayList<>(length);
+        List<Integer> dropped = new ArrayVList(length);
         
         int num_dropped_in_a_row = 0;
         int read = 0;

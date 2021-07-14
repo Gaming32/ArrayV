@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -8,11 +9,13 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.function.Consumer;
 
 import main.ArrayVisualizer;
 
-public class ArrayVList implements List<Integer> {
+public class ArrayVList extends AbstractList<Integer> implements RandomAccess, Cloneable, java.io.Serializable {
     final static int DEFAULT_CAPACITY = 128;
     final static double DEFAULT_GROW_FACTOR = 2;
 
@@ -187,6 +190,14 @@ public class ArrayVList implements List<Integer> {
         return "Index: " + index + ", Size: " + this.count;
     }
 
+    protected void removeRange(int fromIndex, int toIndex) {
+        int numMoved = count - toIndex;
+        System.arraycopy(internal, toIndex, internal, fromIndex,
+                         numMoved);
+        int newSize = count - (toIndex-fromIndex);
+        count = newSize;
+    }
+
     private void rangeCheck(int index) {
         if (index >= count)
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
@@ -358,6 +369,98 @@ public class ArrayVList implements List<Integer> {
 
     @Override
     public List<Integer> subList(int fromIndex, int toIndex) {
-        return null;
+        return new SubList(this, 0, fromIndex, toIndex);
+    }
+
+    private class SubList extends AbstractList<Integer> implements RandomAccess {
+        private final ArrayVList parent;
+        private final int parentOffset;
+        private final int offset;
+        int size;
+
+        SubList(ArrayVList parent,
+                int offset, int fromIndex, int toIndex) {
+            this.parent = parent;
+            this.parentOffset = fromIndex;
+            this.offset = offset + fromIndex;
+            this.size = toIndex - fromIndex;
+        }
+
+        public Integer set(int index, int e) {
+            rangeCheck(index);
+            int oldValue = ArrayVList.this.internal[offset + index];
+            ArrayVList.this.internal[offset + index] = e;
+            return oldValue;
+        }
+
+        public Integer get(int index) {
+            rangeCheck(index);
+            return ArrayVList.this.internal[offset + index];
+        }
+
+        public int size() {
+            return this.size;
+        }
+
+        public void add(int index, int e) {
+            rangeCheckForAdd(index);
+            parent.add(parentOffset + index, e);
+            size++;
+        }
+
+        public Integer remove(int index) {
+            rangeCheck(index);
+            int result = parent.remove(parentOffset + index);
+            this.size--;
+            return result;
+        }
+
+        protected void removeRange(int fromIndex, int toIndex) {
+            parent.removeRange(parentOffset + fromIndex,
+                               parentOffset + toIndex);
+            this.size -= toIndex - fromIndex;
+        }
+
+        public Iterator<Integer> iterator() {
+            return listIterator();
+        }
+
+        public ListIterator<Integer> listIterator(final int index) {
+            return null;
+        }
+
+        public List<Integer> subList(int fromIndex, int toIndex) {
+            return null;
+            // subListRangeCheck(fromIndex, toIndex, size);
+            // return new SubList(this, offset, fromIndex, toIndex);
+        }
+
+        private void rangeCheck(int index) {
+            if (index < 0 || index >= this.size)
+                throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+        }
+
+        private void rangeCheckForAdd(int index) {
+            if (index < 0 || index > this.size)
+                throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+        }
+
+        private String outOfBoundsMsg(int index) {
+            return "Index: "+index+", Size: "+this.size;
+        }
+
+        public Spliterator<Integer> spliterator() {
+            return null;
+        }
+    }
+
+    static void subListRangeCheck(int fromIndex, int toIndex, int size) {
+        if (fromIndex < 0)
+            throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
+        if (toIndex > size)
+            throw new IndexOutOfBoundsException("toIndex = " + toIndex);
+        if (fromIndex > toIndex)
+            throw new IllegalArgumentException("fromIndex(" + fromIndex +
+                                               ") > toIndex(" + toIndex + ")");
     }
 }
