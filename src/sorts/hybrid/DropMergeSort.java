@@ -83,6 +83,7 @@ final public class DropMergeSort extends Sort {
                 }
                 Writes.arrayListClear(dropped);
                 pdqSort.customSort(array, 0, length);
+                Writes.deleteArrayList(dropped);
                 return;
             }
             

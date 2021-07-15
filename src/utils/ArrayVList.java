@@ -2,6 +2,7 @@ package utils;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -120,7 +121,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
         int numMoved = count - index - 1;
         if (numMoved > 0)
             Writes.arraycopy(internal, index + 1, internal, index, numMoved, 0, false, true);
-        count--;
+        internal[--count] = 0;
         Writes.changeAllocAmount(-1);
     }
 
@@ -166,6 +167,8 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
 
     @Override
     public void clear() {
+        Arrays.fill(internal, 0, count, 0);
+        Writes.changeAllocAmount(-count);
         count = 0;
     }
 
@@ -194,8 +197,12 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
         int numMoved = count - toIndex;
         System.arraycopy(internal, toIndex, internal, fromIndex,
                          numMoved);
-        int newSize = count - (toIndex-fromIndex);
+        
+        int sizeOffset = toIndex - fromIndex;
+        int newSize = count - sizeOffset;
+        Arrays.fill(internal, newSize, count, 0);
         count = newSize;
+        Writes.changeAllocAmount(-sizeOffset);
     }
 
     private void rangeCheck(int index) {
