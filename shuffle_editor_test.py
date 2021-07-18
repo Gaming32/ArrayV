@@ -35,8 +35,8 @@ class Editor:
         if self.selected is not None:
             self.selected.drag(rel)
         elif self.dragging is not None:
-            self.dragging.current_drag_pos += rel
             pos = self.dragging.current_drag_pos
+            pos += rel
             for node in reversed(self.nodes):
                 if node.in_area(pos):
                     self.drag_candidate = node
@@ -51,8 +51,14 @@ class Editor:
                 return
             elif node.in_start_drag(pos):
                 new_connection = Connection(node, pos)
+                removed = 0
+                for (i, conn) in enumerate(self.connections.copy()):
+                    if conn.from_ == node:
+                        del self.connections[i - removed]
+                        removed += 1
                 self.connections.append(new_connection)
                 self.dragging = new_connection
+                node.post_connection = new_connection
                 self.selected = None
                 return
         self.selected = None
@@ -64,8 +70,6 @@ class Editor:
             self.dragging.finish_dragging(self.drag_candidate)
         else:
             self.connections.remove(self.dragging)
-            self.dragging = None
-            self.drag_candidate = None
         self.dragging = None
         self.drag_candidate = None
 
@@ -94,7 +98,7 @@ class Node:
         self.post_connection = None
 
     def draw(self, surface: Surface):
-        border_color = (128, 128, 255) if self.editor.selected is self else (0, 0, 0)
+        border_color = (128, 128, 255) if self is self.editor.selected else (0, 0, 0)
         left_color = (128, 128, 255) if self is self.editor.drag_candidate else border_color
         pygame.draw.circle(surface, left_color, (self.x, self.y + Node.HEIGHT / 2), 10)
         pygame.draw.circle(surface, border_color, (self.x + Node.WIDTH, self.y + Node.HEIGHT / 2), 10)
@@ -108,7 +112,6 @@ class Node:
                 .move(Node.WIDTH / 2, Node.HEIGHT / 2)
                 .move(-rect.width / 2, -rect.height / 2)
         )
-        self._hovered = False
 
     def drag(self, rel: Vector2):
         self.x += rel.x
@@ -173,6 +176,14 @@ class Connection:
 
     def finish_dragging(self, other: Node):
         self.to = other
+        other.pre_connection = self
+        removed = 0
+        for (i, conn) in enumerate(other.editor.connections.copy()):
+            if conn == self:
+                continue
+            if conn.to == other:
+                del other.editor.connections[i - removed]
+                removed += 1
 
 
 pygame.init()
@@ -181,8 +192,6 @@ font = pygame.font.SysFont('ariel', 24)
 
 editor = Editor(['Linear', 'Randomly', 'Backwards', 'Slight Shuffle', 'No Shuffle'])
 
-
-# editor.connections.append(Connection(editor.nodes[-1], Vector2()))
 
 clock = pygame.time.Clock()
 running = True
@@ -205,8 +214,6 @@ while running:
                 editor.delete()
 
     screen.fill((128, 128, 128))
-
-    # editor.connections[-1].current_drag_pos.update(pygame.mouse.get_pos())
 
     editor.draw(screen)
 

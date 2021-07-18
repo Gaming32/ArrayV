@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import frames.AppFrame;
+import frames.ShuffleEditor;
 import frames.UtilFrame;
 import main.ArrayManager;
 import panes.JErrorPane;
@@ -106,6 +107,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        this.shuffleEditor1 = new ShuffleEditor();
         this.jLabel1 = new javax.swing.JLabel();
         this.jScrollPane1 = new javax.swing.JScrollPane();
         this.jList1 = new javax.swing.JList();
@@ -154,41 +156,57 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addGroup(layout.createSequentialGroup()
                             .addGap(20, 20, 20)
-                            .addComponent(this.jLabel1)
-                            .addGap(5, 5, 5))
-                    .addGroup(layout.createSequentialGroup()
-                            .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(this.shuffleEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(20, 20, 20))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGap(475, 475, 475)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(this.jLabel2)
-                                .addGap(5, 5, 5))
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(20, 20, 20)))
                 );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-                                .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))
-                .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(this.jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-                                .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(this.shuffleEditor1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20))
                 );
+        // layout.setHorizontalGroup(
+        //         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        //         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+        //             .addGroup(layout.createSequentialGroup()
+        //                     .addGap(20, 20, 20)
+        //                     .addComponent(this.jLabel1)
+        //                     .addGap(5, 5, 5))
+        //             .addGroup(layout.createSequentialGroup()
+        //                     .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+        //                     .addGap(20, 20, 20))
+        //         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+        //             .addGap(475, 475, 475)
+        //             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+        //                 .addGroup(layout.createSequentialGroup()
+        //                         .addGap(20, 20, 20)
+        //                         .addComponent(this.jLabel2)
+        //                         .addGap(5, 5, 5))
+        //                 .addGroup(layout.createSequentialGroup()
+        //                         .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+        //                         .addGap(20, 20, 20)))
+        //         );
+        // layout.setVerticalGroup(
+        //         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        //         .addGroup(layout.createSequentialGroup()
+        //                 .addContainerGap()
+        //                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        //                         .addComponent(this.jLabel1))
+        //                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        //                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
+        //                         .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+        //                 .addGap(20, 20, 20))
+        //         .addGroup(layout.createSequentialGroup()
+        //                 .addContainerGap()
+        //                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        //                         .addComponent(this.jLabel2))
+        //                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        //                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
+        //                         .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+        //                 .addGap(20, 20, 20))
+        //         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -214,6 +232,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     }//GEN-LAST:event_jList1ValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private frames.ShuffleEditor shuffleEditor1;
     private javax.swing.JLabel jLabel1;
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;
