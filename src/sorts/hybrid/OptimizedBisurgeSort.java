@@ -113,7 +113,7 @@ public final class OptimizedBisurgeSort extends Sort {
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) {
-        bisurgeSort(array, 0, sortLength, 0.5, 1.0);
+        bisurgeSort(array, 0, sortLength, 0.125, 0.25);
 
     }
 

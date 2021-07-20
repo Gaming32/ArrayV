@@ -3,6 +3,12 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
+/*
+ * The original Cocktail Comb Sort algorithm was created and implemented by yuji.
+ * However, the original implementation seems to never have been added,
+ * and this version makes it more concise.
+ */
+
 /**
  * @author Yuri-chan2007
  *

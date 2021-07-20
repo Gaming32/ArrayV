@@ -20,13 +20,13 @@ public final class OnionStoogeSort extends Sort {
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(128);
+        this.setUnreasonableLimit(256);
         this.setBogoSort(false);
     }
     
     private void stoogeSort(int[] A, int i, int j) {
-        if (Reads.compareIndices(A, i, j, 0.125, true) == 1) {
-            Writes.swap(A, i, j, 0.25, true, false);
+        if (Reads.compareIndices(A, i, j, 0.025, true) == 1) {
+            Writes.swap(A, i, j, 0.05, true, false);
         }
         
         if (j - i + 1 >= 3) {
