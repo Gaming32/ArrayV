@@ -97,8 +97,14 @@ public final class SimpleHybridQuickSort extends Sort {
                 heapSorter.heapSort(array, a, b);
                 return;
             }
-            int piv = medianOfThreeNinthers(array, a, b - 1);
+            int piv = medianOfThree(array, a, a + ((b - a) / 2), b - 1);
             int p = partition(array, a, b - 1, array[piv]);
+            int left = p - a;
+            int right = b - p;
+            if ((left == 0 || right == 0) || (left/right >= 16 || right/left >= 16)) {
+                piv = medianOfThreeNinthers(array, a, b - 1);
+                p = partition(array, a, b - 1, array[piv]);
+            }
             depthLimit--;
             sort(array, p, b, depthLimit);
             b = p;
