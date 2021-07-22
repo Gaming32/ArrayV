@@ -6,18 +6,17 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 import utils.ShuffleGraph;
-import utils.Shuffles;
 
 public class Node {
     public static final int WIDTH = 250;
     public static final int HEIGHT = 50;
 
-    public Shuffles shuffle;
+    public ShuffleInfo shuffle;
     public int x, y;
     public ShuffleGraph graph;
     public Connection preConnection, postConnection;
 
-    public Node(Shuffles shuffle, ShuffleGraph graph, int x, int y) {
+    public Node(ShuffleInfo shuffle, ShuffleGraph graph, int x, int y) {
         this.shuffle = shuffle;
         this.graph = graph;
         this.x = x;
@@ -26,8 +25,25 @@ public class Node {
         this.postConnection = null;
     }
 
-    public Node(Shuffles shuffle, ShuffleGraph graph) {
+    public Node(ShuffleInfo shuffle, ShuffleGraph graph) {
         this(shuffle, graph, 0, 0);
+    }
+
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o instanceof Node) {
+            Node other = (Node)o;
+            return this.x     == other.x
+                && this.y     == other.y
+                && this.graph == other.graph
+                && this.shuffle.equals(other.shuffle);
+        } else if (o instanceof ShuffleInfo) {
+            return this.shuffle.equals(o);
+        } else {
+            return false;
+        }
     }
 
     protected String getShuffleName() {
@@ -64,11 +80,11 @@ public class Node {
     }
 
     public boolean inArea(Point pos) {
-        return (new Rectangle2D.Double(x, y, WIDTH, HEIGHT)).contains(pos);
+        return (new Rectangle2D.Double(x - 25, y, WIDTH + 15, HEIGHT)).contains(pos);
     }
 
     public boolean inStartDrag(Point pos) {
-        return (new Rectangle2D.Double(x + WIDTH, y + HEIGHT / 2 - 10, 10, 20)).contains(pos);
+        return (new Rectangle2D.Double(x + WIDTH - 15, y + HEIGHT / 2 - 10, 30, 20)).contains(pos);
     }
 
     public void delete() {
@@ -77,14 +93,32 @@ public class Node {
         }
         this.graph.nodes.remove(this);
         if (this.preConnection != null) {
-            this.preConnection.to = this.postConnection.to;
+            if (this.postConnection == null) {
+                this.graph.connections.remove(this.preConnection);
+                if (this.preConnection.from != null) {
+                    this.preConnection.from.postConnection = null;
+                }
+            } else {
+                this.preConnection.to = this.postConnection.to;
+            }
         }
         if (this.postConnection != null) {
-            this.postConnection.from = this.preConnection.from;
+            if (this.preConnection == null) {
+                this.graph.connections.remove(this.postConnection);
+                if (this.postConnection.to != null) {
+                    this.postConnection.to.preConnection = null;
+                }
+            } else {
+                this.postConnection.from = this.preConnection.from;
+            }
         }
     }
 
     public Point getPos() {
         return new Point(this.x, this.y);
+    }
+
+    public ShuffleInfo getValue() {
+        return this.shuffle;
     }
 }
