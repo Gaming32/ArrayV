@@ -3,6 +3,15 @@ package sorts.misc;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
+/*
+
+CODED FOR ARRAYV BY PCBOYGAMES
+
+------------------------------
+- SORTING ALGORITHM MADHOUSE -
+------------------------------
+
+*/
 final public class CupcakeWrapperSort extends Sort {
     public CupcakeWrapperSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
