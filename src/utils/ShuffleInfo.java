@@ -1,14 +1,9 @@
-package utils.shuffle_utils;
+package utils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import main.ArrayVisualizer;
-import utils.Delays;
-import utils.Distributions;
-import utils.Highlights;
-import utils.Shuffles;
-import utils.Writes;
 
 final public class ShuffleInfo {
     final boolean isDistribution;
@@ -52,18 +47,25 @@ final public class ShuffleInfo {
     }
 
     public boolean equals(Object o) {
-        if (o == null || !(o instanceof ShuffleInfo)) {
+        if (o == null) {
             return false;
         }
-        ShuffleInfo other = (ShuffleInfo)o;
-        if (this.isDistribution != other.isDistribution) {
-            return false;
+        if (o instanceof ShuffleInfo) {
+            ShuffleInfo other = (ShuffleInfo)o;
+            if (this.isDistribution != other.isDistribution) {
+                return false;
+            }
+            if (isDistribution) {
+                return this.distribution == other.distribution;
+            } else {
+                return this.shuffle == other.shuffle;
+            }
+        } else if (o instanceof Shuffles) {
+            return !this.isDistribution && this.shuffle == o;
+        } else if (o instanceof Distributions) {
+            return this.isDistribution && this.distribution == o;
         }
-        if (isDistribution) {
-            return this.distribution == other.distribution;
-        } else {
-            return this.shuffle == other.shuffle;
-        }
+        return false;
     }
 
     public String getName() {

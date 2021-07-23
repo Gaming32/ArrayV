@@ -81,11 +81,12 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         }
         jList2.setListData(ArrayManager.getShuffleIDs());
         for(int i = 0; i < ArrayManager.getShuffles().length; i++) {
-            if(ArrayManager.getShuffle().equals(ArrayManager.getShuffles()[i])) {
+            if(ArrayManager.containsShuffle(ArrayManager.getShuffles()[i])) {
                 jList2.setSelectedIndex(i);
                 break;
             }
         }
+        this.shuffleEditor1.graph = ArrayManager.getShuffle();
         initializing = false;
 
         reposition();
@@ -228,7 +229,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         int selection = jList2.getSelectedIndex();
         Shuffles[] shuffles = ArrayManager.getShuffles();
         if (selection >= 0 && selection < shuffles.length)
-            ArrayManager.setShuffle(shuffles[selection]);
+            ArrayManager.setShuffleSingle(shuffles[selection]);
     }//GEN-LAST:event_jList1ValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

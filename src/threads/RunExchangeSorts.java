@@ -177,7 +177,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(CircleSortIterative,           0,   array, 1024, 1,     false);
         RunExchangeSorts.this.runIndividualSort(CircleMergeSort,               0,   array, 1024, 0.75,  false);
         RunExchangeSorts.this.runIndividualSort(PseudoHeapSort,                0,   array, 1024, 1.5,   false);
-        RunExchangeSorts.this.runIndividualSort(LLQuickSort,                   0,   array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.5 : 5, false);
+        RunExchangeSorts.this.runIndividualSort(LLQuickSort,                   0,   array, 2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.5 : 5, false);
         RunExchangeSorts.this.runIndividualSort(LLQuickSortMiddlePivot,        0,   array, 2048, 1.5,   false);
         RunExchangeSorts.this.runIndividualSort(LRQuickSort,                   0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(LRQuickSortParallel,           0,   array, 2048, 1,     false);
@@ -185,7 +185,7 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(StacklessQuickSort,            0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(IterativeQuickSort,            0,   array, 2048, 1,     false);
         // RunExchangeSorts.this.runIndividualSort(MeanQuickSort,                0,   array, 2048, 1,     false);
-        RunExchangeSorts.this.runIndividualSort(StableQuickSort,               0,   array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 6.5,    false);
+        RunExchangeSorts.this.runIndividualSort(StableQuickSort,               0,   array, 2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 6.5,    false);
         RunExchangeSorts.this.runIndividualSort(StableQuickSortMiddlePivot,    0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(ooPQuickSort,                  0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(StableQuickSortParallel,       0,   array, 2048, 1,     false);

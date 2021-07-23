@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 import utils.ShuffleGraph;
+import utils.ShuffleInfo;
 
 public class Node {
     public static final int WIDTH = 250;

@@ -153,10 +153,10 @@ final public class RunHybridSorts extends MultipleSortThread {
         RunHybridSorts.this.runIndividualSort(QuickSPSort,                      0, array,  512, 0.4,  false);
         RunHybridSorts.this.runIndividualSort(BinaryMergeSort,                  0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(MergeInsertionSort,               0, array, 2048, 1.75, false);
-        RunHybridSorts.this.runIndividualSort(SwapMergeSort,                    0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.65 : 6.5,    false);
+        RunHybridSorts.this.runIndividualSort(SwapMergeSort,                    0, array, 2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.65 : 6.5,    false);
         RunHybridSorts.this.runIndividualSort(BaseNMergeSort,                   4, array, 2048, 1,    false);
-        RunHybridSorts.this.runIndividualSort(WeaveMergeSort,                   0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.65 : 6.5, false);
-        RunHybridSorts.this.runIndividualSort(ImprovedWeaveMergeSort,           0, array, 2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1.65 : 6.5, false);
+        RunHybridSorts.this.runIndividualSort(WeaveMergeSort,                   0, array, 2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.65 : 6.5, false);
+        RunHybridSorts.this.runIndividualSort(ImprovedWeaveMergeSort,           0, array, 2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.65 : 6.5, false);
         RunHybridSorts.this.runIndividualSort(TimSort,                          0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(CocktailMergeSort,                0, array, 2048, 1,    false);
         RunHybridSorts.this.runIndividualSort(BubbleMergeSort,                  0, array, 2048, 1,    false);

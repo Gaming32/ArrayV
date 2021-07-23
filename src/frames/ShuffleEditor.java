@@ -16,21 +16,21 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import utils.ShuffleGraph;
+import utils.ShuffleInfo;
 import utils.Shuffles;
-import utils.shuffle_utils.ShuffleInfo;
 
 public class ShuffleEditor extends JPanel implements KeyListener {
     int prevX, prevY;
-    ShuffleGraph graph;
+    public ShuffleGraph graph;
     
     public ShuffleEditor() {
-        this.graph = new ShuffleGraph(
-            ShuffleInfo.fromShuffleIterable(
-                Arrays.stream(
-                    new Shuffles[] {Shuffles.RANDOM, Shuffles.REVERSE, Shuffles.ALMOST, Shuffles.ALREADY}
-                )::iterator
-            )
-        );
+        // this.graph = new ShuffleGraph(
+        //     ShuffleInfo.fromShuffleIterable(
+        //         Arrays.stream(
+        //             new Shuffles[] {Shuffles.RANDOM, Shuffles.REVERSE, Shuffles.ALMOST, Shuffles.ALREADY}
+        //         )::iterator
+        //     )
+        // );
         MouseHandler handler = new MouseHandler();
         addMouseListener(handler);
         addMouseMotionListener(handler);
