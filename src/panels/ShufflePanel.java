@@ -1,6 +1,7 @@
-package frames;
+package panels;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,11 +20,11 @@ import utils.ShuffleGraph;
 import utils.ShuffleInfo;
 import utils.Shuffles;
 
-public class ShuffleEditor extends JPanel implements KeyListener {
+public class ShufflePanel extends JPanel implements KeyListener {
     int prevX, prevY;
     public ShuffleGraph graph;
     
-    public ShuffleEditor() {
+    public ShufflePanel() {
         // this.graph = new ShuffleGraph(
         //     ShuffleInfo.fromShuffleIterable(
         //         Arrays.stream(
@@ -31,6 +32,7 @@ public class ShuffleEditor extends JPanel implements KeyListener {
         //         )::iterator
         //     )
         // );
+        setPreferredSize(new Dimension(700, 450));
         MouseHandler handler = new MouseHandler();
         addMouseListener(handler);
         addMouseMotionListener(handler);
