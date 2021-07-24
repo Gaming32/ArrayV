@@ -5,10 +5,12 @@
 package dialogs;
 
 import java.awt.Dimension;
+import java.io.IOException;
 import java.awt.Dialog;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import frames.AppFrame;
 import frames.UtilFrame;
@@ -16,8 +18,12 @@ import main.ArrayManager;
 import panels.ShufflePanel;
 import panes.JErrorPane;
 import utils.Distributions;
+import utils.ShuffleGraph;
 import utils.ShuffleInfo;
 import utils.Shuffles;
+import utils.shuffle_utils.GraphReader;
+import utils.shuffle_utils.GraphWriter;
+import utils.shuffle_utils.GraphReader.MalformedGraphFileException;
 import panels.ShufflePanel;
 
 /*
@@ -85,6 +91,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         reposition();
         setVisible(true); 
+        setAlwaysOnTop(false);
     }
 
     @Override
@@ -103,6 +110,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         this.shuffleEditor = new ShufflePanel();
 
+        this.jButton1 = new javax.swing.JButton();
+        this.jButton2 = new javax.swing.JButton();
+
         this.jScrollPane1 = new javax.swing.JScrollPane();
         this.jList1 = new javax.swing.JList();
 
@@ -111,11 +121,27 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jButton1.setText("Import...");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed();
+            }
+        });
+        
+        jButton2.setText("Export...");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed();
+            }
+        });
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setViewportView(this.jList1);
+        
         jScrollPane2.setViewportView(this.jList2);
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
@@ -153,6 +179,12 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                     .addGap(75, 75, 75)
                     .addComponent(this.jScrollPane2, 175, 175, 175)
                     .addGap(75, 75, 75))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(150, 150, 150)
+                    .addComponent(this.jButton1)
+                    .addGap(20, 20, 20)
+                    .addComponent(this.jButton2)
+                    .addGap(150, 150, 150))
         );
         layout.setVerticalGroup(
             layout.createSequentialGroup()
@@ -163,50 +195,63 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                     .addComponent(this.jScrollPane1, 175, 175, 175)
                     .addComponent(this.jScrollPane2, 175, 175, 175))
                 .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                    .addComponent(this.jButton1)
+                    .addComponent(this.jButton2))
+                .addGap(10, 10, 10)
         );
-        // layout.setHorizontalGroup(
-        //         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-        //             .addGroup(layout.createSequentialGroup()
-        //                     .addGap(20, 20, 20)
-        //                     .addComponent(this.jLabel1)
-        //                     .addGap(5, 5, 5))
-        //             .addGroup(layout.createSequentialGroup()
-        //                     .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-        //                     .addGap(20, 20, 20))
-        //         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-        //             .addGap(475, 475, 475)
-        //             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-        //                 .addGroup(layout.createSequentialGroup()
-        //                         .addGap(20, 20, 20)
-        //                         .addComponent(this.jLabel2)
-        //                         .addGap(5, 5, 5))
-        //                 .addGroup(layout.createSequentialGroup()
-        //                         .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-        //                         .addGap(20, 20, 20)))
-        //         );
-        // layout.setVerticalGroup(
-        //         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //         .addGroup(layout.createSequentialGroup()
-        //                 .addContainerGap()
-        //                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        //                         .addComponent(this.jLabel1))
-        //                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        //                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-        //                         .addComponent(this.jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-        //                 .addGap(20, 20, 20))
-        //         .addGroup(layout.createSequentialGroup()
-        //                 .addContainerGap()
-        //                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        //                         .addComponent(this.jLabel2))
-        //                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        //                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-        //                         .addComponent(this.jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-        //                 .addGap(20, 20, 20))
-        //         );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
+        FileDialog fileDialog = new ImportShuffleDialog();
+        ShuffleGraph newShuffle;
+        try {
+            newShuffle = new GraphReader().read(fileDialog.file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JErrorPane.invokeCustomErrorMessage("IO Error: " + e.getMessage());
+            return;
+        } catch (MalformedGraphFileException e) {
+            e.printStackTrace();
+            JErrorPane.invokeCustomErrorMessage("Error Parsing File: " + e.getMessage());
+            return;
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            String message = e.getMessage();
+            if (message.startsWith("No enum constant utils.")) {
+                message = message.substring("No enum constant utils.".length());
+                if (message.startsWith("Shuffles.")) {
+                    message = message.substring("Shuffles.".length());
+                    JErrorPane.invokeCustomErrorMessage("No shuffle with the ID \"" + message + "\"");
+                    return;
+                } else if (message.startsWith("Distributions.")) {
+                    message = message.substring("Distributions.".length());
+                    JErrorPane.invokeCustomErrorMessage("No distribution with the ID \"" + message + "\"");
+                    return;
+                }
+            }
+            JErrorPane.invokeErrorMessage(e, "Import Advanced Shuffle");;
+            return;
+        }
+        ArrayManager.setShuffle(newShuffle);
+        this.shuffleEditor.graph = newShuffle;
+        this.shuffleEditor.repaint();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
+        FileDialog fileDialog = new ExportShuffleDialog();
+        try {
+            new GraphWriter(shuffleEditor.graph).write(fileDialog.file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JErrorPane.invokeCustomErrorMessage("IO Error: " + e.getMessage());
+            return;
+        }
+        JOptionPane.showMessageDialog(null,
+            "Successfully exported current shuffle to file \"" + fileDialog.file.getAbsolutePath() + "\"",
+            "Advanced Shuffle Editor", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
@@ -238,6 +283,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private ShufflePanel shuffleEditor;
+
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
 
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;

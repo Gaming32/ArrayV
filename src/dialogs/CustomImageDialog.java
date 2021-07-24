@@ -14,16 +14,16 @@ final public class CustomImageDialog extends FileDialog {
         FileNameExtensionFilter webmpImages = new FileNameExtensionFilter("WEBMP Images", "wbmp");
 
         this.removeAllFilesOption();
-        this.fileDialog.addChoosableFileFilter(allImages);
-        this.fileDialog.addChoosableFileFilter(jpegImages);
-        this.fileDialog.addChoosableFileFilter(pngImages);
-        this.fileDialog.addChoosableFileFilter(gifImages);
-        this.fileDialog.addChoosableFileFilter(bmpImages);
-        this.fileDialog.addChoosableFileFilter(webmpImages);
+        fileDialog.addChoosableFileFilter(allImages);
+        fileDialog.addChoosableFileFilter(jpegImages);
+        fileDialog.addChoosableFileFilter(pngImages);
+        fileDialog.addChoosableFileFilter(gifImages);
+        fileDialog.addChoosableFileFilter(bmpImages);
+        fileDialog.addChoosableFileFilter(webmpImages);
 
-        this.fileDialog.setDialogTitle("Choose an image...");
+        fileDialog.setDialogTitle("Choose an image...");
 
-        this.fileDialog.showDialog(null, "Select");
-        this.file = this.fileDialog.getSelectedFile();
+        fileDialog.showDialog(null, "Select");
+        this.file = fileDialog.getSelectedFile();
     }
 }
