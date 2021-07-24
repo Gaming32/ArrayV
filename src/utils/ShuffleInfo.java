@@ -85,7 +85,7 @@ final public class ShuffleInfo {
             Writes.arraycopy(array, 0, copy, 0, currentLen, sleep, true, true);
             this.distribution.initializeArray(tmp, arrayVisualizer);
             for (int i = 0; i < currentLen; i++) {
-                Writes.write(array, i, copy[tmp[i]], sleep, true, false);
+                Writes.write(array, i, tmp[copy[i]], sleep, true, false);
             }
         } else {
             Delays Delays = arrayVisualizer.getDelays();
