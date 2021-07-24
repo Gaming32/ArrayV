@@ -112,8 +112,16 @@ public final class GraphReader {
         for (int i = 1; i < result.nodes.size(); i++) {
             Node node = result.nodes.get(i);
             PartialElement partial = partialNodes.get(i - 1);
-            node.preConnection = partial.left == -1 ? null : result.connections.get(partial.left);
-            node.postConnection = partial.right == -1 ? null : result.connections.get(partial.right);
+            try {
+                node.preConnection = partial.left == -1 ? null : result.connections.get(partial.left);
+                node.postConnection = partial.right == -1 ? null : result.connections.get(partial.right);
+            } catch (IndexOutOfBoundsException e) {
+                String message = e.getMessage();
+                int id = Integer.parseInt(message.split(" ", 3)[1]);
+                MalformedGraphFileException newError = new MalformedGraphFileException("No connection with the ID " + id);
+                newError.initCause(e);
+                throw newError;
+            }
         }
 
         partialNodes = null;
@@ -129,12 +137,30 @@ public final class GraphReader {
         }
         String name = scanner.next();
         ShuffleInfo shuffleInfo;
-        if (isDistribution) {
-            Distributions distribution = Distributions.valueOf(name);
-            shuffleInfo = new ShuffleInfo(distribution);
-        } else {
-            Shuffles shuffle = Shuffles.valueOf(name);
-            shuffleInfo = new ShuffleInfo(shuffle);
+        try {
+            if (isDistribution) {
+                Distributions distribution = Distributions.valueOf(name);
+                shuffleInfo = new ShuffleInfo(distribution);
+            } else {
+                Shuffles shuffle = Shuffles.valueOf(name);
+                shuffleInfo = new ShuffleInfo(shuffle);
+            }
+        } catch (IllegalArgumentException e) {
+            String message = e.getMessage();
+            if (message.startsWith("No enum constant utils.")) {
+                message = message.substring("No enum constant utils.".length());
+                if (message.startsWith("Shuffles.")) {
+                    message = "No shuffle with the ID \"" + message.substring("Shuffles.".length()) + "\"";
+                } else if (message.startsWith("Distributions.")) {
+                    message = "No distribution with the ID \"" + message.substring("Distributions.".length()) + "\"";
+                } else {
+                    throw e;
+                }
+                MalformedGraphFileException newError = new MalformedGraphFileException(message);
+                newError.initCause(e);
+                throw newError;
+            }
+            throw e;
         }
         if (!scanner.hasNextInt()) {
             throw new MalformedGraphFileException("Expected X coordinate in node declaration");
@@ -167,8 +193,17 @@ public final class GraphReader {
         }
         int toNodeID = scanner.nextInt();
 
-        Node fromNode = fromNodeID == -1 ? null : result.nodes.get(fromNodeID);
-        Node toNode = toNodeID == -1 ? null : result.nodes.get(toNodeID);
+        Node fromNode = null, toNode = null;
+        try {
+            fromNode = fromNodeID == -1 ? null : result.nodes.get(fromNodeID);
+            toNode = toNodeID == -1 ? null : result.nodes.get(toNodeID);
+        } catch (IndexOutOfBoundsException e) {
+            String message = e.getMessage();
+            int id = Integer.parseInt(message.split(" ", 3)[1]);
+            MalformedGraphFileException newError = new MalformedGraphFileException("No node with the ID " + id);
+            newError.initCause(e);
+            throw newError;
+        }
         Connection connection = new Connection(fromNode, toNode);
         result.connections.add(connection);
         if (fromNodeID == 0) {

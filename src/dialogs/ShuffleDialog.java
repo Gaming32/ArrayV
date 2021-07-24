@@ -216,23 +216,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             e.printStackTrace();
             JErrorPane.invokeCustomErrorMessage("Error Parsing File: " + e.getMessage());
             return;
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            String message = e.getMessage();
-            if (message.startsWith("No enum constant utils.")) {
-                message = message.substring("No enum constant utils.".length());
-                if (message.startsWith("Shuffles.")) {
-                    message = message.substring("Shuffles.".length());
-                    JErrorPane.invokeCustomErrorMessage("No shuffle with the ID \"" + message + "\"");
-                    return;
-                } else if (message.startsWith("Distributions.")) {
-                    message = message.substring("Distributions.".length());
-                    JErrorPane.invokeCustomErrorMessage("No distribution with the ID \"" + message + "\"");
-                    return;
-                }
-            }
-            JErrorPane.invokeErrorMessage(e, "Import Advanced Shuffle");;
-            return;
         }
         ArrayManager.setShuffle(newShuffle);
         this.shuffleEditor.graph = newShuffle;
