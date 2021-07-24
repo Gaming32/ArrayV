@@ -4,8 +4,10 @@
  */
 package dialogs;
 
+import java.awt.Dimension;
 import java.awt.Dialog;
 
+import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 
 import frames.AppFrame;
@@ -60,11 +62,12 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     private JFrame Frame;
     private UtilFrame UtilFrame;
 
-    private boolean initializing;
+    private boolean bypassEvents;
     
     /**
      * Creates new form SortPrompt
      */
+    @SuppressWarnings("unchecked")
     public ShuffleDialog(ArrayManager ArrayManager, JFrame frame, UtilFrame utilFrame) {
         super(frame, "ArrayV Advanced Shuffle Editor", true);
 
@@ -74,9 +77,11 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         
         initComponents();
 
-        initializing = true;
+        bypassEvents = true;
         this.shuffleEditor.graph = ArrayManager.getShuffle();
-        initializing = false;
+        jList1.setListData(ArrayManager.getDistributionIDs());
+        jList2.setListData(ArrayManager.getShuffleIDs());
+        bypassEvents = false;
 
         reposition();
         setVisible(true); 
@@ -84,7 +89,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
     @Override
     public void reposition() {
-        setLocation(Frame.getX()+(Frame.getWidth()-getWidth())/2,Frame.getY()+(Frame.getHeight()-getHeight())/2);
     }
 
 
@@ -99,18 +103,13 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         this.shuffleEditor = new ShufflePanel();
 
-        this.jLabel1 = new javax.swing.JLabel();
         this.jScrollPane1 = new javax.swing.JScrollPane();
         this.jList1 = new javax.swing.JList();
 
-        this.jLabel2 = new javax.swing.JLabel();
         this.jScrollPane2 = new javax.swing.JScrollPane();
         this.jList2 = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jLabel1.setText("What shape do you want the array to have?");
-        jLabel2.setText("How do you want the array to be shuffled?");
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -143,21 +142,28 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addGroup(layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addComponent(this.shuffleEditor))
-                            .addGap(20, 20, 20))
-                );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                 .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-                                .addComponent(this.shuffleEditor))
-                        .addGap(20, 20, 20))
-                );
+                    .addGap(10, 10, 10)
+                    .addComponent(this.shuffleEditor)
+                    .addGap(10, 10, 10))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(75, 75, 75)
+                    .addComponent(this.jScrollPane1, 175, 175, 175)
+                    .addGap(75, 75, 75)
+                    .addComponent(this.jScrollPane2, 175, 175, 175)
+                    .addGap(75, 75, 75))
+        );
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(this.shuffleEditor)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                    .addComponent(this.jScrollPane1, 175, 175, 175)
+                    .addComponent(this.jScrollPane2, 175, 175, 175))
+                .addGap(10, 10, 10)
+        );
         // layout.setHorizontalGroup(
         //         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         //         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -204,33 +210,39 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
-        if (initializing)
+        if (bypassEvents)
             return;
         int selection = jList1.getSelectedIndex();
         Distributions[] distributions = ArrayManager.getDistributions();
         if (selection >= 0 && selection < distributions.length)
-            shuffleEditor.graph.addDisconnected(new ShuffleInfo(distributions[selection]));
+            shuffleEditor.graph.addDisconnected(new ShuffleInfo(distributions[selection]), 250, 250);
+        shuffleEditor.repaint();
+        bypassEvents = true;
+        jList1.clearSelection();
+        bypassEvents = false;
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
-        if (initializing)
+        if (bypassEvents)
             return;
         int selection = jList2.getSelectedIndex();
         Shuffles[] shuffles = ArrayManager.getShuffles();
         if (selection >= 0 && selection < shuffles.length)
-            shuffleEditor.graph.addDisconnected(new ShuffleInfo(shuffles[selection]));
+            shuffleEditor.graph.addDisconnected(new ShuffleInfo(shuffles[selection]), 250, 250);
+        shuffleEditor.repaint();
+        bypassEvents = true;
+        jList2.clearSelection();
+        bypassEvents = false;
     }//GEN-LAST:event_jList1ValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private ShufflePanel shuffleEditor;
 
-    private javax.swing.JLabel jLabel1;
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
 
-    private javax.swing.JLabel jLabel2;
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList2;
     private javax.swing.JScrollPane jScrollPane2;

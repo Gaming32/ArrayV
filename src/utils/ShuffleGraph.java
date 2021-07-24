@@ -60,6 +60,10 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         this.nodes.add(new Node(shuffle, this));
     }
 
+    public void addDisconnected(ShuffleInfo shuffle, int x, int y) {
+        this.nodes.add(new Node(shuffle, this, x, y));
+    }
+
     public void draw(Graphics2D g) {
         for (Connection connection : this.connections) {
             connection.draw(g);
