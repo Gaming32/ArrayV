@@ -4,9 +4,7 @@
  */
 package dialogs;
 
-import java.awt.Dimension;
 import java.io.IOException;
-import java.awt.Dialog;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
@@ -24,7 +22,6 @@ import utils.Shuffles;
 import utils.shuffle_utils.GraphReader;
 import utils.shuffle_utils.GraphWriter;
 import utils.shuffle_utils.GraphReader.MalformedGraphFileException;
-import panels.ShufflePanel;
 
 /*
  * 
@@ -89,9 +86,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         jList2.setListData(ArrayManager.getShuffleIDs());
         bypassEvents = false;
 
+        setAlwaysOnTop(false);
         reposition();
         setVisible(true); 
-        setAlwaysOnTop(false);
     }
 
     @Override
@@ -115,9 +112,11 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         this.jScrollPane1 = new javax.swing.JScrollPane();
         this.jList1 = new javax.swing.JList();
+        this.jLabel1 = new javax.swing.JLabel();
 
         this.jScrollPane2 = new javax.swing.JScrollPane();
         this.jList2 = new javax.swing.JList();
+        this.jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -154,6 +153,8 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             }
         });
 
+        jLabel1.setText("Distribution Change");
+
         jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -165,6 +166,8 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             }
         });
 
+        jLabel2.setText("Shuffle");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,9 +178,13 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                     .addGap(10, 10, 10))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(75, 75, 75)
-                    .addComponent(this.jScrollPane1, 175, 175, 175)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(this.jLabel1)
+                        .addComponent(this.jScrollPane1, 175, 175, 175))
                     .addGap(75, 75, 75)
-                    .addComponent(this.jScrollPane2, 175, 175, 175)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(this.jLabel2)
+                        .addComponent(this.jScrollPane2, 175, 175, 175))
                     .addGap(75, 75, 75))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(150, 150, 150)
@@ -192,8 +199,12 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                 .addComponent(this.shuffleEditor)
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(this.jScrollPane1, 175, 175, 175)
-                    .addComponent(this.jScrollPane2, 175, 175, 175))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(this.jLabel1)
+                        .addComponent(this.jScrollPane1, 175, 175, 175))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(this.jLabel2)
+                        .addComponent(this.jScrollPane2, 175, 175, 175)))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(this.jButton1)
@@ -273,9 +284,11 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel1;
 
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
