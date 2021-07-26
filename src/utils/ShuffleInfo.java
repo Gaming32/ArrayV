@@ -9,23 +9,34 @@ final public class ShuffleInfo {
     final boolean isDistribution;
     final Distributions distribution;
     final Shuffles shuffle;
+    final boolean warpDistribution;
 
-    public ShuffleInfo(Distributions distribution) {
+    public ShuffleInfo(Distributions distribution, boolean warpDistribution) {
         this.isDistribution = true;
         this.distribution = distribution;
         this.shuffle = null;
+        this.warpDistribution = warpDistribution;
+    }
+
+    public ShuffleInfo(Distributions distribution) {
+        this(distribution, false);
     }
 
     public ShuffleInfo(Shuffles shuffle) {
         this.isDistribution = false;
         this.distribution = null;
         this.shuffle = shuffle;
+        this.warpDistribution = false;
+    }
+
+    public static ShuffleInfo[] fromDistributionIterable(Iterable<Distributions> iterable, boolean warped) {
+        List<ShuffleInfo> result = new ArrayList<>();
+        iterable.forEach(dist -> result.add(new ShuffleInfo(dist, warped)));
+        return result.toArray(new ShuffleInfo[0]);
     }
 
     public static ShuffleInfo[] fromDistributionIterable(Iterable<Distributions> iterable) {
-        List<ShuffleInfo> result = new ArrayList<>();
-        iterable.forEach(dist -> result.add(new ShuffleInfo(dist)));
-        return result.toArray(new ShuffleInfo[0]);
+        return fromDistributionIterable(iterable, false);
     }
 
     public static ShuffleInfo[] fromShuffleIterable(Iterable<Shuffles> iterable) {
@@ -41,9 +52,13 @@ final public class ShuffleInfo {
     public Distributions getDistribution() {
         return this.distribution;
     }
-
+    
     public Shuffles getShuffle() {
         return this.shuffle;
+    }
+
+    public boolean isDistributionWarped() {
+        return this.warpDistribution;
     }
 
     public boolean equals(Object o) {
@@ -56,7 +71,7 @@ final public class ShuffleInfo {
                 return false;
             }
             if (isDistribution) {
-                return this.distribution == other.distribution;
+                return this.distribution == other.distribution && this.warpDistribution == other.warpDistribution;
             } else {
                 return this.shuffle == other.shuffle;
             }
@@ -70,6 +85,8 @@ final public class ShuffleInfo {
 
     public String getName() {
         if (this.isDistribution) {
+            if (warpDistribution)
+                return "Warped " + this.distribution.getName();
             return this.distribution.getName();
         }
         return this.shuffle.getName();
@@ -84,8 +101,14 @@ final public class ShuffleInfo {
             int[] tmp = new int[currentLen];
             Writes.arraycopy(array, 0, copy, 0, currentLen, sleep, true, true);
             this.distribution.initializeArray(tmp, arrayVisualizer);
-            for (int i = 0; i < currentLen; i++) {
-                Writes.write(array, i, copy[tmp[i]], sleep, true, false);
+            if (warpDistribution) {
+                for (int i = 0; i < currentLen; i++) {
+                    Writes.write(array, i, copy[tmp[i]], sleep, true, false);
+                }
+            } else {
+                for (int i = 0; i < currentLen; i++) {
+                    Writes.write(array, i, tmp[copy[i]], sleep, true, false);
+                }
             }
         } else {
             Delays Delays = arrayVisualizer.getDelays();

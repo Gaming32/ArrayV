@@ -83,6 +83,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         bypassEvents = true;
         this.shuffleEditor.graph = ArrayManager.getShuffle();
         jList1.setListData(ArrayManager.getDistributionIDs());
+        jList3.setListData(ArrayManager.getDistributionIDs());
         jList2.setListData(ArrayManager.getShuffleIDs());
         bypassEvents = false;
 
@@ -114,6 +115,10 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         this.jList1 = new javax.swing.JList();
         this.jLabel1 = new javax.swing.JLabel();
 
+        this.jScrollPane3 = new javax.swing.JScrollPane();
+        this.jList3 = new javax.swing.JList();
+        this.jLabel3 = new javax.swing.JLabel();
+
         this.jScrollPane2 = new javax.swing.JScrollPane();
         this.jList2 = new javax.swing.JList();
         this.jLabel2 = new javax.swing.JLabel();
@@ -138,6 +143,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setViewportView(this.jList1);
+
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane3.setViewportView(this.jList3);
         
         jScrollPane2.setViewportView(this.jList2);
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -154,6 +162,19 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         });
 
         jLabel1.setText("Distribution Change");
+
+        jList3.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            @Override
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                try {
+                    jList3ValueChanged(evt);
+                } catch (Exception e) {
+                    JErrorPane.invokeErrorMessage(e);
+                }
+            }
+        });
+
+        jLabel3.setText("Distribution Warp");
 
         jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
@@ -183,6 +204,10 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                         .addComponent(this.jScrollPane1, 175, 175, 175))
                     .addGap(75, 75, 75)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addComponent(this.jLabel3)
+                        .addComponent(this.jScrollPane3, 175, 175, 175))
+                    .addGap(75, 75, 75)
+                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(this.jLabel2)
                         .addComponent(this.jScrollPane2, 175, 175, 175))
                     .addGap(75, 75, 75))
@@ -202,6 +227,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(this.jLabel1)
                         .addComponent(this.jScrollPane1, 175, 175, 175))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(this.jLabel3)
+                        .addComponent(this.jScrollPane3, 175, 175, 175))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(this.jLabel2)
                         .addComponent(this.jScrollPane2, 175, 175, 175)))
@@ -254,10 +282,24 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         int selection = jList1.getSelectedIndex();
         Distributions[] distributions = ArrayManager.getDistributions();
         if (selection >= 0 && selection < distributions.length)
-            shuffleEditor.graph.addDisconnected(new ShuffleInfo(distributions[selection]), 250, 250);
+            shuffleEditor.graph.addDisconnected(new ShuffleInfo(distributions[selection], false), 250, 250);
         shuffleEditor.repaint();
         bypassEvents = true;
         jList1.clearSelection();
+        bypassEvents = false;
+    }//GEN-LAST:event_jList1ValueChanged
+
+    private void jList3ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
+        // TODO add your handling code here:
+        if (bypassEvents)
+            return;
+        int selection = jList3.getSelectedIndex();
+        Distributions[] distributions = ArrayManager.getDistributions();
+        if (selection >= 0 && selection < distributions.length)
+            shuffleEditor.graph.addDisconnected(new ShuffleInfo(distributions[selection], true), 250, 250);
+        shuffleEditor.repaint();
+        bypassEvents = true;
+        jList3.clearSelection();
         bypassEvents = false;
     }//GEN-LAST:event_jList1ValueChanged
 
@@ -285,6 +327,11 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jLabel1;
+
+    @SuppressWarnings("rawtypes")
+    private javax.swing.JList jList3;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel jLabel3;
 
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList2;

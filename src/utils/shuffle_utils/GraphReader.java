@@ -3,8 +3,13 @@ package utils.shuffle_utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import utils.Distributions;
 import utils.ShuffleGraph;
@@ -49,12 +54,23 @@ public final class GraphReader {
         }
     }
 
+    public final static int[] COMPATIBLE_VERSIONS = {0, 1};
+    static Set<Integer> compatibleVersionsSet;
+
     Scanner scanner;
     ShuffleGraph result;
     List<PartialElement> partialNodes;
+    int version;
 
     public GraphReader() {
         result = null;
+        if (compatibleVersionsSet == null) {
+            compatibleVersionsSet = new HashSet<>(
+                Arrays.stream(COMPATIBLE_VERSIONS)
+                    .boxed()
+                    .collect(Collectors.toList())
+            );
+        }
     }
 
     public ShuffleGraph getResult() {
@@ -92,6 +108,13 @@ public final class GraphReader {
     }
 
     private void read() throws IOException, MalformedGraphFileException {
+        version = scanner.hasNextInt() ? scanner.nextInt() : 0;
+        if (!compatibleVersionsSet.contains(version)) {
+            throw new MalformedGraphFileException("Unsupported version for reading: " + version + " (Supported versions: "
+                + Arrays.stream(COMPATIBLE_VERSIONS)
+                    .mapToObj(String::valueOf)
+                    .collect(Collectors.joining(", ", "{", "}")) + ")");
+        }
         result = new ShuffleGraph();
         partialNodes = new ArrayList<>();
 
@@ -139,8 +162,15 @@ public final class GraphReader {
         ShuffleInfo shuffleInfo;
         try {
             if (isDistribution) {
+                boolean isDistributionWarped = false;
+                if (version > 0) {
+                    if (!scanner.hasNextBoolean()) {
+                        throw new MalformedGraphFileException("Expected isDistributionWarped in node declaration");
+                    }
+                    isDistributionWarped = scanner.nextBoolean();
+                }
                 Distributions distribution = Distributions.valueOf(name);
-                shuffleInfo = new ShuffleInfo(distribution);
+                shuffleInfo = new ShuffleInfo(distribution, isDistributionWarped);
             } else {
                 Shuffles shuffle = Shuffles.valueOf(name);
                 shuffleInfo = new ShuffleInfo(shuffle);

@@ -9,6 +9,8 @@ import java.util.Map;
 import utils.ShuffleGraph;
 
 public final class GraphWriter {
+    final public static int VERSION = 1;
+
     ShuffleGraph graph;
 
     public GraphWriter(ShuffleGraph graph) {
@@ -39,12 +41,15 @@ public final class GraphWriter {
         }
         connectionMap.put(null, -1);
 
+        writer.write(VERSION + "\n");
+
         for (int i = 1; i < graph.nodes.size(); i++) {
             Node node = graph.nodes.get(i);
             writer.write("N ");
             if (node.getValue().isDistribution()) {
                 writer.write("true ");
                 writer.write(node.getValue().getDistribution().name() + " ");
+                writer.write(node.getValue().isDistributionWarped() + " ");
             } else {
                 writer.write("false ");
                 writer.write(node.getValue().getShuffle().name() + " ");
