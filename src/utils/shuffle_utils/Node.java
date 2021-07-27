@@ -77,6 +77,9 @@ public class Node {
 
     public void drag(Point rel) {
         this.x += rel.getX();
+        if (this.x < -WIDTH / 2) {
+            this.x = -WIDTH / 2;
+        }
         this.y += rel.getY();
     }
 
