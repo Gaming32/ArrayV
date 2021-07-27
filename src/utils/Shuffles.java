@@ -140,11 +140,19 @@ public enum Shuffles {
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
             boolean delay = ArrayVisualizer.shuffleEnabled();
-            int len = Math.max(1, currentLen/7);
-            
-            this.shuffle(array, 0, currentLen, delay ? 0.5 : 0, Writes);
-            Highlights.clearMark(2);
-            this.sort(array, 0, currentLen-len, delay ? 0.5 : 0, Writes);
+
+            Random random = new Random();
+            int[] aux = new int[currentLen];
+            int i = 0, j = 0, k = 0;
+            while (i < currentLen) {
+                Highlights.markArray(2, i);
+                if (random.nextDouble() < 1/7d)
+                    Writes.write(aux, k++, array[i++], delay ? 1 : 0, false, true);
+                else
+                    Writes.write(array, j++, array[i++], delay ? 1 : 0, true, false);
+            }
+            Writes.arraycopy(aux, 0, array, j, k, delay ? 1 : 0, true, false);
+            shuffle(array, j, currentLen, delay ? 2 : 0, Writes);
         }
     },
     SHUFFLED_HEAD {
@@ -155,11 +163,19 @@ public enum Shuffles {
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
             boolean delay = ArrayVisualizer.shuffleEnabled();
-            int len = Math.max(1, currentLen/7);
             
-            this.shuffle(array, 0, currentLen, delay ? 0.5 : 0, Writes);
-            Highlights.clearMark(2);
-            this.sort(array, len, currentLen, delay ? 0.5 : 0, Writes);
+            Random random = new Random();
+            int[] aux = new int[currentLen];
+            int i = currentLen - 1, j = currentLen - 1, k = 0;
+            while (i >= 0) {
+                Highlights.markArray(2, i);
+                if (random.nextDouble() < 1/7d)
+                    Writes.write(aux, k++, array[i--], delay ? 1 : 0, false, true);
+                else
+                    Writes.write(array, j--, array[i--], delay ? 1 : 0, true, false);
+            }
+            Writes.reversearraycopy(aux, 0, array, 0, k, delay ? 1 : 0, true, false);
+            shuffle(array, 0, j, delay ? 2 : 0, Writes);
         }
     },
     MOVED_ELEMENT {
