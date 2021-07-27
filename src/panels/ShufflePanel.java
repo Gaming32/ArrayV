@@ -18,7 +18,8 @@ import javax.swing.SwingUtilities;
 import utils.ShuffleGraph;
 
 public class ShufflePanel extends JPanel implements KeyListener {
-    int prevX, prevY;
+    int camX = 0, camY = 0;
+    int prevX = 0, prevY = 0;
     public ShuffleGraph graph;
     
     public ShufflePanel() {
@@ -36,6 +37,7 @@ public class ShufflePanel extends JPanel implements KeyListener {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setColor(new Color(128, 128, 128));
         g.fillRect(0, 0, getWidth(), getHeight());
+        g.translate(camX, camY);
         graph.draw(g2d);
     }
 
@@ -57,10 +59,11 @@ public class ShufflePanel extends JPanel implements KeyListener {
         @Override
         public void mousePressed(MouseEvent e) {
             requestFocus(); // Java doesn't handle this for us?
+            prevX = e.getX();
+            prevY = e.getY();
             if (SwingUtilities.isLeftMouseButton(e)) {
-                graph.select(e.getPoint());
-                prevX = e.getX();
-                prevY = e.getY();
+                Point grab = new Point(e.getX() - camX, e.getY() - camY);
+                graph.select(grab);
                 repaint();
             }
         }
@@ -75,12 +78,19 @@ public class ShufflePanel extends JPanel implements KeyListener {
 
         @Override
         public void mouseDragged(MouseEvent e) {
-            if (SwingUtilities.isLeftMouseButton(e)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                camX += e.getX() - prevX;
+                camY += e.getY() - prevY;
+                if (camX > 0) {
+                    camX = 0;
+                }
+                repaint();
+            } else if (SwingUtilities.isLeftMouseButton(e)) {
                 graph.drag(new Point(e.getX() - prevX, e.getY() - prevY));
-                prevX = e.getX();
-                prevY = e.getY();
                 repaint();
             }
+            prevX = e.getX();
+            prevY = e.getY();
         }
     }
 }
