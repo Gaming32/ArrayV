@@ -106,18 +106,6 @@ public enum Shuffles {
             this.sort(array, 0, currentLen, delay ? 1 : 0, Writes);
         }
     },
-    REV_SORTED {
-        public String getName() {
-            return "Reverse Sorted";
-        }
-        @Override
-        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
-            boolean delay = ArrayVisualizer.shuffleEnabled();
-            this.sort(array, 0, currentLen, delay ? 1 : 0, Writes);
-            Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
-        }
-    },
     NAIVE {
         public String getName() {
             return "Naive Randomly";
@@ -315,52 +303,6 @@ public enum Shuffles {
                 
             for(int i = 0; i < currentLen; i++)
                 Writes.write(array, i, temp[i], delay ? 1 : 0, true, false);
-        }
-    },
-    REV_FINAL_MERGE {
-        public String getName() {
-            return "Reversed Final Merge";
-        }
-        @Override
-        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
-            boolean delay = ArrayVisualizer.shuffleEnabled();
-            int count = 2;
-            
-            int k = 0;
-            int[] temp = new int[currentLen];
-
-            for(int j = 0; j < count; j++)
-                for(int i = j; i < currentLen; i+=count)
-                    Writes.write(temp, k++, array[i], 0, false, true);
-                
-            for(int i = 0; i < currentLen; i++)
-                Writes.write(array, i, temp[i], delay ? 1 : 0, true, false);
-            
-            Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
-        }
-    },
-    REV_SAWTOOTH {
-        public String getName() {
-            return "Reversed Sawtooth";
-        }
-        @Override
-        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
-            boolean delay = ArrayVisualizer.shuffleEnabled();
-            int count = 4;
-            
-            int k = 0;
-            int[] temp = new int[currentLen];
-
-            for(int j = 0; j < count; j++)
-                for(int i = j; i < currentLen; i+=count)
-                    Writes.write(temp, k++, array[i], 0, false, true);
-                
-            for(int i = 0; i < currentLen; i++)
-                Writes.write(array, i, temp[i], delay ? 1 : 0, true, false);
-            
-            Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
         }
     },
     ORGAN {
@@ -654,30 +596,28 @@ public enum Shuffles {
             heapSort.makeHeap(array, 0, currentLen, delay ? 1 : 0);
         }
     },
-    REV_SMOOTH {
+    SMOOTH {
         public String getName() {
-            return "Reversed Smoothified";
+            return "Smoothified";
         }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
             boolean delay = ArrayVisualizer.shuffleEnabled();
-            
-            Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
+
             SmoothSort smoothSort = new SmoothSort(ArrayVisualizer);
             smoothSort.smoothHeapify(array, currentLen);
         }
     },
-    REV_POPLAR {
+    POPLAR {
         public String getName() {
-            return "Reversed Poplarified";
+            return "Poplarified";
         }
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
             boolean delay = ArrayVisualizer.shuffleEnabled();
-            
-            Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
+
             PoplarHeapSort poplarHeapSort = new PoplarHeapSort(ArrayVisualizer);
             poplarHeapSort.poplarHeapify(array, 0, currentLen);
         }
