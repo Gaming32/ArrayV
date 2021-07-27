@@ -11,27 +11,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import utils.ShuffleGraph;
-import utils.ShuffleInfo;
-import utils.Shuffles;
 
 public class ShufflePanel extends JPanel implements KeyListener {
     int prevX, prevY;
     public ShuffleGraph graph;
     
     public ShufflePanel() {
-        // this.graph = new ShuffleGraph(
-        //     ShuffleInfo.fromShuffleIterable(
-        //         Arrays.stream(
-        //             new Shuffles[] {Shuffles.RANDOM, Shuffles.REVERSE, Shuffles.ALMOST, Shuffles.ALREADY}
-        //         )::iterator
-        //     )
-        // );
         setPreferredSize(new Dimension(700, 450));
         MouseHandler handler = new MouseHandler();
         addMouseListener(handler);

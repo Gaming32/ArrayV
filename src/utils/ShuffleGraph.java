@@ -50,6 +50,10 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         return single(new ShuffleInfo(distribution));
     }
 
+    public static ShuffleGraph single(Distributions distribution, boolean warped) {
+        return single(new ShuffleInfo(distribution, warped));
+    }
+
     public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
         for (ShuffleInfo shuffle : this) {
             shuffle.shuffle(array, arrayVisualizer);

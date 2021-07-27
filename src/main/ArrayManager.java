@@ -124,11 +124,28 @@ final public class ArrayManager {
     public ShuffleGraph getShuffle() {
         return this.shuffle;
     }
+
+    /**
+     * @deprecated This method is deprecatated. Please use {@link #setShuffleSingle(Shuffles)} or {@link #setShuffle(ShuffleGraph)} instead.
+     * @see #setShuffleSingle(Shuffles)
+     * @see #setShuffle(ShuffleGraph)
+     */
+    public void setShuffle(Shuffles choice) {
+        this.setShuffleSingle(choice);
+    }
+
     public void setShuffle(ShuffleGraph graph) {
         this.shuffle = graph;
     }
+
     public void setShuffleSingle(Shuffles shuffle) {
         this.setShuffle(ShuffleGraph.single(shuffle));
+    }
+    public void setShuffleSingle(Distributions distribution) {
+        this.setShuffle(ShuffleGraph.single(distribution));
+    }
+    public void setShuffleSingle(Distributions distribution, boolean warped) {
+        this.setShuffle(ShuffleGraph.single(distribution, warped));
     }
 
     public String[] getDistributionIDs() {
