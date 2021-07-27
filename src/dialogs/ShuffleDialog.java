@@ -4,6 +4,7 @@
  */
 package dialogs;
 
+import java.awt.Dimension;
 import java.io.IOException;
 
 import javax.swing.GroupLayout;
@@ -87,6 +88,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         jList2.setListData(ArrayManager.getShuffleIDs());
         bypassEvents = false;
 
+        setMinimumSize(new Dimension(580, 300));
         setAlwaysOnTop(false);
         reposition();
         setVisible(true); 
@@ -95,7 +97,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     @Override
     public void reposition() {
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -198,19 +199,19 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                     .addComponent(this.shuffleEditor)
                     .addGap(10, 10, 10))
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(75, 75, 75)
+                    .addGap(10, 75, 75)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(this.jLabel1)
                         .addComponent(this.jScrollPane1, 175, 175, 175))
-                    .addGap(75, 75, 75)
+                    .addGap(10, 75, 75)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(this.jLabel3)
                         .addComponent(this.jScrollPane3, 175, 175, 175))
-                    .addGap(75, 75, 75)
+                    .addGap(10, 75, 75)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(this.jLabel2)
                         .addComponent(this.jScrollPane2, 175, 175, 175))
-                    .addGap(75, 75, 75))
+                    .addGap(10, 75, 75))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(150, 150, 150)
                     .addComponent(this.jButton1)
