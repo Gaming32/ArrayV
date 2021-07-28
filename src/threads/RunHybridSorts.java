@@ -119,8 +119,8 @@ final public class RunHybridSorts extends MultipleSortThread {
         BlockSelectionMergeSort          = new          BlockSelectionMergeSort(this.arrayVisualizer);
         ImprovedBlockSelectionSort       = new       ImprovedBlockSelectionSort(this.arrayVisualizer);
         MedianMergeSort                  = new                  MedianMergeSort(this.arrayVisualizer);
-        ThirdMergeSort                   = new                   QuarterMergeSort(this.arrayVisualizer);
-        StableThirdMergeSort             = new             StableQuarterMergeSort(this.arrayVisualizer);
+        ThirdMergeSort                   = new                 QuarterMergeSort(this.arrayVisualizer);
+        StableThirdMergeSort             = new           StableQuarterMergeSort(this.arrayVisualizer);
         IntroSort                        = new                        IntroSort(this.arrayVisualizer);
         OptimizedBottomUpMergeSort       = new       OptimizedBottomUpMergeSort(this.arrayVisualizer);
         OptimizedDualPivotQuickSort      = new      OptimizedDualPivotQuickSort(this.arrayVisualizer);
