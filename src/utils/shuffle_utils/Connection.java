@@ -47,6 +47,15 @@ public class Connection {
         }
     }
 
+    public void remove() {
+        if (this.from != null) {
+            this.from.postConnection = null;
+        }
+        if (this.to != null) {
+            this.to.preConnection = null;
+        }
+    }
+
     public void finishDragging(Node other) {
         this.to = other;
         other.preConnection = this;
@@ -58,6 +67,7 @@ public class Connection {
                 continue;
             }
             if (conn.to == other) {
+                conn.remove();
                 connections.remove(i - removed);
                 removed++;
             }

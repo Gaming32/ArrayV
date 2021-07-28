@@ -98,20 +98,16 @@ public class Node {
         this.graph.nodes.remove(this);
         if (this.preConnection != null) {
             if (this.postConnection == null) {
+                this.preConnection.remove();
                 this.graph.connections.remove(this.preConnection);
-                if (this.preConnection.from != null) {
-                    this.preConnection.from.postConnection = null;
-                }
             } else {
                 this.preConnection.to = this.postConnection.to;
             }
         }
         if (this.postConnection != null) {
             if (this.preConnection == null) {
+                this.postConnection.remove();
                 this.graph.connections.remove(this.postConnection);
-                if (this.postConnection.to != null) {
-                    this.postConnection.to.preConnection = null;
-                }
             } else {
                 this.postConnection.from = this.preConnection.from;
             }

@@ -112,6 +112,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
                 for (int i = 0; i < this.connections.size(); i++) {
                     Connection conn = this.connections.get(i - removed);
                     if (conn.from == node) {
+                        conn.remove();
                         this.connections.remove(i - removed);
                         removed++;
                     }
@@ -133,6 +134,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         if (this.dragCandidate != null) {
             this.dragging.finishDragging(this.dragCandidate);
         } else {
+            this.dragging.remove();
             this.connections.remove(this.dragging);
         }
         this.dragging = null;
