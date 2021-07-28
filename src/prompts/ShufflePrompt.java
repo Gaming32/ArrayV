@@ -4,6 +4,9 @@
  */
 package prompts;
 
+import java.util.Arrays;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 
 import dialogs.ShuffleDialog;
@@ -57,6 +60,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     private JFrame Frame;
     private UtilFrame UtilFrame;
 
+    private DefaultListModel<String> shuffleModel;
     private boolean initializing;
     
     /**
@@ -80,14 +84,20 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                 break;
             }
         }
-        jList2.setListData(ArrayManager.getShuffleIDs());
-        for(int i = 0; i < ArrayManager.getShuffles().length; i++) {
-            if(ArrayManager.containsShuffle(ArrayManager.getShuffles()[i])) {
-                jList2.setSelectedIndex(i);
-                break;
+        shuffleModel = new DefaultListModel<>();
+        jList2.setModel(shuffleModel);
+        Arrays.stream(ArrayManager.getShuffleIDs()).forEach(shuffleModel::addElement);
+        if (ArrayManager.getShuffle().size() > 1) {
+            shuffleModel.add(0, "Advanced");
+            jList2.setSelectedIndex(0);
+        } else {
+            for(int i = 0; i < ArrayManager.getShuffles().length; i++) {
+                if(ArrayManager.containsShuffle(ArrayManager.getShuffles()[i])) {
+                    jList2.setSelectedIndex(i);
+                    break;
+                }
             }
         }
-        // this.shuffleEditor1.graph = ArrayManager.getShuffle();
         initializing = false;
 
         reposition();
@@ -211,7 +221,9 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed() {//GEN-FIRST:event_jList1ValueChanged
-        ShuffleDialog editor = new ShuffleDialog(ArrayManager, this, UtilFrame);
+        UtilFrame.jButton6ResetText();
+        dispose();
+        new ShuffleDialog(ArrayManager, this, UtilFrame);
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
@@ -229,6 +241,11 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         if (initializing)
             return;
         int selection = jList2.getSelectedIndex();
+        if (shuffleModel.getElementAt(0).equals("Advanced")) {
+            if (selection == 0) return;
+            shuffleModel.remove(0);
+            selection--;
+        }
         Shuffles[] shuffles = ArrayManager.getShuffles();
         if (selection >= 0 && selection < shuffles.length)
             ArrayManager.setShuffleSingle(shuffles[selection]);
