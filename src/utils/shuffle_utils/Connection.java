@@ -67,8 +67,8 @@ public class Connection {
                 continue;
             }
             if (conn.to == other) {
-                conn.remove();
                 connections.remove(i - removed);
+                conn.remove();
                 removed++;
             }
         }
