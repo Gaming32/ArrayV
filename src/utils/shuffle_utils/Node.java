@@ -67,6 +67,7 @@ public class Node {
         AWTUtils.drawBorderRect(g, x, y, WIDTH, HEIGHT, 2);
         g.setColor(Color.BLACK);
         String text = getShuffleName();
+        graph.calcTextSize(text, WIDTH, g);
         Rectangle2D rect = AWTUtils.getStringBounds(g, text);
         g.drawString(
             text,

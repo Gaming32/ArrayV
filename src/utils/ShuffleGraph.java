@@ -4,9 +4,11 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import main.ArrayVisualizer;
@@ -19,6 +21,9 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
     public Node selected;
     public Connection dragging;
     public Node dragCandidate;
+
+    final static int DEFAULT_TEXT_SIZE = 24;
+    Map<String, Integer> textSizes = new HashMap<>();
 
     public ShuffleGraph() {
         this(new ShuffleInfo[0]);
@@ -145,6 +150,20 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         if (this.selected != null) {
             this.selected.delete();
         }
+    }
+
+    public void calcTextSize(String text, int fit, Graphics2D g) {
+        if (textSizes.containsKey(text)) {
+            g.setFont(g.getFont().deriveFont((float)textSizes.get(text)));
+            return;
+        }
+        int size = DEFAULT_TEXT_SIZE;
+        g.setFont(g.getFont().deriveFont((float)size));
+        while (g.getFontMetrics().stringWidth(text) >= fit) {
+            size--;
+            g.setFont(g.getFont().deriveFont((float)size));
+        }
+        textSizes.put(text, size);
     }
 
 
