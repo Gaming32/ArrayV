@@ -15,7 +15,7 @@ public abstract class Fetcher {
         this.defaultStream = defaultStream;
         
         try {
-            InputStream input = this.getClass().getResourceAsStream(this.defaultStream);
+            InputStream input = getClass().getResourceAsStream("/" + this.defaultStream);
             this.bufferedStream = new BufferedInputStream(input);
         }
         catch (Exception e) {

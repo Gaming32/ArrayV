@@ -18,7 +18,7 @@ import io.github.arrayv.dialogs.SoundbankDialog;
 import io.github.arrayv.frames.SoundFrame;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
-import io.github.arrayv.resources.soundfont.SFXFetcher;
+import io.github.arrayv.resources.SFXFetcher;
 
 /*
  * 

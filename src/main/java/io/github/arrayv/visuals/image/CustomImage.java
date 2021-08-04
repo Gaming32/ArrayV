@@ -20,7 +20,7 @@ import io.github.arrayv.dialogs.SoundbankDialog;
 import io.github.arrayv.frames.ImageFrame;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
-import io.github.arrayv.resources.image.ImgFetcher;
+import io.github.arrayv.resources.ImgFetcher;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Renderer;
 

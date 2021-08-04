@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.panes.JErrorPane;
-import io.github.arrayv.resources.sorting_network_master.SortingNetworkFetcher;
+import io.github.arrayv.resources.SortingNetworkFetcher;
 
 public class SortingNetworkGenerator {
     static DecimalFormat formatter = new DecimalFormat();
