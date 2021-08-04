@@ -54,7 +54,6 @@ final public class HeadPullSort extends Sort {
     public void runSort(int[] array, int currentLength, int bucketCount) {
         int i = 1;
         int pull = 1;
-        i = 1;
         while (i + 1 <= currentLength) {
             Highlights.markArray(1, i - 1);
             Highlights.markArray(2, i);
