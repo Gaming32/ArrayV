@@ -10,7 +10,7 @@ Over 225 sorting algorithms animated with 13 unique graphic designs
 
 This new version of the program features additions inspired by Timo Bingmann's "The Sound of Sorting" and w0rthy's updates to the original visualizer.
 
-To compile and run (After -cp, use "\" with Windows and "/" with Mac/Linux):
+To compile and run (After -cp, use "\\" with Windows and "/" with Mac/Linux):
 ```
 ./build
 ./run
