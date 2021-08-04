@@ -24,3 +24,14 @@ jobs:
               distribution: zulu
         - name: Build with Ant
           run: ant -noinput -buildfile build.xml
+        - name: Build standalone JAR
+          if: ${{ matrix.java == 8 && matrix.os == 'ubuntu-latest' }}
+          run: |
+            cd dist
+            ant -noinput -buildfile build.xml
+        - name: Upload artifact
+          uses: actions/upload-artifact@v2
+          if: ${{ matrix.java == 8 && matrix.os == 'ubuntu-latest' }}
+          with:
+            name: standalone-jar
+            path: dist/arrayVisualizer.jar
