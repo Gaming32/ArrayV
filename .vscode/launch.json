@@ -5,25 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            // should match run.bat
             "type": "java",
             "name": "Debug ArrayV",
-            "request": "attach",
-            "classPaths": ["target/arrayv-4.21.6.jar"],
+            "request": "launch",
             "mainClass": "io.github.arrayv.main.ArrayVisualizer",
-            "vmArgs": ["-Dsun.java2d.d3d=false"],
-            "preLaunchTask": "run"
+            "projectName": "arrayv",
+            "vmArgs": ["-Dsun.java2d.d3d=false"]
         },
         {
-            // should match run.bat
             "type": "java",
             "name": "Debug ArrayV (custom max length)",
-            "request": "attach",
-            "classPaths": ["target/arrayv-4.21.6.jar"],
+            "request": "launch",
             "mainClass": "io.github.arrayv.main.ArrayVisualizer",
+            "projectName": "arrayv",
             "args": ["${input:length}"],
-            "vmArgs": ["-Dsun.java2d.d3d=false"],
-            "preLaunchTask": "run"
+            "vmArgs": ["-Dsun.java2d.d3d=false"]
         }
     ],
     "inputs": [

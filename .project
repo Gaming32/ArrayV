@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>ArrayVisualizer-master</name>
+	<name>arrayv</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -22,7 +22,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1603996993926</id>
+			<id>1628085943214</id>
 			<name></name>
 			<type>30</type>
 			<matcher>
