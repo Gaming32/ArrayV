@@ -23,7 +23,7 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: zulu
       - name: Build with Maven
-        run: ant -noinput -buildfile build.xml
+        run: mvn clean install -f pom.xml
       - name: Upload shaded artifact
         uses: actions/upload-artifact@v2
         with:
