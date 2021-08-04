@@ -181,11 +181,7 @@ final public class ArrayManager {
             Delays.setSleepRatio(sleepRatio);
         }
 
-        ShuffleGraph tempShuffle = this.shuffle;
-        if(distribution == Distributions.RANDOM || distribution == Distributions.EQUAL)
-            this.shuffle = ShuffleGraph.single(Shuffles.ALREADY);
         shuffle.shuffleArray(array, this.ArrayVisualizer);
-        this.shuffle = tempShuffle;
 
         Delays.setSleepRatio(speed);
 
