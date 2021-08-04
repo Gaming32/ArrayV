@@ -10,13 +10,12 @@ Over 225 sorting algorithms animated with 13 unique graphic designs
 
 This new version of the program features additions inspired by Timo Bingmann's "The Sound of Sorting" and w0rthy's updates to the original visualizer.
 
-To compile (After -cp, use ";" with Windows and ":" with Mac/Linux):
+To compile and run (After -cp, use "\" with Windows and "/" with Mac/Linux):
 ```
-ant
-java -cp bin;lib/classgraph-4.8.47.jar main.ArrayVisualizer
+./build
+./run
 ```
-To build a runnable jar, simply run Apache Ant inside the 'dist' directory (but make sure you did the above first)!
-If you don't want to use Apache Ant or the Java command line, a runnable jar that is up to a month old is available from the `dist` directory. 
+You can also find a runnable JAR in either the `target` directory or the `dist` directory (they're the same JAR).
 
 ### Features:
 - 40+ new sorting algorithms
