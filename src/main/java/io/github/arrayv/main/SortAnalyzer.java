@@ -1,6 +1,7 @@
 package io.github.arrayv.main;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -103,9 +104,7 @@ final public class SortAnalyzer {
                 sortClass = Class.forName(name);
             else
                 sortClass = Class.forName(name, true, loader);
-            // System.out.println(sortClass.getConstructors()[0].getParameterTypes()[0].hashCode());
             Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
-            // Constructor<?> newSort = sortClass.getConstructors()[0];
             Sort sort = (Sort) newSort.newInstance(this.arrayVisualizer);
             
             try {
@@ -159,7 +158,6 @@ final public class SortAnalyzer {
     }
 
     public boolean importSort(File file, boolean showConfirmation) {
-        Pattern packagePattern = Pattern.compile("^\\s*package io.github.arrayv.([a-zA-Z\\.]+);");
         String contents;
         try {
             contents = new String(Files.readAllBytes(file.toPath()));
@@ -168,18 +166,35 @@ final public class SortAnalyzer {
             JErrorPane.invokeErrorMessage(e);
             return false;
         }
+        Pattern packagePattern = Pattern.compile("^\\s*package io\\.github\\.arrayv\\.sorts\\.([a-zA-Z\\.]+);");
+        boolean legacy = false;
         Matcher matcher = packagePattern.matcher(contents);
         if (!matcher.find()) {
-            JErrorPane.invokeCustomErrorMessage("No package io.github.arrayv.specifed");
-            return false;
+            Pattern packagePatternLegacy = Pattern.compile("^\\s*package sorts\\.([a-zA-Z\\.]+);");
+            matcher = packagePatternLegacy.matcher(contents);
+            if (!matcher.find()) {
+                JErrorPane.invokeCustomErrorMessage("No package io.github.arrayv.sorts specifed");
+                return false;
+            }
+            legacy = true;
+            contents = contents.replaceAll("package sorts\\.", "package io.github.arrayv.sorts.");
+            for (String subPackage : new String[] {"main", "sorts", "utils"}) {
+                contents = contents.replaceAll("import " + subPackage, "import io.github.arrayv." + subPackage);
+            }
         }
-        String packageName = matcher.group(1);
+        String packageName = "io.github.arrayv.sorts." + matcher.group(1);
         String name = packageName + "." + file.getName().split("\\.")[0];
-        File tempPath = new File(String.join("/", packageName.split("\\.")));
+        File tempPath = new File("./cache/" + String.join("/", packageName.split("\\.")));
         tempPath.mkdirs();
         File destPath = new File(tempPath.getAbsolutePath() + "/" + file.getName());
         try {
-            Files.copy(file.toPath(), destPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            if (legacy) {
+                FileWriter writer = new FileWriter(destPath);
+                writer.write(contents);
+                writer.close();
+            } else {
+                Files.copy(file.toPath(), destPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
         }
         catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
@@ -194,7 +209,7 @@ final public class SortAnalyzer {
         }
 
         try {
-            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File(".").toURI().toURL() })))
+            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File("./cache").toURI().toURL() })))
                 return false;
         }
         catch (Exception e) {
