@@ -1,14 +1,14 @@
-package utils;
+package io.github.arrayv.utils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import main.ArrayVisualizer;
-import sorts.exchange.CircleSort;
-import sorts.hybrid.GrailSort;
-import sorts.select.BaseNMaxHeapSort;
-import sorts.select.PoplarHeapSort;
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sorts.exchange.CircleSort;
+import io.github.arrayv.sorts.hybrid.GrailSort;
+import io.github.arrayv.sorts.select.BaseNMaxHeapSort;
+import io.github.arrayv.sorts.select.PoplarHeapSort;
 
 /*
  * 

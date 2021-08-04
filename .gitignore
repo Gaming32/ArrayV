@@ -1,7 +1,9 @@
 *.class
 /bin/
+target
 __pycache__
 sorts
-!src/sorts
+!src/main/java/io/github/arrayv/sorts
+dependency-reduced-pom.xml
 antiqsort_*
 network_*.svg

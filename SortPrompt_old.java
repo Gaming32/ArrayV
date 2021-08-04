@@ -2,22 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package prompts;
+package io.github.arrayv.prompts;
 
 import java.io.File;
 
 import javax.swing.JFrame;
 
-import dialogs.ImportSortDialog;
-import frames.AppFrame;
-import frames.UtilFrame;
-import main.ArrayVisualizer;
-import main.SortAnalyzer;
-import main.SortAnalyzer.SortPair;
-import panes.JErrorPane;
-import threads.RunAllSorts;
-import threads.RunComparisonSort;
-import threads.RunDistributionSort;
+import io.github.arrayv.dialogs.ImportSortDialog;
+import io.github.arrayv.frames.AppFrame;
+import io.github.arrayv.frames.UtilFrame;
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.main.SortAnalyzer;
+import io.github.arrayv.main.SortAnalyzer.SortPair;
+import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.threads.RunAllSorts;
+import io.github.arrayv.threads.RunComparisonSort;
+import io.github.arrayv.threads.RunDistributionSort;
 
 /*
  * 

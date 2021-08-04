@@ -1,7 +1,7 @@
-package sorts.category;
+package io.github.arrayv.sorts.category;
 
-import main.ArrayVisualizer;
-import sorts.templates.Sort;
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sorts.templates.Sort;
 
 final public class MySort extends Sort {
     public MySort(ArrayVisualizer arrayVisualizer) {
