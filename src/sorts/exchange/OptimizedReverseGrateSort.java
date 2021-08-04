@@ -33,30 +33,8 @@ public final class OptimizedReverseGrateSort extends Sort {
 		int left = 0;
 		int firstswap = 0;
 		int lastswap = 0;
-		int testi = currentLength - 1;
 		boolean sorted = false;
-		boolean higherval = false;
 		while (!sorted) {
-			if (!sorted) {
-				while (!higherval) {
-					if (testi < left) {
-						bound--;
-						testi = bound - 1;
-						if (bound == left) {
-							higherval = true;
-						}
-					} else {
-						Highlights.markArray(1, testi);
-						Highlights.markArray(2, bound);
-						Delays.sleep(0.125);
-						if (Reads.compareValues(array[testi], array[bound]) > 0) {
-							higherval = true;
-						} else {
-							testi--;
-						}
-					}
-				}
-			}
 			sorted = true;
 			for (int i = left; i < bound; i++) {
 				for (int j = i + 1; j <= bound; j++) {
@@ -76,8 +54,6 @@ public final class OptimizedReverseGrateSort extends Sort {
 				}
 			}
 			bound = lastswap;
-			testi = bound - 1;
-			higherval = false;
 			left = firstswap;
 		}
 	}
