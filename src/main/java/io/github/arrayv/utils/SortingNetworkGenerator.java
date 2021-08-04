@@ -1,9 +1,11 @@
 package io.github.arrayv.utils;
 
 import java.awt.Desktop;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -13,7 +15,6 @@ import java.text.DecimalFormat;
 
 import javax.swing.JOptionPane;
 
-import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.resources.SortingNetworkFetcher;
 
@@ -65,6 +66,23 @@ public class SortingNetworkGenerator {
         return hasVersion;
     }
 
+    public static File ensureScriptExtracted() throws IOException {
+        File destFile = new File("./cache/sortingnetwork.py");
+        if (destFile.exists()) {
+            return destFile;
+        }
+        SortingNetworkFetcher fetcher = new SortingNetworkFetcher();
+        BufferedInputStream in = fetcher.getStream();
+        FileOutputStream out = new FileOutputStream(destFile);
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = in.read(buffer, 0, 1024)) != -1) {
+            out.write(buffer, 0, bytesRead);
+        }
+        out.close();
+        return destFile;
+    }
+
     public static boolean encodeNetwork(int[] indices, String path) {
         if (indices.length < 2) {
             JOptionPane.showMessageDialog(null, "Sort does not compare indices; An empty sorting network cannot be generated.",
@@ -85,11 +103,9 @@ public class SortingNetworkGenerator {
         for (int i = 3; i < indices.length; i += 2) {
             result += "," + indices[i - 1] + ":" + indices[i];
         }
-        SortingNetworkFetcher fetcher = new SortingNetworkFetcher();
         try {
-            ProcessBuilder builder = new ProcessBuilder(pythonCommand, "-c",
-                new BufferedReader(new InputStreamReader(fetcher.getStream())).lines().collect(Collectors.joining("\n")),
-                "--svg", path);
+            File scriptPath = ensureScriptExtracted();
+            ProcessBuilder builder = new ProcessBuilder(pythonCommand, scriptPath.getAbsolutePath(), "--svg", path);
             builder.redirectOutput(Redirect.INHERIT);
             Process p = builder.start();
             BufferedWriter w = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
