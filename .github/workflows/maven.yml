@@ -26,13 +26,13 @@ jobs:
         run: mvn clean install -f pom.xml
       - name: Upload shaded artifact
         uses: actions/upload-artifact@v2
-        if: matrix.java == 8 && matrix.os == "ubuntu-latest"
+        if: matrix.java == 8 && matrix.os == 'ubuntu-latest'
         with:
           name: shaded-artifact
           path: target/arrayv-*.jar
       - name: Upload original artifact
         uses: actions/upload-artifact@v2
-        if: matrix.java == 8 && matrix.os == "ubuntu-latest"
+        if: matrix.java == 8 && matrix.os == 'ubuntu-latest'
         with:
           name: original-artifact
           path: target/original-arrayv-*.jar
