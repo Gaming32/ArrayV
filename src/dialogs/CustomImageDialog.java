@@ -23,7 +23,7 @@ final public class CustomImageDialog extends FileDialog {
 
         fileDialog.setDialogTitle("Choose an image...");
 
-        fileDialog.showDialog(null, "Select");
+        fileDialog.showOpenDialog(null);
         this.file = fileDialog.getSelectedFile();
     }
 }
