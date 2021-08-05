@@ -96,7 +96,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         jList2.setListData(ArrayManager.getShuffleIDs());
         bypassEvents = false;
 
-        setMinimumSize(new Dimension(765, 300));
+        setMinimumSize(new Dimension(765, 310));
         setAlwaysOnTop(false);
         reposition();
         setVisible(true); 
@@ -119,6 +119,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         this.jButton1 = new javax.swing.JButton();
         this.jButton2 = new javax.swing.JButton();
+        this.jButton3 = new javax.swing.JButton();
 
         this.jScrollPane4 = new javax.swing.JScrollPane();
         this.jList4 = new javax.swing.JList();
@@ -151,6 +152,14 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed();
+            }
+        });
+        
+        jButton3.setText("Clear Disconnected Nodes");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed();
             }
         });
 
@@ -225,7 +234,8 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(this.jLabel4)
-                    .addComponent(this.jScrollPane4, 175, 175, 175))
+                    .addComponent(this.jScrollPane4, 175, 175, 175)
+                    .addComponent(this.jButton3))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -257,7 +267,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                 .addGroup(layout.createSequentialGroup()
                     .addGap(10, 30, 30)
                     .addComponent(this.jLabel4)
-                    .addComponent(this.jScrollPane4, 175, 175, 175))
+                    .addComponent(this.jScrollPane4, 175, 175, 175)
+                    .addGap(20, 20, 20)
+                    .addComponent(this.jButton3))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(10, 10, 10)
                     .addComponent(this.shuffleEditor)
@@ -312,6 +324,11 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         JOptionPane.showMessageDialog(null,
             "Successfully exported current shuffle to file \"" + fileDialog.file.getAbsolutePath() + "\"",
             "Advanced Shuffle Editor", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
+        shuffleEditor.graph.removeAllDisconnected();
+        shuffleEditor.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void addToGraph(ShuffleInfo shuffle) {
@@ -376,6 +393,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
 
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList4;

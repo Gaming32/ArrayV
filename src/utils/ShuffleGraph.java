@@ -84,6 +84,29 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         return p;
     }
 
+    public int removeAllDisconnected() {
+        Set<Node> toKeep = new HashSet<>();
+        toKeep.add(this.nodes.get(0));
+        for (Node connected : connectedNodesIterable()) {
+            toKeep.add(connected);
+        }
+        int removed = this.nodes.size() - toKeep.size();
+        this.nodes.retainAll(toKeep);
+        return removed;
+    }
+
+    public Iterator<Node> iterateConnectedNodes() {
+        return new NodeIterator(this);
+    }
+
+    public Iterable<Node> connectedNodesIterable() {
+        return new Iterable<Node>() {
+            public Iterator<Node> iterator() {
+                return ShuffleGraph.this.iterateConnectedNodes();
+            }
+        };
+    }
+
     public void draw(Graphics2D g) {
         for (Connection connection : this.connections) {
             connection.draw(g);
@@ -345,9 +368,29 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
     }
 
     protected class GraphIterator implements Iterator<ShuffleInfo> {
-        Node currentNode, nextNode;
+        NodeIterator it;
         
         GraphIterator(ShuffleGraph graph) {
+            this.it = new NodeIterator(graph);
+        }
+
+        public boolean hasNext() {
+            return this.it.hasNext();
+        }
+
+        public ShuffleInfo next() {
+            return this.it.next().getValue();
+        }
+
+        public void remove() {
+            this.it.remove();;
+        }
+    }
+
+    protected class NodeIterator implements Iterator<Node> {
+        Node currentNode, nextNode;
+        
+        NodeIterator(ShuffleGraph graph) {
             this.currentNode = graph.nodes.get(0);
             this.nextNode = findNext();
         }
@@ -367,13 +410,13 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
             return this.nextNode != null;
         }
 
-        public ShuffleInfo next() {
+        public Node next() {
             if (this.nextNode == null) {
                 throw new NoSuchElementException();
             }
             this.currentNode = this.nextNode;
             this.nextNode = findNext();
-            return this.currentNode.getValue();
+            return this.currentNode;
         }
 
         public void remove() {
