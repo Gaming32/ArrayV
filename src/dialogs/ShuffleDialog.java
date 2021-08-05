@@ -5,6 +5,7 @@
 package dialogs;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.io.IOException;
 
 import javax.swing.GroupLayout;
@@ -313,6 +314,11 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             "Advanced Shuffle Editor", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void addToGraph(ShuffleInfo shuffle) {
+        Point safePos = shuffleEditor.graph.findSafeCoordinate(100, 100, 20, 20);
+        shuffleEditor.graph.addDisconnected(shuffle, safePos.x, safePos.y);
+    }
+
     private void jList4ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
         // TODO add your handling code here:
         if (bypassEvents)
@@ -330,7 +336,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         int selection = jList1.getSelectedIndex();
         Distributions[] distributions = ArrayManager.getDistributions();
         if (selection >= 0 && selection < distributions.length)
-            shuffleEditor.graph.addDisconnected(new ShuffleInfo(distributions[selection], false), 250, 250);
+            addToGraph(new ShuffleInfo(distributions[selection], false));
         shuffleEditor.repaint();
         bypassEvents = true;
         jList1.clearSelection();
@@ -344,7 +350,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         int selection = jList3.getSelectedIndex();
         Distributions[] distributions = ArrayManager.getDistributions();
         if (selection >= 0 && selection < distributions.length)
-            shuffleEditor.graph.addDisconnected(new ShuffleInfo(distributions[selection], true), 250, 250);
+            addToGraph(new ShuffleInfo(distributions[selection], true));
         shuffleEditor.repaint();
         bypassEvents = true;
         jList3.clearSelection();
@@ -358,7 +364,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         int selection = jList2.getSelectedIndex();
         Shuffles[] shuffles = ArrayManager.getShuffles();
         if (selection >= 0 && selection < shuffles.length)
-            shuffleEditor.graph.addDisconnected(new ShuffleInfo(shuffles[selection]), 250, 250);
+            addToGraph(new ShuffleInfo(shuffles[selection]));
         shuffleEditor.repaint();
         bypassEvents = true;
         jList2.clearSelection();

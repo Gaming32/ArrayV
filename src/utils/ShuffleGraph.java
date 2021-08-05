@@ -5,11 +5,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import main.ArrayVisualizer;
 import utils.shuffle_utils.Connection;
@@ -71,6 +73,15 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
 
     public void addDisconnected(ShuffleInfo shuffle, int x, int y) {
         this.nodes.add(new Node(shuffle, this, x, y));
+    }
+
+    public Point findSafeCoordinate(int baseX, int baseY, int offsetX, int offsetY) {
+        Point p = new Point(baseX, baseY);
+        while (this.nodes.stream().anyMatch(node -> node.x == p.x && node.y == p.y)) {
+            p.x += offsetX;
+            p.y += offsetY;
+        }
+        return p;
     }
 
     public void draw(Graphics2D g) {
