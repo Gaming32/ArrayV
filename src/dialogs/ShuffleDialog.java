@@ -8,6 +8,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
@@ -69,6 +72,8 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     private ArrayManager ArrayManager;
     private JFrame Frame;
     private UtilFrame UtilFrame;
+    List<Distributions> distributions;
+    List<String> distributionNames;
 
     private boolean bypassEvents;
     
@@ -95,8 +100,17 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                 break;
             }
         }
-        jList1.setListData(ArrayManager.getDistributionIDs());
-        jList3.setListData(ArrayManager.getDistributionIDs());
+
+        distributions = Arrays.stream(ArrayManager.getDistributions())
+                              .filter(dist -> dist.getName() != "Custom")
+                              .collect(Collectors.toList());
+        distributionNames = distributions.stream()
+                                         .map(Distributions::getName)
+                                         .collect(Collectors.toList());
+        Object[] distributionNamesArray = distributionNames.toArray();
+        jList1.setListData(distributionNamesArray);
+        jList3.setListData(distributionNamesArray);
+
         jList2.setListData(ArrayManager.getShuffleIDs());
         bypassEvents = false;
 
@@ -395,10 +409,13 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         // TODO add your handling code here:
         if (bypassEvents)
             return;
-        int selection = jList1.getSelectedIndex();
-        Distributions[] distributions = ArrayManager.getDistributions();
-        if (selection >= 0 && selection < distributions.length)
-            addToGraph(new ShuffleInfo(distributions[selection], false));
+        String selection = (String)jList1.getSelectedValue();
+        Distributions distribution = distributions.stream()
+                                                  .filter(d -> d.getName().equals(selection))
+                                                  .findFirst()
+                                                  .orElse(null);
+        if (distribution != null)
+            addToGraph(new ShuffleInfo(distribution, false));
         shuffleEditor.repaint();
         bypassEvents = true;
         jList1.clearSelection();
@@ -409,10 +426,13 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         // TODO add your handling code here:
         if (bypassEvents)
             return;
-        int selection = jList3.getSelectedIndex();
-        Distributions[] distributions = ArrayManager.getDistributions();
-        if (selection >= 0 && selection < distributions.length)
-            addToGraph(new ShuffleInfo(distributions[selection], true));
+        String selection = (String)jList3.getSelectedValue();
+        Distributions distribution = distributions.stream()
+                                                  .filter(d -> d.getName().equals(selection))
+                                                  .findFirst()
+                                                  .orElse(null);
+        if (distribution != null)
+            addToGraph(new ShuffleInfo(distribution, true));
         shuffleEditor.repaint();
         bypassEvents = true;
         jList3.clearSelection();
