@@ -13,7 +13,6 @@ import dialogs.ShuffleDialog;
 import frames.AppFrame;
 import frames.UtilFrame;
 import main.ArrayManager;
-import panels.ShufflePanel;
 import panes.JErrorPane;
 import utils.Distributions;
 import utils.Shuffles;
@@ -96,6 +95,10 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                     jList2.setSelectedIndex(i);
                     break;
                 }
+            }
+            if (jList2.getSelectedIndex() == -1) {
+                shuffleModel.add(0, "Advanced");
+                jList2.setSelectedIndex(0);
             }
         }
         initializing = false;
