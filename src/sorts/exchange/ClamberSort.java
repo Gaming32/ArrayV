@@ -34,10 +34,7 @@ final public class ClamberSort extends Sort {
         while (right < currentLength) {
             left = 0;
             while (left < right) {
-                Highlights.markArray(1, left);
-                Highlights.markArray(2, right);
-                Delays.sleep(0.1);
-                if (Reads.compareValues(array[left], array[right]) > 0) {
+                if (Reads.compareIndices(array, left, right, 0.1, true) > 0) {
                     Writes.swap(array, left, right, 0.1, true, false);
                 }
                 left++;

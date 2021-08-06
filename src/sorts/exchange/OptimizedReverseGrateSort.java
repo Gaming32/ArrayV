@@ -44,9 +44,8 @@ public final class OptimizedReverseGrateSort extends Sort {
 					if (Reads.compareValues(array[i], array[j]) > 0) {
 						if (sorted) {
 							firstswap = i;
-						} else {
-							lastswap = i;
 						}
+						lastswap = i;
 						sorted = false;
 						Writes.swap(array, i, j, 0.125, true, false);
 						break;

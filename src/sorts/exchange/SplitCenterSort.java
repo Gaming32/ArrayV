@@ -35,10 +35,7 @@ final public class SplitCenterSort extends Sort {
             i = (int) Math.floor(currentLength / 2);
             i -= way;
             while (i < currentLength && i >= 1) {
-                Highlights.markArray(1, i - 1);
-                Highlights.markArray(2, i);
-                Delays.sleep(0.005);
-                if (Reads.compareValues(array[i - 1], array[i]) > 0) {
+                if (Reads.compareIndices(array, i - 1, i, 0.005, true) > 0) {
                     Writes.swap(array, i - 1, i, 0.005, true, false);
                 }
                 i += way;

@@ -40,16 +40,10 @@ final public class EcoloSort extends Sort {
                 i = right;
             }
             while ((way == 1 && i < right) || (way == -1 && i > left)) {
-                Highlights.markArray(1, left - 1);
-                Highlights.markArray(2, i - 1);
-                Delays.sleep(0.05);
-                if (Reads.compareValues(array[left - 1], array[i - 1]) > 0) {
+                if (Reads.compareIndices(array, left - 1, i - 1, 0.05, true) > 0) {
                     Writes.swap(array, left - 1, i - 1, 0.05, true, false);
                 }
-                Highlights.markArray(1, i - 1);
-                Highlights.markArray(2, right - 1);
-                Delays.sleep(0.05);
-                if (Reads.compareValues(array[i - 1], array[right - 1]) > 0) {
+                if (Reads.compareIndices(array, i - 1, right - 1, 0.05, true) > 0) {
                     Writes.swap(array, i - 1, right - 1, 0.05, true, false);
                 }
                 i += way;

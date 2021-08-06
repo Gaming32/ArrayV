@@ -32,10 +32,7 @@ final public class CupcakeWrapperSort extends Sort {
         int right = currentLength;
         for (int limit = currentLength - 1; limit >= 0; limit--) {
             for (right = limit; right > 0; right--) {
-                Highlights.markArray(1, 0);
-                Highlights.markArray(2, right);
-                Delays.sleep(0.25);
-                if (Reads.compareValues(array[0], array[right]) > 0) {
+                if (Reads.compareIndices(array, 0, right, 0.25, true) > 0) {
                     Writes.reversal(array, 0, right, 0.25, true, false);
                 }
             }

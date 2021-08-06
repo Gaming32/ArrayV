@@ -34,10 +34,7 @@ final public class ReverseClamberSort extends Sort {
         while (left >= 0) {
             right = currentLength - 1;
             while (right > left) {
-                Highlights.markArray(1, left);
-                Highlights.markArray(2, right);
-                Delays.sleep(0.1);
-                if (Reads.compareValues(array[left], array[right]) > 0) {
+                if (Reads.compareIndices(array, left, right, 0.1, true) > 0) {
                     Writes.swap(array, left, right, 0.1, true, false);
                 }
                 right--;
