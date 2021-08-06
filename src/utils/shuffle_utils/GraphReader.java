@@ -1,5 +1,6 @@
 package utils.shuffle_utils;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import utils.Distributions;
 import utils.ShuffleGraph;
@@ -18,31 +18,13 @@ import utils.Shuffles;
 
 public final class GraphReader {
     public final class MalformedGraphFileException extends Exception {
-        // public int line, column;
-
         public MalformedGraphFileException() {
             super();
-            // this.line = 0;
-            // this.column = 0;
         }
-
-        // public MalformedGraphFileException(int line, int column) {
-        //     super();
-        //     this.line = line;
-        //     this.column = column;
-        // }
 
         public MalformedGraphFileException(String message) {
             super(message);
-            // this.line = 0;
-            // this.column = 0;
         }
-
-        // public MalformedGraphFileException(String message, int line, int column) {
-        //     super(message);
-        //     this.line = line;
-        //     this.column = column;
-        // }
     }
     
     private final class PartialElement {
@@ -54,7 +36,7 @@ public final class GraphReader {
         }
     }
 
-    public final static int[] COMPATIBLE_VERSIONS = {0, 1};
+    public final static int[] COMPATIBLE_VERSIONS = {0, 1, 2};
     static Set<Integer> compatibleVersionsSet;
 
     Scanner scanner;
@@ -118,6 +100,10 @@ public final class GraphReader {
         result = new ShuffleGraph();
         partialNodes = new ArrayList<>();
 
+        if (version >= 2 && scanner.hasNextDouble()) {
+            result.sleepRatio = scanner.nextDouble();
+        }
+
         while (scanner.hasNext()) {
             String identifier = scanner.next().toUpperCase();
             switch (identifier) {
@@ -144,6 +130,23 @@ public final class GraphReader {
                 MalformedGraphFileException newError = new MalformedGraphFileException("No connection with the ID " + id);
                 newError.initCause(e);
                 throw newError;
+            }
+        }
+
+        if (version >= 2) {
+            for (int i = 1; i < result.nodes.size(); i++) {
+                Node node = result.nodes.get(i);
+                if (node.x == Integer.MIN_VALUE) { // coordinates not specified
+                    if (node.preConnection == null || node.preConnection.from == null) {
+                        Point safePos = result.findSafeCoordinate(100, 100, 20, 20);
+                        node.x = safePos.x;
+                        node.y = safePos.y;
+                    } else {
+                        Node previous = node.preConnection.from;
+                        node.x = previous.x + Node.WIDTH + 15;
+                        node.y = previous.y;
+                    }
+                }
             }
         }
 
@@ -192,22 +195,37 @@ public final class GraphReader {
             }
             throw e;
         }
-        if (!scanner.hasNextInt()) {
+        if (!scanner.hasNextInt()) { // x
             throw new MalformedGraphFileException("Expected X coordinate in node declaration");
         }
         int x = scanner.nextInt();
-        if (!scanner.hasNextInt()) {
+        if (!scanner.hasNextInt()) { // y
             throw new MalformedGraphFileException("Expected Y coordinate in node declaration");
         }
         int y = scanner.nextInt();
-        if (!scanner.hasNextInt()) {
-            throw new MalformedGraphFileException("Expected preConnection ID in node declaration");
+        int preConnectionID, postConnectionID;
+        if (version < 2) {
+            if (!scanner.hasNextInt()) { // preConnectionID
+                throw new MalformedGraphFileException("Expected preConnection ID in node declaration");
+            }
+            preConnectionID = scanner.nextInt();
+            if (!scanner.hasNextInt()) { // postConnectionID
+                throw new MalformedGraphFileException("Expected postConnection ID in node declaration");
+            }
+            postConnectionID = scanner.nextInt();
+        } else {
+            if (!scanner.hasNextInt()) {
+                preConnectionID = x;
+                postConnectionID = y;
+                x = Integer.MIN_VALUE;
+            } else {
+                preConnectionID = scanner.nextInt();
+                if (!scanner.hasNextInt()) { // postConnectionID
+                    throw new MalformedGraphFileException("Expected postConnection ID in node declaration");
+                }
+                postConnectionID = scanner.nextInt();
+            }
         }
-        int preConnectionID = scanner.nextInt();
-        if (!scanner.hasNextInt()) {
-            throw new MalformedGraphFileException("Expected postConnection ID in node declaration");
-        }
-        int postConnectionID = scanner.nextInt();
 
         result.nodes.add(new Node(shuffleInfo, result, x, y));
         partialNodes.add(new PartialElement(preConnectionID, postConnectionID));

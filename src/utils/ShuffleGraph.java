@@ -23,6 +23,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
     public Node selected;
     public Connection dragging;
     public Node dragCandidate;
+    public double sleepRatio;
 
     final static int DEFAULT_TEXT_SIZE = 24;
     Map<String, Integer> textSizes = new HashMap<>();
@@ -41,6 +42,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         this.selected = null;
         this.dragging = null;
         this.dragCandidate = null;
+        this.sleepRatio = 1;
     }
 
     public static ShuffleGraph single(ShuffleInfo shuffle) {

@@ -1,5 +1,5 @@
-1
-N true RANDOM true 56 71 0 1
-N false SORTED 363 125 1 -1
+2 2
+N true RANDOM true 0 1
+N false SORTED 1 -1
 C 0 1
 C 1 2
