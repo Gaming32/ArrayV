@@ -237,7 +237,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             }
         });
 
-        jLabel1.setText("Distribution Change");
+        jLabel1.setText("Distribution Stretch");
 
         jList3.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
