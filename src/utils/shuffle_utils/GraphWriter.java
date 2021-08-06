@@ -28,15 +28,15 @@ public final class GraphWriter {
     }
 
     public void write(FileWriter writer) throws IOException {
-        Map<Node, Integer> nodeMap = new HashMap<>();
-        Map<Connection, Integer> connectionMap = new HashMap<>();
+        Map<ShuffleNode, Integer> nodeMap = new HashMap<>();
+        Map<ShuffleConnection, Integer> connectionMap = new HashMap<>();
         for (int i = 0; i < graph.nodes.size(); i++) {
-            Node node = graph.nodes.get(i);
+            ShuffleNode node = graph.nodes.get(i);
             nodeMap.put(node, i);
         }
         nodeMap.put(null, -1);
         for (int i = 0; i < graph.connections.size(); i++) {
-            Connection conn = graph.connections.get(i);
+            ShuffleConnection conn = graph.connections.get(i);
             connectionMap.put(conn, i);
         }
         connectionMap.put(null, -1);
@@ -47,7 +47,7 @@ public final class GraphWriter {
 
         // Nodes
         for (int i = 1; i < graph.nodes.size(); i++) {
-            Node node = graph.nodes.get(i);
+            ShuffleNode node = graph.nodes.get(i);
             writer.write("N ");
             if (node.getValue().isDistribution()) {
                 writer.write("true ");
@@ -65,7 +65,7 @@ public final class GraphWriter {
 
         // Connections
         for (int i = 0; i < graph.connections.size(); i++) {
-            Connection conn = graph.connections.get(i);
+            ShuffleConnection conn = graph.connections.get(i);
             writer.write("C ");
             writer.write(nodeMap.get(conn.from) + " ");
             writer.write(nodeMap.get(conn.to) + "\n");

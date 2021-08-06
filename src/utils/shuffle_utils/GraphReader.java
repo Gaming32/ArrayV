@@ -119,7 +119,7 @@ public final class GraphReader {
         }
 
         for (int i = 1; i < result.nodes.size(); i++) {
-            Node node = result.nodes.get(i);
+            ShuffleNode node = result.nodes.get(i);
             PartialElement partial = partialNodes.get(i - 1);
             try {
                 node.preConnection = partial.left == -1 ? null : result.connections.get(partial.left);
@@ -135,15 +135,15 @@ public final class GraphReader {
 
         if (version >= 2) {
             for (int i = 1; i < result.nodes.size(); i++) {
-                Node node = result.nodes.get(i);
+                ShuffleNode node = result.nodes.get(i);
                 if (node.x == Integer.MIN_VALUE) { // coordinates not specified
                     if (node.preConnection == null || node.preConnection.from == null) {
                         Point safePos = result.findSafeCoordinate(100, 100, 20, 20);
                         node.x = safePos.x;
                         node.y = safePos.y;
                     } else {
-                        Node previous = node.preConnection.from;
-                        node.x = previous.x + Node.WIDTH + 15;
+                        ShuffleNode previous = node.preConnection.from;
+                        node.x = previous.x + ShuffleNode.WIDTH + 15;
                         node.y = previous.y;
                     }
                 }
@@ -227,7 +227,7 @@ public final class GraphReader {
             }
         }
 
-        result.nodes.add(new Node(shuffleInfo, result, x, y));
+        result.nodes.add(new ShuffleNode(shuffleInfo, result, x, y));
         partialNodes.add(new PartialElement(preConnectionID, postConnectionID));
     }
 
@@ -241,7 +241,7 @@ public final class GraphReader {
         }
         int toNodeID = scanner.nextInt();
 
-        Node fromNode = null, toNode = null;
+        ShuffleNode fromNode = null, toNode = null;
         try {
             fromNode = fromNodeID == -1 ? null : result.nodes.get(fromNodeID);
             toNode = toNodeID == -1 ? null : result.nodes.get(toNodeID);
@@ -252,7 +252,7 @@ public final class GraphReader {
             newError.initCause(e);
             throw newError;
         }
-        Connection connection = new Connection(fromNode, toNode);
+        ShuffleConnection connection = new ShuffleConnection(fromNode, toNode);
         result.connections.add(connection);
         if (fromNodeID == 0) {
             fromNode.postConnection = connection;

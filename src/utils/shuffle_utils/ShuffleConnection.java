@@ -7,17 +7,17 @@ import java.awt.Stroke;
 import java.awt.Point;
 import java.util.List;
 
-public class Connection {
-    public Node from, to;
+public class ShuffleConnection {
+    public ShuffleNode from, to;
     public Point currentDragPos;
 
-    public Connection(Node from, Node to) {
+    public ShuffleConnection(ShuffleNode from, ShuffleNode to) {
         this.from = from;
         this.to = to;
         this.currentDragPos = new Point();
     }
 
-    public Connection(Node from, Point to) {
+    public ShuffleConnection(ShuffleNode from, Point to) {
         this.from = from;
         this.to = null;
         this.currentDragPos = to;
@@ -25,13 +25,13 @@ public class Connection {
 
     public void draw(Graphics2D g) {
         Point fromPos = this.from.getPos();
-        fromPos = new Point(fromPos.x + Node.WIDTH + 10, fromPos.y + Node.HEIGHT / 2);
+        fromPos = new Point(fromPos.x + ShuffleNode.WIDTH + 10, fromPos.y + ShuffleNode.HEIGHT / 2);
         Point endPos;
         if (this.to == null) {
             endPos = new Point(this.currentDragPos.x - 10, this.currentDragPos.y);
         } else {
             Point toPos = this.to.getPos();
-            endPos = new Point(toPos.x, toPos.y + Node.HEIGHT / 2);
+            endPos = new Point(toPos.x, toPos.y + ShuffleNode.HEIGHT / 2);
         }
         Point midStart = new Point(fromPos.x + 15, fromPos.y);
         Point midEnd = new Point(endPos.x - 15, endPos.y);
@@ -56,13 +56,13 @@ public class Connection {
         }
     }
 
-    public void finishDragging(Node other) {
+    public void finishDragging(ShuffleNode other) {
         this.to = other;
         other.preConnection = this;
         int removed = 0;
-        List<Connection> connections = other.graph.connections;
+        List<ShuffleConnection> connections = other.graph.connections;
         for (int i = 0; i < connections.size(); i++) {
-            Connection conn = connections.get(i - removed);
+            ShuffleConnection conn = connections.get(i - removed);
             if (conn == this) {
                 continue;
             }
