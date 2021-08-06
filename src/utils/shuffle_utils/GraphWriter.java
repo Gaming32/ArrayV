@@ -9,7 +9,7 @@ import java.util.Map;
 import utils.ShuffleGraph;
 
 public final class GraphWriter {
-    final public static int VERSION = 1;
+    public static final int VERSION = 2;
 
     ShuffleGraph graph;
 
@@ -41,8 +41,11 @@ public final class GraphWriter {
         }
         connectionMap.put(null, -1);
 
-        writer.write(VERSION + "\n");
+        // Metadata
+        writer.write(VERSION + " ");
+        writer.write(graph.sleepRatio + "\n");
 
+        // Nodes
         for (int i = 1; i < graph.nodes.size(); i++) {
             Node node = graph.nodes.get(i);
             writer.write("N ");
@@ -60,6 +63,7 @@ public final class GraphWriter {
             writer.write(connectionMap.get(node.postConnection) + "\n");
         }
 
+        // Connections
         for (int i = 0; i < graph.connections.size(); i++) {
             Connection conn = graph.connections.get(i);
             writer.write("C ");

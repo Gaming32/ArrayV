@@ -4,6 +4,7 @@
  */
 package dialogs;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.io.IOException;
@@ -11,6 +12,8 @@ import java.io.IOException;
 import javax.swing.GroupLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import frames.AppFrame;
 import frames.UtilFrame;
@@ -84,6 +87,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         bypassEvents = true;
         this.shuffleEditor.graph = ArrayManager.getShuffle();
+        jTextField1.setText(Double.toString(shuffleEditor.graph.sleepRatio));
         jList4.setListData(ArrayManager.getDistributionIDs());
         for(int i = 0; i < ArrayManager.getDistributions().length; i++) {
             if(ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
@@ -120,6 +124,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         this.jButton1 = new javax.swing.JButton();
         this.jButton2 = new javax.swing.JButton();
         this.jButton3 = new javax.swing.JButton();
+
+        this.jTextField1 = new javax.swing.JTextField(10);
+        this.jLabel5 = new javax.swing.JLabel();
 
         this.jScrollPane4 = new javax.swing.JScrollPane();
         this.jList4 = new javax.swing.JList();
@@ -160,6 +167,23 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed();
+            }
+        });
+
+        jLabel5.setText("Sleep Ratio");
+
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
+            }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
+            }
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                jTextField1TextChanged(e);
             }
         });
 
@@ -235,7 +259,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(this.jLabel4)
                     .addComponent(this.jScrollPane4, 175, 175, 175)
-                    .addComponent(this.jButton3))
+                    .addComponent(this.jButton3)
+                    .addComponent(this.jLabel5)
+                    .addComponent(this.jTextField1))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -269,7 +295,10 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                     .addComponent(this.jLabel4)
                     .addComponent(this.jScrollPane4, 175, 175, 175)
                     .addGap(20, 20, 20)
-                    .addComponent(this.jButton3))
+                    .addComponent(this.jButton3)
+                    .addGap(20, 20, 20)
+                    .addComponent(this.jLabel5)
+                    .addComponent(this.jTextField1, 20, 20, 20))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(10, 10, 10)
                     .addComponent(this.shuffleEditor)
@@ -308,6 +337,8 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             return;
         }
         ArrayManager.setShuffle(newShuffle);
+        jTextField1.setForeground(Color.BLACK);
+        jTextField1.setText(Double.toString(newShuffle.sleepRatio));
         this.shuffleEditor.graph = newShuffle;
         this.shuffleEditor.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -330,6 +361,20 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         shuffleEditor.graph.removeAllDisconnected();
         shuffleEditor.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1TextChanged(DocumentEvent e) {//GEN-FIRST:event_jList1ValueChanged
+        String text = jTextField1.getText();
+        if (text.length() == 0) return;
+        double sleepRatio;
+        try {
+            sleepRatio = Double.parseDouble(text);
+        } catch (NumberFormatException ex) {
+            jTextField1.setForeground(new Color(204, 0, 0));
+            return;
+        }
+        jTextField1.setForeground(Color.BLACK);
+        shuffleEditor.graph.sleepRatio = sleepRatio;
+    }//GEN-LAST:event_jList1ValueChanged
 
     private void addToGraph(ShuffleInfo shuffle) {
         Point safePos = shuffleEditor.graph.findSafeCoordinate(100, 100, 20, 20);
@@ -394,6 +439,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel jLabel5;
 
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList4;
