@@ -74,8 +74,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     private ArrayManager ArrayManager;
     private JFrame Frame;
     private UtilFrame UtilFrame;
-    List<Distributions> distributions;
-
+    private List<Distributions> distributions;
+    private static boolean perShuffleDelay = false;
+    
     private boolean bypassEvents;
     
     /**
@@ -93,7 +94,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         bypassEvents = true;
         this.shuffleEditor.graph = ArrayManager.getShuffle();
-        jTextField1.setText(Double.toString(shuffleEditor.graph.sleepRatio));
         jList4.setListData(ArrayManager.getDistributionIDs());
         for(int i = 0; i < ArrayManager.getDistributions().length; i++) {
             if(ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
@@ -113,12 +113,19 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         jList3.setListData(distributionNames);
 
         jList2.setListData(ArrayManager.getShuffleIDs());
+
+        jTextField1.setText(Double.toString(
+            perShuffleDelay ?
+            shuffleEditor.graph.sleepRatio / shuffleEditor.graph.size() :
+            shuffleEditor.graph.sleepRatio
+        ));
+        jCheckBox1.setSelected(perShuffleDelay);
         bypassEvents = false;
 
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                if (jCheckBox1.isSelected()) {
+                if (perShuffleDelay = jCheckBox1.isSelected()) {
                     shuffleEditor.graph.sleepRatio *= shuffleEditor.graph.size();
                 }
             }
@@ -213,7 +220,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         });
 
         jCheckBox1.setText("Time per sub-shuffle");
-        jCheckBox1.setSelected(false);
 
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane4.setViewportView(this.jList4);
