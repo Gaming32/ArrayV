@@ -7,6 +7,8 @@ package dialogs;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -114,6 +116,15 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         jList2.setListData(ArrayManager.getShuffleIDs());
         bypassEvents = false;
 
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if (jCheckBox1.isSelected()) {
+                    shuffleEditor.graph.sleepRatio *= shuffleEditor.graph.size();
+                }
+            }
+        });
+
         setMinimumSize(new Dimension(765, 310));
         setAlwaysOnTop(false);
         reposition();
@@ -139,8 +150,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         this.jButton2 = new javax.swing.JButton();
         this.jButton3 = new javax.swing.JButton();
 
-        this.jTextField1 = new javax.swing.JTextField(10);
+        this.jTextField1 = new javax.swing.JTextField();
         this.jLabel5 = new javax.swing.JLabel();
+        this.jCheckBox1 = new javax.swing.JCheckBox();
 
         this.jScrollPane4 = new javax.swing.JScrollPane();
         this.jList4 = new javax.swing.JList();
@@ -200,6 +212,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                 jTextField1TextChanged(e);
             }
         });
+
+        jCheckBox1.setText("Time per sub-shuffle");
+        jCheckBox1.setSelected(false);
 
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane4.setViewportView(this.jList4);
@@ -275,7 +290,8 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                     .addComponent(this.jScrollPane4, 175, 175, 175)
                     .addComponent(this.jButton3)
                     .addComponent(this.jLabel5)
-                    .addComponent(this.jTextField1))
+                    .addComponent(this.jTextField1)
+                    .addComponent(this.jCheckBox1))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -312,7 +328,8 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                     .addComponent(this.jButton3)
                     .addGap(20, 20, 20)
                     .addComponent(this.jLabel5)
-                    .addComponent(this.jTextField1, 20, 20, 20))
+                    .addComponent(this.jTextField1, 20, 20, 20)
+                    .addComponent(this.jCheckBox1))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(10, 10, 10)
                     .addComponent(this.shuffleEditor)
@@ -351,6 +368,9 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             return;
         }
         ArrayManager.setShuffle(newShuffle);
+        if (jCheckBox1.isSelected()) {
+            shuffleEditor.graph.sleepRatio /= shuffleEditor.graph.size();
+        }
         jTextField1.setForeground(Color.BLACK);
         jTextField1.setText(Double.toString(newShuffle.sleepRatio));
         this.shuffleEditor.graph = newShuffle;
@@ -359,13 +379,19 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
     private void jButton2ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
         FileDialog fileDialog = new ExportShuffleDialog();
+        double oldSleepRatio = shuffleEditor.graph.sleepRatio;
+        if (jCheckBox1.isSelected()) {
+            shuffleEditor.graph.sleepRatio *= shuffleEditor.graph.size();
+        }
         try {
             new GraphWriter(shuffleEditor.graph).write(fileDialog.file);
         } catch (IOException e) {
+            shuffleEditor.graph.sleepRatio = oldSleepRatio;
             e.printStackTrace();
             JErrorPane.invokeCustomErrorMessage("IO Error: " + e.getMessage());
             return;
         }
+        shuffleEditor.graph.sleepRatio = oldSleepRatio;
         JOptionPane.showMessageDialog(null,
             "Successfully exported current shuffle to file \"" + fileDialog.file.getAbsolutePath() + "\"",
             "Advanced Shuffle Editor", JOptionPane.INFORMATION_MESSAGE);
@@ -462,6 +488,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JCheckBox jCheckBox1;
 
     @SuppressWarnings("rawtypes")
     private javax.swing.JList jList4;
