@@ -138,7 +138,7 @@ public final class GraphReader {
                 ShuffleNode node = result.nodes.get(i);
                 if (node.x == Integer.MIN_VALUE) { // coordinates not specified
                     if (node.preConnection == null || node.preConnection.from == null) {
-                        Point safePos = result.findSafeCoordinate(100, 100, 20, 20);
+                        Point safePos = result.findSafeCoordinates(100, 100, 20, 20);
                         node.x = safePos.x;
                         node.y = safePos.y;
                     } else {

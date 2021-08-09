@@ -391,7 +391,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     }//GEN-LAST:event_jList1ValueChanged
 
     private void addToGraph(ShuffleInfo shuffle) {
-        Point safePos = shuffleEditor.graph.findSafeCoordinate(100, 100, 20, 20);
+        Point safePos = shuffleEditor.graph.findSafeCoordinates(100, 100, 20, 20);
         shuffleEditor.graph.addDisconnected(shuffle, safePos.x, safePos.y);
     }
 

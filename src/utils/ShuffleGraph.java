@@ -77,7 +77,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         this.nodes.add(new ShuffleNode(shuffle, this, x, y));
     }
 
-    public Point findSafeCoordinate(int baseX, int baseY, int offsetX, int offsetY) {
+    public Point findSafeCoordinates(int baseX, int baseY, int offsetX, int offsetY) {
         Point p = new Point(baseX, baseY);
         while (this.nodes.stream().anyMatch(node -> node.x == p.x && node.y == p.y)) {
             p.x += offsetX;
