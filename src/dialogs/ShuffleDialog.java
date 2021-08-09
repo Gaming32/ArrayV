@@ -75,7 +75,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     private JFrame Frame;
     private UtilFrame UtilFrame;
     List<Distributions> distributions;
-    List<String> distributionNames;
 
     private boolean bypassEvents;
     
@@ -106,12 +105,12 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         distributions = Arrays.stream(ArrayManager.getDistributions())
                               .filter(dist -> dist.getName() != "Custom")
                               .collect(Collectors.toList());
-        distributionNames = distributions.stream()
-                                         .map(Distributions::getName)
-                                         .collect(Collectors.toList());
-        Object[] distributionNamesArray = distributionNames.toArray();
-        jList1.setListData(distributionNamesArray);
-        jList3.setListData(distributionNamesArray);
+        Object[] distributionNames = distributions.stream()
+                                                  .map(Distributions::getName)
+                                                  .collect(Collectors.toList())
+                                                  .toArray();
+        jList1.setListData(distributionNames);
+        jList3.setListData(distributionNames);
 
         jList2.setListData(ArrayManager.getShuffleIDs());
         bypassEvents = false;
