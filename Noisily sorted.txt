@@ -1,0 +1,5 @@
+2 2.0
+N true RANDOM true 0 1
+N false SORTED 1 -1
+C 0 1
+C 1 2

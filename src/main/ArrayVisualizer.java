@@ -22,8 +22,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -1216,7 +1214,7 @@ final public class ArrayVisualizer {
         
         this.window.setLocation(0, 0);
         this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorts, 15 Visual Styles, and " + (Distributions.values().length * Shuffles.values().length) + " Inputs to Sort");
+        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorts, 15 Visual Styles, and Infinite Inputs to Sort");
         this.window.setBackground(Color.BLACK);
         this.window.setIgnoreRepaint(true);
         

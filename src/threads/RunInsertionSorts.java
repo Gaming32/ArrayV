@@ -109,8 +109,8 @@ final public class RunInsertionSorts extends MultipleSortThread {
         RunInsertionSorts.this.runIndividualSort(LibrarySort,                 0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(ClassicLibrarySort,          0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(PatienceSort,                0, array,  2048, 1,     false);
-        RunInsertionSorts.this.runIndividualSort(ClassicTreeSort,             0, array,  2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 5, false);
-        RunInsertionSorts.this.runIndividualSort(TreeSort,                    0, array,  2048, arrayManager.getShuffle() == Shuffles.RANDOM ? 1 : 5, false);
+        RunInsertionSorts.this.runIndividualSort(ClassicTreeSort,             0, array,  2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 5, false);
+        RunInsertionSorts.this.runIndividualSort(TreeSort,                    0, array,  2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 5, false);
         RunInsertionSorts.this.runIndividualSort(ShuffledTreeSort,            0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(AATreeSort,                  0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(AVLTreeSort,                 0, array,  2048, 1,     false);
