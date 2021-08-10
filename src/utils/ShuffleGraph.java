@@ -74,12 +74,31 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         return this;
     }
 
-    public void addDisconnected(ShuffleInfo shuffle) {
+    public ShuffleGraph addDisconnected(ShuffleInfo shuffle) {
         this.nodes.add(new ShuffleNode(shuffle, this));
+        return this;
     }
 
-    public void addDisconnected(ShuffleInfo shuffle, int x, int y) {
+    public ShuffleGraph addDisconnected(ShuffleInfo shuffle, int x, int y) {
         this.nodes.add(new ShuffleNode(shuffle, this, x, y));
+        return this;
+    }
+
+    public ShuffleGraph addSingle(ShuffleInfo shuffle) {
+        add(shuffle);
+        return this;
+    }
+
+    public ShuffleGraph addSingle(Shuffles shuffle) {
+        return addSingle(new ShuffleInfo(shuffle));
+    }
+
+    public ShuffleGraph addSingle(Distributions distribution) {
+        return addSingle(new ShuffleInfo(distribution));
+    }
+
+    public ShuffleGraph addSingle(Distributions distribution, boolean warped) {
+        return addSingle(new ShuffleInfo(distribution, warped));
     }
 
     public Point findSafeCoordinates(int baseX, int baseY, int offsetX, int offsetY) {

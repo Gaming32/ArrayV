@@ -134,18 +134,19 @@ final public class ArrayManager {
         this.setShuffleSingle(choice);
     }
 
-    public void setShuffle(ShuffleGraph graph) {
+    public ShuffleGraph setShuffle(ShuffleGraph graph) {
         this.shuffle = graph;
+        return graph; // return the shuffle so additional methods can be called on it
     }
 
-    public void setShuffleSingle(Shuffles shuffle) {
-        this.setShuffle(ShuffleGraph.single(shuffle));
+    public ShuffleGraph setShuffleSingle(Shuffles shuffle) {
+        return this.setShuffle(ShuffleGraph.single(shuffle));
     }
-    public void setShuffleSingle(Distributions distribution) {
-        this.setShuffle(ShuffleGraph.single(distribution));
+    public ShuffleGraph setShuffleSingle(Distributions distribution) {
+        return this.setShuffle(ShuffleGraph.single(distribution));
     }
-    public void setShuffleSingle(Distributions distribution, boolean warped) {
-        this.setShuffle(ShuffleGraph.single(distribution, warped));
+    public ShuffleGraph setShuffleSingle(Distributions distribution, boolean warped) {
+        return this.setShuffle(ShuffleGraph.single(distribution, warped));
     }
 
     public String[] getDistributionIDs() {
