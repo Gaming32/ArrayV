@@ -69,6 +69,11 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         }
     }
 
+    public ShuffleGraph setSleepRatio(double ratio) {
+        this.sleepRatio = ratio;
+        return this;
+    }
+
     public void addDisconnected(ShuffleInfo shuffle) {
         this.nodes.add(new ShuffleNode(shuffle, this));
     }
