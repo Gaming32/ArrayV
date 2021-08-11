@@ -9,7 +9,7 @@ import java.util.Map;
 import utils.ShuffleGraph;
 
 public final class GraphWriter {
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
 
     ShuffleGraph graph;
 
@@ -29,17 +29,11 @@ public final class GraphWriter {
 
     public void write(FileWriter writer) throws IOException {
         Map<ShuffleNode, Integer> nodeMap = new HashMap<>();
-        Map<ShuffleConnection, Integer> connectionMap = new HashMap<>();
         for (int i = 0; i < graph.nodes.size(); i++) {
             ShuffleNode node = graph.nodes.get(i);
             nodeMap.put(node, i);
         }
         nodeMap.put(null, -1);
-        for (int i = 0; i < graph.connections.size(); i++) {
-            ShuffleConnection conn = graph.connections.get(i);
-            connectionMap.put(conn, i);
-        }
-        connectionMap.put(null, -1);
 
         // Metadata
         writer.write(VERSION + " ");
@@ -59,16 +53,8 @@ public final class GraphWriter {
             }
             writer.write(node.x + " ");
             writer.write(node.y + " ");
-            writer.write(connectionMap.get(node.preConnection) + " ");
-            writer.write(connectionMap.get(node.postConnection) + "\n");
-        }
-
-        // Connections
-        for (int i = 0; i < graph.connections.size(); i++) {
-            ShuffleConnection conn = graph.connections.get(i);
-            writer.write("C ");
-            writer.write(nodeMap.get(conn.from) + " ");
-            writer.write(nodeMap.get(conn.to) + "\n");
+            writer.write((node.preConnection == null ? -1 : nodeMap.get(node.preConnection.from)) + " ");
+            writer.write((node.postConnection == null ? -1 : nodeMap.get(node.postConnection.to)) + "\n");
         }
 
         writer.close();
