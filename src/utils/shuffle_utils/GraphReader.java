@@ -36,7 +36,7 @@ public final class GraphReader {
         }
     }
 
-    public final static int[] COMPATIBLE_VERSIONS = {0, 1, 2};
+    public final static int[] COMPATIBLE_VERSIONS = {0, 1, 2, 3};
     static Set<Integer> compatibleVersionsSet;
 
     Scanner scanner;
@@ -49,8 +49,8 @@ public final class GraphReader {
         if (compatibleVersionsSet == null) {
             compatibleVersionsSet = new HashSet<>(
                 Arrays.stream(COMPATIBLE_VERSIONS)
-                    .boxed()
-                    .collect(Collectors.toList())
+                      .boxed()
+                      .collect(Collectors.toList())
             );
         }
     }
@@ -94,8 +94,8 @@ public final class GraphReader {
         if (!compatibleVersionsSet.contains(version)) {
             throw new MalformedGraphFileException("Unsupported version for reading: " + version + " (Supported versions: "
                 + Arrays.stream(COMPATIBLE_VERSIONS)
-                    .mapToObj(String::valueOf)
-                    .collect(Collectors.joining(", ", "{", "}")) + ")");
+                        .mapToObj(String::valueOf)
+                        .collect(Collectors.joining(", ", "{", "}")) + ")");
         }
         result = new ShuffleGraph();
         partialNodes = new ArrayList<>();
@@ -122,8 +122,25 @@ public final class GraphReader {
             ShuffleNode node = result.nodes.get(i);
             PartialElement partial = partialNodes.get(i - 1);
             try {
-                node.preConnection = partial.left == -1 ? null : result.connections.get(partial.left);
-                node.postConnection = partial.right == -1 ? null : result.connections.get(partial.right);
+                if (version < 3) {
+                    node.preConnection = partial.left == -1 ? null : result.connections.get(partial.left);
+                    node.postConnection = partial.right == -1 ? null : result.connections.get(partial.right);
+                } else {
+                    if (partial.left != -1 && node.preConnection == null) {
+                        ShuffleNode from = result.nodes.get(partial.left);
+                        ShuffleConnection newConnection = new ShuffleConnection(from, node);
+                        result.connections.add(newConnection);
+                        from.postConnection = newConnection;
+                        node.preConnection = newConnection;
+                    }
+                    if (partial.right != -1 && node.postConnection == null) {
+                        ShuffleNode to = result.nodes.get(partial.right);
+                        ShuffleConnection newConnection = new ShuffleConnection(node, to);
+                        result.connections.add(newConnection);
+                        node.postConnection = newConnection;
+                        to.preConnection = newConnection;
+                    }
+                }
             } catch (IndexOutOfBoundsException e) {
                 String message = e.getMessage();
                 int id = Integer.parseInt(message.split(" ", 3)[1]);
@@ -195,15 +212,15 @@ public final class GraphReader {
             }
             throw e;
         }
+        int x, y, preConnectionID, postConnectionID;
         if (!scanner.hasNextInt()) { // x
             throw new MalformedGraphFileException("Expected X coordinate in node declaration");
         }
-        int x = scanner.nextInt();
+        x = scanner.nextInt();
         if (!scanner.hasNextInt()) { // y
             throw new MalformedGraphFileException("Expected Y coordinate in node declaration");
         }
-        int y = scanner.nextInt();
-        int preConnectionID, postConnectionID;
+        y = scanner.nextInt();
         if (version < 2) {
             if (!scanner.hasNextInt()) { // preConnectionID
                 throw new MalformedGraphFileException("Expected preConnection ID in node declaration");
@@ -214,16 +231,16 @@ public final class GraphReader {
             }
             postConnectionID = scanner.nextInt();
         } else {
-            if (!scanner.hasNextInt()) {
-                preConnectionID = x;
-                postConnectionID = y;
-                x = Integer.MIN_VALUE;
-            } else {
+            if (scanner.hasNextInt()) {
                 preConnectionID = scanner.nextInt();
                 if (!scanner.hasNextInt()) { // postConnectionID
                     throw new MalformedGraphFileException("Expected postConnection ID in node declaration");
                 }
                 postConnectionID = scanner.nextInt();
+            } else {
+                preConnectionID = x;
+                postConnectionID = y;
+                x = Integer.MIN_VALUE;
             }
         }
 
@@ -232,6 +249,9 @@ public final class GraphReader {
     }
 
     private void readConnection() throws MalformedGraphFileException {
+        if (version >= 3) {
+            throw new MalformedGraphFileException("Invalid identifier type \"C\": Connections were removed in format v3");
+        }
         if (!scanner.hasNextInt()) {
             throw new MalformedGraphFileException("Expected fromNode ID in connection declaration");
         }
