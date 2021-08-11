@@ -28,9 +28,9 @@ public final class GraphWriter {
     }
 
     public void write(FileWriter writer) throws IOException {
-        Map<ShuffleNode, Integer> nodeMap = new HashMap<>();
+        Map<GraphNode, Integer> nodeMap = new HashMap<>();
         for (int i = 0; i < graph.nodes.size(); i++) {
-            ShuffleNode node = graph.nodes.get(i);
+            GraphNode node = graph.nodes.get(i);
             nodeMap.put(node, i);
         }
         nodeMap.put(null, -1);
@@ -41,7 +41,7 @@ public final class GraphWriter {
 
         // Nodes
         for (int i = 1; i < graph.nodes.size(); i++) {
-            ShuffleNode node = graph.nodes.get(i);
+            GraphNode node = graph.nodes.get(i);
             writer.write("N ");
             if (node.getValue().isDistribution()) {
                 writer.write("true ");

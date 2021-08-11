@@ -7,17 +7,17 @@ import java.awt.Stroke;
 import java.awt.Point;
 import java.util.List;
 
-public class ShuffleConnection {
-    public ShuffleNode from, to;
+public class GraphConnection {
+    public GraphNode from, to;
     public Point currentDragPos;
 
-    public ShuffleConnection(ShuffleNode from, ShuffleNode to) {
+    public GraphConnection(GraphNode from, GraphNode to) {
         this.from = from;
         this.to = to;
         this.currentDragPos = new Point();
     }
 
-    public ShuffleConnection(ShuffleNode from, Point to) {
+    public GraphConnection(GraphNode from, Point to) {
         this.from = from;
         this.to = null;
         this.currentDragPos = to;
@@ -25,13 +25,13 @@ public class ShuffleConnection {
 
     public void draw(Graphics2D g) {
         Point fromPos = this.from.getPos();
-        fromPos = new Point(fromPos.x + ShuffleNode.WIDTH + 10, fromPos.y + ShuffleNode.HEIGHT / 2);
+        fromPos = new Point(fromPos.x + GraphNode.WIDTH + 10, fromPos.y + GraphNode.HEIGHT / 2);
         Point endPos;
         if (this.to == null) {
             endPos = new Point(this.currentDragPos.x - 10, this.currentDragPos.y);
         } else {
             Point toPos = this.to.getPos();
-            endPos = new Point(toPos.x, toPos.y + ShuffleNode.HEIGHT / 2);
+            endPos = new Point(toPos.x, toPos.y + GraphNode.HEIGHT / 2);
         }
         Point midStart = new Point(fromPos.x + 15, fromPos.y);
         Point midEnd = new Point(endPos.x - 15, endPos.y);
@@ -56,13 +56,13 @@ public class ShuffleConnection {
         }
     }
 
-    public void finishDragging(ShuffleNode other) {
+    public void finishDragging(GraphNode other) {
         this.to = other;
         other.preConnection = this;
         int removed = 0;
-        List<ShuffleConnection> connections = other.graph.connections;
+        List<GraphConnection> connections = other.graph.connections;
         for (int i = 0; i < connections.size(); i++) {
-            ShuffleConnection conn = connections.get(i - removed);
+            GraphConnection conn = connections.get(i - removed);
             if (conn == this) {
                 continue;
             }

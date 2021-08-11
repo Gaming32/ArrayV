@@ -8,16 +8,16 @@ import java.awt.geom.Rectangle2D;
 import utils.ShuffleGraph;
 import utils.ShuffleInfo;
 
-public class ShuffleNode {
+public class GraphNode {
     public static final int WIDTH = 250;
     public static final int HEIGHT = 50;
 
     public ShuffleInfo shuffle;
     public int x, y;
     public ShuffleGraph graph;
-    public ShuffleConnection preConnection, postConnection;
+    public GraphConnection preConnection, postConnection;
 
-    public ShuffleNode(ShuffleInfo shuffle, ShuffleGraph graph, int x, int y) {
+    public GraphNode(ShuffleInfo shuffle, ShuffleGraph graph, int x, int y) {
         this.shuffle = shuffle;
         this.graph = graph;
         this.x = x;
@@ -26,7 +26,7 @@ public class ShuffleNode {
         this.postConnection = null;
     }
 
-    public ShuffleNode(ShuffleInfo shuffle, ShuffleGraph graph) {
+    public GraphNode(ShuffleInfo shuffle, ShuffleGraph graph) {
         this(shuffle, graph, 0, 0);
     }
 
@@ -34,8 +34,8 @@ public class ShuffleNode {
         if (o == null) {
             return false;
         }
-        if (o instanceof ShuffleNode) {
-            ShuffleNode other = (ShuffleNode)o;
+        if (o instanceof GraphNode) {
+            GraphNode other = (GraphNode)o;
             return this.x     == other.x
                 && this.y     == other.y
                 && this.graph == other.graph
