@@ -2,7 +2,7 @@ package sorts.exchange;
 
 import main.ArrayVisualizer;
 import sorts.insert.BinaryDoubleInsertionSort;
-import sorts.insert.DoubleInsertionSort;
+import sorts.insert.InsertionSort;
 import sorts.merge.ReverseLazyStableSort;
 import sorts.templates.Sort;
 
@@ -34,7 +34,7 @@ SOFTWARE.
 
 final public class LazyStableQuickSort extends Sort {
     ReverseLazyStableSort rotater;
-    DoubleInsertionSort inserter;
+    InsertionSort inserter;
     BinaryDoubleInsertionSort fallback;
 
     public LazyStableQuickSort(ArrayVisualizer arrayVisualizer) {
@@ -149,7 +149,7 @@ final public class LazyStableQuickSort extends Sort {
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         rotater = new ReverseLazyStableSort(arrayVisualizer);
-        inserter = new DoubleInsertionSort(arrayVisualizer);
+        inserter = new InsertionSort(arrayVisualizer);
         fallback = new BinaryDoubleInsertionSort(arrayVisualizer);
         this.stableQuickSort(array, 0, length, log2(length));
     }
