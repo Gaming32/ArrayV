@@ -60,14 +60,6 @@ final public class LazyStableQuickSort extends Sort {
     }
 
     private int findPivot(int[] array, int start, int mid, int end) {
-        if (Reads.compareIndices(array, start, mid, 0.5, true) == 0) {
-            return start;
-        }
-        if (Reads.compareIndices(array, start, end, 0.5, true) == 0 ||
-            Reads.compareIndices(array, mid, end, 0.5, true) == 0) {
-            return end;
-        }
-
         if (Reads.compareIndices(array, start, mid, 0.5, true) < 0) {
             if (Reads.compareIndices(array, mid, end, 0.5, true) < 0) {
                 return mid;
@@ -121,6 +113,7 @@ final public class LazyStableQuickSort extends Sort {
                 if (pivotPos == end) {
                     pivotPos = start;
                 }
+                continue;
             }
 
             return ltLeft;
@@ -151,6 +144,6 @@ final public class LazyStableQuickSort extends Sort {
         rotater = new ReverseLazyStableSort(arrayVisualizer);
         inserter = new InsertionSort(arrayVisualizer);
         fallback = new BinaryDoubleInsertionSort(arrayVisualizer);
-        this.stableQuickSort(array, 0, length, log2(length));
+        this.stableQuickSort(array, 0, length, 2 * log2(length));
     }
 }
