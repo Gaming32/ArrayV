@@ -129,10 +129,10 @@ final public class LazyStableQuickSort extends Sort {
             int pivotIndex = this.stablePartition(array, start, end);
             int left = pivotIndex - start, right = end - pivotIndex;
             if (left > right) {
-                this.stableQuickSort(array, pivotIndex, end, depth--);
+                this.stableQuickSort(array, pivotIndex, end, --depth);
                 end = pivotIndex;
             } else {
-                this.stableQuickSort(array, start, pivotIndex, depth--);
+                this.stableQuickSort(array, start, pivotIndex, --depth);
                 start = pivotIndex;
             }
         }
