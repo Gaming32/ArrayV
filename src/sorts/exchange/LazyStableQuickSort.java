@@ -86,21 +86,26 @@ final public class LazyStableQuickSort extends Sort {
             int ltLeft = start;
             int runstart = start;
             int runsize = 0;
+            int equalCount = 0;
             for (int i = start; i < end; i++) {
                 Highlights.markArray(1, i);
                 Delays.sleep(0.5);
-                if (Reads.compareValues(array[i], pivot) < 0) {
+                int comp = Reads.compareValues(array[i], pivot);
+                if (comp < 0) {
                     runsize++;
+                    continue;
+                } else if (comp == 0) {
+                    equalCount++;
                 }
-                else {
-                    if (runsize > 0 && runstart > start) {
-                        rotater.rotateSmart(array, runstart, ltLeft, runsize);
-                    }
-                    ltLeft += runsize;
-                    runstart = i + 1;
-                    runsize = 0;
+                if (runsize > 0 && runstart > start) {
+                    rotater.rotateSmart(array, runstart, ltLeft, runsize);
                 }
+                ltLeft += runsize;
+                runstart = i + 1;
+                runsize = 0;
             }
+
+            if (equalCount == end - start) return -1;
 
             // Necessary if the run is at the end
             if (runsize > 0) {
@@ -112,6 +117,12 @@ final public class LazyStableQuickSort extends Sort {
                 pivotPos++;
                 if (pivotPos == end) {
                     pivotPos = start;
+                }
+                while (Reads.compareValueIndex(array, pivot, pivotPos, 1, true) == 0) {
+                    pivotPos++;
+                    if (pivotPos == end) {
+                        pivotPos = start;
+                    }
                 }
                 continue;
             }
@@ -127,6 +138,7 @@ final public class LazyStableQuickSort extends Sort {
                 return;
             }
             int pivotIndex = this.stablePartition(array, start, end);
+            if (pivotIndex == -1) return;
             int left = pivotIndex - start, right = end - pivotIndex;
             if (left > right) {
                 this.stableQuickSort(array, pivotIndex, end, --depth);
