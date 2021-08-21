@@ -35,8 +35,8 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
         super(arrayVisualizer);
 
         this.setSortListName("Median-of-16 Adaptive Quick");
-        this.setRunAllSortsName("thatsOven's Median-Of-16 Adaptive QuickSort");
-        this.setRunSortName("thatsOven's Median-Of-16 Adaptive QuickSort");
+        this.setRunAllSortsName("Median-Of-16 Adaptive QuickSort");
+        this.setRunSortName("Median-Of-16 Adaptive QuickSort");
         this.setCategory("Hybrid Sorts");
         this.setComparisonBased(true);
         this.setBucketSort(false);
@@ -75,7 +75,7 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
                 int v = array[i];
                 int j = i;
 
-                while (j >= h && Reads.compareValues(array[j-h], v) == 1)
+                while (j >= h + lo && Reads.compareValues(array[j-h], v) == 1)
                 {
                     Highlights.markArray(1, j);
                     
