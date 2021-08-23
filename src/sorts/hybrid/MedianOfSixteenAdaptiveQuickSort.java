@@ -164,7 +164,7 @@ final public class MedianOfSixteenAdaptiveQuickSort extends Sort {
     }
 
     public void quickSort(int[] array, int a, int b, int depth, boolean unbalanced) {
-        while (b - a > 16) {
+        while (b - a > 32) {
             if (this.getSortedRuns(array, a, b)) return;
             if (depth == 0){
                 heapSorter.customHeapSort(array, a, b, 1);
