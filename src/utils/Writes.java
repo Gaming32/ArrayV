@@ -1,7 +1,7 @@
 package utils;
 
 import java.util.Arrays;
-
+import java.util.List;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -403,6 +403,13 @@ final public class Writes {
     public void deleteExternalArray(int[] array) {
         this.allocAmount -= array.length;
         ArrayVisualizer.getArrays().remove(array);
+        ArrayVisualizer.updateNow();
+    }
+
+    public void deleteExternalArrays(int[]... arrays) {
+        this.allocAmount -= Arrays.stream(arrays).reduce(0, (a, b) -> (a + b.length), (a, b) -> a + b);
+        List<int[]> visArrays = ArrayVisualizer.getArrays();
+        Arrays.stream(arrays).forEach(visArrays::remove);
         ArrayVisualizer.updateNow();
     }
 
