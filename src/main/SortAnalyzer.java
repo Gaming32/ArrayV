@@ -99,10 +99,14 @@ final public class SortAnalyzer {
     private boolean compileSingle(String name, ClassLoader loader) {
         try {
             Class<?> sortClass;
-            if (loader == null)
-                sortClass = Class.forName(name);
-            else
-                sortClass = Class.forName(name, true, loader);
+            try {
+                if (loader == null)
+                    sortClass = Class.forName(name);
+                else
+                    sortClass = Class.forName(name, true, loader);
+            } catch (ClassNotFoundException e) {
+                return true;
+            }
             // System.out.println(sortClass.getConstructors()[0].getParameterTypes()[0].hashCode());
             Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
             // Constructor<?> newSort = sortClass.getConstructors()[0];
@@ -138,11 +142,11 @@ final public class SortAnalyzer {
         return true;
     }
     
-    @SuppressWarnings("unused")
     public void analyzeSorts() {
         ClassGraph classGraph = new ClassGraph();
         classGraph.whitelistPackages("sorts");
         classGraph.blacklistPackages("sorts.templates");
+        classGraph.blacklistPaths("cache/*");
         
         try (ScanResult scanResult = classGraph.scan()) {
             List<ClassInfo> sortFiles;
@@ -175,7 +179,7 @@ final public class SortAnalyzer {
         }
         String packageName = matcher.group(1);
         String name = packageName + "." + file.getName().split("\\.")[0];
-        File tempPath = new File(String.join("/", packageName.split("\\.")));
+        File tempPath = new File("./cache/" + String.join("/", packageName.split("\\.")));
         tempPath.mkdirs();
         File destPath = new File(tempPath.getAbsolutePath() + "/" + file.getName());
         try {
@@ -194,7 +198,7 @@ final public class SortAnalyzer {
         }
 
         try {
-            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File(".").toURI().toURL() })))
+            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File("./cache/").toURI().toURL() })))
                 return false;
         }
         catch (Exception e) {

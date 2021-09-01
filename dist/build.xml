@@ -10,7 +10,7 @@
         <jar destfile="${dir.jarfile}/arrayVisualizer.jar">
             <manifest>
                 <attribute name="Main-Class" value="main.ArrayVisualizer"/>
-                <attribute name="Class-Path" value="."/>
+                <attribute name="Class-Path" value="cache"/>
             </manifest>
             <zipfileset src="../lib/classgraph-4.8.47.jar"/>
             <fileset dir="../bin"/>

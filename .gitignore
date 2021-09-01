@@ -1,7 +1,6 @@
 *.class
 /bin/
 __pycache__
-sorts
-!src/sorts
+cache
 antiqsort_*
 network_*.svg
