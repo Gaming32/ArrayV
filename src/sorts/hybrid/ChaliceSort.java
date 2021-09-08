@@ -945,5 +945,7 @@ final public class ChaliceSort extends Sort {
 		this.multiSwap(array, a1+bSep, a1+kLen+bSep, kLen-bSep); //restore bit buffer initial position
 		this.laziestSortExt(array, tmp, a, a3);
 		this.redistBuffer(array, tmp, a, a3, b);
+		
+		Writes.deleteExternalArray(tmp);
     }
 }
