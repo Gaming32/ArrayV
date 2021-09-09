@@ -41,7 +41,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
     private Sort ShellSort;
     private Sort RecursiveShellSort;
     private Sort RendezvousSort;
-    private Sort LibrarySort;
+    private Sort SimplifiedLibrarySort;
     private Sort PatienceSort;
     private Sort ClassicTreeSort;
     private Sort AATreeSort;
@@ -49,7 +49,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
     private Sort FibonacciInsertionSort;
     private Sort SplaySort;
     private Sort RoomSort;
-    private Sort ClassicLibrarySort;
+    private Sort LibrarySort;
     private Sort CocktailShellSort;
     private Sort ShellSortParallel;
     private Sort ShuffledTreeSort;
@@ -73,13 +73,13 @@ final public class RunInsertionSorts extends MultipleSortThread {
         RecursiveShellSort          = new          RecursiveShellSort(this.arrayVisualizer); 
         RendezvousSort              = new              RendezvousSort(this.arrayVisualizer); 
         RoomSort                    = new                    RoomSort(this.arrayVisualizer);
-        LibrarySort                 = new                 LibrarySort(this.arrayVisualizer); 
+        SimplifiedLibrarySort       = new                 SimplifiedLibrarySort(this.arrayVisualizer); 
         PatienceSort                = new                PatienceSort(this.arrayVisualizer);
         ClassicTreeSort             = new             ClassicTreeSort(this.arrayVisualizer);
         AATreeSort                  = new                  AATreeSort(this.arrayVisualizer);
         AVLTreeSort                 = new                 AVLTreeSort(this.arrayVisualizer);
         SplaySort                   = new                   SplaySort(this.arrayVisualizer);
-        ClassicLibrarySort          = new          ClassicLibrarySort(this.arrayVisualizer);
+        LibrarySort                 = new          LibrarySort(this.arrayVisualizer);
         CocktailShellSort           = new           CocktailShellSort(this.arrayVisualizer);
         ShellSortParallel           = new           ShellSortParallel(this.arrayVisualizer);
         ShuffledTreeSort            = new            ShuffledTreeSort(this.arrayVisualizer);
@@ -106,8 +106,8 @@ final public class RunInsertionSorts extends MultipleSortThread {
         RunInsertionSorts.this.runIndividualSort(ShellSortParallel,           0, array,  256,  0.1,   false);
         RunInsertionSorts.this.runIndividualSort(RendezvousSort,              0, array,  256,  0.1,   false);
         RunInsertionSorts.this.runIndividualSort(RoomSort,                    0, array,  512,  0.05,  false);
+        RunInsertionSorts.this.runIndividualSort(SimplifiedLibrarySort,       0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(LibrarySort,                 0, array,  2048, 1,     false);
-        RunInsertionSorts.this.runIndividualSort(ClassicLibrarySort,          0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(PatienceSort,                0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(ClassicTreeSort,             0, array,  2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 5, false);
         RunInsertionSorts.this.runIndividualSort(TreeSort,                    0, array,  2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 5, false);

@@ -1,13 +1,16 @@
 package sorts.insert;
 
 import sorts.templates.Sort;
-
 import main.ArrayVisualizer;
+
+import java.util.Arrays;
+import java.util.Random;
+
 /*
  * 
 MIT License
 
-Copyright (c) 2020-2021 aphitorite
+Copyright (c) 2021 aphitorite
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +35,7 @@ SOFTWARE.
 final public class LibrarySort extends Sort {
 	public LibrarySort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-
+		
 		this.setSortListName("Library");
 		this.setRunAllSortsName("Library Sort");
 		this.setRunSortName("Library Sort");
@@ -45,101 +48,187 @@ final public class LibrarySort extends Sort {
 		this.setBogoSort(false);
 	}
 	
-	//simple library sort with O(n) extra memory + counter & pointer array (n size combined)
+	//possible implementation of the library sort here https://en.wikipedia.org/wiki/Library_sort
+	//makes O(1) insertions into gaps of constant size on random data using an extra (1+G)*n space
 	
-	private final int R = 4; //rebalancing factor
+	private final int G = 15;
+	private final int R = 4;
 	
-	private BinaryInsertionSort binaryInsert;
+	private int max;
 	
-	private int getMinLevel(int n) {
-		while(n >= 32) n = (n-1)/R+1;
-		return n;
+	private void shiftExt(int[] array, int a, int m, int b) {
+		int m1 = a + Math.min(m-a, b-m);
+		while(m > a)  Writes.write(array, --b, array[--m], 0.5, false, true);
+		while(a < m1) Writes.write(array, a++, this.max,   0.5, false, true);
 	}
 	
-	private int binarySearch(int[] array, int a, int b, int val, double sleep) {
+	private int leftBlockSearch(int[] array, int a, int b, int val) {
+		int s = G+1;
+		
+		while(a < b) {
+			int m = a+(((b-a)/s)/2)*s;
+			Highlights.markArray(2, m/s);
+			Delays.sleep(0.25);
+			
+			if(Reads.compareValues(val, array[m]) <= 0) 
+				b = m;
+			else
+				a = m+s;
+		}
+		
+		Highlights.clearMark(2);
+		return a;
+	}
+	private int rightBlockSearch(int[] array, int a, int b, int val) {
+		int s = G+1;
+		
+		while(a < b) {
+			int m = a+(((b-a)/s)/2)*s;
+			Highlights.markArray(2, m/s);
+			Delays.sleep(0.25);
+			
+			if(Reads.compareValues(val, array[m]) < 0) 
+				b = m;
+			else
+				a = m+s;
+		}
+		
+		Highlights.clearMark(2);
+		return a;
+	}
+	
+	private int locSearch(int[] array, int a, int b) {
 		while(a < b) {
 			int m = a+(b-a)/2;
-			Highlights.markArray(3, m);
-			Delays.sleep(sleep);
+			
+			if(Reads.compareOriginalValues(this.max, array[m]) <= 0) 
+				b = m;
+			else	 
+				a = m+1;
+		}
+		
+		return a;
+	}
+	private int rightBinSearch(int[] array, int a, int b, int val) {
+		while(a < b) {
+			int m = a+(b-a)/2;
 			
 			if(Reads.compareValues(val, array[m]) < 0) 
 				b = m;
 			else
 				a = m+1;
 		}
-		Highlights.clearMark(3);
 		
 		return a;
 	}
 	
-	private void rebalance(int[] array, int[] temp, int[] cnts, int[] locs, int m, int b) {
-		//do a partial sum to find locations
+	private void insertTo(int[] array, int a, int b, boolean aux) {
 		Highlights.clearMark(2);
-		for(int i = 0; i < m; i++)
-			Writes.write(cnts, i+1, cnts[i+1]+cnts[i]+1, 1, true, true);
-		
-		//place books in gaps into their correct locations
-		for(int i = m, j = 0; i < b; i++, j++) {
-			Highlights.markArray(2, i);
-			Writes.write(temp, cnts[locs[j]], array[i], 1, true, true);
-			Writes.write(cnts, locs[j], cnts[locs[j]]+1, 0, false, true);
-		}
-		for(int i = 0; i < m; i++) {
-			Highlights.markArray(2, i);
-			Writes.write(temp, cnts[i], array[i], 1, true, true);
-			Writes.write(cnts, i, cnts[i]+1, 0, false, true);
-		}
-		Highlights.clearMark(2);
-		
-		//copy back to array & sort the gaps
-		Writes.arraycopy(temp, 0, array, 0, b, 1, true, false);
-		this.binaryInsert.customBinaryInsert(array, 0, cnts[0]-1, 0.5);
-		for(int i = 0; i < m-1; i++)
-			this.binaryInsert.customBinaryInsert(array, cnts[i], cnts[i+1]-1, 0.5);
-		this.binaryInsert.customBinaryInsert(array, cnts[m-1], cnts[m], 0.5);
-		
-		//reset count array
-		for(int i = 0; i < m+2; i++) 
-			Writes.write(cnts, i, 0, 0, false, true);
+		int temp = array[a];
+		while(a > b) Writes.write(array, a, array[--a], 0.5, !aux, aux);
+		Writes.write(array, b, temp, 0.5, !aux, aux);
 	}
-
+	
+	private void binaryInsertion(int[] array, int a, int b) {
+		for(int i = a+1; i < b; i++)
+			this.insertTo(array, i, this.rightBinSearch(array, a, i, array[i]), false);
+	}
+	
+	private void retrieve(int[] array, int[] tmp, int i, int pEnd) {
+		int loc = i-1; 
+		
+		for(int k = pEnd-(G+1); k > G;) {
+			int m = this.locSearch(tmp, k-G, k)-1;
+			k -= G+1;
+			
+			while(m >= k) {
+				Writes.write(array, loc--, tmp[m], 0, true, false);
+				Writes.write(tmp, m--, max, 1, false, true);
+			}
+		}
+		
+		int m = this.locSearch(tmp, 0, G)-1;
+		while(m >= 0) {
+			Writes.write(array, loc--, tmp[m], 0, true, false);
+			Writes.write(tmp, m--, max, 1, false, true);
+		}
+	}
+	
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
-		this.binaryInsert = new BinaryInsertionSort(this.arrayVisualizer);
+		this.max = length;
 		
-		if(length < 32) {
-			this.binaryInsert.customBinaryInsert(array, 0, length, 1);
-			return;
+		//there is supposed to be a shuffle here between [0, length)
+		//but for the sake of demonstrating O(n^2) worst case it has been removed
+		
+		int[] tmp = Writes.createExternalArray(length*(G+1)-1);
+		Arrays.fill(tmp, this.max); //(o_o;)
+		
+		Random rng = new Random();
+		
+		int s = length;
+		while(s >= 32) s = (s-1)/R + 1;
+		
+		int i = s, j = R*i, pEnd = (s+1)*(G+1)+G;
+		this.binaryInsertion(array, 0, s);
+		
+		for(int k = 0; k < s; k++) {
+			Highlights.markArray(1, k);
+			Writes.write(tmp, k*(G+1)+G, array[k], 1, false, true);
 		}
 		
-		int j = this.getMinLevel(length);
-		this.binaryInsert.customBinaryInsert(array, 0, j, 1);
-		
-		int maxLevel = j;
-		for(; maxLevel*R < length; maxLevel *= R);
-		
-		int[] temp = Writes.createExternalArray(length), 
-			  cnts = Writes.createExternalArray(maxLevel+2),
-			  locs = Writes.createExternalArray(length-maxLevel);
-		
-		for(int i = j, k = 0; i < length; i++) {
-			if(R*j == i) {
-				this.rebalance(array, temp, cnts, locs, j, i);
-				j = i;
-				k = 0;
+		for(; i < length; i++) {
+			if(i == j) {
+				this.retrieve(array, tmp, i, pEnd);
+				
+				s = i;
+				pEnd = (s+1)*(G+1)+G;
+				j *= R;
+				
+				for(int k = 0; k < s; k++) {
+					Highlights.markArray(1, k);
+					Writes.write(tmp, k*(G+1)+G, array[k], 1, false, true);
+				}
 			}
 			
-			//search which gap a book goes and save the result
-			Highlights.markArray(2, i);
-			int loc = this.binarySearch(array, 0, j, array[i], 0.5);
+			Highlights.markArray(1, i);
+			int bLoc = this.leftBlockSearch(tmp, G, pEnd-(G+1), array[i]);
 			
-			Writes.write(cnts, loc+1, cnts[loc+1]+1, 0, false, true);
-			Writes.write(locs, k++, loc, 0, false, true);
+			if(Reads.compareValues(array[i], tmp[bLoc]) == 0) {
+				int eqEnd = this.rightBlockSearch(tmp, bLoc+(G+1), pEnd-(G+1), array[i]);
+				bLoc += rng.nextInt((eqEnd-bLoc)/(G+1))*(G+1);
+			}
+			int loc  = this.locSearch(tmp, bLoc-G, bLoc);
+			
+			if(loc == bLoc) {
+				do bLoc += G+1;
+				while(bLoc < pEnd && this.locSearch(tmp, bLoc-G, bLoc) == bLoc);
+				
+				if(bLoc == pEnd) {
+					this.retrieve(array, tmp, i, pEnd);
+					
+					s = i;
+					pEnd = (s+1)*(G+1)+G;
+					j = R*i;
+					
+					for(int k = 0; k < s; k++) {
+						Highlights.markArray(1, k);
+						Writes.write(tmp, k*(G+1)+G, array[k], 1, false, true);
+					}
+				}
+				else {
+					int rotP = this.locSearch(tmp, bLoc-G, bLoc);
+					int rotS = bLoc - Math.max(rotP, bLoc - G/2);
+					this.shiftExt(tmp, loc-rotS, bLoc-rotS, bLoc); 
+				}
+				i--;
+			}
+			else {
+				Writes.write(tmp, loc, array[i], 1, false, true);
+				this.insertTo(tmp, loc, this.rightBinSearch(tmp, bLoc-G, loc, tmp[loc]), true);
+			}
 		}
-		this.rebalance(array, temp, cnts, locs, j, length);
-		
-		Writes.deleteExternalArray(temp);
-		Writes.deleteExternalArray(cnts);
-		Writes.deleteExternalArray(locs);
+		this.retrieve(array, tmp, length, pEnd);
+		Writes.deleteExternalArray(tmp);
 	}
 }
