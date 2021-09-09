@@ -1,6 +1,6 @@
 package sorts.hybrid;
 
-import sorts.templates.Sort;
+import sorts.templates.MultiWayMergeSorting;
 import main.ArrayVisualizer;
 
 import java.util.Random;
@@ -31,7 +31,7 @@ SOFTWARE.
  *
  */
 
-final public class FlanSort extends Sort {
+final public class FlanSort extends MultiWayMergeSorting {
     public FlanSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -52,12 +52,6 @@ final public class FlanSort extends Sort {
 	
 	private final int G = 14;
 	private final int R = 4;
-	
-	private int ceilPow2(int n) {
-		int r = 1;
-		while(r < n) r *= 2;
-		return r;
-	}
 	
 	private int medianOfThree(int[] array, int a, int m, int b) {
 		if(Reads.compareValues(array[m], array[a]) > 0) {
@@ -168,63 +162,30 @@ final public class FlanSort extends Sort {
 			this.insertTo(array, array[i], i, this.rightBinSearch(array, a, i, array[i], false));
     }
 	
-	private boolean idxCmp(int[] array, int[] pa, int[] pb, int a, int b) {
-		return pa[a] < pb[a] && (pa[b] == pb[b] || Reads.compareValues(array[pa[a]], array[pa[b]]) <= 0);
-	}
-	
-	private void kWayMerge(int[] array, int[] tree, int[] pa, int[] pb, int p, int k) {
-		if(k < 2) {
-			if(k == 1) while(pa[0] < pb[0]) Writes.swap(array, p++, pa[0]++, 1, true, false);
+	private void kWayMerge(int[] array, int[] heap, int[] pa, int s, int b, int p, int size) {
+		if(size < 2) {
+			if(size == 1) while(pa[0] < b) Writes.swap(array, p++, pa[0]++, 1, true, false);
 			return;
 		}
+		int a = pa[0];
 		
-		int pow = ceilPow2(k)-1;
-		
-		for(int i = 0; i < k; i++) 
-			Writes.write(tree, pow+i, i, 0, false, true);
-		
-		for(int j = k, m = pow; j > 1; j = (j+1)/2, m /= 2) {
-			int i = 0, next = m/2;
+		for(int i = 0; i < size; i++)
+			Writes.write(heap, i, i, 0, false, true);
+
+		for(int i = (size-1)/2; i >= 0; i--)
+			this.siftDown(array, heap, pa, heap[i], i, size);
 			
-			for(; i+1 < j; i += 2, next++) {
-				int t = Reads.compareValues(array[pa[tree[m+i]]], array[pa[tree[m+i+1]]]) <= 0 ? tree[m+i] : tree[m+i+1];
-				Writes.write(tree, next, t, 0, false, true);
-			}
-			if(i < j) Writes.write(tree, next, tree[m+i], 0, false, true);
+		while(size > 0) {
+			int min = heap[0];
+			
+			Writes.swap(array, p++, pa[min], 0, true, false);
+			Writes.write(pa, min, pa[min]+1, 1, false, true);
+
+			if(pa[min] == Math.min(a+(min+1)*s, b))
+				this.siftDown(array, heap, pa, heap[--size], 0, size);
+			else 
+				this.siftDown(array, heap, pa, heap[0], 0, size);
 		}
-		
-		do {
-			Writes.swap(array, p++, pa[tree[0]], 0, true, false);
-			Writes.write(pa, tree[0], pa[tree[0]]+1, 1, false, true);
-			
-			int m = pow, i = m+tree[0], j = k;
-			
-			while(i > 0) {
-				int next;
-				
-				if(((i-m)&1) == 0) {
-					int sib = i+1;
-					next = i/2;
-					
-					if(sib == m+j) Writes.write(tree, next, tree[i], 0, false, true);
-					else {
-						int t = this.idxCmp(array, pa, pb, tree[i], tree[sib]) ? tree[i] : tree[sib];
-						Writes.write(tree, next, t, 0, false, true);
-					}
-				}
-				else {
-					int sib = i-1;
-					next = sib/2;
-					
-					int t = this.idxCmp(array, pa, pb, tree[sib], tree[i]) ? tree[sib] : tree[i];
-					Writes.write(tree, next, t, 0, false, true);
-				}
-				i = next;
-				j = (j+1)/2;
-				m /= 2;
-			}
-		}
-		while(pa[tree[0]] < pb[tree[0]]);
 	}
 	
 	private void retrieve(int[] array, int i, int p, int pEnd, int bsv, boolean bw) {
@@ -315,10 +276,9 @@ final public class FlanSort extends Sort {
 																	//we would normally shuffle the array before sorting
 																	//but for the sake of demonstration this step is omitted
 		int[] pa   = new int[G+2]; 
-		int[] pb   = new int[G+2];
-		int[] tree = new int[ceilPow2(G+2)+G+1];
+		int[] heap = new int[G+2];
 		
-		int alloc = pa.length + pb.length + tree.length;
+		int alloc = pa.length + heap.length;
 		Writes.changeAllocAmount(alloc);
 		
 		int a = 0, b = length;
@@ -329,9 +289,9 @@ final public class FlanSort extends Sort {
 			//partition -> [a][E > piv][i][E == piv][j][E < piv][b]
 			int i = a, j = b;
 			for(int k = i; k < j; k++) {
-				if(Reads.compareValues(array[k], piv) == 1) {
+				if(Reads.compareValues(array[k], piv) == 1)
 					Writes.swap(array, k, i++, 1, true, false);
-				}
+					
 				else if(Reads.compareValues(array[k], piv) == -1) {
 					do {
 						j--;
@@ -343,9 +303,8 @@ final public class FlanSort extends Sort {
 					Writes.swap(array, k, j, 1, true, false);
 					Highlights.clearMark(3);
 					
-					if(Reads.compareValues(array[k], piv) == 1) {
+					if(Reads.compareValues(array[k], piv) == 1)
 						Writes.swap(array, k, i++, 1, true, false);
-					}
 				}
 			}
 			
@@ -356,14 +315,11 @@ final public class FlanSort extends Sort {
 				left = Math.max((right+1)/(G+1), 16);
 				
 				for(int k = a; k < i; k += left) {
-					int end = Math.min(k+left, i);
-					this.librarySort(array, k, end, j, piv, true);
-					
-					Writes.write(pa, kCnt, k, 0, false, true);
-					Writes.write(pb, kCnt++, end, 0, false, true);
+					this.librarySort(array, k, Math.min(k+left, i), j, piv, true);
+					Writes.write(pa, kCnt++, k, 0, false, true);
 				}
 				
-				this.kWayMerge(array, tree, pa, pb, m, kCnt);
+				this.kWayMerge(array, heap, pa, left, i, m, kCnt);
 				
 				//swap items eq to pivot next to sorted area
 				//eq items zone: [i][E == piv][j][E < piv][m][sorted area]
@@ -381,14 +337,11 @@ final public class FlanSort extends Sort {
 				right = Math.max((left+1)/(G+1), 16);
 				
 				for(int k = j; k < b; k += right) {
-					int end = Math.min(k+right, b);
-					this.librarySort(array, k, end, a, piv, false);
-					
-					Writes.write(pa, kCnt, k, 0, false, true);
-					Writes.write(pb, kCnt++, end, 0, false, true);
+					this.librarySort(array, k, Math.min(k+right, b), a, piv, false);
+					Writes.write(pa, kCnt++, k, 0, false, true);
 				}
 				
-				this.kWayMerge(array, tree, pa, pb, a, kCnt);
+				this.kWayMerge(array, heap, pa, right, b, a, kCnt);
 				
 				//eq items zone: [sorted area][m][E > piv][i][E == piv][j]
 				if(i-m < j-i) {
