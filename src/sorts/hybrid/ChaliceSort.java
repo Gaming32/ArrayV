@@ -337,7 +337,7 @@ final public class ChaliceSort extends BlockMergeSorting {
 				Writes.write(array, --p, array[i--], 1, true, false);
 		}
 		
-		if(b < m) this.shiftExtBW(array, a, i+1, p);
+		if(b < m) this.shiftBWExt(array, a, i+1, p);
 		
 		else {
 			i++; b++; p = m-(i-a);
@@ -380,7 +380,7 @@ final public class ChaliceSort extends BlockMergeSorting {
 				Writes.write(array, p++, array[i++], 1, true, false);
 		}
 		if(a < m) {
-			if(a > p) this.shiftExtFW(array, p, a, m);
+			if(a > p) this.shiftFWExt(array, p, a, m);
 			Writes.arraycopy(tmp, 0, array, b-bLen, bLen, 1, true, false);
 		}
 		else {
@@ -647,7 +647,7 @@ final public class ChaliceSort extends BlockMergeSorting {
 				this.mergeWithBufFWExt(array, i, i+j, i+2*j, i-p);
 			
 			if(i+j < b) this.mergeWithBufFWExt(array, i, i+j, b, i-p);
-			else		this.shiftExtFW(array, i-p, i, b);
+			else		this.shiftFWExt(array, i-p, i, b);
 			
 			a3 -= p; b -= p;
 		}
@@ -655,7 +655,7 @@ final public class ChaliceSort extends BlockMergeSorting {
 		i = b-n%(2*j);
 		
 		if(i+j < b) this.mergeWithBufBWExt(array, i, i+j, b, b+j);
-		else 		this.shiftExtBW(array, i, b, b+j);
+		else 		this.shiftBWExt(array, i, b, b+j);
 		
 		for(i -= 2*j; i >= a3; i -= 2*j)
 			this.mergeWithBufBWExt(array, i, i+j, i+2*j, i+3*j);
@@ -666,14 +666,14 @@ final public class ChaliceSort extends BlockMergeSorting {
 			this.mergeWithBufFWExt(array, i, i+j, i+2*j, i-j);
 		
 		if(i+j < b) this.mergeWithBufFWExt(array, i, i+j, b, i-j);
-		else		this.shiftExtFW(array, i-j, i, b);
+		else		this.shiftFWExt(array, i-j, i, b);
 		
 		a3 -= j; b -= j; j *= 2;
 		
 		i = b-n%(2*j);
 		
 		if(i+j < b) this.dualMergeBWExt(array, i, i+j, b, b+j/2);
-		else 		this.shiftExtBW(array, i, b, b+j/2);
+		else 		this.shiftBWExt(array, i, b, b+j/2);
 		
 		for(i -= 2*j; i >= a3; i -= 2*j)
 			this.dualMergeBWExt(array, i, i+j, i+2*j, i+2*j+j/2);

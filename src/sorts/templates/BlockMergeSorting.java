@@ -43,11 +43,11 @@ public abstract class BlockMergeSorting extends Sort {
 		while(m > a) Writes.swap(array, --b, --m, 1, true, false);
 	}
 	
-	protected void shiftExtFW(int[] array, int a, int m, int b) {
+	protected void shiftFWExt(int[] array, int a, int m, int b) {
 		Highlights.clearMark(2);
 		while(m < b) Writes.write(array, a++, array[m++], 1, true, false);
 	}
-	protected void shiftExtBW(int[] array, int a, int m, int b) {
+	protected void shiftBWExt(int[] array, int a, int m, int b) {
 		Highlights.clearMark(2);
 		while(m > a) Writes.write(array, --b, array[--m], 1, true, false);
 	}
@@ -294,9 +294,9 @@ public abstract class BlockMergeSorting extends Sort {
 				Writes.write(array, p++, array[i++], 1, true, false);
 		}
 		
-		if(a > p) this.shiftExtFW(array, p, a, m);
+		if(a > p) this.shiftFWExt(array, p, a, m);
 		
-		this.shiftExtFW(array, p, i, b);
+		this.shiftFWExt(array, p, i, b);
 	}
 	protected void mergeWithBufBWExt(int[] array, int a, int m, int b, int p) {
 		int i = m-1; b--;
@@ -310,9 +310,9 @@ public abstract class BlockMergeSorting extends Sort {
 				Writes.write(array, --p, array[i--], 1, true, false);
 		}
 		
-		if(p > b) this.shiftExtBW(array, m, b+1, p);
+		if(p > b) this.shiftBWExt(array, m, b+1, p);
 		
-		this.shiftExtBW(array, a, i+1, p);
+		this.shiftBWExt(array, a, i+1, p);
 	}
 	
 	protected void inPlaceMerge(int[] array, int a, int m, int b) {
