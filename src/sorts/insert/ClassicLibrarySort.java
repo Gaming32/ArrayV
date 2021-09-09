@@ -57,7 +57,9 @@ final public class ClassicLibrarySort extends Sort {
 	private int max;
 	
 	private void shiftExt(int[] array, int a, int m, int b) {
-		while(m > a) Writes.swap(array, --b, --m, 0.5, false, true);
+		int m1 = a + Math.min(m-a, b-m);
+		while(m > a)  Writes.write(array, --b, array[--m], 0.5, false, true);
+		while(a < m1) Writes.write(array, a++, this.max,   0.5, false, true);
 	}
 	
 	private int leftBlockSearch(int[] array, int a, int b, int val) {
