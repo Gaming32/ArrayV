@@ -113,7 +113,7 @@ final public class SynchronousSqrtSort extends BlockMergeSorting {
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
 		if(length <= 16) {
-			this.binaryInsertion(array, 0, length, 0.5);
+			this.binaryInsertion(array, 0, length);
 			return;
 		}
 		
