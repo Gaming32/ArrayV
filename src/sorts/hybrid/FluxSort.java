@@ -60,7 +60,7 @@ final public class FluxSort extends TwinSorting {
 		cnt = nmemb;
 		
 		while(--cnt > 0)
-			if(Reads.compareIndices(array, pta, ++pta, 1, true) > 0) balance++;
+			if(Reads.compareIndices(array, pta, ++pta, 0.5, true) > 0) balance++;
 		
 		if(balance == 0) return false;
 		
@@ -70,7 +70,7 @@ final public class FluxSort extends TwinSorting {
 		}
 		
 		if(balance <= nmemb / 6 || balance >= nmemb / 6 * 5) {
-			System.out.println("quadsort");
+			this.twinsort(array, nmemb);
 			return false;
 		}
 		
@@ -157,11 +157,11 @@ final public class FluxSort extends TwinSorting {
 		while(ptx < pte) {
 			Highlights.markArray(3, ptx);
 			val = (Reads.compareValues(main[ptx], piv)+1)/2;
-			Delays.sleep(0.5);
+			Delays.sleep(0.25);
 			
-			Writes.write(array, pta, main[ptx], 0.5, true, false); pta += val^1;
+			Writes.write(array, pta, main[ptx], 0.25, true, false); pta += val^1;
 			Highlights.markArray(2, pts);
-			Writes.write(swap,  pts, main[ptx], 0.5, false, true); pts += val;
+			Writes.write(swap,  pts, main[ptx], 0.25, false, true); pts += val;
 
 			ptx++;
 		}
@@ -194,7 +194,6 @@ final public class FluxSort extends TwinSorting {
 
 			Writes.deleteExternalArray(swap);
 		}
-		else this.twinsort(array, nmemb);
 	}
 	
     @Override
