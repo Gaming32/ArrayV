@@ -44,7 +44,7 @@ public abstract class MultiWayMergeSorting extends Sort {
 			int min = nxt + (this.keyLessThan(src, pa, heap[nxt], heap[nxt+1]) ? 0 : 1);
 
 			if(this.keyLessThan(src, pa, heap[min], t)) {
-				Writes.write(heap, r, heap[min], 0.5, true, true);
+				Writes.write(heap, r, heap[min], 0.25, true, true);
 				r = min;
 			}
 			else break;
@@ -52,36 +52,31 @@ public abstract class MultiWayMergeSorting extends Sort {
 		int min = 2*r+1;
 
 		if(min < size && this.keyLessThan(src, pa, heap[min], t)) {
-			Writes.write(heap, r, heap[min], 0.5, true, true);
+			Writes.write(heap, r, heap[min], 0.25, true, true);
 			r = min;
 		}
-		Writes.write(heap, r, t, 0.5, true, true);
+		Writes.write(heap, r, t, 0.25, true, true);
 	}
 
-	protected void kWayMerge(int[] src, int[] dest, int[] heap, int[] pa, int[] pb, int size) {
+	protected void kWayMerge(int[] src, int[] dest, int[] heap, int[] pa, int[] pb, int size, boolean auxWrite) {
 		for(int i = 0; i < size; i++)
 			Writes.write(heap, i, i, 0, false, true);
 
 		for(int i = (size-1)/2; i >= 0; i--)
 			this.siftDown(src, heap, pa, heap[i], i, size);
-		
-		for(int i = 0; i < size; i++)
-			Highlights.markArray(i+2, pa[i]);
 			
 		for(int i = 0; size > 0; i++) {
 			int min = heap[0];
 			
-			Writes.write(dest, i, src[pa[min]], 0.5, false, true);
+			Highlights.markArray(2, pa[min]);
+			
+			Writes.write(dest, i, src[pa[min]], 0.5, !auxWrite, auxWrite);
 			Writes.write(pa, min, pa[min]+1, 0, false, true);
 
-			if(pa[min] == pb[min]) {
-				Highlights.clearMark(min+2);
+			if(pa[min] == pb[min])
 				this.siftDown(src, heap, pa, heap[--size], 0, size);
-			}
-			else {
-				Highlights.markArray(min+2, pa[min]);
+			else 
 				this.siftDown(src, heap, pa, heap[0], 0, size);
-			}
 		}
 	}
 }
