@@ -183,8 +183,7 @@ final public class FluxSort extends TwinSorting {
 			this.fluxPartition(array, swap, array, start, aSize);
 	}
 	
-    @Override
-    public void runSort(int[] array, int nmemb, int bucketCount) {
+	public void fluxsort(int[] array, int nmemb) {
 		if(nmemb < 32)
 			this.twinsort(array, nmemb);
 		
@@ -195,5 +194,11 @@ final public class FluxSort extends TwinSorting {
 
 			Writes.deleteExternalArray(swap);
 		}
+		else this.twinsort(array, nmemb);
+	}
+	
+    @Override
+    public void runSort(int[] array, int nmemb, int bucketCount) {
+		this.fluxsort(array, nmemb);
     }
 }
