@@ -91,7 +91,7 @@ final public class ooPQuicksort extends Sort {
         int rightswappointer = end;
         Highlights.markArray(1, rightswappointer);
 
-        array[pivotpos] = 0;
+        Writes.visualClear(array, pivotpos);
 
         if (forwards) {
             int pointer = start;
@@ -113,7 +113,7 @@ final public class ooPQuicksort extends Sort {
                     Writes.write(swap, rightswappointer, array[pointer], 0.05, false, fromSwap);
                     rightswappointer--;
                 }
-                array[pointer] = 0;
+                Writes.visualClear(array, pointer);
                 pointer++;
                 Highlights.markArray(1, pointer);
                 Highlights.markArray(2, leftswappointer);
@@ -140,7 +140,7 @@ final public class ooPQuicksort extends Sort {
                     Writes.write(swap, rightswappointer, array[pointer], 0.05, false, fromSwap);
                     rightswappointer--;
                 }
-                array[pointer] = 0;
+                Writes.visualClear(array, pointer);
                 pointer--;
                 Highlights.markArray(1, pointer);
                 Highlights.markArray(2, leftswappointer);

@@ -244,6 +244,14 @@ final public class Writes {
         Delays.sleep(pause);
     }
 
+    public void visualClear(int[] array, int index) {
+        visualClear(array, index, 0);
+    }
+
+    public void visualClear(int[] array, int index, double delay) {
+        array[index] = -1;
+    }
+
     public void multiDimWrite(int[][] array, int x, int y, int equals, double pause, boolean mark, boolean auxwrite) {
         if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         if(mark) Highlights.markArray(1, x);

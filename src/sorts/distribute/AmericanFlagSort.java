@@ -109,7 +109,7 @@ final public class AmericanFlagSort extends Sort {
                     int from = origin;
                     int num = array[from];
                     
-                    Writes.write(array, from, -1, 0.5, true, false);
+                    Writes.visualClear(array, from, 0.5);
                     
                     do {
                         digit = this.getDigit(num, divisor);
