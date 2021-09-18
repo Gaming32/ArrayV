@@ -147,7 +147,7 @@ final public class RemiSort extends MultiWayMergeSorting {
 		}
 	}
 	private void kWayMerge(int[] array, int[] buf, int[] keys, int[] heap, int b, int[] pa, int[] p, int bLen, int rLen) {
-		int k = p.length, size = k, a = pa[0], a1 = pa[1], rCnt = pa.length;
+		int k = p.length, size = k, a = pa[0], a1 = pa[1];
 		
 		for(int i = 0; i < k; i++)
 			Writes.write(heap, i, i, 0, false, true);
@@ -201,7 +201,7 @@ final public class RemiSort extends MultiWayMergeSorting {
 			Writes.write(p, c, p[c]-1, 0, false, true);
 			Writes.write(array, --b, array[p[c]], 1, true, false);
 		}
-		Writes.write(pa, rCnt-1, b, 0, false, true);
+		Writes.write(pa, k-1, b, 0, false, true);
 		Writes.write(keys, keys.length-1, -1, 0, false, true);
 		
 		t = 0;
