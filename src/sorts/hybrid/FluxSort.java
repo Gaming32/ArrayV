@@ -1,6 +1,6 @@
 package sorts.hybrid;
 
-import sorts.templates.TwinSorting;
+import sorts.templates.QuadSorting;
 import main.ArrayVisualizer;
 
 /*
@@ -34,7 +34,7 @@ import main.ArrayVisualizer;
 	fluxsort 1.1.3.3
 */
 
-final public class FluxSort extends TwinSorting {
+final public class FluxSort extends QuadSorting {
     public FluxSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
@@ -70,7 +70,7 @@ final public class FluxSort extends TwinSorting {
 		}
 		
 		if(balance <= nmemb / 6 || balance >= nmemb / 6 * 5) {
-			this.twinsort(array, nmemb);
+			this.quadSort(array, 0, nmemb);
 			return false;
 		}
 		
@@ -172,20 +172,20 @@ final public class FluxSort extends TwinSorting {
 		
 		if(aSize <= sSize/16 || sSize <= FLUX_OUT) {
 			Writes.arraycopy(swap, 0, array, pta, sSize, 0.5, true, false);
-			this.twinsortSwap(array, pta, swap, sSize);
+			this.quadSortSwap(array, swap, pta, sSize);
 		}
 		else
 			this.fluxPartition(array, swap, swap, pta, sSize);
 
 		if(sSize <= aSize/16 || aSize <= FLUX_OUT)
-			this.twinsortSwap(array, start, swap, aSize);
+			this.quadSortSwap(array, swap, start, aSize);
 		else
 			this.fluxPartition(array, swap, array, start, aSize);
 	}
 	
 	public void fluxsort(int[] array, int nmemb) {
 		if(nmemb < 32)
-			this.twinsort(array, nmemb);
+			this.quadSort(array, 0, nmemb);
 		
 		else if(this.fluxAnalyze(array, nmemb)) {
 			int[] swap = Writes.createExternalArray(nmemb);
