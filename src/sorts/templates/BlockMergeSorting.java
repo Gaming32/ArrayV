@@ -55,13 +55,13 @@ public abstract class BlockMergeSorting extends Sort {
 	protected void insertTo(int[] array, int a, int b) {
         Highlights.clearMark(2);
         int temp = array[a];
-        while(a > b) Writes.write(array, a, array[(a--)-1], 0.5, true, false);
+        while(a > b) Writes.write(array, a, array[--a], 0.5, true, false);
         Writes.write(array, b, temp, 0.5, true, false);
     }
     protected void insertToBW(int[] array, int a, int b) {
         Highlights.clearMark(2);
         int temp = array[a];
-        while(a < b) Writes.write(array, a, array[(a++)+1], 0.5, true, false);
+        while(a < b) Writes.write(array, a, array[++a], 0.5, true, false);
         Writes.write(array, a, temp, 0.5, true, false);
     }
 	
