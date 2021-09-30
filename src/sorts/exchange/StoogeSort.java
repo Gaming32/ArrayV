@@ -31,20 +31,12 @@ final public class StoogeSort extends Sort {
     }
     
 	private void stoogeSort(int[] A, int i, int j) {
-	    if (Reads.compareValues(A[i], A[j]) == 1) {
+	    if (Reads.compareIndices(A, i, j, 0.0025, true) == 1) {
 	        Writes.swap(A, i, j, 0.005, true, false);
 	    }
 	    
-	    Delays.sleep(0.0025);
-	    
-	    Highlights.markArray(1, i);
-        Highlights.markArray(2, j);
-	    
         if (j - i + 1 >= 3) {
 	        int t = (j - i + 1) / 3;
-	        
-	        Highlights.markArray(3, j - t);
-	        Highlights.markArray(4, i + t);
 	
 	        this.stoogeSort(A, i, j-t);
 	        this.stoogeSort(A, i+t, j);
