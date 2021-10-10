@@ -102,7 +102,8 @@ public abstract class BlockMergeSorting extends Sort {
 		return a;
 	}
 	
-	protected void buildRuns(int[] array, int a, int b) {
+	protected boolean buildRuns(int[] array, int a, int b) {
+		boolean noSort = true;
         int i = a+1, j = a;
         
         while(i < b) {
@@ -112,14 +113,17 @@ public abstract class BlockMergeSorting extends Sort {
             }
             else while(i < b && Reads.compareIndices(array, i-1, i, 1, true) <= 0) i++;
             
-            if(i < b) j = i - (i-j-1)%this.MRUN - 1; //a%b, if(a%b == 0) -> a = b
-            
+            if(i < b) {
+				noSort = false;
+				j = i - (i-j-1)%this.MRUN - 1; //a%b, if(a%b == 0) -> a = b
+			}
             while(i-j < this.MRUN && i < b) {
                 this.insertTo(array, i, this.rightBinSearch(array, j, i, array[i]));
                 i++;
             }
             j = i++;
         }
+		return noSort;
     }
 	
 	protected int findKeys(int[] array, int a, int b, int nKeys, int n) {
