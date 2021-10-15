@@ -52,7 +52,7 @@ final public class ColorCircle extends Visual {
         int n = ArrayVisualizer.getCurrentLength();
         
         double r = Math.min(width, height)/2.75;
-        int p = (int)(r/16);
+        int p = (int)(r/12);
         
         int[] x  = new int[3];
         int[] y  = new int[3];
@@ -78,22 +78,25 @@ final public class ColorCircle extends Visual {
             if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
                 
-            else if(Highlights.containsPosition(i)) {
-                if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
-                else                                  this.mainRender.setColor(Color.WHITE);
-                
-                px[0] =  width/2 + (int)((r + p/4) * Math.cos(Math.PI * ((2d*i - 1) / n - 0.5)));
-                py[0] = height/2 + (int)((r + p/4) * Math.sin(Math.PI * ((2d*i - 1) / n - 0.5)));
-                
-                px[1] = px[0] + (int)(p * Math.cos(Math.PI * ((2d*i - 1) / n - 0.67)));
-                py[1] = py[0] + (int)(p * Math.sin(Math.PI * ((2d*i - 1) / n - 0.67)));
-                
-                px[2] = px[0] + (int)(p * Math.cos(Math.PI * ((2d*i - 1) / n - 0.33)));
-                py[2] = py[0] + (int)(p * Math.sin(Math.PI * ((2d*i - 1) / n - 0.33)));
-                
-                this.extraRender.fillPolygon(px, py, 3); 
+            else {
+				this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+				
+				if(Highlights.containsPosition(i)) {
+					if(ArrayVisualizer.analysisEnabled()) this.extraRender.setColor(Color.LIGHT_GRAY);
+					else                                  this.extraRender.setColor(Color.WHITE);
+					
+					px[0] =  width/2 + (int)((r + p/4) * Math.cos(Math.PI * ((2d*i - 1) / n - 0.5)));
+					py[0] = height/2 + (int)((r + p/4) * Math.sin(Math.PI * ((2d*i - 1) / n - 0.5)));
+					
+					px[1] = px[0] + (int)(p * Math.cos(Math.PI * ((2d*i - 1) / n - 0.67)));
+					py[1] = py[0] + (int)(p * Math.sin(Math.PI * ((2d*i - 1) / n - 0.67)));
+					
+					px[2] = px[0] + (int)(p * Math.cos(Math.PI * ((2d*i - 1) / n - 0.33)));
+					py[2] = py[0] + (int)(p * Math.sin(Math.PI * ((2d*i - 1) / n - 0.33)));
+					
+					this.extraRender.fillPolygon(px, py, 3); 
+				}
             }
-            else this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
             
             if(x[1] != x[2] || y[1] != y[2]) this.mainRender.fillPolygon(x, y, 3); 
         }
