@@ -412,6 +412,35 @@ public enum Shuffles {
             }
         }
     },
+    REAL_FINAL_RADIX {
+        public String getName() {
+            return "Real Final Radix";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            int currentLen = ArrayVisualizer.getCurrentLength();
+            boolean delay = ArrayVisualizer.shuffleEnabled();
+            
+			int mask = 0;
+			for(int i = 0; i < currentLen; i++)
+				while(mask < array[i]) mask = (mask << 1) + 1;
+			mask >>= 1;
+			
+			int[] counts = new int[mask+2];
+			int[] tmp    = new int[currentLen];
+			
+			System.arraycopy(array, 0, tmp, 0, currentLen);
+			
+			for(int i = 0; i < currentLen; i++)
+				counts[(array[i]&mask)+1]++;
+			
+			for(int i = 1; i < counts.length; i++)
+				counts[i] += counts[i-1];
+			
+			for(int i = 0; i < currentLen; i++)
+				Writes.write(array, counts[tmp[i]&mask]++, tmp[i], 1, true, false);
+        }
+    },
     REC_RADIX {
         public String getName() {
             return "Recursive Final Radix";
