@@ -38,9 +38,6 @@ public abstract class MergeSorting extends Sort {
     
     private void merge(int[] array, int[] tmp, int start, int mid, int end, boolean binary) {
         if(start == mid) return;
-        
-        merge(array, tmp, start, (mid+start)/2, mid, binary);
-        merge(array, tmp, mid, (mid+end)/2, end, binary);
 
         if(end - start < 32 && binary) {
             return;
@@ -49,6 +46,9 @@ public abstract class MergeSorting extends Sort {
             binaryInserter.customBinaryInsert(array, start, end, 0.333);
         }
         else {
+            merge(array, tmp, start, (mid+start)/2, mid, binary);
+            merge(array, tmp, mid, (mid+end)/2, end, binary);
+            
             int low = start;
             int high = mid;
             
