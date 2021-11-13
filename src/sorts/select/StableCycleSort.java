@@ -58,25 +58,16 @@ final public class StableCycleSort extends Sort {
 	}
 	
 	private int destination1(int[] array, int[] bits, int a, int b1, int b) {
-		int d = 0, e = 0;
+		int d = a, e = 0;
 		
-		while(d < a && Reads.compareValues(array[d], array[a]) == -1) {
-			d++;
-			
-			Highlights.markArray(3, d);
-			Delays.sleep(0.01);
-		}
 		for(int i = a+1; i < b; i++) {
 			Highlights.markArray(2, i);
-			if(Reads.compareValues(array[i], array[a]) == -1) d++;
+			int cmp = Reads.compareValues(array[i], array[a]);
+			
+			if(cmp < 0) d++;
+			else if(i < b1 && !this.getBit(bits, i) && cmp == 0) e++;
 			
 			Highlights.markArray(3, d);
-			Delays.sleep(0.01);
-		}
-		for(int i = a+1; i < b1; i++) {
-			Highlights.markArray(2, i);
-			if(!this.getBit(bits, i) && Reads.compareValues(array[i], array[a]) == 0) e++;
-			
 			Delays.sleep(0.01);
 		}
 		while(this.getBit(bits, d) || e-- > 0) {
