@@ -1,18 +1,16 @@
 package sorts.hybrid;
 
 import main.ArrayVisualizer;
-import sorts.insert.PatternDefeatingInsertionSort;
 import sorts.templates.Sort;
 
 final public class OptimizedRotateMergeSort extends Sort {
-    final int MIN_RUN = 8;
+    final int MIN_RUN = 32;
 
-    PatternDefeatingInsertionSort inserter;
     int[] tmp;
 
     public OptimizedRotateMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Optimized Rotate Merge");
         this.setRunAllSortsName("Optimized Rotate Merge Sort");
         this.setRunSortName("Optimized Rotate Mergesort");
@@ -28,7 +26,7 @@ final public class OptimizedRotateMergeSort extends Sort {
 
     protected void rotateInPlace(int[] array, int pos, int lenA, int lenB) {
         if(lenA < 1 || lenB < 1) return;
-        
+
         int a = pos,
             b = pos + lenA - 1,
             c = pos + lenA,
@@ -62,7 +60,7 @@ final public class OptimizedRotateMergeSort extends Sort {
 
     protected void rotate(int[] array, int pos, int left, int right) {
         if(left < 1 || right < 1) return;
-        
+
         int pta = pos, ptb = pos + left, ptc = pos + right, ptd = ptb + right;
 
         if(left < right) {
@@ -70,7 +68,7 @@ final public class OptimizedRotateMergeSort extends Sort {
 
             if(bridge < left) {
                 int loop = left;
-                
+
                 if (bridge > tmp.length) {
                     rotateInPlace(array, pos, left, right);
                     return;
@@ -89,7 +87,7 @@ final public class OptimizedRotateMergeSort extends Sort {
                     rotateInPlace(array, pos, left, right);
                     return;
                 }
-                
+
                 Writes.arraycopy(array, pta, tmp, 0, left, 1, true, true);
                 Writes.arraycopy(array, ptb, array, pta, right, 1, true, false);
                 Writes.arraycopy(tmp, 0, array, ptc, left, 1, true, false);
@@ -105,11 +103,11 @@ final public class OptimizedRotateMergeSort extends Sort {
                 }
 
                 int loop = right;
-                
+
                 Writes.arraycopy(array, ptc, tmp, 0, bridge, 1, true, true);
-                
+
                 while(loop-- > 0) {
-                    Writes.write(array, ptc++, array[pta],   0.5, true, false); 
+                    Writes.write(array, ptc++, array[pta],   0.5, true, false);
                     Writes.write(array, pta++, array[ptb++], 0.5, true, false);
                 }
                 Writes.arraycopy(tmp, 0, array, ptd - bridge, bridge, 1, true, false);
@@ -119,7 +117,7 @@ final public class OptimizedRotateMergeSort extends Sort {
                     rotateInPlace(array, pos, left, right);
                     return;
                 }
-                
+
                 Writes.arraycopy(array, ptb, tmp, 0, right, 1, true, true);
                 while(left-- > 0)
                     Writes.write(array, --ptd, array[--ptb], 1, true, false);
@@ -127,7 +125,7 @@ final public class OptimizedRotateMergeSort extends Sort {
             }
         }
         else {
-            while(left-- > 0) 
+            while(left-- > 0)
                 Writes.swap(array, pta++, ptb++, 1, true, false);
             Highlights.clearMark(2);
         }
@@ -151,7 +149,7 @@ final public class OptimizedRotateMergeSort extends Sort {
                 Writes.write(array, left++, array[right++], 1, true, false);
         }
         Highlights.clearMark(2);
-    
+
         while (left < right)
             Writes.write(array, left++, tmp[bufferPointer++], 0.5, true, false);
         Highlights.clearAllMarks();
@@ -188,7 +186,7 @@ final public class OptimizedRotateMergeSort extends Sort {
 
         while (top > 1) {
             mid = top / 2;
-            
+
             if (Reads.compareValueIndex(array, value, end - mid, 0.5, true) <= 0) {
                 end -= mid;
             }
@@ -224,26 +222,26 @@ final public class OptimizedRotateMergeSort extends Sort {
     private int leftExpSearch(int[] array, int a, int b, int val) {
         int i = 1;
         while(a - 1 + i < b && Reads.compareValueIndex(array, val, a - 1 + i, 0.5, true) >= 0) i *= 2;
-        
+
         return this.monoboundRight(array, a + i / 2, Math.min(b, a - 1 + i), val);
     }
-    
+
     private int rightExpSearch(int[] array, int a, int b, int val) {
         int i = 1;
         while(b - i >= a && Reads.compareValueIndex(array, val, b - i, 0.5, true) <= 0) i *= 2;
-        
+
         return this.monoboundLeft(array, Math.max(a, b - i + 1), b - i / 2, val);
     }
 
     protected void merge(int[] array, int start, int mid, int end) {
         if (start >= mid) return;
+        end = rightExpSearch(array, mid, end, array[mid - 1]);
+        if (end < mid) return;
+        start = leftExpSearch(array, start, mid, array[mid]);
         if (Reads.compareIndices(array, start, end - 1, 1, true) > 0) {
             rotate(array, start, mid - start, end - mid);
             return;
         }
-        end = rightExpSearch(array, mid, end, array[mid - 1]);
-        if (end < mid) return;
-        start = leftExpSearch(array, start, mid, array[mid]);
         int llen = mid - start, rlen = end - mid;
         if (((llen < rlen) ? llen : rlen) > tmp.length) {
             int m1, m2, m3;
@@ -267,18 +265,36 @@ final public class OptimizedRotateMergeSort extends Sort {
             }
         }
     }
-    
+
+    public void insertionSort(int[] array, int a, int b, double sleep, boolean auxwrite) {
+        int i = a + 1;
+        if(Reads.compareIndices(array, i - 1, i++, sleep, true) == 1) {
+            while(i < b && Reads.compareIndices(array, i - 1, i, sleep, true) == 1) i++;
+            Writes.reversal(array, a, i - 1, sleep, true, auxwrite);
+        }
+        else while(i < b && Reads.compareIndices(array, i - 1, i, sleep, true) <= 0) i++;
+
+        Highlights.clearMark(2);
+
+        while(i < b) {
+            int dest = monoboundRight(array, a, i, array[i]);
+            int tmp = array[i];
+            Writes.arraycopy(array, dest, array, dest + 1, i - dest, 0.5, true, false);
+            Writes.write(array, dest, tmp, 0.5, true, false);
+            i++;
+        }
+    }
+
     @Override
     public void runSort(int[] array, int currentLength, int tempLen) {
         this.tmp = Writes.createExternalArray(tempLen);
-        inserter = new PatternDefeatingInsertionSort(arrayVisualizer);
 
         int i;
         for (i = 0; i + MIN_RUN < currentLength; i += MIN_RUN) {
-            inserter.insertionSort(array, i, i + MIN_RUN, 0.5, false);
+            insertionSort(array, i, i + MIN_RUN, 0.5, false);
         }
         if (i + 1 < currentLength) {
-            inserter.insertionSort(array, i, currentLength, 0.5, false);
+            insertionSort(array, i, currentLength, 0.5, false);
         }
 
         int gap, fullMerge;
