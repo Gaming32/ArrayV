@@ -8,7 +8,7 @@ import utils.Reads;
 import utils.Writes;
 
 /*
- * 
+ *
 This is free and unencumbered software released into the public domain.
 
 Anyone is free to copy, modify, publish, use, compile, sell, or
@@ -64,11 +64,11 @@ final class Range {
 final class Pull {
     public int from, to, count;
     public Range range;
-    
+
     public Pull() {
         this.range = new Range(0, 0);
     }
-    
+
     void reset() {
         this.range.set(0, 0);
         this.from = 0;
@@ -149,42 +149,42 @@ final public class WikiSorting {
     // just keep in mind that making it too small ruins the point (nothing will fit into it),
     // and making it too large also ruins the point (so much for "low memory"!)
     private InsertionSort InsertSort;
-    
+
     private Delays Delays;
     private Highlights Highlights;
     private Reads Reads;
     private Writes Writes;
-    
+
     private static int cache_size = 0;
     private int[] cache;
 
     // note that you can easily modify the above to allocate a dynamically sized cache
     // good choices for the cache size are:
-    
+
     // (size + 1)/2 – turns into a full-speed standard merge sort since everything fits into the cache
     // sqrt((size + 1)/2) + 1 – this will be the size of the A blocks at the largest level of merges,
     // so a buffer of this size would allow it to skip using internal or in-place merges for anything
-    
+
     // Original static buffer = 512 – chosen from careful testing as a good balance between fixed-size memory use and run time
     // ArrayVisualizer static buffer = 32, as the numbers of items we use for visual purposes is relatively small
-    
+
     // 0 – if the system simply cannot allocate any extra memory whatsoever, no memory works just fine
 
-    
+
     public WikiSorting(InsertionSort insertionSort, ArrayVisualizer arrayVisualizer, int cacheChoice) {
         this.InsertSort = insertionSort;
-        
+
         this.Delays = arrayVisualizer.getDelays();
         this.Highlights = arrayVisualizer.getHighlights();
         this.Reads = arrayVisualizer.getReads();
         this.Writes = arrayVisualizer.getWrites();
-        
+
         cache_size = cacheChoice;
-        
+
         if(cache_size != 0) this.cache = Writes.createExternalArray(cache_size);
         else this.cache = null;
     }
-    
+
     public static void sort(WikiSorting WikiSort, int[] array, int currentLen) {
         WikiSort.Sort(array, currentLen);
         if (WikiSort.cache != null) WikiSort.Writes.deleteExternalArray(WikiSort.cache);
@@ -311,9 +311,9 @@ final public class WikiSorting {
             } else {
                 if (range2.length() <= cache_size) {
                     if (cache != null) {
-                        Writes.reversearraycopy(array, range2.start, cache, 0, range2.length(), 1, true, true);
-                        Writes.reversearraycopy(array, range1.start, array, range2.end - range1.length(), range1.length(), 1, true, false);
-                        Writes.reversearraycopy(cache, 0, array, range1.start, range2.length(), 1, true, false);
+                        Writes.arraycopy(array, range2.start, cache, 0, range2.length(), 1, true, true);
+                        Writes.arraycopy(array, range1.start, array, range2.end - range1.length(), range1.length(), 1, true, false);
+                        Writes.arraycopy(cache, 0, array, range1.start, range2.length(), 1, true, false);
                     }
                     return;
                 }
@@ -324,20 +324,20 @@ final public class WikiSorting {
         int lenA = range1.length();
         int lenB = range2.length();
         int pos = range.start;
-        
+
         while(lenA != 0 && lenB != 0) {
             if(lenA <= lenB) {
                 this.BlockSwap(array, pos, pos + lenA, lenA);
                 pos += lenA;
                 lenB -= lenA;
-            } 
+            }
             else {
                 this.BlockSwap(array, pos + (lenA - lenB), pos + lenA, lenB);
                 lenA -= lenB;
             }
         }
         */
-        
+
         Reverse(array, range1);
         Reverse(array, range2);
         Reverse(array, range);
@@ -354,10 +354,10 @@ final public class WikiSorting {
         while (true) {
             if (Reads.compareValues(from[B_index], from[A_index]) >= 0) {
                 Writes.write(into, insert_index, from[A_index], 1, false, tempwrite);
-                
+
                 if(tempwrite) Highlights.markArray(1, A_index);
                 else Highlights.markArray(1, insert_index);
-                
+
                 A_index++;
                 insert_index++;
                 if (A_index == A_last) {
@@ -367,10 +367,10 @@ final public class WikiSorting {
                 }
             } else {
                 Writes.write(into, insert_index, from[B_index], 1, false, tempwrite);
-                
+
                 if(tempwrite) Highlights.markArray(1, B_index);
                 else Highlights.markArray(1, insert_index);
-                
+
                 B_index++;
                 insert_index++;
                 if (B_index == B_last) {
@@ -410,7 +410,7 @@ final public class WikiSorting {
         }
         Highlights.clearMark(3);
         Highlights.clearMark(4);
-        
+
         // copy the remainder of A into the final array
         if (cache != null) {
             Writes.arraycopy(cache, A_index, array, insert_index, A_last - A_index, 1, true, false);
@@ -443,7 +443,7 @@ final public class WikiSorting {
             }
         }
         Highlights.clearMark(3);
-        
+
         // swap the remainder of A into the final array
         BlockSwap(array, buffer.start + A_count, A.start + insert, A.length() - A_count);
     }
@@ -620,7 +620,7 @@ final public class WikiSorting {
                         } else {
                             // if A1, B1, A2, and B2 are all in order, skip doing anything else
                             if (Reads.compareValues(array[B2.start], array[A2.end - 1]) >= 0 && Reads.compareValues(array[A2.start], array[B1.end - 1]) >= 0) continue;
-                            
+
                             // copy A1 and B1 into the cache in the same order
                             Writes.arraycopy(array, A1.start, cache, 0, A1.length(), 1, true, true);
                             Writes.arraycopy(array, B1.start, cache, A1.length(), B1.length(), 1, true, true);
@@ -1025,7 +1025,7 @@ final public class WikiSorting {
                 }
 
                 Highlights.clearMark(2);
-                
+
                 // when we're finished with this merge step we should have the one or two internal buffers left over, where the second buffer is all jumbled up
                 // insertion sort the second buffer, then redistribute the buffers back into the array using the opposite process used for creating the buffer
 
@@ -1060,7 +1060,7 @@ final public class WikiSorting {
                     }
                 }
             }
-            
+
             // double the size of each A and B subarray that will be merged in the next level
             if (!iterator.nextLevel()) break;
         }

@@ -366,7 +366,7 @@ final public class Writes {
      */
     public void arraycopy(int[] src, int srcPos, int[] dest, int destPos, int length, double sleep, boolean mark, boolean aux) {
         int start, end, dir;
-        if (src == dest || srcPos < destPos) {
+        if (src != dest || destPos < srcPos) {
             start = 0;
             end = length;
             dir = 1;
