@@ -57,39 +57,36 @@ final public class FlanSort extends MultiWayMergeSorting {
 		if(Reads.compareValues(array[m], array[a]) > 0) {
 			if(Reads.compareValues(array[m], array[b]) < 0)
 				return m;
-			
 			if(Reads.compareValues(array[a], array[b]) > 0)
 				return a;
-			
 			else
 				return b;
 		}
 		else {
 			if(Reads.compareValues(array[m], array[b]) > 0)
 				return m;
-			
 			if(Reads.compareValues(array[a], array[b]) < 0)
 				return a;
-			
 			else
 				return b;
 		}
 	}
+	//when shuffled the first 9 and 27 items will be accessed instead respectively
 	private int ninther(int[] array, int a, int b) {
-		int s = (b-a)/9;
+		int s = (b-a)/9; 
 		
-		int a1 = this.medianOfThree(array, a,       a +   s, a + 2*s);
-		int m1 = this.medianOfThree(array, a + 3*s, a + 4*s, a + 5*s);
-		int b1 = this.medianOfThree(array, a + 6*s, a + 7*s, a + 8*s);
+		int a1 = this.medianOfThree(array, a,     a+  s, a+2*s);
+		int m1 = this.medianOfThree(array, a+3*s, a+4*s, a+5*s);
+		int b1 = this.medianOfThree(array, a+6*s, a+7*s, a+8*s);
 		
 		return this.medianOfThree(array, a1, m1, b1);
 	}
 	private int medianOfThreeNinthers(int[] array, int a, int b) {
-		int s = (b-a+2)/3;
+		int s = (b-a)/3;
 		
-		int a1 = this.ninther(array, a      , a +   s);
-		int m1 = this.ninther(array, a +   s, a + 2*s);
-		int b1 = this.ninther(array, a + 2*s, b);
+		int a1 = this.ninther(array, a, a+s);
+		int m1 = this.ninther(array, a+s, a+2*s);
+		int b1 = this.ninther(array, a+2*s, b);
 		
 		return this.medianOfThree(array, a1, m1, b1);
 	}
@@ -287,24 +284,35 @@ final public class FlanSort extends MultiWayMergeSorting {
 			int piv = array[this.medianOfThreeNinthers(array, a, b)];
 			
 			//partition -> [a][E > piv][i][E == piv][j][E < piv][b]
-			int i = a, j = b;
-			for(int k = i; k < j; k++) {
-				if(Reads.compareValues(array[k], piv) == 1)
-					Writes.swap(array, k, i++, 1, true, false);
+			int i1 = a, i = a-1, j = b, j1 = b;
+			
+			for(;;) {
+				while(++i < j) {
+					int cmp = Reads.compareIndexValue(array, i, piv, 0.5, true);
+					if(cmp == 0) Writes.swap(array, i1++, i, 1, true, false);
+					else if(cmp < 0) break;
+				}
+				Highlights.clearMark(2);
+				
+				while(--j > i) {
+					int cmp = Reads.compareIndexValue(array, j, piv, 0.5, true);
+					if(cmp == 0) Writes.swap(array, --j1, j, 1, true, false);
+					else if(cmp > 0) break;
+				}
+				Highlights.clearMark(2);
 					
-				else if(Reads.compareValues(array[k], piv) == -1) {
-					do {
-						j--;
-						Highlights.markArray(3, j);
-						Delays.sleep(1);
-					}
-					while(j > k && Reads.compareValues(array[j], piv) == -1);
+				if(i < j) {
+					Writes.swap(array, i, j, 1, true, false);
+					Highlights.clearMark(2);
+				}
+				else {
+					if(i1 == b) return;
+					else if(j < i) j++;
 					
-					Writes.swap(array, k, j, 1, true, false);
-					Highlights.clearMark(3);
+					while(i1 > a) Writes.swap(array, --i, --i1, 1, true, false);
+					while(j1 < b) Writes.swap(array, j++, j1++, 1, true, false);
 					
-					if(Reads.compareValues(array[k], piv) == 1)
-						Writes.swap(array, k, i++, 1, true, false);
+					break;
 				}
 			}
 			
