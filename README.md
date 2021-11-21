@@ -113,7 +113,7 @@ If you don't want to use Apache Ant or the Java command line, a runnable jar tha
     - Introspective CircleSort
     - Orson Peters' "Pattern-Defeating Quicksort" (PDQSort)
     - Branchless PDQSort
-    - Morween's implementation of "Poplar Heapsort"
+    - Morwenn's implementation of "Poplar Heapsort"
     - Recursive Binary Quicksort
     - Iterative Binary Quicksort
     - Iterative Bitonic Sort
