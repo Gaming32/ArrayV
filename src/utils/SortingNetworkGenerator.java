@@ -1,111 +1,133 @@
 package utils;
 
 import java.awt.Desktop;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.ProcessBuilder.Redirect;
-import java.util.stream.Collectors;
-import java.text.DecimalFormat;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
 
-import frames.UtilFrame;
 import panes.JErrorPane;
-import resources.sorting_network_master.SortingNetworkFetcher;
 
 public class SortingNetworkGenerator {
-    static DecimalFormat formatter = new DecimalFormat();
+    private static final class Comparator {
+        int i1, i2;
 
-    static boolean hasPython = false;
-    static String pythonCommand = null;
+        Comparator(int i1, int i2) {
+            this.i1 = i1;
+            this.i2 = i2;
+        }
+
+        @Override
+        public String toString() {
+            return i1 + ":" + i2;
+        }
+
+        @Override
+        public int hashCode() {
+            return (i1 << 16) + i2;
+        }
+
+        boolean overlaps(Comparator other) {
+            return (this.i1 < other.i1 && other.i1 < this.i2) ||
+                   (this.i1 < other.i2 && other.i2 < this.i2) ||
+                   (other.i1 < this.i1 && this.i1 < other.i2) ||
+                   (other.i1 < this.i2 && this.i2 < other.i2);
+        }
+
+        boolean hasSameInput(Comparator other) {
+            return this.i1 == other.i1 ||
+                   this.i1 == other.i2 ||
+                   this.i2 == other.i1 ||
+                   this.i2 == other.i2;
+        }
+    }
 
     final static int LIMIT = 20000;
 
-    static boolean verifyPythonVersion(String minVersion, String command) {
-        try {
-            ProcessBuilder builder = new ProcessBuilder(command, "-c",
-                String.format("import sys; print (sys.version_info >= (%s))", minVersion));
-            Process p = builder.start();
-            if (p.waitFor() != 0) {
-                return false;
-            }
-            BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            if (r.readLine().equals("True")) {
-                pythonCommand = command;
-                return true;
-            }
-            return false;
-        }
-        catch (IOException e) {
-            return false;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static boolean verifyPythonVersion() {
-        return (hasPython = hasPython // This caches the result if it's true
-            || verifyPythonVersion("3, 2, 0", "python3")
-            || verifyPythonVersion("3, 2, 0", "python")
-            || verifyPythonVersion("3, 2, 0", "py"));
-    }
-
     public static boolean verifyPythonVersionAndDialog() {
-        boolean hasVersion = verifyPythonVersion();
-        if (!hasVersion) {
-            JOptionPane.showMessageDialog(null, "It appears that you do not have Python 3.2 or later installed on your computer! Please install it before using this mode.",
-                "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE);
-        }
-        return hasVersion;
+        // TODO: Remove this method
+        return true;
     }
 
-    public static boolean encodeNetwork(int[] indices, String path) {
-        if (indices.length < 2) {
-            JOptionPane.showMessageDialog(null, "Sort does not compare indices; An empty sorting network cannot be generated.",
-                "File not saved", JOptionPane.ERROR_MESSAGE);
-
-            return false;
-        }
-        else if (indices.length > 2*LIMIT) {
-            String[] options = {"Yes", "Cancel"};
-            int choice = JOptionPane.showOptionDialog(null, "Sorting network is very large and exceeds the " + formatter.format(LIMIT) + " comparator limit. Generate anyway?",
-                "Warning!", 2, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-
-            if (choice == 1) {
-                return false;
+    private static int getMaxInput(List<Comparator> comparators) {
+        int maxInput = 0;
+        for (Comparator c : comparators) {
+            if (c.i2 > maxInput) {
+                maxInput = c.i2;
             }
         }
-        String result = indices[0] + ":" + indices[1];
-        for (int i = 3; i < indices.length; i += 2) {
-            result += "," + indices[i - 1] + ":" + indices[i];
+        return maxInput;
+    }
+
+    public static boolean encodeNetwork(Integer[] indices, String path) {
+        List<Comparator> comparators = new ArrayList<>(indices.length / 2);
+        for (int i = 1; i < indices.length; i += 2) {
+            comparators.add(new Comparator(indices[i - 1], indices[i]));
         }
-        SortingNetworkFetcher fetcher = new SortingNetworkFetcher();
-        try {
-            ProcessBuilder builder = new ProcessBuilder(pythonCommand, "-c",
-                new BufferedReader(new InputStreamReader(fetcher.getStream())).lines().collect(Collectors.joining("\n")),
-                "--svg", path);
-            builder.redirectOutput(Redirect.INHERIT);
-            Process p = builder.start();
-            BufferedWriter w = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
-            w.write(result);
-            w.close();
-            if (p.waitFor() != 0) {
-                BufferedReader r = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                JErrorPane.invokeCustomErrorMessage(r.lines().collect(Collectors.joining("\n")));
-                return false;
+
+        int scale = 1;
+        int xScale = scale * 35;
+        int yScale = scale * 20;
+
+        StringBuilder comparatorsSvg = new StringBuilder();
+        double w = xScale;
+        Map<Comparator, Double> group = new HashMap<>();
+        for (Comparator c : comparators) {
+            for (Comparator other : group.keySet()) {
+                if (c.hasSameInput(other)) {
+                    for (double pos : group.values()) {
+                        if (pos > w) {
+                            w = pos;
+                        }
+                    }
+                    w += xScale;
+                    group.clear();
+                    break;
+                }
             }
+
+            double cx = w;
+            for (Entry<Comparator, Double> entry : group.entrySet()) {
+                Comparator other = entry.getKey();
+                double otherPos = entry.getValue();
+                if (otherPos >= cx && c.overlaps(other)) {
+                    cx = otherPos + xScale / 3.0;
+                }
+            }
+
+            int y0 = yScale + c.i1 * yScale;
+            int y1 = yScale + c.i2 * yScale;
+            comparatorsSvg.append(String.format("<circle cx='%1$f' cy='%2$d' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>", cx, y0))
+                          .append(String.format("<line x1='%1$f' y1='%2$d' x2='%1$f' y2='%3$d' style='stroke:black;stroke-width:1'/>", cx, y0, y1))
+                          .append(String.format("<circle cx='%1$f' cy='%2$d' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>", cx, y1));
+            group.put(c, cx);
         }
-        catch (IOException e) {
-            JErrorPane.invokeErrorMessage(e, "Sorting Network Visualizer");
-            return false;
+
+        StringBuilder linesSvg = new StringBuilder();
+        w += xScale;
+        int n = getMaxInput(comparators) + 1;
+        for (int i = 0; i < n; i++) {
+            int y = yScale + i * yScale;
+            linesSvg.append(String.format("<line x1='0' y1='%1$d' x2='%2$f' y2='%1$d' style='stroke:black;stroke-width:1'/>", y, w));
         }
-        catch (Exception e) {
+
+        int h = (n + 1) * yScale;
+        try (PrintWriter writer = new PrintWriter(path, "UTF-8")) {
+            writer.write(
+                "<?xml version='1.0' encoding='utf-8'?>" +
+			    "<!DOCTYPE svg>" +
+			    String.format("<svg width='%1$fpx' height='%2$dpx' xmlns='http://www.w3.org/2000/svg'>", w, h) +
+			    comparatorsSvg +
+			    linesSvg +
+			    "</svg>"
+            );
+        } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e, "Sorting Network Visualizer");
             return false;
         }
@@ -114,11 +136,7 @@ public class SortingNetworkGenerator {
 
     public static String encodeNetworkAndDisplay(String name, Integer[] indices, int arrayLength) {
         String path = "network_" + name + "_" + arrayLength + ".svg";
-        int[] indicesInt = new int[indices.length];
-        for (int i = 0; i < indices.length; i++) {
-            indicesInt[i] = indices[i];
-        }
-        if (!encodeNetwork(indicesInt, path)) {
+        if (!encodeNetwork(indices, path)) {
             return null;
         }
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + path + "\"",
