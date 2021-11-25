@@ -65,7 +65,7 @@ public class SortingNetworkGenerator {
         return maxInput;
     }
 
-    public static boolean encodeNetwork(Integer[] indices, String path) {
+    public static boolean encodeNetwork(Integer[] indices, File file) {
         List<Comparator> comparators = new ArrayList<>(indices.length / 2);
         for (int i = 1; i < indices.length; i += 2) {
             comparators.add(new Comparator(indices[i - 1], indices[i]));
@@ -118,7 +118,7 @@ public class SortingNetworkGenerator {
         }
 
         int h = (n + 1) * yScale;
-        try (PrintWriter writer = new PrintWriter(path, "UTF-8")) {
+        try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
             writer.write(
                 "<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>" +
 			    "<svg width='" + w + "px' height='" + h + "px' xmlns='http://www.w3.org/2000/svg'>" +
@@ -135,12 +135,12 @@ public class SortingNetworkGenerator {
 
     public static String encodeNetworkAndDisplay(String name, Integer[] indices, int arrayLength) {
         String path = "network_" + name + "_" + arrayLength + ".svg";
-        if (!encodeNetwork(indices, path)) {
+        File file = new File(path);
+        if (!encodeNetwork(indices, file)) {
             return null;
         }
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + path + "\"",
             "Sorting Network Visualizer", JOptionPane.INFORMATION_MESSAGE);
-        File file = new File(path);
         Desktop desktop = Desktop.getDesktop();
         try {
             desktop.open(file);
