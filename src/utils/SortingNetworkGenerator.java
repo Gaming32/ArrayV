@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -48,14 +47,7 @@ public class SortingNetworkGenerator {
         }
     }
 
-    final static int LIMIT = 20000;
-
-    public static boolean verifyPythonVersionAndDialog() {
-        // TODO: Remove this method
-        return true;
-    }
-
-    private static int getMaxInput(List<Comparator> comparators) {
+    private static int getMaxInput(Comparator[] comparators) {
         int maxInput = 0;
         for (Comparator c : comparators) {
             if (c.i2 > maxInput) {
@@ -65,12 +57,7 @@ public class SortingNetworkGenerator {
         return maxInput;
     }
 
-    public static boolean encodeNetwork(Integer[] indices, File file) {
-        List<Comparator> comparators = new ArrayList<>(indices.length / 2);
-        for (int i = 1; i < indices.length; i += 2) {
-            comparators.add(new Comparator(indices[i - 1], indices[i]));
-        }
-
+    public static boolean encodeNetwork(Comparator[] comparators, File file) {
         int scale = 1;
         int xScale = scale * 35;
         int yScale = scale * 20;
@@ -119,13 +106,11 @@ public class SortingNetworkGenerator {
 
         int h = (n + 1) * yScale;
         try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
-            writer.write(
-                "<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>" +
-			    "<svg width='" + w + "px' height='" + h + "px' xmlns='http://www.w3.org/2000/svg'>" +
-			    comparatorsSvg +
-			    linesSvg +
-			    "</svg>"
-            );
+            writer.write("<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>");
+            writer.write("<svg width='" + w + "px' height='" + h + "px' xmlns='http://www.w3.org/2000/svg'>");
+            writer.write(comparatorsSvg.toString());
+            writer.write(linesSvg.toString());
+            writer.write("</svg>");
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e, "Sorting Network Visualizer");
             return false;
@@ -133,10 +118,31 @@ public class SortingNetworkGenerator {
         return true;
     }
 
-    public static String encodeNetworkAndDisplay(String name, Integer[] indices, int arrayLength) {
+    public static String encodeNetworkAndDisplay(String name, ArrayList<Integer> indices, int arrayLength) {
+        Comparator[] comparators;
+        try {
+            comparators = new Comparator[indices.size() / 2];
+            for (int i = 0, j = 1; i < comparators.length; i++, j += 2) {
+                comparators[i] = new Comparator(indices.get(j - 1), indices.get(j));
+            }
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeErrorMessage(e, "Sorting Network Visualizer");
+            return null;
+        }
+        System.out.println("Length: " + arrayLength + "\tComparators: " + comparators.length / 2);
+        indices.clear();
+        indices.trimToSize();
         String path = "network_" + name + "_" + arrayLength + ".svg";
         File file = new File(path);
-        if (!encodeNetwork(indices, file)) {
+        try {
+            if (!encodeNetwork(comparators, file)) {
+                return null;
+            }
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeCustomErrorMessage(
+                "ArrayV ran out of memory trying to visualize this sorting network.\n" +
+                "Either run ArrayV with more memory (or a smaller maximum length) or contemplate your life choices."
+            );
             return null;
         }
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + path + "\"",
