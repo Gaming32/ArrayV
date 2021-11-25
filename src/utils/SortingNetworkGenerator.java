@@ -103,9 +103,9 @@ public class SortingNetworkGenerator {
 
             int y0 = yScale + c.i1 * yScale;
             int y1 = yScale + c.i2 * yScale;
-            comparatorsSvg.append(String.format("<circle cx='%1$f' cy='%2$d' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>", cx, y0))
-                          .append(String.format("<line x1='%1$f' y1='%2$d' x2='%1$f' y2='%3$d' style='stroke:black;stroke-width:1'/>", cx, y0, y1))
-                          .append(String.format("<circle cx='%1$f' cy='%2$d' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>", cx, y1));
+            comparatorsSvg.append("<circle cx='").append(cx).append("' cy='").append(y0).append("' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>")
+                          .append("<line x1='").append(cx).append("' y1='").append(y0).append("' x2='").append(cx).append("' y2='").append(y1).append("' style='stroke:black;stroke-width:1'/>")
+                          .append("<circle cx='").append(cx).append("' cy='").append(y1).append("' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>");
             group.put(c, cx);
         }
 
@@ -114,15 +114,14 @@ public class SortingNetworkGenerator {
         int n = getMaxInput(comparators) + 1;
         for (int i = 0; i < n; i++) {
             int y = yScale + i * yScale;
-            linesSvg.append(String.format("<line x1='0' y1='%1$d' x2='%2$f' y2='%1$d' style='stroke:black;stroke-width:1'/>", y, w));
+            linesSvg.append("<line x1='0' y1='").append(y).append("' x2='").append(w).append("' y2='").append(y).append("' style='stroke:black;stroke-width:1'/>");
         }
 
         int h = (n + 1) * yScale;
         try (PrintWriter writer = new PrintWriter(path, "UTF-8")) {
             writer.write(
-                "<?xml version='1.0' encoding='utf-8'?>" +
-			    "<!DOCTYPE svg>" +
-			    String.format("<svg width='%1$fpx' height='%2$dpx' xmlns='http://www.w3.org/2000/svg'>", w, h) +
+                "<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>" +
+			    "<svg width='" + w + "px' height='" + h + "px' xmlns='http://www.w3.org/2000/svg'>" +
 			    comparatorsSvg +
 			    linesSvg +
 			    "</svg>"
