@@ -14,7 +14,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
+import javax.swing.ProgressMonitor;
 
+import main.ArrayVisualizer;
 import panes.JErrorPane;
 
 public class SortingNetworkGenerator {
@@ -85,7 +87,7 @@ public class SortingNetworkGenerator {
         }
     }
 
-    private static final int OUT_BUFFER_SIZE = 33_554_432; // 64 MB
+    private static final int OUT_BUFFER_SIZE = 16_777_216; // 32 MB
 
     private static int getMaxInput(Comparator[] comparators) {
         int maxInput = 0;
@@ -97,7 +99,7 @@ public class SortingNetworkGenerator {
         return maxInput;
     }
 
-    private static void encodeNetwork0(final Comparator[] comparators, final PrintWriter out) {
+    private static boolean encodeNetwork0(final Comparator[] comparators, final PrintWriter out) {
         int scale = 1;
         int xScale = scale * 35;
         int yScale = scale * 20;
@@ -109,10 +111,19 @@ public class SortingNetworkGenerator {
         Map<Comparator, Double> group = new HashMap<>();
 
         WriterBuilderProxy writer;
+        ProgressMonitor monitor;
+        int progress = 0;
         out.write("<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>");
         if (small) {
             writer = new WriterBuilderProxy(new StringBuilder());
+            monitor = null;
         } else {
+            monitor = new ProgressMonitor(
+                ArrayVisualizer.getInstance().getWindow(),
+                "Visualizing sorting network...",
+                "Pre-Calculating Image Width",
+                0, comparators.length * 2
+            );
             for (Comparator c : comparators) {
                 for (Comparator other : group.keySet()) {
                     if (c.hasSameInput(other)) {
@@ -135,8 +146,14 @@ public class SortingNetworkGenerator {
                     }
                 }
                 group.put(c, cx);
+
+                if (monitor != null && (progress++ & 1023) == 0) {
+                    monitor.setProgress(progress);
+                    if (monitor.isCanceled()) return true;
+                }
             }
             group.clear();
+            monitor.setNote("Writing SVG");
             out.write("<svg width='" + (w + xScale) + "' height='" + h + "' xmlns='http://www.w3.org/2000/svg'>");
             w = xScale;
 
@@ -172,6 +189,11 @@ public class SortingNetworkGenerator {
                          "<line x1='" + cx + "' y1='" + y0 + "' x2='" + cx + "' y2='" + y1 + "' style='stroke:black;stroke-width:1'/>" +
                          "<circle cx='" + cx + "' cy='" + y1 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>");
             group.put(c, cx);
+
+            if (monitor != null && (progress++ & 1023) == 0) {
+                monitor.setProgress(progress);
+                if (monitor.isCanceled()) return true;
+            }
         }
 
         w += xScale;
@@ -185,6 +207,8 @@ public class SortingNetworkGenerator {
             out.write(writer.getValue());
         }
         out.write("</svg>");
+        if (monitor != null) monitor.close();
+        return false;
     }
 
     public static boolean encodeNetwork(Comparator[] comparators, File file) {
@@ -195,7 +219,12 @@ public class SortingNetworkGenerator {
                     ), OUT_BUFFER_SIZE),
                 false)
             ) {
-            encodeNetwork0(comparators, out);
+            boolean cancelled = encodeNetwork0(comparators, out);
+            if (cancelled) {
+                JOptionPane.showMessageDialog(null, "Sorting network visualization cancelled",
+                    "Sorting Network Visualizer", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e, "Sorting Network Visualizer");
             return false;
