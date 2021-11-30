@@ -19,7 +19,7 @@ import panes.JErrorPane;
 
 public class SortingNetworkGenerator {
     private static final class Comparator {
-        int i1, i2;
+        final int i1, i2;
 
         Comparator(int i1, int i2) {
             this.i1 = i1;
@@ -51,6 +51,40 @@ public class SortingNetworkGenerator {
         }
     }
 
+    private static final class WriterBuilderProxy {
+        final PrintWriter writer;
+        final StringBuilder builder;
+
+        WriterBuilderProxy(PrintWriter writer) {
+            this.writer = writer;
+            this.builder = null;
+        }
+
+        WriterBuilderProxy(StringBuilder builder) {
+            this.writer = null;
+            this.builder = builder;
+        }
+
+        void write(String s) {
+            if (builder == null)
+                writer.write(s);
+            else
+                builder.append(s);
+        }
+
+        @Override
+        public String toString() {
+            return builder == null ? writer.toString() : builder.toString();
+        }
+
+        String getValue() {
+            if (builder == null) {
+                throw new IllegalStateException("Cannot getValue() of PrintWriter");
+            }
+            return builder.toString();
+        }
+    }
+
     private static final int OUT_BUFFER_SIZE = 33_554_432; // 64 MB
 
     private static int getMaxInput(Comparator[] comparators) {
@@ -67,12 +101,48 @@ public class SortingNetworkGenerator {
         int scale = 1;
         int xScale = scale * 35;
         int yScale = scale * 20;
+        boolean small = comparators.length < 500_000;
 
-        out.write("<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>");
-        out.write("<svg style='width:" + xScale * 100 + "%;height:" + yScale * 100 + "%' xmlns='http://www.w3.org/2000/svg'>");
-
+        int n = getMaxInput(comparators) + 1;
+        int h = (n + 1) * yScale;
         double w = xScale;
         Map<Comparator, Double> group = new HashMap<>();
+
+        WriterBuilderProxy writer;
+        out.write("<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>");
+        if (small) {
+            writer = new WriterBuilderProxy(new StringBuilder());
+        } else {
+            for (Comparator c : comparators) {
+                for (Comparator other : group.keySet()) {
+                    if (c.hasSameInput(other)) {
+                        for (double pos : group.values()) {
+                            if (pos > w) {
+                                w = pos;
+                            }
+                        }
+                        w += xScale;
+                        group.clear();
+                        break;
+                    }
+                }
+                double cx = w;
+                for (Entry<Comparator, Double> entry : group.entrySet()) {
+                    Comparator other = entry.getKey();
+                    double otherPos = entry.getValue();
+                    if (otherPos >= cx && c.overlaps(other)) {
+                        cx = otherPos + xScale / 3.0;
+                    }
+                }
+                group.put(c, cx);
+            }
+            group.clear();
+            out.write("<svg width='" + (w + xScale) + "' height='" + h + "' xmlns='http://www.w3.org/2000/svg'>");
+            w = xScale;
+
+            writer = new WriterBuilderProxy(out);
+        }
+
         for (Comparator c : comparators) {
             for (Comparator other : group.keySet()) {
                 if (c.hasSameInput(other)) {
@@ -98,19 +168,22 @@ public class SortingNetworkGenerator {
 
             int y0 = yScale + c.i1 * yScale;
             int y1 = yScale + c.i2 * yScale;
-            out.write("<circle cx='" + cx + "' cy='" + y0 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>" +
-                      "<line x1='" + cx + "' y1='" + y0 + "' x2='" + cx + "' y2='" + y1 + "' style='stroke:black;stroke-width:1'/>" +
-                      "<circle cx='" + cx + "' cy='" + y1 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>");
+            writer.write("<circle cx='" + cx + "' cy='" + y0 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>" +
+                         "<line x1='" + cx + "' y1='" + y0 + "' x2='" + cx + "' y2='" + y1 + "' style='stroke:black;stroke-width:1'/>" +
+                         "<circle cx='" + cx + "' cy='" + y1 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>");
             group.put(c, cx);
         }
 
         w += xScale;
-        int n = getMaxInput(comparators) + 1;
         for (int i = 0; i < n; i++) {
             int y = yScale + i * yScale;
-            out.write("<line x1='0' y1='" + y + "' x2='" + w + "' y2='" + y + "' style='stroke:black;stroke-width:1'/>");
+            writer.write("<line x1='0' y1='" + y + "' x2='" + w + "' y2='" + y + "' style='stroke:black;stroke-width:1'/>");
         }
 
+        if (small) {
+            out.write("<svg width='" + w + "' height='" + h + "' xmlns='http://www.w3.org/2000/svg'>");
+            out.write(writer.getValue());
+        }
         out.write("</svg>");
     }
 
