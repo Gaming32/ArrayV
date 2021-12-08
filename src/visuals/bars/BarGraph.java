@@ -37,10 +37,10 @@ final public class BarGraph extends Visual {
         this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
         int length = Math.min(Renderer.getArrayLength(), ArrayVisualizer.getCurrentLength());
         
-		boolean mark = false;
+        boolean mark = false;
         for(int i = 0, j = 0; i < length; i++) {
-			mark = Highlights.containsPosition(i) ? true : mark;
-			
+            mark = mark || Highlights.containsPosition(i);
+            
             int width = (int) (Renderer.getXScale() * (i + 1)) - j;
             if (width == 0) continue;
             
@@ -49,7 +49,7 @@ final public class BarGraph extends Visual {
                 int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
                 
                 this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), (int) ((val + 1) * Renderer.getYScale()));
-				mark = false;
+                mark = false;
             }
             j += width;
         }
