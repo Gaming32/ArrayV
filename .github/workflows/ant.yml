@@ -8,9 +8,9 @@ jobs:
         # Use these Java versions
         java: [
           8,  # Minimum supported
-          11,   # Current Java LTS
-          15,   # Last version
-          16    # Most recent version
+          11, # Java LTS
+          16, # Last version
+          17  # Most recent version
         ]
         # and run on both Linux and Windows
         os: [ubuntu-latest, windows-latest]
