@@ -5,13 +5,27 @@ import sorts.templates.Sort;
 
 /*
  * 
-Copyright (c) rosettacode.org
-Permission is granted to copy, distribute and/or modify this document
-under the terms of the GNU Free Documentation License, Version 1.3
-or any later version published by the Free Software Foundation;
-with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
-Texts.  A copy of the license is included in the section entitled "GNU
-Free Documentation License".
+MIT License
+
+Copyright (c) 2021 aphitorite
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
  *
  */
 
@@ -30,77 +44,43 @@ final public class CycleSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
+	
+	private int countLesser(int[] array, int a, int b, int t) {
+		int r = a;
+		
+		for(int i = a+1; i < b; i++) {
+			Highlights.markArray(1, r);
+			Highlights.markArray(2, i);
+			Delays.sleep(0.01);
+			
+			r += Reads.compareValues(array[i], t) < 0 ? 1 : 0;
+		}
+		Highlights.clearMark(2);
+		return r;
+	}
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        for (int cycleStart = 0; cycleStart < length - 1; cycleStart++) {
-            int val = array[cycleStart];
-            
-            /*
-              Count the number of values that are smaller 
-              than val since cycleStart
-             */
-            
-            int pos = cycleStart;
-            Highlights.markArray(3, pos);
-            
-            for (int i = cycleStart + 1; i < length; i++) {
-                Highlights.markArray(2, i);
-                Delays.sleep(0.01);
-                
-                if (Reads.compareValues(array[i], val) == -1) {
-                    pos++;
-                    Highlights.markArray(1, pos);
-                    Delays.sleep(0.01);
-                }
-
-            }
-
-            // there aren't any
-            if (pos == cycleStart) {
-                Highlights.markArray(1, pos);
-                continue;
-            }
-
-            // Skip duplicates
-            while (val == array[pos]) {
-                pos++;
-                Highlights.markArray(1, pos);
-            }
-
-            // Put val into final position
-            int tmp = array[pos];
-            Writes.write(array, pos, val, 0.02, true, false);
-            val = tmp;
-
-            /*
-              Repeat as long as we can find values to swap
-              otherwise start new cycle
-             */
-            while (pos != cycleStart) {
-                pos = cycleStart;
-                Highlights.markArray(3, pos);
-                
-                for (int i = cycleStart + 1; i < length; i++) {
-                    Highlights.markArray(2, i);
-                    Delays.sleep(0.01);
-                    
-                    if (Reads.compareValues(array[i], val) == -1) {
-                        pos++;
-                        Highlights.markArray(1, pos);
-                        Delays.sleep(0.01);
-                    }
-                }
-
-                while (val == array[pos]) {
-                    pos++;
-                    Highlights.markArray(1, pos);
-                }
-
-                tmp = array[pos];
-                Writes.write(array, pos, val, 0.02, true, false);
-                val = tmp;
-            }
-        }
+		for(int i = 0; i < length-1; i++) {
+			Highlights.markArray(3, i);
+			
+			int t = array[i];
+			int r = this.countLesser(array, i, length, t);
+			
+			if(r != i) {
+				do {
+					while(Reads.compareIndexValue(array, r, t, 0.01, true) == 0) r++;
+					
+					int t1 = array[r];
+					Writes.write(array, r, t, 0.02, false, false);
+					t = t1;
+					
+					r = this.countLesser(array, i, length, t);
+				}
+				while(r != i);
+				
+				Writes.write(array, i, t, 0.02, false, false);
+			}
+		}
     }
 }
