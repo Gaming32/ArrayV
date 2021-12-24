@@ -20,6 +20,12 @@ import main.ArrayVisualizer;
 import panes.JErrorPane;
 
 public class SortingNetworkGenerator {
+    private static final File SORTING_NETWORKS_DIR = new File("sorting_networks");
+
+    static {
+        SORTING_NETWORKS_DIR.mkdirs();
+    }
+
     private static final class Comparator {
         final int i1, i2;
 
@@ -232,7 +238,7 @@ public class SortingNetworkGenerator {
         return true;
     }
 
-    public static String encodeNetworkAndDisplay(String name, ArrayList<Integer> indices, int arrayLength) {
+    public static File encodeNetworkAndDisplay(String name, ArrayList<Integer> indices, int arrayLength) {
         Comparator[] comparators;
         try {
             comparators = new Comparator[indices.size() / 2];
@@ -246,8 +252,7 @@ public class SortingNetworkGenerator {
         System.out.println("Length: " + arrayLength + "\tComparators: " + comparators.length / 2);
         indices.clear();
         indices.trimToSize();
-        String path = "network_" + name + "_" + arrayLength + ".svg";
-        File file = new File(path);
+        File file = new File(SORTING_NETWORKS_DIR, "network_" + name + "_" + arrayLength + ".svg");
         try {
             if (!encodeNetwork(comparators, file)) {
                 return null;
@@ -259,7 +264,7 @@ public class SortingNetworkGenerator {
             );
             return null;
         }
-        JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + path + "\"",
+        JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + file + "\"",
             "Sorting Network Visualizer", JOptionPane.INFORMATION_MESSAGE);
         Desktop desktop = Desktop.getDesktop();
         try {
@@ -268,6 +273,6 @@ public class SortingNetworkGenerator {
         catch (IOException e) {
             e.printStackTrace();
         }
-        return path;
+        return file;
     }
 }
