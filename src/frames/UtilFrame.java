@@ -596,8 +596,12 @@ final public class UtilFrame extends javax.swing.JFrame {
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(4);
                 if (ArrayVisualizer.getCurrentLength() > 1024) {
-                    JOptionPane.showMessageDialog(null, "Large sorting networks can take a long time (and high RAM usage) to visualize.",
-                        "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Large sorting networks can take a long time (and high RAM usage) to visualize.\n" +
+                            "A length of 1024 or less is recommended.",
+                        "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE
+                    );
                 }
                 break;
 
