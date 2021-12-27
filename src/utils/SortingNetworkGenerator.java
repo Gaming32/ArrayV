@@ -147,7 +147,7 @@ public class SortingNetworkGenerator {
                 }
                 group.put(c, cx);
 
-                if ((progress++ & 1023) == 0) {
+                if ((++progress & 1023) == 0) {
                     monitor.setProgress(progress);
                     if (monitor.isCanceled()) return true;
                 }
@@ -190,7 +190,7 @@ public class SortingNetworkGenerator {
                          "<circle cx='" + cx + "' cy='" + y1 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>");
             group.put(c, cx);
 
-            if ((progress++ & 1023) == 0) {
+            if ((++progress & 1023) == 0) {
                 monitor.setProgress(progress);
                 if (monitor.isCanceled()) return true;
             }
