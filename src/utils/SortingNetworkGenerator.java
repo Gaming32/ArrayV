@@ -183,8 +183,8 @@ public class SortingNetworkGenerator {
                 }
             }
 
-            int y0 = yScale + c.i1 * yScale;
-            int y1 = yScale + c.i2 * yScale;
+            int y0 = (c.i1 + 1) * yScale;
+            int y1 = y0;
             writer.write("<circle cx='" + cx + "' cy='" + y0 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>" +
                          "<line x1='" + cx + "' y1='" + y0 + "' x2='" + cx + "' y2='" + y1 + "' style='stroke:black;stroke-width:1'/>" +
                          "<circle cx='" + cx + "' cy='" + y1 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>");
