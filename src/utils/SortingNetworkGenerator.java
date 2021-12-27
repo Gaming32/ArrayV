@@ -95,23 +95,12 @@ public class SortingNetworkGenerator {
 
     private static final int OUT_BUFFER_SIZE = 16_777_216; // 32 MB
 
-    private static int getMaxInput(Comparator[] comparators) {
-        int maxInput = 0;
-        for (Comparator c : comparators) {
-            if (c.i2 > maxInput) {
-                maxInput = c.i2;
-            }
-        }
-        return maxInput;
-    }
-
-    private static boolean encodeNetwork0(final Comparator[] comparators, final PrintWriter out) {
+    private static boolean encodeNetwork0(final Comparator[] comparators, final int n, final PrintWriter out) {
         int scale = 1;
         int xScale = scale * 35;
         int yScale = scale * 20;
         boolean small = comparators.length < 500_000;
 
-        int n = getMaxInput(comparators) + 1;
         int h = (n + 1) * yScale;
         double w = xScale;
         Map<Comparator, Double> group = new HashMap<>();
@@ -223,7 +212,7 @@ public class SortingNetworkGenerator {
         return false;
     }
 
-    public static boolean encodeNetwork(Comparator[] comparators, File file) {
+    public static boolean encodeNetwork(Comparator[] comparators, int inputLength, File file) {
         try (PrintWriter out = new PrintWriter(
                 new BufferedWriter(
                     new OutputStreamWriter(
@@ -231,7 +220,7 @@ public class SortingNetworkGenerator {
                     ), OUT_BUFFER_SIZE),
                 false)
             ) {
-            boolean cancelled = encodeNetwork0(comparators, out);
+            boolean cancelled = encodeNetwork0(comparators, inputLength, out);
             if (cancelled) {
                 JOptionPane.showMessageDialog(null, "Sorting network visualization cancelled",
                     "Sorting Network Visualizer", JOptionPane.INFORMATION_MESSAGE);
@@ -260,7 +249,7 @@ public class SortingNetworkGenerator {
         indices.trimToSize();
         File file = new File(SORTING_NETWORKS_DIR, "network_" + name + "_" + arrayLength + ".svg");
         try {
-            if (!encodeNetwork(comparators, file)) {
+            if (!encodeNetwork(comparators, arrayLength, file)) {
                 return null;
             }
         } catch (OutOfMemoryError e) {
