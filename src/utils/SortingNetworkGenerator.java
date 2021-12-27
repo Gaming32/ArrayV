@@ -122,12 +122,17 @@ public class SortingNetworkGenerator {
         out.write("<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>");
         if (small) {
             writer = new WriterBuilderProxy(new StringBuilder());
-            monitor = null;
+            monitor = new ProgressMonitor(
+                ArrayVisualizer.getInstance().getWindow(),
+                "Visualizing sorting network...",
+                "Generating SVG",
+                0, comparators.length
+            );
         } else {
             monitor = new ProgressMonitor(
                 ArrayVisualizer.getInstance().getWindow(),
                 "Visualizing sorting network...",
-                "Pre-Calculating Image Width",
+                "Pre-calculating image width",
                 0, comparators.length * 2
             );
             for (Comparator c : comparators) {
@@ -153,7 +158,7 @@ public class SortingNetworkGenerator {
                 }
                 group.put(c, cx);
 
-                if (monitor != null && (progress++ & 1023) == 0) {
+                if ((progress++ & 1023) == 0) {
                     monitor.setProgress(progress);
                     if (monitor.isCanceled()) return true;
                 }
@@ -196,7 +201,7 @@ public class SortingNetworkGenerator {
                          "<circle cx='" + cx + "' cy='" + y1 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>");
             group.put(c, cx);
 
-            if (monitor != null && (progress++ & 1023) == 0) {
+            if ((progress++ & 1023) == 0) {
                 monitor.setProgress(progress);
                 if (monitor.isCanceled()) return true;
             }
@@ -209,11 +214,12 @@ public class SortingNetworkGenerator {
         }
 
         if (small) {
+            monitor.setNote("Writing SVG to file");
             out.write("<svg width='" + w + "' height='" + h + "' xmlns='http://www.w3.org/2000/svg'>");
             out.write(writer.getValue());
         }
         out.write("</svg>");
-        if (monitor != null) monitor.close();
+        monitor.close();
         return false;
     }
 
