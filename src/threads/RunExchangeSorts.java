@@ -7,7 +7,7 @@ import sorts.templates.Sort;
 import utils.Shuffles;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 ArrayV 4.0 Team
@@ -83,12 +83,12 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort SlopeSort;
     private Sort TriSearchGnomeSort;
     private Sort WiggleSort;
-    
+
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 49;
         this.categoryCount = this.sortCount;
-        
+
         UnoptimizedBubbleSort         = new         UnoptimizedBubbleSort(this.arrayVisualizer);
         BubbleSort                    = new                    BubbleSort(this.arrayVisualizer);
         OptimizedBubbleSort           = new           OptimizedBubbleSort(this.arrayVisualizer);
@@ -194,14 +194,14 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(TableSort,                     0,   array, 1024, 0.75,  false);
         RunExchangeSorts.this.runIndividualSort(IndexQuickSort,                0,   array, 1024, 0.75,  false);
     }
-    
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("ExchangeSorts") {
             @Override
             public void run() {
                 try{
@@ -212,18 +212,18 @@ final public class RunExchangeSorts extends MultipleSortThread {
                     else {
                         RunExchangeSorts.this.sortNumber = 1;
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
 
                     arrayVisualizer.setCategory("Exchange Sorts");
 
                     RunExchangeSorts.this.executeSortList(array);
-                    
+
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run Exchange Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {

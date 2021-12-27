@@ -6,7 +6,7 @@ import sorts.concurrent.*;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 ArrayV 4.0 Team
@@ -56,12 +56,12 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     private Sort PairwiseMergeSortRecursive;
     private Sort WeaveSortParallel;
     private Sort ApollyonSort;
-    
+
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 24;
         this.categoryCount = this.sortCount;
-        
+
         FoldSort                   = new                   FoldSort(this.arrayVisualizer);
         CreaseSort                 = new                 CreaseSort(this.arrayVisualizer);
         MatrixSort                 = new                 MatrixSort(this.arrayVisualizer);
@@ -122,14 +122,14 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         RunConcurrentSorts.this.runIndividualSort(DiamondSortIterative,       0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(PairwiseMergeSortIterative, 0, array, 1024, 1,     false);
     }
-    
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("ConcurrentSorts") {
             @Override
             public void run() {
                 try{
@@ -146,12 +146,12 @@ final public class RunConcurrentSorts extends MultipleSortThread {
                     arrayVisualizer.setCategory("Concurrent Sorts");
 
                     RunConcurrentSorts.this.executeSortList(array);
-                    
+
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run Concurrent Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {

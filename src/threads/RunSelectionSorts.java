@@ -6,7 +6,7 @@ import sorts.select.*;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -55,12 +55,12 @@ final public class RunSelectionSorts extends MultipleSortThread {
     private Sort SandpaperSort;
     private Sort StableCycleSort;
     private Sort TriangularHeapSort;
-    
+
     public RunSelectionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 23;
         this.categoryCount = this.sortCount;
-        
+
         SelectionSort         = new         SelectionSort(this.arrayVisualizer);
         StableSelectionSort   = new   StableSelectionSort(this.arrayVisualizer);
         DoubleSelectionSort   = new   DoubleSelectionSort(this.arrayVisualizer);
@@ -112,14 +112,14 @@ final public class RunSelectionSorts extends MultipleSortThread {
         RunSelectionSorts.this.runIndividualSort(QueueSort,             0, array, 2048, 1,    false);
         RunSelectionSorts.this.runIndividualSort(DequeueSort,           0, array, 2048, 1,    false);
     }
-    
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("SelectionSorts") {
             @Override
             public void run() {
                 try{
@@ -130,18 +130,18 @@ final public class RunSelectionSorts extends MultipleSortThread {
                     else {
                         RunSelectionSorts.this.sortNumber = 1;
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
 
                     arrayVisualizer.setCategory("Selection Sorts");
 
                     RunSelectionSorts.this.executeSortList(array);
-                    
+
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run Selection Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {

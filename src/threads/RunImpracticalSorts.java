@@ -37,7 +37,7 @@ import sorts.distribute.BogoBogoSort;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 ArrayV 4.0 Team
@@ -128,11 +128,11 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         OptimizedGuessSort        = new        OptimizedGuessSort(this.arrayVisualizer);
         RandomGuessSort           = new           RandomGuessSort(this.arrayVisualizer);
         GuessSort                 = new                 GuessSort(this.arrayVisualizer);
-        BogoBogoSort              = new              BogoBogoSort(this.arrayVisualizer);        
-        FireSort                  = new                  FireSort(this.arrayVisualizer);        
-        QuadStoogeSort            = new            QuadStoogeSort(this.arrayVisualizer);        
-        ReflectionSort            = new            ReflectionSort(this.arrayVisualizer);        
-        StupidFireSort            = new            StupidFireSort(this.arrayVisualizer);        
+        BogoBogoSort              = new              BogoBogoSort(this.arrayVisualizer);
+        FireSort                  = new                  FireSort(this.arrayVisualizer);
+        QuadStoogeSort            = new            QuadStoogeSort(this.arrayVisualizer);
+        ReflectionSort            = new            ReflectionSort(this.arrayVisualizer);
+        StupidFireSort            = new            StupidFireSort(this.arrayVisualizer);
     }
 
     @Override
@@ -150,7 +150,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         RunImpracticalSorts.this.runIndividualSort(HanoiSort,                 0, array, 8,   0.025,  true);
         RunImpracticalSorts.this.runIndividualSort(StableHanoiSort,           0, array, 8,   0.025,  true);
         RunImpracticalSorts.this.runIndividualSort(NapoleonSort,              0, array, 6,   0.005,  true);
-        
+
         // Bogosorts
         Sounds.toggleSofterSounds(true);
         // the not-bad ones
@@ -178,14 +178,14 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         RunImpracticalSorts.this.runIndividualSort(BogoBogoSort,              0, array,  4,  1e-9,   true);
         Sounds.toggleSofterSounds(false);
     }
-    
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("ImpracticalSorts") {
             @Override
             public void run() {
                 try{
@@ -196,13 +196,13 @@ final public class RunImpracticalSorts extends MultipleSortThread {
                     else {
                         RunImpracticalSorts.this.sortNumber = 1;
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
 
                     arrayVisualizer.setCategory("Impractical Sorts");
 
                     RunImpracticalSorts.this.executeSortList(array);
-                    
+
                     if(runAllActive) {
                         Thread.sleep(3000);
                     }
@@ -210,7 +210,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
                         arrayVisualizer.setCategory("Run Impractical Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {

@@ -7,7 +7,7 @@ import sorts.templates.Sort;
 import utils.Shuffles;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -57,23 +57,23 @@ final public class RunInsertionSorts extends MultipleSortThread {
     private Sort AdaptiveBinaryInsertionSort;
     private Sort GambitInsertionSort;
     private Sort ReverseInsertionSort;
-    
+
     public RunInsertionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 24;
         this.categoryCount = this.sortCount;
-    
+
         InsertionSort               = new               InsertionSort(this.arrayVisualizer);
         DoubleInsertionSort         = new         DoubleInsertionSort(this.arrayVisualizer);
         BinaryInsertionSort         = new         BinaryInsertionSort(this.arrayVisualizer);
         TriSearchInsertionSort      = new      TriSearchInsertionSort(this.arrayVisualizer);
         FibonacciInsertionSort      = new      FibonacciInsertionSort(this.arrayVisualizer);
         UnstableInsertionSort       = new       UnstableInsertionSort(this.arrayVisualizer);
-        ShellSort                   = new                   ShellSort(this.arrayVisualizer); 
-        RecursiveShellSort          = new          RecursiveShellSort(this.arrayVisualizer); 
-        RendezvousSort              = new              RendezvousSort(this.arrayVisualizer); 
+        ShellSort                   = new                   ShellSort(this.arrayVisualizer);
+        RecursiveShellSort          = new          RecursiveShellSort(this.arrayVisualizer);
+        RendezvousSort              = new              RendezvousSort(this.arrayVisualizer);
         RoomSort                    = new                    RoomSort(this.arrayVisualizer);
-        SimplifiedLibrarySort       = new                 SimplifiedLibrarySort(this.arrayVisualizer); 
+        SimplifiedLibrarySort       = new                 SimplifiedLibrarySort(this.arrayVisualizer);
         PatienceSort                = new                PatienceSort(this.arrayVisualizer);
         ClassicTreeSort             = new             ClassicTreeSort(this.arrayVisualizer);
         AATreeSort                  = new                  AATreeSort(this.arrayVisualizer);
@@ -116,14 +116,14 @@ final public class RunInsertionSorts extends MultipleSortThread {
         RunInsertionSorts.this.runIndividualSort(AVLTreeSort,                 0, array,  2048, 1,     false);
         RunInsertionSorts.this.runIndividualSort(SplaySort,                   0, array,  2048, 1,     false);
     }
-    
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("InsertionSorts") {
             @Override
             public void run() {
                 try{
@@ -134,18 +134,18 @@ final public class RunInsertionSorts extends MultipleSortThread {
                     else {
                         RunInsertionSorts.this.sortNumber = 1;
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
 
                     arrayVisualizer.setCategory("Insertion Sorts");
 
                     RunInsertionSorts.this.executeSortList(array);
-                    
+
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run Insertion Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {

@@ -15,7 +15,7 @@ import utils.StopSort;
 import utils.Timer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -46,72 +46,72 @@ final public class RunDistributionSort {
     private Delays delayOps;
     private Sounds sounds;
     private Timer realTimer;
-    
+
     private Object[] inputOptions;
-    
+
     public RunDistributionSort(ArrayVisualizer arrayVisualizer) {
         this.arrayVisualizer = arrayVisualizer;
         this.arrayManager = arrayVisualizer.getArrayManager();
         this.delayOps = arrayVisualizer.getDelays();
         this.sounds = arrayVisualizer.getSounds();
         this.realTimer = arrayVisualizer.getTimer();
-        
+
         this.inputOptions = new Object[]{"Enter", "Use default"};
     }
-    
+
     private String getTimeSortEstimate(int bucketCount) {
         String timeString = "";
         String timeUnit;
-        
+
         int seconds = Math.max(((arrayVisualizer.getCurrentLength() * bucketCount) / 1000), 1);
         int minutes;
         int hours;
         long days;
-        
+
         if(seconds >= 60) {
             minutes = Math.round(seconds / 60);
-            
+
             if(minutes >= 60) {
                 hours = Math.round(minutes / 60);
-                
+
                 if(hours >= 24) {
                     days = Math.round(hours / 24);
-                    
+
                     if(days < 2)  timeUnit = "day";
                     else          timeUnit = "days";
-                    
+
                     timeString = "" + arrayVisualizer.getNumberFormat().format(days) + " " + timeUnit + " ";
                 }
                 else {
                     if(hours < 2) timeUnit = "hour";
                     else          timeUnit = "hours";
-                    
+
                     timeString = "" + hours + " " + timeUnit + " ";
                 }
             }
             else {
                 if(minutes < 2) timeUnit = "minute";
                 else            timeUnit = "minutes";
-                
+
                 timeString = "" + minutes + " " + timeUnit + " ";
             }
         }
         else {
             if(seconds < 2) timeUnit = "second";
             else            timeUnit = "seconds";
-            
+
             timeString = "" + seconds + " " + timeUnit + " ";
         }
-        
+
         return timeString;
     }
-    
+
     private int getCustomInput(String text) throws Exception {
         String input = JEnhancedOptionPane.showInputDialog("Customize Sort", text, this.inputOptions);
         int integer = Integer.parseInt(input);
         return Math.abs(integer);
     }
-    
+
     public void ReportDistributionSort(int[] array, int selection) {
         if(arrayVisualizer.isActive())
             return;
@@ -123,11 +123,11 @@ final public class RunDistributionSort {
         }
 
         double storeVol = sounds.getVolume();
-        
+
         arrayVisualizer.setCategory("Distribution Sorts");
-        
+
         sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("DistributionSorting") {
             @SuppressWarnings("unused")
             @Override
             public void run(){
@@ -137,7 +137,7 @@ final public class RunDistributionSort {
                     Sort sort = (Sort) newSort.newInstance(RunDistributionSort.this.arrayVisualizer);
 
                     int bucketCount;
-                    
+
                     if (sort.getQuestion() != null) {
                         try {
                             bucketCount = sort.validateAnswer(getCustomInput(sort.getQuestion()));
@@ -154,7 +154,7 @@ final public class RunDistributionSort {
                                 }
                                 catch(Exception e) {
                                     bucketCount = 4;
-                                }   
+                                }
                             }
                             else if(sort.getRunSortName().contains("Shatter")) {
                                 try {
@@ -178,15 +178,15 @@ final public class RunDistributionSort {
                             bucketCount = 0;
                         }
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
                     arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), arrayVisualizer);
-                
+
                     boolean goAhead;
-                    
+
                     if(sort.isUnreasonablySlow() && arrayVisualizer.getCurrentLength() > sort.getUnreasonableLimit()) {
                         goAhead = false;
-                       
+
                         if(sort.getRunSortName().equals("Timesort")) {
                             Object[] options = { "Continue", "Cancel" };
 
@@ -212,7 +212,7 @@ final public class RunDistributionSort {
                             }
                             else {
                                 //Currently, no distribution sort calls this message. It's here if you want to include a sort that might use it in the future.
-                                int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, " 
+                                int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
                                                                          + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
                                                                          + " numbers will not finish in a reasonable amount of time. "
                                                                          + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
@@ -226,14 +226,14 @@ final public class RunDistributionSort {
                     else {
                         goAhead = true;
                     }
-                    
+
                     if(sort.getRunSortName().equals("In-Place LSD Radix")) {
                         sounds.changeVolume(0.01); // Here to protect your ears :)
                     }
-                    
+
                     if(goAhead) {
                         arrayVisualizer.setHeading(sort.getRunSortName());
-                        
+
                         realTimer.enableRealTimer();
                         // arrayVisualizer.toggleVisualUpdates(true);
                         try {
@@ -255,7 +255,7 @@ final public class RunDistributionSort {
                 sounds.toggleSound(false);
             }
         });
-        
+
         arrayVisualizer.runSortingThread();
     }
 }

@@ -6,7 +6,7 @@ import sorts.misc.*;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -34,12 +34,12 @@ SOFTWARE.
 final public class RunMiscellaneousSorts extends MultipleSortThread {
     private Sort PancakeSort;
     private Sort BurntPancakeSort;
-    
+
     public RunMiscellaneousSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 2;
         this.categoryCount = this.sortCount;
-        
+
         PancakeSort      = new      PancakeSort(this.arrayVisualizer);
         BurntPancakeSort = new BurntPancakeSort(this.arrayVisualizer);
     }
@@ -49,14 +49,14 @@ final public class RunMiscellaneousSorts extends MultipleSortThread {
         RunMiscellaneousSorts.this.runIndividualSort(PancakeSort,      0, array, 128, 0.015, false);
         RunMiscellaneousSorts.this.runIndividualSort(BurntPancakeSort, 0, array, 128, 0.015, false);
     }
-    
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("MiscSorts") {
             @Override
             public void run() {
                 try{
@@ -67,18 +67,18 @@ final public class RunMiscellaneousSorts extends MultipleSortThread {
                     else {
                         RunMiscellaneousSorts.this.sortNumber = 1;
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
 
                     arrayVisualizer.setCategory("Miscellaneous Sorts");
 
                     RunMiscellaneousSorts.this.executeSortList(array);
-                    
+
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run Miscellaneous Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {

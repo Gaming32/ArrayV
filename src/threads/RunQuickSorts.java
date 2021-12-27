@@ -7,7 +7,7 @@ import sorts.templates.Sort;
 import utils.Shuffles;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 ArrayV 4.0 Team
@@ -34,12 +34,12 @@ SOFTWARE.
 
 final public class RunQuickSorts extends MultipleSortThread {
     private Sort CubeRootQuickSort;
-    
+
     public RunQuickSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 1;
         this.categoryCount = this.sortCount;
-        
+
         CubeRootQuickSort = new CubeRootQuickSort(this.arrayVisualizer);
     }
 
@@ -47,14 +47,14 @@ final public class RunQuickSorts extends MultipleSortThread {
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunQuickSorts.this.runIndividualSort(CubeRootQuickSort, 0, array, 2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 6.5, false);
     }
-    
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("QuickSorts") {
             @Override
             public void run() {
                 try{
@@ -65,18 +65,18 @@ final public class RunQuickSorts extends MultipleSortThread {
                     else {
                         RunQuickSorts.this.sortNumber = 1;
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
 
                     arrayVisualizer.setCategory("Quick Sorts");
 
                     RunQuickSorts.this.executeSortList(array);
-                    
+
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run Quick Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {
