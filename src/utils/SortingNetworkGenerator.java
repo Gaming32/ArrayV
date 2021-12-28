@@ -45,10 +45,7 @@ public class SortingNetworkGenerator {
         }
 
         boolean overlaps(Comparator other) {
-            return (this.i1 < other.i1 && other.i1 < this.i2) ||
-                   (this.i1 < other.i2 && other.i2 < this.i2) ||
-                   (other.i1 < this.i1 && this.i1 < other.i2) ||
-                   (other.i1 < this.i2 && this.i2 < other.i2);
+            return this.i2 > other.i1 && other.i2 > this.i1;
         }
 
         boolean hasSameInput(Comparator other) {
