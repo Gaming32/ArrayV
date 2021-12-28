@@ -1,6 +1,7 @@
 package threads;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -138,8 +139,6 @@ final public class RunComparisonSort {
                         boolean networks = arrayVisualizer.generateSortingNetworks();
                         if (antiq)
                             arrayVisualizer.initAntiQSort();
-                        else if (networks)
-                            arrayVisualizer.getReads().networkIndices.clear();
 
                         try {
                             sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
@@ -152,12 +151,14 @@ final public class RunComparisonSort {
 
                         if (antiq)
                             arrayVisualizer.finishAntiQSort(sort.getClass().getSimpleName());
-                        else if (networks)
+                        else if (networks) {
+                            ArrayList<Integer> indicesList = arrayVisualizer.getReads().networkIndices;
                             SortingNetworkGenerator.encodeNetworkAndDisplay(
                                 sort.getClass().getSimpleName(),
-                                arrayVisualizer.getReads().networkIndices.toArray(new Integer[] {}),
+                                indicesList,
                                 arrayVisualizer.getCurrentLength()
                             );
+                        }
                     }
                     else {
                         arrayManager.initializeArray(array);
@@ -169,6 +170,7 @@ final public class RunComparisonSort {
                 arrayVisualizer.endSort();
                 arrayManager.toggleMutableLength(true);
                 sounds.toggleSound(false);
+                System.gc(); // Reduce RAM usage from any high-memory tasks (e.g. visualizing a sorting network)
             }
         });
 

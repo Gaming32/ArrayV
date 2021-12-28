@@ -84,6 +84,8 @@ SOFTWARE.
  */
 
 final public class ArrayVisualizer {
+    private static ArrayVisualizer INSTANCE = null;
+
     final JFrame window;
 
     final private int MIN_ARRAY_VAL;
@@ -183,6 +185,11 @@ final public class ArrayVisualizer {
     private volatile boolean frameSkipped;
 
     public ArrayVisualizer() {
+        if (INSTANCE != null) {
+            throw new IllegalStateException("Cannot create more than one ArrayVisualizer");
+        }
+        INSTANCE = this;
+
         this.window = new JFrame();
         this.window.addKeyListener(new KeyListener() {
             @Override
@@ -192,6 +199,8 @@ final public class ArrayVisualizer {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_K || e.getKeyCode() == KeyEvent.VK_SPACE) {
                     ArrayVisualizer.this.getDelays().togglePaused();
+                } else if (e.getKeyCode() == KeyEvent.VK_F12) {
+                    System.gc();
                 }
             }
             @Override
@@ -490,6 +499,14 @@ final public class ArrayVisualizer {
 
         this.Sounds.startAudioThread();
         this.drawWindows();
+    }
+
+    public static ArrayVisualizer getInstance() {
+        return INSTANCE;
+    }
+
+    public JFrame getWindow() {
+        return window;
     }
 
     public void refreshSorts() {

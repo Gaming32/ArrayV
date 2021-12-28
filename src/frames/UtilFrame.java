@@ -29,9 +29,9 @@ import utils.Highlights;
 import utils.SortingNetworkGenerator;
 import utils.Sounds;
 import utils.Timer;
- 
+
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -66,7 +66,7 @@ final public class UtilFrame extends javax.swing.JFrame {
     private boolean jCheckBox9WarningShown = true; //set to false to enable warning
 
     private int[] array;
-    
+
     private ArrayManager ArrayManager;
     private ArrayVisualizer ArrayVisualizer;
     private Delays Delays;
@@ -78,16 +78,16 @@ final public class UtilFrame extends javax.swing.JFrame {
 
     public UtilFrame(int[] array, ArrayVisualizer arrayVisualizer) {
         this.array = array;
-        
+
         this.ArrayVisualizer = arrayVisualizer;
         this.ArrayManager = ArrayVisualizer.getArrayManager();
-        
+
         this.Delays = ArrayVisualizer.getDelays();
         this.Frame = ArrayVisualizer.getMainWindow();
         this.Highlights = ArrayVisualizer.getHighlights();
         this.RealTimer = ArrayVisualizer.getTimer();
         this.Sounds = ArrayVisualizer.getSounds();
-        
+
         setUndecorated(true);
         initComponents();
         setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), Frame.getX() + Frame.getWidth()), Frame.getY() + 29);
@@ -440,7 +440,7 @@ final public class UtilFrame extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed() {//GEN-FIRST:event_jButton3ActionPerformed
         boolean speedPromptAllowed;
-        
+
         if(this.abstractFrame == null) {
             speedPromptAllowed = true;
         }
@@ -450,7 +450,7 @@ final public class UtilFrame extends javax.swing.JFrame {
         else {
             speedPromptAllowed = false;
         }
-        
+
         if(speedPromptAllowed) {
             boolean showPrompt = true;
             while(showPrompt) {
@@ -595,12 +595,13 @@ final public class UtilFrame extends javax.swing.JFrame {
                     break;
                 jButton6.setEnabled(true);
                 ArrayVisualizer.setComparator(4);
-                if (!SortingNetworkGenerator.verifyPythonVersionAndDialog())
-                    jComboBox1.setSelectedIndex(0); // Failure to find Python installation
-                if (ArrayVisualizer.getCurrentLength() > 256) {
-                    JOptionPane.showMessageDialog(null, "Large sorting networks take too long and will not be generated. Array lengths less than or equal to 256 are recommended.",
-                        "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE);
-                    ArrayVisualizer.getArrayFrame().setLengthSlider(256);
+                if (ArrayVisualizer.getCurrentLength() > 1024) {
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Large sorting networks can take a long time (and high RAM usage) to visualize.\n" +
+                            "A length of 1024 or less is recommended.",
+                        "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE
+                    );
                 }
                 break;
 

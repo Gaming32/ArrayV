@@ -1,129 +1,274 @@
 package utils;
 
 import java.awt.Desktop;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.ProcessBuilder.Redirect;
-import java.util.stream.Collectors;
-import java.text.DecimalFormat;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.ProgressMonitor;
 
-import frames.UtilFrame;
+import main.ArrayVisualizer;
 import panes.JErrorPane;
-import resources.sorting_network_master.SortingNetworkFetcher;
 
 public class SortingNetworkGenerator {
-    static DecimalFormat formatter = new DecimalFormat();
+    private static final File SORTING_NETWORKS_DIR = new File("sorting_networks");
 
-    static boolean hasPython = false;
-    static String pythonCommand = null;
+    static {
+        SORTING_NETWORKS_DIR.mkdirs();
+    }
 
-    final static int LIMIT = 20000;
+    private static final class Comparator {
+        final int i1, i2;
 
-    static boolean verifyPythonVersion(String minVersion, String command) {
-        try {
-            ProcessBuilder builder = new ProcessBuilder(command, "-c",
-                String.format("import sys; print (sys.version_info >= (%s))", minVersion));
-            Process p = builder.start();
-            if (p.waitFor() != 0) {
-                return false;
-            }
-            BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            if (r.readLine().equals("True")) {
-                pythonCommand = command;
-                return true;
-            }
-            return false;
+        Comparator(int i1, int i2) {
+            this.i1 = i1;
+            this.i2 = i2;
         }
-        catch (IOException e) {
-            return false;
+
+        @Override
+        public String toString() {
+            return i1 + ":" + i2;
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
+
+        @Override
+        public int hashCode() {
+            return (i1 << 16) + i2;
+        }
+
+        boolean overlaps(Comparator other) {
+            return this.i2 > other.i1 && other.i2 > this.i1;
+        }
+
+        boolean hasSameInput(Comparator other) {
+            return this.i1 == other.i1 ||
+                   this.i1 == other.i2 ||
+                   this.i2 == other.i1 ||
+                   this.i2 == other.i2;
         }
     }
 
-    public static boolean verifyPythonVersion() {
-        return (hasPython = hasPython // This caches the result if it's true
-            || verifyPythonVersion("3, 2, 0", "python3")
-            || verifyPythonVersion("3, 2, 0", "python")
-            || verifyPythonVersion("3, 2, 0", "py"));
+    private static final class WriterBuilderProxy {
+        final PrintWriter writer;
+        final StringBuilder builder;
+
+        WriterBuilderProxy(PrintWriter writer) {
+            this.writer = writer;
+            this.builder = null;
+        }
+
+        WriterBuilderProxy(StringBuilder builder) {
+            this.writer = null;
+            this.builder = builder;
+        }
+
+        void write(String s) {
+            if (builder == null)
+                writer.write(s);
+            else
+                builder.append(s);
+        }
+
+        @Override
+        public String toString() {
+            return builder == null ? writer.toString() : builder.toString();
+        }
+
+        String getValue() {
+            if (builder == null) {
+                throw new IllegalStateException("Cannot getValue() of PrintWriter");
+            }
+            return builder.toString();
+        }
     }
 
-    public static boolean verifyPythonVersionAndDialog() {
-        boolean hasVersion = verifyPythonVersion();
-        if (!hasVersion) {
-            JOptionPane.showMessageDialog(null, "It appears that you do not have Python 3.2 or later installed on your computer! Please install it before using this mode.",
-                "Sorting Network Visualizer", JOptionPane.WARNING_MESSAGE);
+    private static final int OUT_BUFFER_SIZE = 16_777_216; // 32 MB
+
+    private static boolean encodeNetwork0(final Comparator[] comparators, final int n, final PrintWriter out) {
+        int scale = 1;
+        int xScale = scale * 36;
+        int yScale = scale * 20;
+        boolean small = comparators.length < 500_000;
+
+        int h = (n + 1) * yScale;
+        int w = xScale;
+        List<Comparator> groupComparators = new ArrayList<>();
+        List<Integer> groupPositions = new ArrayList<>();
+
+        WriterBuilderProxy writer;
+        ProgressMonitor monitor;
+        int progress = 0;
+        out.write("<?xml version='1.0' encoding='utf-8'?><!DOCTYPE svg>");
+        if (small) {
+            writer = new WriterBuilderProxy(new StringBuilder());
+            monitor = new ProgressMonitor(
+                ArrayVisualizer.getInstance().getWindow(),
+                "Visualizing sorting network...",
+                "Generating SVG",
+                0, comparators.length
+            );
+        } else {
+            monitor = new ProgressMonitor(
+                ArrayVisualizer.getInstance().getWindow(),
+                "Visualizing sorting network...",
+                "Pre-calculating image width",
+                0, comparators.length * 2
+            );
+            for (Comparator c : comparators) {
+                for (Comparator other : groupComparators) {
+                    if (c.hasSameInput(other)) {
+                        for (int otherX : groupPositions) {
+                            if (otherX > w) {
+                                w = otherX;
+                            }
+                        }
+                        w += xScale;
+                        groupComparators.clear();
+                        groupPositions.clear();
+                        break;
+                    }
+                }
+                int cx = w;
+                Iterator<Integer> groupPositionIterator = groupPositions.iterator();
+                for (Comparator other : groupComparators) {
+                    // We don't need hasNext checks because groupPositions and
+                    // groupComparators have the same length
+                    int otherX = groupPositionIterator.next();
+                    if (otherX >= cx && c.overlaps(other)) {
+                        cx = otherX + xScale / 3;
+                    }
+                }
+                groupComparators.add(c);
+                groupPositions.add(cx);
+
+                if ((++progress & 1023) == 0) {
+                    monitor.setProgress(progress);
+                    if (monitor.isCanceled()) return true;
+                }
+            }
+            groupComparators.clear();
+            groupPositions.clear();
+            monitor.setNote("Writing SVG");
+            out.write("<svg width='" + (w + xScale) + "' height='" + h + "' xmlns='http://www.w3.org/2000/svg'>");
+            w = xScale;
+
+            writer = new WriterBuilderProxy(out);
         }
-        return hasVersion;
+
+        for (Comparator c : comparators) {
+            for (Comparator other : groupComparators) {
+                if (c.hasSameInput(other)) {
+                    for (int otherX : groupPositions) {
+                        if (otherX > w) {
+                            w = otherX;
+                        }
+                    }
+                    w += xScale;
+                    groupComparators.clear();
+                    groupPositions.clear();
+                    break;
+                }
+            }
+
+            int cx = w;
+            Iterator<Integer> groupPositionIterator = groupPositions.iterator();
+            for (Comparator other : groupComparators) {
+                // We don't need hasNext checks because groupPositions and
+                // groupComparators have the same length
+                int otherX = groupPositionIterator.next();
+                if (otherX >= cx && c.overlaps(other)) {
+                    cx = otherX + xScale / 3;
+                }
+            }
+
+            int y0 = (c.i1 + 1) * yScale;
+            int y1 = (c.i2 + 1) * yScale;
+            writer.write("<circle cx='" + cx + "' cy='" + y0 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>" +
+                         "<line x1='" + cx + "' y1='" + y0 + "' x2='" + cx + "' y2='" + y1 + "' style='stroke:black;stroke-width:1'/>" +
+                         "<circle cx='" + cx + "' cy='" + y1 + "' r='3' style='stroke:black;stroke-width:1;fill=yellow'/>");
+            groupComparators.add(c);
+            groupPositions.add(cx);
+
+            if ((++progress & 1023) == 0) {
+                monitor.setProgress(progress);
+                if (monitor.isCanceled()) return true;
+            }
+        }
+        groupComparators.clear();
+        groupPositions.clear();
+
+        w += xScale;
+        for (int i = 0; i < n; i++) {
+            int y = yScale + i * yScale;
+            writer.write("<line x1='0' y1='" + y + "' x2='" + w + "' y2='" + y + "' style='stroke:black;stroke-width:1'/>");
+        }
+
+        if (small) {
+            monitor.setNote("Writing SVG to file");
+            out.write("<svg width='" + w + "' height='" + h + "' xmlns='http://www.w3.org/2000/svg'>");
+            out.write(writer.getValue());
+        }
+        out.write("</svg>");
+        monitor.close();
+        return false;
     }
 
-    public static boolean encodeNetwork(int[] indices, String path) {
-        if (indices.length < 2) {
-            JOptionPane.showMessageDialog(null, "Sort does not compare indices; An empty sorting network cannot be generated.",
-                "File not saved", JOptionPane.ERROR_MESSAGE);
-
-            return false;
-        }
-        else if (indices.length > 2*LIMIT) {
-            String[] options = {"Yes", "Cancel"};
-            int choice = JOptionPane.showOptionDialog(null, "Sorting network is very large and exceeds the " + formatter.format(LIMIT) + " comparator limit. Generate anyway?",
-                "Warning!", 2, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-
-            if (choice == 1) {
+    public static boolean encodeNetwork(Comparator[] comparators, int inputLength, File file) {
+        try (PrintWriter out = new PrintWriter(
+                new BufferedWriter(
+                    new OutputStreamWriter(
+                        new FileOutputStream(file), StandardCharsets.UTF_8
+                    ), OUT_BUFFER_SIZE),
+                false)
+            ) {
+            boolean cancelled = encodeNetwork0(comparators, inputLength, out);
+            if (cancelled) {
+                JOptionPane.showMessageDialog(null, "Sorting network visualization cancelled",
+                    "Sorting Network Visualizer", JOptionPane.INFORMATION_MESSAGE);
                 return false;
             }
-        }
-        String result = indices[0] + ":" + indices[1];
-        for (int i = 3; i < indices.length; i += 2) {
-            result += "," + indices[i - 1] + ":" + indices[i];
-        }
-        SortingNetworkFetcher fetcher = new SortingNetworkFetcher();
-        try {
-            ProcessBuilder builder = new ProcessBuilder(pythonCommand, "-c",
-                new BufferedReader(new InputStreamReader(fetcher.getStream())).lines().collect(Collectors.joining("\n")),
-                "--svg", path);
-            builder.redirectOutput(Redirect.INHERIT);
-            Process p = builder.start();
-            BufferedWriter w = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
-            w.write(result);
-            w.close();
-            if (p.waitFor() != 0) {
-                BufferedReader r = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-                JErrorPane.invokeCustomErrorMessage(r.lines().collect(Collectors.joining("\n")));
-                return false;
-            }
-        }
-        catch (IOException e) {
-            JErrorPane.invokeErrorMessage(e, "Sorting Network Visualizer");
-            return false;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e, "Sorting Network Visualizer");
             return false;
         }
         return true;
     }
 
-    public static String encodeNetworkAndDisplay(String name, Integer[] indices, int arrayLength) {
-        String path = "network_" + name + "_" + arrayLength + ".svg";
-        int[] indicesInt = new int[indices.length];
-        for (int i = 0; i < indices.length; i++) {
-            indicesInt[i] = indices[i];
-        }
-        if (!encodeNetwork(indicesInt, path)) {
+    public static File encodeNetworkAndDisplay(String name, ArrayList<Integer> indices, int arrayLength) {
+        Comparator[] comparators;
+        try {
+            comparators = new Comparator[indices.size() / 2];
+            for (int i = 0, j = 1; i < comparators.length; i++, j += 2) {
+                comparators[i] = new Comparator(indices.get(j - 1), indices.get(j));
+            }
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeErrorMessage(e, "Sorting Network Visualizer");
             return null;
         }
-        JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + path + "\"",
+        System.out.println("Length: " + arrayLength + "\tComparators: " + comparators.length / 2);
+        indices.clear();
+        indices.trimToSize();
+        File file = new File(SORTING_NETWORKS_DIR, "network_" + name + "_" + arrayLength + ".svg");
+        try {
+            if (!encodeNetwork(comparators, arrayLength, file)) {
+                return null;
+            }
+        } catch (OutOfMemoryError e) {
+            JErrorPane.invokeCustomErrorMessage(
+                "ArrayV ran out of memory trying to visualize this sorting network.\n" +
+                "Either run ArrayV with more memory (or a smaller maximum length) or contemplate your life choices."
+            );
+            return null;
+        }
+        JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + file + "\"",
             "Sorting Network Visualizer", JOptionPane.INFORMATION_MESSAGE);
-        File file = new File(path);
         Desktop desktop = Desktop.getDesktop();
         try {
             desktop.open(file);
@@ -131,6 +276,6 @@ public class SortingNetworkGenerator {
         catch (IOException e) {
             e.printStackTrace();
         }
-        return path;
+        return file;
     }
 }
