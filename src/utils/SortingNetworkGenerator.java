@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
@@ -126,9 +124,9 @@ public class SortingNetworkGenerator {
             for (Comparator c : comparators) {
                 for (Comparator other : groupComparators) {
                     if (c.hasSameInput(other)) {
-                        for (double pos : groupPositions) {
-                            if (pos > w) {
-                                w = pos;
+                        for (double otherX : groupPositions) {
+                            if (otherX > w) {
+                                w = otherX;
                             }
                         }
                         w += xScale;
@@ -142,9 +140,9 @@ public class SortingNetworkGenerator {
                 for (Comparator other : groupComparators) {
                     // We don't need hasNext checks because groupPositions and
                     // groupComparators have the same length
-                    double otherPos = groupPositionIterator.next();
-                    if (otherPos >= cx && c.overlaps(other)) {
-                        cx = otherPos + xScale / 3.0;
+                    double otherX = groupPositionIterator.next();
+                    if (otherX >= cx && c.overlaps(other)) {
+                        cx = otherX + xScale / 3.0;
                     }
                 }
                 groupComparators.add(c);
@@ -167,9 +165,9 @@ public class SortingNetworkGenerator {
         for (Comparator c : comparators) {
             for (Comparator other : groupComparators) {
                 if (c.hasSameInput(other)) {
-                    for (double pos : groupPositions) {
-                        if (pos > w) {
-                            w = pos;
+                    for (double otherX : groupPositions) {
+                        if (otherX > w) {
+                            w = otherX;
                         }
                     }
                     w += xScale;
@@ -184,9 +182,9 @@ public class SortingNetworkGenerator {
             for (Comparator other : groupComparators) {
                 // We don't need hasNext checks because groupPositions and
                 // groupComparators have the same length
-                double otherPos = groupPositionIterator.next();
-                if (otherPos >= cx && c.overlaps(other)) {
-                    cx = otherPos + xScale / 3.0;
+                double otherX = groupPositionIterator.next();
+                if (otherX >= cx && c.overlaps(other)) {
+                    cx = otherX + xScale / 3.0;
                 }
             }
 
