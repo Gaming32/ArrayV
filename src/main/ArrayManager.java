@@ -1,17 +1,14 @@
 package main;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Hashtable;
-import java.util.Random;
-import java.util.function.IntConsumer;
 
 import panes.JErrorPane;
 import utils.Delays;
 import utils.Highlights;
+import utils.ShuffleGraph;
+import utils.ShuffleInfo;
 import utils.Shuffles;
 import utils.Distributions;
-import utils.Statistics;
 import utils.Writes;
 
 /*
@@ -54,17 +51,17 @@ final public class ArrayManager {
     private ArrayVisualizer ArrayVisualizer;
     private Delays Delays;
     private Highlights Highlights;
-    private Shuffles Shuffles;
-    private Distributions Distributions;
+    private ShuffleGraph shuffle;
+    private Distributions distribution;
     private Writes Writes;
 
     public ArrayManager(ArrayVisualizer arrayVisualizer) {
         this.ArrayVisualizer = arrayVisualizer;
 
-        this.Shuffles = utils.Shuffles.RANDOM;
-        this.Distributions = utils.Distributions.LINEAR;
-        this.shuffleTypes = utils.Shuffles.values();
-        this.distributionTypes = utils.Distributions.values();
+        this.shuffle = ShuffleGraph.single(Shuffles.RANDOM);
+        this.distribution = Distributions.LINEAR;
+        this.shuffleTypes = Shuffles.values();
+        this.distributionTypes = Distributions.values();
 
         hadDistributionAllocationError = false;
 
@@ -108,7 +105,7 @@ final public class ArrayManager {
             hadDistributionAllocationError = true;
             temp = array;
         }
-        Distributions.initializeArray(temp, this.ArrayVisualizer);
+        distribution.initializeArray(temp, this.ArrayVisualizer);
 
         double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();
         for(int i = 0; i < currentLen; i++)
@@ -124,11 +121,32 @@ final public class ArrayManager {
     public Shuffles[] getShuffles() {
         return this.shuffleTypes;
     }
-    public Shuffles getShuffle() {
-        return this.Shuffles;
+    public ShuffleGraph getShuffle() {
+        return this.shuffle;
     }
+
+    /**
+     * @deprecated This method is deprecatated. Please use {@link #setShuffleSingle(Shuffles)} or {@link #setShuffle(ShuffleGraph)} instead.
+     * @see #setShuffleSingle(Shuffles)
+     * @see #setShuffle(ShuffleGraph)
+     */
     public void setShuffle(Shuffles choice) {
-        this.Shuffles = choice;
+        this.setShuffleSingle(choice);
+    }
+
+    public ShuffleGraph setShuffle(ShuffleGraph graph) {
+        this.shuffle = graph;
+        return graph; // return the shuffle so additional methods can be called on it
+    }
+
+    public ShuffleGraph setShuffleSingle(Shuffles shuffle) {
+        return this.setShuffle(ShuffleGraph.single(shuffle));
+    }
+    public ShuffleGraph setShuffleSingle(Distributions distribution) {
+        return this.setShuffle(ShuffleGraph.single(distribution));
+    }
+    public ShuffleGraph setShuffleSingle(Distributions distribution, boolean warped) {
+        return this.setShuffle(ShuffleGraph.single(distribution, warped));
     }
 
     public String[] getDistributionIDs() {
@@ -138,13 +156,17 @@ final public class ArrayManager {
         return this.distributionTypes;
     }
     public Distributions getDistribution() {
-        return this.Distributions;
+        return this.distribution;
     }
     public void setDistribution(Distributions choice) {
-        this.Distributions = choice;
-        this.Distributions.selectDistribution(ArrayVisualizer.getArray(), ArrayVisualizer);
+        this.distribution = choice;
+        this.distribution.selectDistribution(ArrayVisualizer.getArray(), ArrayVisualizer);
         if (!ArrayVisualizer.isActive())
             this.initializeArray(ArrayVisualizer.getArray());
+    }
+
+    public boolean containsShuffle(Shuffles shuffle) {
+        return this.shuffle.contains(new ShuffleInfo(shuffle));
     }
 
     public void shuffleArray(int[] array, int currentLen, ArrayVisualizer ArrayVisualizer) {
@@ -157,14 +179,11 @@ final public class ArrayManager {
 
         if(ArrayVisualizer.isActive()) {
             double sleepRatio = ArrayVisualizer.getCurrentLength()/1024d;
+            sleepRatio *= shuffle.sleepRatio;
             Delays.setSleepRatio(sleepRatio);
         }
 
-        Shuffles tempShuffle = this.Shuffles;
-        if(Distributions == Distributions.RANDOM || Distributions == Distributions.EQUAL)
-            this.Shuffles = Shuffles.ALREADY;
-        Shuffles.shuffleArray(array, this.ArrayVisualizer, Delays, Highlights, Writes);
-        this.Shuffles = tempShuffle;
+        shuffle.shuffleArray(array, this.ArrayVisualizer);
 
         Delays.setSleepRatio(speed);
 

@@ -3,7 +3,7 @@ package sorts.hybrid;
 import main.ArrayVisualizer;
 import sorts.select.MaxHeapSort;
 import sorts.hybrid.FifthMergeSort;
-import sorts.templates.Sort;
+import sorts.templates.BlockMergeSorting;
 import utils.IndexedRotations;
 
 /*
@@ -32,7 +32,7 @@ SOFTWARE.
  *
  */
 
-final public class ChaliceSort extends Sort {
+final public class ChaliceSort extends BlockMergeSorting {
     public ChaliceSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
@@ -76,112 +76,11 @@ final public class ChaliceSort extends Sort {
 		return a;
 	}
 	
-	private void insertTo(int[] array, int a, int b) {
-		Highlights.clearMark(2);
-		int temp = array[a];
-		while(a > b) Writes.write(array, a, array[--a], 0.5, true, false);
-		Writes.write(array, b, temp, 0.5, true, false);
-	}
-	private void insertToBW(int[] array, int a, int b) {
-		Highlights.clearMark(2);
-		int temp = array[a];
-		while(a < b) Writes.write(array, a, array[++a], 0.5, true, false);
-		Writes.write(array, a, temp, 0.5, true, false);
-	}
-	
-	private void shiftFW(int[] array, int a, int m, int b) {
-		while(m < b) Writes.swap(array, a++, m++, 1, true, false);
-	}
-	private void shiftBW(int[] array, int a, int m, int b) {
-		while(m > a) Writes.swap(array, --b, --m, 1, true, false);
-	}
-	
-	private void shiftExtFW(int[] array, int a, int m, int b) {
-		Highlights.clearMark(2);
-		while(m < b) Writes.write(array, a++, array[m++], 1, true, false);
-	}
-	private void shiftExtBW(int[] array, int a, int m, int b) {
-		Highlights.clearMark(2);
-		while(m > a) Writes.write(array, --b, array[--m], 1, true, false);
-	}
-	
-	private void multiSwap(int[] array, int a, int b, int len) {
-		for(int i = 0; i < len; i++)
-			Writes.swap(array, a+i, b+i, 1, true, false);
-	}
-	
-	private void rotate(int[] array, int a, int m, int b) {
-		Highlights.clearMark(2);
-		IndexedRotations.cycleReverse(array, a, m, b, 1, true, false);
-	}
-	
-	private int leftBinSearch(int[] array, int a, int b, int val) {
-		while(a < b) {
-			int m = a+(b-a)/2;
-			Highlights.markArray(2, m);
-			Delays.sleep(0.25);
-			
-			if(Reads.compareValues(val, array[m]) <= 0) 
-				b = m;
-			else     
-				a = m+1;
-		}
-		return a;
-	}
-	private int rightBinSearch(int[] array, int a, int b, int val) {
-		while(a < b) {
-			int m = a+(b-a)/2;
-			Highlights.markArray(2, m);
-			Delays.sleep(0.25);
-			
-			if(Reads.compareValues(val, array[m]) < 0) 
-				b = m;
-			else     
-				a = m+1;
-		}
-		return a;
-	}
-	
-	private void mergeExtFW(int[] array, int[] tmp, int a, int m, int b) {
-		int s = m-a;
-		
-		Writes.arraycopy(array, a, tmp, 0, s, 1, true, true);
-		
-		int i = 0, j = m;
-		
-		while(i < s && j < b) {
-			if(Reads.compareValues(tmp[i], array[j]) <= 0)
-				Writes.write(array, a++, tmp[i++], 1, true, false);
-			else
-				Writes.write(array, a++, array[j++], 1, true, false);
-		}
-		while(i < s) Writes.write(array, a++, tmp[i++], 1, true, false); 
-	}
-	private void mergeExtBW(int[] array, int[] tmp, int a, int m, int b) {
-		int s = b-m;
-		
-		Writes.arraycopy(array, m, tmp, 0, s, 1, true, true);
-		
-		int i = s-1, j = m-1;
-		
-		while(i >= 0 && j >= a) {
-			if(Reads.compareValues(tmp[i], array[j]) >= 0)
-				Writes.write(array, --b, tmp[i--], 1, true, false);
-			else
-				Writes.write(array, --b, array[j--], 1, true, false);
-		}
-		while(i >= 0) Writes.write(array, --b, tmp[i--], 1, true, false); 
-	}
-	
-	private void insertion(int[] array, int a, int b) {
-		for(int i = a+1; i < b; i++)
-			this.insertTo(array, i, this.rightBinSearch(array, a, i, array[i]));
-	}
 	private void laziestSortExt(int[] array, int[] tmp, int a, int b) {
 		for(int i = a, s = tmp.length; i < b; i += s) {
 			int j = Math.min(b, i+s);
-			this.insertion(array, i, j);
-			if(i > a) this.mergeExtBW(array, tmp, a, i, j);
+			this.binaryInsertion(array, i, j);
+			if(i > a) this.mergeBWExt(array, tmp, a, i, j);
 		}
 	}
 	
@@ -260,7 +159,7 @@ final public class ChaliceSort extends Sort {
 					t[0] = pEnd;
 					pEnd += keys;
 					
-					this.mergeExtBW(array, tmp, p, t[0], pEnd); //merge can be done inplace + stable
+					this.mergeBWExt(array, tmp, p, t[0], pEnd); //merge can be done inplace + stable
 					break;
 				}
 				else {
@@ -269,7 +168,7 @@ final public class ChaliceSort extends Sort {
 					p += t[0]-pEnd;
 					pEnd = t[1];
 					
-					this.mergeExtBW(array, tmp, p, t[0], pEnd);
+					this.mergeBWExt(array, tmp, p, t[0], pEnd);
 				}
 			}
 		}
@@ -392,44 +291,12 @@ final public class ChaliceSort extends Sort {
 			int t = i-m;
 			m = i;
 			
-			this.mergeExtFW(array, tmp, a, a+s, m);
+			this.mergeFWExt(array, tmp, a, a+s, m);
 			a += t+s;
 		}
-		if(m < b) this.mergeExtFW(array, tmp, a, m, b);
+		if(m < b) this.mergeFWExt(array, tmp, a, m, b);
 	}
 	
-	private void mergeFW(int[] array, int a, int m, int b, int p) {
-		int i = m;
-		
-		while(a < m && i < b) {
-			Highlights.markArray(2, i);
-			
-			if(Reads.compareValues(array[a], array[i]) <= 0)
-				Writes.swap(array, p++, a++, 1, true, false);
-			else
-				Writes.swap(array, p++, i++, 1, true, false);
-		}
-		
-		if(a > p) this.shiftFW(array, p, a, m);
-		
-		this.shiftFW(array, p, i, b);
-	}
-	private void mergeBW(int[] array, int a, int m, int b, int p) {
-		int i = m-1; b--;
-		
-		while(b >= m && i >= a) {
-			Highlights.markArray(2, i);
-			
-			if(Reads.compareValues(array[b], array[i]) >= 0)
-				Writes.swap(array, --p, b--, 1, true, false);
-			else
-				Writes.swap(array, --p, i--, 1, true, false);
-		}
-		
-		if(p > b) this.shiftBW(array, m, b+1, p);
-		
-		this.shiftBW(array, a, i+1, p);
-	}
 	private void dualMergeBW(int[] array, int a, int m, int b, int p) {
 		int i = m-1; b--;
 		
@@ -458,39 +325,6 @@ final public class ChaliceSort extends Sort {
 			while(a < i) Writes.swap(array, p++, a++, 1, true, false);
 		}
 	}
-	
-	private void mergeFWExt(int[] array, int a, int m, int b, int p) {
-		int i = m;
-		
-		while(a < m && i < b) {
-			Highlights.markArray(2, i);
-			
-			if(Reads.compareValues(array[a], array[i]) <= 0)
-				Writes.write(array, p++, array[a++], 1, true, false);
-			else
-				Writes.write(array, p++, array[i++], 1, true, false);
-		}
-		
-		if(a > p) this.shiftExtFW(array, p, a, m);
-		
-		this.shiftExtFW(array, p, i, b);
-	}
-	private void mergeBWExt(int[] array, int a, int m, int b, int p) {
-		int i = m-1; b--;
-		
-		while(b >= m && i >= a) {
-			Highlights.markArray(2, i);
-			
-			if(Reads.compareValues(array[b], array[i]) >= 0)
-				Writes.write(array, --p, array[b--], 1, true, false);
-			else
-				Writes.write(array, --p, array[i--], 1, true, false);
-		}
-		
-		if(p > b) this.shiftExtBW(array, m, b+1, p);
-		
-		this.shiftExtBW(array, a, i+1, p);
-	}
 	private void dualMergeBWExt(int[] array, int a, int m, int b, int p) {
 		int i = m-1; b--;
 		
@@ -503,7 +337,7 @@ final public class ChaliceSort extends Sort {
 				Writes.write(array, --p, array[i--], 1, true, false);
 		}
 		
-		if(b < m) this.shiftExtBW(array, a, i+1, p);
+		if(b < m) this.shiftBWExt(array, a, i+1, p);
 		
 		else {
 			i++; b++; p = m-(i-a);
@@ -546,7 +380,7 @@ final public class ChaliceSort extends Sort {
 				Writes.write(array, p++, array[i++], 1, true, false);
 		}
 		if(a < m) {
-			if(a > p) this.shiftExtFW(array, p, a, m);
+			if(a > p) this.shiftFWExt(array, p, a, m);
 			Writes.arraycopy(tmp, 0, array, b-bLen, bLen, 1, true, false);
 		}
 		else {
@@ -588,7 +422,7 @@ final public class ChaliceSort extends Sort {
 	private void blockMerge(int[] array, int[] tmp, int a, int m, int b, int tl, int tLen, int t, int tIdx, int bp1, int bp2, int bLen) {
 		if(b-m <= bLen) {
 			Highlights.clearMark(2);
-			this.mergeExtBW(array, tmp, a, m, b);
+			this.mergeBWExt(array, tmp, a, m, b);
 			return;
 		}
 		
@@ -666,21 +500,6 @@ final public class ChaliceSort extends Sort {
 				}
 				while(next != i);
 			}
-		}
-	}
-	private void inPlaceMerge(int[] array, int a, int m, int b) {
-		while(a < m && m < b) {
-			a = this.rightBinSearch(array, a, m, array[m]);
-			
-			if(a == m) return;
-			
-			int i = this.leftBinSearch(array, m, b, array[a]);
-						
-			this.rotate(array, a, m, i);
-			
-			int t = i-m;
-			m = i;
-			a += t+1;
 		}
 	}
 	private int inPlaceMergeBW(int[] array, int a, int m, int b, boolean rev) {
@@ -775,7 +594,7 @@ final public class ChaliceSort extends Sort {
 		int a = 0, b = currentLength, n = b-a;
 		
 		if(n < 128) {
-			if(n < 32) this.insertion(array, a, b);
+			if(n < 32) this.binaryInsertion(array, a, b);
 			
 			else {
 				FifthMergeSort smallSort = new FifthMergeSort(this.arrayVisualizer);
@@ -818,43 +637,43 @@ final public class ChaliceSort extends Sort {
 		int a3 = a2+bLen, i, j = 1; n = b-a3;
 		
 		//advanced build blocks
-		this.insertion(array, a2, a3);
+		this.binaryInsertion(array, a2, a3);
 		Writes.arraycopy(array, a2, tmp, 0, bLen, 1, true, true);
 		
 		for(; j < cbrt; j *= 2) {
 			int p = Math.max(2, j);
 			
 			for(i = a3; i+2*j < b; i += 2*j)
-				this.mergeFWExt(array, i, i+j, i+2*j, i-p);
+				this.mergeWithBufFWExt(array, i, i+j, i+2*j, i-p);
 			
-			if(i+j < b) this.mergeFWExt(array, i, i+j, b, i-p);
-			else		this.shiftExtFW(array, i-p, i, b);
+			if(i+j < b) this.mergeWithBufFWExt(array, i, i+j, b, i-p);
+			else		this.shiftFWExt(array, i-p, i, b);
 			
 			a3 -= p; b -= p;
 		}
 		
 		i = b-n%(2*j);
 		
-		if(i+j < b) this.mergeBWExt(array, i, i+j, b, b+j);
-		else 		this.shiftExtBW(array, i, b, b+j);
+		if(i+j < b) this.mergeWithBufBWExt(array, i, i+j, b, b+j);
+		else 		this.shiftBWExt(array, i, b, b+j);
 		
 		for(i -= 2*j; i >= a3; i -= 2*j)
-			this.mergeBWExt(array, i, i+j, i+2*j, i+3*j);
+			this.mergeWithBufBWExt(array, i, i+j, i+2*j, i+3*j);
 		
 		a3 += j; b += j; j *= 2;
 		
 		for(i = a3; i+2*j < b; i += 2*j)
-			this.mergeFWExt(array, i, i+j, i+2*j, i-j);
+			this.mergeWithBufFWExt(array, i, i+j, i+2*j, i-j);
 		
-		if(i+j < b) this.mergeFWExt(array, i, i+j, b, i-j);
-		else		this.shiftExtFW(array, i-j, i, b);
+		if(i+j < b) this.mergeWithBufFWExt(array, i, i+j, b, i-j);
+		else		this.shiftFWExt(array, i-j, i, b);
 		
 		a3 -= j; b -= j; j *= 2;
 		
 		i = b-n%(2*j);
 		
 		if(i+j < b) this.dualMergeBWExt(array, i, i+j, b, b+j/2);
-		else 		this.shiftExtBW(array, i, b, b+j/2);
+		else 		this.shiftBWExt(array, i, b, b+j/2);
 		
 		for(i -= 2*j; i >= a3; i -= 2*j)
 			this.dualMergeBWExt(array, i, i+j, i+2*j, i+2*j+j/2);
@@ -871,9 +690,9 @@ final public class ChaliceSort extends Sort {
 					int p = Math.max(mLvl, j);
 					
 					for(i = a3; i+2*j < b; i += 2*j)
-						this.mergeFW(array, i, i+j, i+2*j, i-p);
+						this.mergeWithBufFW(array, i, i+j, i+2*j, i-p);
 					
-					if(i+j < b) this.mergeFW(array, i, i+j, b, i-p);
+					if(i+j < b) this.mergeWithBufFW(array, i, i+j, b, i-p);
 					else		this.shiftFW(array, i-p, i, b);
 					
 					a3 -= p; b -= p;
@@ -881,19 +700,19 @@ final public class ChaliceSort extends Sort {
 				
 				i = b-n%(2*j);
 				
-				if(i+j < b) this.mergeBW(array, i, i+j, b, b+j);
+				if(i+j < b) this.mergeWithBufBW(array, i, i+j, b, b+j);
 				else 		this.shiftBW(array, i, b, b+j);
 				
 				for(i -= 2*j; i >= a3; i -= 2*j)
-					this.mergeBW(array, i, i+j, i+2*j, i+3*j);
+					this.mergeWithBufBW(array, i, i+j, i+2*j, i+3*j);
 				
 				a3 += j; b += j; j *= 2;
 			}
 			if(keys >= j) {
 				for(i = a3; i+2*j < b; i += 2*j)
-					this.mergeFW(array, i, i+j, i+2*j, i-j);
+					this.mergeWithBufFW(array, i, i+j, i+2*j, i-j);
 				
-				if(i+j < b) this.mergeFW(array, i, i+j, b, i-j);
+				if(i+j < b) this.mergeWithBufFW(array, i, i+j, b, i-j);
 				else		this.shiftFW(array, i-j, i, b);
 				
 				a3 -= j; b -= j; j *= 2;
@@ -945,5 +764,7 @@ final public class ChaliceSort extends Sort {
 		this.multiSwap(array, a1+bSep, a1+kLen+bSep, kLen-bSep); //restore bit buffer initial position
 		this.laziestSortExt(array, tmp, a, a3);
 		this.redistBuffer(array, tmp, a, a3, b);
+		
+		Writes.deleteExternalArray(tmp);
     }
 }

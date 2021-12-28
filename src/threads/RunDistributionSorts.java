@@ -6,7 +6,7 @@ import sorts.distribute.*;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -59,12 +59,12 @@ final public class RunDistributionSorts extends MultipleSortThread {
     private Sort QuickBinaryRadixSort;
     private Sort StacklessAmericanFlagSort;
     private Sort StacklessBinaryQuickSort;
-    
+
     public RunDistributionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 25;
         this.categoryCount = this.sortCount;
-        
+
         CountingSort              = new              CountingSort(this.arrayVisualizer);
         PigeonholeSort            = new            PigeonholeSort(this.arrayVisualizer);
         OptimizedPigeonholeSort   = new   OptimizedPigeonholeSort(this.arrayVisualizer);
@@ -108,11 +108,11 @@ final public class RunDistributionSorts extends MultipleSortThread {
         RunDistributionSorts.this.runIndividualSort(StacklessAmericanFlagSort, 128, array, 2048, 0.75, false);
         // RunDistributionSorts.this.runIndividualSort(DivisorSort,            128, array, 2048, 0.5,  false);
         RunDistributionSorts.this.runIndividualSort(LSDRadixSort,                4, array, 2048, 1.5,  false);
-        
+
         Sounds.toggleSofterSounds(true);
         RunDistributionSorts.this.runIndividualSort(InPlaceLSDRadixSort,     10, array, 2048, 1,    false);
         Sounds.toggleSofterSounds(false);
-        
+
         RunDistributionSorts.this.runIndividualSort(MSDRadixSort,             4, array, 2048, 1.25, false);
         RunDistributionSorts.this.runIndividualSort(InPlaceMSDRadixSort,      4, array, 2048, 1.25, false);
         RunDistributionSorts.this.runIndividualSort(LMSDRadixSort,            4, array, 2048, 1.25, false);
@@ -126,14 +126,14 @@ final public class RunDistributionSorts extends MultipleSortThread {
         RunDistributionSorts.this.runIndividualSort(ImmediateShatterSort,     0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(TimeSort,                10, array,  512, 0.05, false);
     }
-    
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("DistributionSorts") {
             @Override
             public void run() {
                 try{
@@ -144,18 +144,18 @@ final public class RunDistributionSorts extends MultipleSortThread {
                     else {
                         RunDistributionSorts.this.sortNumber = 1;
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
 
                     arrayVisualizer.setCategory("Distribution Sorts");
 
                     RunDistributionSorts.this.executeSortList(array);
-                    
+
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run Distribution Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {

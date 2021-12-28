@@ -3,39 +3,46 @@ package sorts.distribute;
 import java.util.ArrayList;
 
 import main.ArrayVisualizer;
-import sorts.insert.InsertionSort;
+import sorts.insert.UnstableInsertionSort;
 import sorts.select.MaxHeapSort;
 import sorts.templates.Sort;
 
 /*
  * 
-staticSort Copyright(C) 2020 thatsOven
+MIT License
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+Copyright (c) 2020-2021 thatsOven
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
  *
  */
 
 final public class StaticSort extends Sort {
     MaxHeapSort heapSorter;
-    InsertionSort insertSorter;
+    UnstableInsertionSort insertSorter;
 
     public StaticSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         
         this.setSortListName("Static");
         this.setRunAllSortsName("Static Sort");
-        this.setRunSortName("thatsOven's staticSort");
+        this.setRunSortName("Static Sort");
         this.setCategory("Distribution Sorts");
         this.setComparisonBased(false);
         this.setBucketSort(false);
@@ -45,114 +52,90 @@ final public class StaticSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private class StaticItem {
-        public boolean isSubArray;
-        public int value;
-        public ArrayList<Integer> subArray;
+    public int[] findMinMax(int[] array, int a, int b) {
+        int min = array[a],
+            max = min;
 
-        public StaticItem(int value) {
-            this.isSubArray = false;
-            this.value = value;
-            this.subArray = null;
+        for (int i = a + 1; i < b; i++) {
+            if (Reads.compareIndexValue(array, i, min, 0.5, true) < 0)
+                min = array[i];
+            else if (Reads.compareIndexValue(array, i, max, 0.5, true) > 0)
+                max = array[i];
         }
 
-        public StaticItem(int[] value) {
-            this.isSubArray = true;
-            this.value = 0;
-            this.subArray = new ArrayList<>();
-            for (int i = 0; i < value.length; i++) {
-                this.subArray.add(value[i]);
-            }
-        }
+        return new int[] {min, max};
     }
 
+    public void staticSort(int[] array, int a, int b) {
+        int[] minMax = this.findMinMax(array, a, b);
+        int auxLen = b - a;
+
+        int[] count  = Writes.createExternalArray(auxLen + 1),
+              offset = Writes.createExternalArray(auxLen + 1);
+
+        float CONST = (float) auxLen / (minMax[1] - minMax[0] + 4);
+
+        System.out.println(CONST);
+        
+        int idx;
+        for (int i = a; i < b; i++) {
+            Highlights.markArray(1, i);
+            Delays.sleep(1);
+            idx = (int)((array[i] - minMax[0]) * CONST);
+            Writes.write(count, idx, count[idx] + 1, 1, false, true);
+        }
+        
+        Writes.write(offset, 0, a, 0, false, true);
+        
+        for (int i = 1; i < auxLen; i++) {
+            Writes.write(offset, i, count[i - 1] + offset[i - 1], 0, false, true);
+        }
+        
+        for (int v = 0; v < auxLen; v++) {
+            while (count[v] > 0) {
+                int origin = offset[v];
+                int from = origin;
+                int num = array[from];
+                
+                Writes.write(array, from, -1, 0.5, true, false);
+                
+                do {
+                    idx = (int)((num - minMax[0]) * CONST);
+                    int to = offset[idx];
+                    
+                    Writes.write(offset, idx, offset[idx] + 1, 1, false, true);
+                    Writes.write(count, idx, count[idx] - 1, 1, false, true);
+                    
+                    int temp = array[to];
+                    Writes.write(array, to, num, 1, true, false);
+                    
+                    num = temp;
+                    from = to;
+                } while (from != origin);
+            }
+        }
+
+        for (int i = 0; i < auxLen; i++) {
+            int s = (i > 1) ? offset[i - 1] : a,
+                e = offset[i];
+
+            if (e - s <= 1) continue;
+
+            if (e - s > 16)
+                heapSorter.customHeapSort(array, s, e, 1);
+            else
+                insertSorter.unstableInsertionSort(array, s, e);
+        }
+
+        Writes.deleteExternalArray(count);
+        Writes.deleteExternalArray(offset);
+    }
+    
     @Override
     public void runSort(int[] mainArray, int size, int bucketCount) throws Exception {
         heapSorter = new MaxHeapSort(this.arrayVisualizer);
-        insertSorter = new InsertionSort(this.arrayVisualizer);
+        insertSorter = new UnstableInsertionSort(this.arrayVisualizer);
 
-        int M = Reads.analyzeMax(mainArray, size, 0.5, true);
-        double constant = (double)size / (M + 2);
-        int counter = 0;
-        int listCount = 0;
-
-        StaticItem[] a = new StaticItem[size];
-        for (int i = 0; i < size; i++) {
-            a[i] = new StaticItem(mainArray[i]);
-        }
-
-        while (listCount < size) {
-            if (a[counter].isSubArray) {
-                counter++;
-            } else {
-                if (Reads.compareValues((int)(a[counter].value * constant), counter) == 0) {
-                    a[counter] = new StaticItem(new int[] {a[counter].value});
-                    Writes.changeWrites(1);
-                } else {
-                    if (a[(int)(a[counter].value * constant)].isSubArray) {
-                        a[(int)(a[counter].value * constant)].subArray.add(a[counter].value);
-                        Writes.mockWrite(
-                            a[(int)(a[counter].value * constant)].subArray.size(),
-                            a[(int)(a[counter].value * constant)].subArray.size() - 1,
-                            a[counter].value, 0);
-                        Writes.changeAuxWrites(-1);
-                        a[counter] = new StaticItem(new int[] {});
-                        Writes.changeWrites(2);
-                    } else {
-                        StaticItem tmp = a[(int)(a[counter].value * constant)];
-                        StaticItem newItem = new StaticItem(new int[] {a[counter].value});
-                        Writes.startLap();
-                        a[(int)(a[counter].value * constant)] = newItem;
-                        a[counter] = tmp;
-                        Writes.stopLap();
-                        Writes.changeWrites(2);
-                    }
-                }
-                listCount++;
-            }
-            
-            // Render loop
-            int wcount = 0;
-            for (int i = 0; i < size; i++) {
-                if (a[i].isSubArray) {
-                    for (int j = 0; j < a[i].subArray.size(); j++) {
-                        mainArray[wcount] = a[i].subArray.get(j);
-                        wcount++;
-                    }
-                } else {
-                    mainArray[wcount] = a[i].value;
-                    wcount++;
-                }
-            }
-            
-            Highlights.markArray(1, counter);
-            Delays.sleep(1);
-        }
-
-        // Simulate staticSort's merge_arrays function
-        int wcount = 0;
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < a[i].subArray.size(); j++) {
-                Writes.write(mainArray, wcount, a[i].subArray.get(j), 0, false, false);
-                Writes.changeWrites(-1);
-                wcount++;
-            }
-        }
-
-        int index = 0;
-        for (int i = 0; i < size; i++) {
-            int lt = a[i].subArray.size();
-            Highlights.markArray(3, index);
-            Highlights.markArray(4, index + lt);
-            if (lt > 1) {
-                if (lt > 16) {
-                    heapSorter.customHeapSort(mainArray, index, lt, 1);
-                } else {
-                    insertSorter.customInsertSort(mainArray, index, index + lt, 1, false);
-                }
-            }
-            Delays.sleep(0.2);
-            index += lt;
-        }
+        this.staticSort(mainArray, 0, size);
     }
 }

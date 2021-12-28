@@ -292,7 +292,7 @@ final public class TimSorting {
                 case 2:  ts.Writes.write(a, left + 2, a[left + 1], 1, true, false); 
                 case 1:  ts.Writes.write(a, left + 1, a[left], 1, true, false);
                          break;
-                default: ts.Writes.reversearraycopy(a, left, a, left + 1, n, 1, true, false);
+                default: ts.Writes.arraycopy(a, left, a, left + 1, n, 1, true, false);
             }
             ts.Writes.write(a, left, pivot, 1, true, false);
         }
@@ -823,13 +823,13 @@ final public class TimSorting {
         ts.markArray(1, dest);
         ts.markArray(2, cursor1);
         if (--len1 == 0) {
-            ts.Writes.reversearraycopy(tmp, 0, a, dest - (len2 - 1), len2, 1, true, false);
+            ts.Writes.arraycopy(tmp, 0, a, dest - (len2 - 1), len2, 1, true, false);
             return;
         }
         if (len2 == 1) {
             dest -= len1;
             cursor1 -= len1;
-            ts.Writes.reversearraycopy(a, cursor1 + 1, a, dest + 1, len1, 1, true, false);
+            ts.Writes.arraycopy(a, cursor1 + 1, a, dest + 1, len1, 1, true, false);
             ts.Writes.write(a, dest, tmp[cursor2], 1, false, false);
             ts.markArray(1, dest);
             return;
@@ -875,7 +875,7 @@ final public class TimSorting {
                     dest -= count1;
                     cursor1 -= count1;
                     len1 -= count1;
-                    ts.Writes.reversearraycopy(a, cursor1 + 1, a, dest + 1, count1, 1, true, false);
+                    ts.Writes.arraycopy(a, cursor1 + 1, a, dest + 1, count1, 1, true, false);
                     if (len1 == 0)
                         break outer;
                 }
@@ -889,7 +889,7 @@ final public class TimSorting {
                     dest -= count2;
                     cursor2 -= count2;
                     len2 -= count2;
-                    ts.Writes.reversearraycopy(tmp, cursor2 + 1, a, dest + 1, count2, 1, true, false);
+                    ts.Writes.arraycopy(tmp, cursor2 + 1, a, dest + 1, count2, 1, true, false);
                     if (len2 <= 1)  // len2 == 1 || len2 == 0
                         break outer;
                 }
@@ -909,14 +909,14 @@ final public class TimSorting {
         if (len2 == 1) {
             dest -= len1;
             cursor1 -= len1;
-            ts.Writes.reversearraycopy(a, cursor1 + 1, a, dest + 1, len1, 1, true, false);
+            ts.Writes.arraycopy(a, cursor1 + 1, a, dest + 1, len1, 1, true, false);
             ts.Writes.write(a, dest, tmp[cursor2], 1, false, false); // Move first elt of run2 to front of merge
             ts.markArray(1, dest);
         } else if (len2 == 0) {
             throw new IllegalArgumentException(
                 "Comparison method violates its general contract!");
         } else {
-            ts.Writes.reversearraycopy(tmp, 0, a, dest - (len2 - 1), len2, 1, true, false);
+            ts.Writes.arraycopy(tmp, 0, a, dest - (len2 - 1), len2, 1, true, false);
         }
     }
     /**

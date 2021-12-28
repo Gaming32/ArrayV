@@ -244,6 +244,14 @@ final public class Writes {
         Delays.sleep(pause);
     }
 
+    public void visualClear(int[] array, int index) {
+        visualClear(array, index, 0);
+    }
+
+    public void visualClear(int[] array, int index, double delay) {
+        array[index] = -1;
+    }
+
     public void multiDimWrite(int[][] array, int x, int y, int equals, double pause, boolean mark, boolean auxwrite) {
         if (ArrayVisualizer.sortCanceled()) throw new StopSort();
         if(mark) Highlights.markArray(1, x);
@@ -352,16 +360,30 @@ final public class Writes {
         this.deleteExternalArray(tempArray);
     }
 
-    //Methods mocking System.arraycopy (reversearraycopy is for TimSort's MergeHi and BinaryInsert, and WikiSort's Rotate)
+    /**
+     * Method to mimic {@link System#arraycopy(Object, int, Object, int, int)}
+     * @see System#arraycopy(Object, int, Object, int, int)
+     */
     public void arraycopy(int[] src, int srcPos, int[] dest, int destPos, int length, double sleep, boolean mark, boolean aux) {
-        for(int i = 0; i < length; i++) {
-            if(mark) {
-                if(aux) Highlights.markArray(1, srcPos  + i);
-                else    Highlights.markArray(1, destPos + i);
+        int start, end, dir;
+        if (src != dest || destPos < srcPos) {
+            start = 0;
+            end = length;
+            dir = 1;
+        } else {
+            start = length - 1;
+            end = -1;
+            dir = -1;
+        }
+        for (int i = start; i != end; i += dir) {
+            if (mark) {
+                if (aux) {
+                    Highlights.markArray(1, srcPos + i);
+                } else {
+                    Highlights.markArray(1, destPos + i);
+                }
             }
-
-            //TODO: Handle order of Delays in write method better
-            this.write(dest, destPos + i, src[srcPos + i], sleep, false, aux);
+            write(dest, destPos + i, src[srcPos + i], sleep, false, aux);
         }
     }
 
@@ -381,15 +403,14 @@ final public class Writes {
         return result;
     }
 
+    /**
+     * Same as arraycopy, but used to copy in reverse
+     * @deprecated Use {@link Writes#arraycopy(int[], int, int[], int, int, double, boolean, boolean)} instead
+     * @see Writes#arraycopy(int[], int, int[], int, int, double, boolean, boolean)
+     */
+    @Deprecated
     public void reversearraycopy(int[] src, int srcPos, int[] dest, int destPos, int length, double sleep, boolean mark, boolean aux) {
-        for(int i = length - 1; i >= 0; i--) {
-            if(mark) {
-                if(aux) Highlights.markArray(1, srcPos  + i);
-                else    Highlights.markArray(1, destPos + i);
-            }
-
-            this.write(dest, destPos + i, src[srcPos + i], sleep, false, aux);
-        }
+        arraycopy(src, srcPos, dest, destPos, length, sleep, mark, aux);
     }
 
     public ArrayVList createArrayList() {
@@ -411,6 +432,13 @@ final public class Writes {
     public void deleteExternalArray(int[] array) {
         this.allocAmount -= array.length;
         ArrayVisualizer.getArrays().remove(array);
+        ArrayVisualizer.updateNow();
+    }
+
+    public void deleteExternalArrays(int[]... arrays) {
+        this.allocAmount -= Arrays.stream(arrays).reduce(0, (a, b) -> (a + b.length), (a, b) -> a + b);
+        List<int[]> visArrays = ArrayVisualizer.getArrays();
+        Arrays.stream(arrays).forEach(visArrays::remove);
         ArrayVisualizer.updateNow();
     }
 

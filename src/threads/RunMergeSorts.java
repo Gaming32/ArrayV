@@ -6,7 +6,7 @@ import sorts.merge.*;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -58,7 +58,7 @@ final public class RunMergeSorts extends MultipleSortThread {
     private Sort RotateMergeSortParallel;
     private Sort StacklessRotateMergeSort;
     private Sort WeavedMergeSort;
-    
+
     public RunMergeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 25;
@@ -119,15 +119,15 @@ final public class RunMergeSorts extends MultipleSortThread {
         RunMergeSorts.this.runIndividualSort(StrandSort,                0, array, 2048, 1,    false);
         RunMergeSorts.this.runIndividualSort(BufferedStoogeSort,        0, array,  256, 0.2,  false);
         RunMergeSorts.this.runIndividualSort(OptimizedPancakeSort,      0, array, 2048, 1,    false);
-    } 
-    
+    }
+
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
         if(arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("MergeSorts") {
             @Override
             public void run() {
                 try{
@@ -138,18 +138,18 @@ final public class RunMergeSorts extends MultipleSortThread {
                     else {
                         RunMergeSorts.this.sortNumber = 1;
                     }
-                    
+
                     arrayManager.toggleMutableLength(false);
 
                     arrayVisualizer.setCategory("Merge Sorts");
 
                     RunMergeSorts.this.executeSortList(array);
-                    
+
                     if(!runAllActive) {
                         arrayVisualizer.setCategory("Run Merge Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
-                    
+
                     arrayManager.toggleMutableLength(true);
                 }
                 catch (Exception e) {

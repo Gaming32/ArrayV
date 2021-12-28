@@ -12,14 +12,14 @@ final public class SoundbankDialog extends FileDialog {
         FileNameExtensionFilter generalMIDI = new FileNameExtensionFilter("General MIDI (.gm)", "gm");
 
         this.removeAllFilesOption();
-        this.fileDialog.addChoosableFileFilter(allSoundbanks);
-        this.fileDialog.addChoosableFileFilter(soundfonts);
-        this.fileDialog.addChoosableFileFilter(downloadableSounds);
-        this.fileDialog.addChoosableFileFilter(generalMIDI);
+        fileDialog.addChoosableFileFilter(allSoundbanks);
+        fileDialog.addChoosableFileFilter(soundfonts);
+        fileDialog.addChoosableFileFilter(downloadableSounds);
+        fileDialog.addChoosableFileFilter(generalMIDI);
 
-        this.fileDialog.setDialogTitle("Choose a MIDI soundbank...");
+        fileDialog.setDialogTitle("Choose a MIDI soundbank...");
 
-        this.fileDialog.showDialog(null, "Select");
-        this.file = this.fileDialog.getSelectedFile();
+        fileDialog.showDialog(null, "Select");
+        this.file = fileDialog.getSelectedFile();
     }
 }

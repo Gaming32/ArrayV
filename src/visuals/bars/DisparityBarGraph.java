@@ -27,10 +27,10 @@ final public class DisparityBarGraph extends Visual {
                 
             else this.mainRender.setColor(Color.WHITE);
             
-            double disp = (1 + Math.cos((Math.PI * (array[i] - i)) / (ArrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
-            int y = (int) (((Renderer.getViewSize() - 20)) - disp * (array[i] + 1) * Renderer.getYScale());
+            double disp = (1 + Math.sin((Math.PI * (array[i] - i)) / ArrayVisualizer.getCurrentLength())) * 0.5;
+            int y = (int) (((Renderer.getViewSize() - 20)) - disp *  ArrayVisualizer.getCurrentLength() * Renderer.getYScale());
             
-            this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, width, (int) (disp * (array[i] + 1) * Renderer.getYScale()));
+            this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, width, (int) (disp *  ArrayVisualizer.getCurrentLength() * Renderer.getYScale()));
             j += width;
         }
         this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
@@ -39,10 +39,10 @@ final public class DisparityBarGraph extends Visual {
             int width = (int) (Renderer.getXScale() * (i + 1)) - j;
             
             if(Highlights.containsPosition(i)) {
-                double disp = (1 + Math.cos((Math.PI * (array[i] - i)) / (ArrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
-                int y = (int) (((Renderer.getViewSize() - 20)) - disp * (array[i] + 1) * Renderer.getYScale());
+                double disp = (1 + Math.sin((Math.PI * (array[i] - i)) / ArrayVisualizer.getCurrentLength())) * 0.5;
+                int y = (int) (((Renderer.getViewSize() - 20)) - disp * ArrayVisualizer.getCurrentLength() * Renderer.getYScale());
                 
-                this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), (int) (disp * (array[i] + 1) * Renderer.getYScale()));
+                this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), (int) (disp *  ArrayVisualizer.getCurrentLength() * Renderer.getYScale()));
             }
             j += width;
         }

@@ -48,7 +48,7 @@ final public class OptimizedDualPivotQuickSort extends Sort {
         if(med2 >= right) {
             med2 = right - 1;
         }
-        if(Reads.compareValues(array[med1], array[med2]) == -1) {
+        if(Reads.compareIndices(array, med1, med2, 1, true) == -1) {
             Writes.swap(array, med1, left,  1, true, false);
             Writes.swap(array, med2, right, 1, true, false);
         }
@@ -65,25 +65,31 @@ final public class OptimizedDualPivotQuickSort extends Sort {
         int less  = left  + 1;
         int great = right - 1;
         
+        Highlights.markArray(2, less);
+        Highlights.markArray(3, great);
+        
         // sorting
         for(int k = less; k <= great; k++) {
-            if(Reads.compareValues(array[k], pivot1) == -1) {
-                Writes.swap(array, k, less++, 1, true, false);
+            if(Reads.compareIndexValue(array, k, pivot1, 0.5, true) == -1) {
+                Writes.swap(array, k, less++, 0.5, false, false);
+                Highlights.markArray(2, less);
             }
-            else if(Reads.compareValues(array[k], pivot2) == 1) {
-                while(k < great && Reads.compareValues(array[great], pivot2) == 1) {
+            else if(Reads.compareIndexValue(array, k, pivot2, 0.5, true) == 1) {
+                while(k < great && Reads.compareIndexValue(array, great, pivot2, 0.5, false) == 1) {
                     great--;
                     Highlights.markArray(3, great);
-                    Delays.sleep(1);
+                    Delays.sleep(0.5);
                 }
-                Writes.swap(array, k, great--, 1, true, false);
-                Highlights.clearMark(3);
+                Writes.swap(array, k, great--, 0.5, false, false);
+                Highlights.markArray(3, great);
                 
-                if(Reads.compareValues(array[k], pivot1) == -1) {
-                    Writes.swap(array, k, less++, 1, true, false);
+                if(Reads.compareIndexValue(array, k, pivot1, 0.5, true) == -1) {
+                    Writes.swap(array, k, less++, 0.5, false, false);
+                    Highlights.markArray(2, less);
                 }
             }
         }
+        Highlights.clearAllMarks();
         
         // swaps
         int dist = great - less;
@@ -98,21 +104,28 @@ final public class OptimizedDualPivotQuickSort extends Sort {
         this.dualPivot(array, left,   less - 2, divisor);
         this.dualPivot(array, great + 2, right, divisor);
         
+        Highlights.markArray(2, less);
+        Highlights.markArray(3, great);
+        
         // equal elements
         if(dist > length - 13 && pivot1 != pivot2) {
             for(int k = less; k <= great; k++) {
-                if(Reads.compareValues(array[k], pivot1) == 0) {
-                    Writes.swap(array, k, less++, 1, true, false);
+                if(Reads.compareIndexValue(array, k, pivot1, 0.5, true) == 0) {
+                    Writes.swap(array, k, less++, 0.5, false, false);
+                    Highlights.markArray(2, less);
                 }
-                else if(Reads.compareValues(array[k], pivot2) == 0) {
-                    Writes.swap(array, k, great--, 1, true, false);
+                else if(Reads.compareIndexValue(array, k, pivot2, 0.5, true) == 0) {
+                    Writes.swap(array, k, great--, 0.5, false, false);
+                    Highlights.markArray(3, great);
                     
-                    if(Reads.compareValues(array[k], pivot1) == 0) {
-                        Writes.swap(array, k, less++, 1, true, false);
+                    if(Reads.compareIndexValue(array, k, pivot1, 0.5, true) == 0) {
+                        Writes.swap(array, k, less++, 0.5, false, false);
+                        Highlights.markArray(2, less);
                     }
                 }
             }
         }
+        Highlights.clearAllMarks();
         
         // subarray
         if(pivot1 < pivot2) {

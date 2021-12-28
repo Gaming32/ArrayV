@@ -1,6 +1,7 @@
 package threads;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -16,7 +17,7 @@ import utils.StopSort;
 import utils.Timer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -49,7 +50,7 @@ final public class RunComparisonSort {
     private Timer realTimer;
 
     private Object[] inputOptions;
-    
+
     public RunComparisonSort(ArrayVisualizer arrayVisualizer) {
         this.arrayVisualizer = arrayVisualizer;
         this.arrayManager = arrayVisualizer.getArrayManager();
@@ -65,7 +66,7 @@ final public class RunComparisonSort {
         int integer = Integer.parseInt(input);
         return Math.abs(integer);
     }
-    
+
     public void ReportComparativeSort(int[] array, int selection) {
         if(arrayVisualizer.isActive())
             return;
@@ -77,7 +78,7 @@ final public class RunComparisonSort {
         }
 
         sounds.toggleSound(true);
-        arrayVisualizer.setSortingThread(new Thread() {
+        arrayVisualizer.setSortingThread(new Thread("ComparisonSorting") {
             @Override
             public void run() {
                 try {
@@ -95,13 +96,13 @@ final public class RunComparisonSort {
                             extra = sort.getDefaultAnswer();
                         }
                     }
-                
+
                     boolean goAhead;
-                    
+
                     if(sort.isUnreasonablySlow() && arrayVisualizer.getCurrentLength() > sort.getUnreasonableLimit()) {
                         goAhead = false;
                         Object[] options = { "Let's see how bad " + sort.getRunSortName() + " is!", "Cancel" };
-                        
+
                         if(sort.isBogoSort()) {
                             int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
                                                                      + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
@@ -112,7 +113,7 @@ final public class RunComparisonSort {
                             else goAhead = false;
                         }
                         else {
-                            int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, " 
+                            int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
                                                                      + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
                                                                      + " numbers will not finish in a reasonable amount of time. "
                                                                      + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
@@ -125,21 +126,19 @@ final public class RunComparisonSort {
                     else {
                         goAhead = true;
                     }
-                    
+
                     if(goAhead) {
                         arrayManager.toggleMutableLength(false);
                         arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), arrayVisualizer);
 
                         arrayVisualizer.setHeading(sort.getRunSortName());
                         arrayVisualizer.setCategory(sort.getCategory());
-                        
+
                         realTimer.enableRealTimer();
                         boolean antiq = arrayVisualizer.useAntiQSort();
                         boolean networks = arrayVisualizer.generateSortingNetworks();
                         if (antiq)
                             arrayVisualizer.initAntiQSort();
-                        else if (networks)
-                            arrayVisualizer.getReads().networkIndices.clear();
 
                         try {
                             sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
@@ -152,12 +151,14 @@ final public class RunComparisonSort {
 
                         if (antiq)
                             arrayVisualizer.finishAntiQSort(sort.getClass().getSimpleName());
-                        else if (networks)
+                        else if (networks) {
+                            ArrayList<Integer> indicesList = arrayVisualizer.getReads().networkIndices;
                             SortingNetworkGenerator.encodeNetworkAndDisplay(
                                 sort.getClass().getSimpleName(),
-                                arrayVisualizer.getReads().networkIndices.toArray(new Integer[] {}),
+                                indicesList,
                                 arrayVisualizer.getCurrentLength()
                             );
+                        }
                     }
                     else {
                         arrayManager.initializeArray(array);
@@ -169,6 +170,7 @@ final public class RunComparisonSort {
                 arrayVisualizer.endSort();
                 arrayManager.toggleMutableLength(true);
                 sounds.toggleSound(false);
+                System.gc(); // Reduce RAM usage from any high-memory tasks (e.g. visualizing a sorting network)
             }
         });
 

@@ -1,8 +1,7 @@
 package sorts.hybrid;
 
-import sorts.templates.Sort;
+import sorts.templates.BlockMergeSorting;
 import main.ArrayVisualizer;
-import sorts.insert.BinaryDoubleInsertionSort;
 
 /*
  * 
@@ -30,7 +29,7 @@ SOFTWARE.
  *
  */
 
-final public class SynchronousSqrtSort extends Sort {
+final public class SynchronousSqrtSort extends BlockMergeSorting {
 	public SynchronousSqrtSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
 		
@@ -46,38 +45,6 @@ final public class SynchronousSqrtSort extends Sort {
 		this.setBogoSort(false);
 	}
 	
-	private void shift(int[] array, int a, int m, int b) {
-		while(m < b) Writes.write(array, a++, array[m++], 1, true, false);
-	}
-	private void shiftBW(int[] array, int a, int m, int b) {
-		while(m > a) Writes.write(array, --b, array[--m], 1, true, false);
-	}
-	private void multiSwap(int[] array, int a, int b, int len) {
-		for(int i = 0; i < len; i++)
-			Writes.swap(array, a+i, b+i, 1, true, false);
-	}
-	
-	private void mergeFW(int[] array, int a, int m, int b, int p) {
-		int i = a, j = m;
-		
-		while(i < m && j < b) {
-			Highlights.markArray(2, j);
-			
-			if(Reads.compareValues(array[i], array[j]) <= 0)
-				Writes.write(array, p++, array[i++], 1, true, false);
-			else
-				Writes.write(array, p++, array[j++], 1, true, false);
-		}
-		Highlights.clearMark(2);
-		
-		if(i > p)
-			while(i < m) Writes.write(array, p++, array[i++], 1, true, false);
-		
-		while(j < b) {
-			Highlights.markArray(2, j);
-			Writes.write(array, p++, array[j++], 1, true, false);
-		}
-	}
 	private int smartMergeBW(int[] array, int a, int m, int b, int p, boolean rev) {
 		int i = m-1, j = b-1;
 		int cmp = rev ? -1 : 0;
@@ -91,12 +58,6 @@ final public class SynchronousSqrtSort extends Sort {
 				Writes.write(array, --p, array[j--], 1, true, false);
 		}
 		return i+1;
-	}
-	private void mergeBW(int[] array, int a, int m, int b, int p) {
-		int bLen = p-b;
-		p = this.smartMergeBW(array, a, m, b, p, false);
-		Highlights.clearMark(2);
-		this.shiftBW(array, a, p, p+bLen);
 	}
 	
 	private void blockSelection(int[] array, int[] tags, int a, int b, int bLen, int t, int tj) {
@@ -141,7 +102,7 @@ final public class SynchronousSqrtSort extends Sort {
 			while(tj >= ti && (rev ? Reads.compareOriginalValues(tags[tj], mkv) < 0
 								   : Reads.compareOriginalValues(tags[tj], mkv) >= 0));
 			if(tj < ti) {
-				this.shiftBW(array, a, f, f+bLen);
+				this.shiftBWExt(array, a, f, f+bLen);
 				break;
 			}
 			f = this.smartMergeBW(array, a1, a1+bLen, f, f+bLen, rev);
@@ -151,10 +112,8 @@ final public class SynchronousSqrtSort extends Sort {
 	
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
-		BinaryDoubleInsertionSort smallSort = new BinaryDoubleInsertionSort(this.arrayVisualizer);
-		
 		if(length <= 16) {
-			smallSort.customDoubleInsert(array, 0, length, 0.5);
+			this.binaryInsertion(array, 0, length);
 			return;
 		}
 		
@@ -168,17 +127,17 @@ final public class SynchronousSqrtSort extends Sort {
 		int[] temp = Writes.createExternalArray(bLen+mod);
 		int[] tags = Writes.createExternalArray((length-1)/bLen+1);
 		
-		smallSort.customDoubleInsert(array, 0, a, 0.25);
+		this.binaryInsertion(array, 0, a);
 		Writes.arraycopy(array, 0, temp, 0, a, 1, true, true);
 		
 		for(; j < bLen; j *= 2) {
 			int p = Math.max(2, j);
 			
 			for(i = a; i+2*j < b; i += 2*j)
-				this.mergeFW(array, i, i+j, i+2*j, i-p);
+				this.mergeWithBufFWExt(array, i, i+j, i+2*j, i-p);
 			
-			if(i+j < b) this.mergeFW(array, i, i+j, b, i-p);
-			else		this.shift(array, i-p, i, b);
+			if(i+j < b) this.mergeWithBufFWExt(array, i, i+j, b, i-p);
+			else		this.shiftFWExt(array, i-p, i, b);
 			
 			a -= p; b -= p;
 		}
@@ -186,11 +145,11 @@ final public class SynchronousSqrtSort extends Sort {
 		int p = len%(2*j);
 		i = b-p;
 		
-		if(i+j < b) this.mergeBW(array, i, i+j, b, b+j);
-		else 		this.shiftBW(array, i, b, b+j);
+		if(i+j < b) this.mergeWithBufBWExt(array, i, i+j, b, b+j);
+		else 		this.shiftBWExt(array, i, b, b+j);
 			
 		for(i -= 2*j; i >= a; i -= 2*j)
-			this.mergeBW(array, i, i+j, i+2*j, i+3*j);
+			this.mergeWithBufBWExt(array, i, i+j, i+2*j, i+3*j);
 		
 		a += j; b += j; j *= 2;
 		

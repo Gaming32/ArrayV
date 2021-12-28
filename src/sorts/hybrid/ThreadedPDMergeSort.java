@@ -5,7 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 Gaming32
@@ -37,7 +37,7 @@ public class ThreadedPDMergeSort extends BinaryPDMergeSort {
 
     public ThreadedPDMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Threaded Pattern-Defeating Merge");
         this.setRunAllSortsName("Threaded Pattern-Defeating Merge Sort");
         this.setRunSortName("Threaded Pattern-Defeating Mergesort");
@@ -102,7 +102,7 @@ public class ThreadedPDMergeSort extends BinaryPDMergeSort {
         countLock.lock();
         if (threadCount < MAX_THREADS) {
             threadCount++;
-            new Thread() {
+            new Thread("ThreadedPDMerge-" + threadCount) {
                 @Override
                 public void run() {
                     ThreadedPDMergeSort.super.merge(array, start, mid, end);
@@ -124,10 +124,10 @@ public class ThreadedPDMergeSort extends BinaryPDMergeSort {
     public void runSort(int[] array, int length, int bucketCount) {
         threadCount = 0;
         countLock = new ReentrantLock();
-        
+
         int[] runs = findRuns(array, length - 1);
         copied = Writes.createExternalArray(length);
-        
+
         // arrayVisualizer.setHeading("PDMerge -- Merging Runs");
         while (runCount > 1) {
             for (int i = 0; i < runCount - 1; i += 2) {

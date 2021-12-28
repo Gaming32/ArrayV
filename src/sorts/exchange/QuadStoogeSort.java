@@ -32,16 +32,12 @@ public final class QuadStoogeSort extends Sort {
 	}
 
 	private void quadStooge(int[] array, int pos, int len) {
-		if (len >= 2 && this.Reads.compareValues(array[pos], array[pos + len - 1]) == 1) {
-			this.Writes.swap(array, pos, pos + len - 1, 1.0D, true, false);
+		if (len >= 2 && this.Reads.compareIndices(array, pos, pos + len - 1, 0.0025D, true) == 1) {
+			this.Writes.swap(array, pos, pos + len - 1, 0.005D, true, false);
 		}
 		if (len <= 2) {
 			return;
 		}
-		this.Delays.sleep(0.5D);
-
-		this.Highlights.markArray(1, pos);
-		this.Highlights.markArray(2, pos + len - 1);
 
 		int len1 = len / 2;
 		int len2 = (len + 1) / 2;
