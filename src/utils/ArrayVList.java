@@ -197,7 +197,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
         int numMoved = count - toIndex;
         System.arraycopy(internal, toIndex, internal, fromIndex,
                          numMoved);
-        
+
         int sizeOffset = toIndex - fromIndex;
         int newSize = count - sizeOffset;
         Arrays.fill(internal, newSize, count, 0);
@@ -212,7 +212,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
 
     @Override
     public void add(int index, Integer element) {
-        
+
     }
 
     @Override

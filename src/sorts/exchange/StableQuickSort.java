@@ -1,7 +1,5 @@
 package sorts.exchange;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 import utils.ArrayVList;
@@ -33,7 +31,7 @@ SOFTWARE.
  */
 
 final public class StableQuickSort extends Sort {
-    int length;
+    private int length;
 
     public StableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
