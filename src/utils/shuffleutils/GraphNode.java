@@ -1,4 +1,4 @@
-package utils.shuffle_utils;
+package utils.shuffleutils;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

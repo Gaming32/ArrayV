@@ -14,8 +14,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import main.ArrayVisualizer;
-import utils.shuffle_utils.GraphConnection;
-import utils.shuffle_utils.GraphNode;
+import utils.shuffleutils.GraphConnection;
+import utils.shuffleutils.GraphNode;
 
 public class ShuffleGraph implements Collection<ShuffleInfo> {
     public List<GraphNode> nodes;
@@ -395,7 +395,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
 
     protected class GraphIterator implements Iterator<ShuffleInfo> {
         NodeIterator it;
-        
+
         GraphIterator(ShuffleGraph graph) {
             this.it = new NodeIterator(graph);
         }
@@ -415,7 +415,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
 
     protected class NodeIterator implements Iterator<GraphNode> {
         GraphNode currentNode, nextNode;
-        
+
         NodeIterator(ShuffleGraph graph) {
             this.currentNode = graph.nodes.get(0);
             this.nextNode = findNext();

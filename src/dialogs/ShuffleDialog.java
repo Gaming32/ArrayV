@@ -29,12 +29,12 @@ import utils.Distributions;
 import utils.ShuffleGraph;
 import utils.ShuffleInfo;
 import utils.Shuffles;
-import utils.shuffle_utils.GraphReader;
-import utils.shuffle_utils.GraphWriter;
-import utils.shuffle_utils.GraphReader.MalformedGraphFileException;
+import utils.shuffleutils.GraphReader;
+import utils.shuffleutils.GraphWriter;
+import utils.shuffleutils.GraphReader.MalformedGraphFileException;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -67,18 +67,18 @@ SOFTWARE.
 final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     private ArrayManager ArrayManager;
     private JFrame Frame;
     private UtilFrame UtilFrame;
     private List<Distributions> distributions;
     private static boolean perShuffleDelay = false;
-    
+
     private boolean bypassEvents;
-    
+
     /**
      * Creates new form SortPrompt
      */
@@ -89,7 +89,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         this.ArrayManager = ArrayManager;
         this.Frame = frame;
         this.UtilFrame = utilFrame;
-        
+
         initComponents();
 
         bypassEvents = true;
@@ -134,7 +134,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         setMinimumSize(new Dimension(765, 310));
         setAlwaysOnTop(false);
         reposition();
-        setVisible(true); 
+        setVisible(true);
     }
 
     @Override
@@ -185,7 +185,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                 jButton1ActionPerformed();
             }
         });
-        
+
         jButton2.setText("Export...");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -193,7 +193,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
                 jButton2ActionPerformed();
             }
         });
-        
+
         jButton3.setText("Clear Disconnected Nodes");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -229,7 +229,7 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setViewportView(this.jList3);
-        
+
         jScrollPane2.setViewportView(this.jList2);
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 

@@ -1,4 +1,4 @@
-package utils.shuffle_utils;
+package utils.shuffleutils;
 
 import java.awt.Point;
 import java.io.File;
@@ -26,7 +26,7 @@ public final class GraphReader {
             super(message);
         }
     }
-    
+
     private final class PartialElement {
         int left, right;
 

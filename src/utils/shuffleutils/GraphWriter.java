@@ -1,4 +1,4 @@
-package utils.shuffle_utils;
+package utils.shuffleutils;
 
 import java.io.File;
 import java.io.FileWriter;
