@@ -93,14 +93,14 @@ public class SortingNetworkGenerator {
 
     private static boolean encodeNetwork0(final Comparator[] comparators, final int n, final PrintWriter out) {
         int scale = 1;
-        int xScale = scale * 35;
+        int xScale = scale * 36;
         int yScale = scale * 20;
         boolean small = comparators.length < 500_000;
 
         int h = (n + 1) * yScale;
-        double w = xScale;
+        int w = xScale;
         List<Comparator> groupComparators = new ArrayList<>();
-        List<Double> groupPositions = new ArrayList<>();
+        List<Integer> groupPositions = new ArrayList<>();
 
         WriterBuilderProxy writer;
         ProgressMonitor monitor;
@@ -124,7 +124,7 @@ public class SortingNetworkGenerator {
             for (Comparator c : comparators) {
                 for (Comparator other : groupComparators) {
                     if (c.hasSameInput(other)) {
-                        for (double otherX : groupPositions) {
+                        for (int otherX : groupPositions) {
                             if (otherX > w) {
                                 w = otherX;
                             }
@@ -135,14 +135,14 @@ public class SortingNetworkGenerator {
                         break;
                     }
                 }
-                double cx = w;
-                Iterator<Double> groupPositionIterator = groupPositions.iterator();
+                int cx = w;
+                Iterator<Integer> groupPositionIterator = groupPositions.iterator();
                 for (Comparator other : groupComparators) {
                     // We don't need hasNext checks because groupPositions and
                     // groupComparators have the same length
-                    double otherX = groupPositionIterator.next();
+                    int otherX = groupPositionIterator.next();
                     if (otherX >= cx && c.overlaps(other)) {
-                        cx = otherX + xScale / 3.0;
+                        cx = otherX + xScale / 3;
                     }
                 }
                 groupComparators.add(c);
@@ -165,7 +165,7 @@ public class SortingNetworkGenerator {
         for (Comparator c : comparators) {
             for (Comparator other : groupComparators) {
                 if (c.hasSameInput(other)) {
-                    for (double otherX : groupPositions) {
+                    for (int otherX : groupPositions) {
                         if (otherX > w) {
                             w = otherX;
                         }
@@ -177,14 +177,14 @@ public class SortingNetworkGenerator {
                 }
             }
 
-            double cx = w;
-            Iterator<Double> groupPositionIterator = groupPositions.iterator();
+            int cx = w;
+            Iterator<Integer> groupPositionIterator = groupPositions.iterator();
             for (Comparator other : groupComparators) {
                 // We don't need hasNext checks because groupPositions and
                 // groupComparators have the same length
-                double otherX = groupPositionIterator.next();
+                int otherX = groupPositionIterator.next();
                 if (otherX >= cx && c.overlaps(other)) {
-                    cx = otherX + xScale / 3.0;
+                    cx = otherX + xScale / 3;
                 }
             }
 
