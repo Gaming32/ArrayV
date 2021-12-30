@@ -386,7 +386,7 @@ final public class ArrayVisualizer {
             while (statsScanner.hasNextLine()) {
                 String line = statsScanner.nextLine().trim();
                 if (line.length() > 0 && line.charAt(0) == '#') continue;
-                if (line.startsWith("FONT: ")) {
+                if (line.startsWith("FONT:")) {
                     String font = line.substring(5);
                     int fontScale = 25;
                     int starIndex;
