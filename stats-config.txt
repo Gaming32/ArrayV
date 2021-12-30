@@ -1,0 +1,15 @@
+sort
+length
+
+delay
+vtime
+stime
+
+comps
+swaps
+revs
+
+wmain
+waux
+auxlen
+segments

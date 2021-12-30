@@ -543,7 +543,7 @@ final public class ArrayVisualizer {
         this.mainRender.drawString(this.statSnapshot.getMainWriteCount(),  xOffset, (int) (windowRatio * 275) + yOffset);
         this.mainRender.drawString(this.statSnapshot.getAuxWriteCount(),   xOffset, (int) (windowRatio * 300) + yOffset);
         this.mainRender.drawString(this.statSnapshot.getAuxAllocAmount(),  xOffset, (int) (windowRatio * 325) + yOffset);
-        this.mainRender.drawString(this.statSnapshot.getSegments(),        xOffset, (int) (windowRatio * 355) + yOffset);
+        this.mainRender.drawString(this.statSnapshot.getSegments(),        xOffset, (int) (windowRatio * 350) + yOffset);
     }
 
     public void updateNow() {
