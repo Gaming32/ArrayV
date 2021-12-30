@@ -631,7 +631,7 @@ final public class ArrayVisualizer {
         }
 
         double windowRatio = this.getWindowRatio();
-        int yPos = 30;
+        int yPos = (int)(fontSelectionScale / 25.0 * 30);
 
         this.mainRender.setColor(textColor);
 
@@ -653,7 +653,7 @@ final public class ArrayVisualizer {
             String stat;
             switch (statType) {
                 case STAT_LINE_BREAK:
-                    yPos += 15;
+                    yPos += fontSelectionScale / 25.0 * 15;
                     continue statLoop;
                 case STAT_SORT_IDENTITY:
                     stat = statSnapshot.getSortIdentity();
@@ -698,7 +698,7 @@ final public class ArrayVisualizer {
                     stat = null; // Unreachable
             }
             mainRender.drawString(stat, xOffset, (int)(windowRatio * yPos) + yOffset);
-            yPos += 25;
+            yPos += fontSelectionScale;
         }
     }
 
