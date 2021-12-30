@@ -417,10 +417,21 @@ final public class ArrayVisualizer {
         }
         if (statsInfoList == null) {
             statsConfig = new int[] {
-                1, 2, 0,
-                3, 4, 5, 0,
-                6, 7, 8, 0,
-                9, 10, 11, 12, 0
+                STAT_SORT_IDENTITY,
+                STAT_ARRAY_LENGTH,
+                    STAT_LINE_BREAK,
+                STAT_SORT_DELAY,
+                STAT_VISUAL_TIME,
+                STAT_EST_SORT_TIME,
+                    STAT_LINE_BREAK,
+                STAT_COMPARISONS,
+                STAT_SWAPS,
+                STAT_REVERSALS,
+                    STAT_LINE_BREAK,
+                STAT_MAIN_WRITE,
+                STAT_AUX_WRITE,
+                STAT_AUX_ALLOC,
+                STAT_SEGMENTS
             };
         } else {
             statsConfig = statsInfoList.stream()
