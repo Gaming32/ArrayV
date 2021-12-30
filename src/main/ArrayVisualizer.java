@@ -113,17 +113,17 @@ final public class ArrayVisualizer {
     private static final int STAT_LINE_BREAK    = 0;
     private static final int STAT_SORT_IDENTITY = 1;
     private static final int STAT_ARRAY_LENGTH  = 2;
-    private static final int STAT_FRAMERATE     = 13;
-    private static final int STAT_SORT_DELAY    = 3;
-    private static final int STAT_VISUAL_TIME   = 4;
-    private static final int STAT_EST_SORT_TIME = 5;
-    private static final int STAT_COMPARISONS   = 6;
-    private static final int STAT_SWAPS         = 7;
-    private static final int STAT_REVERSALS     = 8;
-    private static final int STAT_MAIN_WRITE    = 9;
-    private static final int STAT_AUX_WRITE     = 10;
-    private static final int STAT_AUX_ALLOC     = 11;
-    private static final int STAT_SEGMENTS      = 12;
+    private static final int STAT_FRAMERATE     = 3;
+    private static final int STAT_SORT_DELAY    = 4;
+    private static final int STAT_VISUAL_TIME   = 5;
+    private static final int STAT_EST_SORT_TIME = 6;
+    private static final int STAT_COMPARISONS   = 7;
+    private static final int STAT_SWAPS         = 8;
+    private static final int STAT_REVERSALS     = 9;
+    private static final int STAT_MAIN_WRITE    = 10;
+    private static final int STAT_AUX_WRITE     = 11;
+    private static final int STAT_AUX_ALLOC     = 12;
+    private static final int STAT_SEGMENTS      = 13;
 
     private static final Map<String, Integer> STAT_CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, Integer>() {{
         put("",         STAT_LINE_BREAK);
