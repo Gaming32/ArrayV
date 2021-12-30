@@ -22,7 +22,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -114,6 +113,7 @@ final public class ArrayVisualizer {
     private static final int STAT_LINE_BREAK    = 0;
     private static final int STAT_SORT_IDENTITY = 1;
     private static final int STAT_ARRAY_LENGTH  = 2;
+    private static final int STAT_FRAMERATE     = 13;
     private static final int STAT_SORT_DELAY    = 3;
     private static final int STAT_VISUAL_TIME   = 4;
     private static final int STAT_EST_SORT_TIME = 5;
@@ -129,6 +129,7 @@ final public class ArrayVisualizer {
         put("",         STAT_LINE_BREAK);
         put("sort",     STAT_SORT_IDENTITY);
         put("length",   STAT_ARRAY_LENGTH);
+        put("fps",      STAT_FRAMERATE);
         put("delay",    STAT_SORT_DELAY);
         put("vtime",    STAT_VISUAL_TIME);
         put("stime",    STAT_EST_SORT_TIME);
@@ -545,7 +546,7 @@ final public class ArrayVisualizer {
                 ArrayVisualizer.this.visualClasses[13] = new            Spiral(ArrayVisualizer.this);
                 ArrayVisualizer.this.visualClasses[14] = new        SpiralDots(ArrayVisualizer.this);
 
-                while(ArrayVisualizer.this.visualsEnabled) {
+                while (ArrayVisualizer.this.visualsEnabled) {
                     if (ArrayVisualizer.this.updateVisualsForced == 0) {
                         try {
                             synchronized (ArrayVisualizer.this) {
@@ -555,6 +556,7 @@ final public class ArrayVisualizer {
                             e.printStackTrace();
                         }
                     }
+                    long startTime = System.currentTimeMillis();
                     try {
                         if(ArrayVisualizer.this.updateVisualsForced > 0) {
                             ArrayVisualizer.this.updateVisualsForced--;
@@ -574,19 +576,14 @@ final public class ArrayVisualizer {
                         if (ArrayVisualizer.this.updateVisualsForced > 10000) {
                             ArrayVisualizer.this.updateVisualsForced = 100;
                         }
-                    }
-                    catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    // See: https://stackoverflow.com/questions/580419/how-can-i-stop-a-java-while-loop-from-eating-50-of-my-cpu/583537#583537
-                    try {
-                        Thread.sleep(ArrayVisualizer.this.benchmarking ? 1000 : 0);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        ArrayVisualizer.this.visualsEnabled = false;
-                    }
-
-                }}};
+                    long endTime = System.currentTimeMillis();
+                    statSnapshot.frameTimeMillis = endTime - startTime;
+                }
+            }
+        };
 
         this.Sounds.startAudioThread();
         this.drawWindows();
@@ -649,6 +646,9 @@ final public class ArrayVisualizer {
                     break;
                 case STAT_ARRAY_LENGTH:
                     stat = statSnapshot.getArrayLength();
+                    break;
+                case STAT_FRAMERATE:
+                    stat = statSnapshot.getFramerate();
                     break;
                 case STAT_SORT_DELAY:
                     stat = statSnapshot.getSortDelay();

@@ -5,28 +5,31 @@ import java.text.DecimalFormat;
 import main.ArrayVisualizer;
 
 final public class Statistics {
+    public long frameTimeMillis;
+
     private String sortCategory;
     private String sortHeading;
     private String sortExtraHeading;
     private String arrayLength;
-    
+
+    private String framerate;
     private String sortDelay;
     private String visualTime;
     private String estSortTime;
-    
+
     private String comparisonCount;
     private String swapCount;
     private String reversalCount;
-    
+
     private String mainWriteCount;
     private String auxWriteCount;
 
     private String auxAllocAmount;
 
     private String segments;
-    
+
     private DecimalFormat formatter;
-    
+
     public Statistics(ArrayVisualizer ArrayVisualizer) {
         this.formatter = ArrayVisualizer.getNumberFormat();
         this.updateStats(ArrayVisualizer);
@@ -51,17 +54,18 @@ final public class Statistics {
         this.sortHeading = ArrayVisualizer.getHeading();
         this.sortExtraHeading = ArrayVisualizer.getExtraHeading();
         int showUnique = Math.min(ArrayVisualizer.getUniqueItems(), ArrayVisualizer.getCurrentLength());
-        this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers" 
+        this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers"
         + ", " + this.formatter.format(showUnique) + " Unique";
-        
+
+        this.framerate = (1000.0 / frameTimeMillis) + " FPS";
         this.sortDelay = "Delay: " + ArrayVisualizer.getDelays().displayCurrentDelay();
         this.visualTime = "Visual Time: " + ArrayVisualizer.getTimer().getVisualTime();
         this.estSortTime = "Sort Time: " + ArrayVisualizer.getTimer().getRealTime();
-        
+
         this.comparisonCount = ArrayVisualizer.getReads().getStats();
         this.swapCount = ArrayVisualizer.getWrites().getSwaps();
         this.reversalCount = ArrayVisualizer.getWrites().getReversals();
-        
+
         this.mainWriteCount = ArrayVisualizer.getWrites().getMainWrites();
         this.auxWriteCount = ArrayVisualizer.getWrites().getAuxWrites();
 
@@ -72,12 +76,15 @@ final public class Statistics {
         String plural = rawSegments[0] == 1 ? "" : "s";
         this.segments        = String.valueOf(rawSegments[1]) + "% Sorted (" + String.valueOf(rawSegments[0]) + " Segment" + plural + ")";
     }
-    
+
     public String getSortIdentity() {
         return this.sortCategory + ": " + this.sortHeading;
     }
     public String getArrayLength() {
         return this.arrayLength + this.sortExtraHeading;
+    }
+    public String getFramerate() {
+        return this.framerate;
     }
     public String getSortDelay() {
         return this.sortDelay;
@@ -106,7 +113,6 @@ final public class Statistics {
     public String getAuxAllocAmount() {
         return this.auxAllocAmount;
     }
-
     public String getSegments() {
         return this.segments;
     }
