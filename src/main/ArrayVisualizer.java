@@ -194,6 +194,7 @@ final public class ArrayVisualizer {
 
     private Statistics statSnapshot;
     private String fontSelection;
+    private int fontSelectionScale;
 
     private volatile boolean TEXTDRAW;
     private volatile boolean COLOR;
@@ -378,11 +379,25 @@ final public class ArrayVisualizer {
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
 
+        this.fontSelection = "Times New Roman";
+        this.fontSelectionScale = 25;
         List<Integer> statsInfoList = new ArrayList<>();
         try (Scanner statsScanner = new Scanner(new File("stats-config.txt"))) {
             while (statsScanner.hasNextLine()) {
                 String line = statsScanner.nextLine().trim();
                 if (line.length() > 0 && line.charAt(0) == '#') continue;
+                if (line.startsWith("FONT: ")) {
+                    String font = line.substring(5);
+                    int fontScale = 25;
+                    int starIndex;
+                    if ((starIndex = font.indexOf('*')) != -1) {
+                        fontScale = Integer.parseInt(font.substring(starIndex + 1).trim());
+                        font = font.substring(0, starIndex);
+                    }
+                    fontSelection = font.trim();
+                    fontSelectionScale = fontScale;
+                    continue;
+                }
                 Integer type = STAT_CONFIG_KEYS.get(line.toLowerCase());
                 if (type == null) {
                     System.err.println("Unknown statistic type: " + type);
@@ -474,8 +489,7 @@ final public class ArrayVisualizer {
         this.category = "";
         this.heading = "";
         this.extraHeading = "";
-        this.fontSelection = "Times New Roman";
-        this.typeFace = new Font(this.fontSelection, Font.PLAIN, (int) (this.getWindowRatio() * 25));
+        this.typeFace = new Font(fontSelection, Font.PLAIN, (int) (this.getWindowRatio() * fontSelectionScale));
 
         this.statSnapshot = new Statistics(this);
 
@@ -1110,7 +1124,7 @@ final public class ArrayVisualizer {
         return this.cw / 1280d;
     }
     public void updateFontSize() {
-        this.typeFace = new Font(this.fontSelection, Font.PLAIN, (int) (this.getWindowRatio() * 25));
+        this.typeFace = new Font(fontSelection, Font.PLAIN, (int) (this.getWindowRatio() * fontSelectionScale));
         this.mainRender.setFont(this.typeFace);
     }
 
