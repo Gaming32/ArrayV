@@ -5,30 +5,30 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import visuals.Visual;
 import dialogs.CustomImageDialog;
 import dialogs.LoadingDialog;
-import dialogs.SoundbankDialog;
 import frames.ImageFrame;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import resources.image.ImgFetcher;
 import utils.Highlights;
 import utils.Renderer;
+import visuals.Visual;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
 Copyright (c) 2020 aphitorite
+Copyright (c) 2021 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -60,21 +60,21 @@ final public class CustomImage extends Visual {
     private volatile BufferedImage img;
     private volatile int imgHeight;
     private volatile int imgWidth;
-    
+
     private boolean imgImported;
     private boolean imgScaled;
     private boolean openImgMenu;
-    
+
     private int windowHeight;
     private int windowWidth;
-    
+
     private volatile ImageFrame pictureMenu;
     private volatile LoadingDialog infoMsg;
-    
+
     final private String defaultArtwork = "Summer Sorting by aphitorite";
     private String currentImage;
     private File imageFile;
-    
+
     public CustomImage(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
         CustomImage.visual = this;
@@ -85,7 +85,7 @@ final public class CustomImage extends Visual {
         this.updateWindowDims(ArrayVisualizer);
         this.currentImage = this.defaultArtwork;
     }
-    
+
     public BufferedImage getImage() {
         return this.img;
     }
@@ -95,32 +95,32 @@ final public class CustomImage extends Visual {
     public int getImgWidth() {
         return this.imgWidth;
     }
-    
+
     public String getCurrentImageName() {
         return this.currentImage;
     }
-    
+
     public void enableImgMenu() {
         this.openImgMenu = true;
     }
-    
+
     private void updateImageDims() throws Exception {
         this.imgHeight = this.img.getHeight();
         this.imgWidth = this.img.getWidth();
     }
-    
+
     private void updateWindowDims(ArrayVisualizer ArrayVisualizer) {
         this.windowHeight = ArrayVisualizer.windowHeight();
         this.windowWidth = ArrayVisualizer.windowWidth();
     }
-    
+
     private void refreshCustomImage(ImageFrame menu) {
         menu.dispose();
         this.imgImported = false;
         this.imgScaled = false;
         this.openImgMenu = true;
     }
-    
+
     public void loadDefaultArtwork(ImageFrame menu) {
         this.currentImage = this.defaultArtwork;
         this.refreshCustomImage(menu);
@@ -140,14 +140,14 @@ final public class CustomImage extends Visual {
             this.refreshCustomImage(ImageFrame.defaultFrame);
         }
     }
-    
+
     @SuppressWarnings("unused")
     private boolean fetchBufferedImage(boolean showInfoMsg, JFrame window) {
         // New copy of image being imported; has not been scaled yet
         this.imgScaled = false;
-        
+
         boolean defaultImage = this.currentImage.equals(this.defaultArtwork);
-        
+
         if(showInfoMsg) {
             String message;
             if(defaultImage) {
@@ -160,24 +160,15 @@ final public class CustomImage extends Visual {
         }
 
         boolean success = true;
-        
-        ImgFetcher imgFetcher;
-        if(defaultImage) {
-            imgFetcher = new ImgFetcher();
-        }
-        else {
-            imgFetcher = new ImgFetcher(this.imageFile);
-        }
-        BufferedInputStream stream = imgFetcher.getStream();
-        
-        try {
-            this.img = ImageIO.read(stream);
-        }
-        catch (IOException e) {
+
+        try (InputStream is = defaultImage
+                ? getClass().getResourceAsStream("/pic.jpg")
+                : new FileInputStream(imageFile)) {
+            this.img = ImageIO.read(is);
+        } catch (IOException e) {
             success = false;
             JErrorPane.invokeErrorMessage(e);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             success = false;
             if(defaultImage) {
                 JErrorPane.invokeCustomErrorMessage("image/pic.jpg missing: Couldn't find the default image for the program's 'Custom Image' visual!");
@@ -186,19 +177,7 @@ final public class CustomImage extends Visual {
                 JErrorPane.invokeCustomErrorMessage(this.currentImage + " missing: ArrayV couldn't find your picture at the given location!");
             }
         }
-        finally {
-            try {
-                stream.close();
-            }
-            catch (NullPointerException e) {
-                success = false; // A NullPointerException means a null stream, which would have already thrown an IllegalArgumentException
-            }
-            catch (Exception e) {
-                success = false;
-                JErrorPane.invokeErrorMessage(e);
-            }
-        }
-        
+
         // Update the image dimensions. If this fails, the file wasn't a proper image
         if(success) {
             try {
@@ -214,11 +193,11 @@ final public class CustomImage extends Visual {
                 }
             }
         }
-        
+
         if(showInfoMsg) {
             this.infoMsg.closeDialog();
         }
-        
+
         if(!success) {
             // If loading a custom file didn't work, then try loading the default artwork instead.
             if(!defaultImage) {
@@ -233,20 +212,20 @@ final public class CustomImage extends Visual {
             return true;
         }
     }
-    
+
     // Many thanks to Jörn Horstmann for providing fast image scaling code.
     // https://stackoverflow.com/questions/3967731/how-to-improve-the-performance-of-g-drawimage-method-for-resizing-images/3967988#3967988
     @SuppressWarnings("unused")
     private boolean getScaledImage(int width, int height) throws Exception {
         boolean success = true;
-        
+
         // Only fetch a fresh copy of the image if it's been previously scaled.
         if(this.imgScaled) {
             if(!this.fetchBufferedImage(false, null)) {
                 throw new Exception();
             }
         }
-        
+
         double scaleX = (double) width / this.imgWidth;
         double scaleY = (double) height / this.imgHeight;
         AffineTransform scaleTransform = AffineTransform.getScaleInstance(scaleX, scaleY);
@@ -254,14 +233,14 @@ final public class CustomImage extends Visual {
 
         try {
             this.img = bilinearScaleOp.filter(this.img, new BufferedImage(width, height, this.img.getType()));
-            
+
             /*
              *  We don't want to resize the cached copy of the image more than once as the quality degrades quickly.
              *  Therefore, keep track of the image being scaled so we can import a fresh copy the next time the window
              *  is resized.
              */
             this.imgScaled = true;
-            
+
             this.updateImageDims();
         }
         catch (IllegalArgumentException e) {
@@ -271,10 +250,10 @@ final public class CustomImage extends Visual {
             success = false;
             JErrorPane.invokeErrorMessage(e);
         }
-        
+
         return success;
     }
-    
+
     public static void markCustomBar(ArrayVisualizer ArrayVisualizer, Graphics2D bar, Renderer Renderer, int width, boolean analysis) {
         if(analysis) {
             bar.setColor(new Color(0, 0, 1, .5f));
@@ -284,7 +263,7 @@ final public class CustomImage extends Visual {
         }
         bar.fillRect(Renderer.getOffset() + 20, 0, width, ArrayVisualizer.windowHeight());
     }
-        
+
     @SuppressWarnings("fallthrough")
     //The longer the array length, the more bars marked. Makes the visual easier to see when bars are thinner.
     public static void colorCustomBars(int logOfLen, int index, Highlights Highlights, ArrayVisualizer ArrayVisualizer, Graphics2D bar, Renderer Renderer, int width, boolean analysis) {
@@ -307,7 +286,7 @@ final public class CustomImage extends Visual {
         default: if(Highlights.containsPosition(index))        markCustomBar(ArrayVisualizer, bar, Renderer, width, analysis);
         }
     }
-    
+
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
         if(Renderer.auxActive) return;
@@ -336,7 +315,7 @@ final public class CustomImage extends Visual {
                 }
                 this.updateWindowDims(ArrayVisualizer);
             }
-            
+
             if(this.openImgMenu) {
                 this.pictureMenu = new ImageFrame(this);
                 this.pictureMenu.setVisible(true);
@@ -349,22 +328,22 @@ final public class CustomImage extends Visual {
             ArrayVisualizer.setVisual(visuals.VisualStyles.BARS);
             return;
         }
-        
+
         for(int i = 0, j = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
             int width = (int) (Renderer.getXScale() * (i + 1) - j);
             if(width == 0) continue;
-            
+
             //Cuts the image in respect to each item in the array
             this.mainRender.drawImage(
                 this.img,
 
                 j + 20,
-                40, 
-                j + 20 + width, 
+                40,
+                j + 20 + width,
                 ArrayVisualizer.windowHeight()-10,
 
                 (int) ((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * array[i]),
-                0, 
+                0,
                 (int) Math.ceil((double) this.imgWidth / ArrayVisualizer.getCurrentLength() * (array[i] + 1)),
                 this.imgHeight,
 
@@ -374,16 +353,16 @@ final public class CustomImage extends Visual {
         }
         for(int i = 0, j = 0; i < ArrayVisualizer.getCurrentLength(); i++) {
             int width = (int) (Renderer.getXScale() * (i + 1)) - j;
-            
+
             if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition()) {
                 this.mainRender.setColor(new Color(0, 1, 0, .5f));
-                
+
                 if(width > 0) this.mainRender.fillRect(j + 20, 40, width, ArrayVisualizer.windowHeight()-10);
             }
             else if(Highlights.containsPosition(i)) {
                 if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(new Color(0, 0, 1, .5f));
                 else                                  this.mainRender.setColor(new Color(1, 0, 0, .5f));
-                
+
                 this.mainRender.fillRect(j + 20, 40, Math.max(width, 2), ArrayVisualizer.windowHeight()-10);
             }
             j += width;

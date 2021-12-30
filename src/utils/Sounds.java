@@ -1,8 +1,10 @@
 package utils;
 
-import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.sound.midi.Instrument;
@@ -18,13 +20,13 @@ import dialogs.SoundbankDialog;
 import frames.SoundFrame;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import resources.soundfont.SFXFetcher;
 
 /*
  *
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -231,14 +233,20 @@ final public class Sounds {
 
     private void prepareDefaultSoundbank() {
         this.sineWaveIndex = this.DEFAULT_SINE_WAVE_INDEX;
-        SFXFetcher sfxFetcher = new SFXFetcher();
-        this.loadInstruments(sfxFetcher);
+        InputStream is = getClass().getResourceAsStream("/sfx.sf2");
+        this.loadInstruments(is);
         this.selectedSoundbank = this.defaultSoundbank;
     }
 
     private void prepareCustomSoundbank(File file) {
-        SFXFetcher sfxFetcher = new SFXFetcher(file);
-        this.loadInstruments(sfxFetcher);
+        InputStream is;
+        try {
+            is = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            JErrorPane.invokeErrorMessage(e);
+            return;
+        }
+        this.loadInstruments(is);
     }
 
     private String formatInstrumentName(String rawName) {
@@ -295,9 +303,7 @@ final public class Sounds {
         return instrumentArray;
     }
 
-    private void loadInstruments(SFXFetcher sfxFetcher) {
-        BufferedInputStream stream = sfxFetcher.getStream();
-
+    private void loadInstruments(InputStream stream) {
         try {
             this.synth.loadAllInstruments(MidiSystem.getSoundbank(stream));
         }
