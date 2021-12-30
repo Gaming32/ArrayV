@@ -1,12 +1,11 @@
 package sorts.exchange;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
+import utils.ArrayVList;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2017 Rodney Shaghoulian
@@ -32,9 +31,11 @@ SOFTWARE.
  */
 
 final public class StableQuickSort extends Sort {
+    private int length;
+
     public StableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Stable Quick");
         this.setRunAllSortsName("Stable Quick Sort");
         this.setRunSortName("Stable Quicksort");
@@ -50,42 +51,44 @@ final public class StableQuickSort extends Sort {
     // Author: Rodney Shaghoulian
     // Github: github.com/RodneyShag
 
-    private void copy(ArrayList<Integer> list, int [] array, int startIndex) {
+    private void copy(ArrayVList list, int [] array, int startIndex) {
         for (int num : list) {
             Writes.write(array, startIndex++, num, 0.25, false, false);
             Highlights.markArray(1, startIndex);
         }
     }
-    
+
     /* Partition/Quicksort "Stable Sort" version using O(n) space */
     private int stablePartition(int[] array, int start, int end) {
         int pivotValue = array[start]; //poor pivot choice
         Highlights.markArray(3, start);
-        
-        ArrayList<Integer> leftList  = new ArrayList<>();
-        ArrayList<Integer> rightList = new ArrayList<>();
+
+        ArrayVList leftList  = Writes.createArrayList(this.length);
+        ArrayVList rightList = Writes.createArrayList(this.length);
 
         for (int i = start + 1 ; i <= end; i++) {
             Highlights.markArray(1, i);
-            
+
             if (Reads.compareValues(array[i], pivotValue) == -1) {
-                Writes.mockWrite(end - start, leftList.size(), array[i], 0.25);
-                Writes.arrayListAdd(leftList, array[i]);
-            } 
+                // Writes.mockWrite(end - start, leftList.size(), array[i], 0.25);
+                // Writes.arrayListAdd(leftList, array[i]);
+                leftList.add(array[i], 0.25, false);
+            }
             else {
-                Writes.mockWrite(end - start, rightList.size(), array[i], 0.25);
-                Writes.arrayListAdd(rightList, array[i]);
+                // Writes.mockWrite(end - start, rightList.size(), array[i], 0.25);
+                // Writes.arrayListAdd(rightList, array[i]);
+                rightList.add(array[i], 0.25, false);
             }
         }
 
         /* Recreate array */
         this.copy(leftList, array, start);
-        
+
         int newPivotIndex = start + leftList.size();
-        
+
         Writes.write(array, newPivotIndex, pivotValue, 0.25, false, false);
         Highlights.markArray(1, newPivotIndex);
-        
+
         this.copy(rightList, array, newPivotIndex + 1);
 
         Writes.deleteArrayList(leftList);
@@ -101,9 +104,10 @@ final public class StableQuickSort extends Sort {
             this.stableQuickSort(array, pivotIndex + 1, end);
         }
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
+        this.length = length;
         this.stableQuickSort(array, 0, length - 1);
     }
 }

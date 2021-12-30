@@ -1,14 +1,16 @@
 package sorts.hybrid;
 
 import sorts.templates.Sort;
+import utils.ArrayVList;
 import main.ArrayVisualizer;
 
 import sorts.hybrid.PDQBranchedSort;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /*
- * 
+ *
 MIT License
 Copyright (c) 2020 fungamer2 and Emil Ernerfeldt
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,7 +34,7 @@ SOFTWARE.
 final public class DropMergeSort extends Sort {
     public DropMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Drop Merge");
         this.setRunAllSortsName("Drop Merge Sort");
         this.setRunSortName("Drop Mergesort");
@@ -44,31 +46,30 @@ final public class DropMergeSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
     private final int RECENCY = 8;
     private final int EARLY_OUT_TEST_AT = 4;
     private final double EARLY_OUT_DISORDER_FRACTION = 0.6;
-    
-    private void truncateArrayList(ArrayList<Integer> arrayList, int len) {
+
+    private void truncateArrayList(List<Integer> arrayList, int len) {
     	int size = arrayList.size();
     	arrayList.subList(len, size).clear();
-        Writes.changeAllocAmount(len - size);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         if (length < 2) return;
-        
+
         PDQBranchedSort pdqSort = new PDQBranchedSort(arrayVisualizer);
-        ArrayList<Integer> dropped = new ArrayList<>(length);
-        
+        List<Integer> dropped = Writes.createArrayList(length);
+
         int num_dropped_in_a_row = 0;
         int read = 0;
         int write = 0;
-        
+
         int iteration = 0;
         int early_out_stop = length / EARLY_OUT_TEST_AT;
-        
+
         while (read < length) {
             Highlights.markArray(2, read);
             iteration += 1;
@@ -76,15 +77,16 @@ final public class DropMergeSort extends Sort {
                 // We have seen a lot of the elements and dropped a lot of them.
                 // This doesn't look good. Abort.
                 Highlights.clearMark(2);
-            
+
                 for (int i = 0; i < dropped.size(); i++) {
                     Writes.write(array, write++, dropped.get(i), 1, true, false);
                 }
                 Writes.arrayListClear(dropped);
                 pdqSort.customSort(array, 0, length);
+                Writes.deleteArrayList(dropped);
                 return;
             }
-            
+
             if (write == 0 || Reads.compareIndices(array, read, write - 1, 0, false) >= 0) {
                 // The element is order - keep it:
                 Writes.write(array, write++, array[read++], 1, true, false);
@@ -136,24 +138,24 @@ final public class DropMergeSort extends Sort {
               }
             }
         }
-        
+
         Highlights.clearMark(2);
-        
+
         for (int i = 0; i < dropped.size(); i++) {
             Writes.write(array, write + i, dropped.get(i), 1, true, false);
         }
-        
+
         pdqSort.customSort(array, write, length);
-        
-        
+
+
         int[] buffer = Writes.createExternalArray(dropped.size());
-        
+
         Writes.arraycopy(array, write, buffer, 0, dropped.size(), 1, true, true);
-        
+
         int i = buffer.length - 1;
         int j = write - 1;
         int k = length - 1;
-        
+
         while (i >= 0) {
             if (j < 0 || Reads.compareValues(buffer[i], array[j]) == 1) {
                 Writes.write(array, k--, buffer[i--], 1, true, false);
@@ -162,7 +164,7 @@ final public class DropMergeSort extends Sort {
                 Writes.write(array, k--, array[j--], 1, true, false);
             }
         }
-        
+
         Writes.deleteArrayList(dropped);
         Writes.deleteExternalArray(buffer);
     }
