@@ -175,7 +175,6 @@ final public class ArrayVisualizer {
     private Writes Writes;
     private AntiQSort AntiQSort;
 
-    private volatile boolean updateVisuals;
     private volatile int updateVisualsForced;
     public  volatile boolean benchmarking;
 
@@ -560,12 +559,17 @@ final public class ArrayVisualizer {
         }
     }
 
+    /**
+     * @deprecated This method no longer does anything!
+     */
+    @Deprecated
     public void toggleVisualUpdates(boolean bool) {
-        this.updateVisuals = bool;
     }
+
     public void forceVisualUpdate(int count) {
         this.updateVisualsForced += count;
     }
+
     public boolean enableBenchmarking(boolean enabled) {
         if (enabled) {
 
@@ -583,7 +587,6 @@ final public class ArrayVisualizer {
             }
         }
         this.benchmarking = enabled;
-        this.updateVisuals = !benchmarking;
         return this.benchmarking;
     }
 
