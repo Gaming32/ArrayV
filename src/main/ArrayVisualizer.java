@@ -111,48 +111,34 @@ SOFTWARE.
 final public class ArrayVisualizer {
     private static ArrayVisualizer INSTANCE = null;
 
-    private static final String STAT_LINE_BREAK_S    = "";
-    private static final String STAT_SORT_IDENTITY_S = "sort";
-    private static final String STAT_ARRAY_LENGTH_S  = "length";
-    private static final String STAT_SORT_DELAY_S    = "delay";
-    private static final String STAT_VISUAL_TIME_S   = "vtime";
-    private static final String STAT_EST_SORT_TIME_S = "stime";
-    private static final String STAT_COMPARISONS_S   = "comps";
-    private static final String STAT_SWAPS_S         = "swaps";
-    private static final String STAT_REVERSALS_S     = "revs";
-    private static final String STAT_MAIN_WRITE_S    = "wmain";
-    private static final String STAT_AUX_WRITE_S     = "waux";
-    private static final String STAT_AUX_ALLOC_S     = "auxlen";
-    private static final String STAT_SEGMENTS_S      = "segments";
-
-    private static final int STAT_LINE_BREAK_I    = 0;
-    private static final int STAT_SORT_IDENTITY_I = 1;
-    private static final int STAT_ARRAY_LENGTH_I  = 2;
-    private static final int STAT_SORT_DELAY_I    = 3;
-    private static final int STAT_VISUAL_TIME_I   = 4;
-    private static final int STAT_EST_SORT_TIME_I = 5;
-    private static final int STAT_COMPARISONS_I   = 6;
-    private static final int STAT_SWAPS_I         = 7;
-    private static final int STAT_REVERSALS_I     = 8;
-    private static final int STAT_MAIN_WRITE_I    = 9;
-    private static final int STAT_AUX_WRITE_I     = 10;
-    private static final int STAT_AUX_ALLOC_I     = 11;
-    private static final int STAT_SEGMENTS_I      = 12;
+    private static final int STAT_LINE_BREAK    = 0;
+    private static final int STAT_SORT_IDENTITY = 1;
+    private static final int STAT_ARRAY_LENGTH  = 2;
+    private static final int STAT_SORT_DELAY    = 3;
+    private static final int STAT_VISUAL_TIME   = 4;
+    private static final int STAT_EST_SORT_TIME = 5;
+    private static final int STAT_COMPARISONS   = 6;
+    private static final int STAT_SWAPS         = 7;
+    private static final int STAT_REVERSALS     = 8;
+    private static final int STAT_MAIN_WRITE    = 9;
+    private static final int STAT_AUX_WRITE     = 10;
+    private static final int STAT_AUX_ALLOC     = 11;
+    private static final int STAT_SEGMENTS      = 12;
 
     private static final Map<String, Integer> STAT_CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, Integer>() {{
-        put(STAT_LINE_BREAK_S, STAT_LINE_BREAK_I);
-        put(STAT_SORT_IDENTITY_S, STAT_SORT_IDENTITY_I);
-        put(STAT_ARRAY_LENGTH_S, STAT_ARRAY_LENGTH_I);
-        put(STAT_SORT_DELAY_S, STAT_SORT_DELAY_I);
-        put(STAT_VISUAL_TIME_S, STAT_VISUAL_TIME_I);
-        put(STAT_EST_SORT_TIME_S, STAT_EST_SORT_TIME_I);
-        put(STAT_COMPARISONS_S, STAT_COMPARISONS_I);
-        put(STAT_SWAPS_S, STAT_SWAPS_I);
-        put(STAT_REVERSALS_S, STAT_REVERSALS_I);
-        put(STAT_MAIN_WRITE_S, STAT_MAIN_WRITE_I);
-        put(STAT_AUX_WRITE_S, STAT_AUX_WRITE_I);
-        put(STAT_AUX_ALLOC_S, STAT_AUX_ALLOC_I);
-        put(STAT_SEGMENTS_S, STAT_SEGMENTS_I);
+        put("",         STAT_LINE_BREAK);
+        put("sort",     STAT_SORT_IDENTITY);
+        put("length",   STAT_ARRAY_LENGTH);
+        put("delay",    STAT_SORT_DELAY);
+        put("vtime",    STAT_VISUAL_TIME);
+        put("stime",    STAT_EST_SORT_TIME);
+        put("comps",    STAT_COMPARISONS);
+        put("swaps",    STAT_SWAPS);
+        put("revs",     STAT_REVERSALS);
+        put("wmain",    STAT_MAIN_WRITE);
+        put("waux",     STAT_AUX_WRITE);
+        put("auxlen",   STAT_AUX_ALLOC);
+        put("segments", STAT_SEGMENTS);
     }});
 
     final JFrame window;
@@ -654,43 +640,43 @@ final public class ArrayVisualizer {
             // System.out.println(yPos);
             String stat;
             switch (statType) {
-                case STAT_LINE_BREAK_I:
+                case STAT_LINE_BREAK:
                     yPos += 15;
                     continue statLoop;
-                case STAT_SORT_IDENTITY_I:
+                case STAT_SORT_IDENTITY:
                     stat = statSnapshot.getSortIdentity();
                     break;
-                case STAT_ARRAY_LENGTH_I:
+                case STAT_ARRAY_LENGTH:
                     stat = statSnapshot.getArrayLength();
                     break;
-                case STAT_SORT_DELAY_I:
+                case STAT_SORT_DELAY:
                     stat = statSnapshot.getSortDelay();
                     break;
-                case STAT_VISUAL_TIME_I:
+                case STAT_VISUAL_TIME:
                     stat = statSnapshot.getVisualTime();
                     break;
-                case STAT_EST_SORT_TIME_I:
+                case STAT_EST_SORT_TIME:
                     stat = statSnapshot.getEstSortTime();
                     break;
-                case STAT_COMPARISONS_I:
+                case STAT_COMPARISONS:
                     stat = statSnapshot.getComparisonCount();
                     break;
-                case STAT_SWAPS_I:
+                case STAT_SWAPS:
                     stat = statSnapshot.getSwapCount();
                     break;
-                case STAT_REVERSALS_I:
+                case STAT_REVERSALS:
                     stat = statSnapshot.getReversalCount();
                     break;
-                case STAT_MAIN_WRITE_I:
+                case STAT_MAIN_WRITE:
                     stat = statSnapshot.getMainWriteCount();
                     break;
-                case STAT_AUX_WRITE_I:
+                case STAT_AUX_WRITE:
                     stat = statSnapshot.getAuxWriteCount();
                     break;
-                case STAT_AUX_ALLOC_I:
+                case STAT_AUX_ALLOC:
                     stat = statSnapshot.getAuxAllocAmount();
                     break;
-                case STAT_SEGMENTS_I:
+                case STAT_SEGMENTS:
                     stat = statSnapshot.getSegments();
                     break;
                 default:
