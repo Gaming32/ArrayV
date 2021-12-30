@@ -389,11 +389,12 @@ final public class ArrayVisualizer {
                 }
                 statsInfoList.add(type);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             statsInfoList = null;
+            JErrorPane.invokeErrorMessage(e, "ArrayVisualizer");
             JOptionPane.showMessageDialog(
                 this.window,
-                "Unable to load stats-config, using default",
+                "Unable to load stats-config, using default config",
                 "ArrayVisualizer",
                 JOptionPane.WARNING_MESSAGE
             );
