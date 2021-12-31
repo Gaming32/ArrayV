@@ -110,7 +110,7 @@ SOFTWARE.
 final public class ArrayVisualizer {
     private static ArrayVisualizer INSTANCE = null;
 
-    private enum Stat {
+    private enum StatisticType {
         LINE_BREAK,
         SORT_IDENTITY,
         ARRAY_LENGTH,
@@ -126,7 +126,7 @@ final public class ArrayVisualizer {
         AUX_ALLOC,
         SEGMENTS;
 
-        private static final Map<String, Stat> CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, Stat>() {{
+        private static final Map<String, StatisticType> CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, StatisticType>() {{
             put("",         LINE_BREAK);
             put("sort",     SORT_IDENTITY);
             put("length",   ARRAY_LENGTH);
@@ -154,7 +154,7 @@ final public class ArrayVisualizer {
     final int[] stabilityTable;
     final int[] indexTable;
     final ArrayList<int[]> arrays;
-    private final Stat[] statsConfig;
+    private final StatisticType[] statsConfig;
 
     private SortPair[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
     private SortPair[] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
@@ -383,7 +383,7 @@ final public class ArrayVisualizer {
 
         this.fontSelection = "Times New Roman";
         this.fontSelectionScale = 25;
-        List<Stat> statsInfoList = new ArrayList<>();
+        List<StatisticType> statsInfoList = new ArrayList<>();
         try (Scanner statsScanner = new Scanner(new File("stats-config.txt"))) {
             while (statsScanner.hasNextLine()) {
                 String line = statsScanner.nextLine().trim();
@@ -398,7 +398,7 @@ final public class ArrayVisualizer {
                     fontSelection = font.trim();
                     continue;
                 }
-                Stat type = Stat.CONFIG_KEYS.get(line.toLowerCase());
+                StatisticType type = StatisticType.CONFIG_KEYS.get(line.toLowerCase());
                 if (type == null) {
                     System.err.println("Unknown statistic type: " + type);
                     continue;
@@ -416,25 +416,25 @@ final public class ArrayVisualizer {
             );
         }
         if (statsInfoList == null) {
-            statsConfig = new Stat[] {
-                Stat.SORT_IDENTITY,
-                Stat.ARRAY_LENGTH,
-                    Stat.LINE_BREAK,
-                Stat.SORT_DELAY,
-                Stat.VISUAL_TIME,
-                Stat.EST_SORT_TIME,
-                    Stat.LINE_BREAK,
-                Stat.COMPARISONS,
-                Stat.SWAPS,
-                Stat.REVERSALS,
-                    Stat.LINE_BREAK,
-                Stat.MAIN_WRITE,
-                Stat.AUX_WRITE,
-                Stat.AUX_ALLOC,
-                Stat.SEGMENTS
+            statsConfig = new StatisticType[] {
+                StatisticType.SORT_IDENTITY,
+                StatisticType.ARRAY_LENGTH,
+                    StatisticType.LINE_BREAK,
+                StatisticType.SORT_DELAY,
+                StatisticType.VISUAL_TIME,
+                StatisticType.EST_SORT_TIME,
+                    StatisticType.LINE_BREAK,
+                StatisticType.COMPARISONS,
+                StatisticType.SWAPS,
+                StatisticType.REVERSALS,
+                    StatisticType.LINE_BREAK,
+                StatisticType.MAIN_WRITE,
+                StatisticType.AUX_WRITE,
+                StatisticType.AUX_ALLOC,
+                StatisticType.SEGMENTS
             };
         } else {
-            statsConfig = statsInfoList.toArray(new Stat[statsInfoList.size()]);
+            statsConfig = statsInfoList.toArray(new StatisticType[statsInfoList.size()]);
         }
 
         this.sortLength = Math.min(2048, this.MAX_ARRAY_VAL);
@@ -645,7 +645,7 @@ final public class ArrayVisualizer {
         this.mainRender.setColor(textColor);
 
         statLoop:
-        for (Stat statType : statsConfig) {
+        for (StatisticType statType : statsConfig) {
             // System.out.println(yPos);
             String stat;
             switch (statType) {
