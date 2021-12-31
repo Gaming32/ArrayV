@@ -6,7 +6,7 @@ import main.ArrayVisualizer;
 import panes.JErrorPane;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -33,38 +33,38 @@ SOFTWARE.
 
 final public class Delays {
     private ArrayVisualizer arrayVisualizer;
-    
+
     private volatile double SLEEPRATIO;
     private volatile boolean SKIPPED;
-    
+
     private double addamt;
     private double delay;
     private double nanos;
-    
+
     private volatile double currentDelay;
     private volatile boolean paused;
-    
+
     private DecimalFormat formatter;
-    
+
     private Sounds Sounds;
-    
+
     public Delays(ArrayVisualizer arrayVisualizer) {
         this.arrayVisualizer = arrayVisualizer;
-        
+
         this.SLEEPRATIO = 1.0;
         this.SKIPPED = false;
         this.addamt = 0;
-        
+
         this.formatter = arrayVisualizer.getNumberFormat();
         this.Sounds = arrayVisualizer.getSounds();
     }
-    
+
     public String displayCurrentDelay() {
         if(this.SKIPPED)
             return "Canceled";
         if(this.paused)
             return "Paused";
-        
+
         String currDelay = "";
         if(this.currentDelay == 0) {
             currDelay = "0";
@@ -92,7 +92,7 @@ final public class Delays {
         this.currentDelay = this.delay;
         this.Sounds.changeNoteDelayAndFilter((int) this.currentDelay);
         this.addamt = 0;
-    
+
         if(this.currentDelay < 0) {
             this.delay = this.currentDelay = 0;
         }
@@ -102,14 +102,14 @@ final public class Delays {
         this.setDisplayedDelay(value);
         this.Sounds.changeNoteDelayAndFilter((int) value);
     }
-    
+
     public double getSleepRatio() {
         return this.SLEEPRATIO;
     }
     public void setSleepRatio(double sleepRatio) {
         this.SLEEPRATIO = sleepRatio;
     }
-    
+
     public boolean skipped() {
         return this.SKIPPED;
     }
@@ -128,27 +128,25 @@ final public class Delays {
     public void togglePaused() {
         this.changePaused(!this.paused);;
     }
-    
+
     public void sleep(double millis) {
         if(millis <= 0) {
             return;
         }
-        
+
         this.delay += (millis * (1 / this.SLEEPRATIO));
         this.currentDelay = (millis * (1 / this.SLEEPRATIO));
-        
+
         this.Sounds.changeNoteDelayAndFilter((int) this.currentDelay);
-        
+
         try {
             // With this for loop, you can change the speed of sorts without waiting for the current delay to finish.
             if(!this.SKIPPED) {
-                this.arrayVisualizer.toggleVisualUpdates(false);
                 while(this.paused || this.delay >= 1) {
                     Thread.sleep(1);
                     if (!this.paused)
                         this.delay--;
                 }
-                this.arrayVisualizer.toggleVisualUpdates(true);
             }
             else {
                 this.delay = 0;
@@ -156,7 +154,7 @@ final public class Delays {
         } catch(Exception ex) {
             JErrorPane.invokeErrorMessage(ex);
         }
-        
+
         this.currentDelay = 0;
     }
 }
