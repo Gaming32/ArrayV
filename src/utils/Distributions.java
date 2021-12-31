@@ -502,14 +502,14 @@ public enum Distributions {
                 exponentList = new ArrayList<>();
 
                 int sqrt = (int) Math.sqrt(i);
-                for(int prime : allPrimes) {
+                for (int prime : allPrimes) {
                     // all prime factors are found (unless i itself is prime, handled below)
-                    if(prime > sqrt || i == 1) break;
+                    if (prime > sqrt || i == 1) break;
 
-                    if(i % prime == 0) { // p is a prime factor of i
+                    if (i % prime == 0) { // p is a prime factor of i
                         i /= prime;
                         int exponent = 1;
-                        while(i % prime == 0) {
+                        while (i % prime == 0) {
                             i /= prime;
                             exponent++;
                         }
@@ -520,12 +520,11 @@ public enum Distributions {
                         sqrt = (int) Math.sqrt(i);
                     }
                 }
-                if(i != 1) {
+                if (i != 1) {
                     primeFactors.add(i);
                     exponentList.add(1);
                 }
             }
-
         }
 
         @Override
@@ -551,20 +550,20 @@ public enum Distributions {
             int n = ArrayVisualizer.getCurrentLength();
             System.arraycopy(smallTotients, 0, array, 0, m > n ? n : m);
 
-            for(int i = m; i < n; i++) {
+            for (int i = m; i < n; i++) {
                 PrimeFactorization pf = new PrimeFactorization(i, primes);
-                if(pf.primeFactors.size() == 1) { // i is prime
-                    if(i > smallPrimes.get(smallPrimes.size() - 1)) primes.add(i);
+                if (pf.primeFactors.size() == 1) { // i is prime
+                    if (i > smallPrimes.get(smallPrimes.size() - 1)) primes.add(i);
                     array[i] = i - 1;
                     continue;
                 }
 
                 int totient = 1;
-                for(int j = 0; j < pf.primeFactors.size(); j++) {
+                for (int j = 0; j < pf.primeFactors.size(); j++) {
                     int    prime = pf.primeFactors.get(j);
                     int exponent = pf.exponentList.get(j);
                     totient *= prime - 1;
-                    for(int k = 1; k < exponent; k++) totient *= prime;
+                    for (int k = 1; k < exponent; k++) totient *= prime;
                 }
                 array[i] = totient;
             }
