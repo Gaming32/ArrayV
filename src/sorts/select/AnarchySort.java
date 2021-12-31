@@ -1,9 +1,8 @@
 package sorts.select;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
+import utils.ArrayVList;
 
 public final class AnarchySort extends Sort {
 
@@ -22,13 +21,13 @@ public final class AnarchySort extends Sort {
 
     }
 
-    private boolean containsValue(ArrayList<Integer> list, int value) {
+    private boolean containsValue(ArrayVList list, int value) {
         for (int at = 0; at < list.size(); at++) {
             this.Delays.sleep(0.001D);
             this.Highlights.markArray(1, at);
 
             this.Writes.startLap();
-            boolean comp = (((Integer) list.get(at)).intValue() == value);
+            boolean comp = list.get(at) == value;
             this.Writes.stopLap();
 
             if (comp)
@@ -59,7 +58,7 @@ public final class AnarchySort extends Sort {
             this.Writes.write(aux, init, array[init], 0.001D, true, true);
         }
 
-        ArrayList<Integer> t2 = new ArrayList<>();
+        ArrayVList t2 = Writes.createArrayList(length);
         int m = 0;
 
         while (m < length) {
@@ -71,14 +70,15 @@ public final class AnarchySort extends Sort {
                 }
                 i++;
             }
-            this.Writes.changeAuxWrites(1);
-            t2.add(Integer.valueOf(j));
+            t2.add(j);
             this.Highlights.markArray(1, j);
             this.Delays.sleep(1.0D);
 
             this.Writes.write(array, j, m, 1.0D, true, false);
             m++;
         }
+
+        Writes.deleteArrayList(t2);
     }
 
     private void sortMainAndAux(int[] array, int[] aux, int length) {

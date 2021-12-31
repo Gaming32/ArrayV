@@ -22,6 +22,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -35,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -149,6 +152,8 @@ final public class ArrayVisualizer {
     final private int MIN_ARRAY_VAL;
     final private int MAX_ARRAY_VAL;
 
+    final private Properties buildInfo;
+
     final int[] array;
     final int[] validateArray;
     final int[] stabilityTable;
@@ -235,7 +240,6 @@ final public class ArrayVisualizer {
     private Writes Writes;
     private AntiQSort AntiQSort;
 
-    private volatile boolean updateVisuals;
     private volatile int updateVisualsForced;
     public  volatile boolean benchmarking;
 
@@ -362,6 +366,17 @@ final public class ArrayVisualizer {
                 FileDialog.initialize();
             }
         }.start();
+
+        this.buildInfo = new Properties();
+        this.buildInfo.setProperty("commitId", "unknown"); // Put default
+        try (InputStream is = getClass().getResourceAsStream("/buildInfo.properties")) {
+            if (is != null) {
+                this.buildInfo.load(is);
+            }
+        } catch (IOException e) {
+            System.err.println("Unable to read buildInfo.properties");
+            e.printStackTrace();
+        }
 
         this.MIN_ARRAY_VAL = 2;
         this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
@@ -713,12 +728,17 @@ final public class ArrayVisualizer {
         }
     }
 
+    /**
+     * @deprecated This method no longer does anything!
+     */
+    @Deprecated
     public void toggleVisualUpdates(boolean bool) {
-        this.updateVisuals = bool;
     }
+
     public void forceVisualUpdate(int count) {
         this.updateVisualsForced += count;
     }
+
     public boolean enableBenchmarking(boolean enabled) {
         if (enabled) {
 
@@ -736,7 +756,6 @@ final public class ArrayVisualizer {
             }
         }
         this.benchmarking = enabled;
-        this.updateVisuals = !benchmarking;
         return this.benchmarking;
     }
 
@@ -1382,9 +1401,17 @@ final public class ArrayVisualizer {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.window.setSize((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
 
+        StringBuilder title = new StringBuilder("w0rthy's Array Visualizer - ");
+        title.append(this.ComparisonSorts.length + this.DistributionSorts.length);
+        title.append(" Sorts, 15 Visual Styles, and Infinite Inputs to Sort");
+        String versionSha = buildInfo.getProperty("commitId");
+        if (!versionSha.equals("@git.sha@") && !versionSha.equals("unknown")) { // Hash not loaded
+            title.append(" (commit ").append(versionSha).append(")");
+        }
+
         this.window.setLocation(0, 0);
         this.window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.window.setTitle("w0rthy's Array Visualizer - " + (this.ComparisonSorts.length + this.DistributionSorts.length) + " Sorts, 15 Visual Styles, and Infinite Inputs to Sort");
+        this.window.setTitle(title.toString());
         this.window.setBackground(Color.BLACK);
         this.window.setIgnoreRepaint(true);
 
