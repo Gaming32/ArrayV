@@ -650,7 +650,7 @@ final public class ArrayVisualizer {
             String stat;
             switch (statType) {
                 case STAT_LINE_BREAK:
-                    yPos += fontSelectionScale / 25.0 * 15;
+                    yPos += (int)(fontSelectionScale / 25.0 * 15);
                     continue statLoop;
                 case STAT_SORT_IDENTITY:
                     stat = statSnapshot.getSortIdentity();
