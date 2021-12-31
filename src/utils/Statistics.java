@@ -57,7 +57,11 @@ final public class Statistics {
         this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers"
         + ", " + this.formatter.format(showUnique) + " Unique";
 
-        this.framerate = (1000.0 / frameTimeMillis) + " FPS";
+        if (frameTimeMillis == 0) {
+            this.framerate = ">1000 FPS";
+        } else {
+            this.framerate = (int)(1000.0 / frameTimeMillis) + " FPS";
+        }
         this.sortDelay = "Delay: " + ArrayVisualizer.getDelays().displayCurrentDelay();
         this.visualTime = "Visual Time: " + ArrayVisualizer.getTimer().getVisualTime();
         this.estSortTime = "Sort Time: " + ArrayVisualizer.getTimer().getRealTime();
