@@ -1,0 +1,18 @@
+FONT: Times New Roman * 25
+# fps
+#
+sort
+length
+
+delay
+vtime
+stime
+
+comps
+swaps
+revs
+
+wmain
+waux
+auxlen
+segments
