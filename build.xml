@@ -72,6 +72,9 @@
             <src path="src"/>
             <classpath refid="ArrayVisualizer-master.classpath"/>
         </javac>
+        <copy todir="bin">
+            <fileset dir="." includes="stats-config.txt"/>
+        </copy>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
 </project>

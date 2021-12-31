@@ -22,8 +22,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -399,38 +402,57 @@ final public class ArrayVisualizer {
         this.fontSelection = "Times New Roman";
         this.fontSelectionScale = 25;
         List<StatisticType> statsInfoList = new ArrayList<>();
-        try (Scanner statsScanner = new Scanner(new File("stats-config.txt"))) {
-            while (statsScanner.hasNextLine()) {
-                String line = statsScanner.nextLine().trim();
-                if (line.length() > 0 && line.charAt(0) == '#') continue;
-                if (line.startsWith("FONT:")) {
-                    String font = line.substring(5);
-                    int starIndex;
-                    if ((starIndex = font.indexOf('*')) != -1) {
-                        fontSelectionScale = Integer.parseInt(font.substring(starIndex + 1).trim());
-                        font = font.substring(0, starIndex);
+        Throwable statsLoadException = null;
+        while (true) {
+            try (Scanner statsScanner = new Scanner(new File("stats-config.txt"))) {
+                while (statsScanner.hasNextLine()) {
+                    String line = statsScanner.nextLine().trim();
+                    if (line.length() > 0 && line.charAt(0) == '#') continue;
+                    if (line.startsWith("FONT:")) {
+                        String font = line.substring(5);
+                        int starIndex;
+                        if ((starIndex = font.indexOf('*')) != -1) {
+                            fontSelectionScale = Integer.parseInt(font.substring(starIndex + 1).trim());
+                            font = font.substring(0, starIndex);
+                        }
+                        fontSelection = font.trim();
+                        continue;
                     }
-                    fontSelection = font.trim();
-                    continue;
+                    StatisticType type = StatisticType.CONFIG_KEYS.get(line.toLowerCase());
+                    if (type == null) {
+                        System.err.println("Unknown statistic type: " + type);
+                        continue;
+                    }
+                    statsInfoList.add(type);
                 }
-                StatisticType type = StatisticType.CONFIG_KEYS.get(line.toLowerCase());
-                if (type == null) {
-                    System.err.println("Unknown statistic type: " + type);
-                    continue;
+            } catch (FileNotFoundException e) {
+                try (InputStream in = getClass().getResourceAsStream("/stats-config.txt")) {
+                    try (OutputStream out = new FileOutputStream("stats-config.txt")) {
+                        byte[] buf = new byte[8192];
+                        int length;
+                        while ((length = in.read(buf)) > 0) {
+                            out.write(buf, 0, length);
+                        }
+                    } catch (Exception e2) {
+                        statsLoadException = e2;
+                    }
+                } catch (Exception e2) {
+                    statsLoadException = e2;
                 }
-                statsInfoList.add(type);
+                continue;
+            } catch (Exception e) {
+                statsLoadException = e;
             }
-        } catch (Exception e) {
-            statsInfoList = null;
-            JErrorPane.invokeErrorMessage(e, "ArrayVisualizer");
+            break;
+        }
+        if (statsLoadException != null) {
+            JErrorPane.invokeErrorMessage(statsLoadException, "ArrayVisualizer");
             JOptionPane.showMessageDialog(
                 this.window,
                 "Unable to load stats-config, using default config",
                 "ArrayVisualizer",
                 JOptionPane.WARNING_MESSAGE
             );
-        }
-        if (statsInfoList == null) {
             statsConfig = new StatisticType[] {
                 StatisticType.SORT_IDENTITY,
                 StatisticType.ARRAY_LENGTH,
