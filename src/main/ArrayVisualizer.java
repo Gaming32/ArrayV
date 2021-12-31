@@ -110,37 +110,39 @@ SOFTWARE.
 final public class ArrayVisualizer {
     private static ArrayVisualizer INSTANCE = null;
 
-    private static final int STAT_LINE_BREAK    = 0;
-    private static final int STAT_SORT_IDENTITY = 1;
-    private static final int STAT_ARRAY_LENGTH  = 2;
-    private static final int STAT_FRAMERATE     = 3;
-    private static final int STAT_SORT_DELAY    = 4;
-    private static final int STAT_VISUAL_TIME   = 5;
-    private static final int STAT_EST_SORT_TIME = 6;
-    private static final int STAT_COMPARISONS   = 7;
-    private static final int STAT_SWAPS         = 8;
-    private static final int STAT_REVERSALS     = 9;
-    private static final int STAT_MAIN_WRITE    = 10;
-    private static final int STAT_AUX_WRITE     = 11;
-    private static final int STAT_AUX_ALLOC     = 12;
-    private static final int STAT_SEGMENTS      = 13;
+    private enum Stat {
+        LINE_BREAK,
+        SORT_IDENTITY,
+        ARRAY_LENGTH,
+        FRAMERATE,
+        SORT_DELAY,
+        VISUAL_TIME,
+        EST_SORT_TIME,
+        COMPARISONS,
+        SWAPS,
+        REVERSALS,
+        MAIN_WRITE,
+        AUX_WRITE,
+        AUX_ALLOC,
+        SEGMENTS;
 
-    private static final Map<String, Integer> STAT_CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, Integer>() {{
-        put("",         STAT_LINE_BREAK);
-        put("sort",     STAT_SORT_IDENTITY);
-        put("length",   STAT_ARRAY_LENGTH);
-        put("fps",      STAT_FRAMERATE);
-        put("delay",    STAT_SORT_DELAY);
-        put("vtime",    STAT_VISUAL_TIME);
-        put("stime",    STAT_EST_SORT_TIME);
-        put("comps",    STAT_COMPARISONS);
-        put("swaps",    STAT_SWAPS);
-        put("revs",     STAT_REVERSALS);
-        put("wmain",    STAT_MAIN_WRITE);
-        put("waux",     STAT_AUX_WRITE);
-        put("auxlen",   STAT_AUX_ALLOC);
-        put("segments", STAT_SEGMENTS);
-    }});
+        private static final Map<String, Stat> CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, Stat>() {{
+            put("",         LINE_BREAK);
+            put("sort",     SORT_IDENTITY);
+            put("length",   ARRAY_LENGTH);
+            put("fps",      FRAMERATE);
+            put("delay",    SORT_DELAY);
+            put("vtime",    VISUAL_TIME);
+            put("stime",    EST_SORT_TIME);
+            put("comps",    COMPARISONS);
+            put("swaps",    SWAPS);
+            put("revs",     REVERSALS);
+            put("wmain",    MAIN_WRITE);
+            put("waux",     AUX_WRITE);
+            put("auxlen",   AUX_ALLOC);
+            put("segments", SEGMENTS);
+        }});
+    }
 
     final JFrame window;
 
@@ -152,7 +154,7 @@ final public class ArrayVisualizer {
     final int[] stabilityTable;
     final int[] indexTable;
     final ArrayList<int[]> arrays;
-    private final int[] statsConfig;
+    private final Stat[] statsConfig;
 
     private SortPair[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
     private SortPair[] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
@@ -381,7 +383,7 @@ final public class ArrayVisualizer {
 
         this.fontSelection = "Times New Roman";
         this.fontSelectionScale = 25;
-        List<Integer> statsInfoList = new ArrayList<>();
+        List<Stat> statsInfoList = new ArrayList<>();
         try (Scanner statsScanner = new Scanner(new File("stats-config.txt"))) {
             while (statsScanner.hasNextLine()) {
                 String line = statsScanner.nextLine().trim();
@@ -396,7 +398,7 @@ final public class ArrayVisualizer {
                     fontSelection = font.trim();
                     continue;
                 }
-                Integer type = STAT_CONFIG_KEYS.get(line.toLowerCase());
+                Stat type = Stat.CONFIG_KEYS.get(line.toLowerCase());
                 if (type == null) {
                     System.err.println("Unknown statistic type: " + type);
                     continue;
@@ -414,27 +416,25 @@ final public class ArrayVisualizer {
             );
         }
         if (statsInfoList == null) {
-            statsConfig = new int[] {
-                STAT_SORT_IDENTITY,
-                STAT_ARRAY_LENGTH,
-                    STAT_LINE_BREAK,
-                STAT_SORT_DELAY,
-                STAT_VISUAL_TIME,
-                STAT_EST_SORT_TIME,
-                    STAT_LINE_BREAK,
-                STAT_COMPARISONS,
-                STAT_SWAPS,
-                STAT_REVERSALS,
-                    STAT_LINE_BREAK,
-                STAT_MAIN_WRITE,
-                STAT_AUX_WRITE,
-                STAT_AUX_ALLOC,
-                STAT_SEGMENTS
+            statsConfig = new Stat[] {
+                Stat.SORT_IDENTITY,
+                Stat.ARRAY_LENGTH,
+                    Stat.LINE_BREAK,
+                Stat.SORT_DELAY,
+                Stat.VISUAL_TIME,
+                Stat.EST_SORT_TIME,
+                    Stat.LINE_BREAK,
+                Stat.COMPARISONS,
+                Stat.SWAPS,
+                Stat.REVERSALS,
+                    Stat.LINE_BREAK,
+                Stat.MAIN_WRITE,
+                Stat.AUX_WRITE,
+                Stat.AUX_ALLOC,
+                Stat.SEGMENTS
             };
         } else {
-            statsConfig = statsInfoList.stream()
-                                       .mapToInt(Integer::intValue)
-                                       .toArray();
+            statsConfig = statsInfoList.toArray(new Stat[statsInfoList.size()]);
         }
 
         this.sortLength = Math.min(2048, this.MAX_ARRAY_VAL);
@@ -645,50 +645,50 @@ final public class ArrayVisualizer {
         this.mainRender.setColor(textColor);
 
         statLoop:
-        for (int statType : statsConfig) {
+        for (Stat statType : statsConfig) {
             // System.out.println(yPos);
             String stat;
             switch (statType) {
-                case STAT_LINE_BREAK:
+                case LINE_BREAK:
                     yPos += (int)(fontSelectionScale / 25.0 * 15);
                     continue statLoop;
-                case STAT_SORT_IDENTITY:
+                case SORT_IDENTITY:
                     stat = statSnapshot.getSortIdentity();
                     break;
-                case STAT_ARRAY_LENGTH:
+                case ARRAY_LENGTH:
                     stat = statSnapshot.getArrayLength();
                     break;
-                case STAT_FRAMERATE:
+                case FRAMERATE:
                     stat = statSnapshot.getFramerate();
                     break;
-                case STAT_SORT_DELAY:
+                case SORT_DELAY:
                     stat = statSnapshot.getSortDelay();
                     break;
-                case STAT_VISUAL_TIME:
+                case VISUAL_TIME:
                     stat = statSnapshot.getVisualTime();
                     break;
-                case STAT_EST_SORT_TIME:
+                case EST_SORT_TIME:
                     stat = statSnapshot.getEstSortTime();
                     break;
-                case STAT_COMPARISONS:
+                case COMPARISONS:
                     stat = statSnapshot.getComparisonCount();
                     break;
-                case STAT_SWAPS:
+                case SWAPS:
                     stat = statSnapshot.getSwapCount();
                     break;
-                case STAT_REVERSALS:
+                case REVERSALS:
                     stat = statSnapshot.getReversalCount();
                     break;
-                case STAT_MAIN_WRITE:
+                case MAIN_WRITE:
                     stat = statSnapshot.getMainWriteCount();
                     break;
-                case STAT_AUX_WRITE:
+                case AUX_WRITE:
                     stat = statSnapshot.getAuxWriteCount();
                     break;
-                case STAT_AUX_ALLOC:
+                case AUX_ALLOC:
                     stat = statSnapshot.getAuxAllocAmount();
                     break;
-                case STAT_SEGMENTS:
+                case SEGMENTS:
                     stat = statSnapshot.getSegments();
                     break;
                 default:
