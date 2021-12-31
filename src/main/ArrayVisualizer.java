@@ -388,14 +388,12 @@ final public class ArrayVisualizer {
                 if (line.length() > 0 && line.charAt(0) == '#') continue;
                 if (line.startsWith("FONT:")) {
                     String font = line.substring(5);
-                    int fontScale = 25;
                     int starIndex;
                     if ((starIndex = font.indexOf('*')) != -1) {
-                        fontScale = Integer.parseInt(font.substring(starIndex + 1).trim());
+                        fontSelectionScale = Integer.parseInt(font.substring(starIndex + 1).trim());
                         font = font.substring(0, starIndex);
                     }
                     fontSelection = font.trim();
-                    fontSelectionScale = fontScale;
                     continue;
                 }
                 Integer type = STAT_CONFIG_KEYS.get(line.toLowerCase());
