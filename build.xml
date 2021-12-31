@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="ArrayVisualizer-master">
+<project basedir="." default="build" name="ArrayVisualizer-master">
+    <available file=".git" type="dir" property="git.present"/>
     <property environment="env"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
+    <property name="target" value="1.8"/>
     <path id="ArrayVisualizer-master.classpath">
         <pathelement location="bin"/>
         <pathelement location="lib/classgraph-4.8.47.jar"/>
@@ -46,8 +43,29 @@
         <delete dir="bin"/>
     </target>
     <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
+    <target depends="build-subprojects,git-sha,build-project" name="build"/>
     <target name="build-subprojects"/>
+    <!-- Thanks to https://stackoverflow.com/questions/2974106/how-to-lookup-the-latest-git-commit-hash-from-an-ant-build-script -->
+    <target name="git-sha" description="Store git revision in ${git.sha}" if="git.present">
+        <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
+            <arg value="describe"/>
+            <arg value="--always"/>
+            <arg value="HEAD"/>
+        </exec>
+        <condition property="git.sha" value="${git.revision}" else="unknown">
+            <and>
+                <isset property="git.revision"/>
+                <length string="${git.revision}" trim="yes" length="0" when="greater"/>
+            </and>
+        </condition>
+        <copy file="buildInfo.properties.template" tofile="src/buildInfo.properties" overwrite="yes">
+            <filterchain>
+                <replacetokens>
+                    <token key="git.sha" value="${git.sha}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
@@ -56,24 +74,4 @@
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target name="ArrayVisualizer">
-        <java classname="main.ArrayVisualizer" failonerror="true" fork="yes">
-            <classpath refid="run.ArrayVisualizer.classpath"/>
-        </java>
-    </target>
-    <target name="Main">
-        <java classname="main.Main" failonerror="true" fork="yes">
-            <classpath refid="run.Main.classpath"/>
-        </java>
-    </target>
-    <target name="Tester (2)">
-        <java classname="test.Tester" failonerror="true" fork="yes">
-            <classpath refid="run.Tester (2).classpath"/>
-        </java>
-    </target>
-    <target name="Tester">
-        <java classname="javagrailsort.Tester" failonerror="true" fork="yes">
-            <classpath refid="run.Tester.classpath"/>
-        </java>
-    </target>
 </project>
