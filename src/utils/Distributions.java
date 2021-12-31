@@ -2,8 +2,13 @@ package utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import dialogs.LoadCustomDistributionDialog;
 import main.ArrayVisualizer;
@@ -480,6 +485,89 @@ public enum Distributions {
             int n = ArrayVisualizer.getCurrentLength();
 
             for (int i = 0; i < n; i++) array[i] = 2*(n%(i+1));
+        }
+    },
+    TOTIENT { // probably o(n^1.5)
+        @Override
+        public String getName() {
+            return "Euler Totient Function";
+        }
+
+        class PrimeFactorization {
+            List<Integer> primeFactors;
+            List<Integer> exponentList;
+
+            public PrimeFactorization(int i, List<Integer> allPrimes) {
+                primeFactors = new ArrayList<>();
+                exponentList = new ArrayList<>();
+
+                int sqrt = (int) Math.sqrt(i);
+                for(int prime : allPrimes) {
+                    // all prime factors are found (unless i itself is prime, handled below)
+                    if(prime > sqrt || i == 1) break;
+
+                    if(i % prime == 0) { // p is a prime factor of i
+                        i /= prime;
+                        int exponent = 1;
+                        while(i % prime == 0) {
+                            i /= prime;
+                            exponent++;
+                        }
+
+                        primeFactors.add(prime);
+                        exponentList.add(exponent);
+
+                        sqrt = (int) Math.sqrt(i);
+                    }
+                }
+                if(i != 1) {
+                    primeFactors.add(i);
+                    exponentList.add(1);
+                }
+            }
+
+        }
+
+        @Override
+        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
+            int[] smallTotients = new int[] {
+                0, 1, 1, 2, 2, 4, 2, 6, 4, 6, 4, 10, 4, 12, 6, 8, 8, 16, 6,
+                18, 8, 12, 10, 22, 8, 20, 12, 18, 12, 28, 8, 30, 16, 20, 16, 24, 12, 36, 18,
+                24, 16, 40, 12, 42, 20, 24, 22, 46, 16, 42, 20, 32, 24, 52, 18, 40, 24, 36,
+                28, 58, 16, 60, 30, 36, 32, 48, 20, 66, 32, 44
+            };
+
+            // important: have largest prime larger than number of precomputed totients
+            List<Integer> smallPrimes = Arrays.asList(
+                2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59,
+                61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139,
+                149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227,
+                229, 233, 239, 241, 251, 257, 263, 269, 271
+            );
+
+            ArrayList<Integer> primes = new ArrayList<>(smallPrimes);
+
+            int m = smallTotients.length;
+            int n = ArrayVisualizer.getCurrentLength();
+            System.arraycopy(smallTotients, 0, array, 0, m > n ? n : m);
+
+            for(int i = m; i < n; i++) {
+                PrimeFactorization pf = new PrimeFactorization(i, primes);
+                if(pf.primeFactors.size() == 1) { // i is prime
+                    if(i > smallPrimes.get(smallPrimes.size() - 1)) primes.add(i);
+                    array[i] = i - 1;
+                    continue;
+                }
+
+                int totient = 1;
+                for(int j = 0; j < pf.primeFactors.size(); j++) {
+                    int    prime = pf.primeFactors.get(j);
+                    int exponent = pf.exponentList.get(j);
+                    totient *= prime - 1;
+                    for(int k = 1; k < exponent; k++) totient *= prime;
+                }
+                array[i] = totient;
+            }
         }
     },
     CUSTOM {
