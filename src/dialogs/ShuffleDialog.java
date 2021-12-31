@@ -30,8 +30,8 @@ import utils.ShuffleGraph;
 import utils.ShuffleInfo;
 import utils.Shuffles;
 import utils.shuffleutils.GraphReader;
-import utils.shuffleutils.GraphWriter;
 import utils.shuffleutils.GraphReader.MalformedGraphFileException;
+import utils.shuffleutils.GraphWriter;
 
 /*
  *

@@ -11,12 +11,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.tools.ToolProvider;
 import javax.swing.JOptionPane;
 import javax.tools.JavaCompiler;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import javax.tools.ToolProvider;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;

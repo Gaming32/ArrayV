@@ -1,14 +1,12 @@
 package sorts.distribute;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.insert.UnstableInsertionSort;
 import sorts.select.MaxHeapSort;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020-2021 thatsOven
@@ -39,7 +37,7 @@ final public class StaticSort extends Sort {
 
     public StaticSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Static");
         this.setRunAllSortsName("Static Sort");
         this.setRunSortName("Static Sort");
@@ -76,7 +74,7 @@ final public class StaticSort extends Sort {
         float CONST = (float) auxLen / (minMax[1] - minMax[0] + 4);
 
         System.out.println(CONST);
-        
+
         int idx;
         for (int i = a; i < b; i++) {
             Highlights.markArray(1, i);
@@ -84,31 +82,31 @@ final public class StaticSort extends Sort {
             idx = (int)((array[i] - minMax[0]) * CONST);
             Writes.write(count, idx, count[idx] + 1, 1, false, true);
         }
-        
+
         Writes.write(offset, 0, a, 0, false, true);
-        
+
         for (int i = 1; i < auxLen; i++) {
             Writes.write(offset, i, count[i - 1] + offset[i - 1], 0, false, true);
         }
-        
+
         for (int v = 0; v < auxLen; v++) {
             while (count[v] > 0) {
                 int origin = offset[v];
                 int from = origin;
                 int num = array[from];
-                
+
                 Writes.write(array, from, -1, 0.5, true, false);
-                
+
                 do {
                     idx = (int)((num - minMax[0]) * CONST);
                     int to = offset[idx];
-                    
+
                     Writes.write(offset, idx, offset[idx] + 1, 1, false, true);
                     Writes.write(count, idx, count[idx] - 1, 1, false, true);
-                    
+
                     int temp = array[to];
                     Writes.write(array, to, num, 1, true, false);
-                    
+
                     num = temp;
                     from = to;
                 } while (from != origin);
@@ -130,7 +128,7 @@ final public class StaticSort extends Sort {
         Writes.deleteExternalArray(count);
         Writes.deleteExternalArray(offset);
     }
-    
+
     @Override
     public void runSort(int[] mainArray, int size, int bucketCount) throws Exception {
         heapSorter = new MaxHeapSort(this.arrayVisualizer);

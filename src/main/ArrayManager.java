@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 import panes.JErrorPane;
 import utils.Delays;
+import utils.Distributions;
 import utils.Highlights;
 import utils.ShuffleGraph;
 import utils.ShuffleInfo;
 import utils.Shuffles;
-import utils.Distributions;
 import utils.Writes;
 
 /*

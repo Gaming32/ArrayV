@@ -6,7 +6,6 @@ package frames;
 
 import java.awt.Toolkit;
 import java.util.Hashtable;
-import java.util.Random;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -26,7 +25,6 @@ import prompts.SortPrompt;
 import prompts.ViewPrompt;
 import utils.Delays;
 import utils.Highlights;
-import utils.SortingNetworkGenerator;
 import utils.Sounds;
 import utils.Timer;
 

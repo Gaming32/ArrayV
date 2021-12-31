@@ -1,10 +1,10 @@
 package sorts.distribute;
 
-import sorts.templates.Sort;
 import main.ArrayVisualizer;
+import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020-2021 aphitorite
@@ -32,7 +32,7 @@ SOFTWARE.
 final public class RotateMSDRadixSort extends Sort {
     public RotateMSDRadixSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Rotate MSD Radix");
         this.setRunAllSortsName("Rotate MSD Radix Sort, Base 4");
         this.setRunSortName("Rotate MSD Radixsort");
@@ -44,16 +44,16 @@ final public class RotateMSDRadixSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
 	private int stabVal(int idx) {
 		if(arrayVisualizer.doingStabilityCheck())
 			return arrayVisualizer.getStabilityValue(idx);
 		else
 			return idx;
 	}
-	
+
 	private int base;
-	
+
 	private int shift(int n, int q) {
 		while(q > 0) {
 			n /= this.base;
@@ -61,15 +61,15 @@ final public class RotateMSDRadixSort extends Sort {
 		}
 		return n;
 	}
-	
+
 	private void multiSwap(int[] array, int a, int b, int len) {
 		for(int i = 0; i < len; i++)
 			Writes.swap(array, a+i, b+i, 0.5, true, false);
 	}
-    
+
     private void rotate(int[] array, int a, int m, int b) {
         int l = m-a, r = b-m;
-		
+
         while(l > 0 && r > 0) {
 			if(r < l) {
 				this.multiSwap(array, m-r, m, r);
@@ -85,59 +85,59 @@ final public class RotateMSDRadixSort extends Sort {
             }
         }
     }
-	
+
 	private int binSearch(int[] array, int a, int b, int d, int p) {
 		while(a < b) {
 			int m = (a+b)/2;
-			
-			if(Reads.getDigit(array[m], p, this.base) >= d) 
+
+			if(Reads.getDigit(array[m], p, this.base) >= d)
 				b = m;
-			
+
 			else a = m+1;
 		}
 		return a;
 	}
-	
+
 	private void merge(int[] array, int a, int m, int b, int da, int db, int p) {
 		if(b-a < 2 || db-da < 2) return;
-		
+
 		int dm = (da+db)/2;
 		int m1 = this.binSearch(array, a, m, dm, p);
 		int m2 = this.binSearch(array, m, b, dm, p);
-		
+
 		this.rotate(array, m1, m, m2);
 		m = m1+(m2-m);
-		
+
 		this.merge(array, m, m2, b, dm, db, p);
 		this.merge(array, a, m1, m, da, dm, p);
 	}
-	
+
 	private void mergeSort(int[] array, int a, int b, int p) {
 		if(b-a < 2) return;
-		
+
 		int m = (a+b)/2;
-		
+
 		this.mergeSort(array, a, m, p);
 		this.mergeSort(array, m, b, p);
-		
+
 		this.merge(array, a, m, b, 0, this.base, p);
 	}
-	
+
 	private int dist(int[] array, int a, int b, int p) {
 		this.mergeSort(array, a, b, p);
-		
+
 		return this.binSearch(array, a, b, 1, p);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		this.base = bucketCount;
 		int q = Reads.analyzeMaxLog(array, length, this.base, 0.5, true);
 		int m = 0, i = 0, b = length;
-		
+
 		while(i < length) {
 			int p = b-i < 1 ? i : this.dist(array, i, b, q);
-			
+
 			if(q == 0) {
 				m += this.base;
 				int t = m/this.base;
@@ -145,7 +145,7 @@ final public class RotateMSDRadixSort extends Sort {
 					t /= this.base;
 					q++;
 				}
-				
+
 				i = b;
 				Highlights.clearMark(2);
 				arrayVisualizer.toggleAnalysis(true);

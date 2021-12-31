@@ -5,9 +5,10 @@
 package frames;
 
 import java.awt.Toolkit;
-import java.awt.event.MouseListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Hashtable;
 
 import javax.swing.JFrame;
@@ -16,8 +17,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import java.awt.event.MouseEvent;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
