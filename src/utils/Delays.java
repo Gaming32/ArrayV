@@ -60,19 +60,17 @@ final public class Delays {
     }
 
     public String displayCurrentDelay() {
-        if(this.SKIPPED)
+        if (this.SKIPPED)
             return "Canceled";
-        if(this.paused)
+        if (this.paused)
             return "Paused";
 
         String currDelay = "";
-        if(this.currentDelay == 0) {
+        if (this.currentDelay == 0) {
             currDelay = "0";
-        }
-        else if(this.currentDelay < 0.001) {
+        } else if (this.currentDelay < 0.001) {
             currDelay = "< 0.001";
-        }
-        else {
+        } else {
             currDelay = formatter.format(this.currentDelay);
         }
         return currDelay + "ms";
@@ -93,7 +91,7 @@ final public class Delays {
         this.Sounds.changeNoteDelayAndFilter((int) this.currentDelay);
         this.addamt = 0;
 
-        if(this.currentDelay < 0) {
+        if (this.currentDelay < 0) {
             this.delay = this.currentDelay = 0;
         }
     }
@@ -115,7 +113,7 @@ final public class Delays {
     }
     public void changeSkipped(boolean Bool) {
         this.SKIPPED = Bool;
-        if(this.SKIPPED) this.Sounds.changeNoteDelayAndFilter(1);
+        if (this.SKIPPED) this.Sounds.changeNoteDelayAndFilter(1);
     }
 
     public boolean paused() {
@@ -130,7 +128,7 @@ final public class Delays {
     }
 
     public void sleep(double millis) {
-        if(millis <= 0) {
+        if (millis <= 0) {
             return;
         }
 
@@ -141,17 +139,16 @@ final public class Delays {
 
         try {
             // With this for loop, you can change the speed of sorts without waiting for the current delay to finish.
-            if(!this.SKIPPED) {
-                while(this.paused || this.delay >= 1) {
+            if (!this.SKIPPED) {
+                while (this.paused || this.delay >= 1) {
                     Thread.sleep(1);
                     if (!this.paused)
                         this.delay--;
                 }
-            }
-            else {
+            } else {
                 this.delay = 0;
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             JErrorPane.invokeErrorMessage(ex);
         }
 

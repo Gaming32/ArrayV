@@ -10,7 +10,7 @@ import utils.Renderer;
 import visuals.Visual;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -37,57 +37,57 @@ SOFTWARE.
  */
 
 final public class Spiral extends Visual {
-    
+
     public Spiral(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }
-    
+
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if(Renderer.auxActive) return;
-        
+        if (Renderer.auxActive) return;
+
         int width  = ArrayVisualizer.windowWidth();
         int height = ArrayVisualizer.windowHeight();
-        
+
         int n = ArrayVisualizer.getCurrentLength();
         double r = Math.min(width, height)/2.5;
-        
+
         this.extraRender.setStroke(ArrayVisualizer.getThickStroke());
         this.extraRender.setColor(ArrayVisualizer.getHighlightColor());
-        
+
         int[] x =  {width/2, 0, 0};
         int[] y = {height/2, 0, 0};
-        
+
         double mult = (double) array[n-1] / ArrayVisualizer.getCurrentLength() - 1;
         mult = 1 - mult*mult;
-        
+
         x[2] =  width/2 + (int)(mult * r * Math.cos(Math.PI * (2d*(n-1) / n - 0.5)));
         y[2] = height/2 + (int)(mult * r * Math.sin(Math.PI * (2d*(n-1) / n - 0.5)));
-        
-        for(int i = 0; i < n; i++) {
+
+        for (int i = 0; i < n; i++) {
             x[1] = x[2];
             y[1] = y[2];
-            
+
             mult = (double) array[i] / ArrayVisualizer.getCurrentLength() - 1;
             mult = 1 - mult*mult;
-        
+
             x[2] =  width/2 + (int)(mult * r * Math.cos(Math.PI * (2d*i / n - 0.5)));
             y[2] = height/2 + (int)(mult * r * Math.sin(Math.PI * (2d*i / n - 0.5)));
-            
-            if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
+
+            if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
-                
-            else if(Highlights.containsPosition(i)) {
+
+            else if (Highlights.containsPosition(i)) {
                 this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
-                this.extraRender.drawPolygon(x, y, 3); 
+                this.extraRender.drawPolygon(x, y, 3);
             }
-            else if(ArrayVisualizer.colorEnabled()) 
+            else if (ArrayVisualizer.colorEnabled())
                 this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
-            
+
             else this.mainRender.setColor(Color.WHITE);
-            
-            this.mainRender.fillPolygon(x, y, 3); 
+
+            this.mainRender.fillPolygon(x, y, 3);
         }
         this.extraRender.setStroke(ArrayVisualizer.getDefaultStroke());
     }
-}   
+}

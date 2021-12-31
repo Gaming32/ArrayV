@@ -16,7 +16,7 @@ public class LoadingDialog {
     private JDialog dialog;
 
     public LoadingDialog(String resource, JFrame parent) {
-        this.pane = new JOptionPane("Loading " + resource + "...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {}, null);
+        this.pane = new JOptionPane("Loading " + resource + "...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] { }, null);
         this.dialog = this.pane.createDialog(parent, "Info");
         this.dialog.setModalityType(ModalityType.MODELESS);
         this.dialog.setAlwaysOnTop(this.dialog.isAlwaysOnTopSupported());

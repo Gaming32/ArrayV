@@ -25,8 +25,7 @@ public abstract class FileDialog {
     public static void initialize() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         FileDialog.fileDialog = new JFileChooser();

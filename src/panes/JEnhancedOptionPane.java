@@ -10,7 +10,7 @@ import javax.swing.UIManager;
 // https://stackoverflow.com/questions/14407804/how-to-change-the-default-text-of-buttons-in-joptionpane-showinputdialog?noredirect=1&lq=1
 final public class JEnhancedOptionPane extends JOptionPane {
  /**
-  * 
+  *
   */
  private static final long serialVersionUID = 1L;
 

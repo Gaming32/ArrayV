@@ -20,7 +20,7 @@ import threads.RunComparisonSort;
 import threads.RunDistributionSort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -53,20 +53,20 @@ SOFTWARE.
 final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     private static final long serialVersionUID = 1L;
-    
+
     private int[] array;
-    
+
     private ArrayVisualizer ArrayVisualizer;
     private JFrame Frame;
     private UtilFrame UtilFrame;
-    
+
     @SuppressWarnings("unchecked")
     public SortPrompt(int[] array, ArrayVisualizer arrayVisualizer, JFrame frame, UtilFrame utilFrame) {
         this.array = array;
         this.ArrayVisualizer = arrayVisualizer;
         this.Frame = frame;
         this.UtilFrame = utilFrame;
-        
+
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
@@ -104,7 +104,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jList2.setModel(new javax.swing.AbstractListModel() {
-            
+
             private static final long serialVersionUID = 1L;
 
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -126,7 +126,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            
+
             private static final long serialVersionUID = 1L;
 
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -152,7 +152,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 jButton1ActionPerformed();
             }
         });
-        
+
         jButton2.setText("Import Sort");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             @Override

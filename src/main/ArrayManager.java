@@ -89,7 +89,7 @@ final public class ArrayManager {
 
     //TODO: Fix minimum to zero
     public void initializeArray(int[] array) {
-        if(ArrayVisualizer.doingStabilityCheck()) {
+        if (ArrayVisualizer.doingStabilityCheck()) {
             ArrayVisualizer.resetStabilityTable();
             ArrayVisualizer.resetIndexTable();
         }
@@ -108,7 +108,7 @@ final public class ArrayManager {
         distribution.initializeArray(temp, this.ArrayVisualizer);
 
         double uniqueFactor = (double)currentLen/ArrayVisualizer.getUniqueItems();
-        for(int i = 0; i < currentLen; i++)
+        for (int i = 0; i < currentLen; i++)
             temp[i] = (int)(uniqueFactor*(int)(temp[i]/uniqueFactor))+(int)uniqueFactor/2;
 
         System.arraycopy(temp, 0, array, 0, currentLen);
@@ -177,7 +177,7 @@ final public class ArrayManager {
 
         double speed = Delays.getSleepRatio();
 
-        if(ArrayVisualizer.isActive()) {
+        if (ArrayVisualizer.isActive()) {
             double sleepRatio = ArrayVisualizer.getCurrentLength()/1024d;
             sleepRatio *= shuffle.sleepRatio;
             Delays.setSleepRatio(sleepRatio);
@@ -197,7 +197,7 @@ final public class ArrayManager {
 
         double speed = Delays.getSleepRatio();
 
-        if(ArrayVisualizer.isActive()) {
+        if (ArrayVisualizer.isActive()) {
             double sleepRatio = ArrayVisualizer.getCurrentLength()/1024d;
             Delays.setSleepRatio(sleepRatio);
         }
@@ -206,21 +206,21 @@ final public class ArrayManager {
         int[] prefixSum = new int[length];
         int[] table     = ArrayVisualizer.getStabilityTable();
 
-        for(int i = 0; i < length; i++)
+        for (int i = 0; i < length; i++)
             counts[array[i]]++;
 
         prefixSum[0] = counts[0];
-        for(int i = 1; i < length; i++)
+        for (int i = 1; i < length; i++)
             prefixSum[i] = counts[i] + prefixSum[i-1];
 
-        for(int i = 0, j = 0; j < length; i++) {
-            while(counts[i] > 0) {
+        for (int i = 0, j = 0; j < length; i++) {
+            while (counts[i] > 0) {
                 table[j++] = i;
                 counts[i]--;
             }
         }
 
-        for(int i = length-1; i >= 0; i--)
+        for (int i = length-1; i >= 0; i--)
             Writes.write(array, i, --prefixSum[array[i]], 0.5, true, false);
 
         ArrayVisualizer.setIndexTable();
@@ -242,7 +242,7 @@ final public class ArrayManager {
         if (!ArrayVisualizer.useAntiQSort()) {
             this.shuffleArray(array, currentLen, ArrayVisualizer);
 
-            if(ArrayVisualizer.doingStabilityCheck())
+            if (ArrayVisualizer.doingStabilityCheck())
                 this.stableShuffle(array, currentLen);
 
             int[] validateArray = ArrayVisualizer.getValidationArray();

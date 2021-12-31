@@ -11,8 +11,7 @@ public final class ArrayFileWriter {
         try {
             FileWriter writer = new FileWriter(fileName);
             write(writer, array, length);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             JErrorPane.invokeErrorMessage(e);
             return false;
         }
@@ -23,8 +22,7 @@ public final class ArrayFileWriter {
         try {
             FileWriter writer = new FileWriter(file);
             write(writer, array, length);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             JErrorPane.invokeErrorMessage(e);
             return false;
         }

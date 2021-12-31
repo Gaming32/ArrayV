@@ -50,7 +50,7 @@ final public class RunQuickSorts extends MultipleSortThread {
 
     @Override
     protected synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
-        if(arrayVisualizer.isActive())
+        if (arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
@@ -58,11 +58,10 @@ final public class RunQuickSorts extends MultipleSortThread {
             @Override
             public void run() {
                 try{
-                    if(runAllActive) {
+                    if (runAllActive) {
                         RunQuickSorts.this.sortNumber = current;
                         RunQuickSorts.this.sortCount = total;
-                    }
-                    else {
+                    } else {
                         RunQuickSorts.this.sortNumber = 1;
                     }
 
@@ -72,14 +71,13 @@ final public class RunQuickSorts extends MultipleSortThread {
 
                     RunQuickSorts.this.executeSortList(array);
 
-                    if(!runAllActive) {
+                    if (!runAllActive) {
                         arrayVisualizer.setCategory("Run Quick Sorts");
                         arrayVisualizer.setHeading("Done");
                     }
 
                     arrayManager.toggleMutableLength(true);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     JErrorPane.invokeErrorMessage(e);
                 }
                 Sounds.toggleSound(false);

@@ -16,7 +16,7 @@ import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -54,12 +54,12 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private ArrayVisualizer ArrayVisualizer;
     private JFrame Frame;
     private UtilFrame UtilFrame;
-    
+
     public ViewPrompt(ArrayVisualizer arrayVisualizer, JFrame frame, UtilFrame utilFrame) {
         this.ArrayVisualizer = arrayVisualizer;
         this.Frame = frame;
         this.UtilFrame = utilFrame;
-        
+
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
@@ -76,7 +76,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private void initComponents() {
 
         this.jLabel1           = new javax.swing.JLabel();
-        
+
         this.barGraph          = new javax.swing.JButton();
         this.dotGraph          = new javax.swing.JButton();
         this.colorCircle       = new javax.swing.JButton();
@@ -97,7 +97,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         setResizable(false);
 
         jLabel1.setText("Select Visual Style");
-        
+
         barGraph.setText("Bar Graph");
         barGraph.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -177,7 +177,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                 spiralDotsActionPerformed(evt);
             }
         });
-        
+
         sineWave.setText("Sine Wave");
         sineWave.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -200,7 +200,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                 hoopStackActionPerformed(evt);
             }
         });
-        
+
         disparityBarGraph.setText("Disparity Bar Graph");
         disparityBarGraph.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -208,7 +208,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                 disparityBarGraphActionPerformed(evt);
             }
         });
-        
+
         disparityChords.setText("Disparity Chords");
         disparityChords.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -216,7 +216,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
                 disparityChordsActionPerformed(evt);
             }
         });
-        
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
             layout.createParallelGroup(Alignment.CENTER)
@@ -290,7 +290,7 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         ArrayVisualizer.toggleSpiral(false);
         ArrayVisualizer.toggleWave(false);
     }
-    
+
     private void barGraphActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
         ArrayVisualizer.setVisual(VisualStyles.BARS);
@@ -319,21 +319,21 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         //TODO: Pointer as separate option
         setAllFieldsFalse();
         ArrayVisualizer.setVisual(VisualStyles.COLOR_CIRCLE);
-        if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
+        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void spiralActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
         ArrayVisualizer.setVisual(VisualStyles.SPIRAL);
-        if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
+        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void disparityActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
         ArrayVisualizer.setVisual(VisualStyles.DISP_CIRCLE);
-        if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
+        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
@@ -346,14 +346,14 @@ final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private void disparityDotsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
         ArrayVisualizer.setVisual(VisualStyles.DISP_DOTS);
-        if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
+        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }
     private void spiralDotsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
         ArrayVisualizer.setVisual(VisualStyles.SPIRAL_DOTS);
-        if(ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
+        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
         UtilFrame.jButton2ResetText();
         dispose();
     }

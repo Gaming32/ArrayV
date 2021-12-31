@@ -68,11 +68,11 @@ final public class RunComparisonSort {
     }
 
     public void ReportComparativeSort(int[] array, int selection) {
-        if(arrayVisualizer.isActive())
+        if (arrayVisualizer.isActive())
             return;
 
         //TODO: This code is bugged! It causes the program to forget the sleep ratio specified by the user!
-        if(delayOps.skipped()) {
+        if (delayOps.skipped()) {
             delayOps.setSleepRatio(1);
             delayOps.changeSkipped(false);
         }
@@ -91,43 +91,40 @@ final public class RunComparisonSort {
                     if (sort.getQuestion() != null) {
                         try {
                             extra = sort.validateAnswer(getCustomInput(sort.getQuestion()));
-                        }
-                        catch(Exception e) {
+                        } catch (Exception e) {
                             extra = sort.getDefaultAnswer();
                         }
                     }
 
                     boolean goAhead;
 
-                    if(sort.isUnreasonablySlow() && arrayVisualizer.getCurrentLength() > sort.getUnreasonableLimit()) {
+                    if (sort.isUnreasonablySlow() && arrayVisualizer.getCurrentLength() > sort.getUnreasonableLimit()) {
                         goAhead = false;
                         Object[] options = { "Let's see how bad " + sort.getRunSortName() + " is!", "Cancel" };
 
-                        if(sort.isBogoSort()) {
+                        if (sort.isBogoSort()) {
                             int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
                                                                      + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
                                                                      + " numbers will almost certainly not finish in a reasonable amount of time. "
                                                                      + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
                                                                      null, options, options[1]);
-                            if(warning == 0) goAhead = true;
+                            if (warning == 0) goAhead = true;
                             else goAhead = false;
-                        }
-                        else {
+                        } else {
                             int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
                                                                      + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
                                                                      + " numbers will not finish in a reasonable amount of time. "
                                                                      + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
                                                                      null, options, options[1]);
 
-                            if(warning == 0) goAhead = true;
+                            if (warning == 0) goAhead = true;
                             else goAhead = false;
                         }
-                    }
-                    else {
+                    } else {
                         goAhead = true;
                     }
 
-                    if(goAhead) {
+                    if (goAhead) {
                         arrayManager.toggleMutableLength(false);
                         arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), arrayVisualizer);
 
@@ -142,9 +139,8 @@ final public class RunComparisonSort {
 
                         try {
                             sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
-                        }
-                        catch (StopSort e) { }
-                        catch (OutOfMemoryError e) {
+                        } catch (StopSort e) {
+                        } catch (OutOfMemoryError e) {
                             JErrorPane.invokeCustomErrorMessage(sort.getRunAllSortsName() + " ran out of memory: " + e.getMessage());
                             throw new RuntimeException(e);
                         }
@@ -159,12 +155,10 @@ final public class RunComparisonSort {
                                 arrayVisualizer.getCurrentLength()
                             );
                         }
-                    }
-                    else {
+                    } else {
                         arrayManager.initializeArray(array);
                     }
-                }
-                catch(Exception e) {
+                } catch (Exception e) {
                     JErrorPane.invokeErrorMessage(e);
                 }
                 arrayVisualizer.endSort();

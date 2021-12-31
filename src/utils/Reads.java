@@ -65,13 +65,12 @@ final public class Reads {
     }
 
     public String getStats() {
-        if(this.comparisons < 0) {
+        if (this.comparisons < 0) {
             this.comparisons = Long.MIN_VALUE;
             return "Over " + this.formatter.format(Long.MAX_VALUE);
-        }
-        else {
-            if(this.comparisons == 1) return this.comparisons + " Comparison";
-            else                      return this.formatter.format(this.comparisons) + " Comparisons";
+        } else {
+            if (this.comparisons == 1) return this.comparisons + " Comparison";
+            else                       return this.formatter.format(this.comparisons) + " Comparisons";
         }
     }
 
@@ -96,9 +95,9 @@ final public class Reads {
 
         Timer.startLap("Compare");
 
-        if(left > right)      cmpVal =  1;
-        else if(left < right) cmpVal = -1;
-        else                  cmpVal =  0;
+        if (left > right)      cmpVal =  1;
+        else if (left < right) cmpVal = -1;
+        else                   cmpVal =  0;
 
         Timer.stopLap();
 
@@ -107,8 +106,7 @@ final public class Reads {
                 return -cmpVal;
             }
             return cmpVal;
-        }
-        else {
+        } else {
             return ArrayVisualizer.antiqCompare(left, right);
         }
     }
@@ -121,8 +119,8 @@ final public class Reads {
 
         Timer.startLap("Compare");
 
-        if(left > right)      cmpVal =  1;
-        else if(left < right) cmpVal = -1;
+        if (left > right)      cmpVal =  1;
+        else if (left < right) cmpVal = -1;
         else                  cmpVal =  0;
 
         Timer.stopLap();
@@ -131,7 +129,7 @@ final public class Reads {
     }
 
     public int compareIndices(int[] array, int left, int right, double sleep, boolean mark) {
-        if(mark) {
+        if (mark) {
             Highlights.markArray(1, left);
             Highlights.markArray(2, right);
             Delays.sleep(sleep);
@@ -144,7 +142,7 @@ final public class Reads {
     }
 
     public int compareOriginalIndices(int[] array, int left, int right, double sleep, boolean mark) {
-        if(mark) {
+        if (mark) {
             Highlights.markArray(1, left);
             Highlights.markArray(2, right);
             Delays.sleep(sleep);
@@ -153,7 +151,7 @@ final public class Reads {
     }
 
     public int compareIndexValue(int[] array, int index, int value, double sleep, boolean mark) {
-        if(mark) {
+        if (mark) {
             Highlights.markArray(1, index);
             Delays.sleep(sleep);
         }
@@ -161,7 +159,7 @@ final public class Reads {
     }
 
     public int compareOriginalIndexValue(int[] array, int index, int value, double sleep, boolean mark) {
-        if(mark) {
+        if (mark) {
             Highlights.markArray(1, index);
             Delays.sleep(sleep);
         }
@@ -169,7 +167,7 @@ final public class Reads {
     }
 
     public int compareValueIndex(int[] array, int value, int index, double sleep, boolean mark) {
-        if(mark) {
+        if (mark) {
             Highlights.markArray(1, index);
             Delays.sleep(sleep);
         }
@@ -177,7 +175,7 @@ final public class Reads {
     }
 
     public int compareOriginalValueIndex(int[] array, int value, int index, double sleep, boolean mark) {
-        if(mark) {
+        if (mark) {
             Highlights.markArray(1, index);
             Delays.sleep(sleep);
         }
@@ -190,20 +188,20 @@ final public class Reads {
 
         int max = 0;
 
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
-            
+
             int val = array[i];
-            if(ArrayVisualizer.doingStabilityCheck())
+            if (ArrayVisualizer.doingStabilityCheck())
                 val = ArrayVisualizer.getStabilityValue(val);
-            
+
             Timer.startLap("Analysis");
 
-            if(val > max) max = val;
+            if (val > max) max = val;
 
             Timer.stopLap();
 
-            if(mark) {
+            if (mark) {
                 Highlights.markArray(1, i);
                 Delays.sleep(sleep);
             }
@@ -221,20 +219,20 @@ final public class Reads {
 
         int min = 0;
 
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
-            
+
             int val = array[i];
-            if(ArrayVisualizer.doingStabilityCheck())
+            if (ArrayVisualizer.doingStabilityCheck())
                 val = ArrayVisualizer.getStabilityValue(val);
-            
+
             Timer.startLap("Analysis");
 
-            if(val < min) min = val;
+            if (val < min) min = val;
 
             Timer.stopLap();
 
-            if(mark) {
+            if (mark) {
                 Highlights.markArray(1, i);
                 Delays.sleep(sleep);
             }
@@ -252,20 +250,20 @@ final public class Reads {
 
         int max = 0;
 
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
-            
+
             int val = array[i];
-            if(ArrayVisualizer.doingStabilityCheck())
+            if (ArrayVisualizer.doingStabilityCheck())
                 val = ArrayVisualizer.getStabilityValue(val);
 
             Timer.startLap("Analysis");
 
-            if(val > max) max = val;
+            if (val > max) max = val;
 
             Timer.stopLap();
 
-            if(mark) {
+            if (mark) {
                 Highlights.markArray(1, i);
                 Delays.sleep(sleep);
             }
@@ -273,7 +271,7 @@ final public class Reads {
 
         ArrayVisualizer.toggleAnalysis(false);
         ArrayVisualizer.updateNow();
-    
+
         return (int) (Math.log(max) / Math.log(base));
     }
 
@@ -283,20 +281,20 @@ final public class Reads {
 
         int max = 0;
 
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
-            
+
             int val = array[i];
-            if(ArrayVisualizer.doingStabilityCheck())
+            if (ArrayVisualizer.doingStabilityCheck())
                 val = ArrayVisualizer.getStabilityValue(val);
-            
+
             Timer.startLap("Analysis");
 
-            if(val > max) max = val;
+            if (val > max) max = val;
 
             Timer.stopLap();
 
-            if(mark) {
+            if (mark) {
                 Highlights.markArray(1, i);
                 Delays.sleep(sleep);
             }
@@ -315,13 +313,13 @@ final public class Reads {
         // Find highest bit of highest value
         int max = 0;
 
-        for(int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++) {
             if (ArrayVisualizer.sortCanceled()) throw new StopSort();
-            
+
             int val = array[i];
-            if(ArrayVisualizer.doingStabilityCheck())
+            if (ArrayVisualizer.doingStabilityCheck())
                 val = ArrayVisualizer.getStabilityValue(val);
-            
+
             Timer.startLap("Analysis");
 
             if (val > max) max = val;
@@ -346,9 +344,9 @@ final public class Reads {
     }
 
     public int getDigit(int a, int power, int radix) {
-        if(ArrayVisualizer.doingStabilityCheck())
+        if (ArrayVisualizer.doingStabilityCheck())
             a = ArrayVisualizer.getStabilityValue(a);
-        
+
         int digit;
         Timer.startLap();
         digit = (int) (a / Math.pow(radix, power)) % radix;
@@ -357,9 +355,9 @@ final public class Reads {
     }
 
     public boolean getBit(int n, int k) {
-        if(ArrayVisualizer.doingStabilityCheck())
+        if (ArrayVisualizer.doingStabilityCheck())
             n = ArrayVisualizer.getStabilityValue(n);
-        
+
         // Find boolean value of bit k in n
         boolean result;
         Timer.startLap();

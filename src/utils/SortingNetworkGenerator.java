@@ -272,8 +272,7 @@ public class SortingNetworkGenerator {
         Desktop desktop = Desktop.getDesktop();
         try {
             desktop.open(file);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return file;

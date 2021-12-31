@@ -18,7 +18,7 @@ import utils.Distributions;
 import utils.Shuffles;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -51,17 +51,17 @@ SOFTWARE.
 final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     private ArrayManager ArrayManager;
     private JFrame Frame;
     private UtilFrame UtilFrame;
 
     private DefaultListModel<String> shuffleModel;
     private boolean initializing;
-    
+
     /**
      * Creates new form SortPrompt
      */
@@ -70,15 +70,15 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         this.ArrayManager = ArrayManager;
         this.Frame = frame;
         this.UtilFrame = utilFrame;
-        
+
         setAlwaysOnTop(true);
         setUndecorated(true);
         initComponents();
 
         initializing = true;
         jList1.setListData(ArrayManager.getDistributionIDs());
-        for(int i = 0; i < ArrayManager.getDistributions().length; i++) {
-            if(ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
+        for (int i = 0; i < ArrayManager.getDistributions().length; i++) {
+            if (ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
                 jList1.setSelectedIndex(i);
                 break;
             }
@@ -90,8 +90,8 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
             shuffleModel.add(0, "Advanced");
             jList2.setSelectedIndex(0);
         } else {
-            for(int i = 0; i < ArrayManager.getShuffles().length; i++) {
-                if(ArrayManager.containsShuffle(ArrayManager.getShuffles()[i])) {
+            for (int i = 0; i < ArrayManager.getShuffles().length; i++) {
+                if (ArrayManager.containsShuffle(ArrayManager.getShuffles()[i])) {
                     jList2.setSelectedIndex(i);
                     break;
                 }
@@ -104,7 +104,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         initializing = false;
 
         reposition();
-        setVisible(true); 
+        setVisible(true);
     }
 
     @Override

@@ -8,7 +8,7 @@ import utils.Renderer;
 import visuals.Visual;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020-2021 ArrayV 4.0 Team
@@ -37,40 +37,40 @@ final public class HoopStack extends Visual {
     public HoopStack(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }
-    
+
     private void drawEllipseFromCenter(int x, int y, int rx, int ry) {
         this.mainRender.drawOval(x - rx, y - ry, 2*rx, 2*ry);
     }
-    
+
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if(Renderer.auxActive) return;
+        if (Renderer.auxActive) return;
 
         int width = ArrayVisualizer.windowWidth();
         int height = ArrayVisualizer.windowHeight();
         int length = ArrayVisualizer.getCurrentLength();
-        
+
         int radiusX = height / 3;
         int radiusY = height / 9;
-        
+
         this.mainRender.setStroke(ArrayVisualizer.getThinStroke());
-            
-        for(int i = length - 1; i >= 0; i--) {
+
+        for (int i = length - 1; i >= 0; i--) {
             double scale = (array[i] + 1) / (double) (length + 1);
-                    
+
             int y = (int) ((height - radiusY * 4) * i / (double) (length - 1));
-            
-            if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
+
+            if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
-            
-            else if(Highlights.containsPosition(i)) {
-                if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
-                else                                  this.mainRender.setColor(Color.WHITE);
-                
+
+            else if (Highlights.containsPosition(i)) {
+                if (ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
+                else                                   this.mainRender.setColor(Color.WHITE);
+
                 this.mainRender.setStroke(ArrayVisualizer.getDefaultStroke());
             }
             else this.mainRender.setColor(getIntColor(array[i], length));
-            
+
             this.drawEllipseFromCenter(width / 2, y + radiusY * 2, (int) (scale * radiusX + 0.5), (int) (scale * radiusY + 0.5));
             this.mainRender.setStroke(ArrayVisualizer.getThinStroke());
         }

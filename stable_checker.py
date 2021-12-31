@@ -14,7 +14,7 @@ class IntegerWrapper(int):
         res = cls(val)
         res.key = key
         return res
-    
+
     def key_compare(self, other: IntegerWrapper) -> Literal[None, -1, 0, 1]:
         if self < other:
             return -1
@@ -25,7 +25,7 @@ class IntegerWrapper(int):
         elif self.key > other.key:
             return 1
         return 0
-    
+
     def __repr__(self) -> str:
         return f'{super().__repr__()}:{self.key!r}'
 
@@ -39,7 +39,7 @@ class IntegerWrapper(int):
             res = getattr(int, funcname)(self, *args)
             return IntegerWrapper.wrap_int(res, self.key)
         return caller
-    
+
     __abs__ = __wrapper('abs')
     __add__ = __wrapper('add')
     __and__ = __wrapper('and')
@@ -127,7 +127,7 @@ def main(colonfunc: str):
         print('Module', repr(module.__name__), 'has no attribute', repr(funcname))
         sys.exit(1)
     func = getattr(module, funcname)
-    
+
     result = simple_sort(func)
     stable = IntegerWrapper.is_sequence_stable(result)
     print(colonfunc, ' is', ' not' * (not stable), ' stable', sep='')

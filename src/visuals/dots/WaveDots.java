@@ -8,7 +8,7 @@ import utils.Renderer;
 import visuals.Visual;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -43,63 +43,60 @@ final public class WaveDots extends Visual {
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
         int offset = 20 + (int) (Renderer.getXScale()/2);
-        
-        if(ArrayVisualizer.linesEnabled()) {
+
+        if (ArrayVisualizer.linesEnabled()) {
             int lastX = 0;
             int lastY = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[0] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
             this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(2));
-            
-            for(int i = 1, j = (int) Renderer.getXScale(); i < Renderer.getArrayLength(); i++) {
-                if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition()) {
+
+            for (int i = 1, j = (int) Renderer.getXScale(); i < Renderer.getArrayLength(); i++) {
+                if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition()) {
                     this.mainRender.setColor(Color.GREEN);
                     this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(4));
-                }
-                else if(Highlights.containsPosition(i)) {
+                } else if (Highlights.containsPosition(i)) {
                     this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
                     this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(4));
                 }
-                else if(ArrayVisualizer.colorEnabled())
+                else if (ArrayVisualizer.colorEnabled())
                     this.mainRender.setColor(getIntColor(array[i-1], ArrayVisualizer.getCurrentLength()));
-                
                 else this.mainRender.setColor(Color.WHITE);
-                
+
                 int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
-                
+
                 this.mainRender.drawLine(lastX + offset, Renderer.getYOffset() + lastY, j + offset, Renderer.getYOffset() + y);
-                
+
                 lastX = j;
                 lastY = y;
-                
+
                 this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(2));
-                
+
                 int width = (int) (Renderer.getXScale() * (i + 1)) - j;
                 j += width;
             }
             this.mainRender.setStroke(ArrayVisualizer.getDefaultStroke());
-        }
-        else {
+        } else {
             int dotS = Renderer.getDotDimensions();
-        
-            for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
-                if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
+
+            for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+                if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                     this.mainRender.setColor(Color.GREEN);
-                
-                else if(ArrayVisualizer.colorEnabled()) 
+
+                else if (ArrayVisualizer.colorEnabled())
                     this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
-                    
+
                 else this.mainRender.setColor(Color.WHITE);
-                
+
                 int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
-                
+
                 this.mainRender.fillRect(j + offset, Renderer.getYOffset() + y, dotS, dotS);
-                
+
                 int width = (int) (Renderer.getXScale() * (i + 1)) - j;
                 j += width;
             }
             this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
-            
-            for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
-                if(Highlights.containsPosition(i)) {
+
+            for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+                if (Highlights.containsPosition(i)) {
                     int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
                     this.mainRender.fillRect(j + offset - (int)(1.5*dotS), Renderer.getYOffset() + y - (int)(1.5*dotS), 4*dotS, 4*dotS);
                 }
@@ -107,7 +104,7 @@ final public class WaveDots extends Visual {
                 j += width;
             }
         }
-        if(ArrayVisualizer.externalArraysEnabled()) {
+        if (ArrayVisualizer.externalArraysEnabled()) {
             this.mainRender.setColor(Color.BLUE);
             this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
         }

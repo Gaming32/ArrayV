@@ -52,7 +52,7 @@ final public class ShuffleInfo {
     public Distributions getDistribution() {
         return this.distribution;
     }
-    
+
     public Shuffles getShuffle() {
         return this.shuffle;
     }

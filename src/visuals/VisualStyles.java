@@ -5,7 +5,7 @@ import utils.Highlights;
 import utils.Renderer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -121,7 +121,7 @@ public enum VisualStyles {
             ArrayVisualizer.getVisuals()[14].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
         }
     };
-    
+
     public VisualStyles getCurrentVisual() {
         return this;
     }

@@ -95,8 +95,8 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         bypassEvents = true;
         this.shuffleEditor.graph = ArrayManager.getShuffle();
         jList4.setListData(ArrayManager.getDistributionIDs());
-        for(int i = 0; i < ArrayManager.getDistributions().length; i++) {
-            if(ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
+        for (int i = 0; i < ArrayManager.getDistributions().length; i++) {
+            if (ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
                 jList4.setSelectedIndex(i);
                 break;
             }

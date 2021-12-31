@@ -26,7 +26,7 @@ import panes.JErrorPane;
 import utils.Highlights;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -60,7 +60,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
     final private static long serialVersionUID = 1L;
 
     private int[] array;
-    
+
     private ArrayManager ArrayManager;
     private ArrayVisualizer ArrayVisualizer;
     private AppFrame abstractFrame;
@@ -72,14 +72,14 @@ final public class ArrayFrame extends javax.swing.JFrame {
 
     public ArrayFrame(int[] array, ArrayVisualizer arrayVisualizer) {
         this.array = array;
-        
+
         this.ArrayVisualizer = arrayVisualizer;
         this.ArrayManager = ArrayVisualizer.getArrayManager();
-        
+
         this.Highlights = ArrayVisualizer.getHighlights();
         this.Frame = ArrayVisualizer.getMainWindow();
         this.UtilFrame = ArrayVisualizer.getUtilFrame();
-        
+
         setUndecorated(true);
         initComponents();
         setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), Frame.getX() + Frame.getWidth()), Frame.getY() + 29);
@@ -90,7 +90,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
     public void reposition(){
         toFront();
         setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth() - UtilFrame.getWidth(), Frame.getX() + Frame.getWidth()), Frame.getY() + 29);
-        if(this.abstractFrame != null && abstractFrame.isVisible())
+        if (this.abstractFrame != null && abstractFrame.isVisible())
             abstractFrame.reposition();
     }
 
@@ -131,14 +131,14 @@ final public class ArrayFrame extends javax.swing.JFrame {
             if (!os.equals("Linux")) {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
         }
 
         KeyListener kListener = new KeyListener() {
             @Override
-            public void keyTyped(KeyEvent e) { }
+            public void keyTyped(KeyEvent e) {
+            }
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SHIFT)
@@ -158,7 +158,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
         this.jLabel2 = new javax.swing.JLabel();
         this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, useDefault);
         this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, useDefault);
-        
+
         jLabel1.setText("Array Size");
         jLabel2.setText("Unique Elements");
 
@@ -167,7 +167,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
         Hashtable<Integer, JLabel> labels = new Hashtable<>();
         int pow = 1;
         int value = ArrayVisualizer.getMinimumLength();
-        while(value <= ArrayVisualizer.getMaximumLength()) {
+        while (value <= ArrayVisualizer.getMaximumLength()) {
             labels.put(pow * 100000, new JLabel(Integer.toString(value)));
             pow += 1;
             value *= 2;
@@ -181,7 +181,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
         jSlider1.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent event) {
-                if(ArrayManager.isLengthMutable()) {
+                if (ArrayManager.isLengthMutable()) {
                     int value = jSlider1.getValue();
                     if (lockToPow2) {
                         value = (int)(Math.round(value / 100000.0) * 100000);
@@ -194,13 +194,12 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     jSlider2.setValue((int)(value / divver));
                     //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider.getValue()));
                     ArrayManager.initializeArray(array);
-                }
-                else {
+                } else {
                     int currentLength = ArrayVisualizer.getCurrentLength();
                     jSlider1.setValue(calculateSliderValue(currentLength));
                 }
-                //if(ArrayVisualizer.getVisualStyles() == visuals.VisualStyles.CIRCULAR && jSlider1.getValue() == 1) jSlider1.setValue(2);
-                
+                //if (ArrayVisualizer.getVisualStyles() == visuals.VisualStyles.CIRCULAR && jSlider1.getValue() == 1) jSlider1.setValue(2);
+
                 Highlights.clearAllMarks();
             }
         });
@@ -211,8 +210,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     int newSize = 0;
                     try {
                         newSize = getSomethingSize("Array Size", "Enter new array size:");
+                    } catch (Exception e) {
                     }
-                    catch(Exception e) { }
                     if (newSize >= 2) {
                         jSlider1.setValue(calculateSliderValue(newSize));
                         ArrayVisualizer.setCurrentLength(newSize);
@@ -221,13 +220,17 @@ final public class ArrayFrame extends javax.swing.JFrame {
                 }
             }
             @Override
-            public void mousePressed(MouseEvent e) { }
+            public void mousePressed(MouseEvent e) {
+            }
             @Override
-            public void mouseReleased(MouseEvent e) { }
+            public void mouseReleased(MouseEvent e) {
+            }
             @Override
-            public void mouseEntered(MouseEvent e) { }
+            public void mouseEntered(MouseEvent e) {
+            }
             @Override
-            public void mouseExited(MouseEvent e) { }
+            public void mouseExited(MouseEvent e) {
+            }
         });
         jSlider1.addKeyListener(kListener);
 
@@ -239,11 +242,10 @@ final public class ArrayFrame extends javax.swing.JFrame {
         jSlider2.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent event) {
-                if(ArrayManager.isLengthMutable()) {
+                if (ArrayManager.isLengthMutable()) {
                     if (jSlider2.getValue() > jSlider1.getValue()) {
                         jSlider2.setValue(jSlider1.getValue());
-                    }
-                    else {
+                    } else {
                         int value = jSlider2.getValue();
                         if (lockToPow2) {
                             value = (int)(Math.round(value / 100000.0) * 100000);
@@ -253,12 +255,11 @@ final public class ArrayFrame extends javax.swing.JFrame {
                         //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider2.getValue()));
                         ArrayManager.initializeArray(array);
                     }
-                }
-                else {
+                } else {
                     int currentItems = ArrayVisualizer.getUniqueItems();
                     jSlider2.setValue(calculateSliderValue(currentItems));
                 }
-                
+
                 Highlights.clearAllMarks();
             }
         });
@@ -269,8 +270,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     int newSize = 0;
                     try {
                         newSize = getSomethingSize("Unique Elements", "Enter new number of unique elements:");
+                    } catch (Exception e) {
                     }
-                    catch(Exception e) { }
                     if (newSize >= 2) {
                         jSlider2.setValue(calculateSliderValue(newSize));
                         ArrayVisualizer.setUniqueItems(newSize);
@@ -279,13 +280,17 @@ final public class ArrayFrame extends javax.swing.JFrame {
                 }
             }
             @Override
-            public void mousePressed(MouseEvent e) { }
+            public void mousePressed(MouseEvent e) {
+            }
             @Override
-            public void mouseReleased(MouseEvent e) { }
+            public void mouseReleased(MouseEvent e) {
+            }
             @Override
-            public void mouseEntered(MouseEvent e) { }
+            public void mouseEntered(MouseEvent e) {
+            }
             @Override
-            public void mouseExited(MouseEvent e) { }
+            public void mouseExited(MouseEvent e) {
+            }
         });
         jSlider2.addKeyListener(kListener);
 

@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import visuals.VisualStyles;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -34,16 +34,16 @@ SOFTWARE.
 final class WindowState {
     private boolean windowUpdated;
     private boolean windowResized;
-    
+
     public WindowState(boolean windowUpdate, boolean windowResize) {
         this.windowUpdated = windowUpdate;
         this.windowResized = windowResize;
     }
-    
+
     public boolean updated() {
         return this.windowUpdated;
     }
-    
+
     public boolean resized() {
         return this.windowResized;
     }
@@ -58,21 +58,21 @@ final public class Renderer {
     public volatile boolean auxActive;
 
     private volatile int length;
-    
+
     private volatile int amt;
-    
+
     private int linkedpixdrawx; //TODO: Change names
     private int linkedpixdrawy;
-    
+
     private int doth; //TODO: Change names
     private int dotw;
     private int dots; //TODO: Change name to dotDims/dotDimensions
-    
+
     public Renderer(ArrayVisualizer ArrayVisualizer) {
         ArrayVisualizer.setWindowHeight();
         ArrayVisualizer.setWindowWidth();
     }
-    
+
     public double getXScale() {
         return this.xscl;
     }
@@ -109,7 +109,7 @@ final public class Renderer {
     public int getLineY() {
         return this.linkedpixdrawy;
     }
-    
+
     public void setOffset(int amount) {
         this.amt = amount;
     }
@@ -119,18 +119,18 @@ final public class Renderer {
     public void setLineY(int y) {
         this.linkedpixdrawy = y;
     }
-    
+
     public static void createRenders(ArrayVisualizer ArrayVisualizer) {
         ArrayVisualizer.createVolatileImage();
         ArrayVisualizer.setMainRender();
         ArrayVisualizer.setExtraRender();
     }
-    
-    public static void initializeVisuals(ArrayVisualizer ArrayVisualizer) {        
+
+    public static void initializeVisuals(ArrayVisualizer ArrayVisualizer) {
         Renderer.createRenders(ArrayVisualizer);
         ArrayVisualizer.repositionFrames();
     }
-    
+
     public static void updateGraphics(ArrayVisualizer ArrayVisualizer) {
         Renderer.createRenders(ArrayVisualizer);
         ArrayVisualizer.updateVisuals();
@@ -139,50 +139,50 @@ final public class Renderer {
     private static WindowState checkWindowResizeAndReposition(ArrayVisualizer ArrayVisualizer) {
         boolean windowUpdate = false;
         boolean windowResize = false;
-        
-        if(ArrayVisualizer.currentHeight() != ArrayVisualizer.windowHeight()) {
+
+        if (ArrayVisualizer.currentHeight() != ArrayVisualizer.windowHeight()) {
             windowUpdate = true;
             windowResize = true;
         }
-        if(ArrayVisualizer.currentWidth() != ArrayVisualizer.windowWidth()) {
+        if (ArrayVisualizer.currentWidth() != ArrayVisualizer.windowWidth()) {
             windowUpdate = true;
             windowResize = true;
         }
-        if(ArrayVisualizer.currentX() != ArrayVisualizer.windowXCoordinate()) {
+        if (ArrayVisualizer.currentX() != ArrayVisualizer.windowXCoordinate()) {
             windowUpdate = true;
         }
-        if(ArrayVisualizer.currentY() != ArrayVisualizer.windowYCoordinate()) {
+        if (ArrayVisualizer.currentY() != ArrayVisualizer.windowYCoordinate()) {
             windowUpdate = true;
         }
-        
+
         return new WindowState(windowUpdate, windowResize);
     }
-    
+
     public void updateVisualsStart(ArrayVisualizer ArrayVisualizer) {
         WindowState WindowState = checkWindowResizeAndReposition(ArrayVisualizer);
-        
-        if(WindowState.updated()) {
+
+        if (WindowState.updated()) {
             ArrayVisualizer.repositionFrames();
             ArrayVisualizer.updateCoordinates();
-            
+
             /*
-            if(v != null && v.isVisible())
+            if (v != null && v.isVisible())
                 v.reposition();
             */
-            
-            if(WindowState.resized()) {
+
+            if (WindowState.resized()) {
                 ArrayVisualizer.updateDimensions();
                 updateGraphics(ArrayVisualizer);
             }
         }
-        
+
         ArrayVisualizer.renderBackground();
-        
+
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
 
         this.yscl = (double) (this.vsize) / ArrayVisualizer.getCurrentLength();
-        
+
         this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
 
         this.vsize = (ArrayVisualizer.currentHeight() - 96) / (ArrayVisualizer.externalArraysEnabled() ? Math.min(ArrayVisualizer.getArrays().size(), 7) : 1);
@@ -190,25 +190,25 @@ final public class Renderer {
     }
 
     private void updateVisualsPerArray(ArrayVisualizer ArrayVisualizer, int[] array, int length) {
-        
+
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
-        
+
         this.xscl = (double) (ArrayVisualizer.currentWidth() - 40) / length;
-        
+
         this.amt = 0; //TODO: rename to barCount
-        
+
         this.linkedpixdrawx = 0;
         this.linkedpixdrawy = 0;
-        
+
         this.doth = (int) (2 * (this.vsize / 480.0));
         this.dots = (this.dotw + this.doth) / 2; //TODO: Does multiply/divide by 2 like this cancel out??
 
         this.length = length;
-        
+
         ArrayVisualizer.resetMainStroke();
     }
-    
+
     public void drawVisual(VisualStyles VisualStyles, int[][] arrays, ArrayVisualizer ArrayVisualizer, Highlights Highlights) {
         if (ArrayVisualizer.externalArraysEnabled()) {
             this.auxActive = true;

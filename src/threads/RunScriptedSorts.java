@@ -55,8 +55,7 @@ final public class RunScriptedSorts extends MultipleSortThread {
                 String category = (String)command.argument;
                 RunScriptedSorts.this.currentCategory = category;
                 arrayVisualizer.setCategory(category);
-            }
-            else if (command.type == MultipleScript.ScriptCommand.CommandType.SortCall) {
+            } else if (command.type == MultipleScript.ScriptCommand.CommandType.SortCall) {
                 MultipleScript.SortCallInfo info = (MultipleScript.SortCallInfo)command.argument;
                 RunScriptedSorts.this.runIndividualSort(info.algortitm,
                     info.bucketCount,
@@ -70,7 +69,7 @@ final public class RunScriptedSorts extends MultipleSortThread {
 
     @Override
     public synchronized void runThread(int[] array, int current, int total, boolean runAllActive) throws Exception {
-        if(arrayVisualizer.isActive())
+        if (arrayVisualizer.isActive())
             return;
 
         Sounds.toggleSound(true);
@@ -101,15 +100,14 @@ final public class RunScriptedSorts extends MultipleSortThread {
 
                     RunScriptedSorts.this.executeSortList(commands, array);
 
-                    if(!runAllActive) {
+                    if (!runAllActive) {
                         arrayVisualizer.setCategory("Run " + RunScriptedSorts.this.currentCategory);
                         arrayVisualizer.setHeading("Done");
                         arrayVisualizer.updateNow();
                     }
 
                     arrayManager.toggleMutableLength(true);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     JErrorPane.invokeErrorMessage(e);
                 }
                 Sounds.toggleSound(false);

@@ -122,8 +122,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                     break;
                 }
             }
-        }
-        else {
+        } else {
             jComboBox1.setSelectedIndex(lastCategory);
         }
         jTextField1.requestFocusInWindow();
@@ -316,8 +315,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
             MultipleSortThread thread = categorySortThreads.get(jComboBox1.getSelectedItem());
             try {
                 thread.reportAllSorts(array, 1, thread.getSortCount());
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 JErrorPane.invokeErrorMessage(e);
             }
         }
@@ -342,8 +340,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 if (selection.usesComparisons) {
                     RunComparisonSort sortThread = new RunComparisonSort(ArrayVisualizer);
                     sortThread.ReportComparativeSort(array, selection.id);
-                }
-                else {
+                } else {
                     RunDistributionSort sortThread = new RunDistributionSort(ArrayVisualizer);
                     sortThread.ReportDistributionSort(array, selection.id);
                 }
@@ -369,8 +366,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         jList1.setListData(sorts.toArray());
         if (index == 0) {
             jButton3.setEnabled(false);
-        }
-        else {
+        } else {
             jButton3.setText("Run All ".concat(category));
             jButton3.setEnabled(categorySortThreads.containsKey(category));
         }

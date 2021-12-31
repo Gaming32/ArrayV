@@ -23,13 +23,13 @@ public class ImageFrame extends JFrame {
     public static ImageFrame defaultFrame;
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     private volatile JPanel contentPane;
 
     private volatile JLabel lblNewLabel_2;
-    
+
     /**
      * Create the frame.
      */
@@ -46,7 +46,7 @@ public class ImageFrame extends JFrame {
         gbl_contentPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
         gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
         contentPane.setLayout(gbl_contentPane);
-        
+
         JLabel lblNewLabel = new JLabel("Current image:");
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
         gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
@@ -54,7 +54,7 @@ public class ImageFrame extends JFrame {
         gbc_lblNewLabel.gridx = 0;
         gbc_lblNewLabel.gridy = 0;
         contentPane.add(lblNewLabel, gbc_lblNewLabel);
-        
+
         JLabel lblNewLabel_1 = new JLabel(visual.getCurrentImageName());
         GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
         gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
@@ -62,7 +62,7 @@ public class ImageFrame extends JFrame {
         gbc_lblNewLabel_1.gridx = 1;
         gbc_lblNewLabel_1.gridy = 0;
         contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
-        
+
         this.lblNewLabel_2 = new JLabel(" ");
         lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
         GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
@@ -72,7 +72,7 @@ public class ImageFrame extends JFrame {
         gbc_lblNewLabel_2.gridx = 0;
         gbc_lblNewLabel_2.gridy = 1;
         contentPane.add(this.lblNewLabel_2, gbc_lblNewLabel_2);
-        
+
         JButton btnNewButton = new JButton("Load default artwork");
         btnNewButton.addActionListener(new ActionListener() {
             @Override
@@ -88,7 +88,7 @@ public class ImageFrame extends JFrame {
         gbc_btnNewButton.gridx = 0;
         gbc_btnNewButton.gridy = 2;
         contentPane.add(btnNewButton, gbc_btnNewButton);
-        
+
         JButton btnNewButton_1 = new JButton("Choose image...");
         btnNewButton_1.addActionListener(new ActionListener() {
             @Override

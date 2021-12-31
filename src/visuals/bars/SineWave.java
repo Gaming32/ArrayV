@@ -8,7 +8,7 @@ import utils.Renderer;
 import visuals.Visual;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 MusicTheorist
@@ -42,34 +42,34 @@ final public class SineWave extends Visual {
 
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
-            if(Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
+        for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+            if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
-            
-            else if(ArrayVisualizer.colorEnabled()) 
+
+            else if (ArrayVisualizer.colorEnabled())
                 this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
-                
+
             else this.mainRender.setColor(Color.WHITE);
-            
+
             int width = (int) (Renderer.getXScale() * (i + 1)) - j;
-            
+
             int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
             this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 1), 20);
-            
+
             j += width;
         }
         this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
-        
-        for(int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+
+        for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
             int width = (int) (Renderer.getXScale() * (i + 1)) - j;
-            
-            if(Highlights.containsPosition(i)) {
+
+            if (Highlights.containsPosition(i)) {
                 int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
                 this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), 20);
             }
             j += width;
         }
-        if(ArrayVisualizer.externalArraysEnabled()) {
+        if (ArrayVisualizer.externalArraysEnabled()) {
             this.mainRender.setColor(Color.BLUE);
             this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
         }

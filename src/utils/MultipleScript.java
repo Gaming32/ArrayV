@@ -40,10 +40,10 @@ final public class MultipleScript {
             try {
                 Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
                 inst = (Sort) newSort.newInstance(arrayVisualizer);
+            } catch (Exception e) {
             }
-            catch (Exception e) { }
             algortitm = inst;
-            
+
             this.bucketCount = bucketCount;
             this.defaultLength = defaultLength;
             this.defaultSpeedMultiplier = defaultSpeedMultiplier;
@@ -63,18 +63,15 @@ final public class MultipleScript {
                     result.add(current);
                     current = "";
                 }
-            }
-            else if (character == '"' && last == ' ' && !inBlock) {
+            } else if (character == '"' && last == ' ' && !inBlock) {
                 inBlock = true;
-            }
-            else if (character == ' ' && last == '"' && inBlock) {
+            } else if (character == ' ' && last == '"' && inBlock) {
                 result.add(current);
                 current = "";
                 inBlock = false;
-            }
-            else if (character == '"' && inBlock) { }
-            else if (character == ' ' && last == ' ' && !inBlock) { }
-            else {
+            } else if (character == '"' && inBlock) {
+            } else if (character == ' ' && last == ' ' && !inBlock) {
+            } else {
                 current += character;
             }
             last = character;
@@ -103,8 +100,7 @@ final public class MultipleScript {
             try {
                 Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
                 inst = (Sort) newSort.newInstance(this.arrayVisualizer);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 continue;
             }
 
@@ -132,8 +128,7 @@ final public class MultipleScript {
             if (commandLabel.compareTo("setcategory") == 0) {
                 commandType = ScriptCommand.CommandType.SetCategory;
                 argument = commands.length > 1 ? commands[1] : "Scripted Sorts";
-            }
-            else {
+            } else {
                 String sortName = commandLabel;
                 if (!sortNames.containsKey(sortName)) {
                     continue;
@@ -162,18 +157,16 @@ final public class MultipleScript {
         Scanner scanner;
         try {
             scanner = new Scanner(file);
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             JErrorPane.invokeCustomErrorMessage("The file \"" + file.getPath() + "\" does not exist");
             return null;
-        }
-        catch (NullPointerException e) {
+        } catch (NullPointerException e) {
             return null;
         }
-        return runScript(scanner);    
+        return runScript(scanner);
     }
 
     public ScriptCommand[] runScript(String path) {
-        return runScript(new File(path));        
+        return runScript(new File(path));
     }
 }

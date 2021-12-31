@@ -6,7 +6,7 @@ import sorts.templates.Sort;
 final public class MySort extends Sort {
     public MySort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("My");
         this.setRunAllSortsName("My Sort");
         this.setRunSortName("Mysort");
@@ -18,9 +18,9 @@ final public class MySort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
-        
+
     }
 }

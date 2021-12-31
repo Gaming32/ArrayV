@@ -8,7 +8,7 @@ import utils.Renderer;
 import visuals.Visual;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020-2021 ArrayV 4.0 Team
@@ -40,37 +40,37 @@ final public class PixelMesh extends Visual {
 
     @Override
     public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if(Renderer.auxActive) return;
-        
+        if (Renderer.auxActive) return;
+
         int width = ArrayVisualizer.windowWidth()-40;
         int height = ArrayVisualizer.windowHeight()-50;
         int length = ArrayVisualizer.getCurrentLength();
-        
+
         int sqrt = (int)Math.ceil(Math.sqrt(length));
         int square = sqrt*sqrt;
         double scale = (double)length / square;
-        
+
         int x = 0;
         int y = 0;
         double xStep = (double)width / sqrt;
         double yStep = (double)height / sqrt;
-        
-        for(int i = 0; i < square; i++) {
+
+        for (int i = 0; i < square; i++) {
             int idx = (int)(i * scale);
-            
-            if(Highlights.fancyFinishActive() && idx < Highlights.getFancyFinishPosition())
+
+            if (Highlights.fancyFinishActive() && idx < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
-            
-            else if(Highlights.containsPosition(idx)) {
-                if(ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
-                else                                  this.mainRender.setColor(Color.WHITE);
+
+            else if (Highlights.containsPosition(idx)) {
+                if (ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
+                else                                   this.mainRender.setColor(Color.WHITE);
             }
             else this.mainRender.setColor(getIntColor(array[idx], length));
-            
-            this.mainRender.fillRect(20 + (int)(x * xStep), 40 + (int)(y * yStep), 
+
+            this.mainRender.fillRect(20 + (int)(x * xStep), 40 + (int)(y * yStep),
                                      (int)((x+1)*xStep - x*xStep)+1, (int)((y+1)*yStep - y*yStep)+1);
-            
-            if(++x == sqrt) {
+
+            if (++x == sqrt) {
                 x = 0;
                 y++;
             }
