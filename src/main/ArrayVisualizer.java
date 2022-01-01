@@ -257,19 +257,12 @@ public final class ArrayVisualizer {
         }
         INSTANCE = this;
 
-        // try {
-        //     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
         try {
-            String os = System.getProperty("os.name");
-            if (!os.equals("Linux")) {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
-            JErrorPane.invokeErrorMessage(e);
+            e.printStackTrace();
         }
+        UIManager.getLookAndFeelDefaults().put("Slider.paintValue", Boolean.FALSE); // GTK PLAF fix
 
         this.window = new JFrame();
         this.window.addKeyListener(new KeyListener() {

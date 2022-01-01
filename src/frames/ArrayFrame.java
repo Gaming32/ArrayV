@@ -14,6 +14,7 @@ import java.util.Hashtable;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -282,6 +283,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
         });
         jSlider2.addKeyListener(kListener);
 
+        final int sliderGap = UIManager.getLookAndFeel().getClass().getName().equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel") ? 250 : 175;
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -293,7 +296,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
                                         .addComponent(this.jSlider1)
                                         .addGap(0, 10, Short.MAX_VALUE))))
-                .addGap(175, 175, 175)
+                .addGap(sliderGap, sliderGap, sliderGap)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
