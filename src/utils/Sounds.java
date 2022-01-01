@@ -129,6 +129,8 @@ public final class Sounds {
                 try {
                     Method openMethod = SOFT_SYNTHESIZER_CLASS.getDeclaredMethod("open", SourceDataLine.class, Map.class);
                     openMethod.invoke(synth, null, params);
+                } catch (IllegalAccessException e) {
+                    synth.open(); // Can't do special opening here. Java 9's module system stops us.
                 } catch (Exception e) {
                     System.err.println("Failed to open SoftSynthesizer specially, opening normally");
                     e.printStackTrace();
