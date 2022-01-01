@@ -53,6 +53,8 @@ SOFTWARE.
  */
 
 public final class Sounds {
+    private static final boolean ALLOW_PERCUSSION_SOUNDS = Boolean.getBoolean("arrayv.allowPercussion");
+
     private static final Class<?> SOFT_SYNTHESIZER_CLASS;
 
     static {
@@ -110,7 +112,7 @@ public final class Sounds {
 
         this.SOUND = true;
         this.MIDI = true;
-        this.NUMCHANNELS = 16;
+        this.NUMCHANNELS = ALLOW_PERCUSSION_SOUNDS ? 16 : 15;
         this.PITCHMIN = 25d;
         this.PITCHMAX = 105d;
         this.SOUNDMUL = 1d;
@@ -168,10 +170,16 @@ public final class Sounds {
                     noteCount = noteCount < 0 ? NUMCHANNELS : noteCount;
                     int voice = 0;
 
+                    int playNoteCount = Math.max(noteCount, 1);
+                    int currentLen = ArrayVisualizer.getCurrentLength();
+
                     for (int i : Highlights.highlightList()) {
                         try {
                             if (i != -1) {
-                                int currentLen = ArrayVisualizer.getCurrentLength();
+                                if (!ALLOW_PERCUSSION_SOUNDS && voice == 9) {
+                                    voice++;
+                                    playNoteCount++;
+                                }
 
                                 //PITCH
                                 double pitch = Sounds.this.array[Math.min(Math.max(i, 0), currentLen - 1)] / (double) currentLen * (PITCHMAX - PITCHMIN) + PITCHMIN;
@@ -188,7 +196,7 @@ public final class Sounds {
                                 channels[voice].setPitchBend(pitchminor);
                                 channels[voice].controlChange(REVERB, 10);
 
-                                if ((++voice % Math.max(noteCount, 1)) == 0)
+                                if (++voice == playNoteCount)
                                     break;
                             }
                         } catch (Exception e) {
