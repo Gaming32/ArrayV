@@ -204,7 +204,7 @@ public final class ArrayVisualizer {
 
     private Statistics statSnapshot;
     private String fontSelection;
-    private int fontSelectionScale;
+    private double fontSelectionScale;
 
     private volatile boolean TEXTDRAW;
     private volatile boolean COLOR;
@@ -416,7 +416,7 @@ public final class ArrayVisualizer {
                         String font = line.substring(5);
                         int starIndex;
                         if ((starIndex = font.indexOf('*')) != -1) {
-                            fontSelectionScale = Integer.parseInt(font.substring(starIndex + 1).trim());
+                            fontSelectionScale = Double.parseDouble(font.substring(starIndex + 1).trim());
                             font = font.substring(0, starIndex);
                         }
                         fontSelection = font.trim();
