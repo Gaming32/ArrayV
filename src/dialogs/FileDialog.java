@@ -3,7 +3,6 @@ package dialogs;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 
 public abstract class FileDialog {
@@ -23,11 +22,6 @@ public abstract class FileDialog {
     }
 
     public static void initialize() {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         FileDialog.fileDialog = new JFileChooser();
         FileDialog.fileDialog.setCurrentDirectory(new File(System.getProperty("user.dir")));
         FileDialog.fileDialog.setMultiSelectionEnabled(false);

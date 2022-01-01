@@ -14,14 +14,12 @@ import java.util.Hashtable;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
 import panes.JEnhancedOptionPane;
-import panes.JErrorPane;
 import utils.Highlights;
 
 /*
@@ -125,15 +123,6 @@ final public class ArrayFrame extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        try {
-            String os = System.getProperty("os.name");
-            if (!os.equals("Linux")) {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            }
-        } catch (Exception e) {
-            JErrorPane.invokeErrorMessage(e);
-        }
-
         KeyListener kListener = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {

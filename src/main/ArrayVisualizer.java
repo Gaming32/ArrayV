@@ -44,6 +44,7 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import dialogs.FileDialog;
@@ -255,6 +256,20 @@ public final class ArrayVisualizer {
             throw new IllegalStateException("Cannot create more than one ArrayVisualizer");
         }
         INSTANCE = this;
+
+        // try {
+        //     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+        try {
+            String os = System.getProperty("os.name");
+            if (!os.equals("Linux")) {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            }
+        } catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e);
+        }
 
         this.window = new JFrame();
         this.window.addKeyListener(new KeyListener() {
