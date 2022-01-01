@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
@@ -89,7 +87,6 @@ final public class Sounds {
     private volatile int instrumentChoice;
     private volatile int testInstrumentChoice;
 
-    @SuppressWarnings("unused")
     public Sounds(int[] array, ArrayVisualizer arrayVisualizer) {
         this.array = array;
         this.ArrayVisualizer = arrayVisualizer;
@@ -328,7 +325,7 @@ final public class Sounds {
         try {
             int programIndex;
 
-            //TODO: Consider making into a function
+            //TODO: Consider making into a method
             switch(this.instrumentChoice) {
             case 0:  programIndex = this.DEFAULT_ROCK_ORGAN_INDEX; break;
             case 1:  programIndex = this.sineWaveIndex;            break;
@@ -364,7 +361,7 @@ final public class Sounds {
                     }
 
                     int savedInstrument;
-                    //TODO: Consider making into a function
+                    //TODO: Consider making into a method
                     switch(Sounds.this.instrumentChoice) {
                     case 0:  savedInstrument = Sounds.this.DEFAULT_ROCK_ORGAN_INDEX; break;
                     case 1:  savedInstrument = Sounds.this.sineWaveIndex;            break;
@@ -395,7 +392,7 @@ final public class Sounds {
                     }
 
                     int savedInstrument;
-                    //TODO: Consider making into a function
+                    //TODO: Consider making into a method
                     switch(Sounds.this.instrumentChoice) {
                     case 0:  savedInstrument = Sounds.this.DEFAULT_ROCK_ORGAN_INDEX; break;
                     case 1:  savedInstrument = Sounds.this.sineWaveIndex;            break;

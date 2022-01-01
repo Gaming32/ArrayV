@@ -417,7 +417,6 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
-            boolean delay = ArrayVisualizer.shuffleEnabled();
 
             int mask = 0;
             for (int i = 0; i < currentLen; i++)
@@ -629,7 +628,6 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
-            boolean delay = ArrayVisualizer.shuffleEnabled();
 
             SmoothSort smoothSort = new SmoothSort(ArrayVisualizer);
             smoothSort.smoothHeapify(array, currentLen);
@@ -642,7 +640,6 @@ public enum Shuffles {
         @Override
         public void shuffleArray(int[] array, ArrayVisualizer ArrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
             int currentLen = ArrayVisualizer.getCurrentLength();
-            boolean delay = ArrayVisualizer.shuffleEnabled();
 
             PoplarHeapSort poplarHeapSort = new PoplarHeapSort(ArrayVisualizer);
             poplarHeapSort.poplarHeapify(array, 0, currentLen);

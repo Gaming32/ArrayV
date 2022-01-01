@@ -18,7 +18,6 @@ import javax.swing.event.ChangeListener;
 
 import main.ArrayManager;
 import main.ArrayVisualizer;
-import panes.JEnhancedOptionPane;
 import panes.JErrorPane;
 import prompts.ShufflePrompt;
 import prompts.SortPrompt;
@@ -91,12 +90,6 @@ final public class UtilFrame extends javax.swing.JFrame {
         setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), Frame.getX() + Frame.getWidth()), Frame.getY() + 29);
         setAlwaysOnTop(false);
         setVisible(true);
-    }
-
-    private int getCustomInput(String text, String defaultOptionMessage) throws Exception {
-        String input = JEnhancedOptionPane.showInputDialog("Customize Sort", text, new Object[] {"Enter", defaultOptionMessage});
-        int integer = Integer.parseInt(input);
-        return Math.abs(integer);
     }
 
     public void reposition(ArrayFrame af){

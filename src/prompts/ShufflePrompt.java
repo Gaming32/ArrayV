@@ -230,7 +230,6 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
         if (initializing)
             return;
         int selection = jList1.getSelectedIndex();
@@ -240,7 +239,6 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
         if (initializing)
             return;
         int selection = jList2.getSelectedIndex();

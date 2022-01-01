@@ -44,13 +44,13 @@ public abstract class Visual {
         else if (analysis) line.setColor(Color.BLUE);
         else line.setColor(Color.RED);
     }
-    //TODO: Change name to markLineFancy
-    public static void lineFancy(Graphics2D line, double width) {
+
+    public static void markLineFancy(Graphics2D line, double width) {
         line.setColor(Color.GREEN);
         line.setStroke(new BasicStroke((float) (9f * (width / 1280f))));
     }
-    //TODO: Change name to clearLine
-    public static void lineClear(Graphics2D line, boolean color, int[] array, int i, int length, double width) {
+
+    public static void clearLine(Graphics2D line, boolean color, int[] array, int i, int length, double width) {
         if (color) line.setColor(getIntColor(array[i], length));
         else line.setColor(Color.WHITE);
         line.setStroke(new BasicStroke((float) (3f * (width / 1280f))));
@@ -62,7 +62,6 @@ public abstract class Visual {
         else rect.setColor(Color.RED);
     }
 
-    @SuppressWarnings("fallthrough")
     //The longer the array length, the more bars marked. Makes the visual easier to see when bars are thinner.
     public static void colorMarkedBars(int logOfLen, int index, Highlights Highlights, Graphics2D mainRender, boolean colorEnabled, boolean rainbowEnabled, boolean analysis) {
         switch(logOfLen) {
@@ -85,7 +84,6 @@ public abstract class Visual {
         }
     }
 
-    @SuppressWarnings("fallthrough")
     public static void drawFancyFinish(int logOfLen, int index, int position, Graphics2D mainRender, boolean colorEnabled, boolean rainbowEnabled) {
         switch(logOfLen) {
         case 15: if (index == position - 14) { markBarFancy(mainRender, colorEnabled, rainbowEnabled); break; }
@@ -106,7 +104,6 @@ public abstract class Visual {
         }
     }
 
-    @SuppressWarnings("fallthrough")
     public static void drawFancyFinishLine(int logOfLen, int index, int position, Graphics2D mainRender, double width, boolean colorEnabled) {
         switch(logOfLen) {
         case 15: if (index == position - 14) { lineMark(mainRender, width, colorEnabled, false); break; }

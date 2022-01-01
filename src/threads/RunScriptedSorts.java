@@ -5,7 +5,6 @@ import java.io.File;
 import dialogs.RunScriptDialog;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.templates.Sort;
 import utils.MultipleScript;
 
 /*

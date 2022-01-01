@@ -4,7 +4,6 @@ import java.awt.HeadlessException;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 // Many thanks to Freek de Bruijn on StackOverflow for providing a custom JOptionPane.
 // https://stackoverflow.com/questions/14407804/how-to-change-the-default-text-of-buttons-in-joptionpane-showinputdialog?noredirect=1&lq=1

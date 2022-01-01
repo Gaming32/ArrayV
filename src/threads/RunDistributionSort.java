@@ -125,7 +125,6 @@ final public class RunDistributionSort {
 
         sounds.toggleSound(true);
         arrayVisualizer.setSortingThread(new Thread("DistributionSorting") {
-            @SuppressWarnings("unused")
             @Override
             public void run(){
                 try {

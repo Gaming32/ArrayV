@@ -141,7 +141,6 @@ final public class CustomImage extends Visual {
         }
     }
 
-    @SuppressWarnings("unused")
     private boolean fetchBufferedImage(boolean showInfoMsg, JFrame window) {
         // New copy of image being imported; has not been scaled yet
         this.imgScaled = false;
@@ -209,7 +208,6 @@ final public class CustomImage extends Visual {
 
     // Many thanks to Jörn Horstmann for providing fast image scaling code.
     // https://stackoverflow.com/questions/3967731/how-to-improve-the-performance-of-g-drawimage-method-for-resizing-images/3967988#3967988
-    @SuppressWarnings("unused")
     private boolean getScaledImage(int width, int height) throws Exception {
         boolean success = true;
 
@@ -255,7 +253,6 @@ final public class CustomImage extends Visual {
         bar.fillRect(Renderer.getOffset() + 20, 0, width, ArrayVisualizer.windowHeight());
     }
 
-    @SuppressWarnings("fallthrough")
     //The longer the array length, the more bars marked. Makes the visual easier to see when bars are thinner.
     public static void colorCustomBars(int logOfLen, int index, Highlights Highlights, ArrayVisualizer ArrayVisualizer, Graphics2D bar, Renderer Renderer, int width, boolean analysis) {
         switch(logOfLen) {

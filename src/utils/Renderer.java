@@ -50,8 +50,8 @@ final class WindowState {
 }
 
 final public class Renderer {
-    private volatile double xscl; //TODO: Change to xScale/yScale
-    private volatile double yscl;
+    private volatile double xScale;
+    private volatile double yScale;
 
     private volatile int yoffset;
     private volatile int vsize;
@@ -74,10 +74,10 @@ final public class Renderer {
     }
 
     public double getXScale() {
-        return this.xscl;
+        return this.xScale;
     }
     public double getYScale() {
-        return this.yscl;
+        return this.yScale;
     }
     public int getOffset() {
         return this.amt;
@@ -181,7 +181,7 @@ final public class Renderer {
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
 
-        this.yscl = (double) (this.vsize) / ArrayVisualizer.getCurrentLength();
+        this.yScale = (double) (this.vsize) / ArrayVisualizer.getCurrentLength();
 
         this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
 
@@ -194,7 +194,7 @@ final public class Renderer {
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
 
-        this.xscl = (double) (ArrayVisualizer.currentWidth() - 40) / length;
+        this.xScale = (double) (ArrayVisualizer.currentWidth() - 40) / length;
 
         this.amt = 0; //TODO: rename to barCount
 

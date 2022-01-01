@@ -60,8 +60,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
 
     private int[] array;
 
-    private ArrayManager ArrayManager;
-    private ArrayVisualizer ArrayVisualizer;
+    private ArrayManager arrayManager;
+    private ArrayVisualizer arrayVisualizer;
     private AppFrame abstractFrame;
     private Highlights Highlights;
     private JFrame Frame;
@@ -72,12 +72,12 @@ final public class ArrayFrame extends javax.swing.JFrame {
     public ArrayFrame(int[] array, ArrayVisualizer arrayVisualizer) {
         this.array = array;
 
-        this.ArrayVisualizer = arrayVisualizer;
-        this.ArrayManager = ArrayVisualizer.getArrayManager();
+        this.arrayVisualizer = arrayVisualizer;
+        this.arrayManager = arrayVisualizer.getArrayManager();
 
-        this.Highlights = ArrayVisualizer.getHighlights();
-        this.Frame = ArrayVisualizer.getMainWindow();
-        this.UtilFrame = ArrayVisualizer.getUtilFrame();
+        this.Highlights = arrayVisualizer.getHighlights();
+        this.Frame = arrayVisualizer.getMainWindow();
+        this.UtilFrame = arrayVisualizer.getUtilFrame();
 
         setUndecorated(true);
         initComponents();
@@ -94,17 +94,17 @@ final public class ArrayFrame extends javax.swing.JFrame {
     }
 
     public void setLengthSlider(int length) {
-        boolean mutable = ArrayManager.isLengthMutable();
-        ArrayManager.toggleMutableLength(true);
+        boolean mutable = arrayManager.isLengthMutable();
+        arrayManager.toggleMutableLength(true);
         jSlider1.setValue(calculateSliderValue(length));
-        ArrayManager.toggleMutableLength(mutable);
+        arrayManager.toggleMutableLength(mutable);
     }
 
     public void setUniqueSlider(int length) {
-        boolean mutable = ArrayManager.isLengthMutable();
-        ArrayManager.toggleMutableLength(true);
+        boolean mutable = arrayManager.isLengthMutable();
+        arrayManager.toggleMutableLength(true);
         jSlider2.setValue(calculateSliderValue(length));
-        ArrayManager.toggleMutableLength(mutable);
+        arrayManager.toggleMutableLength(mutable);
     }
 
     private int getSomethingSize(String title, String message) throws Exception {
@@ -165,8 +165,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
 
         Hashtable<Integer, JLabel> labels = new Hashtable<>();
         int pow = 1;
-        int value = ArrayVisualizer.getMinimumLength();
-        while (value <= ArrayVisualizer.getMaximumLength()) {
+        int value = arrayVisualizer.getMinimumLength();
+        while (value <= arrayVisualizer.getMaximumLength()) {
             labels.put(pow * 100000, new JLabel(Integer.toString(value)));
             pow += 1;
             value *= 2;
@@ -180,21 +180,21 @@ final public class ArrayFrame extends javax.swing.JFrame {
         jSlider1.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent event) {
-                if (ArrayManager.isLengthMutable()) {
+                if (arrayManager.isLengthMutable()) {
                     int value = jSlider1.getValue();
                     if (lockToPow2) {
                         value = (int)(Math.round(value / 100000.0) * 100000);
                         jSlider1.setValue(value);
                     }
-                    int oldValue1 = calculateSliderValue(ArrayVisualizer.getCurrentLength());
-                    ArrayVisualizer.setCurrentLength(calculateLength(value));
+                    int oldValue1 = calculateSliderValue(arrayVisualizer.getCurrentLength());
+                    arrayVisualizer.setCurrentLength(calculateLength(value));
                     // double mult = (double)jSlider2.getValue() / (double)oldValue1;
                     double divver = (double)oldValue1 / (double)jSlider2.getValue();
                     jSlider2.setValue((int)(value / divver));
                     //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider.getValue()));
-                    ArrayManager.initializeArray(array);
+                    arrayManager.initializeArray(array);
                 } else {
-                    int currentLength = ArrayVisualizer.getCurrentLength();
+                    int currentLength = arrayVisualizer.getCurrentLength();
                     jSlider1.setValue(calculateSliderValue(currentLength));
                 }
                 //if (ArrayVisualizer.getVisualStyles() == visuals.VisualStyles.CIRCULAR && jSlider1.getValue() == 1) jSlider1.setValue(2);
@@ -213,8 +213,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     }
                     if (newSize >= 2) {
                         jSlider1.setValue(calculateSliderValue(newSize));
-                        ArrayVisualizer.setCurrentLength(newSize);
-                        ArrayManager.initializeArray(array);
+                        arrayVisualizer.setCurrentLength(newSize);
+                        arrayManager.initializeArray(array);
                     }
                 }
             }
@@ -241,7 +241,7 @@ final public class ArrayFrame extends javax.swing.JFrame {
         jSlider2.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent event) {
-                if (ArrayManager.isLengthMutable()) {
+                if (arrayManager.isLengthMutable()) {
                     if (jSlider2.getValue() > jSlider1.getValue()) {
                         jSlider2.setValue(jSlider1.getValue());
                     } else {
@@ -250,12 +250,12 @@ final public class ArrayFrame extends javax.swing.JFrame {
                             value = (int)(Math.round(value / 100000.0) * 100000);
                             jSlider2.setValue(value);
                         }
-                        ArrayVisualizer.setUniqueItems(calculateLength(value));
+                        arrayVisualizer.setUniqueItems(calculateLength(value));
                         //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider2.getValue()));
-                        ArrayManager.initializeArray(array);
+                        arrayManager.initializeArray(array);
                     }
                 } else {
-                    int currentItems = ArrayVisualizer.getUniqueItems();
+                    int currentItems = arrayVisualizer.getUniqueItems();
                     jSlider2.setValue(calculateSliderValue(currentItems));
                 }
 
@@ -273,8 +273,8 @@ final public class ArrayFrame extends javax.swing.JFrame {
                     }
                     if (newSize >= 2) {
                         jSlider2.setValue(calculateSliderValue(newSize));
-                        ArrayVisualizer.setUniqueItems(newSize);
-                        ArrayManager.initializeArray(array);
+                        arrayVisualizer.setUniqueItems(newSize);
+                        arrayManager.initializeArray(array);
                     }
                 }
             }

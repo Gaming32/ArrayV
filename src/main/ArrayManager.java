@@ -192,9 +192,6 @@ final public class ArrayManager {
     }
 
     private void stableShuffle(int[] array, int length) {
-        boolean delay = ArrayVisualizer.shuffleEnabled();
-        double sleep = delay ? 1 : 0;
-
         double speed = Delays.getSleepRatio();
 
         if (ArrayVisualizer.isActive()) {

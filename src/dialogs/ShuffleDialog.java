@@ -427,7 +427,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     }
 
     private void jList4ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
         if (bypassEvents)
             return;
         int selection = jList4.getSelectedIndex();
@@ -437,7 +436,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
         if (bypassEvents)
             return;
         String selection = (String)jList1.getSelectedValue();
@@ -454,7 +452,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList3ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
         if (bypassEvents)
             return;
         String selection = (String)jList3.getSelectedValue();
@@ -471,7 +468,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList2ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
-        // TODO add your handling code here:
         if (bypassEvents)
             return;
         int selection = jList2.getSelectedIndex();
