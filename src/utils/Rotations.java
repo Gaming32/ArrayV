@@ -2,14 +2,9 @@ package utils;
 
 import main.ArrayVisualizer;
 
-public class Rotations {
-    private static Writes Writes;
-    private static Highlights Highlights;
-
-    public Rotations(ArrayVisualizer arrayVisualizer) {
-        Rotations.Writes     = arrayVisualizer.getWrites();
-        Rotations.Highlights = arrayVisualizer.getHighlights();
-    }
+public final class Rotations {
+    private static Writes Writes = ArrayVisualizer.getInstance().getWrites();
+    private static Highlights Highlights = ArrayVisualizer.getInstance().getHighlights();
 
     // utility functions
     private static void swapBlocksBackwards(int[] array, int a, int b, int len, double pause, boolean mark, boolean auxwrite) {

@@ -61,7 +61,6 @@ import utils.Highlights;
 import utils.MultipleScript;
 import utils.Reads;
 import utils.Renderer;
-import utils.Rotations;
 import utils.Sounds;
 import utils.Statistics;
 import utils.Timer;
@@ -113,7 +112,7 @@ SOFTWARE.
  *
  */
 
-final public class ArrayVisualizer {
+public final class ArrayVisualizer {
     private static ArrayVisualizer INSTANCE = null;
 
     private enum StatisticType {
@@ -488,8 +487,6 @@ final public class ArrayVisualizer {
         this.Renderer = new Renderer(this);
         this.Writes = new Writes(this);
         this.AntiQSort = new AntiQSort(this);
-
-        new Rotations(this);
 
         SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);
