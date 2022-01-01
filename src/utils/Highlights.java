@@ -117,6 +117,9 @@ final public class Highlights {
     private void incrementIndexMarkCount(int i) {
         if (i >= markCounts.length) return;
         if (markCounts[i] != (byte)-1) {
+            if (markCounts[i] == 0) {
+                markCount++;
+            }
             markCounts[i]++;
         }
     }
@@ -132,6 +135,8 @@ final public class Highlights {
                     }
                 }
             }
+        } else if (markCounts[i] == 0) {
+            markCount--;
         }
         markCounts[i]--;
     }
@@ -154,9 +159,7 @@ final public class Highlights {
                 if (highlights[marker] == markPosition) {
                     return;
                 }
-                if (highlights[marker] == -1) {
-                    this.markCount++;
-                } else {
+                if (highlights[marker] != -1) {
                     decrementIndexMarkCount(highlights[marker]);
                 }
                 highlights[marker] = markPosition;
@@ -175,7 +178,6 @@ final public class Highlights {
         if (highlights[marker] == -1) {
             return;
         }
-        this.markCount--;
         decrementIndexMarkCount(highlights[marker]);
         highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
 
