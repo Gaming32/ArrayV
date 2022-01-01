@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
@@ -13,6 +16,7 @@ import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.JOptionPane;
 
 import dialogs.LoadingDialog;
@@ -48,7 +52,19 @@ SOFTWARE.
  *
  */
 
-final public class Sounds {
+public final class Sounds {
+    private static final Class<?> SOFT_SYNTHESIZER_CLASS;
+
+    static {
+        Class<?> synthesizerClass;
+        try {
+            synthesizerClass = Class.forName("com.sun.media.sound.SoftSynthesizer");
+        } catch (Exception e) {
+            synthesizerClass = null;
+        }
+        SOFT_SYNTHESIZER_CLASS = synthesizerClass;
+    }
+
     private int[] array;
 
     private ArrayVisualizer ArrayVisualizer;
@@ -105,8 +121,20 @@ final public class Sounds {
 
         try {
             MidiSystem.getSequencer(false);
-            this.synth = MidiSystem.getSynthesizer();
-            synth.open();
+            synth = MidiSystem.getSynthesizer();
+            if (SOFT_SYNTHESIZER_CLASS != null && SOFT_SYNTHESIZER_CLASS.isInstance(synth)) {
+                Map<String, Object> params = Collections.singletonMap("jitter correction", Boolean.FALSE);
+                try {
+                    Method openMethod = SOFT_SYNTHESIZER_CLASS.getDeclaredMethod("open", SourceDataLine.class, Map.class);
+                    openMethod.invoke(synth, null, params);
+                } catch (Exception e) {
+                    System.err.println("Failed to open SoftSynthesizer specially, opening normally");
+                    e.printStackTrace();
+                    synth.open();
+                }
+            } else {
+                synth.open();
+            }
         } catch (MidiUnavailableException e) {
             JErrorPane.invokeCustomErrorMessage("The default MIDI device is unavailable, possibly because it is already being used by another application.");
             this.soundEnabled = false;
