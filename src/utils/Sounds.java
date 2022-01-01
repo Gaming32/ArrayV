@@ -168,7 +168,7 @@ public final class Sounds {
 
                     int noteCount = Math.min(Highlights.getMarkCount(), NUMCHANNELS);
                     noteCount = noteCount < 0 ? NUMCHANNELS : noteCount;
-                    int voice = 0;
+                    int channel = 0;
 
                     int playNoteCount = Math.max(noteCount, 1);
                     int currentLen = ArrayVisualizer.getCurrentLength();
@@ -176,8 +176,8 @@ public final class Sounds {
                     for (int i : Highlights.highlightList()) {
                         try {
                             if (i != -1) {
-                                if (!ALLOW_PERCUSSION_SOUNDS && voice == 9) {
-                                    voice++;
+                                if (!ALLOW_PERCUSSION_SOUNDS && channel == 9) {
+                                    channel++;
                                     playNoteCount++;
                                 }
 
@@ -192,11 +192,11 @@ public final class Sounds {
                                     vel *= vel;
                                 }
 
-                                channels[voice].noteOn(pitchmajor, vel);
-                                channels[voice].setPitchBend(pitchminor);
-                                channels[voice].controlChange(REVERB, 10);
+                                channels[channel].noteOn(pitchmajor, vel);
+                                channels[channel].setPitchBend(pitchminor);
+                                channels[channel].controlChange(REVERB, 10);
 
-                                if (++voice == playNoteCount)
+                                if (++channel == playNoteCount)
                                     break;
                             }
                         } catch (Exception e) {
