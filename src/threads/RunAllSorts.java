@@ -67,7 +67,7 @@ final public class RunAllSorts {
             JErrorPane.invokeErrorMessage(e);
         }
 
-        this.arrayVisualizer.setCategory("Run All Sorts");
+        this.arrayVisualizer.setCategory("Showcase Sorts");
         this.arrayVisualizer.setHeading("Finished!!");
         this.arrayVisualizer.updateNow();
     }

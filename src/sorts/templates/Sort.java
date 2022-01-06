@@ -8,57 +8,57 @@ import utils.Writes;
 
 public abstract class Sort {
     private boolean sortEnabled;
-    
+
     private String sortListName;
     private String runAllSortsName;
     private String runSortName;
-    
+
     private String category;
-    
+
     private boolean comparisonBased;
     private boolean bucketSort;
     private boolean radixSort;
     private boolean unreasonablySlow;
     private boolean bogoSort;
-    
+
     private int unreasonableLimit;
 
     private String question;
     private int defaultAnswer;
-    
+
     protected ArrayVisualizer arrayVisualizer;
-    
+
     protected Delays Delays;
     protected Highlights Highlights;
     protected Reads Reads;
     protected Writes Writes;
-    
+
     protected Sort(ArrayVisualizer arrayVisualizer) {
         this.enableSort(true);           // If set to false, ArrayV won't load the sort
-        
+
         this.setSortListName("");        // Displays in the 'Choose Sort' menu
-        this.setRunAllSortsName("");     // Displays during 'Run All Sorts'
+        this.setRunAllSortsName("");     // Displays during sorting threads
         this.setRunSortName("");         // Displays when a sort is picked from 'Choose Sort'
         this.setCategory("");            // Shown at the top-left corner of the window
-        
+
         this.setComparisonBased(true);   // If set to false, sort will listed on the right side of the 'Choose Sort' menu
         this.setBucketSort(false);       // Slightly changes the 'Customize Sort' dialog
         this.setRadixSort(false);        // Also slightly changes the 'Customize Sort' dialog
-        
+
         this.setUnreasonablySlow(false); // Indicates a sort is so inefficient that it will run for a very long time even after clicking 'Skip Sort'
         this.setUnreasonableLimit(0);    // If a sort is 'unreasonably slow', a warning will pop up if the array length is more than this number
         this.setBogoSort(false);         // Slightly changes the 'unreasonably slow' dialog
 
         this.setQuestion(null, 0);       // Asks a specific question before this sort is run
-        
+
         this.arrayVisualizer = arrayVisualizer;
-        
+
         this.Delays = arrayVisualizer.getDelays();
         this.Highlights = arrayVisualizer.getHighlights();
         this.Reads = arrayVisualizer.getReads();
         this.Writes = arrayVisualizer.getWrites();
     }
-    
+
     public boolean isSortEnabled() {
         return this.sortEnabled;
     }
@@ -98,7 +98,7 @@ public abstract class Sort {
     public int getDefaultAnswer() {
         return this.defaultAnswer;
     }
-    
+
     protected void enableSort(boolean Bool) {
         this.sortEnabled = Bool;
     }
@@ -143,6 +143,6 @@ public abstract class Sort {
     public int validateAnswer(int answer) {
         return answer;
     }
-    
+
     public abstract void runSort(int[] array, int sortLength, int bucketCount) throws Exception; //bucketCount will be zero for comparison-based sorts
 }
