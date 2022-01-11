@@ -38,7 +38,7 @@
             </filterchain>
         </copy>
     </target>
-    <target depends="init" name="build" description="Builds ArrayV into the bin directory">
+    <target depends="init,git-sha" name="build" description="Builds ArrayV into the bin directory">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
