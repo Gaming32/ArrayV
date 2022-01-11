@@ -16,13 +16,14 @@ To compile use:
 ```
 Or alternatively double-click on "antw" or "antw.bat" on Windows.
 
+To create a runnable JAR, run `./antw dist-jar`. The JAR will be placed in the `dist` directory.
+
 To run use:
 ```shell
 ./run
 ```
 Alternatively, you can double click on "run" or "run.bat" on Windows.
 
-To create a runnable jar, run Apache Ant (using `ant`) inside the "dist" directory. However, that requires that Apache Ant be installed first.
 
 You can always download the most up-to-date pre-built JAR from [GitHub Actions](https://nightly.link/Gaming32/ArrayV-v4.0/workflows/ant/main/standalone-jar.zip) (link via [nightly.link](https://nightly.link)).
 
