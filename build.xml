@@ -40,10 +40,12 @@
     </target>
     <target depends="init" name="build" description="Builds ArrayV into the bin directory">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <fileset dir="src">
-            <exclude name="**/*.launch"/>
-            <exclude name="**/*.java"/>
-        </fileset>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="ArrayVisualizer-master.classpath"/>
