@@ -63,6 +63,7 @@
             </manifest>
             <zipfileset src="lib/classgraph-4.8.47.jar"/>
             <fileset dir="bin"/>
+            <fileset dir="." includes="LICENSE"/>
         </jar>
     </target>
 </project>
