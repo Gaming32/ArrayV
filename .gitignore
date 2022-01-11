@@ -1,10 +1,9 @@
 *.class
-/bin/
+bin
+dist
 __pycache__
 cache
 antiqsort_*
 network_*.svg
 sorting_networks
-dist/*
-!dist/build.xml
 src/buildInfo.properties

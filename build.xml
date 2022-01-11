@@ -8,45 +8,17 @@
     <path id="ArrayVisualizer-master.classpath">
         <pathelement location="bin"/>
         <pathelement location="lib/classgraph-4.8.47.jar"/>
-        <pathelement location="lib/classgraph-4.8.47-javadoc.jar"/>
-        <pathelement location="lib/classgraph-4.8.47-sources.jar"/>
-    </path>
-    <path id="run.ArrayVisualizer.classpath">
-        <path refid="ArrayVisualizer-master.classpath"/>
-        <pathelement location="lib/classgraph-4.8.47.jar"/>
-        <pathelement location="lib/classgraph-4.8.47-javadoc.jar"/>
-        <pathelement location="lib/classgraph-4.8.47-sources.jar"/>
-    </path>
-    <path id="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER.libraryclasspath"/>
-    <path id="run.Main.classpath">
-        <path refid="ArrayVisualizer-master.classpath"/>
-        <path refid="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER.libraryclasspath"/>
-    </path>
-    <path id="run.Tester (2).classpath">
-        <path refid="ArrayVisualizer-master.classpath"/>
-        <path refid="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER.libraryclasspath"/>
-    </path>
-    <path id="run.Tester.classpath">
-        <path refid="ArrayVisualizer-master.classpath"/>
-        <path refid="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER.libraryclasspath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
+        <mkdir dir="dist"/>
     </target>
-    <target name="clean">
+    <target name="clean" description="Cleans build files">
         <delete dir="bin"/>
+        <delete dir="dist"/>
     </target>
-    <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,git-sha,build-project" name="build"/>
-    <target name="build-subprojects"/>
     <!-- Thanks to https://stackoverflow.com/questions/2974106/how-to-lookup-the-latest-git-commit-hash-from-an-ant-build-script -->
-    <target name="git-sha" description="Store git revision in ${git.sha}" if="git.present">
+    <target name="git-sha" if="git.present"> <!-- Stores revision in ${git.sha} -->
         <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
             <arg value="describe"/>
             <arg value="--always"/>
@@ -66,8 +38,12 @@
             </filterchain>
         </copy>
     </target>
-    <target depends="init" name="build-project">
+    <target depends="init" name="build" description="Builds ArrayV into the bin directory">
         <echo message="${ant.project.name}: ${ant.file}"/>
+        <fileset dir="src">
+            <exclude name="**/*.launch"/>
+            <exclude name="**/*.java"/>
+        </fileset>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="ArrayVisualizer-master.classpath"/>
@@ -76,5 +52,15 @@
             <fileset dir="." includes="stats-config.txt"/>
         </copy>
     </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target depends="build" name="dist-jar" description="Creates an executable JAR file in the dist directory">
+        <jar destfile="dist/arrayVisualizer.jar">
+            <manifest>
+                <attribute name="Main-Class" value="main.ArrayVisualizer"/>
+                <attribute name="Class-Path" value="cache"/>
+                <attribute name="Add-Opens" value="java.desktop/com.sun.media.sound"/>
+            </manifest>
+            <zipfileset src="lib/classgraph-4.8.47.jar"/>
+            <fileset dir="bin"/>
+        </jar>
+    </target>
 </project>
