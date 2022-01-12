@@ -89,7 +89,7 @@ public class SortingNetworkGenerator {
         }
     }
 
-    private static final int OUT_BUFFER_SIZE = 16_777_216; // 32 MB
+    private static final int OUT_BUFFER_SIZE = 8192; // 16 KB
 
     private static boolean encodeNetwork0(final Comparator[] comparators, final int n, final PrintWriter out) {
         int scale = 1;
