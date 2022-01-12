@@ -267,13 +267,20 @@ public class SortingNetworkGenerator {
             );
             return null;
         }
-        JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + file + "\"",
-            "Sorting Network Visualizer", JOptionPane.INFORMATION_MESSAGE);
-        Desktop desktop = Desktop.getDesktop();
-        try {
-            desktop.open(file);
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean shouldOpen = JOptionPane.showConfirmDialog(
+            ArrayVisualizer.getInstance().getMainWindow(),
+            "Successfully saved output to file \"" + file + "\"\nWould you like to open it now?",
+            "Sorting Network Visualizer",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.INFORMATION_MESSAGE
+        ) == JOptionPane.YES_OPTION; // false on NO_OPION or CLOSED_OPTION
+        if (shouldOpen) {
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.open(file);
+            } catch (IOException e) {
+                JErrorPane.invokeErrorMessage(e, "Open Sorting Network SVG");
+            }
         }
         return file;
     }
