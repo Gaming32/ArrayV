@@ -28,7 +28,6 @@ import sorts.distribute.SmartGuessSort;
 import sorts.distribute.BozoSort;
 import sorts.distribute.DeterministicBogoSort;
 import sorts.distribute.SmartBogoBogoSort;
-import sorts.distribute.SliceBogoSort;
 import sorts.distribute.BogoSort;
 import sorts.distribute.OptimizedGuessSort;
 import sorts.distribute.RandomGuessSort;
@@ -85,7 +84,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort BozoSort;
     private Sort DeterministicBogoSort;
     private Sort SmartBogoBogoSort;
-    private Sort SliceBogoSort;
     private Sort BogoSort;
     private Sort OptimizedGuessSort;
     private Sort RandomGuessSort;
@@ -123,7 +121,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         BozoSort                  = new                  BozoSort(this.arrayVisualizer);
         DeterministicBogoSort     = new     DeterministicBogoSort(this.arrayVisualizer);
         SmartBogoBogoSort         = new         SmartBogoBogoSort(this.arrayVisualizer);
-        SliceBogoSort             = new             SliceBogoSort(this.arrayVisualizer);
         BogoSort                  = new                  BogoSort(this.arrayVisualizer);
         OptimizedGuessSort        = new        OptimizedGuessSort(this.arrayVisualizer);
         RandomGuessSort           = new           RandomGuessSort(this.arrayVisualizer);
@@ -169,7 +166,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         RunImpracticalSorts.this.runIndividualSort(BozoSort,                  0, array,  7,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(DeterministicBogoSort,     0, array,  7,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(SmartBogoBogoSort,         0, array,  6,  1e-9,   true);
-        RunImpracticalSorts.this.runIndividualSort(SliceBogoSort,             0, array,  6,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(BogoSort,                  0, array,  6,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(OptimizedGuessSort,        0, array,  5,  1e-9,   true);
         RunImpracticalSorts.this.runIndividualSort(RandomGuessSort,           0, array,  5,  1e-9,   true);
