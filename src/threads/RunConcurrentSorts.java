@@ -2,7 +2,24 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.concurrent.*;
+import sorts.concurrent.BitonicSortIterative;
+import sorts.concurrent.BitonicSortParallel;
+import sorts.concurrent.BitonicSortRecursive;
+import sorts.concurrent.BoseNelsonSortIterative;
+import sorts.concurrent.BoseNelsonSortParallel;
+import sorts.concurrent.BoseNelsonSortRecursive;
+import sorts.concurrent.DiamondSortIterative;
+import sorts.concurrent.DiamondSortRecursive;
+import sorts.concurrent.FoldSort;
+import sorts.concurrent.MatrixSort;
+import sorts.concurrent.MergeExchangeSortIterative;
+import sorts.concurrent.OddEvenMergeSortIterative;
+import sorts.concurrent.OddEvenMergeSortParallel;
+import sorts.concurrent.OddEvenMergeSortRecursive;
+import sorts.concurrent.PairwiseMergeSortIterative;
+import sorts.concurrent.PairwiseMergeSortRecursive;
+import sorts.concurrent.PairwiseSortIterative;
+import sorts.concurrent.PairwiseSortRecursive;
 import sorts.templates.Sort;
 
 /*
@@ -51,11 +68,9 @@ final public class RunConcurrentSorts extends MultipleSortThread {
     private Sort DiamondSortIterative;
     private Sort DiamondSortRecursive;
     private Sort OddEvenMergeSortParallel;
-    private Sort OptimizedOddEvenMergeSort;
     private Sort PairwiseMergeSortIterative;
     private Sort PairwiseMergeSortRecursive;
     private Sort WeaveSortParallel;
-    private Sort ApollyonSort;
 
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -81,11 +96,9 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         DiamondSortIterative       = new       DiamondSortIterative(this.arrayVisualizer);
         DiamondSortRecursive       = new       DiamondSortRecursive(this.arrayVisualizer);
         OddEvenMergeSortParallel   = new   OddEvenMergeSortParallel(this.arrayVisualizer);
-        OptimizedOddEvenMergeSort  = new  OptimizedOddEvenMergeSort(this.arrayVisualizer);
         PairwiseMergeSortIterative = new PairwiseMergeSortIterative(this.arrayVisualizer);
         PairwiseMergeSortRecursive = new PairwiseMergeSortRecursive(this.arrayVisualizer);
         WeaveSortParallel          = new          WeaveSortParallel(this.arrayVisualizer);
-        ApollyonSort               = new               ApollyonSort(this.arrayVisualizer);
     }
 
     @Override
@@ -93,9 +106,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
         // Other
         RunConcurrentSorts.this.runIndividualSort(FoldSort,                   0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(CreaseSort,                 0, array, 1024, 1,     false);
-        RunConcurrentSorts.this.runIndividualSort(ApollyonSort,               0, array, 1024, 1,     false);
         RunConcurrentSorts.this.runIndividualSort(MatrixSort,                 0, array, 256,  0.667, false);
-        RunConcurrentSorts.this.runIndividualSort(OptimizedOddEvenMergeSort,  0, array, 1024, 1,     false);
 
         // Recursive
         RunConcurrentSorts.this.runIndividualSort(BitonicSortRecursive,       0, array, 1024, 1,     false);
