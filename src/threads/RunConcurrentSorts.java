@@ -8,6 +8,7 @@ import sorts.concurrent.BitonicSortRecursive;
 import sorts.concurrent.BoseNelsonSortIterative;
 import sorts.concurrent.BoseNelsonSortParallel;
 import sorts.concurrent.BoseNelsonSortRecursive;
+import sorts.concurrent.CreaseSort;
 import sorts.concurrent.DiamondSortIterative;
 import sorts.concurrent.DiamondSortRecursive;
 import sorts.concurrent.FoldSort;
@@ -20,6 +21,9 @@ import sorts.concurrent.PairwiseMergeSortIterative;
 import sorts.concurrent.PairwiseMergeSortRecursive;
 import sorts.concurrent.PairwiseSortIterative;
 import sorts.concurrent.PairwiseSortRecursive;
+import sorts.concurrent.WeaveSortIterative;
+import sorts.concurrent.WeaveSortParallel;
+import sorts.concurrent.WeaveSortRecursive;
 import sorts.templates.Sort;
 
 /*
