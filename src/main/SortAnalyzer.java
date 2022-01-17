@@ -2,10 +2,10 @@ package main;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +16,10 @@ import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 import javax.tools.JavaCompiler;
+import javax.tools.JavaCompiler.CompilationTask;
+import javax.tools.JavaFileObject;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
 import io.github.classgraph.ClassGraph;
@@ -174,25 +178,45 @@ final public class SortAnalyzer {
         }
         String packageName = matcher.group(1);
         String name = packageName + "." + file.getName().split("\\.")[0];
-        File tempPath = new File("./cache/" + String.join("/", packageName.split("\\.")));
-        tempPath.mkdirs();
-        File destPath = new File(tempPath.getAbsolutePath() + "/" + file.getName());
-        try {
-            Files.copy(file.toPath(), destPath.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (Exception e) {
-            JErrorPane.invokeErrorMessage(e);
-            return false;
-        }
+
+        final File CACHE_DIR = new File("./cache/");
+        CACHE_DIR.mkdirs();
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        int success = compiler.run(null, null, null, destPath.getAbsolutePath());
+        StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
+        Iterable<? extends JavaFileObject> jFiles = fileManager.getJavaFileObjects(file);
+        int success;
+        try {
+            fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(CACHE_DIR));
+            CompilationTask task = compiler.getTask(
+                null,        // out
+                fileManager, // fileManager
+                null,        // diagnosticListener
+                null,        // options
+                null,        // classes
+                jFiles       // compilationUnits
+            );
+            try {
+                // Code that would work except that reflection is safer (I think) when using APIs that may be removed
+                // com.sun.tools.javac.main.Main.Result result = ((com.sun.tools.javac.api.JavacTaskImpl)task).doCall();
+                // success = result.exitCode;
+                Method doCall = task.getClass().getDeclaredMethod("doCall");
+                Object result = doCall.invoke(task);
+                success = (int)result.getClass().getDeclaredField("exitCode").get(result);
+            } catch (Exception e) {
+                success = task.call() ? 0 : 1;
+            }
+        } catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e, "Sort Import");
+            success = -1;
+        }
         if (success != 0) {
-            JErrorPane.invokeCustomErrorMessage("Failed to compile: " + destPath.getPath() + "\nError code " + success);
+            JErrorPane.invokeCustomErrorMessage("Failed to compile: " + file + "\nError code " + success);
             return false;
         }
 
         try {
-            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { new File("./cache/").toURI().toURL() })))
+            if (!compileSingle(name, URLClassLoader.newInstance(new URL[] { CACHE_DIR.toURI().toURL() })))
                 return false;
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
