@@ -6,13 +6,16 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.StreamSupport;
 
 import javax.swing.JOptionPane;
 import javax.tools.JavaCompiler;
@@ -111,9 +114,7 @@ final public class SortAnalyzer {
             } catch (ClassNotFoundException e) {
                 return true;
             }
-            // System.out.println(sortClass.getConstructors()[0].getParameterTypes()[0].hashCode());
             Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
-            // Constructor<?> newSort = sortClass.getConstructors()[0];
             Sort sort = (Sort) newSort.newInstance(this.arrayVisualizer);
 
             try {
@@ -128,15 +129,15 @@ final public class SortAnalyzer {
                         distributionSorts.add(sort);
                     }
                 } else {
-                    throw new Exception();
+                    throw new Exception(sortErrorMsg);
                 }
             } catch (Exception e) {
-                invalidSorts.add(sort.getClass().getName() + " (" + this.sortErrorMsg + ")");
+                invalidSorts.add(sort.getClass().getName() + " (" + e.getMessage() + ")");
                 return false;
             }
         } catch (Exception e) {
-            JErrorPane.invokeErrorMessage(e, "Could not compile " + name);
-            invalidSorts.add(name + " (failed to compile)");
+            JErrorPane.invokeErrorMessage(e, "Could not load " + name);
+            invalidSorts.add(name + " (failed to load)");
             return false;
         }
         return true;
@@ -163,7 +164,8 @@ final public class SortAnalyzer {
     }
 
     public boolean importSort(File file, boolean showConfirmation) {
-        Pattern packagePattern = Pattern.compile("^\\s*package ([a-zA-Z\\.]+);");
+        // SLightly modified from https://stackoverflow.com/a/40772073/8840278
+        Pattern packagePattern = Pattern.compile("package (([a-zA-Z]{1}[a-zA-Z\\d_]*\\.)*[a-zA-Z][a-zA-Z\\d_]*);");
         String contents;
         try {
             contents = new String(Files.readAllBytes(file.toPath()));
@@ -172,15 +174,17 @@ final public class SortAnalyzer {
             return false;
         }
         Matcher matcher = packagePattern.matcher(contents);
-        if (!matcher.find()) {
-            JErrorPane.invokeCustomErrorMessage("No package specifed");
-            return false;
+        Set<String> maybePackages = new HashSet<>();
+        while (matcher.find()) {
+            maybePackages.add(matcher.group(1));
         }
-        String packageName = matcher.group(1);
-        String name = packageName + "." + file.getName().split("\\.")[0];
+        if (maybePackages.isEmpty()) {
+            maybePackages = Collections.singleton("");
+        }
 
         final File CACHE_DIR = new File("./cache/");
         CACHE_DIR.mkdirs();
+        final Path CACHE_PATH = CACHE_DIR.toPath();
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
@@ -213,6 +217,44 @@ final public class SortAnalyzer {
         if (success != 0) {
             JErrorPane.invokeCustomErrorMessage("Failed to compile: " + file + "\nError code " + success);
             return false;
+        }
+
+        final String rawClassName;
+        {
+            String baseName = file.getName();
+            rawClassName = baseName.substring(0, baseName.lastIndexOf('.'));
+        }
+
+        String[] maybeNames;
+        try {
+            maybeNames = StreamSupport.stream(
+                fileManager.list(StandardLocation.CLASS_OUTPUT, "", Collections.singleton(JavaFileObject.Kind.CLASS), true).spliterator(),
+                false
+            )
+                .map(fobj -> {
+                    Path relativePath = CACHE_PATH.relativize(new File(fobj.getName()).getParentFile().toPath());
+                    return relativePath.toString().replace(File.separatorChar, '.');
+                })
+                .filter(maybePackages::contains)
+                .limit(2)
+                .toArray(String[]::new);
+        } catch (Exception e) {
+            JErrorPane.invokeErrorMessage(e, "Sort Import");
+            return false;
+        }
+        if (maybeNames.length == 2) {
+            JErrorPane.invokeCustomErrorMessage("Multiple sorts found that match this file. Please contact the sort devs of all sorts named " + file.getName());
+            return false;
+        }
+        if (maybeNames.length == 0) {
+            JErrorPane.invokeCustomErrorMessage("The resulting sort file could not be located. Please report this on the bug tracker.");
+            return false;
+        }
+        final String name;
+        if (maybeNames[0].isEmpty()) {
+            name = rawClassName;
+        } else {
+            name = maybeNames[0] + "." + rawClassName;
         }
 
         try {
