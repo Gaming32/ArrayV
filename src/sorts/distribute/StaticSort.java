@@ -73,8 +73,6 @@ final public class StaticSort extends Sort {
 
         float CONST = (float) auxLen / (minMax[1] - minMax[0] + 1);
 
-        System.out.println(CONST);
-
         int idx;
         for (int i = a; i < b; i++) {
             Highlights.markArray(1, i);
