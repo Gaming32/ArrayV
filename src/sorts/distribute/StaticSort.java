@@ -71,7 +71,7 @@ final public class StaticSort extends Sort {
         int[] count  = Writes.createExternalArray(auxLen + 1),
               offset = Writes.createExternalArray(auxLen + 1);
 
-        float CONST = (float) auxLen / (minMax[1] - minMax[0] + 4);
+        float CONST = (float) auxLen / (minMax[1] - minMax[0] + 1);
 
         System.out.println(CONST);
 
