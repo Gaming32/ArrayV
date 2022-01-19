@@ -193,12 +193,14 @@ final public class SortAnalyzer {
         try {
             fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(CACHE_DIR));
             CompilationTask task = compiler.getTask(
-                null,        // out
-                fileManager, // fileManager
-                null,        // diagnosticListener
-                null,        // options
-                null,        // classes
-                jFiles       // compilationUnits
+                null,          // out
+                fileManager,   // fileManager
+                null,          // diagnosticListener
+                Arrays.asList( // options
+                    "-classpath", System.getProperty("java.class.path")
+                ),
+                null,          // classes
+                jFiles         // compilationUnits
             );
             try {
                 // Code that would work except that reflection is safer (I think) when using APIs that may be removed
