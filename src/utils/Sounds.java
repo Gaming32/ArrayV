@@ -54,13 +54,12 @@ SOFTWARE.
 
 public final class Sounds {
     private static final boolean ALLOW_PERCUSSION_SOUNDS = Boolean.getBoolean("arrayv.allowPercussion");
-    private static final boolean DISABLE_REFLECTION = Boolean.getBoolean("arrayv.disableSynthReflect");
-    private static final boolean FORCE_REFLECTION = Boolean.getBoolean("arrayv.forceSynthReflect");
+    private static final boolean DISABLE_JITTER_CORRECTION = Boolean.getBoolean("arrayv.disableJitterCorrection");
 
     private static final Class<?> SOFT_SYNTHESIZER_CLASS;
 
     static {
-        if (FORCE_REFLECTION || (!DISABLE_REFLECTION && System.getProperty("os.name").toLowerCase().contains("win"))) {
+        if (DISABLE_JITTER_CORRECTION) {
             Class<?> synthesizerClass;
             try {
                 synthesizerClass = Class.forName("com.sun.media.sound.SoftSynthesizer");
