@@ -13,7 +13,6 @@ import sorts.exchange.DualPivotQuickSort;
 import sorts.exchange.ForcedStableQuickSort;
 import sorts.exchange.FunSort;
 import sorts.exchange.GnomeSort;
-import sorts.exchange.IndexQuickSort;
 import sorts.exchange.LLQuickSort;
 import sorts.exchange.LRQuickSort;
 import sorts.exchange.LRQuickSortParallel;
@@ -87,7 +86,6 @@ final public class RunExchangeSorts extends MultipleSortThread {
     private Sort OptimizedStoogeSortStudio;
     private Sort FunSort;
     private Sort ClassicThreeSmoothCombSort;
-    private Sort IndexQuickSort;
     private Sort LRQuickSortParallel;
     private Sort StableQuickSortParallel;
     private Sort ThreeSmoothCombSortParallel;
@@ -123,7 +121,6 @@ final public class RunExchangeSorts extends MultipleSortThread {
         ForcedStableQuickSort         = new         ForcedStableQuickSort(this.arrayVisualizer);
         TableSort                     = new                     TableSort(this.arrayVisualizer);
         ClassicThreeSmoothCombSort    = new    ClassicThreeSmoothCombSort(this.arrayVisualizer);
-        IndexQuickSort                = new                IndexQuickSort(this.arrayVisualizer);
         LRQuickSortParallel           = new           LRQuickSortParallel(this.arrayVisualizer);
         StableQuickSortParallel       = new       StableQuickSortParallel(this.arrayVisualizer);
         ThreeSmoothCombSortParallel   = new   ThreeSmoothCombSortParallel(this.arrayVisualizer);
@@ -162,7 +159,6 @@ final public class RunExchangeSorts extends MultipleSortThread {
         RunExchangeSorts.this.runIndividualSort(StableQuickSortParallel,       0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(ForcedStableQuickSort,         0,   array, 2048, 1,     false);
         RunExchangeSorts.this.runIndividualSort(TableSort,                     0,   array, 1024, 0.75,  false);
-        RunExchangeSorts.this.runIndividualSort(IndexQuickSort,                0,   array, 1024, 0.75,  false);
     }
 
     @Override
