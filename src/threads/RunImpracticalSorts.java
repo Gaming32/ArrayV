@@ -25,7 +25,6 @@ import sorts.exchange.SlowSort;
 import sorts.exchange.SnuffleSort;
 import sorts.exchange.StoogeSort;
 import sorts.insert.HanoiSort;
-import sorts.insert.StableHanoiSort;
 import sorts.select.BadSort;
 import sorts.templates.Sort;
 
@@ -62,7 +61,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
     private Sort SlowSort;
     private Sort SnuffleSort;
     private Sort HanoiSort;
-    private Sort StableHanoiSort;
     private Sort SelectionBogoSort;
     private Sort BubbleBogoSort;
     private Sort CocktailBogoSort;
@@ -93,7 +91,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         SlowSort                  = new                  SlowSort(this.arrayVisualizer);
         SnuffleSort               = new               SnuffleSort(this.arrayVisualizer);
         HanoiSort                 = new                 HanoiSort(this.arrayVisualizer);
-        StableHanoiSort           = new           StableHanoiSort(this.arrayVisualizer);
         SelectionBogoSort         = new         SelectionBogoSort(this.arrayVisualizer);
         BubbleBogoSort            = new            BubbleBogoSort(this.arrayVisualizer);
         CocktailBogoSort          = new          CocktailBogoSort(this.arrayVisualizer);
@@ -123,7 +120,6 @@ final public class RunImpracticalSorts extends MultipleSortThread {
         RunImpracticalSorts.this.runIndividualSort(SlowSort,                  0, array, 64,  0.5,    true);
         RunImpracticalSorts.this.runIndividualSort(SnuffleSort,               0, array, 64,  0.25,   true);
         RunImpracticalSorts.this.runIndividualSort(HanoiSort,                 0, array, 8,   0.025,  true);
-        RunImpracticalSorts.this.runIndividualSort(StableHanoiSort,           0, array, 8,   0.025,  true);
 
         // Bogosorts
         Sounds.toggleSofterSounds(true);
