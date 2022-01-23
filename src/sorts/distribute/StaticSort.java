@@ -1,7 +1,7 @@
 package sorts.distribute;
 
 import main.ArrayVisualizer;
-import sorts.insert.UnstableInsertionSort;
+import sorts.insert.InsertionSort;
 import sorts.select.MaxHeapSort;
 import sorts.templates.Sort;
 
@@ -33,7 +33,7 @@ SOFTWARE.
 
 final public class StaticSort extends Sort {
     MaxHeapSort heapSorter;
-    UnstableInsertionSort insertSorter;
+    InsertionSort insertSorter;
 
     public StaticSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -120,7 +120,7 @@ final public class StaticSort extends Sort {
             if (e - s > 16)
                 heapSorter.customHeapSort(array, s, e, 1);
             else
-                insertSorter.unstableInsertionSort(array, s, e);
+                insertSorter.customInsertSort(array, s, e, 1, false);
         }
 
         Writes.deleteExternalArray(count);
@@ -130,7 +130,7 @@ final public class StaticSort extends Sort {
     @Override
     public void runSort(int[] mainArray, int size, int bucketCount) throws Exception {
         heapSorter = new MaxHeapSort(this.arrayVisualizer);
-        insertSorter = new UnstableInsertionSort(this.arrayVisualizer);
+        insertSorter = new InsertionSort(this.arrayVisualizer);
 
         this.staticSort(mainArray, 0, size);
     }

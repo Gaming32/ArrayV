@@ -45,14 +45,9 @@ final public class RunSelectionSorts extends MultipleSortThread {
     private Sort PoplarHeapSort;
     private Sort TournamentSort;
     private Sort AsynchronousSort;
-    private Sort QueueSort;
-    private Sort DequeueSort;
     private Sort StableSelectionSort;
     private Sort BingoSort;
     private Sort ClassicTournamentSort;
-    private Sort ReverseSandpaperSort;
-    private Sort ReverseSelectionSort;
-    private Sort SandpaperSort;
     private Sort StableCycleSort;
     private Sort TriangularHeapSort;
 
@@ -75,13 +70,8 @@ final public class RunSelectionSorts extends MultipleSortThread {
         PoplarHeapSort        = new        PoplarHeapSort(this.arrayVisualizer);
         TournamentSort        = new        TournamentSort(this.arrayVisualizer);
         AsynchronousSort      = new      AsynchronousSort(this.arrayVisualizer);
-        QueueSort             = new             QueueSort(this.arrayVisualizer);
-        DequeueSort           = new           DequeueSort(this.arrayVisualizer);
         BingoSort             = new             BingoSort(this.arrayVisualizer);
         ClassicTournamentSort = new ClassicTournamentSort(this.arrayVisualizer);
-        ReverseSandpaperSort  = new  ReverseSandpaperSort(this.arrayVisualizer);
-        ReverseSelectionSort  = new  ReverseSelectionSort(this.arrayVisualizer);
-        SandpaperSort         = new         SandpaperSort(this.arrayVisualizer);
         StableCycleSort       = new       StableCycleSort(this.arrayVisualizer);
         TriangularHeapSort    = new    TriangularHeapSort(this.arrayVisualizer);
     }
@@ -89,11 +79,8 @@ final public class RunSelectionSorts extends MultipleSortThread {
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
         RunSelectionSorts.this.runIndividualSort(SelectionSort,         0, array,  128, 0.01, false);
-        RunSelectionSorts.this.runIndividualSort(ReverseSelectionSort,  0, array,  128, 0.01, false);
         RunSelectionSorts.this.runIndividualSort(DoubleSelectionSort,   0, array,  128, 0.01, false);
         RunSelectionSorts.this.runIndividualSort(StableSelectionSort,   0, array,  128, 0.5,  false);
-        RunSelectionSorts.this.runIndividualSort(SandpaperSort,         0, array,  128, 0.05, false);
-        RunSelectionSorts.this.runIndividualSort(ReverseSandpaperSort,  0, array,  128, 0.05, false);
         RunSelectionSorts.this.runIndividualSort(CycleSort,             0, array,  128, 0.01, false);
         RunSelectionSorts.this.runIndividualSort(StableCycleSort,       0, array,  128, 0.01, false);
         RunSelectionSorts.this.runIndividualSort(BingoSort,             0, array,  128, 0.1,  false);
@@ -109,8 +96,6 @@ final public class RunSelectionSorts extends MultipleSortThread {
         RunSelectionSorts.this.runIndividualSort(TournamentSort,        0, array, 2048, 1.5,  false);
         RunSelectionSorts.this.runIndividualSort(ClassicTournamentSort, 0, array, 2048, 1.5,  false);
         RunSelectionSorts.this.runIndividualSort(AsynchronousSort,      0, array, 1024, 1.5,  false);
-        RunSelectionSorts.this.runIndividualSort(QueueSort,             0, array, 2048, 1,    false);
-        RunSelectionSorts.this.runIndividualSort(DequeueSort,           0, array, 2048, 1,    false);
     }
 
     @Override

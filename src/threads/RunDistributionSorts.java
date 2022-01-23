@@ -2,7 +2,24 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.distribute.*;
+import sorts.distribute.AmericanFlagSort;
+import sorts.distribute.BinaryQuickSortIterative;
+import sorts.distribute.BinaryQuickSortRecursive;
+import sorts.distribute.ClassicGravitySort;
+import sorts.distribute.CountingSort;
+import sorts.distribute.FlashSort;
+import sorts.distribute.GravitySort;
+import sorts.distribute.InPlaceLSDRadixSort;
+import sorts.distribute.IndexSort;
+import sorts.distribute.LSDRadixSort;
+import sorts.distribute.MSDRadixSort;
+import sorts.distribute.PigeonholeSort;
+import sorts.distribute.ShatterSort;
+import sorts.distribute.SimpleShatterSort;
+import sorts.distribute.StacklessAmericanFlagSort;
+import sorts.distribute.StacklessBinaryQuickSort;
+import sorts.distribute.StaticSort;
+import sorts.distribute.TimeSort;
 import sorts.templates.Sort;
 
 /*
@@ -36,27 +53,20 @@ final public class RunDistributionSorts extends MultipleSortThread {
     private Sort CountingSort;
     private Sort PigeonholeSort;
     private Sort OptimizedPigeonholeSort;
-    private Sort FeatureSort;
     private Sort GravitySort;
     private Sort ClassicGravitySort;
     private Sort StaticSort;
     private Sort IndexSort;
     private Sort AmericanFlagSort;
-    private Sort DivisorSort;
     private Sort LSDRadixSort;
     private Sort InPlaceLSDRadixSort;
     private Sort MSDRadixSort;
-    private Sort InPlaceMSDRadixSort;
     private Sort FlashSort;
     private Sort BinaryQuickSortIterative;
     private Sort BinaryQuickSortRecursive;
     private Sort ShatterSort;
     private Sort SimpleShatterSort;
-    private Sort ImmediateShatterSort;
     private Sort TimeSort;
-    private Sort LMSDRadixSort;
-    private Sort OptimizedIndexSort;
-    private Sort QuickBinaryRadixSort;
     private Sort StacklessAmericanFlagSort;
     private Sort StacklessBinaryQuickSort;
 
@@ -67,28 +77,20 @@ final public class RunDistributionSorts extends MultipleSortThread {
 
         CountingSort              = new              CountingSort(this.arrayVisualizer);
         PigeonholeSort            = new            PigeonholeSort(this.arrayVisualizer);
-        OptimizedPigeonholeSort   = new   OptimizedPigeonholeSort(this.arrayVisualizer);
-        FeatureSort               = new               FeatureSort(this.arrayVisualizer);
         GravitySort               = new               GravitySort(this.arrayVisualizer);
         ClassicGravitySort        = new        ClassicGravitySort(this.arrayVisualizer);
         StaticSort                = new                StaticSort(this.arrayVisualizer);
         IndexSort                 = new                 IndexSort(this.arrayVisualizer);
         AmericanFlagSort          = new          AmericanFlagSort(this.arrayVisualizer);
-        DivisorSort               = new               DivisorSort(this.arrayVisualizer);
         LSDRadixSort              = new              LSDRadixSort(this.arrayVisualizer);
         InPlaceLSDRadixSort       = new       InPlaceLSDRadixSort(this.arrayVisualizer);
         MSDRadixSort              = new              MSDRadixSort(this.arrayVisualizer);
-        InPlaceMSDRadixSort       = new       InPlaceMSDRadixSort(this.arrayVisualizer);
         FlashSort                 = new                 FlashSort(this.arrayVisualizer);
         BinaryQuickSortIterative  = new  BinaryQuickSortIterative(this.arrayVisualizer);
         BinaryQuickSortRecursive  = new  BinaryQuickSortRecursive(this.arrayVisualizer);
         ShatterSort               = new               ShatterSort(this.arrayVisualizer);
         SimpleShatterSort         = new         SimpleShatterSort(this.arrayVisualizer);
-        ImmediateShatterSort      = new      ImmediateShatterSort(this.arrayVisualizer);
         TimeSort                  = new                  TimeSort(this.arrayVisualizer);
-        LMSDRadixSort             = new             LMSDRadixSort(this.arrayVisualizer);
-        OptimizedIndexSort        = new        OptimizedIndexSort(this.arrayVisualizer);
-        QuickBinaryRadixSort      = new      QuickBinaryRadixSort(this.arrayVisualizer);
         StacklessAmericanFlagSort = new StacklessAmericanFlagSort(this.arrayVisualizer);
         StacklessBinaryQuickSort  = new  StacklessBinaryQuickSort(this.arrayVisualizer);
     }
@@ -98,12 +100,10 @@ final public class RunDistributionSorts extends MultipleSortThread {
         RunDistributionSorts.this.runIndividualSort(CountingSort,                0, array, 2048, 1.5,  false);
         RunDistributionSorts.this.runIndividualSort(PigeonholeSort,              0, array, 2048, 1.5,  false);
         RunDistributionSorts.this.runIndividualSort(OptimizedPigeonholeSort,     0, array, 2048, 1.5,  false);
-        RunDistributionSorts.this.runIndividualSort(FeatureSort,                 0, array, 2048, 0.75, false);
         RunDistributionSorts.this.runIndividualSort(GravitySort,                 0, array, 1024, 0.5,  false);
         RunDistributionSorts.this.runIndividualSort(ClassicGravitySort,          0, array, 1024, 1,    false);
         RunDistributionSorts.this.runIndividualSort(StaticSort,                  0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(IndexSort,                   0, array, 2048, 1,    false);
-        RunDistributionSorts.this.runIndividualSort(OptimizedIndexSort,          0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(AmericanFlagSort,          128, array, 2048, 0.75, false);
         RunDistributionSorts.this.runIndividualSort(StacklessAmericanFlagSort, 128, array, 2048, 0.75, false);
         // RunDistributionSorts.this.runIndividualSort(DivisorSort,            128, array, 2048, 0.5,  false);
@@ -114,16 +114,12 @@ final public class RunDistributionSorts extends MultipleSortThread {
         Sounds.toggleSofterSounds(false);
 
         RunDistributionSorts.this.runIndividualSort(MSDRadixSort,             4, array, 2048, 1.25, false);
-        RunDistributionSorts.this.runIndividualSort(InPlaceMSDRadixSort,      4, array, 2048, 1.25, false);
-        RunDistributionSorts.this.runIndividualSort(LMSDRadixSort,            4, array, 2048, 1.25, false);
         RunDistributionSorts.this.runIndividualSort(FlashSort,                0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(BinaryQuickSortIterative, 0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(BinaryQuickSortRecursive, 0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(StacklessBinaryQuickSort, 0, array, 2048, 1,    false);
-        RunDistributionSorts.this.runIndividualSort(QuickBinaryRadixSort,     0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(ShatterSort,            128, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(SimpleShatterSort,      128, array, 2048, 1,    false);
-        RunDistributionSorts.this.runIndividualSort(ImmediateShatterSort,     0, array, 2048, 1,    false);
         RunDistributionSorts.this.runIndividualSort(TimeSort,                10, array,  512, 0.05, false);
     }
 
