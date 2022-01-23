@@ -2,9 +2,6 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.quick.*;
-import sorts.templates.Sort;
-import utils.Shuffles;
 
 /*
  *
@@ -33,19 +30,15 @@ SOFTWARE.
  */
 
 final public class RunQuickSorts extends MultipleSortThread {
-    private Sort CubeRootQuickSort;
 
     public RunQuickSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.sortCount = 1;
         this.categoryCount = this.sortCount;
-
-        CubeRootQuickSort = new CubeRootQuickSort(this.arrayVisualizer);
     }
 
     @Override
     protected synchronized void executeSortList(int[] array) throws Exception {
-        RunQuickSorts.this.runIndividualSort(CubeRootQuickSort, 0, array, 2048, arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 6.5, false);
     }
 
     @Override
