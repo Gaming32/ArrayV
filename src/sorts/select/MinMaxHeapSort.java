@@ -10,7 +10,7 @@ final public class MinMaxHeapSort extends Sort {
 
     public MinMaxHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Min-Max Heap");
         this.setRunAllSortsName("Min-Max Heap Sort");
         this.setRunSortName("Min-max Heapsort");
@@ -42,7 +42,6 @@ final public class MinMaxHeapSort extends Sort {
     }
 
     public void downheap(int i) {
-        int i0 = i;
         boolean cf;
         if (this.is_min_level(i)) {
             cf = false;
