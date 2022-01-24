@@ -42,6 +42,7 @@ import utils.Shuffles;
 MIT License
 
 Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -99,7 +100,7 @@ final public class RunHybridSorts extends MultipleSortThread {
 
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 51;
+        this.sortCount = 32;
         this.categoryCount = this.sortCount;
 
         HybridCombSort                   = new                   HybridCombSort(this.arrayVisualizer);

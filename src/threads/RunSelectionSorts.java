@@ -2,7 +2,24 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.select.*;
+import sorts.select.AsynchronousSort;
+import sorts.select.BaseNMaxHeapSort;
+import sorts.select.BingoSort;
+import sorts.select.ClassicTournamentSort;
+import sorts.select.CycleSort;
+import sorts.select.DoubleSelectionSort;
+import sorts.select.FlippedMinHeapSort;
+import sorts.select.MaxHeapSort;
+import sorts.select.MinHeapSort;
+import sorts.select.PoplarHeapSort;
+import sorts.select.SelectionSort;
+import sorts.select.SmoothSort;
+import sorts.select.StableCycleSort;
+import sorts.select.StableSelectionSort;
+import sorts.select.TernaryHeapSort;
+import sorts.select.TournamentSort;
+import sorts.select.TriangularHeapSort;
+import sorts.select.WeakHeapSort;
 import sorts.templates.Sort;
 
 /*
@@ -10,6 +27,8 @@ import sorts.templates.Sort;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -53,7 +72,7 @@ final public class RunSelectionSorts extends MultipleSortThread {
 
     public RunSelectionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 23;
+        this.sortCount = 17;
         this.categoryCount = this.sortCount;
 
         SelectionSort         = new         SelectionSort(this.arrayVisualizer);

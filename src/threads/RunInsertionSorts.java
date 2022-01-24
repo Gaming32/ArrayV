@@ -24,6 +24,8 @@ import utils.Shuffles;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -63,7 +65,7 @@ final public class RunInsertionSorts extends MultipleSortThread {
 
     public RunInsertionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 24;
+        this.sortCount = 14;
         this.categoryCount = this.sortCount;
 
         InsertionSort               = new               InsertionSort(this.arrayVisualizer);

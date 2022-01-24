@@ -2,7 +2,8 @@ package threads;
 
 import main.ArrayVisualizer;
 import panes.JErrorPane;
-import sorts.misc.*;
+import sorts.misc.BurntPancakeSort;
+import sorts.misc.PancakeSort;
 import sorts.templates.Sort;
 
 /*
@@ -10,6 +11,8 @@ import sorts.templates.Sort;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

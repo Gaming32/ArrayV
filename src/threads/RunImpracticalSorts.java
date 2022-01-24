@@ -33,6 +33,7 @@ import sorts.templates.Sort;
 MIT License
 
 Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -82,7 +83,7 @@ final public class RunImpracticalSorts extends MultipleSortThread {
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 32;
+        this.sortCount = 24;
         this.categoryCount = this.sortCount;
 
         BadSort                   = new                   BadSort(this.arrayVisualizer);

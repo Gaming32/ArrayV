@@ -8,6 +8,7 @@ import panes.JErrorPane;
 MIT License
 
 Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +34,7 @@ final public class RunQuickSorts extends MultipleSortThread {
 
     public RunQuickSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 1;
+        this.sortCount = 0;
         this.categoryCount = this.sortCount;
     }
 

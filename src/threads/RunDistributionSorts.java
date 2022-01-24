@@ -28,6 +28,7 @@ MIT License
 
 Copyright (c) 2019 w0rthy
 Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -72,7 +73,7 @@ final public class RunDistributionSorts extends MultipleSortThread {
 
     public RunDistributionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 25;
+        this.sortCount = 18;
         this.categoryCount = this.sortCount;
 
         CountingSort              = new              CountingSort(this.arrayVisualizer);

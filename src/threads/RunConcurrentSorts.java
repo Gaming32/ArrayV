@@ -30,7 +30,8 @@ import sorts.templates.Sort;
  *
 MIT License
 
-Copyright (c) 2019 ArrayV 4.0 Team
+Copyright (c) 2020 ArrayV 4.0 Team
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -78,7 +79,7 @@ final public class RunConcurrentSorts extends MultipleSortThread {
 
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.sortCount = 24;
+        this.sortCount = 22;
         this.categoryCount = this.sortCount;
 
         FoldSort                   = new                   FoldSort(this.arrayVisualizer);
