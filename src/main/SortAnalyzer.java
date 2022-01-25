@@ -12,9 +12,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 
 import javax.swing.JOptionPane;
@@ -58,7 +55,7 @@ SOFTWARE.
  *
  */
 
-final public class SortAnalyzer {
+public final class SortAnalyzer {
     private ArrayList<Sort> comparisonSorts;
     private ArrayList<Sort> distributionSorts;
     private ArrayList<String> invalidSorts;
@@ -163,9 +160,115 @@ final public class SortAnalyzer {
         }
     }
 
+    private static final class JavaPackageNameFinder {
+        final String source;
+        int i, c;
+
+        JavaPackageNameFinder(String source) {
+            this.source = source;
+        }
+
+        String findPackageName() {
+            i = 0;
+            while (true) {
+                if (skipWhitespace()) break;
+
+                if (c == '/') {
+                    if (advance()) break;
+                    if (c == '/') {
+                        while (true) {
+                            if (advance() || c == '\n') break;
+                        }
+                    } else if (c == '*') {
+                        while (true) {
+                            if (advance()) break;
+                            if (c == '*' && (advance() || c == '/')) break;
+                        }
+                    } else {
+                        throw new IllegalArgumentException("/ by itself (not part of a comment) before class declaration");
+                    }
+                    continue;
+                }
+
+                if (c == 'p') {
+                    if (advance() || c == 'u') break; // public
+                    if (c != 'a') throw new IllegalArgumentException("Except u or a after p");
+                    expectWord("ckage", "package");
+                    if (skipWhitespace()) throw new IllegalArgumentException("Expect package name");
+                    return readPackageName();
+                }
+
+                if (c == 'i' || c == 'a' || c == 'c' || c == 'r' || c == 'e') break;
+            }
+            return "";
+        }
+
+        private String readPackageName() {
+            StringBuilder result = new StringBuilder();
+            boolean isAfterDot = true;
+            while (true) {
+                if (isAfterDot) {
+                    if (
+                        (c >= 'a' && c <= 'z') ||
+                        (c >= 'A' && c <= 'Z') ||
+                        c == '_' || c == '$') {
+                        result.appendCodePoint(c);
+                    } else {
+                        throw new IllegalArgumentException("Illegal character in package name: " + new String(Character.toChars(c)));
+                    }
+                    isAfterDot = false;
+                } else {
+                    if (
+                        (c >= 'a' && c <= 'z') ||
+                        (c >= 'A' && c <= 'Z') ||
+                        (c >= '0' && c <= '9') ||
+                        c == '_' || c == '$') {
+                        result.appendCodePoint(c);
+                    } else if (c == '.') {
+                        result.append('.');
+                        isAfterDot = true;
+                    } else {
+                        throw new IllegalArgumentException("Illegal character in package name: " + new String(Character.toChars(c)));
+                    }
+                }
+                if (advance()) {
+                    throw new IllegalArgumentException("EOF");
+                }
+                if (c == ';') break;
+            }
+            return result.toString();
+        }
+
+        private boolean skipWhitespace() {
+            while (true) {
+                if (advance()) return true;
+                if (!Character.isWhitespace(c)) break;
+            }
+            return false;
+        }
+
+        private boolean advance() {
+            // True indicates EOF
+            if (i >= source.length()) return true;
+            c = source.codePointAt(i);
+            i += Character.charCount(c);
+            return false;
+        }
+
+        private void expectWord(String word, String fullWord) {
+            for (int j = 0; j < word.length(); j++) {
+                if (advance() || c != word.charAt(j)) throw new IllegalArgumentException("EOL or unexpected character in word '" + fullWord + "'");
+            }
+        }
+    }
+
+    private String findPackageName(String source) {
+        return new JavaPackageNameFinder(source).findPackageName();
+    }
+
     public boolean importSort(File file, boolean showConfirmation) {
         // SLightly modified from https://stackoverflow.com/a/40772073/8840278
-        Pattern packagePattern = Pattern.compile("package (([a-zA-Z]{1}[a-zA-Z\\d_]*\\.)*[a-zA-Z][a-zA-Z\\d_]*);");
+        // Pattern packagePattern = Pattern.compile("package (([a-zA-Z]{1}[a-zA-Z\\d_]*\\.)*[a-zA-Z][a-zA-Z\\d_]*);");
         String contents;
         try {
             contents = new String(Files.readAllBytes(file.toPath()));
@@ -173,13 +276,16 @@ final public class SortAnalyzer {
             JErrorPane.invokeErrorMessage(e);
             return false;
         }
-        Matcher matcher = packagePattern.matcher(contents);
-        Set<String> maybePackages = new HashSet<>();
-        while (matcher.find()) {
-            maybePackages.add(matcher.group(1));
+        String packageName;
+        try {
+            packageName = findPackageName(contents);
+        } catch (IllegalArgumentException e) {
+            JErrorPane.invokeCustomErrorMessage("Invalid Java syntax detected: " + e.getMessage());
+            return false;
         }
-        if (maybePackages.isEmpty()) {
-            maybePackages = Collections.singleton("");
+        if (!packageName.startsWith("sorts") && !packageName.startsWith("io.github.arrayv.sorts")) {
+            JErrorPane.invokeCustomErrorMessage("Sort package must be either sorts or io.github.arrayv.sorts");
+            return false;
         }
 
         final File CACHE_DIR = new File("./cache/");
@@ -237,8 +343,7 @@ final public class SortAnalyzer {
                     Path relativePath = CACHE_PATH.relativize(new File(fobj.getName()).getParentFile().toPath());
                     return relativePath.toString().replace(File.separatorChar, '.');
                 })
-                .filter(maybePackages::contains)
-                .limit(2)
+                .filter(packageName::equals)
                 .toArray(String[]::new);
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e, "Sort Import");
