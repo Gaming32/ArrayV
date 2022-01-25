@@ -198,7 +198,7 @@ public final class SortAnalyzer {
                     return readPackageName();
                 }
 
-                if (c == 'i' || c == 'a' || c == 'c' || c == 'r' || c == 'e') break;
+                if (c == 'i' || c == 'a' || c == 'c' || c == 'r' || c == 'e' || c == 'f') break;
             }
             return "";
         }
