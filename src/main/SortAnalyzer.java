@@ -1,6 +1,10 @@
 package main;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -14,6 +18,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.StreamSupport;
+import java.util.zip.ZipFile;
 
 import javax.swing.JOptionPane;
 import javax.tools.JavaCompiler;
@@ -35,6 +40,7 @@ import sorts.templates.SortComparator;
 The MIT License (MIT)
 
 Copyright (c) 2019 Luke Hutchison
+Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -57,6 +63,18 @@ SOFTWARE.
  */
 
 public final class SortAnalyzer {
+    private static final URL EXTRA_SORTS_DOWNLOAD;
+    private static final String EXTRA_SORTS_JAR_NAME = "ArrayV-Extra-Sorts.jar";
+    private static final File EXTRA_SORTS_FILE = new File("cache", EXTRA_SORTS_JAR_NAME);
+
+    static {
+        try {
+            EXTRA_SORTS_DOWNLOAD = new URL("https://nightly.link/Gaming32/ArrayV-Extra-Sorts/workflows/build/main/extra-sorts-jar.zip");
+        } catch (MalformedURLException e) {
+            throw new Error(e);
+        }
+    }
+
     private ArrayList<Sort> comparisonSorts;
     private ArrayList<Sort> distributionSorts;
     private ArrayList<String> invalidSorts;
@@ -161,11 +179,10 @@ public final class SortAnalyzer {
             .blacklistPackages("sorts.templates", "io.github.arrayv.sorts.templates")
             .initializeLoadedClasses();
         if (includeExtras) {
-            File extrasPath = new File("cache/ArrayV-Extra-Sorts.jar");
-            if (Files.exists(extrasPath.toPath())) {
+            if (extraSortsInstalled()) {
                 try {
                     classGraph.addClassLoader(new URLClassLoader(new URL[] {
-                        extrasPath.toURI().toURL()
+                        EXTRA_SORTS_FILE.toURI().toURL()
                     }));
                 } catch (MalformedURLException e) {
                     throw new Error(e);
@@ -189,6 +206,39 @@ public final class SortAnalyzer {
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
         }
+    }
+
+    public boolean extraSortsInstalled() {
+        return EXTRA_SORTS_FILE.isFile();
+    }
+
+    public void installOrUpdateExtraSorts() throws IOException {
+        final File CACHE_DIR = EXTRA_SORTS_FILE.getParentFile();
+        CACHE_DIR.mkdirs();
+        final File DOWNLOAD_TEMP_FILE = File.createTempFile("avdownload-", ".zip", CACHE_DIR);
+        DOWNLOAD_TEMP_FILE.deleteOnExit(); // Just a safeguard in case installOrUpdateExtraSorts fails, really
+        try (
+            InputStream is = EXTRA_SORTS_DOWNLOAD.openStream();
+            OutputStream os = new FileOutputStream(DOWNLOAD_TEMP_FILE);
+        ) {
+            byte[] buffer = new byte[8192];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                os.write(buffer, 0, len);
+            }
+        }
+        try (
+            ZipFile zf = new ZipFile(DOWNLOAD_TEMP_FILE);
+            InputStream is = zf.getInputStream(zf.getEntry(EXTRA_SORTS_JAR_NAME));
+            OutputStream os = new FileOutputStream(EXTRA_SORTS_FILE);
+        ) {
+            byte[] buffer = new byte[8192];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                os.write(buffer, 0, len);
+            }
+        }
+        DOWNLOAD_TEMP_FILE.delete(); // Might as well do it now
     }
 
     private static final class JavaPackageNameFinder {

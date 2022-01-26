@@ -502,6 +502,11 @@ public final class ArrayVisualizer {
         this.ArrayManager = new ArrayManager(this);
         this.SortAnalyzer = new SortAnalyzer(this);
 
+        // try {
+        //     SortAnalyzer.installOrUpdateExtraSorts();
+        // } catch (IOException e1) {
+        //     e1.printStackTrace();
+        // }
         this.SortAnalyzer.analyzeSorts();
         this.refreshSorts();
 
