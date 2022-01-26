@@ -151,9 +151,15 @@ public final class SortAnalyzer {
     }
 
     public void analyzeSorts(boolean includeExtras) {
+        this.comparisonSorts.clear();
+        this.distributionSorts.clear();
+        this.invalidSorts.clear();
+        this.suggestions.clear();
+        this.sortErrorMsg = null;
         ClassGraph classGraph = new ClassGraph()
             .whitelistPackages("sorts", "io.github.arrayv.sorts")
-            .blacklistPackages("sorts.templates", "io.github.arrayv.sorts.templates");
+            .blacklistPackages("sorts.templates", "io.github.arrayv.sorts.templates")
+            .initializeLoadedClasses();
         if (includeExtras) {
             File extrasPath = new File("cache/ArrayV-Extra-Sorts.jar");
             if (Files.exists(extrasPath.toPath())) {
@@ -173,7 +179,6 @@ public final class SortAnalyzer {
         try (ScanResult scanResult = classGraph.scan()) {
             List<ClassInfo> sortFiles;
             sortFiles = scanResult.getAllClasses();
-            System.out.println(sortFiles.size());
 
             for (int i = 0; i < sortFiles.size(); i++) {
                 ClassInfo sortFile = sortFiles.get(i);
