@@ -3,6 +3,7 @@ package main;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -101,16 +102,21 @@ public final class SortAnalyzer {
     }
 
     private boolean compileSingle(String name, ClassLoader loader) {
+        Class<?> sortClass;
         try {
-            Class<?> sortClass;
-            try {
-                if (loader == null)
-                    sortClass = Class.forName(name);
-                else
-                    sortClass = Class.forName(name, true, loader);
-            } catch (ClassNotFoundException e) {
-                return true;
-            }
+            if (loader == null)
+                sortClass = Class.forName(name);
+            else
+                sortClass = Class.forName(name, true, loader);
+        } catch (ClassNotFoundException e) {
+            System.err.println(e);
+            return true;
+        }
+        return compileSingle(sortClass);
+    }
+
+    private boolean compileSingle(Class<?> sortClass) {
+        try {
             Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
             Sort sort = (Sort) newSort.newInstance(this.arrayVisualizer);
 
@@ -133,26 +139,46 @@ public final class SortAnalyzer {
                 return false;
             }
         } catch (Exception e) {
-            JErrorPane.invokeErrorMessage(e, "Could not load " + name);
-            invalidSorts.add(name + " (failed to load)");
+            JErrorPane.invokeErrorMessage(e, "Could not load " + sortClass.getName());
+            invalidSorts.add(sortClass.getName() + " (failed to load)");
             return false;
         }
         return true;
     }
 
     public void analyzeSorts() {
-        ClassGraph classGraph = new ClassGraph();
-        classGraph.whitelistPackages("sorts");
-        classGraph.blacklistPackages("sorts.templates");
-        classGraph.blacklistPaths("cache/*");
+        analyzeSorts(true);
+    }
 
+    public void analyzeSorts(boolean includeExtras) {
+        ClassGraph classGraph = new ClassGraph()
+            .whitelistPackages("sorts", "io.github.arrayv.sorts")
+            .blacklistPackages("sorts.templates", "io.github.arrayv.sorts.templates");
+        if (includeExtras) {
+            File extrasPath = new File("cache/ArrayV-Extra-Sorts.jar");
+            if (Files.exists(extrasPath.toPath())) {
+                try {
+                    classGraph.addClassLoader(new URLClassLoader(new URL[] {
+                        extrasPath.toURI().toURL()
+                    }));
+                } catch (MalformedURLException e) {
+                    throw new Error(e);
+                }
+            }
+        }
+        analyzeSorts(classGraph);
+    }
+
+    public void analyzeSorts(ClassGraph classGraph) {
         try (ScanResult scanResult = classGraph.scan()) {
             List<ClassInfo> sortFiles;
             sortFiles = scanResult.getAllClasses();
+            System.out.println(sortFiles.size());
 
             for (int i = 0; i < sortFiles.size(); i++) {
-                if (sortFiles.get(i).getName().contains("$")) continue; // Ignore inner classes
-                this.compileSingle(sortFiles.get(i).getName(), null);
+                ClassInfo sortFile = sortFiles.get(i);
+                if (sortFile.getName().contains("$")) continue; // Ignore inner classes
+                this.compileSingle(sortFile.loadClass());
             }
             sortSorts();
         } catch (Exception e) {
