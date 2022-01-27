@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 import java.util.zip.ZipFile;
 
@@ -66,10 +67,16 @@ public final class SortAnalyzer {
     private static final URL EXTRA_SORTS_DOWNLOAD;
     private static final String EXTRA_SORTS_JAR_NAME = "ArrayV-Extra-Sorts.jar";
     private static final File EXTRA_SORTS_FILE = new File("cache", EXTRA_SORTS_JAR_NAME);
+    private static final URLClassLoader EXTRA_SORTS_CLASS_LOADER;
+
+    private final Set<Class<?>> EXTRA_SORTS = new HashSet<>();
 
     static {
         try {
             EXTRA_SORTS_DOWNLOAD = new URL("https://nightly.link/Gaming32/ArrayV-Extra-Sorts/workflows/build/main/extra-sorts-jar.zip");
+            EXTRA_SORTS_CLASS_LOADER = new URLClassLoader(new URL[] {
+                EXTRA_SORTS_FILE.toURI().toURL()
+            });
         } catch (MalformedURLException e) {
             throw new Error(e);
         }
@@ -131,6 +138,18 @@ public final class SortAnalyzer {
         this.arrayVisualizer = arrayVisualizer;
     }
 
+    public boolean didSortComeFromExtra(Sort sort) {
+        return didSortComeFromExtra(sort.getClass());
+    }
+
+    public boolean didSortComeFromExtra(Class<?> sort) {
+        return EXTRA_SORTS.contains(sort);
+    }
+
+    private void setSortCameFromExtra(Class<?> sort) {
+        EXTRA_SORTS.add(sort);
+    }
+
     private boolean compileSingle(String name, ClassLoader loader) {
         Class<?> sortClass;
         try {
@@ -147,6 +166,9 @@ public final class SortAnalyzer {
 
     private boolean compileSingle(Class<?> sortClass) {
         try {
+            if (sortClass.getClassLoader() == EXTRA_SORTS_CLASS_LOADER) {
+                setSortCameFromExtra(sortClass);
+            }
             Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
             Sort sort = (Sort) newSort.newInstance(this.arrayVisualizer);
 
@@ -192,13 +214,7 @@ public final class SortAnalyzer {
             .initializeLoadedClasses();
         if (includeExtras) {
             if (extraSortsInstalled()) {
-                try {
-                    classGraph.addClassLoader(new URLClassLoader(new URL[] {
-                        EXTRA_SORTS_FILE.toURI().toURL()
-                    }));
-                } catch (MalformedURLException e) {
-                    throw new Error(e);
-                }
+                classGraph.addClassLoader(EXTRA_SORTS_CLASS_LOADER);
             }
         }
         analyzeSorts(classGraph);

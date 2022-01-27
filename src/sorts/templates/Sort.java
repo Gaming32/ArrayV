@@ -59,6 +59,10 @@ public abstract class Sort {
         this.Writes = arrayVisualizer.getWrites();
     }
 
+    public boolean isFromExtraSorts() {
+        return arrayVisualizer.getSortAnalyzer().didSortComeFromExtra(getClass());
+    }
+
     public boolean isSortEnabled() {
         return this.sortEnabled;
     }
