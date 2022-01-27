@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -19,9 +20,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.StreamSupport;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.swing.JOptionPane;
+import javax.swing.ProgressMonitor;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject;
@@ -129,7 +132,7 @@ public final class SortAnalyzer {
         }
     }
 
-    public SortAnalyzer(ArrayVisualizer arrayVisualizer) {
+    SortAnalyzer(ArrayVisualizer arrayVisualizer) {
         this.comparisonSorts = new ArrayList<>();
         this.distributionSorts = new ArrayList<>();
         this.invalidSorts = new ArrayList<>();
@@ -198,6 +201,17 @@ public final class SortAnalyzer {
         return true;
     }
 
+    private ClassGraph classGraph(boolean includeExtras) {
+        ClassGraph classGraph = new ClassGraph()
+            .whitelistPackages("sorts", "io.github.arrayv.sorts")
+            .blacklistPackages("sorts.templates", "io.github.arrayv.sorts.templates")
+            .initializeLoadedClasses();
+        if (includeExtras && extraSortsInstalled()) {
+            classGraph.addClassLoader(EXTRA_SORTS_CLASS_LOADER);
+        }
+        return classGraph;
+    }
+
     public void analyzeSorts() {
         analyzeSorts(true);
     }
@@ -208,16 +222,15 @@ public final class SortAnalyzer {
         this.invalidSorts.clear();
         this.suggestions.clear();
         this.sortErrorMsg = null;
-        ClassGraph classGraph = new ClassGraph()
-            .whitelistPackages("sorts", "io.github.arrayv.sorts")
-            .blacklistPackages("sorts.templates", "io.github.arrayv.sorts.templates")
-            .initializeLoadedClasses();
-        if (includeExtras) {
-            if (extraSortsInstalled()) {
-                classGraph.addClassLoader(EXTRA_SORTS_CLASS_LOADER);
-            }
-        }
-        analyzeSorts(classGraph);
+        analyzeSorts(classGraph(includeExtras));
+    }
+
+    public void analyzeSortsExtrasOnly() {
+        if (!extraSortsInstalled()) return;
+        analyzeSorts(
+            classGraph(true)
+                .whitelistJars(EXTRA_SORTS_FILE.getName())
+        );
     }
 
     public void analyzeSorts(ClassGraph classGraph) {
@@ -241,29 +254,80 @@ public final class SortAnalyzer {
     }
 
     public void installOrUpdateExtraSorts() throws IOException {
+        installOrUpdateExtraSorts(null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public void unloadAllExtraSorts() {
+        for (List<Sort> sortsList : new List[] {comparisonSorts, distributionSorts}) {
+            int j = 0;
+            for (Sort sort : sortsList) {
+                if (!didSortComeFromExtra(sort.getClass())) {
+                    sortsList.set(j++, sort);
+                }
+            }
+            sortsList.subList(j, sortsList.size()).clear();
+        }
+        EXTRA_SORTS.clear();
+    }
+
+    public void installOrUpdateExtraSorts(ProgressMonitor monitor) throws IOException {
         final File CACHE_DIR = EXTRA_SORTS_FILE.getParentFile();
         CACHE_DIR.mkdirs();
         final File DOWNLOAD_TEMP_FILE = File.createTempFile("avdownload-", ".zip", CACHE_DIR);
         DOWNLOAD_TEMP_FILE.deleteOnExit(); // Just a safeguard in case installOrUpdateExtraSorts fails, really
+        URLConnection connection = EXTRA_SORTS_DOWNLOAD.openConnection();
+        int progress = 0;
+        if (monitor != null) {
+            monitor.setMinimum(0);
+            final int contentLength = (int)connection.getContentLengthLong();
+            if (contentLength > 0) { // Negative if size unknown or overflow
+                monitor.setMaximum(contentLength * 2);
+            } else {
+                progress = -1;
+            }
+            monitor.setNote("Downloading...");
+            monitor.setProgress(0);
+        }
         try (
-            InputStream is = EXTRA_SORTS_DOWNLOAD.openStream();
+            InputStream is = connection.getInputStream();
             OutputStream os = new FileOutputStream(DOWNLOAD_TEMP_FILE);
         ) {
             byte[] buffer = new byte[8192];
             int len;
             while ((len = is.read(buffer)) != -1) {
+                if (monitor != null && progress != -1) {
+                    progress += len;
+                    monitor.setProgress(progress);
+                }
                 os.write(buffer, 0, len);
             }
         }
-        try (
-            ZipFile zf = new ZipFile(DOWNLOAD_TEMP_FILE);
-            InputStream is = zf.getInputStream(zf.getEntry(EXTRA_SORTS_JAR_NAME));
-            OutputStream os = new FileOutputStream(EXTRA_SORTS_FILE);
-        ) {
-            byte[] buffer = new byte[8192];
-            int len;
-            while ((len = is.read(buffer)) != -1) {
-                os.write(buffer, 0, len);
+        try (ZipFile zf = new ZipFile(DOWNLOAD_TEMP_FILE)) {
+            final ZipEntry EXTRA_SORTS_JAR_ENTRY = zf.getEntry(EXTRA_SORTS_JAR_NAME);
+            if (monitor != null) {
+                final int size = (int)EXTRA_SORTS_JAR_ENTRY.getSize();
+                if (size > 0) { // Negative if size unknown or overflow (extremely unlikely)
+                    if (progress == -1) {
+                        progress = 0;
+                    }
+                    monitor.setMaximum(progress + size);
+                }
+                monitor.setNote("Extracting...");
+            }
+            try (
+                InputStream is = zf.getInputStream(zf.getEntry(EXTRA_SORTS_JAR_NAME));
+                OutputStream os = new FileOutputStream(EXTRA_SORTS_FILE);
+            ) {
+                byte[] buffer = new byte[8192];
+                int len;
+                while ((len = is.read(buffer)) != -1) {
+                    if (monitor != null && progress != -1) {
+                        progress += len;
+                        monitor.setProgress(progress);
+                    }
+                    os.write(buffer, 0, len);
+                }
             }
         }
         DOWNLOAD_TEMP_FILE.delete(); // Might as well do it now

@@ -401,6 +401,14 @@ final public class UtilFrame extends javax.swing.JFrame {
         jButton1.setText("Choose Sort");
     }
 
+    public void jButton1Enable() {
+        jButton1.setEnabled(true);
+    }
+
+    public void jButton1Disable() {
+        jButton1.setEnabled(false);
+    }
+
     private void jButton2ActionPerformed() {//GEN-FIRST:event_jButton2ActionPerformed
         //CHANGE VIEW
         if (this.abstractFrame != null && abstractFrame.isVisible()){
