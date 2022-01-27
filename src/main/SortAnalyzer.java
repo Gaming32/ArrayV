@@ -84,14 +84,26 @@ public final class SortAnalyzer {
 
     private ArrayVisualizer arrayVisualizer;
 
-    public static class SortPair {
+    public static class SortInfo {
         public int id;
         public Class<?> sortClass;
         public String listName;
         public String category;
         public boolean usesComparisons;
 
-        public static String[] getListNames(SortPair[] sorts) {
+        public SortInfo(int id, Sort sort) {
+            this.id = id;
+            this.sortClass = sort.getClass();
+            this.listName = sort.getSortListName();
+            this.category = sort.getCategory();
+            this.usesComparisons = true;
+        }
+
+        public SortInfo(Sort sort) {
+            this(-1, sort);
+        }
+
+        public static String[] getListNames(SortInfo[] sorts) {
             String[] result = new String[sorts.length];
             for (int i = 0; i < sorts.length; i++) {
                 result[i] = sorts[i].listName;
@@ -99,7 +111,7 @@ public final class SortAnalyzer {
             return result;
         }
 
-        public static String[] getCategories(SortPair[] sorts) {
+        public static String[] getCategories(SortInfo[] sorts) {
             HashSet<String> result = new HashSet<>();
             for (int i = 0; i < sorts.length; i++) {
                 result.add(sorts[i].category);
@@ -527,34 +539,26 @@ public final class SortAnalyzer {
         return suggestions.toString();
     }
 
-    public SortPair[] getComparisonSorts() {
-        SortPair[] ComparisonSorts = new SortPair[comparisonSorts.size()];
+    public SortInfo[] getComparisonSorts() {
+        SortInfo[] ComparisonSorts = new SortInfo[comparisonSorts.size()];
 
         for (int i = 0; i < ComparisonSorts.length; i++) {
-            ComparisonSorts[i] = new SortPair();
-            ComparisonSorts[i].id = i;
-            ComparisonSorts[i].sortClass = comparisonSorts.get(i).getClass();
-            ComparisonSorts[i].listName = comparisonSorts.get(i).getSortListName();
-            ComparisonSorts[i].category = comparisonSorts.get(i).getCategory();
-            ComparisonSorts[i].usesComparisons = true;
+            ComparisonSorts[i] = new SortInfo(i, comparisonSorts.get(i));
         }
 
         return ComparisonSorts;
     }
-    public SortPair[] getDistributionSorts() {
-        SortPair[] DistributionSorts = new SortPair[distributionSorts.size()];
+
+    public SortInfo[] getDistributionSorts() {
+        SortInfo[] DistributionSorts = new SortInfo[distributionSorts.size()];
 
         for (int i = 0; i < DistributionSorts.length; i++) {
-            DistributionSorts[i] = new SortPair();
-            DistributionSorts[i].id = i;
-            DistributionSorts[i].sortClass = distributionSorts.get(i).getClass();
-            DistributionSorts[i].listName = distributionSorts.get(i).getSortListName();
-            DistributionSorts[i].category = distributionSorts.get(i).getCategory();
-            DistributionSorts[i].usesComparisons = false;
+            DistributionSorts[i] = new SortInfo(i, distributionSorts.get(i));
         }
 
         return DistributionSorts;
     }
+
     public String[] getInvalidSorts() {
         if (invalidSorts.size() < 1) {
             return null;

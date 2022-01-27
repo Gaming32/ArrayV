@@ -52,7 +52,7 @@ import dialogs.SaveArrayDialog;
 import frames.ArrayFrame;
 import frames.SoundFrame;
 import frames.UtilFrame;
-import main.SortAnalyzer.SortPair;
+import main.SortAnalyzer.SortInfo;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
 import utils.AntiQSort;
@@ -164,9 +164,9 @@ public final class ArrayVisualizer {
     final ArrayList<int[]> arrays;
     private final StatisticType[] statsConfig;
 
-    private SortPair[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
-    private SortPair[] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
-    private SortPair[] DistributionSorts; // Second row consists of user-friendly names
+    private SortInfo[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
+    private SortInfo[] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
+    private SortInfo[] DistributionSorts; // Second row consists of user-friendly names
     private String[] InvalidSorts;
     private String[] sortSuggestions;
 
@@ -502,11 +502,6 @@ public final class ArrayVisualizer {
         this.ArrayManager = new ArrayManager(this);
         this.SortAnalyzer = new SortAnalyzer(this);
 
-        // try {
-        //     SortAnalyzer.installOrUpdateExtraSorts();
-        // } catch (IOException e1) {
-        //     e1.printStackTrace();
-        // }
         this.SortAnalyzer.analyzeSorts();
         this.refreshSorts();
 
@@ -670,7 +665,7 @@ public final class ArrayVisualizer {
         this.InvalidSorts = this.SortAnalyzer.getInvalidSorts();
         this.sortSuggestions = this.SortAnalyzer.getSuggestions();
 
-        this.AllSorts = new SortPair[this.ComparisonSorts.length + this.DistributionSorts.length];
+        this.AllSorts = new SortInfo[this.ComparisonSorts.length + this.DistributionSorts.length];
         System.arraycopy(this.ComparisonSorts, 0, this.AllSorts, 0, this.ComparisonSorts.length);
         System.arraycopy(this.DistributionSorts, 0, this.AllSorts, this.ComparisonSorts.length, this.DistributionSorts.length);
     }
@@ -887,13 +882,13 @@ public final class ArrayVisualizer {
         return this.ArrayFrame;
     }
 
-    public SortPair[] getAllSorts() {
+    public SortInfo[] getAllSorts() {
         return this.AllSorts;
     }
-    public SortPair[] getComparisonSorts() {
+    public SortInfo[] getComparisonSorts() {
         return this.ComparisonSorts;
     }
-    public SortPair[] getDistributionSorts() {
+    public SortInfo[] getDistributionSorts() {
         return this.DistributionSorts;
     }
 

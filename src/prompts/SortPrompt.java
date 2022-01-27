@@ -23,7 +23,7 @@ import dialogs.ImportSortDialog;
 import frames.AppFrame;
 import frames.UtilFrame;
 import main.ArrayVisualizer;
-import main.SortAnalyzer.SortPair;
+import main.SortAnalyzer.SortInfo;
 import panes.JErrorPane;
 import threads.*;
 
@@ -164,7 +164,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jComboBox1.setModel(new DefaultComboBoxModel<>(SortPair.getCategories(ArrayVisualizer.getAllSorts())));
+        jComboBox1.setModel(new DefaultComboBoxModel<>(SortInfo.getCategories(ArrayVisualizer.getAllSorts())));
         jComboBox1.insertItemAt("All Sorts", 0);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -326,14 +326,14 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
         @SuppressWarnings("rawtypes")
         String sortName = (String)((JList)evt.getSource()).getSelectedValue();
-        SortPair sortNotFinal = new SortPair();
-        for (SortPair sort : ArrayVisualizer.getAllSorts()) {
+        SortInfo sortNotFinal = null;
+        for (SortInfo sort : ArrayVisualizer.getAllSorts()) {
             if (sort.listName.equals(sortName)) {
                 sortNotFinal = sort;
                 break;
             }
         }
-        final SortPair selection = sortNotFinal;
+        final SortInfo selection = sortNotFinal;
         new Thread("SortingThread") {
             @Override
             public void run() {
@@ -355,7 +355,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         int index = jComboBox1.getSelectedIndex();
         String category = (String)jComboBox1.getSelectedItem();
         ArrayList<String> sorts = new ArrayList<>();
-        for (SortPair sort : ArrayVisualizer.getAllSorts()) {
+        for (SortInfo sort : ArrayVisualizer.getAllSorts()) {
             if (index == 0 || sort.category.equals(category)) {
                 if (jTextField1.getText().length() > 0 &&
                     !sort.listName.toLowerCase().contains(jTextField1.getText().toLowerCase()))

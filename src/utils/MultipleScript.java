@@ -8,7 +8,7 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 import main.ArrayVisualizer;
-import main.SortAnalyzer.SortPair;
+import main.SortAnalyzer.SortInfo;
 import sorts.templates.Sort;
 import panes.JErrorPane;
 
@@ -93,8 +93,8 @@ final public class MultipleScript {
         populateSortTable(this.arrayVisualizer.getDistributionSorts(), sortNames);
     }
 
-    private void populateSortTable(SortPair[] array, Hashtable<String, Class<?>> table) {
-        for (SortPair sort : array) {
+    private void populateSortTable(SortInfo[] array, Hashtable<String, Class<?>> table) {
+        for (SortInfo sort : array) {
             Class<?> sortClass = sort.sortClass;
             Sort inst;
             try {
