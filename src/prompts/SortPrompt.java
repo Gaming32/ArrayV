@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ProgressMonitor;
@@ -275,16 +276,29 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 installProgress.setMillisToDecideToPopup(500);
                 installProgress.setMillisToPopup(500);
                 SortAnalyzer analyzer = ArrayVisualizer.getSortAnalyzer();
+                boolean success;
                 try {
                     analyzer.installOrUpdateExtraSorts(installProgress);
-                    analyzer.unloadAllExtraSorts();
-                    analyzer.analyzeSortsExtrasOnly();
-                    ArrayVisualizer.refreshSorts();
+                    success = true;
                 } catch (Exception e1) {
-                    JErrorPane.invokeErrorMessage(e1, "Install extra sorts pack");
+                    e1.printStackTrace();
+                    JErrorPane.invokeCustomErrorMessage("Failed to install: " + e1.getMessage());
+                    JErrorPane.invokeErrorMessage(e1, "Install Extra Sorts Pack");
+                    success = false;
                 }
                 installProgress.close();
                 UtilFrame.jButton1Enable();
+                if (success) {
+                    analyzer.unloadAllExtraSorts();
+                    analyzer.analyzeSortsExtrasOnly();
+                    ArrayVisualizer.refreshSorts();
+                    JOptionPane.showMessageDialog(
+                        ArrayVisualizer.getMainWindow(),
+                        "Successfully installed and loaded extra sorts pack!",
+                        "Install Extra Sorts Pack",
+                        JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
             }, "ExtraSortsInstall").start();
         });
         extraSortsManagementPanel.add(installExtraSortPackButton);

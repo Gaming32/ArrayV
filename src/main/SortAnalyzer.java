@@ -275,7 +275,7 @@ public final class SortAnalyzer {
         final File CACHE_DIR = EXTRA_SORTS_FILE.getParentFile();
         CACHE_DIR.mkdirs();
         final File DOWNLOAD_TEMP_FILE = File.createTempFile("avdownload-", ".zip", CACHE_DIR);
-        DOWNLOAD_TEMP_FILE.deleteOnExit(); // Just a safeguard in case installOrUpdateExtraSorts fails, really
+        DOWNLOAD_TEMP_FILE.deleteOnExit(); // Really just a safeguard in case installOrUpdateExtraSorts fails
         URLConnection connection = EXTRA_SORTS_DOWNLOAD.openConnection();
         int totalProgress = 0;
         int partProgress = 0;
