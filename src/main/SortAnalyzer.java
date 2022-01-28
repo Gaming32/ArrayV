@@ -277,22 +277,26 @@ public final class SortAnalyzer {
         final File DOWNLOAD_TEMP_FILE = File.createTempFile("avdownload-", ".zip", CACHE_DIR);
         DOWNLOAD_TEMP_FILE.deleteOnExit(); // Just a safeguard in case installOrUpdateExtraSorts fails, really
         URLConnection connection = EXTRA_SORTS_DOWNLOAD.openConnection();
-        int progress = 0;
+        int totalProgress = 0;
+        int partProgress = 0;
+        int partLength = 0;
         if (monitor != null) {
             monitor.setMinimum(0);
             final int contentLength = (int)connection.getContentLengthLong();
             if (contentLength > 0) { // Negative if size unknown or overflow
+                partLength = contentLength;
                 monitor.setMaximum(contentLength * 2);
             } else if (EXTRA_SORTS_FILE.isFile()) {
                 // We can estimate the download size from the previous file if this is an update
                 final int fileLength = (int)EXTRA_SORTS_FILE.length();
                 if (fileLength > 0) {
+                    partLength = fileLength;
                     monitor.setMaximum(fileLength * 2);
                 } else {
-                    progress = -1;
+                    partLength = -1;
                 }
             } else {
-                progress = -1;
+                partLength = -1;
             }
             monitor.setNote("Downloading...");
             monitor.setProgress(0);
@@ -304,9 +308,11 @@ public final class SortAnalyzer {
             byte[] buffer = new byte[8192];
             int len;
             while ((len = is.read(buffer)) != -1) {
-                if (monitor != null && progress != -1) {
-                    progress += len;
-                    monitor.setProgress(progress);
+                if (monitor != null && partLength != -1) {
+                    totalProgress += len;
+                    partProgress += len;
+                    monitor.setProgress(totalProgress);
+                    monitor.setNote("Downloading... (" + partProgress / 1024 + " KB/" + partLength / 1024 + " KB)");
                 }
                 os.write(buffer, 0, len);
             }
@@ -316,11 +322,12 @@ public final class SortAnalyzer {
             if (monitor != null) {
                 final int size = (int)EXTRA_SORTS_JAR_ENTRY.getSize();
                 if (size > 0) { // Negative if size unknown or overflow (extremely unlikely)
-                    if (progress == -1) {
-                        progress = 0;
-                    }
-                    monitor.setMaximum(progress + size);
+                    partLength = size;
+                    monitor.setMaximum(totalProgress + size);
+                } else {
+                    partLength = -1;
                 }
+                partProgress = 0;
                 monitor.setNote("Extracting...");
             }
             try (
@@ -330,9 +337,11 @@ public final class SortAnalyzer {
                 byte[] buffer = new byte[8192];
                 int len;
                 while ((len = is.read(buffer)) != -1) {
-                    if (monitor != null && progress != -1) {
-                        progress += len;
-                        monitor.setProgress(progress);
+                    if (monitor != null && partLength != -1) {
+                        totalProgress += len;
+                        partProgress += len;
+                        monitor.setProgress(totalProgress);
+                        monitor.setNote("Extracting... (" + partProgress / 1024 + " KB/" + partLength / 1024 + " KB)");
                     }
                     os.write(buffer, 0, len);
                 }
