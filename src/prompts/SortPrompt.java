@@ -283,6 +283,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 } catch (Exception e1) {
                     JErrorPane.invokeErrorMessage(e1, "Install extra sorts pack");
                 }
+                installProgress.close();
                 UtilFrame.jButton1Enable();
             }, "ExtraSortsInstall").start();
         });

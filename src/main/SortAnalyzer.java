@@ -283,6 +283,14 @@ public final class SortAnalyzer {
             final int contentLength = (int)connection.getContentLengthLong();
             if (contentLength > 0) { // Negative if size unknown or overflow
                 monitor.setMaximum(contentLength * 2);
+            } else if (EXTRA_SORTS_FILE.isFile()) {
+                // We can estimate the download size from the previous file if this is an update
+                final int fileLength = (int)EXTRA_SORTS_FILE.length();
+                if (fileLength > 0) {
+                    monitor.setMaximum(fileLength * 2);
+                } else {
+                    progress = -1;
+                }
             } else {
                 progress = -1;
             }
@@ -316,7 +324,7 @@ public final class SortAnalyzer {
                 monitor.setNote("Extracting...");
             }
             try (
-                InputStream is = zf.getInputStream(zf.getEntry(EXTRA_SORTS_JAR_NAME));
+                InputStream is = zf.getInputStream(EXTRA_SORTS_JAR_ENTRY);
                 OutputStream os = new FileOutputStream(EXTRA_SORTS_FILE);
             ) {
                 byte[] buffer = new byte[8192];
