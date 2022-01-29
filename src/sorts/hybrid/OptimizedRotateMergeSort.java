@@ -25,7 +25,7 @@ final public class OptimizedRotateMergeSort extends Sort {
     }
 
     protected void rotateInPlace(int[] array, int pos, int lenA, int lenB) {
-        if(lenA < 1 || lenB < 1) return;
+        if (lenA < 1 || lenB < 1) return;
 
         int a = pos,
             b = pos + lenA - 1,
@@ -59,14 +59,14 @@ final public class OptimizedRotateMergeSort extends Sort {
     }
 
     protected void rotate(int[] array, int pos, int left, int right) {
-        if(left < 1 || right < 1) return;
+        if (left < 1 || right < 1) return;
 
         int pta = pos, ptb = pos + left, ptc = pos + right, ptd = ptb + right;
 
-        if(left < right) {
+        if (left < right) {
             int bridge = right - left;
 
-            if(bridge < left) {
+            if (bridge < left) {
                 int loop = left;
 
                 if (bridge > tmp.length) {
@@ -76,13 +76,12 @@ final public class OptimizedRotateMergeSort extends Sort {
 
                 Writes.arraycopy(array, ptb, tmp, 0, bridge, 1, true, true);
 
-                while(loop-- > 0) {
+                while (loop-- > 0) {
                     Writes.write(array, --ptc, array[--ptd], 0.5, true, false);
                     Writes.write(array,   ptd, array[--ptb], 0.5, true, false);
                 }
                 Writes.arraycopy(tmp, 0, array, pta, bridge, 1, true, false);
-            }
-            else {
+            } else {
                 if (left > tmp.length) {
                     rotateInPlace(array, pos, left, right);
                     return;
@@ -92,11 +91,10 @@ final public class OptimizedRotateMergeSort extends Sort {
                 Writes.arraycopy(array, ptb, array, pta, right, 1, true, false);
                 Writes.arraycopy(tmp, 0, array, ptc, left, 1, true, false);
             }
-        }
-        else if(right < left) {
+        } else if(right < left) {
             int bridge = left - right;
 
-            if(bridge < right) {
+            if (bridge < right) {
                 if (bridge > tmp.length) {
                     rotateInPlace(array, pos, left, right);
                     return;
@@ -111,21 +109,20 @@ final public class OptimizedRotateMergeSort extends Sort {
                     Writes.write(array, pta++, array[ptb++], 0.5, true, false);
                 }
                 Writes.arraycopy(tmp, 0, array, ptd - bridge, bridge, 1, true, false);
-            }
-            else {
+            } else {
                 if (right > tmp.length) {
                     rotateInPlace(array, pos, left, right);
                     return;
                 }
 
                 Writes.arraycopy(array, ptb, tmp, 0, right, 1, true, true);
-                while(left-- > 0)
+                while (left-- > 0)
                     Writes.write(array, --ptd, array[--ptb], 1, true, false);
                 Writes.arraycopy(tmp, 0, array, pta, right, 1, true, false);
             }
         }
         else {
-            while(left-- > 0)
+            while (left-- > 0)
                 Writes.swap(array, pta++, ptb++, 1, true, false);
             Highlights.clearMark(2);
         }
@@ -221,14 +218,14 @@ final public class OptimizedRotateMergeSort extends Sort {
 
     private int leftExpSearch(int[] array, int a, int b, int val) {
         int i = 1;
-        while(a - 1 + i < b && Reads.compareValueIndex(array, val, a - 1 + i, 0.5, true) >= 0) i *= 2;
+        while (a - 1 + i < b && Reads.compareValueIndex(array, val, a - 1 + i, 0.5, true) >= 0) i *= 2;
 
         return this.monoboundRight(array, a + i / 2, Math.min(b, a - 1 + i), val);
     }
 
     private int rightExpSearch(int[] array, int a, int b, int val) {
         int i = 1;
-        while(b - i >= a && Reads.compareValueIndex(array, val, b - i, 0.5, true) <= 0) i *= 2;
+        while (b - i >= a && Reads.compareValueIndex(array, val, b - i, 0.5, true) <= 0) i *= 2;
 
         return this.monoboundLeft(array, Math.max(a, b - i + 1), b - i / 2, val);
     }
@@ -268,15 +265,15 @@ final public class OptimizedRotateMergeSort extends Sort {
 
     public void insertionSort(int[] array, int a, int b, double sleep, boolean auxwrite) {
         int i = a + 1;
-        if(Reads.compareIndices(array, i - 1, i++, sleep, true) == 1) {
-            while(i < b && Reads.compareIndices(array, i - 1, i, sleep, true) == 1) i++;
+        if (Reads.compareIndices(array, i - 1, i++, sleep, true) == 1) {
+            while (i < b && Reads.compareIndices(array, i - 1, i, sleep, true) == 1) i++;
             Writes.reversal(array, a, i - 1, sleep, true, auxwrite);
         }
-        else while(i < b && Reads.compareIndices(array, i - 1, i, sleep, true) <= 0) i++;
+        else while (i < b && Reads.compareIndices(array, i - 1, i, sleep, true) <= 0) i++;
 
         Highlights.clearMark(2);
 
-        while(i < b) {
+        while (i < b) {
             int dest = monoboundRight(array, a, i, array[i]);
             int tmp = array[i];
             Writes.arraycopy(array, dest, array, dest + 1, i - dest, 0.5, true, false);
