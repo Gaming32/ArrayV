@@ -287,17 +287,19 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
                     success = false;
                 }
                 installProgress.close();
-                UtilFrame.jButton1Enable();
                 if (success) {
                     analyzer.unloadAllExtraSorts();
                     analyzer.analyzeSortsExtrasOnly();
                     ArrayVisualizer.refreshSorts();
+                    UtilFrame.jButton1Enable();
                     JOptionPane.showMessageDialog(
                         ArrayVisualizer.getMainWindow(),
                         "Successfully installed and loaded extra sorts pack!",
                         "Install Extra Sorts Pack",
                         JOptionPane.INFORMATION_MESSAGE
                     );
+                } else {
+                    UtilFrame.jButton1Enable();
                 }
             }, "ExtraSortsInstall").start();
         });

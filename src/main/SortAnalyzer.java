@@ -16,6 +16,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -227,10 +228,31 @@ public final class SortAnalyzer {
 
     public void analyzeSortsExtrasOnly() {
         if (!extraSortsInstalled()) return;
-        analyzeSorts(
-            classGraph(true)
-                .whitelistJars(EXTRA_SORTS_FILE.getName())
-        );
+        // analyzeSorts(
+        //     classGraph(true)
+        //         .whitelistJars(EXTRA_SORTS_FILE.getName())
+        // );
+        // Custom sort analysis so sorts don't get duplicated
+        try {
+            try (ZipFile zf = new ZipFile(EXTRA_SORTS_FILE)) {
+                for (final Enumeration<? extends ZipEntry> en = zf.entries(); en.hasMoreElements();) {
+                    ZipEntry entry = en.nextElement();
+                    if (entry.isDirectory()) continue;
+                    String name = entry.getName();
+                    if (!name.endsWith(".class")) continue;
+                    String nameNoExt = name.substring(0, name.length() - 6);
+                    if (!nameNoExt.startsWith("sorts") && !nameNoExt.startsWith("io/github/arrayv/sorts")) continue;
+                    if (nameNoExt.contains("$")) continue;
+                    String className = nameNoExt.replace('/', '.');
+                    this.compileSingle(className, EXTRA_SORTS_CLASS_LOADER);
+                }
+            }
+        } catch (Exception e) {
+            if (e instanceof RuntimeException) {
+                throw (RuntimeException)e; // rethrow
+            }
+            throw new RuntimeException(e);
+        }
     }
 
     public void analyzeSorts(ClassGraph classGraph) {
