@@ -147,6 +147,43 @@ public abstract class Sort {
     public int validateAnswer(int answer) {
         return answer;
     }
-
+    
+    // Convenience functions
+    protected void initNames(String name, String cat) {
+        String displayName = name + " Sort";
+        this.setSortListName(name);
+        this.setRunAllSortsName(displayName);
+        this.setRunSortName(displayName);
+        this.setCategory(cat + " Sorts");
+    }
+    protected void setSlow(int slow) {
+        this.setUnreasonablySlow(slow > 0);
+        this.setUnreasonableLimit(slow);
+    }
+    protected void setNotSlow() {
+        setSlow(0);
+    }
+    protected void initCompBased(int slow) {
+        this.setComparisonBased(true);
+        this.setSlow(slow);
+    }
+    protected void initCompBased() {
+        this.initCompBased(0);
+    }
+    protected void initRadixSort(int slow) {
+        this.setRadixSort(true);
+        this.initBucketSort(slow);
+    }
+    protected void initRadixSort() {
+        this.initRadixSort(0);
+    }
+    protected void initBucketSort(int slow) {
+        this.setBucketSort(true);
+        this.setSlow(slow);
+    }
+    protected void initBucketSort() {
+        this.initBucketSort(0);
+    }
+    
     public abstract void runSort(int[] array, int sortLength, int bucketCount) throws Exception; //bucketCount will be zero for comparison-based sorts
 }
