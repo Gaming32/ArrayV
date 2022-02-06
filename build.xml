@@ -30,7 +30,7 @@
                 <length string="${git.revision}" trim="yes" length="0" when="greater"/>
             </and>
         </condition>
-        <copy file="buildInfo.properties.template" tofile="src/buildInfo.properties" overwrite="yes">
+        <copy file="buildInfo.properties.template" tofile="src/main/resources/buildInfo.properties" overwrite="yes">
             <filterchain>
                 <replacetokens>
                     <token key="git.sha" value="${git.sha}" />
@@ -41,10 +41,7 @@
     <target depends="init,git-sha" name="build" description="Builds ArrayV into the bin directory">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <copy includeemptydirs="false" todir="bin">
-            <fileset dir="src">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
+            <fileset dir="src/main/resources"/>
         </copy>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>

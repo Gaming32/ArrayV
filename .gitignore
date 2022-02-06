@@ -6,4 +6,4 @@ cache
 antiqsort_*
 network_*.svg
 sorting_networks
-src/buildInfo.properties
+src/main/resources/buildInfo.properties
