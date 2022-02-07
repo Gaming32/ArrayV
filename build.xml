@@ -30,7 +30,7 @@
                 <length string="${git.revision}" trim="yes" length="0" when="greater"/>
             </and>
         </condition>
-        <copy file="buildInfo.properties.template" tofile="src/main/resources/buildInfo.properties" overwrite="yes">
+        <copy file="buildInfo.properties.template" tofile="bin/buildInfo.properties" overwrite="yes">
             <filterchain>
                 <replacetokens>
                     <token key="git.sha" value="${git.sha}" />
@@ -39,17 +39,27 @@
         </copy>
     </target>
     <target depends="init,git-sha" name="build" description="Builds ArrayV into the bin directory">
-        <echo message="${ant.project.name}: ${ant.file}"/>
+        <echo level="info" message="${ant.project.name}: ${ant.file}"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src/main/resources"/>
         </copy>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
+            <src path="src/main/java"/>
             <classpath refid="ArrayVisualizer-master.classpath"/>
         </javac>
         <copy todir="bin">
             <fileset dir="." includes="stats-config.txt"/>
         </copy>
+        <fail message="Files in src/ found outside of src/main/java/ and src/main/resources/">
+            <condition>
+                <resourcecount when="greater" count="0">
+                    <fileset dir="src">
+                        <exclude name="main/java/"/>
+                        <exclude name="main/resources/"/>
+                    </fileset>
+                </resourcecount>
+            </condition>
+        </fail>
     </target>
     <target depends="build" name="dist-jar" description="Creates an executable JAR file in the dist directory">
         <jar destfile="dist/arrayVisualizer.jar">
