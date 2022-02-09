@@ -147,14 +147,13 @@ public abstract class Sort {
     public int validateAnswer(int answer) {
         return answer;
     }
-    
+
     // Convenience functions
-    protected void initNames(String name, String cat) {
-        String displayName = name + " Sort";
+    protected void initNames(String name, String category) {
         this.setSortListName(name);
-        this.setRunAllSortsName(displayName);
-        this.setRunSortName(displayName);
-        this.setCategory(cat + " Sorts");
+        this.setRunAllSortsName(name + " Sort");
+        this.setRunSortName(name + "sort");
+        this.setCategory(category + " Sorts");
     }
     protected void setSlow(int slow) {
         this.setUnreasonablySlow(slow > 0);
@@ -184,6 +183,6 @@ public abstract class Sort {
     protected void initBucketSort() {
         this.initBucketSort(0);
     }
-    
+
     public abstract void runSort(int[] array, int sortLength, int bucketCount) throws Exception; //bucketCount will be zero for comparison-based sorts
 }
