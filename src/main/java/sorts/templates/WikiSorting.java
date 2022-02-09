@@ -461,11 +461,11 @@ final public class WikiSorting {
             but WikiSort almost always uses subarrays that are roughly the same size)
 
             normally this is incredibly suboptimal, but this function is only called
-            when none of the A or B blocks in any subarray contained 2√A unique values,
+            when none of the A or B blocks in any subarray contained 2 sqrt(A) unique values,
             which places a hard limit on the number of times this will ACTUALLY need
             to binary search and rotate.
 
-            according to my analysis the worst case is √A rotations performed on √A items
+            according to my analysis the worst case is sqrt(A) rotations performed on sqrt(A) items
             once the constant factors are removed, which ends up being O(n)
 
             again, this is NOT a general-purpose solution – it only works well in this case!
@@ -682,7 +682,7 @@ final public class WikiSorting {
                 }
             } else {
                 // this is where the in-place merge logic starts!
-                // 1. pull out two internal buffers each containing √A unique values
+                // 1. pull out two internal buffers each containing sqrt(A) unique values
                 //     1a. adjust block_size and buffer_size if we couldn't find enough unique values
                 // 2. loop over the A and B subarrays within this level of the merge sort
                 //     3. break A and B into blocks of size 'block_size'
@@ -718,11 +718,11 @@ final public class WikiSorting {
                     find_separately = true;
                 }
 
-                // we need to find either a single contiguous space containing 2√A unique values (which will be split up into two buffers of size √A each),
-                // or we need to find one buffer of < 2√A unique values, and a second buffer of √A unique values,
+                // we need to find either a single contiguous space containing 2 sqrt(A) unique values (which will be split up into two buffers of size sqrt(A) each),
+                // or we need to find one buffer of < 2 sqrt(A) unique values, and a second buffer of sqrt(A) unique values,
                 // OR if we couldn't find that many unique values, we need the largest possible buffer we can get
 
-                // in the case where it couldn't find a single buffer of at least √A unique values,
+                // in the case where it couldn't find a single buffer of at least sqrt(A) unique values,
                 // all of the Merge steps must be replaced by a different merge algorithm (MergeInPlace)
 
                 iterator.begin();
@@ -747,14 +747,14 @@ final public class WikiSorting {
                         pull_index = 1;
 
                         if (count == buffer_size + buffer_size) {
-                            // we were able to find a single contiguous section containing 2√A unique values,
+                            // we were able to find a single contiguous section containing 2 sqrt(A) unique values,
                             // so this section can be used to contain both of the internal buffers we'll need
                             buffer1.set(A.start, A.start + buffer_size);
                             buffer2.set(A.start + buffer_size, A.start + count);
                             break;
                         } else if (find == buffer_size + buffer_size) {
-                            // we found a buffer that contains at least √A unique values, but did not contain the full 2√A unique values,
-                            // so we still need to find a second separate buffer of at least √A unique values
+                            // we found a buffer that contains at least sqrt(A) unique values, but did not contain the full 2 sqrt(A) unique values,
+                            // so we still need to find a second separate buffer of at least sqrt(A) unique values
                             buffer1.set(A.start, A.start + count);
                             find = buffer_size;
                         } else if (block_size <= cache_size) {
@@ -766,7 +766,7 @@ final public class WikiSorting {
                             buffer1 = new Range(A.start, A.start + count);
                             find_separately = false;
                         } else {
-                            // we found a second buffer in an 'A' subarray containing √A unique values, so we're done!
+                            // we found a second buffer in an 'A' subarray containing sqrt(A) unique values, so we're done!
                             buffer2.set(A.start, A.start + count);
                             break;
                         }
@@ -797,14 +797,14 @@ final public class WikiSorting {
                         pull_index = 1;
 
                         if (count == buffer_size + buffer_size) {
-                            // we were able to find a single contiguous section containing 2√A unique values,
+                            // we were able to find a single contiguous section containing 2 sqrt(A) unique values,
                             // so this section can be used to contain both of the internal buffers we'll need
                             buffer1.set(B.end - count, B.end - buffer_size);
                             buffer2.set(B.end - buffer_size, B.end);
                             break;
                         } else if (find == buffer_size + buffer_size) {
-                            // we found a buffer that contains at least √A unique values, but did not contain the full 2√A unique values,
-                            // so we still need to find a second separate buffer of at least √A unique values
+                            // we found a buffer that contains at least sqrt(A) unique values, but did not contain the full 2sqrt(A) unique values,
+                            // so we still need to find a second separate buffer of at least sqrt(A) unique values
                             buffer1.set(B.end - count, B.end);
                             find = buffer_size;
                         } else if (block_size <= cache_size) {
@@ -820,7 +820,7 @@ final public class WikiSorting {
                             // we need to adjust the end point for that A subarray so it knows to stop redistributing its values before reaching buffer2
                             if (pull[0].range.start == A.start) pull[0].range.end -= pull[1].count;
 
-                            // we found a second buffer in an 'B' subarray containing √A unique values, so we're done!
+                            // we found a second buffer in an 'B' subarray containing sqrt(A) unique values, so we're done!
                             buffer2.set(B.end - count, B.end);
                             break;
                         }
@@ -881,7 +881,7 @@ final public class WikiSorting {
                             A.start += pull[0].count;
 
                             // if the internal buffer takes up the entire A or B subarray, then there's nothing to merge
-                            // this only happens for very small subarrays, like √4 = 2, 2 * (2 internal buffers) = 4,
+                            // this only happens for very small subarrays, like sqrt(4) = 2, 2 * (2 internal buffers) = 4,
                             // which also only happens when cache_size is small or 0 since it'd otherwise use MergeExternal
                             if (A.length() == 0) continue;
                         } else if (pull[0].from < pull[0].to) {
