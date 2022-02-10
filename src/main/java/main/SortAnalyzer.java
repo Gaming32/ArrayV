@@ -107,7 +107,7 @@ public final class SortAnalyzer {
             this.sortClass = sort.getClass();
             this.listName = sort.getSortListName();
             this.category = sort.getCategory();
-            this.usesComparisons = true;
+            this.usesComparisons = sort.isComparisonBased();
         }
 
         public SortInfo(Sort sort) {
