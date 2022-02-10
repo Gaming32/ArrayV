@@ -226,7 +226,7 @@ final public class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     private void jButton1ActionPerformed() {//GEN-FIRST:event_jList1ValueChanged
         UtilFrame.jButton6ResetText();
         dispose();
-        new ShuffleDialog(ArrayManager, this, UtilFrame);
+        new ShuffleDialog(ArrayManager, this);
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged

@@ -32,14 +32,10 @@ SOFTWARE.
  */
 
 final public class Delays {
-    private ArrayVisualizer arrayVisualizer;
-
     private volatile double SLEEPRATIO;
     private volatile boolean SKIPPED;
 
-    private double addamt;
     private double delay;
-    private double nanos;
 
     private volatile double currentDelay;
     private volatile boolean paused;
@@ -49,11 +45,8 @@ final public class Delays {
     private Sounds Sounds;
 
     public Delays(ArrayVisualizer arrayVisualizer) {
-        this.arrayVisualizer = arrayVisualizer;
-
         this.SLEEPRATIO = 1.0;
         this.SKIPPED = false;
-        this.addamt = 0;
 
         this.formatter = arrayVisualizer.getNumberFormat();
         this.Sounds = arrayVisualizer.getSounds();
@@ -89,7 +82,6 @@ final public class Delays {
         this.delay = (this.delay * oldRatio) / newRatio;
         this.currentDelay = this.delay;
         this.Sounds.changeNoteDelayAndFilter((int) this.currentDelay);
-        this.addamt = 0;
 
         if (this.currentDelay < 0) {
             this.delay = this.currentDelay = 0;

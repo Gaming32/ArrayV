@@ -393,6 +393,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
             this.size = toIndex - fromIndex;
         }
 
+        @SuppressWarnings("unused")
         public Integer set(int index, int e) {
             rangeCheck(index);
             int oldValue = ArrayVList.this.internal[offset + index];
@@ -409,6 +410,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
             return this.size;
         }
 
+        @SuppressWarnings("unused")
         public void add(int index, int e) {
             rangeCheckForAdd(index);
             parent.add(parentOffset + index, e);

@@ -21,7 +21,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import frames.AppFrame;
-import frames.UtilFrame;
 import main.ArrayManager;
 import panels.ShufflePanel;
 import panes.JErrorPane;
@@ -72,8 +71,6 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
     private static final long serialVersionUID = 1L;
 
     private ArrayManager ArrayManager;
-    private JFrame Frame;
-    private UtilFrame UtilFrame;
     private List<Distributions> distributions;
     private static boolean perShuffleDelay = false;
 
@@ -83,12 +80,10 @@ final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame
      * Creates new form SortPrompt
      */
     @SuppressWarnings("unchecked")
-    public ShuffleDialog(ArrayManager ArrayManager, JFrame frame, UtilFrame utilFrame) {
+    public ShuffleDialog(ArrayManager ArrayManager, JFrame frame) {
         super(frame, "ArrayV Advanced Shuffle Editor", true);
 
         this.ArrayManager = ArrayManager;
-        this.Frame = frame;
-        this.UtilFrame = utilFrame;
 
         initComponents();
 
