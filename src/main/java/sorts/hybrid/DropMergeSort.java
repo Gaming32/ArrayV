@@ -1,13 +1,9 @@
 package sorts.hybrid;
 
-import sorts.templates.Sort;
-import utils.ArrayVList;
-import main.ArrayVisualizer;
-
-import sorts.hybrid.PDQBranchedSort;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import main.ArrayVisualizer;
+import sorts.templates.Sort;
 
 /*
  *

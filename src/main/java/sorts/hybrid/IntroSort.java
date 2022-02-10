@@ -5,9 +5,9 @@ import sorts.insert.InsertionSort;
 import sorts.select.MaxHeapSort;
 import sorts.templates.Sort;
 
-// original Copyright Ralph Unden, 
+// original Copyright Ralph Unden,
 // http://ralphunden.net/content/tutorials/a-guide-to-introsort/?q=a-guide-to-introsort
-// Modifications: Bernhard Pfahringer 
+// Modifications: Bernhard Pfahringer
 // changes include: local insertion sort, no global array
 
 final public class IntroSort extends Sort {
@@ -15,10 +15,10 @@ final public class IntroSort extends Sort {
 
     private int middle;
     private int sizeThreshold = 16;
-    
+
     public IntroSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Intro");
         //this.setRunAllID("Introspective Sort (std::sort)");
         this.setRunAllSortsName("Introspective Sort");
@@ -35,9 +35,10 @@ final public class IntroSort extends Sort {
     private static int floorLogBaseTwo(int a) {
         return (int) (Math.floor(Math.log(a) / Math.log(2)));
     }
-    
+
     // Swaps the median of arr[left], arr[mid], and arr[right] to index left.
     // taken from gcc source code found here: https://gcc.gnu.org/onlinedocs/gcc-4.7.2/libstdc++/api/a01462_source.html
+    @SuppressWarnings("unused")
     private int gccmedianof3(int[] arr, int left, int mid, int right) {
         if (Reads.compareValues(arr[left], arr[mid]) < 0) {
             if (Reads.compareValues(arr[mid], arr[right]) < 0) {
@@ -62,10 +63,10 @@ final public class IntroSort extends Sort {
         Highlights.markArray(3, left);
         return arr[left];
     }
-    
+
     private int medianof3(int[] arr, int left, int mid, int right) {
         if(Reads.compareValues(arr[right], arr[left]) == -1) {
-            Writes.swap(arr, left, right, 1, true, false); 
+            Writes.swap(arr, left, right, 1, true, false);
         }
         if(Reads.compareValues(arr[mid], arr[left]) == -1) {
             Writes.swap(arr, mid, left, 1, true, false);
@@ -77,7 +78,7 @@ final public class IntroSort extends Sort {
         Highlights.markArray(3, mid);
         return arr[mid];
     }
-    
+
     private int partition(int[] a, int lo, int hi, int x) {
         int i = lo, j = hi;
         while (true) {
@@ -113,7 +114,7 @@ final public class IntroSort extends Sort {
             i++;
         }
     }
-    
+
     private void introsortLoop (int[] a, int lo, int hi, int depthLimit) {
         while (hi - lo > sizeThreshold) {
             if (depthLimit == 0) {
@@ -128,7 +129,7 @@ final public class IntroSort extends Sort {
         }
         return;
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         heapSorter = new MaxHeapSort(this.arrayVisualizer);

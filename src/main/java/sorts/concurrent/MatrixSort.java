@@ -9,12 +9,11 @@ Idea made by Control#2866 in The Studio Discord Server (https://discord.com/invi
 
 final public class MatrixSort extends Sort {
     private class MatrixShape {
-        int width, height;
+        int width;
         boolean unbalanced, insertLast;
 
         public MatrixShape(int width, int height, boolean insertLast) {
             this.width = width;
-            this.height = height;
             this.unbalanced = (width == 1) ^ (height == 1);
             this.insertLast = this.unbalanced || insertLast;
         }
@@ -22,7 +21,7 @@ final public class MatrixSort extends Sort {
 
     public MatrixSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Matrix");
         this.setRunAllSortsName("Matrix Sort");
         this.setRunSortName("Matrix Sort");
@@ -35,14 +34,9 @@ final public class MatrixSort extends Sort {
         this.setBogoSort(false);
     }
 
-    private int dirCompare(int[] array, int left, int right, boolean dir) {
-        int res = Reads.compareIndices(array, left, right, 0.5, true);
-        return dir ? res : (res * -1);
-    }
-
     private void gapReverse(int[] array, int start, int end, int gap) {
         Writes.changeReversals(1);
-        
+
         for (int i = start, j = end; i < j; i += gap, j -= gap) {
             Writes.swap(array, i, j - gap, 0.5, true, false);
         }
@@ -59,7 +53,7 @@ final public class MatrixSort extends Sort {
         boolean did = false;
         int key = array[b];
         int j = b - gap;
-        
+
         while (j >= a && dirCompareVal(key, array[j], dir) < 0) {
             Writes.write(array, j + gap, array[j], 0.5, true, false);
             did = true;

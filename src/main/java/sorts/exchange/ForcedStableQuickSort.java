@@ -1,12 +1,10 @@
 package sorts.exchange;
 
-import java.util.ArrayList;
-
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 aphitorite
@@ -34,7 +32,7 @@ SOFTWARE.
 final public class ForcedStableQuickSort extends Sort {
     public ForcedStableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Forced Stable Quick");
         this.setRunAllSortsName("Forced Stable Quick Sort");
         this.setRunSortName("Forced Stable Quicksort");
@@ -46,73 +44,73 @@ final public class ForcedStableQuickSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
 	private void medianOfThree(int[] array, int[] key, int a, int b) {
 		int m = a+(b-1-a)/2;
-		
+
 		if(this.stableComp(array, key, a, m))
 			this.stableSwap(array, key, a, m);
-		
+
 		if(this.stableComp(array, key, m, b-1)) {
 			this.stableSwap(array, key, m, b-1);
-			
+
 			if(this.stableComp(array, key, a, m))
 				return;
 		}
-		
+
 		this.stableSwap(array, key, a, m);
 	}
-	
+
 	private boolean stableComp(int[] array, int[] key, int a, int b) {
 		int comp = Reads.compareIndices(array, a, b, 0.5, true);
-		
+
 		return comp > 0 || (comp == 0 && Reads.compareOriginalIndices(key, a, b, 0.5, false) > 0);
 	}
-	
+
 	private void stableSwap(int[] array, int[] key, int a, int b) {
 		Writes.swap(array, a, b, 0, true, false);
 		Writes.swap(key,   a, b, 1, false, true);
 	}
-	
+
 	private int partition(int[] array, int[] key, int a, int b, int p) {
         int i = a - 1, j = b;
 		Highlights.markArray(3, p);
-		
+
         while(true) {
 			do i++;
             while(i < j && !this.stableComp(array, key, i, p));
-			
+
 			do j--;
 			while(j >= i && this.stableComp(array, key, j, p));
-			
+
             if(i < j) this.stableSwap(array, key, i, j);
             else      return j;
         }
     }
-	
+
 	private void quickSort(int[] array, int[] key, int a, int b) {
 		if(b-a < 3) {
 			if(b-a == 2 && this.stableComp(array, key, a, a+1))
 				this.stableSwap(array, key, a, a+1);
 			return;
 		}
-		
+
 		this.medianOfThree(array, key, a, b);
 		int p = this.partition(array, key, a+1, b, a);
 		this.stableSwap(array, key, a, p);
-		
+
 		this.quickSort(array, key, a, p);
 		this.quickSort(array, key, p+1, b);
 	}
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		int[] key = Writes.createExternalArray(length);
 		for(int i = 0; i < length; i++)
 			Writes.write(key, i, i, 0.5, true, true);
-		
+
 		this.quickSort(array, key, 0, length);
-		
+
 		Writes.deleteExternalArray(key);
     }
 }
