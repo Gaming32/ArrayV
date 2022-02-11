@@ -408,7 +408,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         String sortName = (String)((JList)evt.getSource()).getSelectedValue();
         SortInfo sortNotFinal = null;
         for (SortInfo sort : ArrayVisualizer.getAllSorts()) {
-            if (sort.listName.equals(sortName)) {
+            if (sort.getListName().equals(sortName)) {
                 sortNotFinal = sort;
                 break;
             }
@@ -417,12 +417,12 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         new Thread("SortingThread") {
             @Override
             public void run() {
-                if (selection.usesComparisons) {
+                if (selection.usesComparisons()) {
                     RunComparisonSort sortThread = new RunComparisonSort(ArrayVisualizer);
-                    sortThread.ReportComparativeSort(array, selection.id);
+                    sortThread.ReportComparativeSort(array, selection.getId());
                 } else {
                     RunDistributionSort sortThread = new RunDistributionSort(ArrayVisualizer);
-                    sortThread.ReportDistributionSort(array, selection.id);
+                    sortThread.ReportDistributionSort(array, selection.getId());
                 }
             }
         }.start();
@@ -435,14 +435,13 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         int index = jComboBox1.getSelectedIndex();
         String category = (String)jComboBox1.getSelectedItem();
         ArrayList<String> sorts = new ArrayList<>();
-        SortAnalyzer analyzer = ArrayVisualizer.getSortAnalyzer();
         String searchTerms = jTextField1.getText().toLowerCase();
         boolean isSearching = !searchTerms.isEmpty();
         for (SortInfo sort : ArrayVisualizer.getAllSorts()) {
-            if (index == 0 || sort.category.equals(category)) {
-                if (!showExtraSorts && analyzer.didSortComeFromExtra(sort.sortClass)) continue;
-                if (isSearching && !sort.listName.toLowerCase().contains(searchTerms)) continue;
-                sorts.add(sort.listName);
+            if (index == 0 || sort.getCategory().equals(category)) {
+                if (!showExtraSorts && sort.isFromExtra()) continue;
+                if (isSearching && !sort.getListName().toLowerCase().contains(searchTerms)) continue;
+                sorts.add(sort.getListName());
             }
         }
         jList1.setListData(sorts.toArray());

@@ -20,6 +20,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.StreamSupport;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -39,6 +40,7 @@ import io.github.classgraph.ScanResult;
 import panes.JErrorPane;
 import sorts.templates.Sort;
 import sorts.templates.SortComparator;
+import utils.NewSortInstance;
 
 /*
  *
@@ -96,22 +98,78 @@ public final class SortAnalyzer {
     private ArrayVisualizer arrayVisualizer;
 
     public static class SortInfo {
-        public int id;
-        public Class<?> sortClass;
-        public String listName;
-        public String category;
-        public boolean usesComparisons;
+        private final int id;
+        private final Class<? extends Sort> sortClass;
+        private final Supplier<? extends Sort> instanceSupplier;
+        private final String listName;
+        private final String runName;
+        private final String runAllName;
+        private final String category;
+        private final boolean usesComparisons;
+        private final boolean slowSort;
 
         public SortInfo(int id, Sort sort) {
             this.id = id;
             this.sortClass = sort.getClass();
+            try {
+                this.instanceSupplier = new NewSortInstance(sortClass);
+            } catch (NoSuchMethodException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
             this.listName = sort.getSortListName();
+            this.runName = sort.getRunSortName();
+            this.runAllName = sort.getRunAllSortsName();
             this.category = sort.getCategory();
             this.usesComparisons = sort.isComparisonBased();
+            this.slowSort = sort.isUnreasonablySlow();
         }
 
         public SortInfo(Sort sort) {
             this(-1, sort);
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public Supplier<? extends Sort> getInstanceSupplier() {
+            return instanceSupplier;
+        }
+
+        public String getInternalName() {
+            return sortClass != null ? sortClass.getName() : null;
+        }
+
+        public String getListName() {
+            return listName;
+        }
+
+        public String getRunName() {
+            return runName;
+        }
+
+        public String getRunAllName() {
+            return runAllName;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public boolean usesComparisons() {
+            return usesComparisons;
+        }
+
+        public boolean isSlowSort() {
+            return slowSort;
+        }
+
+        public Sort getFreshInstance() {
+            return instanceSupplier.get();
+        }
+
+        public boolean isFromExtra() {
+            return ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sortClass);
         }
 
         public static String[] getListNames(SortInfo[] sorts) {

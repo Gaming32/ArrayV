@@ -2,15 +2,14 @@ package utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
 import main.ArrayVisualizer;
 import main.SortAnalyzer.SortInfo;
-import sorts.templates.Sort;
 import panes.JErrorPane;
+import sorts.templates.Sort;
 
 final public class MultipleScript {
     public static class ScriptCommand {
@@ -29,25 +28,41 @@ final public class MultipleScript {
     }
 
     public static class SortCallInfo {
-        public Sort algortitm;
-        public int bucketCount;
-        public int defaultLength;
-        public double defaultSpeedMultiplier;
-        public boolean slowSort;
+        private final Sort algortitm;
+        private final int bucketCount;
+        private final int defaultLength;
+        private final double defaultSpeedMultiplier;
+        private final boolean slowSort;
 
-        public SortCallInfo(ArrayVisualizer arrayVisualizer, Class<?> sortClass, int bucketCount, int defaultLength, double defaultSpeedMultiplier) {
-            Sort inst = null;
-            try {
-                Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
-                inst = (Sort) newSort.newInstance(arrayVisualizer);
-            } catch (Exception e) {
-            }
-            algortitm = inst;
-
+        public SortCallInfo(ArrayVisualizer arrayVisualizer, SortInfo sort, int bucketCount, int defaultLength, double defaultSpeedMultiplier) {
+            this.algortitm = sort.getFreshInstance();
             this.bucketCount = bucketCount;
             this.defaultLength = defaultLength;
             this.defaultSpeedMultiplier = defaultSpeedMultiplier;
+            this.slowSort = sort.isSlowSort();
         }
+
+        public Sort getAlgortitm() {
+            return algortitm;
+        }
+
+        public int getBucketCount() {
+            return bucketCount;
+        }
+
+        public int getDefaultLength() {
+            return defaultLength;
+        }
+
+        public double getDefaultSpeedMultiplier() {
+            return defaultSpeedMultiplier;
+        }
+
+        public boolean isSlowSort() {
+            return slowSort;
+        }
+
+
     }
 
     private static String[] simpleCommandLineParse(String commandLine) {
@@ -83,7 +98,7 @@ final public class MultipleScript {
 
     private ArrayVisualizer arrayVisualizer;
 
-    private final Hashtable<String, Class<?>> sortNames;
+    private final Hashtable<String, SortInfo> sortNames;
 
     public MultipleScript(ArrayVisualizer arrayVisualizer) {
         this.arrayVisualizer = arrayVisualizer;
@@ -93,22 +108,16 @@ final public class MultipleScript {
         populateSortTable(this.arrayVisualizer.getDistributionSorts(), sortNames);
     }
 
-    private void populateSortTable(SortInfo[] array, Hashtable<String, Class<?>> table) {
+    private void populateSortTable(SortInfo[] array, Hashtable<String, SortInfo> table) {
         for (SortInfo sort : array) {
-            Class<?> sortClass = sort.sortClass;
-            Sort inst;
-            try {
-                Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
-                inst = (Sort) newSort.newInstance(this.arrayVisualizer);
-            } catch (Exception e) {
-                continue;
-            }
+            String className = sort.getInternalName();
+            if (className == null) continue;
+            String[] classParts = className.split("\\.");
 
-            String[] classParts = sortClass.getName().split("\\.");
-            table.put(classParts[classParts.length - 1].toLowerCase(), sortClass);
-            table.put(inst.getSortListName().toLowerCase(), sortClass);
-            table.put(inst.getRunSortName().toLowerCase(), sortClass);
-            table.put(inst.getRunAllSortsName().toLowerCase(), sortClass);
+            table.put(classParts[classParts.length - 1].toLowerCase(), sort);
+            table.put(sort.getListName().toLowerCase(), sort);
+            table.put(sort.getRunName().toLowerCase(), sort);
+            table.put(sort.getRunAllName().toLowerCase(), sort);
         }
     }
 
@@ -133,14 +142,14 @@ final public class MultipleScript {
                 if (!sortNames.containsKey(sortName)) {
                     continue;
                 }
-                Class<?> sortClass = sortNames.get(sortName);
+                SortInfo sort = sortNames.get(sortName);
 
                 int bucketCount = commands.length > 1 ? Integer.parseInt(commands[1]) : 0;
                 int defaultLength = commands.length > 2 ? Integer.parseInt(commands[2]) : 2048;
                 double defaultSpeedMultiplier = commands.length > 3 ? Double.parseDouble(commands[3]) : 1;
 
                 commandType = ScriptCommand.CommandType.SortCall;
-                argument = new SortCallInfo(this.arrayVisualizer, sortClass, bucketCount, defaultLength, defaultSpeedMultiplier);
+                argument = new SortCallInfo(this.arrayVisualizer, sort, bucketCount, defaultLength, defaultSpeedMultiplier);
             }
             result.add(new ScriptCommand(commandType, argument));
         }

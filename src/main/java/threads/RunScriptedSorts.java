@@ -56,12 +56,14 @@ final public class RunScriptedSorts extends MultipleSortThread {
                 arrayVisualizer.setCategory(category);
             } else if (command.type == MultipleScript.ScriptCommand.CommandType.SortCall) {
                 MultipleScript.SortCallInfo info = (MultipleScript.SortCallInfo)command.argument;
-                RunScriptedSorts.this.runIndividualSort(info.algortitm,
-                    info.bucketCount,
+                RunScriptedSorts.this.runIndividualSort(
+                    info.getAlgortitm(),
+                    info.getBucketCount(),
                     array,
-                    info.defaultLength,
-                    info.defaultSpeedMultiplier,
-                    info.slowSort);
+                    info.getDefaultLength(),
+                    info.getDefaultSpeedMultiplier(),
+                    info.isSlowSort()
+                );
             }
         }
     }

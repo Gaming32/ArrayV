@@ -1,6 +1,5 @@
 package threads;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
@@ -82,10 +81,7 @@ final public class RunComparisonSort {
             @Override
             public void run() {
                 try {
-                    Class<?> sortClass = arrayVisualizer.getComparisonSorts()[selection].sortClass;
-                    Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
-                    Sort sort = (Sort) newSort.newInstance(RunComparisonSort.this.arrayVisualizer);
-
+                    Sort sort = arrayVisualizer.getComparisonSorts()[selection].getFreshInstance();
                     int extra = 0;
 
                     if (sort.getQuestion() != null) {

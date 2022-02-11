@@ -1,7 +1,5 @@
 package threads;
 
-import java.lang.reflect.Constructor;
-
 import javax.swing.JOptionPane;
 
 import main.ArrayManager;
@@ -128,9 +126,7 @@ final public class RunDistributionSort {
             @Override
             public void run(){
                 try {
-                    Class<?> sortClass = arrayVisualizer.getDistributionSorts()[selection].sortClass;
-                    Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
-                    Sort sort = (Sort) newSort.newInstance(RunDistributionSort.this.arrayVisualizer);
+                    Sort sort = arrayVisualizer.getDistributionSorts()[selection].getFreshInstance();
 
                     int bucketCount;
 
