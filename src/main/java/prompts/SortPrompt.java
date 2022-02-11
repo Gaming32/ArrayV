@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -21,7 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ProgressMonitor;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -34,9 +34,8 @@ import main.SortAnalyzer.SortInfo;
 import panes.JErrorPane;
 import threads.MultipleSortThread;
 import threads.RunAllSorts;
-import threads.RunComparisonSort;
+import threads.RunSort;
 import threads.RunConcurrentSorts;
-import threads.RunDistributionSort;
 import threads.RunDistributionSorts;
 import threads.RunExchangeSorts;
 import threads.RunHybridSorts;
@@ -184,7 +183,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jComboBox1.setModel(new DefaultComboBoxModel<>(SortInfo.getCategories(ArrayVisualizer.getAllSorts())));
+        jComboBox1.setModel(new DefaultComboBoxModel<>(SortInfo.getCategories(ArrayVisualizer.getSorts())));
         jComboBox1.insertItemAt("All Sorts", 0);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -407,7 +406,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         @SuppressWarnings("rawtypes")
         String sortName = (String)((JList)evt.getSource()).getSelectedValue();
         SortInfo sortNotFinal = null;
-        for (SortInfo sort : ArrayVisualizer.getAllSorts()) {
+        for (SortInfo sort : ArrayVisualizer.getSorts()) {
             if (sort.getListName().equals(sortName)) {
                 sortNotFinal = sort;
                 break;
@@ -417,13 +416,8 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         new Thread("SortingThread") {
             @Override
             public void run() {
-                if (selection.usesComparisons()) {
-                    RunComparisonSort sortThread = new RunComparisonSort(ArrayVisualizer);
-                    sortThread.ReportComparativeSort(array, selection.getId());
-                } else {
-                    RunDistributionSort sortThread = new RunDistributionSort(ArrayVisualizer);
-                    sortThread.ReportDistributionSort(array, selection.getId());
-                }
+                RunSort sortThread = new RunSort(ArrayVisualizer);
+                sortThread.runSort(array, selection.getId());
             }
         }.start();
         UtilFrame.jButton1ResetText();
@@ -437,7 +431,7 @@ final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
         ArrayList<String> sorts = new ArrayList<>();
         String searchTerms = jTextField1.getText().toLowerCase();
         boolean isSearching = !searchTerms.isEmpty();
-        for (SortInfo sort : ArrayVisualizer.getAllSorts()) {
+        for (SortInfo sort : ArrayVisualizer.getSorts()) {
             if (index == 0 || sort.getCategory().equals(category)) {
                 if (!showExtraSorts && sort.isFromExtra()) continue;
                 if (isSearching && !sort.getListName().toLowerCase().contains(searchTerms)) continue;

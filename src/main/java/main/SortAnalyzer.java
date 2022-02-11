@@ -88,8 +88,7 @@ public final class SortAnalyzer {
         }
     }
 
-    private ArrayList<Sort> comparisonSorts;
-    private ArrayList<Sort> distributionSorts;
+    private ArrayList<SortInfo> sorts;
     private ArrayList<String> invalidSorts;
     private ArrayList<String> suggestions;
 
@@ -105,8 +104,18 @@ public final class SortAnalyzer {
         private final String runName;
         private final String runAllName;
         private final String category;
-        private final boolean usesComparisons;
         private final boolean slowSort;
+
+        private SortInfo(int id, SortInfo sort) {
+            this.id = id;
+            this.sortClass = sort.sortClass;
+            this.instanceSupplier = sort.instanceSupplier;
+            this.listName = sort.listName;
+            this.runName = sort.runName;
+            this.runAllName = sort.runAllName;
+            this.category = sort.category;
+            this.slowSort = sort.slowSort;
+        }
 
         public SortInfo(int id, Sort sort) {
             this.id = id;
@@ -120,7 +129,6 @@ public final class SortAnalyzer {
             this.runName = sort.getRunSortName();
             this.runAllName = sort.getRunAllSortsName();
             this.category = sort.getCategory();
-            this.usesComparisons = sort.isComparisonBased();
             this.slowSort = sort.isUnreasonablySlow();
         }
 
@@ -156,10 +164,6 @@ public final class SortAnalyzer {
             return category;
         }
 
-        public boolean usesComparisons() {
-            return usesComparisons;
-        }
-
         public boolean isSlowSort() {
             return slowSort;
         }
@@ -170,6 +174,15 @@ public final class SortAnalyzer {
 
         public boolean isFromExtra() {
             return ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sortClass);
+        }
+
+        /**
+         * Creates a copy of this info with a new ID
+         * @param id The ID for the new instance
+         * @return Copied info with new ID
+         */
+        public SortInfo withId(int id) {
+            return new SortInfo(id, this);
         }
 
         public static String[] getListNames(SortInfo[] sorts) {
@@ -192,8 +205,7 @@ public final class SortAnalyzer {
     }
 
     SortAnalyzer(ArrayVisualizer arrayVisualizer) {
-        this.comparisonSorts = new ArrayList<>();
-        this.distributionSorts = new ArrayList<>();
+        this.sorts = new ArrayList<>();
         this.invalidSorts = new ArrayList<>();
         this.suggestions = new ArrayList<>();
 
@@ -240,11 +252,7 @@ public final class SortAnalyzer {
                     if (!suggestion.isEmpty()) {
                         suggestions.add(suggestion);
                     }
-                    if (sort.isComparisonBased()) {
-                        comparisonSorts.add(sort);
-                    } else {
-                        distributionSorts.add(sort);
-                    }
+                    sorts.add(new SortInfo(sorts.size(), sort));
                 } else {
                     throw new Exception(sortErrorMsg);
                 }
@@ -276,8 +284,7 @@ public final class SortAnalyzer {
     }
 
     public void analyzeSorts(boolean includeExtras) {
-        this.comparisonSorts.clear();
-        this.distributionSorts.clear();
+        this.sorts.clear();
         this.invalidSorts.clear();
         this.suggestions.clear();
         this.sortErrorMsg = null;
@@ -337,17 +344,14 @@ public final class SortAnalyzer {
         installOrUpdateExtraSorts(null);
     }
 
-    @SuppressWarnings("unchecked")
     public void unloadAllExtraSorts() {
-        for (List<Sort> sortsList : new List[] {comparisonSorts, distributionSorts}) {
-            int j = 0;
-            for (Sort sort : sortsList) {
-                if (!didSortComeFromExtra(sort.getClass())) {
-                    sortsList.set(j++, sort);
-                }
+        int j = 0;
+        for (SortInfo sort : sorts) {
+            if (!sort.isFromExtra()) {
+                sorts.set(j++, sort);
             }
-            sortsList.subList(j, sortsList.size()).clear();
         }
+        sorts.subList(j, sorts.size()).clear();
         EXTRA_SORTS.clear();
     }
 
@@ -656,8 +660,14 @@ public final class SortAnalyzer {
 
     public void sortSorts() {
         SortComparator sortComparator = new SortComparator();
-        Collections.sort(comparisonSorts, sortComparator);
-        Collections.sort(distributionSorts, sortComparator);
+        Collections.sort(sorts, sortComparator);
+        // This loop fixes all the sort IDs to match up with the indices again
+        for (int i = 0; i < sorts.size(); i++) {
+            SortInfo sort = sorts.get(i);
+            if (sort.getId() != i) {
+                sorts.set(i, sort.withId(i));
+            }
+        }
     }
 
     private boolean verifySort(Sort sort) {
@@ -705,10 +715,6 @@ public final class SortAnalyzer {
             suggestions.append("- " + sort.getRunSortName() + " is a radix sort and should also be classified as a bucket sort.\n");
             warned = true;
         }
-        if (sort.isRadixSort() && sort.isComparisonBased()) {
-            suggestions.append("- " + sort.getRunSortName() + " is a radix sort. It probably shouldn't be labelled as a comparison-based sort.\n");
-            warned = true;
-        }
 
         if (warned) {
             suggestions.deleteCharAt(suggestions.length() - 1);
@@ -716,24 +722,15 @@ public final class SortAnalyzer {
         return suggestions.toString();
     }
 
-    public SortInfo[] getComparisonSorts() {
-        SortInfo[] ComparisonSorts = new SortInfo[comparisonSorts.size()];
+    public SortInfo[] getSorts() {
+        return sorts.toArray(new SortInfo[this.sorts.size()]);
+        // SortInfo[] sorts = new SortInfo[this.sorts.size()];
 
-        for (int i = 0; i < ComparisonSorts.length; i++) {
-            ComparisonSorts[i] = new SortInfo(i, comparisonSorts.get(i));
-        }
+        // for (int i = 0; i < sorts.length; i++) {
+        //     sorts[i] = new SortInfo(i, this.sorts.get(i));
+        // }
 
-        return ComparisonSorts;
-    }
-
-    public SortInfo[] getDistributionSorts() {
-        SortInfo[] DistributionSorts = new SortInfo[distributionSorts.size()];
-
-        for (int i = 0; i < DistributionSorts.length; i++) {
-            DistributionSorts[i] = new SortInfo(i, distributionSorts.get(i));
-        }
-
-        return DistributionSorts;
+        // return sorts;
     }
 
     public String[] getInvalidSorts() {

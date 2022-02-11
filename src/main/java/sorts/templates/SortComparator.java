@@ -2,11 +2,13 @@ package sorts.templates;
 
 import java.util.Comparator;
 
-final public class SortComparator implements Comparator<Sort> {
+import main.SortAnalyzer.SortInfo;
+
+final public class SortComparator implements Comparator<SortInfo> {
     public SortComparator() {}
 
     @Override
-    public int compare(Sort left, Sort right) {
-        return left.getSortListName().compareTo(right.getSortListName());
+    public int compare(SortInfo left, SortInfo right) {
+        return left.getListName().compareTo(right.getListName());
     }
 }

@@ -104,8 +104,7 @@ final public class MultipleScript {
         this.arrayVisualizer = arrayVisualizer;
 
         sortNames = new Hashtable<>();
-        populateSortTable(this.arrayVisualizer.getComparisonSorts(), sortNames);
-        populateSortTable(this.arrayVisualizer.getDistributionSorts(), sortNames);
+        populateSortTable(this.arrayVisualizer.getSorts(), sortNames);
     }
 
     private void populateSortTable(SortInfo[] array, Hashtable<String, SortInfo> table) {

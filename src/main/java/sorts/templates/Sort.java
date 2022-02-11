@@ -15,7 +15,6 @@ public abstract class Sort {
 
     private String category;
 
-    private boolean comparisonBased;
     private boolean bucketSort;
     private boolean radixSort;
     private boolean unreasonablySlow;
@@ -41,7 +40,6 @@ public abstract class Sort {
         this.setRunSortName("");         // Displays when a sort is picked from 'Choose Sort'
         this.setCategory("");            // Shown at the top-left corner of the window
 
-        this.setComparisonBased(true);   // If set to false, sort will listed on the right side of the 'Choose Sort' menu
         this.setBucketSort(false);       // Slightly changes the 'Customize Sort' dialog
         this.setRadixSort(false);        // Also slightly changes the 'Customize Sort' dialog
 
@@ -66,39 +64,57 @@ public abstract class Sort {
     public boolean isSortEnabled() {
         return this.sortEnabled;
     }
+
     public String getSortListName() {
         return this.sortListName;
     }
+
     public String getRunAllSortsName() {
         return this.runAllSortsName;
     }
+
     public String getRunSortName() {
         return this.runSortName;
     }
+
     public String getCategory() {
         return this.category;
     }
+
+    /**
+     * Whether this sort is a comparison sort or a distribution sort
+     * @deprecated This method now always returns false, as this information is no longer stored
+     * @return false
+     */
+    @Deprecated
     public boolean isComparisonBased() {
-        return this.comparisonBased;
+        return false;
     }
+
     public boolean usesBuckets() {
         return this.bucketSort;
     }
+
     public boolean isRadixSort() {
         return this.radixSort;
     }
+
     public boolean isUnreasonablySlow() {
         return this.unreasonablySlow;
     }
+
     public int getUnreasonableLimit() {
         return this.unreasonableLimit;
     }
+
     public boolean isBogoSort() {
         return this.bogoSort;
     }
+
     public String getQuestion() {
         return this.question;
     }
+
     public int getDefaultAnswer() {
         return this.defaultAnswer;
     }
@@ -106,39 +122,55 @@ public abstract class Sort {
     protected void enableSort(boolean Bool) {
         this.sortEnabled = Bool;
     }
+
     protected void setSortListName(String ID) {
         this.sortListName = ID;
     }
+
     protected void setRunAllSortsName(String ID) {
         this.runAllSortsName = ID;
     }
+
     protected void setRunSortName(String ID) {
         this.runSortName = ID;
     }
+
     protected void setCategory(String ID) {
         this.category = ID;
     }
-    public void setComparisonBased(boolean Bool) {
-        this.comparisonBased = Bool;
+
+    /**
+     * Sets whether this sort is a comparison sort or a distribution sort
+     * @apiNote This method will be deprecated before ArrayV 5.0
+     * @param comparisonBased Whether this sort is a comparison sort or a distribution sort
+     */
+    public void setComparisonBased(boolean comparisonBased) {
     }
+
     public void setBucketSort(boolean Bool) {
         this.bucketSort = Bool;
     }
+
     protected void setRadixSort(boolean Bool) {
         this.radixSort = Bool;
     }
+
     public void setUnreasonablySlow(boolean Bool) {
         this.unreasonablySlow = Bool;
     }
+
     public void setUnreasonableLimit(int number) {
         this.unreasonableLimit = number;
     }
+
     protected void setBogoSort(boolean Bool) {
         this.bogoSort = Bool;
     }
+
     protected void setQuestion(String question) {
         this.question = question;
     }
+
     protected void setQuestion(String question, int defaultAnswer) {
         this.question = question;
         this.defaultAnswer = defaultAnswer;

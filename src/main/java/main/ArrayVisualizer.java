@@ -164,10 +164,8 @@ public final class ArrayVisualizer {
     final ArrayList<int[]> arrays;
     private final StatisticType[] statsConfig;
 
-    private SortInfo[] AllSorts; // First row of Comparison/DistributionSorts arrays consists of class names
-    private SortInfo[] ComparisonSorts; // First row of Comparison/DistributionSorts arrays consists of class names
-    private SortInfo[] DistributionSorts; // Second row consists of user-friendly names
-    private String[] InvalidSorts;
+    private SortInfo[] sorts;
+    private String[] invalidSorts;
     private String[] sortSuggestions;
 
     private volatile int sortLength;
@@ -660,14 +658,9 @@ public final class ArrayVisualizer {
     }
 
     public void refreshSorts() {
-        this.ComparisonSorts = this.SortAnalyzer.getComparisonSorts();
-        this.DistributionSorts = this.SortAnalyzer.getDistributionSorts();
-        this.InvalidSorts = this.SortAnalyzer.getInvalidSorts();
+        this.sorts = this.SortAnalyzer.getSorts();
+        this.invalidSorts = this.SortAnalyzer.getInvalidSorts();
         this.sortSuggestions = this.SortAnalyzer.getSuggestions();
-
-        this.AllSorts = new SortInfo[this.ComparisonSorts.length + this.DistributionSorts.length];
-        System.arraycopy(this.ComparisonSorts, 0, this.AllSorts, 0, this.ComparisonSorts.length);
-        System.arraycopy(this.DistributionSorts, 0, this.AllSorts, this.ComparisonSorts.length, this.DistributionSorts.length);
     }
 
     private void drawStats(Color textColor, boolean dropShadow) {
@@ -882,14 +875,8 @@ public final class ArrayVisualizer {
         return this.ArrayFrame;
     }
 
-    public SortInfo[] getAllSorts() {
-        return this.AllSorts;
-    }
-    public SortInfo[] getComparisonSorts() {
-        return this.ComparisonSorts;
-    }
-    public SortInfo[] getDistributionSorts() {
-        return this.DistributionSorts;
+    public SortInfo[] getSorts() {
+        return this.sorts;
     }
 
     public Thread getSortingThread() {
@@ -1421,7 +1408,7 @@ public final class ArrayVisualizer {
         this.window.setSize((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
 
         StringBuilder title = new StringBuilder("w0rthy's Array Visualizer - ");
-        title.append(this.ComparisonSorts.length + this.DistributionSorts.length);
+        title.append(this.sorts.length);
         title.append(" Sorts, 15 Visual Styles, and Infinite Inputs to Sort");
         String versionSha = buildInfo.getProperty("commitId");
         if (!versionSha.equals("@git.sha@") && !versionSha.equals("unknown")) { // Hash not loaded
@@ -1456,8 +1443,8 @@ public final class ArrayVisualizer {
 
         this.window.createBufferStrategy(2);
 
-        if (this.InvalidSorts != null) {
-            String output = parseStringArray(this.InvalidSorts);
+        if (this.invalidSorts != null) {
+            String output = parseStringArray(this.invalidSorts);
             JOptionPane.showMessageDialog(this.window, "The following algorithms were not loaded:\n" + output, "Warning", JOptionPane.WARNING_MESSAGE);
         }
         if (this.sortSuggestions != null) {
