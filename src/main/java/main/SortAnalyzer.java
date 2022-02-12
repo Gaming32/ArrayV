@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 import java.util.zip.ZipEntry;
@@ -40,6 +41,7 @@ import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import panes.JErrorPane;
 import sorts.templates.Sort;
+import utils.CommonUtils;
 
 /*
  *
@@ -73,6 +75,12 @@ public final class SortAnalyzer {
     private static final String EXTRA_SORTS_JAR_NAME = "ArrayV-Extra-Sorts.jar";
     private static final File EXTRA_SORTS_FILE = new File("cache", EXTRA_SORTS_JAR_NAME);
     private static final URLClassLoader EXTRA_SORTS_CLASS_LOADER;
+    private static final Map.Entry<String, String>[] IMPORT_REPLACEMENTS = CommonUtils.createPairArray(
+        "import panels.", "import io.github.arrayv.panels.",
+        "import sorts.templates.SortComparator;", "import io.github.arrayv.sortdata.SortComparator;",
+        "import main.SortAnalyzer.SortPair;", "import io.github.arrayv.sortdata.SortInfo;",
+        "import main.SortAnalyzer.SortInfo;", "import io.github.arrayv.sortdata.SortInfo;"
+    );
 
     private final Set<Class<?>> EXTRA_SORTS = new HashSet<>();
 
@@ -431,6 +439,13 @@ public final class SortAnalyzer {
         return new JavaPackageNameFinder(source).findPackageName();
     }
 
+    private static String performImportReplacements(String source) {
+        for (Map.Entry<String, String> replacement : IMPORT_REPLACEMENTS) {
+            source = CommonUtils.replace(source, replacement.getKey(), replacement.getValue());
+        }
+        return source;
+    }
+
     public boolean importSort(File file, boolean showConfirmation) {
         // SLightly modified from https://stackoverflow.com/a/40772073/8840278
         // Pattern packagePattern = Pattern.compile("package (([a-zA-Z]{1}[a-zA-Z\\d_]*\\.)*[a-zA-Z][a-zA-Z\\d_]*);");
@@ -452,6 +467,8 @@ public final class SortAnalyzer {
             JErrorPane.invokeCustomErrorMessage("Sort package must be either sorts or io.github.arrayv.sorts");
             return false;
         }
+
+        contents = performImportReplacements(contents);
 
         final File CACHE_DIR = new File("./cache/");
         CACHE_DIR.mkdirs();
