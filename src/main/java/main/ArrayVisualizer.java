@@ -52,7 +52,7 @@ import dialogs.SaveArrayDialog;
 import frames.ArrayFrame;
 import frames.SoundFrame;
 import frames.UtilFrame;
-import main.SortAnalyzer.SortInfo;
+import io.github.arrayv.sortdata.SortInfo;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
 import utils.AntiQSort;

@@ -28,13 +28,12 @@ import javax.swing.event.DocumentListener;
 import dialogs.ImportSortDialog;
 import frames.AppFrame;
 import frames.UtilFrame;
+import io.github.arrayv.sortdata.SortInfo;
 import main.ArrayVisualizer;
 import main.SortAnalyzer;
-import main.SortAnalyzer.SortInfo;
 import panes.JErrorPane;
 import threads.MultipleSortThread;
 import threads.RunAllSorts;
-import threads.RunSort;
 import threads.RunConcurrentSorts;
 import threads.RunDistributionSorts;
 import threads.RunExchangeSorts;
@@ -45,6 +44,7 @@ import threads.RunMergeSorts;
 import threads.RunMiscellaneousSorts;
 import threads.RunQuickSorts;
 import threads.RunSelectionSorts;
+import threads.RunSort;
 
 /*
  *

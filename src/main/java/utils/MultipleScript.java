@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import io.github.arrayv.sortdata.SortInfo;
 import main.ArrayVisualizer;
-import main.SortAnalyzer.SortInfo;
 import panes.JErrorPane;
 import sorts.templates.Sort;
 

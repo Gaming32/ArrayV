@@ -1,8 +1,6 @@
-package sorts.templates;
+package io.github.arrayv.sortdata;
 
 import java.util.Comparator;
-
-import main.SortAnalyzer.SortInfo;
 
 final public class SortComparator implements Comparator<SortInfo> {
     public SortComparator() {}
