@@ -1,4 +1,4 @@
-package panels;
+package io.github.arrayv.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
