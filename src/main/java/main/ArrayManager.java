@@ -16,7 +16,7 @@ import utils.Writes;
 MIT License
 
 Copyright (c) 2019 w0rthy
-Copyright (c) 2020 ArrayV 4.0 Team
+Copyright (c) 2020-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ SOFTWARE.
  *
  */
 
-final public class ArrayManager {
+public final class ArrayManager {
     private utils.Shuffles[] shuffleTypes;
     private utils.Distributions[] distributionTypes;
     private String[] shuffleIDs;

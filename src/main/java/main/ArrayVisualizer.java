@@ -91,7 +91,7 @@ The MIT License (MIT)
 Copyright (c) 2019 w0rthy
 Copyright (c) 2019 Luke Hutchison
 Copyright (c) 2020 MusicTheorist
-Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

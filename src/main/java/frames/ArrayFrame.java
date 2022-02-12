@@ -28,6 +28,7 @@ import utils.Highlights;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -49,12 +50,7 @@ SOFTWARE.
  *
  */
 
-/**
- *
- * @author S630690
- */
-
-final public class ArrayFrame extends javax.swing.JFrame {
+public final class ArrayFrame extends javax.swing.JFrame {
     final private static long serialVersionUID = 1L;
 
     private int[] array;
