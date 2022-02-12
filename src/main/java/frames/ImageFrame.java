@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import visuals.image.CustomImage;
+import io.github.arrayv.visuals.image.CustomImage;
 
 public class ImageFrame extends JFrame {
 

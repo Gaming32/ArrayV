@@ -1,4 +1,4 @@
-package visuals.image;
+package io.github.arrayv.visuals.image;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -16,11 +16,11 @@ import javax.swing.JFrame;
 import dialogs.CustomImageDialog;
 import dialogs.LoadingDialog;
 import frames.ImageFrame;
+import io.github.arrayv.visuals.Visual;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
 import utils.Highlights;
 import utils.Renderer;
-import visuals.Visual;
 
 /*
  *
@@ -311,7 +311,7 @@ final public class CustomImage extends Visual {
             }
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
-            ArrayVisualizer.setVisual(visuals.VisualStyles.BARS);
+            ArrayVisualizer.setVisual(io.github.arrayv.visuals.VisualStyles.BARS);
             return;
         }
 

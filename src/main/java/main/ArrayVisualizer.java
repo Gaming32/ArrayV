@@ -53,6 +53,23 @@ import frames.ArrayFrame;
 import frames.SoundFrame;
 import frames.UtilFrame;
 import io.github.arrayv.sortdata.SortInfo;
+import io.github.arrayv.visuals.Visual;
+import io.github.arrayv.visuals.VisualStyles;
+import io.github.arrayv.visuals.bars.BarGraph;
+import io.github.arrayv.visuals.bars.DisparityBarGraph;
+import io.github.arrayv.visuals.bars.Rainbow;
+import io.github.arrayv.visuals.bars.SineWave;
+import io.github.arrayv.visuals.circles.ColorCircle;
+import io.github.arrayv.visuals.circles.DisparityChords;
+import io.github.arrayv.visuals.circles.DisparityCircle;
+import io.github.arrayv.visuals.circles.Spiral;
+import io.github.arrayv.visuals.dots.DisparityDots;
+import io.github.arrayv.visuals.dots.ScatterPlot;
+import io.github.arrayv.visuals.dots.SpiralDots;
+import io.github.arrayv.visuals.dots.WaveDots;
+import io.github.arrayv.visuals.image.CustomImage;
+import io.github.arrayv.visuals.misc.HoopStack;
+import io.github.arrayv.visuals.misc.PixelMesh;
 import panes.JErrorPane;
 import threads.RunScriptedSorts;
 import utils.AntiQSort;
@@ -66,23 +83,6 @@ import utils.Sounds;
 import utils.Statistics;
 import utils.Timer;
 import utils.Writes;
-import visuals.Visual;
-import visuals.VisualStyles;
-import visuals.bars.BarGraph;
-import visuals.bars.DisparityBarGraph;
-import visuals.bars.Rainbow;
-import visuals.bars.SineWave;
-import visuals.circles.ColorCircle;
-import visuals.circles.DisparityChords;
-import visuals.circles.DisparityCircle;
-import visuals.circles.Spiral;
-import visuals.dots.DisparityDots;
-import visuals.dots.ScatterPlot;
-import visuals.dots.SpiralDots;
-import visuals.dots.WaveDots;
-import visuals.image.CustomImage;
-import visuals.misc.HoopStack;
-import visuals.misc.PixelMesh;
 
 /*
  *
@@ -1335,7 +1335,7 @@ public final class ArrayVisualizer {
     }
 
     public void setVisual(VisualStyles choice) {
-        if (choice == visuals.VisualStyles.CUSTOM_IMAGE) {
+        if (choice == io.github.arrayv.visuals.VisualStyles.CUSTOM_IMAGE) {
             ((CustomImage) this.visualClasses[9]).enableImgMenu();
         }
         this.VisualStyles = choice;
@@ -1401,7 +1401,7 @@ public final class ArrayVisualizer {
     }
 
     private void drawWindows() {
-        this.VisualStyles = visuals.VisualStyles.BARS;
+        this.VisualStyles = io.github.arrayv.visuals.VisualStyles.BARS;
         this.category = "Select a Sort";
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

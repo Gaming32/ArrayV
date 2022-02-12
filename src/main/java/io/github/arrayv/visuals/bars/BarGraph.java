@@ -1,11 +1,11 @@
-package visuals.bars;
+package io.github.arrayv.visuals.bars;
 
 import java.awt.Color;
 
+import io.github.arrayv.visuals.Visual;
 import main.ArrayVisualizer;
 import utils.Highlights;
 import utils.Renderer;
-import visuals.Visual;
 
 final public class BarGraph extends Visual {
 

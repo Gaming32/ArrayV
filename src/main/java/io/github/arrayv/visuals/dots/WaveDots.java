@@ -1,17 +1,19 @@
-package visuals.dots;
+package io.github.arrayv.visuals.dots;
 
 import java.awt.Color;
 
+import io.github.arrayv.visuals.Visual;
 import main.ArrayVisualizer;
 import utils.Highlights;
 import utils.Renderer;
-import visuals.Visual;
 
 /*
  *
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2020 MusicTheorist
+Copyright (c) 2021 ArrayV 4.0 Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +35,8 @@ SOFTWARE.
  *
  */
 
-final public class ScatterPlot extends Visual {
-    public ScatterPlot(ArrayVisualizer ArrayVisualizer) {
+final public class WaveDots extends Visual {
+    public WaveDots(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }
 
@@ -44,7 +46,7 @@ final public class ScatterPlot extends Visual {
 
         if (ArrayVisualizer.linesEnabled()) {
             int lastX = 0;
-            int lastY = (int) (((Renderer.getViewSize() - 20)) - (array[0] + 1) * Renderer.getYScale());
+            int lastY = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[0] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
             this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(2));
 
             for (int i = 1, j = (int) Renderer.getXScale(); i < Renderer.getArrayLength(); i++) {
@@ -54,14 +56,12 @@ final public class ScatterPlot extends Visual {
                 } else if (Highlights.containsPosition(i)) {
                     this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
                     this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(4));
-                } else if (ArrayVisualizer.colorEnabled()) {
-                    int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getIndexValue(array[i]): array[i];
-                    this.mainRender.setColor(getIntColor(val, ArrayVisualizer.getCurrentLength()));
                 }
+                else if (ArrayVisualizer.colorEnabled())
+                    this.mainRender.setColor(getIntColor(array[i-1], ArrayVisualizer.getCurrentLength()));
                 else this.mainRender.setColor(Color.WHITE);
 
-                int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
-                int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+                int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
 
                 this.mainRender.drawLine(lastX + offset, Renderer.getYOffset() + lastY, j + offset, Renderer.getYOffset() + y);
 
@@ -80,14 +80,13 @@ final public class ScatterPlot extends Visual {
             for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
                 if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                     this.mainRender.setColor(Color.GREEN);
-                else if (ArrayVisualizer.colorEnabled()) {
-                    int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getIndexValue(array[i]): array[i];
-                    this.mainRender.setColor(getIntColor(val, ArrayVisualizer.getCurrentLength()));
-                }
+
+                else if (ArrayVisualizer.colorEnabled())
+                    this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+
                 else this.mainRender.setColor(Color.WHITE);
 
-                int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
-                int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+                int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
 
                 this.mainRender.fillRect(j + offset, Renderer.getYOffset() + y, dotS, dotS);
 
@@ -98,9 +97,7 @@ final public class ScatterPlot extends Visual {
 
             for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
                 if (Highlights.containsPosition(i)) {
-                    int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
-                    int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
-
+                    int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
                     this.mainRender.fillRect(j + offset - (int)(1.5*dotS), Renderer.getYOffset() + y - (int)(1.5*dotS), 4*dotS, 4*dotS);
                 }
                 int width = (int) (Renderer.getXScale() * (i + 1)) - j;

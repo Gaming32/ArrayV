@@ -1,4 +1,4 @@
-package visuals;
+package io.github.arrayv.visuals;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

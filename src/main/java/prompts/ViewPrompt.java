@@ -8,8 +8,9 @@ import javax.swing.JFrame;
 
 import frames.AppFrame;
 import frames.UtilFrame;
+import io.github.arrayv.visuals.VisualStyles;
 import main.ArrayVisualizer;
-import visuals.VisualStyles;
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;

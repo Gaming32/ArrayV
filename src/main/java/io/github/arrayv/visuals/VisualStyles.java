@@ -1,4 +1,4 @@
-package visuals;
+package io.github.arrayv.visuals;
 
 import main.ArrayVisualizer;
 import utils.Highlights;

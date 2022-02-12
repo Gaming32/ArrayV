@@ -1,11 +1,11 @@
-package visuals.circles;
+package io.github.arrayv.visuals.circles;
 
 import java.awt.Color;
 
+import io.github.arrayv.visuals.Visual;
 import main.ArrayVisualizer;
 import utils.Highlights;
 import utils.Renderer;
-import visuals.Visual;
 
 /*
  *
