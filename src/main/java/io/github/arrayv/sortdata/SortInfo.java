@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
-import utils.NewSortInstance;
 
 public final class SortInfo {
     private final int id;
