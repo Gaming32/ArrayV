@@ -1,14 +1,12 @@
-# w0rthy's Array Visualizer, Revamped
+# ArrayV
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/gaming32/ArrayV-v4.0/ant)
 ![Discord](https://img.shields.io/discord/592082838791127075?color=%237289DA&label=Discord&logo=discord&logoColor=white)
 <!-- ![GitHub all releases](https://img.shields.io/github/downloads/gaming32/ArrayV-v4.0/total?color=green) -->
 
-Over 225 sorting algorithms animated with 13 unique graphic designs
+Over 200 sorting algorithms animated with 15 unique graphic designs
 
-[Join the Discord server!](https://discord.com/invite/2xGkKC2)
-
-This new version of the program features additions inspired by Timo Bingmann's "The Sound of Sorting" and w0rthy's updates to the original visualizer.
+[Join the Discord server!](https://discord.gg/thestudio)
 
 To compile use:
 ```shell
@@ -24,44 +22,30 @@ To run use:
 ```
 Alternatively, you can double click on "run" or "run.bat" on Windows.
 
-
 You can always download the most up-to-date pre-built JAR from [GitHub Actions](https://nightly.link/Gaming32/ArrayV-v4.0/workflows/ant/main/standalone-jar.zip) (link via [nightly.link](https://nightly.link)).
 
-### Features:
-- 40+ new sorting algorithms
-- Updated visuals and sound effects
-- You can select different array sizes now
-- New shuffle types, including reversed, mostly similar numbers, almost sorted, and already sorted
-- Skip Sort button
-- Softer sounds toggle
-- A real time in milliseconds estimate
-- Toggle shuffle animation
-- Toggle Timo Bingmann's "end sweep" animation
-- Refactored / optimized code
+## Legacy changelog
 
-## ?/?/???? - Version 4.0
-- I really am not sure
-
-## 6/8/2020 - Version 3.5
+### 6/8/2020 - Version 3.5
 - NEW VISUALS: Sine Wave and Wave Dots!!
 - New sort: Bogobogosort
 - The bogo shuffle method is now unbiased
 - MultipleSortThreads further refactored
 - Visuals, VisualStyles enum, and Renderer significantly refactored (more to come!)
 
-## 6/4/2020 - Version 3.2
+### 6/4/2020 - Version 3.2
 - New sort: Optimized Cocktail Shaker Sort
 - Significant refactoring for MultipleSortThreads and RunAllSorts
 - "Run All" button approx. time simplified
 - Modified delays for Binary Gnomesort
 - Documentation of GCC's median-of-three pivot selection in Introsort
 
-## 6/3/2020 - Version 3.12
+### 6/3/2020 - Version 3.12
 - Counting Sort fixed
 - Optimized Bubblesort now optimized for already sorted inputs
 - Speeds for Quicksorts and Weave Merge during "Run All Sorts" improved
 
-## 6/2/2020 - Version 3.11
+### 6/2/2020 - Version 3.11
 - Minor update to MIT license
 - Fixed typo in Flipped Min Heapsort
 - Improved highlights on Heapsorts (Already sorted heaps now display redundant comparisons)
@@ -69,18 +53,18 @@ You can always download the most up-to-date pre-built JAR from [GitHub Actions](
 - Quicksorts exhibiting worst-case behavior during "Run All Sorts" run much faster
 - Same tweak as above to Weave Merge Sort
 
-## 5/30/2020 - Version 3.1
+### 5/30/2020 - Version 3.1
 - Error messages with detailed information will now appear within the program!
 - Sound effects are now consistent on all platforms
 - New sort: "Flipped Min Heap Sort" by 'landfillbaby'!
 - Minor changes to code organization
 - New webhook to my Discord server! Check it out here: https://discord.com/invite/2xGkKC2
 
-## 5/22/2020 - Version 3.01
+### 5/22/2020 - Version 3.01
 - Quick bug fix to the "Linked Dots" visual;
   The first line is no longer horizontal.
 
-## 5/21/2020 - Version 3.0 is now released!
+### 5/21/2020 - Version 3.0 is now released!
 - Sound effects are much more pleasant at slower speeds
 - Revamped "Run All Sorts" (It is now easier to create your own sequence of sorts!)
 - More accurate delay algorithm
@@ -101,7 +85,7 @@ You can always download the most up-to-date pre-built JAR from [GitHub Actions](
   - Weird static line bug with linked dots squashed
   - Other miscellaneous fixes and changes here and there
 
-## 10/19/2019 - Version 2.1
+### 10/19/2019 - Version 2.1
 - Both Odd-Even Mergesorts now display comparisons
 - PDQSort's Insertion Sorts have been slowed down
 - New sorts, courtesy of Piotr Grochowski (https://github.com/PiotrGrochowski/ArrayVisualizer):
@@ -109,7 +93,7 @@ You can always download the most up-to-date pre-built JAR from [GitHub Actions](
   - Recursive Pairwise Sorting Network
   - Recursive Combsort
 
-## 10/13/2019 - Version 2.0 is now released!
+### 10/13/2019 - Version 2.0 is now released!
 - Now includes 73 sorting algorithms, with 2 more that will be finished in the future
   - NEW SORTS:
     - Unoptimized Bubble Sort
@@ -182,11 +166,3 @@ You can always download the most up-to-date pre-built JAR from [GitHub Actions](
   - getters/setters
   - method parameters
 - Small organizational changes
-
-**If you are experiencing performance issues in Windows 10, look here: https://superuser.com/questions/988379/how-do-i-run-java-apps-upscaled-on-a-high-dpi-display**
-
-An executable .jar file is available in the dist folder. Have fun!
-
-Videos this program is featured in:
-
-https://www.youtube.com/playlist?list=PL5w_-zMAJC8tSgmfaltMMj7Kn390eRzMq
