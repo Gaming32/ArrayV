@@ -13,8 +13,8 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-import dialogs.CustomImageDialog;
-import dialogs.LoadingDialog;
+import io.github.arrayv.dialogs.CustomImageDialog;
+import io.github.arrayv.dialogs.LoadingDialog;
 import io.github.arrayv.frames.ImageFrame;
 import io.github.arrayv.visuals.Visual;
 import main.ArrayVisualizer;
@@ -28,7 +28,7 @@ MIT License
 
 Copyright (c) 2019 w0rthy
 Copyright (c) 2020 aphitorite
-Copyright (c) 2021 ArrayV Team
+Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

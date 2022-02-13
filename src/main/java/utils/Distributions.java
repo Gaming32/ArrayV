@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import dialogs.LoadCustomDistributionDialog;
+import io.github.arrayv.dialogs.LoadCustomDistributionDialog;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
 

@@ -1,4 +1,4 @@
-package dialogs;
+package io.github.arrayv.dialogs;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,7 +33,7 @@ import utils.shuffleutils.GraphWriter;
 MIT License
 
 Copyright (c) 2019 w0rthy
-Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -55,15 +55,7 @@ SOFTWARE.
  *
  */
 
-/**
- *
- * @author S630690
- */
-final public class ShuffleDialog extends javax.swing.JDialog implements AppFrame {
-
-    /**
-     *
-     */
+public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame {
     private static final long serialVersionUID = 1L;
 
     private ArrayManager ArrayManager;

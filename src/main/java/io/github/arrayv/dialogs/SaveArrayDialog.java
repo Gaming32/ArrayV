@@ -1,9 +1,9 @@
-package dialogs;
+package io.github.arrayv.dialogs;
 
 /*
 MIT License
 
-Copyright (c) 2020 Musicombo
+Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,32 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import java.awt.Dialog.ModalityType;
+public final class SaveArrayDialog extends FileDialog {
+    public SaveArrayDialog() {
+        super();
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+        fileDialog.setDialogTitle("Choose where to save the contents of the main array...");
 
-public class LoadingDialog {
-    /**
-     *
-     */
-    @SuppressWarnings("unused")
-    private static final long serialVersionUID = 1L;
-    private JOptionPane pane;
-    private JDialog dialog;
-
-    public LoadingDialog(String resource, JFrame parent) {
-        this.pane = new JOptionPane("Loading " + resource + "...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] { }, null);
-        this.dialog = this.pane.createDialog(parent, "Info");
-        this.dialog.setModalityType(ModalityType.MODELESS);
-        this.dialog.setAlwaysOnTop(this.dialog.isAlwaysOnTopSupported());
-        this.dialog.pack();
-        this.dialog.setVisible(true);
-    }
-
-    public void closeDialog() {
-        this.dialog.setVisible(false);
-        this.dialog.dispose();
+        fileDialog.showSaveDialog(null);
+        this.file = fileDialog.getSelectedFile();
     }
 }

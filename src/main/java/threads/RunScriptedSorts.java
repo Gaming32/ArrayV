@@ -2,7 +2,7 @@ package threads;
 
 import java.io.File;
 
-import dialogs.RunScriptDialog;
+import io.github.arrayv.dialogs.RunScriptDialog;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
 import utils.MultipleScript;
@@ -33,7 +33,7 @@ SOFTWARE.
  *
  */
 
-final public class RunScriptedSorts extends MultipleSortThread {
+public final class RunScriptedSorts extends MultipleSortThread {
     private RunScriptDialog fileDialog;
     private String currentCategory;
 

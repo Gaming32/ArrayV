@@ -1,4 +1,4 @@
-package dialogs;
+package io.github.arrayv.dialogs;
 
 /*
 MIT License
@@ -24,13 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-public final class SaveArrayDialog extends FileDialog {
-    public SaveArrayDialog() {
+public final class LoadCustomDistributionDialog extends FileDialog {
+    public LoadCustomDistributionDialog() {
         super();
 
-        fileDialog.setDialogTitle("Choose where to save the contents of the main array...");
+        fileDialog.setDialogTitle("Choose a distribution file...");
 
-        fileDialog.showSaveDialog(null);
+        fileDialog.showDialog(null, "Select");
         this.file = fileDialog.getSelectedFile();
     }
 }

@@ -1,9 +1,10 @@
-package dialogs;
+package io.github.arrayv.dialogs;
 
 /*
 MIT License
 
-Copyright (c) 2021-2022 ArrayV Team
+Copyright (c) 2020 Musicombo
+Copyright (c) 2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +25,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.Dialog.ModalityType;
 
-final public class ImportSortDialog extends FileDialog {
-    public ImportSortDialog() {
-        super();
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-        FileNameExtensionFilter javaFiles = new FileNameExtensionFilter("Java Source Files (.java)", "java");
-        this.removeAllFilesOption();
-        fileDialog.addChoosableFileFilter(javaFiles);
+public class LoadingDialog {
+    private JOptionPane pane;
+    private JDialog dialog;
 
-        fileDialog.setDialogTitle("Choose a sort file to import...");
+    public LoadingDialog(String resource, JFrame parent) {
+        this.pane = new JOptionPane("Loading " + resource + "...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] { }, null);
+        this.dialog = this.pane.createDialog(parent, "Info");
+        this.dialog.setModalityType(ModalityType.MODELESS);
+        this.dialog.setAlwaysOnTop(this.dialog.isAlwaysOnTopSupported());
+        this.dialog.pack();
+        this.dialog.setVisible(true);
+    }
 
-        fileDialog.showOpenDialog(null);
-        this.file = fileDialog.getSelectedFile();
+    public void closeDialog() {
+        this.dialog.setVisible(false);
+        this.dialog.dispose();
     }
 }

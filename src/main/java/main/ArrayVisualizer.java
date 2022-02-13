@@ -47,8 +47,8 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-import dialogs.FileDialog;
-import dialogs.SaveArrayDialog;
+import io.github.arrayv.dialogs.FileDialog;
+import io.github.arrayv.dialogs.SaveArrayDialog;
 import io.github.arrayv.frames.ArrayFrame;
 import io.github.arrayv.frames.SoundFrame;
 import io.github.arrayv.frames.UtilFrame;

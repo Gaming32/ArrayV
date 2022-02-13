@@ -1,8 +1,9 @@
-package dialogs;
+package io.github.arrayv.dialogs;
 
 /*
 MIT License
 
+Copyright (c) 2020 Musicombo
 Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,28 +27,24 @@ SOFTWARE.
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-final public class CustomImageDialog extends FileDialog {
-    public CustomImageDialog() {
+public final class SoundbankDialog extends FileDialog {
+    public SoundbankDialog() {
         super();
 
-        FileNameExtensionFilter allImages = new FileNameExtensionFilter("Java-compatible Image Files (.jpeg, .jpg, .png, .gif, .bmp, .wbmp)", "jpeg", "jpg", "png", "gif", "bmp", "wbmp");
-        FileNameExtensionFilter jpegImages = new FileNameExtensionFilter("JPEG Images", "jpeg", "jpg");
-        FileNameExtensionFilter pngImages = new FileNameExtensionFilter("PNG Images", "png");
-        FileNameExtensionFilter gifImages = new FileNameExtensionFilter("GIF Images", "gif");
-        FileNameExtensionFilter bmpImages = new FileNameExtensionFilter("BMP Images", "bmp");
-        FileNameExtensionFilter webmpImages = new FileNameExtensionFilter("WEBMP Images", "wbmp");
+        FileNameExtensionFilter allSoundbanks = new FileNameExtensionFilter("Any MIDI Soundbank (.sf2, .dls, .gm)", "sf2", "dls", "gm");
+        FileNameExtensionFilter soundfonts = new FileNameExtensionFilter("Soundfonts (.sf2)", "sf2");
+        FileNameExtensionFilter downloadableSounds = new FileNameExtensionFilter("Downloadable Sounds (.dls)", "dls");
+        FileNameExtensionFilter generalMIDI = new FileNameExtensionFilter("General MIDI (.gm)", "gm");
 
         this.removeAllFilesOption();
-        fileDialog.addChoosableFileFilter(allImages);
-        fileDialog.addChoosableFileFilter(jpegImages);
-        fileDialog.addChoosableFileFilter(pngImages);
-        fileDialog.addChoosableFileFilter(gifImages);
-        fileDialog.addChoosableFileFilter(bmpImages);
-        fileDialog.addChoosableFileFilter(webmpImages);
+        fileDialog.addChoosableFileFilter(allSoundbanks);
+        fileDialog.addChoosableFileFilter(soundfonts);
+        fileDialog.addChoosableFileFilter(downloadableSounds);
+        fileDialog.addChoosableFileFilter(generalMIDI);
 
-        fileDialog.setDialogTitle("Choose an image...");
+        fileDialog.setDialogTitle("Choose a MIDI soundbank...");
 
-        fileDialog.showOpenDialog(null);
+        fileDialog.showDialog(null, "Select");
         this.file = fileDialog.getSelectedFile();
     }
 }

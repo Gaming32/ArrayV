@@ -1,4 +1,4 @@
-package dialogs;
+package io.github.arrayv.dialogs;
 
 /*
 MIT License
@@ -24,13 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-public final class LoadCustomDistributionDialog extends FileDialog {
-    public LoadCustomDistributionDialog() {
+public final class ExportShuffleDialog extends FileDialog {
+    public ExportShuffleDialog() {
         super();
 
-        fileDialog.setDialogTitle("Choose a distribution file...");
+        fileDialog.setDialogTitle("Choose where to export the current shuffle graph...");
 
-        fileDialog.showDialog(null, "Select");
+        fileDialog.showSaveDialog(null);
         this.file = fileDialog.getSelectedFile();
     }
 }

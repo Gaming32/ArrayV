@@ -19,8 +19,8 @@ import javax.sound.midi.Synthesizer;
 import javax.sound.sampled.SourceDataLine;
 import javax.swing.JOptionPane;
 
-import dialogs.LoadingDialog;
-import dialogs.SoundbankDialog;
+import io.github.arrayv.dialogs.LoadingDialog;
+import io.github.arrayv.dialogs.SoundbankDialog;
 import io.github.arrayv.frames.SoundFrame;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
@@ -30,7 +30,7 @@ import panes.JErrorPane;
 MIT License
 
 Copyright (c) 2019 w0rthy
-Copyright (c) 2021 ArrayV Team
+Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

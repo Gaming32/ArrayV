@@ -5,7 +5,7 @@ import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 
-import dialogs.ShuffleDialog;
+import io.github.arrayv.dialogs.ShuffleDialog;
 import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.frames.UtilFrame;
 import main.ArrayManager;
@@ -18,7 +18,7 @@ import utils.Shuffles;
 MIT License
 
 Copyright (c) 2019 w0rthy
-Copyright (c) 2021 ArrayV 4.0 Team
+Copyright (c) 2021-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -41,10 +41,6 @@ SOFTWARE.
  */
 
 public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame {
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     private ArrayManager ArrayManager;

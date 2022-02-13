@@ -1,4 +1,4 @@
-package dialogs;
+package io.github.arrayv.dialogs;
 
 /*
 MIT License
