@@ -3,11 +3,11 @@ package sorts.concurrent;
 import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
-final public class MergeExchangeSortIterative extends Sort {
-	
+public final class MergeExchangeSortIterative extends Sort {
+
     public MergeExchangeSortIterative(ArrayVisualizer arrayVisualizer)  {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Merge-Exchange (Iterative)");
         this.setRunAllSortsName("Batcher's Merge-Exchange Sort");
         this.setRunSortName("Iterative Merge-Exchange Sort");
@@ -19,7 +19,7 @@ final public class MergeExchangeSortIterative extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         int t = (int)(Math.log(length-1) / Math.log(2))+1;

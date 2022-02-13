@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 aphitorite
@@ -29,7 +29,7 @@ SOFTWARE.
  *
  */
 
-final public class StableCycleSort extends Sort {
+public final class StableCycleSort extends Sort {
 	public StableCycleSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
 
@@ -44,51 +44,51 @@ final public class StableCycleSort extends Sort {
 		this.setUnreasonableLimit(0);
 		this.setBogoSort(false);
 	}
-	
+
 	private final int WLEN = 3;
-	
+
 	private boolean getBit(int[] bits, int idx) {
 		int b = (bits[idx >> WLEN]) >> (idx & ((1 << WLEN) - 1)) & 1;
 		return b == 1;
 	}
-	
+
 	private void flag(int[] bits, int idx) {
 		Highlights.markArray(4, idx >> WLEN);
 		Writes.write(bits, idx >> WLEN, bits[idx >> WLEN] | (1 << (idx & ((1 << WLEN) - 1))), 0.02, false, true);
 	}
-	
+
 	private int destination1(int[] array, int[] bits, int a, int b1, int b) {
 		int d = a, e = 0;
-		
+
 		for(int i = a+1; i < b; i++) {
 			Highlights.markArray(2, i);
 			int cmp = Reads.compareValues(array[i], array[a]);
-			
+
 			if(cmp < 0) d++;
 			else if(i < b1 && !this.getBit(bits, i) && cmp == 0) e++;
-			
+
 			Highlights.markArray(3, d);
 			Delays.sleep(0.01);
 		}
 		while(this.getBit(bits, d) || e-- > 0) {
 			d++;
-			
+
 			Highlights.markArray(3, d);
 			Delays.sleep(0.01);
 		}
-		
+
 		return d;
 	}
-	
+
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
 		int[] bits = Writes.createExternalArray(((length-1) >> WLEN) + 1);
-		
+
 		for(int i = 0; i < length-1; i++) {
 			if(!this.getBit(bits, i)) {
 				Highlights.markArray(1, i);
 				int j = i;
-				
+
 				do {
 					int k = this.destination1(array, bits, i, j, length);
 					Writes.swap(array, i, k, 0.02, true, false);

@@ -3,11 +3,11 @@ package sorts.concurrent;
 import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
-final public class BoseNelsonSortRecursive extends Sort {
-	
+public final class BoseNelsonSortRecursive extends Sort {
+
     public BoseNelsonSortRecursive(ArrayVisualizer arrayVisualizer) {
     	super(arrayVisualizer);
-        
+
     	this.setSortListName("Bose-Nelson (Recursive)");
     	this.setRunAllSortsName("Recursive Bose-Nelson Sorting Network");
     	this.setRunSortName("Recursive Bose-Nelson Sort");
@@ -19,7 +19,7 @@ final public class BoseNelsonSortRecursive extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     private void compareSwap(int[] array, int start, int end, double sleep) {
     	if (Reads.compareIndices(array, start, end, sleep, true) == 1) {
     	    Writes.swap(array, start, end, 2*sleep, true, false);
@@ -34,7 +34,7 @@ final public class BoseNelsonSortRecursive extends Sort {
             boseNelsonMerge(array, start, mid, start + mid, length - mid, sleep);
         }
     }
-    
+
     private void boseNelsonMerge(int[] array, int start1, int len1, int start2, int len2, double sleep) {
     	if (len1 == 1 && len2 == 1) {
     	    compareSwap(array, start1, start2, sleep);
@@ -52,7 +52,7 @@ final public class BoseNelsonSortRecursive extends Sort {
             boseNelsonMerge(array, start1 + mid1, len1 - mid1, start2, mid2, sleep);
         }
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         this.boseNelson(array, 0, length, 0.25);

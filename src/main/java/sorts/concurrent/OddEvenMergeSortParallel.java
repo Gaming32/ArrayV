@@ -4,7 +4,7 @@ import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 Piotr Grochowski
@@ -30,10 +30,10 @@ SOFTWARE.
  *
  */
 
-final public class OddEvenMergeSortParallel extends Sort {
+public final class OddEvenMergeSortParallel extends Sort {
     public OddEvenMergeSortParallel(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Odd-Even Merge (Parallel)");
         this.setRunAllSortsName("Parallel Odd-Even Merge Sort");
         this.setRunSortName("Parallel Odd-Even Mergesort");
@@ -45,12 +45,12 @@ final public class OddEvenMergeSortParallel extends Sort {
         this.setUnreasonableLimit(4096);
         this.setBogoSort(false);
     }
-    
+
 	private int[] array;
-	
+
 	private class OddEvenMerge extends Thread {
         private int lo, m2, n, r;
-		
+
         OddEvenMerge(int lo, int m2, int n, int r) {
             this.lo = lo;
 			this.m2 = m2;
@@ -61,10 +61,10 @@ final public class OddEvenMergeSortParallel extends Sort {
             OddEvenMergeSortParallel.this.oddEvenMerge(lo, m2, n, r);
         }
     }
-	
+
 	private class OddEvenMergeSort extends Thread {
         private int lo, n;
-		
+
         OddEvenMergeSort(int lo, int n) {
             this.lo = lo;
 			this.n  = n;
@@ -73,17 +73,17 @@ final public class OddEvenMergeSortParallel extends Sort {
             OddEvenMergeSortParallel.this.oddEvenMergeSort(lo, n);
         }
     }
-	
+
 	private void compSwap(int a, int b) {
 		if(Reads.compareIndices(array, a, b, 1, true) == 1)
 			Writes.swap(array, a, b, 1, true, false);
 	}
-	
+
 	private void oddEvenMerge(int lo, int m2, int n, int r) {
         int m = r * 2;
         if(m < n) {
 			OddEvenMerge left, right;
-			
+
             if((n/r)%2 != 0) {
                 left  = new OddEvenMerge(lo, (m2+1)/2, n+r, m);
                 right = new OddEvenMerge(lo+r, m2/2, n-r, m);
@@ -92,22 +92,22 @@ final public class OddEvenMergeSortParallel extends Sort {
                 left  = new OddEvenMerge(lo, (m2+1)/2, n, m);
                 right = new OddEvenMerge(lo+r, m2/2, n, m);
             }
-				
+
 			left.start();
 			right.start();
-			
+
 			try {
                 left.join();
                 right.join();
-            } 
+            }
 			catch(InterruptedException e) {
                 Thread.currentThread().interrupt();
 			}
 
             if(m2%2 != 0)
-                for(int i = lo; i + r < lo + n; i += m) 
+                for(int i = lo; i + r < lo + n; i += m)
                     this.compSwap(i, i + r);
-					
+
             else
                 for(int i = lo + r; i + r < lo + n; i += m)
                     this.compSwap(i, i + r);
@@ -118,21 +118,21 @@ final public class OddEvenMergeSortParallel extends Sort {
     private void oddEvenMergeSort(int lo, int n) {
         if (n > 1) {
             int m = n / 2;
-			
+
             OddEvenMergeSort left  = new OddEvenMergeSort(lo, m);
             OddEvenMergeSort right = new OddEvenMergeSort(lo + m, n-m);
-			
+
 			left.start();
 			right.start();
-			
+
 			try {
                 left.join();
                 right.join();
-            } 
+            }
 			catch(InterruptedException e) {
                 Thread.currentThread().interrupt();
 			}
-			
+
             this.oddEvenMerge(lo, m, n, 1);
         }
     }

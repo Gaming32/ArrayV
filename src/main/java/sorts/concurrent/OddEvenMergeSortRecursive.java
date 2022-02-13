@@ -6,12 +6,12 @@ import sorts.templates.Sort;
 /*
  * This version of Odd-Even Merge Sort was taken from here, written by H.W. Lang:
  * http://www.inf.fh-flensburg.de/lang/algorithmen/sortieren/networks/oemen.htm
- * 
+ *
  * Thanks to Piotr Grochowski for rewriting code to allow this implementation to
  * work for array lengths other than powers of two!
  */
 
-final public class OddEvenMergeSortRecursive extends Sort {
+public final class OddEvenMergeSortRecursive extends Sort {
     public OddEvenMergeSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

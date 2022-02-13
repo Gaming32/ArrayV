@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class InPlaceLSDRadixSort extends Sort {
+public final class InPlaceLSDRadixSort extends Sort {
     public InPlaceLSDRadixSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("In-Place LSD Radix");
         //this.setRunAllID("In-Place LSD Radix Sort, Base 2");
         this.setRunAllSortsName("In-Place LSD Radix Sort, Base 10");
@@ -49,33 +49,33 @@ final public class InPlaceLSDRadixSort extends Sort {
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         this.setRunAllSortsName("In-Place LSD Radix Sort, Base " + bucketCount);
-        
+
         int pos = 0;
         int[] vregs = new int[bucketCount - 1];
         Writes.changeAllocAmount(vregs.length);
-        
+
         int maxpower = Reads.analyzeMaxLog(array, sortLength, bucketCount, 0.5, true);
-        
+
         for(int p = 0; p <= maxpower; p++){
             for(int i = 0; i < vregs.length; i++) {
                 Writes.write(vregs, i, sortLength - 1, 0, false, true);
             }
-            
+
             pos = 0;
-            
+
             for(int i = 0; i < sortLength; i++){
                 int digit = Reads.getDigit(array[pos], p, bucketCount);
-                
+
                 if(digit == 0) {
                     pos++;
                     Highlights.markArray(0, pos);
-                } 
+                }
                 else {
                     for(int j = 0; j < vregs.length;j++)
                         Highlights.markArray(j + 1, vregs[j]);
-                    
+
                     Writes.multiSwap(array, pos, vregs[digit - 1], bucketCount / 10000d, false, false);
-                    
+
                     for(int j = digit - 1; j > 0; j--) {
                         Writes.write(vregs, j - 1, vregs[j - 1] - 1, 0, false, true);
                     }

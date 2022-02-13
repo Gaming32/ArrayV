@@ -34,7 +34,7 @@ SOFTWARE.
  *
  */
 
-final public class DisparityChords extends Visual {
+public final class DisparityChords extends Visual {
 
     public DisparityChords(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);

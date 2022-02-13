@@ -4,10 +4,10 @@ import main.ArrayVisualizer;
 import sorts.insert.BinaryInsertionSort;
 import sorts.templates.Sort;
 
-final public class OptimizedBottomUpMergeSort extends Sort {
+public final class OptimizedBottomUpMergeSort extends Sort {
     public OptimizedBottomUpMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Optimized Bottom-Up Merge");
         //this.setRunAllID("Bottom-Up Merge Sort w/ Binary Insert (std::stable_sort)");
         this.setRunAllSortsName("Optimized Bottom-Up Merge Sort [std::stable_sort]");
@@ -20,7 +20,7 @@ final public class OptimizedBottomUpMergeSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     /**
      *  Iterative merge sort algorithm --- as a static method
 
@@ -99,7 +99,7 @@ final public class OptimizedBottomUpMergeSort extends Sort {
                    Writes.write(y, j, x[j], 1, false, activeSound); // copy last segment to y
                    Highlights.markArray(1, j);
                    Highlights.clearMark(2);
-               }  
+               }
 
 
        }// end mergePass()
@@ -109,12 +109,12 @@ final public class OptimizedBottomUpMergeSort extends Sort {
      */
        private void stableSort (int[] a, int n) {
           BinaryInsertionSort binaryInserter = new BinaryInsertionSort(this.arrayVisualizer);
-          
+
           if(n < 16) {
               binaryInserter.customBinaryInsert(a, 0, 16, 0.35);
               return;
           }
-           
+
           // Sort a[0:n-1] using merge sort.
           int   s = 16;      // segment size
           int[] b = Writes.createExternalArray(n);
@@ -137,7 +137,7 @@ final public class OptimizedBottomUpMergeSort extends Sort {
 
           Writes.deleteExternalArray(b);
        }// end MergeArray class
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         this.stableSort(array, length);

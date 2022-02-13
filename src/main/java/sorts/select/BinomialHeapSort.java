@@ -3,7 +3,7 @@ package sorts.select;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class BinomialHeapSort extends Sort {
+public final class BinomialHeapSort extends Sort {
 	public BinomialHeapSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
 

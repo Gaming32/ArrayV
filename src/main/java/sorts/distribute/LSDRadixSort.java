@@ -6,7 +6,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -31,10 +31,10 @@ SOFTWARE.
  *
  */
 
-final public class LSDRadixSort extends Sort {
+public final class LSDRadixSort extends Sort {
     public LSDRadixSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("LSD Radix");
         this.setRunAllSortsName("Least Significant Digit Radix Sort, Base 4");
         this.setRunSortName("Least Significant Digit Radixsort");
@@ -50,22 +50,22 @@ final public class LSDRadixSort extends Sort {
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         this.setRunAllSortsName("Least Significant Digit Radix Sort, Base " + bucketCount);
-        
+
         int highestpower = Reads.analyzeMaxLog(array, sortLength, bucketCount, 0.5, true);
-        
+
         @SuppressWarnings("unchecked")
         ArrayList<Integer>[] registers = new ArrayList[bucketCount];
-        
+
         for(int i = 0; i < bucketCount; i++)
             registers[i] = new ArrayList<>();
-        
+
         for(int p = 0; p <= highestpower; p++){
             for(int i = 0; i < sortLength; i++){
                 Highlights.markArray(1, i);
-                
+
                 int digit = Reads.getDigit(array[i], p, bucketCount);
                 Writes.arrayListAdd(registers[digit], array[i]);
-                
+
                 Writes.mockWrite(sortLength, digit, array[i], 1);
             }
 

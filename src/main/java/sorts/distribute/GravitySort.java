@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 aphitorite
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class GravitySort extends Sort {
+public final class GravitySort extends Sort {
     public GravitySort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Gravity");
         this.setRunAllSortsName("Gravity (Bead) Sort");
         this.setRunSortName("Beadsort");
@@ -44,48 +44,48 @@ final public class GravitySort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		int min = array[0], max = array[0];
-		
+
         for(int i = 1; i < length; i++) {
             if(array[i] < min) min = array[i];
             if(array[i] > max) max = array[i];
         }
-		
+
 		int[] x = Writes.createExternalArray(length);
     	int[] y = Writes.createExternalArray(max - min + 1);
-		
+
 		double delay = Math.max(2d / length, 0.001);
-		
+
 		//save a copy of array-min in x
 		//increase count of the array-min value in y
     	for(int i = 0; i < length; i++) {
 			Writes.write(x, i, array[i]-min, 0, true, true);
 			Writes.write(y, array[i]-min, y[array[i]-min]+1, 1, false, true);
 		}
-		
+
 		//do a partial sum backwards to determine how many elements are greater than a value
     	for(int i = y.length-1; i > 0; i--)
 			Writes.write(y, i-1, y[i-1]+=y[i], 1, true, true);
-		
+
 		//iterate for every integer value in the array range
     	for(int j = y.length-1; j >= 0; j--) {
 			Highlights.markArray(2, length-y[j]);
-			
+
 			//iterate for every item in array and x
     		for(int i = 0; i < length; i++) {
 				Highlights.markArray(1, i);
 				Delays.sleep(delay);
-				
+
 				int inc = (i >= length-y[j] ? 1 : 0) - (x[i] >= j ? 1 : 0);
-				
+
 				//update the main array
 				Writes.write(array, i, array[i]+inc, delay, true, false);
     		}
 		}
-		
+
 		Writes.deleteExternalArray(x);
 		Writes.deleteExternalArray(y);
     }

@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.InsertionSorting;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class InsertionSort extends InsertionSorting {
+public final class InsertionSort extends InsertionSorting {
     public InsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Insertion");
         this.setRunAllSortsName("Insertion Sort");
         this.setRunSortName("Insertsort");
@@ -48,7 +48,7 @@ final public class InsertionSort extends InsertionSorting {
     public void customInsertSort(int[] array, int start, int end, double sleep, boolean auxwrite) {
         this.insertionSort(array, start, end, sleep, auxwrite);
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         this.insertionSort(array, 0, currentLength, 0.015, false);

@@ -3,10 +3,10 @@ package sorts.insert;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class RecursiveShellSort extends Sort {
+public final class RecursiveShellSort extends Sort {
     public RecursiveShellSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Recursive Shell");
         this.setRunAllSortsName("yuji's Recursive Shell Sort");
         this.setRunSortName("yuji's Recursive Shell Sort");
@@ -23,7 +23,7 @@ final public class RecursiveShellSort extends Sort {
         for (int i = a+gap; i < b; i+=gap) {
             int key = arr[i];
             int j = i-gap;
-            
+
             while (j >= a && Reads.compareValues(key, arr[j]) < 0) {
                 Writes.write(arr, j+gap, arr[j], 0.5, true, false);
                 j-=gap;

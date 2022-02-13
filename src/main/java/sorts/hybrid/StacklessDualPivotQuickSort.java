@@ -30,7 +30,7 @@ SOFTWARE.
  *
  */
 
-final public class StacklessDualPivotQuickSort extends Sort {
+public final class StacklessDualPivotQuickSort extends Sort {
 	public StacklessDualPivotQuickSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
 

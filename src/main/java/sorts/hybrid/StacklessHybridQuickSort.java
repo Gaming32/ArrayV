@@ -30,7 +30,7 @@ SOFTWARE.
  *
  */
 
-final public class StacklessHybridQuickSort extends Sort {
+public final class StacklessHybridQuickSort extends Sort {
 	public StacklessHybridQuickSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
 

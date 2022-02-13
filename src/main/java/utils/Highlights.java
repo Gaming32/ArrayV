@@ -31,7 +31,7 @@ SOFTWARE.
  *
  */
 
-final public class Highlights {
+public final class Highlights {
     private volatile int[] highlights;
     private volatile byte[] markCounts;
 

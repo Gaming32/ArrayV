@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 // Min-Max Heaps translated from https://github.com/BartMassey/minmaxheap
-final public class MinMaxHeapSort extends Sort {
+public final class MinMaxHeapSort extends Sort {
     int[] a;
     int start, end;
 

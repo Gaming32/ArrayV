@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 
 import main.ArrayVisualizer;
 
-final public class Statistics {
+public final class Statistics {
     public long frameTimeMillis;
 
     private String sortCategory;

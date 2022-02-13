@@ -3,7 +3,7 @@ package sorts.misc;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class BurntPancakeSort extends Sort {
+public final class BurntPancakeSort extends Sort {
   public BurntPancakeSort(ArrayVisualizer arrayVisualizer) {
     super(arrayVisualizer);
 

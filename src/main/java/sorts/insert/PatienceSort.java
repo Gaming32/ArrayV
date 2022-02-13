@@ -20,10 +20,10 @@ import sorts.templates.Sort;
  *
  */
 
-final public class PatienceSort extends Sort {
+public final class PatienceSort extends Sort {
 	public PatienceSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		
+
 		this.setSortListName("Patience");
 		this.setRunAllSortsName("Patience Sort");
 		this.setRunSortName("Patience Sort");
@@ -35,7 +35,7 @@ final public class PatienceSort extends Sort {
 		this.setUnreasonableLimit(0);
 		this.setBogoSort(false);
 	}
-	
+
 	final private class Pile extends Stack<Integer> implements Comparable<Pile> {
 		private static final long serialVersionUID = 1L;
 
@@ -48,26 +48,26 @@ final public class PatienceSort extends Sort {
 			return Reads.compareValues(peek(), y.peek());
 		}
 	}
-	
+
 	private void binarySearch(ArrayList<Pile> list, Pile find) {
 		int at = list.size() / 2;
 		int change = list.size() / 4;
-		
+
 		long compsBefore = Reads.getComparisons();
 		while(list.get(at).compare(find) != 0 && change > 0){
 			Reads.setComparisons(compsBefore);
 			Highlights.markArray(1, at);
 			Delays.sleep(0.5);
-			
+
 			if(list.get(at).compare(find) < 0)
 				at += change;
 			else
 				at -= change;
-			
+
 			change /= 2;
 		}
 		Reads.setComparisons(compsBefore);
-		
+
 		Highlights.markArray(1, at);
 		Delays.sleep(0.5);
 	}
@@ -75,17 +75,17 @@ final public class PatienceSort extends Sort {
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
 		ArrayList<Pile> piles = new ArrayList<>();
-		
+
 		// sort into piles
 		for (int x = 0; x < length; x++) {
 			Pile newPile = new Pile();
-			
+
 			Highlights.markArray(2, x);
 			Writes.mockWrite(length, Math.min(newPile.size(), length - 1), array[x], 1);
-			
+
 			newPile.push(array[x]);
 			Writes.changeAllocAmount(1);
-			
+
 			int i = Collections.binarySearch(piles, newPile);
 			if(!piles.isEmpty()) {
 				this.binarySearch(piles, newPile);
@@ -97,7 +97,7 @@ final public class PatienceSort extends Sort {
 				Writes.changeAllocAmount(1);
 			}
 			else {
-				Writes.mockWrite(length, Math.min(piles.size(), length - 1), newPile.get(0), 0);   
+				Writes.mockWrite(length, Math.min(piles.size(), length - 1), newPile.get(0), 0);
 				piles.add(newPile);
 				Writes.changeAllocAmount(1);
 			}
@@ -107,15 +107,15 @@ final public class PatienceSort extends Sort {
 
 		// priority queue allows us to retrieve least pile efficiently
 		PriorityQueue<Pile> heap = new PriorityQueue<>(piles);
-		
+
 		for (int c = 0; c < length; c++) {
 			Writes.mockWrite(length, Math.min(heap.size(), length - 1), 0, 0);
 			Pile smallPile = heap.poll();
-			
+
 			Writes.mockWrite(length, Math.min(smallPile.size(), length - 1), 0, 0);
 			Writes.write(array, c, smallPile.pop(), 1, true, false);
 			Writes.changeAllocAmount(-1);
-			
+
 			if (!smallPile.isEmpty()) {
 				Writes.mockWrite(length, Math.min(heap.size(), length - 1), smallPile.get(0), 0);
 				heap.offer(smallPile);

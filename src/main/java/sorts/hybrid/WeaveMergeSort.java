@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class WeaveMergeSort extends Sort {
+public final class WeaveMergeSort extends Sort {
     public WeaveMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Weave Merge");
         this.setRunAllSortsName("Weave Merge Sort");
         this.setRunSortName("Weave Mergesort");
@@ -47,29 +47,29 @@ final public class WeaveMergeSort extends Sort {
 
     private void weaveInsert(int[] arr, int start, int end) {
         int pos;
-        
+
         for(int j = start; j < end; j++){
             pos = j;
-            
+
             Highlights.markArray(1, j);
             Highlights.clearMark(2);
-            
+
             while(pos > start && Reads.compareValues(arr[pos], arr[pos - 1]) < 1) {
                 Writes.swap(arr, pos, pos - 1, 0.2, true, false);
                 pos--;
             }
         }
     }
-    
+
     private void weaveMerge(int[] arr, int min, int max, int mid) {
         int i = 1;
         int target = (mid - min);
-        
+
         while(i <= target) {
             Writes.multiSwap(arr, mid + i, min + (i * 2) - 1, 0.05, true, false);
             i++;
         }
-        
+
         this.weaveInsert(arr, min, max + 1);
     }
 

@@ -30,7 +30,7 @@ SOFTWARE.
  *
  */
 
-final public class StableQuickSort extends Sort {
+public final class StableQuickSort extends Sort {
     private int length;
 
     public StableQuickSort(ArrayVisualizer arrayVisualizer) {

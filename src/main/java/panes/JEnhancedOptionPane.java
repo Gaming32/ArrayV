@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 // Many thanks to Freek de Bruijn on StackOverflow for providing a custom JOptionPane.
 // https://stackoverflow.com/questions/14407804/how-to-change-the-default-text-of-buttons-in-joptionpane-showinputdialog?noredirect=1&lq=1
-final public class JEnhancedOptionPane extends JOptionPane {
+public final class JEnhancedOptionPane extends JOptionPane {
  /**
   *
   */

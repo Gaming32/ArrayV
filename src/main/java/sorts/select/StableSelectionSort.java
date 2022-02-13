@@ -4,7 +4,7 @@ import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 Copyright (c) 2020 fungamer2
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,11 +25,11 @@ SOFTWARE.
  *
  */
 
-final public class StableSelectionSort extends Sort {
-    
+public final class StableSelectionSort extends Sort {
+
     public StableSelectionSort(ArrayVisualizer arrayVisualizer)  {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Stable Selection");
         this.setRunAllSortsName("Stable Selection Sort");
         this.setRunSortName("Stable Selection Sort");
@@ -41,7 +41,7 @@ final public class StableSelectionSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 0; i < length - 1; i++) {

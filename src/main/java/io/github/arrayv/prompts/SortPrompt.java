@@ -69,7 +69,7 @@ SOFTWARE.
  *
  */
 
-final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
+public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
     public class PlaceholderTextField extends JTextField {
         /**
          * Shamelessly copied from https://stackoverflow.com/a/16229082/8840278

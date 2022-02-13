@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.MergeSorting;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class BinaryMergeSort extends MergeSorting {
+public final class BinaryMergeSort extends MergeSorting {
     public BinaryMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Binary Merge");
         this.setRunAllSortsName("Binary Merge Sort");
         this.setRunSortName("Binary Mergesort");
@@ -44,7 +44,7 @@ final public class BinaryMergeSort extends MergeSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         this.mergeSort(array, length, true);

@@ -2,7 +2,7 @@ package io.github.arrayv.sortdata;
 
 import java.util.Comparator;
 
-final public class SortComparator implements Comparator<SortInfo> {
+public final class SortComparator implements Comparator<SortInfo> {
     public SortComparator() {}
 
     @Override

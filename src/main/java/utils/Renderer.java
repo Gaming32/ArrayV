@@ -49,7 +49,7 @@ final class WindowState {
     }
 }
 
-final public class Renderer {
+public final class Renderer {
     private volatile double xScale;
     private volatile double yScale;
 

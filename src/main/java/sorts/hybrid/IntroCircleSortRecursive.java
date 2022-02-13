@@ -5,7 +5,7 @@ import sorts.insert.BinaryInsertionSort;
 import sorts.templates.CircleSorting;
 
 /*
- * 
+ *
 Copyright (c) rosettacode.org.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2
@@ -16,10 +16,10 @@ Free Documentation License".
  *
  */
 
-final public class IntroCircleSortRecursive extends CircleSorting {
+public final class IntroCircleSortRecursive extends CircleSorting {
     public IntroCircleSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Intro Circle (Recursive)");
         this.setRunAllSortsName("Recursive Introspective Circle Sort");
         this.setRunSortName("Introspective Circlesort");
@@ -37,13 +37,13 @@ final public class IntroCircleSortRecursive extends CircleSorting {
     	this.end = length;
     	int threshold = 0, n = 1;
     	for(; n < length; n*=2, threshold++);
-		
+
 		threshold /= 2;
         int iterations = 0;
-		
+
         do {
             iterations++;
-            
+
             if(iterations >= threshold) {
                 BinaryInsertionSort binaryInserter = new BinaryInsertionSort(this.arrayVisualizer);
                 binaryInserter.customBinaryInsert(array, 0, length, 0.1);

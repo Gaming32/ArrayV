@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.GrailSorting;
 
 /*
- * 
+ *
 The MIT License (MIT)
 
 Copyright (c) 2013 Andrey Astrelin
@@ -38,10 +38,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /*                                       */
 /*****************************************/
 
-final public class LazyStableSort extends GrailSorting {
+public final class LazyStableSort extends GrailSorting {
     public LazyStableSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Lazy Stable");
         this.setRunAllSortsName("Lazy Stable Sort");
         this.setRunSortName("Lazy Stable Sort");
@@ -53,9 +53,9 @@ final public class LazyStableSort extends GrailSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
-    public void runSort(int[] array, int length, int bucketCount) {        
+    public void runSort(int[] array, int length, int bucketCount) {
         this.grailLazyStableSort(array, 0, length);
     }
 }

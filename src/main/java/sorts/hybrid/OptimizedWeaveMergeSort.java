@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 aphitorite
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class OptimizedWeaveMergeSort extends Sort {
+public final class OptimizedWeaveMergeSort extends Sort {
 	public OptimizedWeaveMergeSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		
+
 		this.setSortListName("Optimized Weave Merge");
 		this.setRunAllSortsName("Optimized Weave Merge Sort");
 		this.setRunSortName("Optimized Weave Mergesort");
@@ -44,21 +44,21 @@ final public class OptimizedWeaveMergeSort extends Sort {
 		this.setUnreasonableLimit(0);
 		this.setBogoSort(false);
 	}
-	
+
 	private void insertTo(int[] array, int a, int b) {
 		int temp = array[a];
 		while(a > b) Writes.write(array, a, array[--a], 0.25, true, false);
 		Writes.write(array, b, temp, 0.25, true, false);
 	}
-	
+
 	private void multiSwap(int[] array, int a, int b, int len) {
 		for(int i = 0; i < len; i++)
 			Writes.swap(array, a+i, b+i, 1, true, false);
 	}
-	
+
 	private void rotate(int[] array, int a, int m, int b) {
 		int l = m-a, r = b-m;
-		
+
 		while(l > 0 && r > 0) {
 			if(r < l) {
 				this.multiSwap(array, m-r, m, r);
@@ -74,31 +74,31 @@ final public class OptimizedWeaveMergeSort extends Sort {
 			}
 		}
 	}
-	
+
 	//pow of 2 only (O(n))
 	private void bitReversal(int[] array, int a, int b) {
 		int len = b-a, m = 0;
 		int d1 = len>>1, d2 = d1+(d1>>1);
-					
+
 		for(int i = 1; i < len-1; i++) {
 			int j = d1;
-			
+
 			for(
-				int k = i, n = d2; 
-				(k&1) == 0; 
+				int k = i, n = d2;
+				(k&1) == 0;
 				j -= n, k >>= 1, n >>= 1
 			);
 			m += j;
 			if(m > i) Writes.swap(array, a+i, a+m, 1, true, false);
 		}
 	}
-	
+
 	private void weaveInsert(int[] array, int a, int b, boolean right) {
 		int i = a, j = i+1;
-		
+
 		while(j < b) {
 			while(i < j && Reads.compareIndices(array, i, j, 0, true) < (right ? 1 : 0)) i++;
-			
+
 			if(i == j) {
 				right = !right;
 				j++;
@@ -110,16 +110,16 @@ final public class OptimizedWeaveMergeSort extends Sort {
 		}
 		Highlights.clearMark(3);
 	}
-	
+
 	//000111 -> 010101 T
 	//00011  -> 01010  T
 	//00111  -> 10101  F
 	private void weaveMerge(int[] array, int a, int m, int b) {
 		if(b-a < 2) return;
-		
+
 		int a1 = a, b1 = b;
 		boolean right = true;
-		
+
 		if((b-a)%2 == 1) {
 			if(m-a < b-m) {
 				a1--;
@@ -127,15 +127,15 @@ final public class OptimizedWeaveMergeSort extends Sort {
 			}
 			else b1++;
 		}
-		
+
 		for(int e = b1, f; e-a1 > 2; e = f) {
 			m = (a1+e)/2;
 			int p = 1 << (int)(Math.log(m-a1)/Math.log(2));
-			
+
 			this.rotate(array, m-p, m, e-p);
 			m = e-p;
 			f = m-p;
-			
+
 			this.bitReversal(array, f, m);
 			this.bitReversal(array, m, e);
 			this.bitReversal(array, f, e);
@@ -147,10 +147,10 @@ final public class OptimizedWeaveMergeSort extends Sort {
 	@Override
 	public void runSort(int[] array, int currentLength, int bucketCount) {
 		int n = currentLength, d = 1 << (int)(Math.log(n-1)/Math.log(2) + 1);
-		
+
 		while(d > 1) {
 			int i = 0, dec = 0;
-			
+
 			while(i < n) {
 				int j = i;
 				dec += n;

@@ -50,7 +50,7 @@ SOFTWARE.
  *
  */
 
-final public class RunDistributionSorts extends MultipleSortThread {
+public final class RunDistributionSorts extends MultipleSortThread {
     private Sort CountingSort;
     private Sort PigeonholeSort;
     private Sort OptimizedPigeonholeSort;

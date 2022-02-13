@@ -34,7 +34,7 @@ SOFTWARE.
  *
  */
 
-final public class SpiralDots extends Visual {
+public final class SpiralDots extends Visual {
 
     public SpiralDots(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);

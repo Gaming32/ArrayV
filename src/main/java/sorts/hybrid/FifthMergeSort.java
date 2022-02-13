@@ -28,7 +28,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-final public class FifthMergeSort extends Sort {
+public final class FifthMergeSort extends Sort {
     protected final class IndexPair {
         public int aEnd, bEnd;
 

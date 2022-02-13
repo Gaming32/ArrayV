@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class InPlaceMergeSort extends Sort {
+public final class InPlaceMergeSort extends Sort {
     public InPlaceMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("In-Place Merge");
         this.setRunAllSortsName("In-Place Merge Sort");
         this.setRunSortName("In-Place Mergesort");
@@ -52,7 +52,7 @@ final public class InPlaceMergeSort extends Sort {
             }
         }
     }
-    
+
     private void merge(int[] array, int min, int max, int mid) {
         int i = min;
         while(i <= mid) {

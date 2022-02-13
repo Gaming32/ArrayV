@@ -31,7 +31,7 @@ SOFTWARE.
  *
  */
 
-final public class StaticSort extends Sort {
+public final class StaticSort extends Sort {
     MaxHeapSort heapSorter;
     InsertionSort insertSorter;
 

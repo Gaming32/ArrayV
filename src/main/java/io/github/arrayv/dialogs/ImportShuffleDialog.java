@@ -1,6 +1,6 @@
 package io.github.arrayv.dialogs;
 
-final public class ImportShuffleDialog extends FileDialog {
+public final class ImportShuffleDialog extends FileDialog {
     public ImportShuffleDialog() {
         super();
 

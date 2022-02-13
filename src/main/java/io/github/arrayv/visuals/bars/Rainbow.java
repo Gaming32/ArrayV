@@ -33,7 +33,7 @@ SOFTWARE.
  *
  */
 
-final public class Rainbow extends Visual {
+public final class Rainbow extends Visual {
     public Rainbow(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }

@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class SelectionSort extends Sort {  
+public final class SelectionSort extends Sort {
     public SelectionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Selection");
         this.setRunAllSortsName("Selection Sort");
         this.setRunSortName("Selection Sort");
@@ -44,16 +44,16 @@ final public class SelectionSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 0; i < length - 1; i++) {
             int lowestindex = i;
-            
+
             for (int j = i + 1; j < length; j++) {
                 Highlights.markArray(2, j);
                 Delays.sleep(0.01);
-                
+
                 if (Reads.compareValues(array[j], array[lowestindex]) == -1){
                     lowestindex = j;
                     Highlights.markArray(1, lowestindex);

@@ -31,7 +31,7 @@ SOFTWARE.
  *
  */
 
-final public class Delays {
+public final class Delays {
     private volatile double SLEEPRATIO;
     private volatile boolean SKIPPED;
 

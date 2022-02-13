@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.insert.InsertionSort;
 import sorts.templates.Sort;
 
-final public class DualPivotQuickSort extends Sort {
+public final class DualPivotQuickSort extends Sort {
     private InsertionSort insertSorter;
 
     public DualPivotQuickSort(ArrayVisualizer arrayVisualizer) {

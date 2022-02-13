@@ -38,7 +38,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /*                                       */
 /*****************************************/
 
-final public class OptimizedLazyStableSort extends GrailSorting {
+public final class OptimizedLazyStableSort extends GrailSorting {
     public OptimizedLazyStableSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

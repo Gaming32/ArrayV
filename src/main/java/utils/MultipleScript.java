@@ -11,7 +11,7 @@ import main.ArrayVisualizer;
 import panes.JErrorPane;
 import sorts.templates.Sort;
 
-final public class MultipleScript {
+public final class MultipleScript {
     public static class ScriptCommand {
         public static enum CommandType {
             SortCall,

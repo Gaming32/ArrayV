@@ -4,11 +4,11 @@ import sorts.templates.Sort;
 
 import main.ArrayVisualizer;
 
-final public class SimplisticGravitySort extends Sort {
-    
+public final class SimplisticGravitySort extends Sort {
+
     public SimplisticGravitySort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Simplistic Gravity");
         this.setRunAllSortsName("Simplistic Gravity Sort (By McDude_73)");
         this.setRunSortName("Simplistic Gravity Sort");
@@ -20,11 +20,11 @@ final public class SimplisticGravitySort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
 	}
-    
+
     int[] aux;
     int min;
 	double sleep;
-    
+
     private void transferFrom(int[] array, int arrayLength, int index) {
     	for(int pointer = 0;pointer < arrayLength && this.aux[pointer] != 0;pointer++) {
     		Highlights.markArray(2, index);
@@ -32,7 +32,7 @@ final public class SimplisticGravitySort extends Sort {
     		Writes.write(this.aux, pointer, --this.aux[pointer], this.sleep, true, true);
     	}
     }
-    
+
     private void transferTo(int[] array, int arrayLength, int index) {
     	for(int pointer = 0;array[index] > this.min;pointer++) {
     		Highlights.markArray(2, index);
@@ -40,7 +40,7 @@ final public class SimplisticGravitySort extends Sort {
     		Writes.write(this.aux, pointer, ++this.aux[pointer], this.sleep, true, true);
     	}
     }
-	
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		this.sleep = 10d/length;

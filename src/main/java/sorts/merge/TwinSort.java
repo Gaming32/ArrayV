@@ -35,7 +35,7 @@ import sorts.templates.TwinSorting;
     twinsort 1.1.3.3
 */
 
-final public class TwinSort extends TwinSorting {
+public final class TwinSort extends TwinSorting {
     public TwinSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

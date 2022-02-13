@@ -35,7 +35,7 @@ SOFTWARE.
  *
  */
 
-final public class WaveDots extends Visual {
+public final class WaveDots extends Visual {
     public WaveDots(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }

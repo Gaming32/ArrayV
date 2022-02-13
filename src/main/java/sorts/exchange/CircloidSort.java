@@ -5,7 +5,7 @@ import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 yuji
@@ -30,10 +30,10 @@ SOFTWARE.
  *
  */
 
-final public class CircloidSort extends Sort {
+public final class CircloidSort extends Sort {
     public CircloidSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Circloid");
         this.setRunAllSortsName("Circloid Sort");
         this.setRunSortName("Circloid Sort");
@@ -45,7 +45,7 @@ final public class CircloidSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
 	private boolean circle(int[] array, int left, int right) {
         int a = left;
         int b = right;
@@ -63,7 +63,7 @@ final public class CircloidSort extends Sort {
         }
         return swapped;
     }
-	
+
 	private boolean circlePass(int[] array, int left, int right) {
 		if(left >= right) return false;
 		int mid = (left + right) / 2;
@@ -71,7 +71,7 @@ final public class CircloidSort extends Sort {
 		boolean r = this.circlePass(array, mid+1, right);
 		return this.circle(array, left, right) || l || r;
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
     	while(this.circlePass(array, 0, length-1));

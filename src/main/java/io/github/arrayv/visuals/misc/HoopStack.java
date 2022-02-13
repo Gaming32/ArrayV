@@ -33,7 +33,7 @@ SOFTWARE.
  *
  */
 
-final public class HoopStack extends Visual {
+public final class HoopStack extends Visual {
     public HoopStack(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }

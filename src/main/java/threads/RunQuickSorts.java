@@ -30,7 +30,7 @@ SOFTWARE.
  *
  */
 
-final public class RunQuickSorts extends MultipleSortThread {
+public final class RunQuickSorts extends MultipleSortThread {
 
     public RunQuickSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

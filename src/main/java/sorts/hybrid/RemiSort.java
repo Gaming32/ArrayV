@@ -29,7 +29,7 @@ SOFTWARE.
  *
  */
 
-final public class RemiSort extends MultiWayMergeSorting {
+public final class RemiSort extends MultiWayMergeSorting {
 	public RemiSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
 

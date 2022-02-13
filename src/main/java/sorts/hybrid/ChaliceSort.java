@@ -30,7 +30,7 @@ SOFTWARE.
  *
  */
 
-final public class ChaliceSort extends BlockMergeSorting {
+public final class ChaliceSort extends BlockMergeSorting {
     public ChaliceSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

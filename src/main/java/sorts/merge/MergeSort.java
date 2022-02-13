@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class MergeSort extends MergeSorting {
+public final class MergeSort extends MergeSorting {
     public MergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Merge");
         this.setRunAllSortsName("Merge Sort");
         this.setRunSortName("Mergesort");
@@ -44,7 +44,7 @@ final public class MergeSort extends MergeSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         this.mergeSort(array, length, false);

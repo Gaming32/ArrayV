@@ -8,12 +8,12 @@ import sorts.templates.Sort;
  * http://www.inf.fh-flensburg.de/lang/algorithmen/sortieren/bitonic/oddn.htm
  */
 
-final public class BitonicSortRecursive extends Sort {
+public final class BitonicSortRecursive extends Sort {
     private boolean direction = true;
-    
+
     public BitonicSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Bitonic (Recursive)");
         this.setRunAllSortsName("Batcher's Bitonic Sort");
         this.setRunSortName("Recursive Bitonic Sort");
@@ -25,19 +25,19 @@ final public class BitonicSortRecursive extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     private static int greatestPowerOfTwoLessThan(int n){
         int k = 1;
         while (k < n) {
             k = k << 1;
         }
-        return k >> 1;      
+        return k >> 1;
     }
-    
+
     private void compare(int[] A, int i, int j, boolean dir)
     {
         int cmp = Reads.compareIndices(A, i, j, 0.5, true);
-        
+
         if (dir == (cmp == 1)) Writes.swap(A, i, j, 0.5, true, false);
     }
 
@@ -72,7 +72,7 @@ final public class BitonicSortRecursive extends Sort {
         else if(choice.equals("backward")) this.direction = false;
         else throw new Exception("Invalid direction for Bitonic Sort!");
     }
-    
+
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         this.bitonicSort(array, 0, sortLength, this.direction);

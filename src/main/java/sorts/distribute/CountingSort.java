@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class CountingSort extends Sort {
+public final class CountingSort extends Sort {
     public CountingSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Counting");
         this.setRunAllSortsName("Counting Sort");
         this.setRunSortName("Counting Sort");
@@ -48,24 +48,24 @@ final public class CountingSort extends Sort {
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         int max = Reads.analyzeMax(array, sortLength, 0, false);
-        
+
         int[] output = Writes.copyOfArray(array, sortLength);
         int[] counts = Writes.createExternalArray(max + 1);
-        
-        for (int i = 0; i < sortLength; i++) { 
+
+        for (int i = 0; i < sortLength; i++) {
             Writes.write(counts, array[i], counts[array[i]] + 1, 1, false, true);
             Highlights.markArray(1, i);
-        } 
+        }
 
-        for (int i = 1; i < counts.length; i++) { 
+        for (int i = 1; i < counts.length; i++) {
             Writes.write(counts, i, counts[i] + counts[i - 1], 1, true, true);
-        } 
+        }
 
         for (int i = sortLength - 1; i >= 0; i--) {
             output[counts[array[i]] - 1] = array[i];
             counts[array[i]]--;
         }
-        
+
         // Extra loop to simulate the results from the "output" array being written
         // to the visual array.
         for (int i = sortLength - 1; i >= 0; i--) {

@@ -31,7 +31,7 @@ SOFTWARE.
  *
  */
 
-final public class RunAllSorts {
+public final class RunAllSorts {
     private ArrayVisualizer arrayVisualizer;
     private ArrayList<MultipleSortThread> allSortThreads;
 

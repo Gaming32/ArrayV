@@ -8,10 +8,10 @@ import sorts.templates.Sort;
  * Implemented in ArrayV by Gaming32
  * https://github.com/bingmann/sound-of-sorting/blob/master/src/SortAlgo.cpp#L449-L534
  */
-final public class TernaryLRQuickSort extends Sort {
+public final class TernaryLRQuickSort extends Sort {
     public TernaryLRQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Ternary LR Quick");
         this.setRunAllSortsName("Quick Sort (ternary, LR ptrs)");
         this.setRunSortName("Quicksort (ternary, LR ptrs)");
@@ -107,7 +107,7 @@ final public class TernaryLRQuickSort extends Sort {
         quickSortTernaryLR(A, lo, lo + num_less - 1);
         quickSortTernaryLR(A, hi - num_greater + 1, hi);
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         quickSortTernaryLR(array, 0, currentLength - 1);

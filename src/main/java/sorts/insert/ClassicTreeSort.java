@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 aphitorite
@@ -28,11 +28,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
- 
-final public class ClassicTreeSort extends Sort {
+
+public final class ClassicTreeSort extends Sort {
 	public ClassicTreeSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		
+
 		this.setSortListName("Classic Tree");
 		this.setRunAllSortsName("Classic Unbalanced Tree Sort");
 		this.setRunSortName("Classic Unbalanced Treesort");
@@ -44,19 +44,19 @@ final public class ClassicTreeSort extends Sort {
 		this.setUnreasonableLimit(0);
 		this.setBogoSort(false);
 	}
-	
+
 	private int idx;
-	
+
 	private void traverse(int[] array, int[] temp, int[] lower, int[] upper, int r) {
 		Highlights.markArray(1, r);
 		Delays.sleep(1);
-		
+
 		if(lower[r] != 0) this.traverse(array, temp, lower, upper, lower[r]);
-		
+
 		Writes.write(temp, this.idx++, array[r], 0, false, true);
 		Highlights.markArray(1, r);
 		Delays.sleep(1);
-		
+
 		if(upper[r] != 0) this.traverse(array, temp, lower, upper, upper[r]);
 	}
 
@@ -65,17 +65,17 @@ final public class ClassicTreeSort extends Sort {
 		int[] lower = Writes.createExternalArray(currentLength);
 		int[] upper = Writes.createExternalArray(currentLength);
 		int[] next;
-		
+
 		for(int i = 1; i < currentLength; i++) {
 			Highlights.markArray(2, i);
 			int c = 0;
-			
+
 			while(true) {
 				Highlights.markArray(1, c);
 				Delays.sleep(0.5);
-				
+
 				next = Reads.compareValues(array[i], array[c]) < 0 ? lower : upper;
-				
+
 				if(next[c] == 0) {
 					Writes.write(next, c, i, 0, false, true);
 					break;
@@ -84,12 +84,12 @@ final public class ClassicTreeSort extends Sort {
 			}
 		}
 		Highlights.clearMark(2);
-		
+
 		int[] temp = Writes.createExternalArray(currentLength);
 		this.idx = 0;
 		this.traverse(array, temp, lower, upper, 0);
 		Writes.arraycopy(temp, 0, array, 0, currentLength, 1, true, false);
-		
+
 		Writes.deleteExternalArray(lower);
 		Writes.deleteExternalArray(upper);
 		Writes.deleteExternalArray(temp);

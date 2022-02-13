@@ -34,7 +34,7 @@ SOFTWARE.
  *
  */
 
-final public class SineWave extends Visual {
+public final class SineWave extends Visual {
 
     public SineWave(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);

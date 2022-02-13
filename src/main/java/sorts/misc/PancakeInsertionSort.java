@@ -3,7 +3,7 @@ package sorts.misc;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class PancakeInsertionSort extends Sort {
+public final class PancakeInsertionSort extends Sort {
     public PancakeInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
@@ -26,7 +26,7 @@ final public class PancakeInsertionSort extends Sort {
 
         while (top > 1) {
             mid = top / 2;
-            
+
             if (Reads.compareValueIndex(array, value, end - mid, 0.5, true) <= 0) {
                 end -= mid;
             }

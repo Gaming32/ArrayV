@@ -6,15 +6,15 @@ import sorts.templates.Sort;
 /*
  * This version of Odd-Even Merge Sort was taken from here, written by wkpark on StackOverflow:
  * https://stackoverflow.com/questions/34426337/how-to-fix-this-non-recursive-odd-even-merge-sort-algorithm
- * 
+ *
  * Thanks to Piotr Grochowski for rewriting code to allow this implementation to
  * work for array lengths other than powers of two!
  */
 
-final public class OddEvenMergeSortIterative extends Sort {
+public final class OddEvenMergeSortIterative extends Sort {
     public OddEvenMergeSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Odd-Even Merge (Iterative)");
         this.setRunAllSortsName("Iterative Odd-Even Merge Sort");
         this.setRunSortName("Iterative Odd-Even Mergesort");

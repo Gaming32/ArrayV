@@ -3,7 +3,7 @@ package sorts.hybrid;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class OptimizedRotateMergeSort extends Sort {
+public final class OptimizedRotateMergeSort extends Sort {
     final int MIN_RUN = 32;
 
     int[] tmp;

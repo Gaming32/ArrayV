@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class UnoptimizedBubbleSort extends Sort {
+public final class UnoptimizedBubbleSort extends Sort {
     public UnoptimizedBubbleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Unoptimized Bubble");
         this.setRunAllSortsName("Unoptimized Bubble Sort");
         this.setRunSortName("Unoptimized Bubblesort");
@@ -51,7 +51,7 @@ final public class UnoptimizedBubbleSort extends Sort {
 
         while(!sorted) {
             sorted = true;
-            for(int i = 0; i < sortLength - 1; i++) {             
+            for(int i = 0; i < sortLength - 1; i++) {
                 if(Reads.compareValues(array[i], array[i + 1]) == 1){
                     Writes.swap(array, i, i + 1, 0.075, true, false);
                     sorted = false;
@@ -61,6 +61,6 @@ final public class UnoptimizedBubbleSort extends Sort {
                 Highlights.markArray(2, i + 1);
                 Delays.sleep(0.05);
             }
-        }    
+        }
     }
 }

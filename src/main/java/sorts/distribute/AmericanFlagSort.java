@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 Copyright 2017 Justin Wetherell
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ limitations under the License.
  * distributes items into hundreds of buckets. Non-comparative sorting
  * algorithms such as radix sort and American flag sort are typically used to
  * sort large objects such as strings, for which comparison is not a unit-time
- * operation. 
+ * operation.
  * <p>
  * Family: Bucket.<br>
  * Space: In-place.<br>
@@ -43,12 +43,12 @@ limitations under the License.
  * @author Justin Wetherell <phishman3579@gmail.com>
  */
 
-final public class AmericanFlagSort extends Sort {	    
+public final class AmericanFlagSort extends Sort {
 	    private int NUMBER_OF_BUCKETS = 128; // ex. 10 for base 10 numbers
-	    
+
 	    public AmericanFlagSort(ArrayVisualizer arrayVisualizer) {
 	        super(arrayVisualizer);
-	        
+
 	        this.setSortListName("American Flag");
 	        this.setRunAllSortsName("American Flag Sort, " + this.NUMBER_OF_BUCKETS + " Buckets");
 	        this.setRunSortName("American Flag Sort");
@@ -60,15 +60,15 @@ final public class AmericanFlagSort extends Sort {
 	        this.setUnreasonableLimit(0);
 	        this.setBogoSort(false);
 	    }
-	    
+
 	    // Slightly different than Reads.analyzeMaxLog.
 	    private int getMaxNumberOfDigits(int[] array, int length) {
 	        int max = Integer.MIN_VALUE;
             int temp = 0;
-            
+
             for (int i = 0; i < length; i++) {
                 temp = (int) (Math.log(array[i]) / Math.log(this.NUMBER_OF_BUCKETS)) + 1;
-                
+
                 if (temp > max)
                     max = temp;
             }
@@ -78,49 +78,49 @@ final public class AmericanFlagSort extends Sort {
         private int getDigit(int integer, int divisor) {
             return (integer / divisor) % this.NUMBER_OF_BUCKETS;
         }
-        
+
         private void sort(int[] array, int start, int length, int divisor) {
             // First pass - find counts
             int[] count = new int[this.NUMBER_OF_BUCKETS];
             int[] offset = new int[this.NUMBER_OF_BUCKETS];
             Writes.changeAllocAmount(2 * this.NUMBER_OF_BUCKETS);
             int digit = 0;
-            
+
             for (int i = start; i < length; i++) {
                 Highlights.markArray(1, i);
                 Delays.sleep(0.75);
-                
+
                 int d = array[i];
                 digit = this.getDigit(d, divisor);
-                
+
                 Writes.write(count, digit, count[digit] + 1, 0, false, true);
             }
-            
+
             Writes.write(offset, 0, start + 0, 0, false, true);
-            
+
             for (int i = 1; i < this.NUMBER_OF_BUCKETS; i++) {
                 Writes.write(offset, i, count[i - 1] + offset[i - 1], 0, false, true);
             }
-            
+
             // Second pass - move into position
             for (int b = 0; b < this.NUMBER_OF_BUCKETS; b++) {
                 while (count[b] > 0) {
                     int origin = offset[b];
                     int from = origin;
                     int num = array[from];
-                    
+
                     Writes.visualClear(array, from, 0.5);
-                    
+
                     do {
                         digit = this.getDigit(num, divisor);
                         int to = offset[digit];
-                        
+
                         Writes.write(offset, digit, offset[digit] + 1, 0, false, true);
                         Writes.write(count, digit, count[digit] - 1, 0, false, true);
-                        
+
                         int temp = array[to];
                         Writes.write(array, to, num, 0.75, true, false);
-                        
+
                         num = temp;
                         from = to;
                     } while (from != origin);
@@ -131,7 +131,7 @@ final public class AmericanFlagSort extends Sort {
                 for (int i = 0; i < this.NUMBER_OF_BUCKETS; i++) {
                     int begin = (i > 0) ? offset[i - 1] : start;
                     int end = offset[i];
-                    
+
                     if (end - begin > 1)
                         this.sort(array, begin, end, divisor / this.NUMBER_OF_BUCKETS);
                 }
@@ -144,13 +144,13 @@ final public class AmericanFlagSort extends Sort {
         public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
             this.NUMBER_OF_BUCKETS = bucketCount;
             this.setRunAllSortsName("American Flag Sort, " + this.NUMBER_OF_BUCKETS + " Buckets");
-            
+
             int numberOfDigits = this.getMaxNumberOfDigits(array, sortLength); // Max number of digits
             int max = 1;
-            
+
             for (int i = 0; i < numberOfDigits - 1; i++)
                 max *= this.NUMBER_OF_BUCKETS;
-            
+
             this.sort(array, 0, sortLength, max);
         }
 	}

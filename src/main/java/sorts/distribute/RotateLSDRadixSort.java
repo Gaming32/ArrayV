@@ -29,7 +29,7 @@ SOFTWARE.
  *
  */
 
-final public class RotateLSDRadixSort extends Sort {
+public final class RotateLSDRadixSort extends Sort {
     public RotateLSDRadixSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

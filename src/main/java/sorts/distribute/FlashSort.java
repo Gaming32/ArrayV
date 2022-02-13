@@ -6,10 +6,10 @@ import main.ArrayVisualizer;
 import sorts.insert.InsertionSort;
 import sorts.templates.Sort;
 
-final public class FlashSort extends Sort {
+public final class FlashSort extends Sort {
     public FlashSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Flash");
         this.setRunAllSortsName("Flash Sort");
         this.setRunSortName("Flashsort");
@@ -21,7 +21,7 @@ final public class FlashSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
 	// The flashsort algorithm is attributed to Karl-Dietrich Neubert
 	// The translation to C++ is provided by Clint Jed Casper
 	// Refactored in Java by MusicTheorist
@@ -29,7 +29,7 @@ final public class FlashSort extends Sort {
 	// sorts an array in place in O(n) time using 20% of the
 	// memory used by the array for storing intermediate,
 	// temporary computations
-	
+
 	@Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         if(sortLength == 0) return;
@@ -54,7 +54,7 @@ final public class FlashSort extends Sort {
             int bigIndex;
 
             Highlights.markArray(1, i);
-            
+
             //which is bigger A(i) or A(i+1)
             if(Reads.compareValues(array[i], array[i + 1]) == -1)
             {
@@ -79,7 +79,7 @@ final public class FlashSort extends Sort {
             {
                 min = small;
             }
-            
+
             Delays.sleep(1);
         }
 
@@ -97,7 +97,7 @@ final public class FlashSort extends Sort {
 
         Delays.sleep(1);
         Highlights.clearMark(1);
-        
+
         if(max == min)
         {
             //all the elements are the same
@@ -108,7 +108,7 @@ final public class FlashSort extends Sort {
         //note that L is in the range 1...m (hence
         //the extra 1)
         int[] L = Writes.createExternalArray(m + 1);
-        
+
         //O(m)
         //initialize L to contain all zeros (L[0] is unused)
         for(int t = 1; t <= m; t++)
@@ -131,9 +131,9 @@ final public class FlashSort extends Sort {
         int K;
         for(int h = 0; h < sortLength; h++)
         {
-            
+
             Highlights.markArray(1, h);
-        
+
             //classify the A(i) value
             K = ((int)((array[h] - min) * c)) + 1;
 
@@ -141,7 +141,7 @@ final public class FlashSort extends Sort {
             Writes.write(L, K, L[K] + 1, 1, false, true);
         }
         Highlights.clearMark(1);
-        
+
         //O(m)
         //sum over each L(i) such that each L(i) contains
         //the number of A(i) values that are in the ith
@@ -157,13 +157,13 @@ final public class FlashSort extends Sort {
         Writes.swap(array, maxIndex, 0, 1, true, false);
         Highlights.clearMark(1);
         Highlights.clearMark(2);
-        
+
         //Except when being iterated upwards,
         //j always points to the first A(i) that starts
         //a new class boundary && that class hasn't yet
         //had all of its elements moved inside its borders;
 
-        //This is called a cycle leader since you know 
+        //This is called a cycle leader since you know
         //that you can begin permuting again here. You know
         //this because it is the lowest index of the class
         //and as such A(j) must be out of place or else all
@@ -171,7 +171,7 @@ final public class FlashSort extends Sort {
         //within the borders of the this class (which means
         //j wouldn't be pointing to this A(i) in the first place)
         int j = 0;
-        
+
         //K is the class of an A(i) value. It is always in the range 1..m
         K = m;
 
@@ -223,7 +223,7 @@ final public class FlashSort extends Sort {
                 Writes.write(array, location, evicted, 1, false, false);
                 Highlights.markArray(1, location);
                 evicted = temp;
-                
+
                 //decrease the count for this class
                 //see counting sort for why this is done
                 Writes.write(L, K, L[K] - 1, 0, false, true);
@@ -233,7 +233,7 @@ final public class FlashSort extends Sort {
             }
         }
         Highlights.clearMark(1);
-        
+
         //-------RECURSION or STRAIGHT INSERTION-------
 
         //if the classes do not have the A(i) values uniformly distributed
@@ -247,7 +247,7 @@ final public class FlashSort extends Sort {
         //if the class has 25% more elements than it should
         int threshold = (int)(1.25 * ((sortLength / m) + 1));
         int minElements = 30;
-        
+
         //for each class decide whether to insertion sort its members
         //or recursively flashsort its members;
         //skip the K == m class because it is already sorted
@@ -263,10 +263,10 @@ final public class FlashSort extends Sort {
             //of it then...
             if(classSize > threshold && classSize > minElements)
             {
-                //...attempt to flashsort the class. This will work 
+                //...attempt to flashsort the class. This will work
                 //well if the elements inside the class are uniformly
-                //distributed throughout the class otherwise it will 
-                //perform badly, O(n^2) worst case, since we will have 
+                //distributed throughout the class otherwise it will
+                //perform badly, O(n^2) worst case, since we will have
                 //performed another classification and permutation step
                 //and not succeeded in making the problem significantly
                 //smaller for the next level of recursion. However,

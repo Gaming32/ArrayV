@@ -4,7 +4,7 @@ import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 aphitorite
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class WeaveSortRecursive extends Sort {
+public final class WeaveSortRecursive extends Sort {
     public WeaveSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Weave (Recursive)");
         this.setRunAllSortsName("Recursive Weave Sorting Network");
         this.setRunSortName("Recursive Weave Sort");
@@ -44,30 +44,30 @@ final public class WeaveSortRecursive extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     private int end;
-	
+
 	private void compSwap(int[] array, int a, int b) {
 		if(b < this.end && Reads.compareIndices(array, a, b, 0.5, true) == 1)
 			Writes.swap(array, a, b, 0.5, true, false);
 	}
-	
+
 	private void circle(int[] array, int pos, int len, int gap) {
 		if(len < 2) return;
-		
+
 		for(int i = 0; 2*i < (len-1)*gap; i+=gap)
 			this.compSwap(array, pos+i, pos+(len-1)*gap-i);
-		
+
 		this.circle(array, pos, len/2, gap);
 		if(pos+len*gap/2 < this.end) this.circle(array, pos+len*gap/2, len/2, gap);
 	}
-	
+
 	private void weaveCircle(int[] array, int pos, int len, int gap) {
 		if(len < 2) return;
-		
+
 		this.weaveCircle(array, pos, len/2, 2*gap);
 		this.weaveCircle(array, pos+gap, len/2, 2*gap);
-		
+
 		this.circle(array, pos, len, gap);
 	}
 
@@ -76,7 +76,7 @@ final public class WeaveSortRecursive extends Sort {
     	this.end = length;
     	int n = 1;
     	for(; n < length; n*=2);
-    	
+
 		this.weaveCircle(array, 0, n, 1);
     }
 }

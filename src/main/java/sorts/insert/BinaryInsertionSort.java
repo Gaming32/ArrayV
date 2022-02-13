@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.BinaryInsertionSorting;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,7 +29,7 @@ SOFTWARE.
  *
  */
 
-final public class BinaryInsertionSort extends BinaryInsertionSorting {
+public final class BinaryInsertionSort extends BinaryInsertionSorting {
     public BinaryInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
@@ -48,7 +48,7 @@ final public class BinaryInsertionSort extends BinaryInsertionSorting {
     public void customBinaryInsert(int[] array, int start, int end, double sleep) {
         this.binaryInsertSort(array, start, end, sleep, sleep);
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         this.binaryInsertSort(array, 0, currentLength, 1, 0.05);

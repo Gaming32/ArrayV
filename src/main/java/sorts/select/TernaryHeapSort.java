@@ -3,10 +3,10 @@ package sorts.select;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class TernaryHeapSort extends Sort {
+public final class TernaryHeapSort extends Sort {
     public TernaryHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Ternary Heap");
         this.setRunAllSortsName("Ternary Heap Sort");
         this.setRunSortName("Ternary Heapsort");
@@ -18,12 +18,12 @@ final public class TernaryHeapSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     // TERNARY HEAP SORT - written by qbit
     // https://codereview.stackexchange.com/questions/63384/binary-heapsort-and-ternary-heapsort-implementation
-    
+
     private int heapSize;
-    
+
     private static int leftBranch(int i) {
         return 3 * i + 1;
     }
@@ -59,13 +59,13 @@ final public class TernaryHeapSort extends Sort {
             this.maxHeapify(array, largest);
         }
     }
-    
+
     private void buildMaxTernaryHeap(int[] array, int length) {
         heapSize = length - 1;
         for(int i = length - 1  / 3; i >= 0; i--)
             this.maxHeapify(array, i);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         this.buildMaxTernaryHeap(array, length);

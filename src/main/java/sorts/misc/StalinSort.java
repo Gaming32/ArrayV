@@ -3,10 +3,10 @@ package sorts.misc;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class StalinSort extends Sort {
+public final class StalinSort extends Sort {
     public StalinSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Stalin");
         this.setRunAllSortsName("Stalin Sort");
         this.setRunSortName("Stalinsort");
@@ -18,7 +18,7 @@ final public class StalinSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         for (int i = 1; i < currentLength; i++) {

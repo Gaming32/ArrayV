@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 Copyright (c) 2019 PiotrGrochowski
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,7 +25,7 @@ SOFTWARE.
  *
  */
 
-final public class PairwiseSortRecursive extends Sort {
+public final class PairwiseSortRecursive extends Sort {
     public PairwiseSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

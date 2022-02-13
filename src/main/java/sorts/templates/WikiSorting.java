@@ -143,7 +143,7 @@ final class Iterator {
     }
 }
 
-final public class WikiSorting {
+public final class WikiSorting {
     // use a small cache to speed up some of the operations
     // since the cache size is fixed, it's still O(1) memory!
     // just keep in mind that making it too small ruins the point (nothing will fit into it),

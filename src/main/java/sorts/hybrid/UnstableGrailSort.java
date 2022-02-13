@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.UnstableGrailSorting;
 
 /*
- * 
+ *
 The MIT License (MIT)
 
 Copyright (c) 2013 Andrey Astrelin
@@ -47,10 +47,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /*                                                       */
 /*********************************************************/
 
-final public class UnstableGrailSort extends UnstableGrailSorting {
+public final class UnstableGrailSort extends UnstableGrailSorting {
     public UnstableGrailSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Unstable Grail");
         //this.setRunAllID("Grail Sort (Block Merge Sort)");
         //this.setRunAllSortsName("Grail Sort [Block Merge Sort]");
@@ -64,7 +64,7 @@ final public class UnstableGrailSort extends UnstableGrailSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         this.grailCommonSort(array, 0, length);

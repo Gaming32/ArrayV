@@ -4,10 +4,10 @@ import main.ArrayVisualizer;
 import sorts.templates.GrailSorting;
 import utils.Rotations;
 
-final public class BlockInsertionSort extends GrailSorting {
+public final class BlockInsertionSort extends GrailSorting {
     public BlockInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Block Insertion");
         this.setRunAllSortsName("Block Insertion Sort");
         this.setRunSortName("Block Insertsort");
@@ -79,7 +79,7 @@ final public class BlockInsertionSort extends GrailSorting {
             i = j;
         }
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         insertionSort(array, 0, currentLength);

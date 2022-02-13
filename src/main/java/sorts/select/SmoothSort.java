@@ -3,10 +3,10 @@ package sorts.select;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class SmoothSort extends Sort {
+public final class SmoothSort extends Sort {
     public SmoothSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Smooth");
         this.setRunAllSortsName("Smooth Sort");
         this.setRunSortName("Smoothsort");
@@ -43,12 +43,12 @@ final public class SmoothSort extends Sort {
         {
             int rt = head - 1;
             int lf = head - 1 - LP[pshift - 2];
-            
+
             Highlights.markArray(2, rt);
             Highlights.markArray(3, lf);
-            
+
             Delays.sleep(0.325);
-            
+
             if (Reads.compareValues(val, A[lf]) >= 0 && Reads.compareValues(val, A[rt]) >= 0)
                 break;
 
@@ -64,7 +64,7 @@ final public class SmoothSort extends Sort {
             }
         }
         Writes.write(A, head, val, 0.65, true, false);
-        
+
         Highlights.clearMark(2);
         Highlights.clearMark(3);
     }
@@ -76,7 +76,7 @@ final public class SmoothSort extends Sort {
         while (p != 1)
         {
             int stepson = head - LP[pshift];
-            
+
             if (Reads.compareValues(A[stepson], val) <= 0)
                 break; // current node is greater than head. sift.
 
@@ -88,18 +88,18 @@ final public class SmoothSort extends Sort {
                 int lf = head - 1 - LP[pshift - 2];
                 Highlights.markArray(2, rt);
                 Highlights.markArray(3, lf);
-                
+
                 Delays.sleep(0.325);
-                
+
                 if (Reads.compareValues(A[rt], A[stepson]) >= 0 ||
                     Reads.compareValues(A[lf], A[stepson]) >= 0)
                     break;
             }
             Writes.write(A, head, A[stepson], 0.65, true, false);
-            
+
             Highlights.clearMark(2);
             Highlights.clearMark(3);
-            
+
             head = stepson;
             //int trail = Integer.numberOfTrailingZeros(p & ~1);
             int trail = Integer.numberOfTrailingZeros(p & ~1);
@@ -107,7 +107,7 @@ final public class SmoothSort extends Sort {
             pshift += trail;
             isTrusty = false;
         }
-        
+
         if (!isTrusty) {
             Writes.write(A, head, val, 0.65, true, false);
             this.sift(A, pshift, head);
@@ -198,7 +198,7 @@ final public class SmoothSort extends Sort {
     public void smoothHeapify(int[] array, int length) {
         this.smoothSort(array, 0, length - 1, false);
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         this.smoothSort(array, 0, currentLength - 1, true);

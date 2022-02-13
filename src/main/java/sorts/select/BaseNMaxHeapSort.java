@@ -3,7 +3,7 @@ package sorts.select;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class BaseNMaxHeapSort extends Sort {
+public final class BaseNMaxHeapSort extends Sort {
     public BaseNMaxHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
         this.setSortListName("Base-N Max Heap");

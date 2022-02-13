@@ -3,10 +3,10 @@ package sorts.select;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class BinomialSmoothSort extends Sort {
+public final class BinomialSmoothSort extends Sort {
     public BinomialSmoothSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Binomial Smooth");
         this.setRunAllSortsName("Binomial Smooth Sort");
         this.setRunSortName("Binomial Smoothsort");
@@ -25,7 +25,7 @@ final public class BinomialSmoothSort extends Sort {
             count++;
         return count;
     }
- 
+
     private void thrift(int[] array, int node, boolean parent, boolean root){
         root = root && (node >= (1 << height(node)));
         if (!root && !parent)
@@ -40,7 +40,7 @@ final public class BinomialSmoothSort extends Sort {
         Writes.swap(array, node, node - (1 << choice), .65, true, false);
         thrift(array, node - (1 << choice), (node - (1 << choice)) % 2 ==1, choice == height(node));
     }
- 
+
     @Override
     public void runSort(int[] array, int length, int bucketCount){
         //heapify from 0 to length - 1

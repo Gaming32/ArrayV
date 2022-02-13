@@ -7,7 +7,7 @@ import sorts.templates.Sort;
 Idea made by Control#2866 in The Studio Discord Server (https://discord.com/invite/2xGkKC2)
 */
 
-final public class MatrixSort extends Sort {
+public final class MatrixSort extends Sort {
     private class MatrixShape {
         int width;
         boolean unbalanced, insertLast;

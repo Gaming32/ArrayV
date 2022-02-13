@@ -52,18 +52,18 @@ import utils.Writes;
  * (privately) instantiable; a TimSort instance holds the state of an ongoing
  * sort, assuming the input array is large enough to warrant the full-blown
  * TimSort. Small arrays are sorted in place, using a binary insertion sort.
- * 
+ *
  * @author Josh Bloch
- * 
+ *
  * Tailored to ArrayVisualizer by MusicTheorist
  */
 
-final public class TimSorting {
+public final class TimSorting {
     private Delays Delays;
     private Highlights Highlights;
     private Reads Reads;
     private Writes Writes;
- 
+
     /**
      * This is the minimum sized sequence that will be merged.  Shorter
      * sequences will be lengthened by calling binarySort.  If the entire
@@ -126,18 +126,18 @@ final public class TimSorting {
     private int stackSize = 0;  // Number of pending runs on stack
     private final int[] runBase;
     private final int[] runLen;
-    
+
     public static int getMinRun() {
         return TimSorting.MIN_MERGE / 2;
     }
-    
-    // Easy patch for preventing gallop and merge methods from going out-of-bounds 
+
+    // Easy patch for preventing gallop and merge methods from going out-of-bounds
     private void markArray(int marker, int markPosition) {
         if(markPosition >= 0 && markPosition < this.len) {
             this.Highlights.markArray(marker, markPosition);
         }
     }
-    
+
     /**
      * Creates a TimSort instance to maintain the state of an ongoing sort.
      *
@@ -146,12 +146,12 @@ final public class TimSorting {
     public TimSorting(int[] a, int currentLen, ArrayVisualizer arrayVisualizer) {
         this.a = a;
         this.len = currentLen;
-        
+
         this.Delays = arrayVisualizer.getDelays();
         this.Highlights = arrayVisualizer.getHighlights();
         this.Reads = arrayVisualizer.getReads();
         this.Writes = arrayVisualizer.getWrites();
-        
+
         // Allocate temp storage (which may be increased later if necessary)
         int[] newArray = Writes.createExternalArray(this.len < 2 * INITIAL_TMP_STORAGE_LENGTH ?
                                                     this.len >>> 1 : INITIAL_TMP_STORAGE_LENGTH);
@@ -172,7 +172,7 @@ final public class TimSorting {
         this.runBase = Writes.createExternalArray(stackLen);
         this.runLen = Writes.createExternalArray(stackLen);
     }
-    
+
     public void customSort(int[] a, int start, int length) {
         TimSorting.sort(this, a, start, length);
         this.Writes.deleteExternalArray(this.tmp);
@@ -193,7 +193,7 @@ final public class TimSorting {
     }
     static void sort(TimSorting timSort, int[] a, int lo, int hi) {
         TimSorting ts = timSort;
-        
+
         int nRemaining = hi - lo;
         // If array is small, do a "mini-TimSort" with no merges
         if (nRemaining < MIN_MERGE) {
@@ -210,26 +210,26 @@ final public class TimSorting {
         do {
             // Identify next run
             int runLen = countRunAndMakeAscending(ts, a, lo, hi);
-            
+
             // If run is short, extend to min(minRun, nRemaining)
             if (runLen < minRun) {
                 int force = nRemaining <= minRun ? nRemaining : minRun;
-                binarySort(ts, a, lo, lo + force, lo + runLen);    
+                binarySort(ts, a, lo, lo + force, lo + runLen);
                 runLen = force;
             }
             // Push run onto pending-run stack, and maybe merge
             ts.pushRun(lo, runLen);
             ts.mergeCollapse();
-            
+
             // Advance to find next run
             lo += runLen;
             nRemaining -= runLen;
         } while (nRemaining != 0);
-        
+
         // Merge all remaining runs to complete sort
         ts.mergeForceCollapse();
     }
-    
+
     /**
      * Sorts the specified portion of the specified array using a binary
      * insertion sort.  This is the best method for sorting small numbers
@@ -248,22 +248,22 @@ final public class TimSorting {
      *        not already known to be sorted (@code lo <= start <= hi}
      * @param c comparator to used for the sort
      */
-    
+
     // Here, we do not use the Binary Insertion Sort included in ArrayVisualizer, as TimSort
     // outfits it with a start index and uses the arraycopy method
-    
+
     @SuppressWarnings("fallthrough")
     private static void binarySort(TimSorting ts, int[] a, int lo, int hi, int start) {
         if (start == lo)
             start++;
-        
+
         for ( ; start < hi; start++) {
             int pivot = a[start];
-            
+
             // Set left (and right) to the index where a[start] (pivot) belongs
             int left = lo;
             int right = start;
-            
+
             /*
              * Invariants:
              *   pivot >= all in [lo, left).
@@ -272,13 +272,13 @@ final public class TimSorting {
             while (left < right) {
                 // Another good way to prevent integer overflow with left + right!
                 int mid = (left + right) >>> 1;
-                
+
                 if (ts.Reads.compareValues(pivot, a[mid]) < 0)
                     right = mid;
                 else
                     left = mid + 1;
             }
-            
+
             /*
              * The invariants still hold: pivot >= all in [lo, left) and
              * pivot < all in [left, start), so pivot belongs at left.  Note
@@ -289,7 +289,7 @@ final public class TimSorting {
             int n = start - left;  // The number of elements to move
             // Switch is just an optimization for arraycopy in default case
             switch(n) {
-                case 2:  ts.Writes.write(a, left + 2, a[left + 1], 1, true, false); 
+                case 2:  ts.Writes.write(a, left + 2, a[left + 1], 1, true, false);
                 case 1:  ts.Writes.write(a, left + 1, a[left], 1, true, false);
                          break;
                 default: ts.Writes.arraycopy(a, left, a, left + 1, n, 1, true, false);
@@ -297,7 +297,7 @@ final public class TimSorting {
             ts.Writes.write(a, left, pivot, 1, true, false);
         }
     }
-    
+
     /**
      * Returns the length of the run beginning at the specified position in
      * the specified array and reverses the run if it is descending (ensuring
@@ -327,7 +327,7 @@ final public class TimSorting {
         int runHi = lo + 1;
         if (runHi == hi)
             return 1;
-        
+
         // Find end of run, and reverse range if descending
         if (ts.Reads.compareValues(a[runHi++], a[lo]) < 0) { // Descending
             while(runHi < hi && ts.Reads.compareValues(a[runHi], a[runHi - 1]) < 0) {
@@ -345,7 +345,7 @@ final public class TimSorting {
         }
         return runHi - lo;
     }
-    
+
     /**
      * Reverse the specified range of the specified array.
      *
@@ -357,7 +357,7 @@ final public class TimSorting {
         ts.Writes.reversal(a, lo, hi - 1, 1, true, false);
         ts.Highlights.clearMark(2);
     }
-    
+
     /**
      * Returns the minimum acceptable run length for an array of the specified
      * length. Natural runs shorter than this will be extended with
@@ -383,7 +383,7 @@ final public class TimSorting {
         }
         return n + r;
     }
-    
+
     /**
      * Pushes the specified run onto the pending-run stack.
      *
@@ -395,7 +395,7 @@ final public class TimSorting {
         this.runLen[this.stackSize] = runLen;
         this.stackSize++;
     }
-    
+
     /**
      * Examines the stack of runs waiting to be merged and merges adjacent runs
      * until the stack invariants are reestablished:
@@ -406,7 +406,7 @@ final public class TimSorting {
      * This method is called each time a new run is pushed onto the stack,
      * so the invariants are guaranteed to hold for i < stackSize upon
      * entry to the method.
-     * 
+     *
      * Thanks to Stijn de Gouw, Jurriaan Rot, Frank S. de Boer,
      * Richard Bubel and Reiner Hahnle, this is fixed with respect to
      * the analysis in "On the Worst-Case Complexity of TimSort" by
@@ -425,7 +425,7 @@ final public class TimSorting {
            mergeAt(n);
        }
    }
-   
+
     /**
      * Merges all runs on the stack until only one remains.  This method is
      * called once, to complete the sort.
@@ -438,7 +438,7 @@ final public class TimSorting {
             mergeAt(n);
         }
     }
-    
+
     /**
      * Merges the two runs at stack indices i and i+1.  Run i must be
      * the penultimate or antepenultimate run on the stack.  In other words,
@@ -449,12 +449,12 @@ final public class TimSorting {
     private void mergeAt(int i) {
         this.Highlights.clearMark(1);
         this.Highlights.clearMark(2);
-        
+
         int base1 = this.runBase[i];
         int len1 = this.runLen[i];
         int base2 = this.runBase[i + 1];
         int len2 = this.runLen[i + 1];
-        
+
         /*
          * Record the length of the combined runs; if i is the 3rd-last
          * run now, also slide over the last run (which isn't involved
@@ -466,7 +466,7 @@ final public class TimSorting {
             this.runLen[i + 1] = this.runLen[i + 2];
         }
         this.stackSize--;
-        
+
         /*
          * Find where the first element of run2 goes in run1. Prior elements
          * in run1 can be ignored (because they're already in place).
@@ -476,7 +476,7 @@ final public class TimSorting {
         len1 -= k;
         if (len1 == 0)
             return;
-        
+
         /*
          * Find where the last element of run1 goes in run2. Subsequent elements
          * in run2 can be ignored (because they're already in place).
@@ -484,17 +484,17 @@ final public class TimSorting {
         len2 = gallopLeft(this, this.a[base1 + len1 - 1], this.a, base2, len2, len2 - 1);
         if (len2 == 0)
             return;
-        
+
         // Merge remaining runs, using tmp array with min(len1, len2) elements
         if (len1 <= len2)
             mergeLo(this, base1, len1, base2, len2);
         else
             mergeHi(this, base1, len1, base2, len2);
-        
+
         this.Highlights.clearMark(1);
         this.Highlights.clearMark(2);
     }
-    
+
     /**
      * Locates the position at which to insert the specified key into the
      * specified sorted range; if the range contains an element equal to key,
@@ -516,57 +516,57 @@ final public class TimSorting {
     private static int gallopLeft(TimSorting ts, int key, int[] a, int base, int len, int hint) {
         int lastOfs = 0;
         int ofs = 1;
-        
+
         ts.markArray(3, base + hint);
         ts.Delays.sleep(1);
-        
+
         if (ts.Reads.compareValues(key, a[base + hint]) > 0) {
             // Gallop right until a[base+hint+lastOfs] < key <= a[base+hint+ofs]
             int maxOfs = len - hint;
-            
+
             ts.markArray(3, base + hint + ofs);
             ts.Delays.sleep(1);
-            
-            while (ofs < maxOfs && ts.Reads.compareValues(key, a[base + hint + ofs]) > 0) {                
+
+            while (ofs < maxOfs && ts.Reads.compareValues(key, a[base + hint + ofs]) > 0) {
                 lastOfs = ofs;
                 ofs = (ofs * 2) + 1;
                 if (ofs <= 0)   // int overflow
                     ofs = maxOfs;
-                
+
                 ts.markArray(3, base + hint + ofs);
                 ts.Delays.sleep(1);
             }
             if (ofs > maxOfs)
                 ofs = maxOfs;
-            
+
             // Make offsets relative to base
             lastOfs += hint;
             ofs += hint;
         } else { // key <= a[base + hint]
             // Gallop left until a[base+hint-ofs] < key <= a[base+hint-lastOfs]
             final int maxOfs = hint + 1;
-            
+
             ts.markArray(3, base + hint - ofs);
             ts.Delays.sleep(1);
-            
+
             while (ofs < maxOfs && ts.Reads.compareValues(key, a[base + hint - ofs]) <= 0) {
                 lastOfs = ofs;
                 ofs = (ofs * 2) + 1;
                 if (ofs <= 0)   // int overflow
                     ofs = maxOfs;
-                
+
                 ts.markArray(3, base + hint - ofs);
                 ts.Delays.sleep(1);
             }
             if (ofs > maxOfs)
                 ofs = maxOfs;
-            
+
             // Make offsets relative to base
             int tmp = lastOfs;
             lastOfs = hint - ofs;
             ofs = hint - tmp;
         }
-        
+
         /*
          * Now a[base+lastOfs] < key <= a[base+ofs], so key belongs somewhere
          * to the right of lastOfs but no farther right than ofs.  Do a binary
@@ -575,10 +575,10 @@ final public class TimSorting {
         lastOfs++;
         while (lastOfs < ofs) {
             int m = lastOfs + ((ofs - lastOfs) >>> 1);
-            
+
             ts.markArray(3, base + m);
             ts.Delays.sleep(1);
-            
+
             if (ts.Reads.compareValues(key, a[base + m]) > 0)
                 lastOfs = m + 1;  // a[base + m] < key
             else
@@ -603,29 +603,29 @@ final public class TimSorting {
     private static int gallopRight(TimSorting ts, int key, int[] a, int base, int len, int hint) {
         int ofs = 1;
         int lastOfs = 0;
-        
+
         ts.markArray(3, base + hint);
         ts.Delays.sleep(1);
-        
+
         if (ts.Reads.compareValues(key, a[base + hint]) < 0) {
             // Gallop left until a[b+hint - ofs] <= key < a[b+hint - lastOfs]
             int maxOfs = hint + 1;
-            
+
             ts.markArray(3, base + hint - ofs);
             ts.Delays.sleep(1);
-            
+
             while (ofs < maxOfs && ts.Reads.compareValues(key, a[base + hint - ofs]) < 0) {
                 lastOfs = ofs;
                 ofs = (ofs * 2) + 1;
                 if (ofs <= 0)   // int overflow
                     ofs = maxOfs;
-                
+
                 ts.markArray(3, base + hint - ofs);
                 ts.Delays.sleep(1);
             }
             if (ofs > maxOfs)
                 ofs = maxOfs;
-            
+
             // Make offsets relative to b
             int tmp = lastOfs;
             lastOfs = hint - ofs;
@@ -633,27 +633,27 @@ final public class TimSorting {
         } else { // a[b + hint] <= key
             // Gallop right until a[b+hint + lastOfs] <= key < a[b+hint + ofs]
             int maxOfs = len - hint;
-            
+
             ts.markArray(3, base + hint + ofs);
             ts.Delays.sleep(1);
-            
+
             while (ofs < maxOfs && ts.Reads.compareValues(key, a[base + hint + ofs]) >= 0) {
                 lastOfs = ofs;
                 ofs = (ofs * 2) + 1;
                 if (ofs <= 0)   // int overflow
                     ofs = maxOfs;
-                
+
                 ts.markArray(3, base + hint + ofs);
                 ts.Delays.sleep(1);
             }
             if (ofs > maxOfs)
                 ofs = maxOfs;
-            
+
             // Make offsets relative to b
             lastOfs += hint;
             ofs += hint;
         }
-        
+
         /*
          * Now a[b + lastOfs] <= key < a[b + ofs], so key belongs somewhere to
          * the right of lastOfs but no farther right than ofs.  Do a binary
@@ -662,10 +662,10 @@ final public class TimSorting {
         lastOfs++;
         while (lastOfs < ofs) {
             int m = lastOfs + ((ofs - lastOfs) >>> 1);
-            
+
             ts.markArray(3, base + m);
             ts.Delays.sleep(1);
-            
+
             if (ts.Reads.compareValues(key, a[base + m]) < 0)
                 ofs = m;          // key < a[b + m]
             else
@@ -695,11 +695,11 @@ final public class TimSorting {
         int[] a = ts.a; // For performance
         int[] tmp = ensureCapacity(len1);
         ts.Writes.arraycopy(a, base1, tmp, 0, len1, 1, true, true);
-        
+
         int cursor1 = 0;       // Indexes into tmp array
         int cursor2 = base2;   // Indexes int a
         int dest = base1;      // Indexes int a
-        
+
         // Move first element of second run and deal with degenerate cases
         ts.Writes.write(a, dest++, a[cursor2++], 1, false, false);
         ts.markArray(1, dest);
@@ -714,7 +714,7 @@ final public class TimSorting {
             ts.markArray(1, dest + len2);
             return;
         }
-        
+
         int minGallop = ts.minGallop;    //  "    "       "     "      "
     outer:
         while (true) {
@@ -742,7 +742,7 @@ final public class TimSorting {
                         break outer;
                 }
             } while ((count1 | count2) < minGallop);
-            
+
             /*
              * One run is winning so consistently that galloping may be a
              * huge win. So try that, and continue galloping until (if ever)
@@ -763,7 +763,7 @@ final public class TimSorting {
                 ts.markArray(2, cursor2);
                 if (--len2 == 0)
                     break outer;
-                
+
                 count2 = gallopLeft(ts, tmp[cursor1], a, cursor2, len2, 0);
                 if (count2 != 0) {
                     ts.Writes.arraycopy(a, cursor2, a, dest, count2, 1, true, false);
@@ -784,7 +784,7 @@ final public class TimSorting {
             minGallop += 2;  // Penalize for leaving gallop mode
         }  // End of "outer" loop
         ts.minGallop = minGallop < 1 ? 1 : minGallop;  // Write back to field
-        
+
         if (len1 == 1) {
             ts.Writes.arraycopy(a, cursor2, a, dest, len2, 1, true, false);
             ts.Writes.write(a, dest + len2, tmp[cursor1], 1, false, false); //  Last elt of run 1 to end of merge
@@ -796,7 +796,7 @@ final public class TimSorting {
             ts.Writes.arraycopy(tmp, cursor1, a, dest, len1, 1, true, false);
         }
     }
-    
+
     /**
      * Like mergeLo, except that this method should be called only if
      * len1 >= len2; mergeLo should be called if len1 <= len2.  (Either method
@@ -813,11 +813,11 @@ final public class TimSorting {
         int[] a = ts.a; // For performance
         int[] tmp = ensureCapacity(len2);
         ts.Writes.arraycopy(a, base2, tmp, 0, len2, 1, true, true);
-        
+
         int cursor1 = base1 + len1 - 1;  // Indexes into a
         int cursor2 = len2 - 1;          // Indexes into tmp array
         int dest = base2 + len2 - 1;     // Indexes into a
-        
+
         // Move last element of first run and deal with degenerate cases
         ts.Writes.write(a, dest--, a[cursor1--], 1, false, false);
         ts.markArray(1, dest);
@@ -834,13 +834,13 @@ final public class TimSorting {
             ts.markArray(1, dest);
             return;
         }
-        
+
         int minGallop = ts.minGallop;    //  "    "       "     "      "
     outer:
         while (true) {
             int count1 = 0; // Number of times in a row that first run won
             int count2 = 0; // Number of times in a row that second run won
-            
+
             /*
              * Do the straightforward thing until (if ever) one run
              * appears to win consistently.
@@ -863,7 +863,7 @@ final public class TimSorting {
                         break outer;
                 }
             } while ((count1 | count2) < minGallop);
-            
+
             /*
              * One run is winning so consistently that galloping may be a
              * huge win. So try that, and continue galloping until (if ever)
@@ -883,7 +883,7 @@ final public class TimSorting {
                 ts.markArray(1, dest);
                 if (--len2 == 1)
                     break outer;
-                
+
                 count2 = len2 - gallopLeft(ts, a[cursor1], tmp, 0, len2, len2 - 1);
                 if (count2 != 0) {
                     dest -= count2;
@@ -905,7 +905,7 @@ final public class TimSorting {
             minGallop += 2;  // Penalize for leaving gallop mode
         }  // End of "outer" loop
         ts.minGallop = minGallop < 1 ? 1 : minGallop;  // Write back to field
-        
+
         if (len2 == 1) {
             dest -= len1;
             cursor1 -= len1;

@@ -27,7 +27,7 @@ SOFTWARE.
  *
  */
 
-final public class DropMergeSort extends Sort {
+public final class DropMergeSort extends Sort {
     public DropMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

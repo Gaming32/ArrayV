@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 Copyright (c) 2019 PiotrGrochowski
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,10 +25,10 @@ SOFTWARE.
  *
  */
 
-final public class PairwiseSortIterative extends Sort {
+public final class PairwiseSortIterative extends Sort {
     public PairwiseSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Pairwise (Iterative)");
         this.setRunAllSortsName("Iterative Pairwise Sorting Network");
         this.setRunSortName("Iterative Pairwise Sort");
@@ -85,7 +85,7 @@ final public class PairwiseSortIterative extends Sort {
             e = (e * 2) + 1;
         }
     }
-    
+
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         this.iterativepairwise(array, sortLength, 0.5);

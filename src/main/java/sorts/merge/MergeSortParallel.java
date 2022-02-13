@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 The MIT License (MIT)
 
 Copyright (c) 2021 aphitorite
@@ -28,10 +28,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-final public class MergeSortParallel extends Sort {
+public final class MergeSortParallel extends Sort {
 	public MergeSortParallel(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		
+
 		this.setSortListName("Merge (Parallel)");
 		this.setRunAllSortsName("Parallel Merge Sort");
 		this.setRunSortName("Parallel Mergesort");
@@ -43,10 +43,10 @@ final public class MergeSortParallel extends Sort {
 		this.setUnreasonableLimit(0);
 		this.setBogoSort(false);
 	}
-	
+
 	private int[] array;
 	private int[] tmp;
-	
+
 	private class MergeSort extends Thread {
 		private int a, b;
 		MergeSort(int a, int b) {
@@ -57,10 +57,10 @@ final public class MergeSortParallel extends Sort {
 			MergeSortParallel.this.mergeSort(a, b);
 		}
 	}
-	
+
 	private void merge(int a, int m, int b) {
 		int i = a, j = m, k = a;
-		
+
 		while(i < m && j < b) {
 			if(Reads.compareValues(array[i], array[j]) <= 0) {
 				Highlights.markArray(1, i);
@@ -79,33 +79,33 @@ final public class MergeSortParallel extends Sort {
 			Highlights.markArray(2, j);
 			Writes.write(tmp, k++, array[j++], 1, false, true);
 		}
-		
+
 		Highlights.clearMark(2);
 		while(a < b) Writes.write(array, a, tmp[a++], 1, true, false);
 	}
-	
+
 	private void mergeSort(int a, int b) {
 		int len = b-a;
-		
+
 		if(len < 2) return;
-		
+
 		int m = (a+b)/2;
-		
+
 		MergeSort left  = new MergeSort(a, m);
 		MergeSort right = new MergeSort(m, b);
 		left.start();
 		right.start();
-		
+
 		try {
 			left.join();
 			right.join();
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
-		
+
 		this.merge(a, m, b);
 	}
-	
+
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
 		this.array = array;

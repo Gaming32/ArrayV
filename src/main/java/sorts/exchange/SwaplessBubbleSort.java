@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 Josiah (Gaming32) Glosson
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class SwaplessBubbleSort extends Sort {
+public final class SwaplessBubbleSort extends Sort {
     public SwaplessBubbleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Swapless Bubble");
         this.setRunAllSortsName("Swapless Bubble Sort");
         this.setRunSortName("Swapless Bubblesort");
@@ -44,7 +44,7 @@ final public class SwaplessBubbleSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         int last;

@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.IterativeCircleSorting;
 
 /*
- * 
+ *
 Copyright (c) rosettacode.org.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2
@@ -15,10 +15,10 @@ Free Documentation License".
  *
  */
 
-final public class CircleSortIterative extends IterativeCircleSorting {   
+public final class CircleSortIterative extends IterativeCircleSorting {
     public CircleSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Circle (Iterative)");
         this.setRunAllSortsName("Iterative Circle Sort");
         this.setRunSortName("Iterative Circlesort");
@@ -30,17 +30,17 @@ final public class CircleSortIterative extends IterativeCircleSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     public void singleRoutine(int[] array, int length) {
         this.circleSortRoutine(array, length, 0.1);
     }
-    
+
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
     	this.end = sortLength;
     	int n = 1;
     	for(; n < sortLength; n*=2);
-		
+
         int numberOfSwaps = 0;
         do {
             numberOfSwaps = this.circleSortRoutine(array, n, 1);

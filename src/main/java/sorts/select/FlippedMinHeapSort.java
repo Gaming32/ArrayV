@@ -22,10 +22,10 @@ and removing the Writes.reverse() at the end
 the rest is just compacting the code a bit
 */
 
-final public class FlippedMinHeapSort extends Sort {
+public final class FlippedMinHeapSort extends Sort {
     public FlippedMinHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Flipped Min Heap");
         this.setRunAllSortsName("Flipped Min Heap Sort");
         this.setRunSortName("Flipped Reverse Heapsort");

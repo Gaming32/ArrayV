@@ -50,7 +50,7 @@ SOFTWARE.
  *
  */
 
-final public class RunSelectionSorts extends MultipleSortThread {
+public final class RunSelectionSorts extends MultipleSortThread {
     private Sort SelectionSort;
     private Sort DoubleSelectionSort;
     private Sort CycleSort;

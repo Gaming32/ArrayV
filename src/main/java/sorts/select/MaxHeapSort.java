@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.HeapSorting;
 
 /*
- * 
+ *
 Copyright (c) rosettacode.org.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2
@@ -15,10 +15,10 @@ Free Documentation License".
  *
  */
 
-final public class MaxHeapSort extends HeapSorting {
+public final class MaxHeapSort extends HeapSorting {
     public MaxHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Max Heap");
         this.setRunAllSortsName("Max Heap Sort");
         this.setRunSortName("Heapsort");
@@ -34,7 +34,7 @@ final public class MaxHeapSort extends HeapSorting {
     public void makeHeap(int[] array, int start, int length, double sleep) {
         this.heapify(array, start, length, sleep, true);
     }
-    
+
     public void customHeapSort(int[] array, int start, int length, double sleep) {
         this.heapSort(array, start, length, sleep, true);
     }

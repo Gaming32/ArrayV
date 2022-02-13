@@ -5,7 +5,7 @@ import sorts.select.MaxHeapSort;
 import sorts.templates.PDQSorting;
 
 /*
- * 
+ *
 pdqsort.h - Pattern-defeating quicksort.
 Copyright (c) 2015 Orson Peters
 This software is provided 'as-is', without any express or implied warranty. In no event will the
@@ -21,10 +21,10 @@ applications, and to alter it and redistribute it freely, subject to the followi
  *
  */
 
-final public class PDQBranchedSort extends PDQSorting {
+public final class PDQBranchedSort extends PDQSorting {
     public PDQBranchedSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Pattern-Defeating Quick (PDQ)");
         this.setRunAllSortsName("Pattern-Defeating Quick Sort");
         this.setRunSortName("Pattern-Defeating Quicksort");
@@ -36,12 +36,12 @@ final public class PDQBranchedSort extends PDQSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     public void customSort(int[] array, int low, int high) {
         this.newHeapSorter(new MaxHeapSort(this.arrayVisualizer));
         pdqLoop(array, low, high, false, pdqLog(high - low));
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         this.newHeapSorter(new MaxHeapSort(this.arrayVisualizer));

@@ -33,7 +33,7 @@ SOFTWARE.
  *
  */
 
-final public class RunMergeSorts extends MultipleSortThread {
+public final class RunMergeSorts extends MultipleSortThread {
     private Sort MergeSort;
     private Sort BottomUpMergeSort;
     private Sort TwinSort;

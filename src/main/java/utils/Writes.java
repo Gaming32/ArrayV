@@ -37,7 +37,7 @@ SOFTWARE.
  *
  * @author S630690
  */
-final public class Writes {
+public final class Writes {
     private volatile long reversals;
     private volatile long swaps;
     private volatile long auxWrites;

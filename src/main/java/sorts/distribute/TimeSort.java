@@ -35,7 +35,7 @@ SOFTWARE.
  *
  */
 
-final public class TimeSort extends Sort {
+public final class TimeSort extends Sort {
     private InsertionSort insertSorter;
 
     private volatile int next = 0;

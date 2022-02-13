@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 aphitorite
@@ -29,7 +29,7 @@ SOFTWARE.
  *
  */
 
-final public class TableSort extends Sort {
+public final class TableSort extends Sort {
     public TableSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
@@ -44,90 +44,90 @@ final public class TableSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
 	private boolean stableComp(int[] array, int[] table, int a, int b) {
 		int comp = Reads.compareIndices(array, table[a], table[b], 0.5, true);
-		
+
 		return comp > 0 || (comp == 0 && Reads.compareOriginalIndices(table, a, b, 0.5, false) > 0);
 	}
-	
+
 	private void medianOfThree(int[] array, int[] table, int a, int b) {
 		int m = a+(b-1-a)/2;
-		
+
 		if(this.stableComp(array, table, a, m))
 			Writes.swap(table, a, m, 1, true, true);
-		
+
 		if(this.stableComp(array, table, m, b-1)) {
 			Writes.swap(table, m, b-1, 1, true, true);
-			
+
 			if(this.stableComp(array, table, a, m))
 				return;
 		}
-		
+
 		Writes.swap(table, a, m, 1, true, true);
 	}
-	
+
 	private int partition(int[] array, int[] table, int a, int b, int p) {
         int i = a-1, j = b;
 		Highlights.markArray(3, p);
-		
+
         while(true) {
 			do i++;
             while(i < j && !this.stableComp(array, table, i, p));
-			
+
 			do j--;
 			while(j >= i && this.stableComp(array, table, j, p));
-			
+
             if(i < j) Writes.swap(table, i, j, 1, true, true);
             else      return j;
         }
     }
-	
+
 	private void quickSort(int[] array, int[] table, int a, int b) {
 		if(b-a < 3) {
 			if(b-a == 2 && this.stableComp(array, table, a, a+1))
 				Writes.swap(table, a, a+1, 1, true, true);
 			return;
 		}
-		
+
 		this.medianOfThree(array, table, a, b);
 		int p = this.partition(array, table, a+1, b, a);
 		Writes.swap(table, a, p, 1, true, true);
-		
+
 		this.quickSort(array, table, a, p);
 		this.quickSort(array, table, p+1, b);
 	}
-	
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
 		int[] table = Writes.createExternalArray(currentLength);
 		for(int i = 0; i < currentLength; i++)
 			Writes.write(table, i, i, 0.5, true, true);
-		
+
     	this.quickSort(array, table, 0, currentLength);
 		Highlights.clearMark(3);
-		
+
 		for(int i = 0; i < table.length; i++) {
 			Highlights.markArray(2, i);
-			
+
 			if(Reads.compareOriginalValues(i, table[i]) != 0) {
 				int t = array[i];
 				int j = i, next = table[i];
-				
+
 				do {
 					Writes.write(array, j, array[next], 1, true, false);
 					Writes.write(table, j, j, 1, true, true);
-					
+
 					j = next;
 					next = table[next];
 				}
 				while(Reads.compareOriginalValues(next, i) != 0);
-				
+
 				Writes.write(array, j, t, 1, true, false);
 				Writes.write(table, j, j, 1, true, true);
 			}
 		}
-		
+
 		Writes.deleteExternalArray(table);
     }
 }

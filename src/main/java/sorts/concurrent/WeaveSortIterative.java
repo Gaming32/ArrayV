@@ -4,7 +4,7 @@ import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 aphitorite
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class WeaveSortIterative extends Sort {
+public final class WeaveSortIterative extends Sort {
     public WeaveSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Weave (Iterative)");
         this.setRunAllSortsName("Iterative Weave Sorting Network");
         this.setRunSortName("Iterative Weave Sort");
@@ -44,9 +44,9 @@ final public class WeaveSortIterative extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     private int end;
-	
+
 	private void compSwap(int[] array, int a, int b) {
 		if(b < this.end && Reads.compareIndices(array, a, b, 0.5, true) == 1)
 			Writes.swap(array, a, b, 0.5, true, false);
@@ -57,7 +57,7 @@ final public class WeaveSortIterative extends Sort {
     	this.end = length;
     	int n = 1;
     	for(; n < length; n*=2);
-		
+
 		for(int i = 1; i < n; i*=2)
 			for(int j = 1; j <= i; j*=2)
 				for(int k = 0; k < n; k += n/j)

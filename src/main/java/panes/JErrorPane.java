@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-final public class JErrorPane extends JOptionPane {
+public final class JErrorPane extends JOptionPane {
     /**
      *
      */

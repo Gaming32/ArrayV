@@ -4,7 +4,7 @@ import sorts.templates.Sort;
 import main.ArrayVisualizer;
 
 /*
- * 
+ *
 MIT License
 Copyright (c) 2020 fungamer2
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,11 +25,11 @@ SOFTWARE.
  *
  */
 
-final public class FunSort extends Sort {
-	
+public final class FunSort extends Sort {
+
     public FunSort(ArrayVisualizer arrayVisualizer)  {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Fun");
         this.setRunAllSortsName("Fun Sort");
         this.setRunSortName("Fun Sort");
@@ -41,7 +41,7 @@ final public class FunSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     /*
     Fun Sort - or the chaos of unordered binary search
     https://www.sciencedirect.com/science/article/pii/S0166218X04001131
@@ -67,7 +67,7 @@ final public class FunSort extends Sort {
         Highlights.clearMark(3);
         return start;
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 1; i < length; i++) {

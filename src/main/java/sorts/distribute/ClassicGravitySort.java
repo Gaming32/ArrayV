@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2020 aphitorite
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class ClassicGravitySort extends Sort {
+public final class ClassicGravitySort extends Sort {
     public ClassicGravitySort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Classic Gravity");
         this.setRunAllSortsName("Classic Gravity (Bead) Sort");
         this.setRunSortName("Classic Beadsort");
@@ -44,7 +44,7 @@ final public class ClassicGravitySort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		int max = Reads.analyzeMax(array, length, 0.5, true);

@@ -3,7 +3,7 @@ package sorts.category;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class MySort extends Sort {
+public final class MySort extends Sort {
     public MySort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

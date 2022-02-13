@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 _fluffyy, yuji implemented by aphitorite
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class DiamondSortIterative extends Sort {
+public final class DiamondSortIterative extends Sort {
     public DiamondSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Diamond (Iterative)");
         this.setRunAllSortsName("Iterative Diamond Sort");
         this.setRunSortName("Iterative Diamondsort");
@@ -44,7 +44,7 @@ final public class DiamondSortIterative extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
 	private void compSwap(int[] array, int a, int b) {
 		if(Reads.compareIndices(array, a, b, 0.05, true) == 1)
 			Writes.swap(array, a, b, 0.05, true, false);
@@ -54,7 +54,7 @@ final public class DiamondSortIterative extends Sort {
     public void runSort(int[] array, int length, int bucketCount) throws Exception {
     	int n = 1;
     	for(; n < length; n *= 2);
-		
+
 		int m = 4;
 		for(; m <= n; m *= 2) {
 			for(int k = 0; k < m/2; k++) {

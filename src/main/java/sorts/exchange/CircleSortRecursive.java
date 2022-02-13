@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.CircleSorting;
 
 /*
- * 
+ *
 Copyright (c) rosettacode.org.
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2
@@ -15,10 +15,10 @@ Free Documentation License".
  *
  */
 
-final public class CircleSortRecursive extends CircleSorting {   
+public final class CircleSortRecursive extends CircleSorting {
     public CircleSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Circle (Recursive)");
         this.setRunAllSortsName("Recursive Circle Sort");
         this.setRunSortName("Circlesort");
@@ -30,17 +30,17 @@ final public class CircleSortRecursive extends CircleSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     public void singleRoutine(int[] array, int length) {
         this.circleSortRoutine(array, 0, length - 1, 0, 0.1);
     }
-    
+
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
     	this.end = sortLength;
     	int n = 1;
     	for(; n < sortLength; n*=2);
-    	
+
         int numberOfSwaps = 0;
         do {
             numberOfSwaps = this.circleSortRoutine(array, 0, n - 1, 0, 1);

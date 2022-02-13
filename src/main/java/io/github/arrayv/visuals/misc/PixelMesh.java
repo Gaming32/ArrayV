@@ -33,7 +33,7 @@ SOFTWARE.
  *
  */
 
-final public class PixelMesh extends Visual {
+public final class PixelMesh extends Visual {
     public PixelMesh(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);
     }

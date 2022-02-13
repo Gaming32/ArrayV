@@ -3,7 +3,7 @@ package sorts.concurrent;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class WeaveSortParallel extends Sort {
+public final class WeaveSortParallel extends Sort {
     private int[] arr;
     private int length;
     private double DELAY = 1;

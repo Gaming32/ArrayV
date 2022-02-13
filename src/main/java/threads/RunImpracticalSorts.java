@@ -55,7 +55,7 @@ SOFTWARE.
  *
  */
 
-final public class RunImpracticalSorts extends MultipleSortThread {
+public final class RunImpracticalSorts extends MultipleSortThread {
     private Sort BadSort;
     private Sort StoogeSort;
     private Sort SillySort;

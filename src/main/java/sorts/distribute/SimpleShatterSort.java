@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.ShatterSorting;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class SimpleShatterSort extends ShatterSorting {
+public final class SimpleShatterSort extends ShatterSorting {
     public SimpleShatterSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Simple Shatter");
         this.setRunAllSortsName("Simple Shatter Sort");
         this.setRunSortName("Simple Shatter Sort");
@@ -44,7 +44,7 @@ final public class SimpleShatterSort extends ShatterSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         this.simpleShatterSort(array, sortLength, bucketCount, (int) (Math.log(sortLength) / Math.log(2)) / 2);

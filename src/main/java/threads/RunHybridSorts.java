@@ -64,7 +64,7 @@ SOFTWARE.
  *
  */
 
-final public class RunHybridSorts extends MultipleSortThread {
+public final class RunHybridSorts extends MultipleSortThread {
     private Sort HybridCombSort;
     private Sort IntroCircleSortRecursive;
     private Sort IntroCircleSortIterative;

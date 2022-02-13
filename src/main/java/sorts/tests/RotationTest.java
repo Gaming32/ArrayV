@@ -5,7 +5,7 @@ import sorts.templates.Sort;
 import utils.Rotations;
 
 /*
- * 
+ *
 The MIT License (MIT)
 
 Copyright (c) 2021 ArrayV 4.0 Team
@@ -29,12 +29,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-final public class RotationTest extends Sort {
+public final class RotationTest extends Sort {
     final double BLOCK_DIV = 6.98;
 
     public RotationTest(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Rotations");
         this.setRunAllSortsName("Rotation Test");
         this.setRunSortName("Rotation Test");
@@ -46,11 +46,11 @@ final public class RotationTest extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         int blockSize = (int)(length / BLOCK_DIV);
-        
+
         for (int i = 0; i < blockSize; i++) {
             Writes.write(array, i, i + length - blockSize, 0.05, false, false);
         }

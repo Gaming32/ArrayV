@@ -61,7 +61,7 @@ SOFTWARE.
  *
  */
 
-final public class RunExchangeSorts extends MultipleSortThread {
+public final class RunExchangeSorts extends MultipleSortThread {
     private Sort UnoptimizedBubbleSort;
     private Sort BubbleSort;
     private Sort UnoptimizedCocktailShakerSort;

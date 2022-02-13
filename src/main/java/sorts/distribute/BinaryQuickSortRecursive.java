@@ -20,10 +20,10 @@ import sorts.templates.BinaryQuickSorting;
  * @author Skeen
  */
 
-final public class BinaryQuickSortRecursive extends BinaryQuickSorting {
+public final class BinaryQuickSortRecursive extends BinaryQuickSorting {
     public BinaryQuickSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Binary Quick (Recursive)");
         this.setRunAllSortsName("Recursive Binary Quick Sort");
         this.setRunSortName("Recursive Binary Quicksort");
@@ -35,7 +35,7 @@ final public class BinaryQuickSortRecursive extends BinaryQuickSorting {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         int mostSignificantBit = Reads.analyzeBit(array, sortLength);

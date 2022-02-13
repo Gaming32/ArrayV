@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.GrailSorting;
 
 /*
- * 
+ *
 The MIT License (MIT)
 
 Copyright (c) 2013 Andrey Astrelin
@@ -47,10 +47,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /*                                                       */
 /*********************************************************/
 
-final public class GrailSort extends GrailSorting {
+public final class GrailSort extends GrailSorting {
     public GrailSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Grail");
         //this.setRunAllID("Grail Sort (Block Merge Sort)");
         //this.setRunAllSortsName("Grail Sort [Block Merge Sort]");
@@ -65,15 +65,15 @@ final public class GrailSort extends GrailSorting {
         this.setBogoSort(false);
         this.setQuestion("Enter external buffer type (0 = in-place, 1 = static, 2 = dynamic):", 0);
     }
-    
+
     public void rotateLength(int[] array, int leftLength, int rightLength) {
         this.grailRotate(array, 0, leftLength, rightLength);
     }
-    
+
     public void customSort(int[] array, int start, int end) {
         this.grailCommonSort(array, start, end, null, 0, 0);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		switch(bucketCount) {
@@ -82,7 +82,7 @@ final public class GrailSort extends GrailSorting {
             this.grailCommonSort(array, 0, length, ExtBuf, 0, this.getStaticBuffer());
             Writes.deleteExternalArray(ExtBuf);
 			break;
-			
+
 		case 2:
             int tempLen = 1;
             while(tempLen * tempLen < length) tempLen *= 2;
@@ -90,7 +90,7 @@ final public class GrailSort extends GrailSorting {
             this.grailCommonSort(array, 0, length, DynExtBuf, 0, tempLen);
             Writes.deleteExternalArray(DynExtBuf);
 			break;
-			
+
 		default:
 			this.grailCommonSort(array, 0, length, null, 0, 0);
 		}

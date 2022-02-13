@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 Copyright (c) 2019 PiotrGrochowski
 Copyright (c) 2020 aphitorite
@@ -26,10 +26,10 @@ SOFTWARE.
  *
  */
 
-final public class ClassicThreeSmoothCombSort extends Sort {
+public final class ClassicThreeSmoothCombSort extends Sort {
     public ClassicThreeSmoothCombSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Classic 3-Smooth Comb");
         this.setRunAllSortsName("Classic 3-Smooth Comb Sort");
         this.setRunSortName("Classic 3-Smooth Combsort");
@@ -41,15 +41,15 @@ final public class ClassicThreeSmoothCombSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
 	private boolean is3Smooth(int n) {
 		while(n%6 == 0) n /= 6;
 		while(n%3 == 0) n /= 3;
 		while(n%2 == 0) n /= 2;
-		
+
 		return n == 1;
 	}
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
 		for(int g = length-1; g > 0; g--)

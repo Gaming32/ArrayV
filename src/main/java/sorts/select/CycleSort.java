@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 aphitorite
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class CycleSort extends Sort {
+public final class CycleSort extends Sort {
     public CycleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Cycle");
         this.setRunAllSortsName("Cycle Sort");
         this.setRunSortName("Cyclesort");
@@ -44,15 +44,15 @@ final public class CycleSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-	
+
 	private int countLesser(int[] array, int a, int b, int t) {
 		int r = a;
-		
+
 		for(int i = a+1; i < b; i++) {
 			Highlights.markArray(1, r);
 			Highlights.markArray(2, i);
 			Delays.sleep(0.01);
-			
+
 			r += Reads.compareValues(array[i], t) < 0 ? 1 : 0;
 		}
 		Highlights.clearMark(2);
@@ -63,22 +63,22 @@ final public class CycleSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
 		for(int i = 0; i < length-1; i++) {
 			Highlights.markArray(3, i);
-			
+
 			int t = array[i];
 			int r = this.countLesser(array, i, length, t);
-			
+
 			if(r != i) {
 				do {
 					while(Reads.compareIndexValue(array, r, t, 0.01, true) == 0) r++;
-					
+
 					int t1 = array[r];
 					Writes.write(array, r, t, 0.02, false, false);
 					t = t1;
-					
+
 					r = this.countLesser(array, i, length, t);
 				}
 				while(r != i);
-				
+
 				Writes.write(array, i, t, 0.02, false, false);
 			}
 		}

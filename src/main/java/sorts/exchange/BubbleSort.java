@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class BubbleSort extends Sort {
+public final class BubbleSort extends Sort {
     public BubbleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Bubble");
         this.setRunAllSortsName("Bubble Sort");
         this.setRunSortName("Bubblesort");
@@ -44,7 +44,7 @@ final public class BubbleSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         for(int i = length - 1; i > 0; i--) {
@@ -54,7 +54,7 @@ final public class BubbleSort extends Sort {
                     Writes.swap(array, j, j + 1, 0.075, true, false);
                     sorted = false;
                 }
-                
+
                 Highlights.markArray(1, j);
                 Highlights.markArray(2, j + 1);
                 Delays.sleep(0.025);

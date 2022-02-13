@@ -34,7 +34,7 @@ SOFTWARE.
  *
  */
 
-final public class DisparityDots extends Visual {
+public final class DisparityDots extends Visual {
 
     public DisparityDots(ArrayVisualizer ArrayVisualizer) {
         super(ArrayVisualizer);

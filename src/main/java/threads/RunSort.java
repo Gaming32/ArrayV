@@ -41,7 +41,7 @@ SOFTWARE.
  *
  */
 
-final public class RunSort {
+public final class RunSort {
     private ArrayManager arrayManager;
     private ArrayVisualizer arrayVisualizer;
     private Delays delayOps;

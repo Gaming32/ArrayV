@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.ArrayVisualizer;
 
-final public class ShuffleInfo {
+public final class ShuffleInfo {
     final boolean isDistribution;
     final Distributions distribution;
     final Shuffles shuffle;

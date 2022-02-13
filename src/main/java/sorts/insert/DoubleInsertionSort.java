@@ -29,7 +29,7 @@ SOFTWARE.
  *
  */
 
-final public class DoubleInsertionSort extends Sort {
+public final class DoubleInsertionSort extends Sort {
     public DoubleInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

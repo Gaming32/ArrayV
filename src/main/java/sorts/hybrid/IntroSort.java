@@ -10,7 +10,7 @@ import sorts.templates.Sort;
 // Modifications: Bernhard Pfahringer
 // changes include: local insertion sort, no global array
 
-final public class IntroSort extends Sort {
+public final class IntroSort extends Sort {
     private MaxHeapSort heapSorter;
 
     private int middle;

@@ -8,7 +8,7 @@ import sorts.templates.Sort;
  * Implemented in ArrayV by Gaming32
  * https://github.com/bingmann/sound-of-sorting/blob/master/src/SortAlgo.cpp#L536-L595
  */
-final public class TernaryLLQuickSort extends Sort {
+public final class TernaryLLQuickSort extends Sort {
     class PivotPair {
         int first, second;
 
@@ -20,7 +20,7 @@ final public class TernaryLLQuickSort extends Sort {
 
     public TernaryLLQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Ternary LL Quick");
         this.setRunAllSortsName("Quick Sort (ternary, LL ptrs)");
         this.setRunSortName("Quicksort (ternary, LL ptrs)");
@@ -91,7 +91,7 @@ final public class TernaryLLQuickSort extends Sort {
             quickSortTernaryLL(A, mid.second, hi);
         }
     }
-    
+
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
         quickSortTernaryLL(array, 0, currentLength);

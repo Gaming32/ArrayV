@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -29,10 +29,10 @@ SOFTWARE.
  *
  */
 
-final public class CocktailShakerSort extends Sort {
+public final class CocktailShakerSort extends Sort {
     public CocktailShakerSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Cocktail");
         this.setRunAllSortsName("Cocktail Shaker Sort");
         this.setRunSortName("Cocktail Shaker Sort");
@@ -54,10 +54,10 @@ final public class CocktailShakerSort extends Sort {
                     Writes.swap(array, j, j + 1, sleep, true, false);
                     sorted = false;
                 }
-                
+
                 Highlights.markArray(1, j);
                 Highlights.markArray(2, j + 1);
-                
+
                 Delays.sleep(sleep / 2);
             }
             for(int j = end + start - i - 1; j > i; j--){
@@ -65,21 +65,21 @@ final public class CocktailShakerSort extends Sort {
                     Writes.swap(array, j, j - 1, sleep, true, false);
                     sorted = false;
                 }
-                
+
                 Highlights.markArray(1, j);
                 Highlights.markArray(2, j - 1);
-                
+
                 Delays.sleep(sleep / 2);
             }
             if(sorted) break;
             else i++;
         }
     }
-    
+
     public void customSort(int[] array, int start, int end) {
         this.smartCocktailShaker(array, start, end, 1);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         this.smartCocktailShaker(array, 0, length, 0.1);

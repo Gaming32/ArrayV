@@ -29,7 +29,7 @@ SOFTWARE.
  *
  */
 
-final public class ForcedStableQuickSort extends Sort {
+public final class ForcedStableQuickSort extends Sort {
     public ForcedStableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 

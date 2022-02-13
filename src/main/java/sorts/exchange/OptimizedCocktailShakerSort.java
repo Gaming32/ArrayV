@@ -3,10 +3,10 @@ package sorts.exchange;
 import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
-final public class OptimizedCocktailShakerSort extends Sort {
+public final class OptimizedCocktailShakerSort extends Sort {
     public OptimizedCocktailShakerSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Optimized Cocktail");
         this.setRunAllSortsName("Optimized Cocktail Shaker Sort");
         this.setRunSortName("Optimized Cocktailsort");
@@ -18,7 +18,7 @@ final public class OptimizedCocktailShakerSort extends Sort {
         this.setUnreasonableLimit(0);
         this.setBogoSort(false);
     }
-    
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         for(int start = 0, end = length - 1; start < end; ) {
@@ -30,7 +30,7 @@ final public class OptimizedCocktailShakerSort extends Sort {
                 } else consecSorted++;
             }
             end -= consecSorted;
-            
+
             consecSorted = 1;
             for(int i = end; i > start; i--) {
                 if(Reads.compareIndices(array, i - 1, i, 0.025, true) > 0){
