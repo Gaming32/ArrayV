@@ -1,15 +1,10 @@
 package frames;
 
 import java.awt.Toolkit;
-import java.util.Hashtable;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import io.github.arrayv.prompts.ShufflePrompt;
 import io.github.arrayv.prompts.SortPrompt;
@@ -48,7 +43,7 @@ SOFTWARE.
  *
  */
 
-final public class UtilFrame extends javax.swing.JFrame {
+public final class UtilFrame extends javax.swing.JFrame {
     final private static long serialVersionUID = 1L;
 
     private boolean jCheckBox9WarningShown = true; //set to false to enable warning
@@ -110,38 +105,11 @@ final public class UtilFrame extends javax.swing.JFrame {
         this.jCheckBox7 = new javax.swing.JCheckBox();
         this.jCheckBox8 = new javax.swing.JCheckBox();
         this.jCheckBox9 = new javax.swing.JCheckBox();
-        this.jSlider = new javax.swing.JSlider(SwingConstants.VERTICAL, 1, 12, 11);
         this.jComboBox1 = new javax.swing.JComboBox();
 
         jLabel1.setText("Settings");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        Hashtable<Integer, JLabel> labels = new Hashtable<>();
-        labels.put(1, new JLabel("2"));
-        labels.put(2, new JLabel("4"));
-        labels.put(3, new JLabel("8"));
-        labels.put(4, new JLabel("16"));
-        labels.put(5, new JLabel("32"));
-        labels.put(6, new JLabel("64"));
-        labels.put(7, new JLabel("128"));
-        labels.put(8, new JLabel("256"));
-        labels.put(9, new JLabel("512"));
-        labels.put(10, new JLabel("1024"));
-        labels.put(11, new JLabel("2048"));
-        labels.put(12, new JLabel("4096"));
-
-        jSlider.setMajorTickSpacing(1);
-        jSlider.setLabelTable(labels);
-        jSlider.setPaintLabels(true);
-        jSlider.setPaintTicks(true);
-        jSlider.setSnapToTicks(true);
-        jSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent event) {
-                ArrayVisualizer.setCurrentLength((int) Math.pow(2, jSlider.getValue()));
-            }
-        });
 
         jButton1ResetText();
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -616,7 +584,6 @@ final public class UtilFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox7;
     private javax.swing.JCheckBox jCheckBox8;
     private javax.swing.JCheckBox jCheckBox9;
-    private javax.swing.JSlider jSlider;
     @SuppressWarnings("rawtypes")
     private javax.swing.JComboBox jComboBox1;
 }
