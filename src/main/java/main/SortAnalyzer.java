@@ -79,9 +79,7 @@ public final class SortAnalyzer {
         "import panels.", "import io.github.arrayv.panels.",
         "import prompts.", "import io.github.arrayv.prompts.",
         "import visuals.", "import io.github.arrayv.visuals.",
-        "import sorts.templates.SortComparator;", "import io.github.arrayv.sortdata.SortComparator;",
-        "import main.SortAnalyzer.SortPair;", "import io.github.arrayv.sortdata.SortInfo;",
-        "import main.SortAnalyzer.SortInfo;", "import io.github.arrayv.sortdata.SortInfo;"
+        "import sorts.templates.SortComparator;", "import io.github.arrayv.sortdata.SortComparator;"
     );
 
     private final Set<Class<?>> EXTRA_SORTS = new HashSet<>();
