@@ -76,6 +76,7 @@ public final class SortAnalyzer {
     private static final File EXTRA_SORTS_FILE = new File("cache", EXTRA_SORTS_JAR_NAME);
     private static final URLClassLoader EXTRA_SORTS_CLASS_LOADER;
     private static final Map.Entry<String, String>[] IMPORT_REPLACEMENTS = CommonUtils.createPairArray(
+        "import frames.", "import io.github.arrayv.frames.",
         "import panels.", "import io.github.arrayv.panels.",
         "import prompts.", "import io.github.arrayv.prompts.",
         "import visuals.", "import io.github.arrayv.visuals.",

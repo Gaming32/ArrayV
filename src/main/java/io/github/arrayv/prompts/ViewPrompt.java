@@ -5,8 +5,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import frames.AppFrame;
-import frames.UtilFrame;
+import io.github.arrayv.frames.AppFrame;
+import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.visuals.VisualStyles;
 import main.ArrayVisualizer;
 
@@ -37,13 +37,7 @@ SOFTWARE.
  *
  */
 
-/**
- *
- * @author S630690
- */
-
-final public class ViewPrompt extends javax.swing.JFrame implements AppFrame {
-
+public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private static final long serialVersionUID = 1L;
 
     private ArrayVisualizer ArrayVisualizer;

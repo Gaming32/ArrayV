@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dialogs;
 
 import java.awt.Color;
@@ -20,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import frames.AppFrame;
+import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.panels.ShufflePanel;
 import main.ArrayManager;
 import panes.JErrorPane;

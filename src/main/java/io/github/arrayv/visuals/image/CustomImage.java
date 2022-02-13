@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 
 import dialogs.CustomImageDialog;
 import dialogs.LoadingDialog;
-import frames.ImageFrame;
+import io.github.arrayv.frames.ImageFrame;
 import io.github.arrayv.visuals.Visual;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
@@ -54,7 +54,7 @@ SOFTWARE.
  *  CustomImage visual and sort bar graph artwork (image/pic.jpg) created by
  *  aphitorite (https://github.com/aphitorite/ArrayVisualizer)
  */
-final public class CustomImage extends Visual {
+public final class CustomImage extends Visual {
     public static CustomImage visual;
 
     private volatile BufferedImage img;

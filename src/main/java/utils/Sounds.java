@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 
 import dialogs.LoadingDialog;
 import dialogs.SoundbankDialog;
-import frames.SoundFrame;
+import io.github.arrayv.frames.SoundFrame;
 import main.ArrayVisualizer;
 import panes.JErrorPane;
 

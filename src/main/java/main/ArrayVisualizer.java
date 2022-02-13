@@ -49,9 +49,9 @@ import javax.swing.WindowConstants;
 
 import dialogs.FileDialog;
 import dialogs.SaveArrayDialog;
-import frames.ArrayFrame;
-import frames.SoundFrame;
-import frames.UtilFrame;
+import io.github.arrayv.frames.ArrayFrame;
+import io.github.arrayv.frames.SoundFrame;
+import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.visuals.Visual;
 import io.github.arrayv.visuals.VisualStyles;

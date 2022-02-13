@@ -1,4 +1,4 @@
-package frames;
+package io.github.arrayv.frames;
 
 import java.awt.Toolkit;
 

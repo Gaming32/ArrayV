@@ -22,8 +22,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import dialogs.ImportSortDialog;
-import frames.AppFrame;
-import frames.UtilFrame;
+import io.github.arrayv.frames.AppFrame;
+import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.sortdata.SortInfo;
 import main.ArrayVisualizer;
 import main.SortAnalyzer;
@@ -66,11 +66,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
- */
-
-/**
- *
- * @author S630690
  */
 
 final public class SortPrompt extends javax.swing.JFrame implements AppFrame {
