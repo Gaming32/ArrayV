@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package frames;
 
 import java.awt.Toolkit;
@@ -15,11 +11,11 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import io.github.arrayv.prompts.ShufflePrompt;
+import io.github.arrayv.prompts.SortPrompt;
+import io.github.arrayv.prompts.ViewPrompt;
 import main.ArrayManager;
 import main.ArrayVisualizer;
-import prompts.ShufflePrompt;
-import prompts.SortPrompt;
-import prompts.ViewPrompt;
 import utils.Delays;
 import utils.Highlights;
 import utils.Sounds;

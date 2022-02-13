@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package prompts;
+package io.github.arrayv.prompts;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

@@ -1,19 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package prompts;
+package io.github.arrayv.prompts;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 import frames.AppFrame;
 import frames.UtilFrame;
 import io.github.arrayv.visuals.VisualStyles;
 import main.ArrayVisualizer;
-
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.GroupLayout;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 /*
  *

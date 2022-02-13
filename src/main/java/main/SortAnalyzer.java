@@ -77,6 +77,7 @@ public final class SortAnalyzer {
     private static final URLClassLoader EXTRA_SORTS_CLASS_LOADER;
     private static final Map.Entry<String, String>[] IMPORT_REPLACEMENTS = CommonUtils.createPairArray(
         "import panels.", "import io.github.arrayv.panels.",
+        "import prompts.", "import io.github.arrayv.prompts.",
         "import visuals.", "import io.github.arrayv.visuals.",
         "import sorts.templates.SortComparator;", "import io.github.arrayv.sortdata.SortComparator;",
         "import main.SortAnalyzer.SortPair;", "import io.github.arrayv.sortdata.SortInfo;",
