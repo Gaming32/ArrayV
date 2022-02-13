@@ -1,7 +1,7 @@
 package threads;
 
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 import sorts.insert.AATreeSort;
 import sorts.insert.AVLTreeSort;
 import sorts.insert.BinaryInsertionSort;

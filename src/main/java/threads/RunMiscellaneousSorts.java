@@ -1,7 +1,7 @@
 package threads;
 
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 import sorts.misc.BurntPancakeSort;
 import sorts.misc.PancakeSort;
 import sorts.templates.Sort;

@@ -1,4 +1,4 @@
-package panes;
+package io.github.arrayv.panes;
 
 import java.awt.HeadlessException;
 

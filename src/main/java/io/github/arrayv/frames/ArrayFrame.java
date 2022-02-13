@@ -14,9 +14,9 @@ import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import io.github.arrayv.panes.JEnhancedOptionPane;
 import main.ArrayManager;
 import main.ArrayVisualizer;
-import panes.JEnhancedOptionPane;
 import utils.Highlights;
 
 /*

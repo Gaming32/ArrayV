@@ -34,12 +34,12 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
+import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortComparator;
 import io.github.arrayv.sortdata.SortInfo;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
-import panes.JErrorPane;
 import sorts.templates.Sort;
 import utils.CommonUtils;
 
@@ -79,6 +79,7 @@ public final class SortAnalyzer {
         "import dialogs.", "import io.github.arrayv.dialogs.",
         "import frames.", "import io.github.arrayv.frames.",
         "import panels.", "import io.github.arrayv.panels.",
+        "import panes.", "import io.github.arrayv.panes.",
         "import prompts.", "import io.github.arrayv.prompts.",
         "import visuals.", "import io.github.arrayv.visuals.",
         "import sorts.templates.SortComparator;", "import io.github.arrayv.sortdata.SortComparator;"

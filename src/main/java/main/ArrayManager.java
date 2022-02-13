@@ -2,7 +2,7 @@ package main;
 
 import java.util.Arrays;
 
-import panes.JErrorPane;
+import io.github.arrayv.panes.JErrorPane;
 import utils.Delays;
 import utils.Distributions;
 import utils.Highlights;

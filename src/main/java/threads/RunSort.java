@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import io.github.arrayv.panes.JEnhancedOptionPane;
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayManager;
 import main.ArrayVisualizer;
-import panes.JEnhancedOptionPane;
-import panes.JErrorPane;
 import sorts.templates.Sort;
 import utils.Delays;
 import utils.SortingNetworkGenerator;

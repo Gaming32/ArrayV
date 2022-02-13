@@ -1,8 +1,24 @@
 package threads;
 
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
-import sorts.merge.*;
+import sorts.merge.AndreySort;
+import sorts.merge.BlockSwapMergeSort;
+import sorts.merge.BottomUpMergeSort;
+import sorts.merge.BufferedStoogeSort;
+import sorts.merge.ImprovedInPlaceMergeSort;
+import sorts.merge.InPlaceMergeSort;
+import sorts.merge.IterativeTopDownMergeSort;
+import sorts.merge.LazyStableSort;
+import sorts.merge.MergeSort;
+import sorts.merge.MergeSortParallel;
+import sorts.merge.NewShuffleMergeSort;
+import sorts.merge.PDMergeSort;
+import sorts.merge.RotateMergeSort;
+import sorts.merge.RotateMergeSortParallel;
+import sorts.merge.StrandSort;
+import sorts.merge.TwinSort;
+import sorts.merge.WeavedMergeSort;
 import sorts.templates.Sort;
 
 /*

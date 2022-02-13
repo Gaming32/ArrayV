@@ -1,9 +1,9 @@
 package threads;
 
 import io.github.arrayv.frames.ArrayFrame;
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayManager;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 import sorts.templates.Sort;
 import utils.Delays;
 import utils.Highlights;

@@ -8,8 +8,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 import io.github.arrayv.dialogs.LoadCustomDistributionDialog;
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 
 /*
  *

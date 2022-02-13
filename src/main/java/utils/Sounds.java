@@ -22,8 +22,8 @@ import javax.swing.JOptionPane;
 import io.github.arrayv.dialogs.LoadingDialog;
 import io.github.arrayv.dialogs.SoundbankDialog;
 import io.github.arrayv.frames.SoundFrame;
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 
 /*
  *

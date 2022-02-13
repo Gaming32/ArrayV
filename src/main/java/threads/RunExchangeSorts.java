@@ -1,7 +1,7 @@
 package threads;
 
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 import sorts.exchange.BinaryGnomeSort;
 import sorts.exchange.BubbleSort;
 import sorts.exchange.CircleSortIterative;

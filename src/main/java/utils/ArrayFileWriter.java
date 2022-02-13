@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import panes.JErrorPane;
+import io.github.arrayv.panes.JErrorPane;
 
 public final class ArrayFileWriter {
     public static boolean writeArray(String fileName, int[] array, int length) {

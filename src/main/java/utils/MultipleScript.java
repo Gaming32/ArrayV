@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 import sorts.templates.Sort;
 
 public final class MultipleScript {

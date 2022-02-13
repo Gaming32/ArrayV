@@ -1,7 +1,7 @@
 package threads;
 
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 import sorts.hybrid.AdaptiveGrailSort;
 import sorts.hybrid.BinaryMergeSort;
 import sorts.hybrid.BufferPartitionMergeSort;

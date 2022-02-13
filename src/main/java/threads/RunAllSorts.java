@@ -2,8 +2,8 @@ package threads;
 
 import java.util.ArrayList;
 
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 
 /*
  *

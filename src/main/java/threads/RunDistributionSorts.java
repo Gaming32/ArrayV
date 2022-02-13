@@ -1,7 +1,7 @@
 package threads;
 
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayVisualizer;
-import panes.JErrorPane;
 import sorts.distribute.AmericanFlagSort;
 import sorts.distribute.BinaryQuickSortIterative;
 import sorts.distribute.BinaryQuickSortRecursive;

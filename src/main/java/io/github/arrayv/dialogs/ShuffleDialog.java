@@ -18,8 +18,8 @@ import javax.swing.event.DocumentListener;
 
 import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.panels.ShufflePanel;
+import io.github.arrayv.panes.JErrorPane;
 import main.ArrayManager;
-import panes.JErrorPane;
 import utils.Distributions;
 import utils.ShuffleGraph;
 import utils.ShuffleInfo;
