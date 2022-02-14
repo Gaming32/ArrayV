@@ -24,7 +24,6 @@ public final class IntroCircleSortIterative extends IterativeCircleSorting {
         this.setRunAllSortsName("Iterative Introspective Circle Sort");
         this.setRunSortName("Iterative Introspective Circlesort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

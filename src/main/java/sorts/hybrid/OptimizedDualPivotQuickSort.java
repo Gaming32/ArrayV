@@ -18,7 +18,6 @@ public final class OptimizedDualPivotQuickSort extends Sort {
         this.setRunAllSortsName("Optimized Dual-Pivot Quick Sort [Arrays.sort]");
         this.setRunSortName("Optimized Dual-Pivot Quicksort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

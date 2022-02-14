@@ -11,7 +11,6 @@ public final class StalinSort extends Sort {
         this.setRunAllSortsName("Stalin Sort");
         this.setRunSortName("Stalinsort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

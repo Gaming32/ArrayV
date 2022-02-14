@@ -34,7 +34,6 @@ public final class StableSelectionSort extends Sort {
         this.setRunAllSortsName("Stable Selection Sort");
         this.setRunSortName("Stable Selection Sort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -13,7 +13,6 @@ public final class KotaSort extends KotaSorting {
         this.setRunAllSortsName("Kotasort");
         this.setRunSortName("Kotasort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

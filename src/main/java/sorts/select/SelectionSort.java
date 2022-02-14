@@ -37,7 +37,6 @@ public final class SelectionSort extends Sort {
         this.setRunAllSortsName("Selection Sort");
         this.setRunSortName("Selection Sort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

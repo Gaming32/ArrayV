@@ -37,7 +37,6 @@ public final class SimplifiedLibrarySort extends Sort {
 		this.setRunAllSortsName("Simplified Library Sort");
 		this.setRunSortName("Simplified Library Sort");
 		this.setCategory("Insertion Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

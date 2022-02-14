@@ -38,7 +38,6 @@ public class IterativeTopDownMergeSort extends Sort {
         this.setRunAllSortsName("Iterative Top-down Merge Sort");
         this.setRunSortName("Iterative Top-down Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

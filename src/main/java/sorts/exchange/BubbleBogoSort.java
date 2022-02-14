@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.BogoSorting;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2019 w0rthy
@@ -40,7 +40,6 @@ public final class BubbleBogoSort extends BogoSorting {
         this.setRunAllSortsName("Bubble Bogo Sort");
         this.setRunSortName("Bubble Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

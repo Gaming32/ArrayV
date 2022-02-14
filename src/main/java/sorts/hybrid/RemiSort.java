@@ -37,7 +37,6 @@ public final class RemiSort extends MultiWayMergeSorting {
 		this.setRunAllSortsName("Remi Sort");
 		this.setRunSortName("Remisort");
 		this.setCategory("Hybrid Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

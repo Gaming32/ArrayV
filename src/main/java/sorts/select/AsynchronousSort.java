@@ -38,7 +38,6 @@ public final class AsynchronousSort extends Sort {
         this.setRunAllSortsName("Asynchronous Sort");
         this.setRunSortName("Asynchronous Sort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

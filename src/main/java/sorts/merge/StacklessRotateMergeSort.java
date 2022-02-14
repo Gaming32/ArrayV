@@ -37,7 +37,6 @@ public final class StacklessRotateMergeSort extends Sort {
         this.setRunAllSortsName("Stackless Rotate Merge Sort");
         this.setRunSortName("Stackless Rotate Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

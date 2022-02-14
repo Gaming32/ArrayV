@@ -13,7 +13,6 @@ public final class SlowSort extends Sort {
         this.setRunAllSortsName("Slow Sort");
         this.setRunSortName("Slowsort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

@@ -141,9 +141,10 @@ public abstract class Sort {
 
     /**
      * Sets whether this sort is a comparison sort or a distribution sort
-     * @apiNote This method will be deprecated before ArrayV 5.0
+     * @deprecated This method doesn't do anything, as this information is no longer stored
      * @param comparisonBased Whether this sort is a comparison sort or a distribution sort
      */
+    @Deprecated
     public void setComparisonBased(boolean comparisonBased) {
     }
 

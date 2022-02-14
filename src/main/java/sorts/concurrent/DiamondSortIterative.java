@@ -37,7 +37,6 @@ public final class DiamondSortIterative extends Sort {
         this.setRunAllSortsName("Iterative Diamond Sort");
         this.setRunSortName("Iterative Diamondsort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -37,7 +37,6 @@ public final class SwaplessBubbleSort extends Sort {
         this.setRunAllSortsName("Swapless Bubble Sort");
         this.setRunSortName("Swapless Bubblesort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

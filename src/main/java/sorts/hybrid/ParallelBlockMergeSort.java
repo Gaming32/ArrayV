@@ -38,7 +38,6 @@ public final class ParallelBlockMergeSort extends Sort {
         this.setRunAllSortsName("Parallel Block Merge Sort");
         this.setRunSortName("Parallel Block Mergesort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

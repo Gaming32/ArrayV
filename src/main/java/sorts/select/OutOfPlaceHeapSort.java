@@ -37,7 +37,6 @@ public final class OutOfPlaceHeapSort extends Sort {
 		this.setRunAllSortsName("Out-of-Place Heap Sort");
 		this.setRunSortName("Out-of-Place Heapsort");
 		this.setCategory("Selection Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

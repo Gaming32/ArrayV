@@ -18,7 +18,6 @@ public final class BitonicSortRecursive extends Sort {
         this.setRunAllSortsName("Batcher's Bitonic Sort");
         this.setRunSortName("Recursive Bitonic Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

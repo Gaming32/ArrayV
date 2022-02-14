@@ -23,7 +23,6 @@ public final class PigeonholeSort extends Sort {
         this.setRunAllSortsName("Pigeonhole Sort");
         this.setRunSortName("Pigeonhole Sort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

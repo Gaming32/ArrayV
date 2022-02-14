@@ -42,7 +42,6 @@ public final class FluxSort extends QuadSorting {
         this.setRunAllSortsName("Flux Sort");
         this.setRunSortName("Fluxsort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

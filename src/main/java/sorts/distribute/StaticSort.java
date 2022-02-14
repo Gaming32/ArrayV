@@ -42,7 +42,6 @@ public final class StaticSort extends Sort {
         this.setRunAllSortsName("Static Sort");
         this.setRunSortName("Static Sort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

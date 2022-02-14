@@ -28,7 +28,6 @@ public final class BinaryQuickSortRecursive extends BinaryQuickSorting {
         this.setRunAllSortsName("Recursive Binary Quick Sort");
         this.setRunSortName("Recursive Binary Quicksort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

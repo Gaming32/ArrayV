@@ -23,7 +23,6 @@ public final class CircleSortIterative extends IterativeCircleSorting {
         this.setRunAllSortsName("Iterative Circle Sort");
         this.setRunSortName("Iterative Circlesort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

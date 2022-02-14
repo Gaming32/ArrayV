@@ -12,7 +12,6 @@ public final class MergeExchangeSortIterative extends Sort {
         this.setRunAllSortsName("Batcher's Merge-Exchange Sort");
         this.setRunSortName("Iterative Merge-Exchange Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -62,7 +62,6 @@ public final class AdaptiveGrailSort extends Sort {
         this.setRunAllSortsName("Adaptive Grail Sort (Block Merge Sort)");
         this.setRunSortName("Adaptive Grailsort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

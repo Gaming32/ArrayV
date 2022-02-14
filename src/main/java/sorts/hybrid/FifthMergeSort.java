@@ -47,7 +47,6 @@ public final class FifthMergeSort extends Sort {
         this.setRunAllSortsName("Fifth Merge Sort");
         this.setRunSortName("Fifth Mergesort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -38,7 +38,6 @@ public final class CircloidSort extends Sort {
         this.setRunAllSortsName("Circloid Sort");
         this.setRunSortName("Circloid Sort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

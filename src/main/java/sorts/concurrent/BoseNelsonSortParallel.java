@@ -12,7 +12,6 @@ public final class BoseNelsonSortParallel extends Sort {
     	this.setRunAllSortsName("Parallel Bose-Nelson Sorting Network");
     	this.setRunSortName("Parallel Bose-Nelson Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

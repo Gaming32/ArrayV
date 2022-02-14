@@ -13,7 +13,6 @@ public final class OptimizedBottomUpMergeSort extends Sort {
         this.setRunAllSortsName("Optimized Bottom-Up Merge Sort [std::stable_sort]");
         this.setRunSortName("Bottom-Up Mergesort w/ Binary Insert");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -33,7 +33,6 @@ public final class PairwiseSortRecursive extends Sort {
         this.setRunAllSortsName("Recursive Pairwise Sorting Network");
         this.setRunSortName("Recursive Pairwise Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

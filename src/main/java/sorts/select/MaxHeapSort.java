@@ -23,7 +23,6 @@ public final class MaxHeapSort extends HeapSorting {
         this.setRunAllSortsName("Max Heap Sort");
         this.setRunSortName("Heapsort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

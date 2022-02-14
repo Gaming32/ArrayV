@@ -40,7 +40,6 @@ public final class MSDRadixSort extends Sort {
         this.setRunAllSortsName("Most Significant Digit Radix Sort, Base 4");
         this.setRunSortName("Most Significant Digit Radixsort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(true);
         this.setRadixSort(true);
         this.setUnreasonablySlow(false);

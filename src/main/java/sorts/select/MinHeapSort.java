@@ -23,7 +23,6 @@ public final class MinHeapSort extends HeapSorting {
         this.setRunAllSortsName("Min Heap Sort");
         this.setRunSortName("Reverse Heapsort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

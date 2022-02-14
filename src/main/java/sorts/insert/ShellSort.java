@@ -14,7 +14,6 @@ public final class ShellSort extends ShellSorting {
         this.setRunAllSortsName("Shell Sort");
         this.setRunSortName("Shellsort");
         this.setCategory("Insertion Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

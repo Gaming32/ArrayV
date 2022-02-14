@@ -14,7 +14,6 @@ public final class FlashSort extends Sort {
         this.setRunAllSortsName("Flash Sort");
         this.setRunSortName("Flashsort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

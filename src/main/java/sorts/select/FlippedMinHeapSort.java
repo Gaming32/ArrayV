@@ -30,7 +30,6 @@ public final class FlippedMinHeapSort extends Sort {
         this.setRunAllSortsName("Flipped Min Heap Sort");
         this.setRunSortName("Flipped Reverse Heapsort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

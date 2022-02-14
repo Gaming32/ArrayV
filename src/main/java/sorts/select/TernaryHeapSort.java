@@ -11,7 +11,6 @@ public final class TernaryHeapSort extends Sort {
         this.setRunAllSortsName("Ternary Heap Sort");
         this.setRunSortName("Ternary Heapsort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

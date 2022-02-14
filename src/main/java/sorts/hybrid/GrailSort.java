@@ -57,7 +57,6 @@ public final class GrailSort extends GrailSorting {
         this.setRunAllSortsName("Grailsort");
         this.setRunSortName("Grailsort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

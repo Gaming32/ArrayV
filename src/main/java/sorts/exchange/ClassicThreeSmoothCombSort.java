@@ -34,7 +34,6 @@ public final class ClassicThreeSmoothCombSort extends Sort {
         this.setRunAllSortsName("Classic 3-Smooth Comb Sort");
         this.setRunSortName("Classic 3-Smooth Combsort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

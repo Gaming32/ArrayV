@@ -11,7 +11,6 @@ public final class PancakeInsertionSort extends Sort {
         this.setRunAllSortsName("Pancake Insertion Sort");
         this.setRunSortName("Pancake Insertionsort");
         this.setCategory("Miscellaneous Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

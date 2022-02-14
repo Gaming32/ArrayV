@@ -14,7 +14,6 @@ public final class SillySort extends Sort {
         this.setRunAllSortsName("Silly Sort");
         this.setRunSortName("Sillysort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

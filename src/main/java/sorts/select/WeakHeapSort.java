@@ -13,7 +13,6 @@ public final class WeakHeapSort extends Sort {
         this.setRunAllSortsName("Weak Heap Sort");
         this.setRunSortName("Weak Heapsort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

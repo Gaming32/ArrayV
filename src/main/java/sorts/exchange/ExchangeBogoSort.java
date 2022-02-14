@@ -14,7 +14,6 @@ public final class ExchangeBogoSort extends BogoSorting {
         this.setRunAllSortsName("Exchange Bogo Sort");
         this.setRunSortName("Exchange Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

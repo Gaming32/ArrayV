@@ -11,7 +11,6 @@ public final class MySort extends Sort {
         this.setRunAllSortsName("My Sort");
         this.setRunSortName("Mysort");
         this.setCategory("Category Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

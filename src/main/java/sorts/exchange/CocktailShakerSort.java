@@ -37,7 +37,6 @@ public final class CocktailShakerSort extends Sort {
         this.setRunAllSortsName("Cocktail Shaker Sort");
         this.setRunSortName("Cocktail Shaker Sort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

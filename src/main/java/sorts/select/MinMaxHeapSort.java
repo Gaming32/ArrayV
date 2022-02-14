@@ -15,7 +15,6 @@ public final class MinMaxHeapSort extends Sort {
         this.setRunAllSortsName("Min-Max Heap Sort");
         this.setRunSortName("Min-max Heapsort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

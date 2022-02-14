@@ -37,7 +37,6 @@ public final class CreaseSort extends Sort {
         this.setRunAllSortsName("Crease Sorting Network");
         this.setRunSortName("Crease Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

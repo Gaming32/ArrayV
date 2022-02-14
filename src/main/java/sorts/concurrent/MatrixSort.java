@@ -26,7 +26,6 @@ public final class MatrixSort extends Sort {
         this.setRunAllSortsName("Matrix Sort");
         this.setRunSortName("Matrix Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

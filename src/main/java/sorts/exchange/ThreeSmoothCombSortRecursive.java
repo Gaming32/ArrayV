@@ -34,7 +34,6 @@ public final class ThreeSmoothCombSortRecursive extends Sort {
         this.setRunAllSortsName("Recursive 3-Smooth Comb Sort");
         this.setRunSortName("Recursive 3-Smooth Combsort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

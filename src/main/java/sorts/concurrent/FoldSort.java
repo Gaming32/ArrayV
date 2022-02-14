@@ -37,7 +37,6 @@ public final class FoldSort extends Sort {
         this.setRunAllSortsName("Fold Sorting Network");
         this.setRunSortName("Fold Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

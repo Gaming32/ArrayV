@@ -12,7 +12,6 @@ public final class BitonicSortParallel extends Sort {
         this.setRunAllSortsName("Parallel Bitonic Sort");
         this.setRunSortName("Parallel Bitonic Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
@@ -84,7 +83,7 @@ public final class BitonicSortParallel extends Sort {
             this.bitonicMerge(start, mid, stop, gap, ascending ? 1 : -1);
         }
     }
-    
+
     @Override
     public void runSort(int[] arr, int length, int buckets) {
         this.arr = arr;

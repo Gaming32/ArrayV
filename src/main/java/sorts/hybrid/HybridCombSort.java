@@ -36,7 +36,6 @@ public final class HybridCombSort extends CombSorting {
         this.setRunAllSortsName("Hybrid Comb Sort");
         this.setRunSortName("Hybrid Combsort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

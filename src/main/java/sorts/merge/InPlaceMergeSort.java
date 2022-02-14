@@ -37,7 +37,6 @@ public final class InPlaceMergeSort extends Sort {
         this.setRunAllSortsName("In-Place Merge Sort");
         this.setRunSortName("In-Place Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

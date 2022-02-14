@@ -38,7 +38,6 @@ public final class InPlaceLSDRadixSort extends Sort {
         this.setRunAllSortsName("In-Place LSD Radix Sort, Base 10");
         this.setRunSortName("In-Place LSD Radix Sort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(true);
         this.setRadixSort(true);
         this.setUnreasonablySlow(false);

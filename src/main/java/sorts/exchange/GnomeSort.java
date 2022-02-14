@@ -11,7 +11,6 @@ public final class GnomeSort extends Sort {
         this.setRunAllSortsName("Gnome Sort");
         this.setRunSortName("Gnomesort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -37,7 +37,6 @@ public final class ClassicGravitySort extends Sort {
         this.setRunAllSortsName("Classic Gravity (Bead) Sort");
         this.setRunSortName("Classic Beadsort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -43,7 +43,6 @@ public final class TwinSort extends TwinSorting {
         this.setRunAllSortsName("Twin Sort");
         this.setRunSortName("Twin Sort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

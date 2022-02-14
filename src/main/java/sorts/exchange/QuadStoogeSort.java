@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sorts.exchange;
 
@@ -22,7 +22,6 @@ public final class QuadStoogeSort extends Sort {
 		setRunAllSortsName("Quad Stooge Sort");
 		setRunSortName("Quad Stoogesort");
 		setCategory("Impractical Sorts");
-		setComparisonBased(true);
 		setBucketSort(false);
 		setRadixSort(false);
 		setUnreasonablySlow(true);

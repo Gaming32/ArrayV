@@ -37,7 +37,6 @@ public final class BinaryDoubleInsertionSort extends Sort {
 		this.setRunAllSortsName("Binary Double Insertion Sort");
 		this.setRunSortName("Binary Double Insertsort");
 		this.setCategory("Insertion Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

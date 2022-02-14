@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sorts.exchange;
 
@@ -22,7 +22,6 @@ public final class SlopeSort extends Sort {
 		setRunAllSortsName("Slope Sort");
 		setRunSortName("Slopesort");
 		setCategory("Exchange Sorts");
-		setComparisonBased(true);
 		setBucketSort(false);
 		setRadixSort(false);
 		setUnreasonablySlow(true);

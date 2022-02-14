@@ -14,7 +14,6 @@ public final class DualPivotQuickSort extends Sort {
         this.setRunAllSortsName("Dual-Pivot Quick Sort");
         this.setRunSortName("Dual-Pivot Quicksort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

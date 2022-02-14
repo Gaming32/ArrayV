@@ -11,7 +11,6 @@ public final class SmoothSort extends Sort {
         this.setRunAllSortsName("Smooth Sort");
         this.setRunSortName("Smoothsort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

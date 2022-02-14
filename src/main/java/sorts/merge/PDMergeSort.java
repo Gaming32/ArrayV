@@ -4,7 +4,7 @@ import main.ArrayVisualizer;
 import sorts.templates.Sort;
 
 /*
- * 
+ *
 MIT License
 
 Copyright (c) 2021 Gaming32
@@ -35,12 +35,11 @@ public class PDMergeSort extends Sort {
 
     public PDMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        
+
         this.setSortListName("Pattern Defeating Merge");
         this.setRunAllSortsName("Pattern-Defeating Merge Sort");
         this.setRunSortName("Pattern-Defeating Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);
@@ -66,7 +65,7 @@ public class PDMergeSort extends Sort {
                 Writes.write(array, left++, array[right++], 1, true, false);
         }
         Highlights.clearMark(2);
-    
+
         while (left < right)
             Writes.write(array, left++, copied[bufferPointer++], 0.5, true, false);
         Highlights.clearAllMarks();
@@ -121,7 +120,7 @@ public class PDMergeSort extends Sort {
         boolean cmp = compare(array[index], array[index + 1]);
         index++;
         Highlights.markArray(1, index);
-        
+
         while (index < maxIndex) {
             Delays.sleep(1);
             boolean checkCmp = compare(array[index], array[index + 1]);
@@ -164,7 +163,7 @@ public class PDMergeSort extends Sort {
         // arrayVisualizer.setHeading("PDMerge -- Finding Runs");
         int[] runs = findRuns(array, length - 1);
         copied = Writes.createExternalArray(length / 2);
-        
+
         // arrayVisualizer.setHeading("PDMerge -- Merging Runs");
         while (runCount > 1) {
             for (int i = 0; i < runCount - 1; i += 2) {

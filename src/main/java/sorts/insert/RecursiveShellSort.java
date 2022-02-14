@@ -11,7 +11,6 @@ public final class RecursiveShellSort extends Sort {
         this.setRunAllSortsName("yuji's Recursive Shell Sort");
         this.setRunSortName("yuji's Recursive Shell Sort");
         this.setCategory("Insertion Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

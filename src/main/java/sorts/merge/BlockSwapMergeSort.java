@@ -38,7 +38,6 @@ public final class BlockSwapMergeSort extends Sort {
         this.setRunAllSortsName("Block-Swap Merge Sort");
         this.setRunSortName("Block-Swap Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

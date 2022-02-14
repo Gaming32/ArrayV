@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package sorts.merge;
 
@@ -23,7 +23,6 @@ public final class BufferedStoogeSort extends Sort {
 		this.setRunAllSortsName("Buffered Stooge Sort");
 		this.setRunSortName("Buffered Stoogesort");
 		this.setCategory("Merge Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

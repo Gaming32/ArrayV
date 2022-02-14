@@ -37,7 +37,6 @@ public final class MergeInsertionSort extends Sort {
 		this.setRunAllSortsName("Merge-Insertion Sort");
 		this.setRunSortName("Merge-Insertsort");
 		this.setCategory("Hybrid Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

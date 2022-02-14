@@ -11,7 +11,6 @@ public final class LLQuickSort extends Sort {
         this.setRunAllSortsName("Quick Sort, Left/Left Pointers");
         this.setRunSortName("Left/Left Quicksort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

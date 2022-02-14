@@ -46,7 +46,6 @@ public final class LazyStableSort extends GrailSorting {
         this.setRunAllSortsName("Lazy Stable Sort");
         this.setRunSortName("Lazy Stable Sort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -11,7 +11,6 @@ public final class BinaryGnomeSort extends Sort {
         this.setRunAllSortsName("Optimized Gnome Sort + Binary Search");
         this.setRunSortName("Optimized Gnomesort + Binary Search");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

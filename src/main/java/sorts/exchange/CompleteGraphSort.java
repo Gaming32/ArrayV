@@ -36,7 +36,6 @@ public final class CompleteGraphSort extends Sort {
         this.setRunAllSortsName("Complete Graph Sorting Network");
         this.setRunSortName("Complete Graph Sorting Network");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

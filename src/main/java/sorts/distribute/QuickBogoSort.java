@@ -42,7 +42,6 @@ public final class QuickBogoSort extends BogoSorting {
         this.setRunAllSortsName("Quick Bogo Sort");
         this.setRunSortName("Quick Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

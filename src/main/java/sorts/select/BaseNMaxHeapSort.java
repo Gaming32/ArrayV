@@ -10,7 +10,6 @@ public final class BaseNMaxHeapSort extends Sort {
         this.setRunAllSortsName("Base-N Max Heap Sort, Base 4");
         this.setRunSortName("Base-N Max Heapsort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(true);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

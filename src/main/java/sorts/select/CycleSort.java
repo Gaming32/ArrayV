@@ -37,7 +37,6 @@ public final class CycleSort extends Sort {
         this.setRunAllSortsName("Cycle Sort");
         this.setRunSortName("Cyclesort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -12,7 +12,6 @@ public final class BoseNelsonSortRecursive extends Sort {
     	this.setRunAllSortsName("Recursive Bose-Nelson Sorting Network");
     	this.setRunSortName("Recursive Bose-Nelson Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

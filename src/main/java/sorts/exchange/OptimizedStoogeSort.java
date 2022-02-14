@@ -13,7 +13,6 @@ public final class OptimizedStoogeSort extends Sort {
         this.setRunAllSortsName("Optimized Stooge Sort");
         this.setRunSortName("Optimized Stoogesort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

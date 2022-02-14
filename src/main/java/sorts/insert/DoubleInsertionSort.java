@@ -37,7 +37,6 @@ public final class DoubleInsertionSort extends Sort {
         this.setRunAllSortsName("Double Insertion Sort");
         this.setRunSortName("Double Insertsort");
         this.setCategory("Insertion Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

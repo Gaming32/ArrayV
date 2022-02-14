@@ -36,7 +36,6 @@ public final class MergeSortParallel extends Sort {
 		this.setRunAllSortsName("Parallel Merge Sort");
 		this.setRunSortName("Parallel Mergesort");
 		this.setCategory("Merge Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

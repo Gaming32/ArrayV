@@ -32,7 +32,6 @@ public final class TournamentSort extends Sort {
         this.setRunAllSortsName("Tournament Sort");
         this.setRunSortName("Tournament Sort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

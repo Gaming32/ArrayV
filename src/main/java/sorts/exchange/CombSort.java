@@ -36,7 +36,6 @@ public final class CombSort extends CombSorting {
         this.setRunAllSortsName("Comb Sort");
         this.setRunSortName("Combsort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

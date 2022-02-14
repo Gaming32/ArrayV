@@ -23,7 +23,6 @@ public final class CircleSortRecursive extends CircleSorting {
         this.setRunAllSortsName("Recursive Circle Sort");
         this.setRunSortName("Circlesort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

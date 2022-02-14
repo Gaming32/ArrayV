@@ -37,7 +37,6 @@ public final class SynchronousSqrtSort extends BlockMergeSorting {
 		this.setRunAllSortsName("Synchronous Sqrt Sort");
 		this.setRunSortName("Synchronous Sqrtsort");
 		this.setCategory("Hybrid Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

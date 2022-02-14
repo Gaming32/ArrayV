@@ -11,7 +11,6 @@ public final class BoseNelsonSortIterative extends Sort {
         this.setRunAllSortsName("Iterative Bose-Nelson Sorting Network");
         this.setRunSortName("Iterative Bose-Nelson Sort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

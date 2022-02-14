@@ -16,7 +16,6 @@ public final class TernaryLRQuickSort extends Sort {
         this.setRunAllSortsName("Quick Sort (ternary, LR ptrs)");
         this.setRunSortName("Quicksort (ternary, LR ptrs)");
         this.setCategory("Quick Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

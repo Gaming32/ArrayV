@@ -50,14 +50,13 @@ public final class BogoBogoSort extends BogoSorting {
         this.setRunAllSortsName("Bogo Bogo Sort");
         this.setRunSortName("Bogobogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);
         this.setUnreasonableLimit(5);
         this.setBogoSort(true);
     }
-    
+
     private int[][] tmp; //fix seizure aux using 2d array
 
     private boolean bogoBogoIsSorted(int[] array, int length) {
@@ -91,12 +90,12 @@ public final class BogoBogoSort extends BogoSorting {
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         tmp = new int[length-1][];
-        
+
         for(int i = length; i > 1; i--)
             tmp[i-2] = Writes.createExternalArray(i);
-        
+
         bogoBogo(array, length, false);
-        
+
         for(int i = length; i > 1; i--)
             Writes.deleteExternalArray(tmp[i-2]);
     }

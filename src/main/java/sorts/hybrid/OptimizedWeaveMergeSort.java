@@ -37,7 +37,6 @@ public final class OptimizedWeaveMergeSort extends Sort {
 		this.setRunAllSortsName("Optimized Weave Merge Sort");
 		this.setRunSortName("Optimized Weave Mergesort");
 		this.setCategory("Hybrid Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

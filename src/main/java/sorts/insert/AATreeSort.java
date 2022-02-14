@@ -16,7 +16,6 @@ public final class AATreeSort extends Sort {
 		this.setRunAllSortsName("Tree Sort (AA Balanced)");
 		this.setRunSortName("Tree sort (AA Balanced)");
 		this.setCategory("Insertion Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

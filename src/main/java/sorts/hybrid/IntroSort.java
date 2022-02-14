@@ -24,7 +24,6 @@ public final class IntroSort extends Sort {
         this.setRunAllSortsName("Introspective Sort");
         this.setRunSortName("Introsort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

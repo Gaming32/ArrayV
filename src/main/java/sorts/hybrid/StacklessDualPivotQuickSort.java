@@ -38,7 +38,6 @@ public final class StacklessDualPivotQuickSort extends Sort {
 		this.setRunAllSortsName("Stackless Dual-Pivot Quicksort");
 		this.setRunSortName("Stackless Dual-Pivot Quicksort");
 		this.setCategory("Hybrid Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

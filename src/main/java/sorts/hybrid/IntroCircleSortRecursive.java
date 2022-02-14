@@ -24,7 +24,6 @@ public final class IntroCircleSortRecursive extends CircleSorting {
         this.setRunAllSortsName("Recursive Introspective Circle Sort");
         this.setRunSortName("Introspective Circlesort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

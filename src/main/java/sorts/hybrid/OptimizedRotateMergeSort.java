@@ -15,7 +15,6 @@ public final class OptimizedRotateMergeSort extends Sort {
         this.setRunAllSortsName("Optimized Rotate Merge Sort");
         this.setRunSortName("Optimized Rotate Mergesort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

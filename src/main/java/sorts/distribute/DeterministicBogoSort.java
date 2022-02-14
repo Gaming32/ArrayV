@@ -37,7 +37,6 @@ public final class DeterministicBogoSort extends BogoSorting {
         this.setRunAllSortsName("Deterministic Bogo Sort");
         this.setRunSortName("Deterministic Bogosort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

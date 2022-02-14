@@ -37,7 +37,6 @@ public final class RotateMergeSort extends Sort {
         //this.setRunAllID("In-Place Merge Sort with Rotations");
         this.setRunSortName(/*"In-Place */"Rotate Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

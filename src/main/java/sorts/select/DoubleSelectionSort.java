@@ -37,7 +37,6 @@ public final class DoubleSelectionSort extends Sort {
         this.setRunAllSortsName("Double Selection Sort");
         this.setRunSortName("Double Selection Sort");
         this.setCategory("Selection Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

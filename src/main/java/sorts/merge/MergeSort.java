@@ -37,7 +37,6 @@ public final class MergeSort extends MergeSorting {
         this.setRunAllSortsName("Merge Sort");
         this.setRunSortName("Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -19,7 +19,6 @@ public final class OddEvenMergeSortIterative extends Sort {
         this.setRunAllSortsName("Iterative Odd-Even Merge Sort");
         this.setRunSortName("Iterative Odd-Even Mergesort");
         this.setCategory("Concurrent Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

@@ -48,7 +48,6 @@ public class NewShuffleMergeSort extends IterativeTopDownMergeSort {
         this.setRunAllSortsName("New Shuffle Merge Sort");
         this.setRunSortName("New Shuffle Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

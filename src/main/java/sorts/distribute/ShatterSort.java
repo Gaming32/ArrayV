@@ -37,7 +37,6 @@ public final class ShatterSort extends ShatterSorting {
         this.setRunAllSortsName("Shatter Sort");
         this.setRunSortName("Shatter Sort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(true);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

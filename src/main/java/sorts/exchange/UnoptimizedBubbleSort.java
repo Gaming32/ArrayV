@@ -37,7 +37,6 @@ public final class UnoptimizedBubbleSort extends Sort {
         this.setRunAllSortsName("Unoptimized Bubble Sort");
         this.setRunSortName("Unoptimized Bubblesort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

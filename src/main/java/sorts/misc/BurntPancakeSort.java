@@ -11,7 +11,6 @@ public final class BurntPancakeSort extends Sort {
     this.setRunAllSortsName("Burnt Pancake Sorting");
     this.setRunSortName("Burnt Pancake Sort");
     this.setCategory("Miscellaneous Sorts");
-    this.setComparisonBased(true);
     this.setBucketSort(false);
     this.setRadixSort(false);
     this.setUnreasonablySlow(false);

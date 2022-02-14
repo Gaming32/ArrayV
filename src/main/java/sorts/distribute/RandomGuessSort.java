@@ -11,7 +11,6 @@ public final class RandomGuessSort extends BogoSorting {
         this.setRunAllSortsName("Random Guess Sort");
         this.setRunSortName("Random Guess Sort");
         this.setCategory("Impractical Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(true);

@@ -28,7 +28,6 @@ public final class BinaryQuickSortIterative extends BinaryQuickSorting {
         this.setRunAllSortsName("Iterative Binary Quick Sort");
         this.setRunSortName("Iterative Binary Quicksort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

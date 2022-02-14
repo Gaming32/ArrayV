@@ -39,7 +39,6 @@ public final class LSDRadixSort extends Sort {
         this.setRunAllSortsName("Least Significant Digit Radix Sort, Base 4");
         this.setRunSortName("Least Significant Digit Radixsort");
         this.setCategory("Distribution Sorts");
-        this.setComparisonBased(false);
         this.setBucketSort(true);
         this.setRadixSort(true);
         this.setUnreasonablySlow(false);

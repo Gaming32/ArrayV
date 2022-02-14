@@ -39,7 +39,6 @@ public final class RotationTest extends Sort {
         this.setRunAllSortsName("Rotation Test");
         this.setRunSortName("Rotation Test");
         this.setCategory("Tests");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

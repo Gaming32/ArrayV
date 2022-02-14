@@ -38,7 +38,6 @@ public class WeavedMergeSort extends Sort {
         this.setRunAllSortsName("Weaved Merge Sort");
         this.setRunSortName("Weaved Mergesort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);
@@ -49,7 +48,7 @@ public class WeavedMergeSort extends Sort {
     private void merge(int[] array, int[] tmp, int length, int residue, int modulus) {
         if (residue+modulus >= length)
             return;
-            
+
         int low = residue;
         int high = residue+modulus;
         int dmodulus = modulus<<1;

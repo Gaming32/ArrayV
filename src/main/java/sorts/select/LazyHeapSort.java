@@ -37,7 +37,6 @@ public final class LazyHeapSort extends Sort {
 		this.setRunAllSortsName("Lazy Heap Sort");
 		this.setRunSortName("Lazy Heapsort");
 		this.setCategory("Selection Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

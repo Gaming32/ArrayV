@@ -34,7 +34,6 @@ public final class ThreeSmoothCombSortParallel extends Sort {
         this.setRunAllSortsName("Parallel 3-Smooth Comb Sort");
         this.setRunSortName("Parallel 3-Smooth Combsort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

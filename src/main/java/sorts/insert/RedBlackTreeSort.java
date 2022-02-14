@@ -17,7 +17,6 @@ public final class RedBlackTreeSort extends Sort {
 		this.setRunAllSortsName("Tree Sort (Red-Black Balanced)");
 		this.setRunSortName("Tree sort (Red-Black Balanced)");
 		this.setCategory("Insertion Sorts");
-		this.setComparisonBased(true);
 		this.setBucketSort(false);
 		this.setRadixSort(false);
 		this.setUnreasonablySlow(false);

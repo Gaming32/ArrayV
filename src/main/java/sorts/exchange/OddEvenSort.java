@@ -16,7 +16,6 @@ public final class OddEvenSort extends Sort {
         this.setRunAllSortsName("Odd-Even Sort");
         this.setRunSortName("Odd-Even Sort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

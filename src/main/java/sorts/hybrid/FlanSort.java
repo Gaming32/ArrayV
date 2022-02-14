@@ -39,7 +39,6 @@ public final class FlanSort extends MultiWayMergeSorting {
         this.setRunAllSortsName("Flan Sort");
         this.setRunSortName("Flansort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

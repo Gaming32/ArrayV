@@ -72,7 +72,6 @@ public final class SqrtSort extends Sort {
         this.setRunAllSortsName("Sqrtsort");
         this.setRunSortName("Sqrtsort");
         this.setCategory("Hybrid Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

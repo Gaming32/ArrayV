@@ -37,7 +37,6 @@ public final class TableSort extends Sort {
         this.setRunAllSortsName("Table Sort");
         this.setRunSortName("Tablesort");
         this.setCategory("Exchange Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);

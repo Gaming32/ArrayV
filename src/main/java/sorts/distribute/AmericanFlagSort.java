@@ -53,7 +53,6 @@ public final class AmericanFlagSort extends Sort {
 	        this.setRunAllSortsName("American Flag Sort, " + this.NUMBER_OF_BUCKETS + " Buckets");
 	        this.setRunSortName("American Flag Sort");
 	        this.setCategory("Distribution Sorts");
-	        this.setComparisonBased(false);
 	        this.setBucketSort(true);
 	        this.setRadixSort(true);
 	        this.setUnreasonablySlow(false);

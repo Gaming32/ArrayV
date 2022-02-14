@@ -37,7 +37,6 @@ public final class QuadSort extends QuadSorting {
         this.setRunAllSortsName("Quad Sort");
         this.setRunSortName("Quadsort");
         this.setCategory("Merge Sorts");
-        this.setComparisonBased(true);
         this.setBucketSort(false);
         this.setRadixSort(false);
         this.setUnreasonablySlow(false);
