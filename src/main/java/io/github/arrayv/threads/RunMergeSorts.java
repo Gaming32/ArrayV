@@ -1,25 +1,25 @@
 package io.github.arrayv.threads;
 
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sorts.merge.AndreySort;
+import io.github.arrayv.sorts.merge.BlockSwapMergeSort;
+import io.github.arrayv.sorts.merge.BottomUpMergeSort;
+import io.github.arrayv.sorts.merge.BufferedStoogeSort;
+import io.github.arrayv.sorts.merge.ImprovedInPlaceMergeSort;
+import io.github.arrayv.sorts.merge.InPlaceMergeSort;
+import io.github.arrayv.sorts.merge.IterativeTopDownMergeSort;
+import io.github.arrayv.sorts.merge.LazyStableSort;
+import io.github.arrayv.sorts.merge.MergeSort;
+import io.github.arrayv.sorts.merge.MergeSortParallel;
+import io.github.arrayv.sorts.merge.NewShuffleMergeSort;
+import io.github.arrayv.sorts.merge.PDMergeSort;
+import io.github.arrayv.sorts.merge.RotateMergeSort;
+import io.github.arrayv.sorts.merge.RotateMergeSortParallel;
+import io.github.arrayv.sorts.merge.StrandSort;
+import io.github.arrayv.sorts.merge.TwinSort;
+import io.github.arrayv.sorts.merge.WeavedMergeSort;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayVisualizer;
-import sorts.merge.AndreySort;
-import sorts.merge.BlockSwapMergeSort;
-import sorts.merge.BottomUpMergeSort;
-import sorts.merge.BufferedStoogeSort;
-import sorts.merge.ImprovedInPlaceMergeSort;
-import sorts.merge.InPlaceMergeSort;
-import sorts.merge.IterativeTopDownMergeSort;
-import sorts.merge.LazyStableSort;
-import sorts.merge.MergeSort;
-import sorts.merge.MergeSortParallel;
-import sorts.merge.NewShuffleMergeSort;
-import sorts.merge.PDMergeSort;
-import sorts.merge.RotateMergeSort;
-import sorts.merge.RotateMergeSortParallel;
-import sorts.merge.StrandSort;
-import sorts.merge.TwinSort;
-import sorts.merge.WeavedMergeSort;
-import sorts.templates.Sort;
 
 /*
  *

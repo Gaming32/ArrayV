@@ -1,30 +1,30 @@
 package io.github.arrayv.threads;
 
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sorts.concurrent.BitonicSortIterative;
+import io.github.arrayv.sorts.concurrent.BitonicSortParallel;
+import io.github.arrayv.sorts.concurrent.BitonicSortRecursive;
+import io.github.arrayv.sorts.concurrent.BoseNelsonSortIterative;
+import io.github.arrayv.sorts.concurrent.BoseNelsonSortParallel;
+import io.github.arrayv.sorts.concurrent.BoseNelsonSortRecursive;
+import io.github.arrayv.sorts.concurrent.CreaseSort;
+import io.github.arrayv.sorts.concurrent.DiamondSortIterative;
+import io.github.arrayv.sorts.concurrent.DiamondSortRecursive;
+import io.github.arrayv.sorts.concurrent.FoldSort;
+import io.github.arrayv.sorts.concurrent.MatrixSort;
+import io.github.arrayv.sorts.concurrent.MergeExchangeSortIterative;
+import io.github.arrayv.sorts.concurrent.OddEvenMergeSortIterative;
+import io.github.arrayv.sorts.concurrent.OddEvenMergeSortParallel;
+import io.github.arrayv.sorts.concurrent.OddEvenMergeSortRecursive;
+import io.github.arrayv.sorts.concurrent.PairwiseMergeSortIterative;
+import io.github.arrayv.sorts.concurrent.PairwiseMergeSortRecursive;
+import io.github.arrayv.sorts.concurrent.PairwiseSortIterative;
+import io.github.arrayv.sorts.concurrent.PairwiseSortRecursive;
+import io.github.arrayv.sorts.concurrent.WeaveSortIterative;
+import io.github.arrayv.sorts.concurrent.WeaveSortParallel;
+import io.github.arrayv.sorts.concurrent.WeaveSortRecursive;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayVisualizer;
-import sorts.concurrent.BitonicSortIterative;
-import sorts.concurrent.BitonicSortParallel;
-import sorts.concurrent.BitonicSortRecursive;
-import sorts.concurrent.BoseNelsonSortIterative;
-import sorts.concurrent.BoseNelsonSortParallel;
-import sorts.concurrent.BoseNelsonSortRecursive;
-import sorts.concurrent.CreaseSort;
-import sorts.concurrent.DiamondSortIterative;
-import sorts.concurrent.DiamondSortRecursive;
-import sorts.concurrent.FoldSort;
-import sorts.concurrent.MatrixSort;
-import sorts.concurrent.MergeExchangeSortIterative;
-import sorts.concurrent.OddEvenMergeSortIterative;
-import sorts.concurrent.OddEvenMergeSortParallel;
-import sorts.concurrent.OddEvenMergeSortRecursive;
-import sorts.concurrent.PairwiseMergeSortIterative;
-import sorts.concurrent.PairwiseMergeSortRecursive;
-import sorts.concurrent.PairwiseSortIterative;
-import sorts.concurrent.PairwiseSortRecursive;
-import sorts.concurrent.WeaveSortIterative;
-import sorts.concurrent.WeaveSortParallel;
-import sorts.concurrent.WeaveSortRecursive;
-import sorts.templates.Sort;
 
 /*
  *

@@ -1,26 +1,26 @@
 package io.github.arrayv.threads;
 
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sorts.distribute.AmericanFlagSort;
+import io.github.arrayv.sorts.distribute.BinaryQuickSortIterative;
+import io.github.arrayv.sorts.distribute.BinaryQuickSortRecursive;
+import io.github.arrayv.sorts.distribute.ClassicGravitySort;
+import io.github.arrayv.sorts.distribute.CountingSort;
+import io.github.arrayv.sorts.distribute.FlashSort;
+import io.github.arrayv.sorts.distribute.GravitySort;
+import io.github.arrayv.sorts.distribute.InPlaceLSDRadixSort;
+import io.github.arrayv.sorts.distribute.IndexSort;
+import io.github.arrayv.sorts.distribute.LSDRadixSort;
+import io.github.arrayv.sorts.distribute.MSDRadixSort;
+import io.github.arrayv.sorts.distribute.PigeonholeSort;
+import io.github.arrayv.sorts.distribute.ShatterSort;
+import io.github.arrayv.sorts.distribute.SimpleShatterSort;
+import io.github.arrayv.sorts.distribute.StacklessAmericanFlagSort;
+import io.github.arrayv.sorts.distribute.StacklessBinaryQuickSort;
+import io.github.arrayv.sorts.distribute.StaticSort;
+import io.github.arrayv.sorts.distribute.TimeSort;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayVisualizer;
-import sorts.distribute.AmericanFlagSort;
-import sorts.distribute.BinaryQuickSortIterative;
-import sorts.distribute.BinaryQuickSortRecursive;
-import sorts.distribute.ClassicGravitySort;
-import sorts.distribute.CountingSort;
-import sorts.distribute.FlashSort;
-import sorts.distribute.GravitySort;
-import sorts.distribute.InPlaceLSDRadixSort;
-import sorts.distribute.IndexSort;
-import sorts.distribute.LSDRadixSort;
-import sorts.distribute.MSDRadixSort;
-import sorts.distribute.PigeonholeSort;
-import sorts.distribute.ShatterSort;
-import sorts.distribute.SimpleShatterSort;
-import sorts.distribute.StacklessAmericanFlagSort;
-import sorts.distribute.StacklessBinaryQuickSort;
-import sorts.distribute.StaticSort;
-import sorts.distribute.TimeSort;
-import sorts.templates.Sort;
 
 /*
  *

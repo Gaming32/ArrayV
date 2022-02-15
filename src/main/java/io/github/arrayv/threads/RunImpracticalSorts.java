@@ -1,32 +1,32 @@
 package io.github.arrayv.threads;
 
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sorts.distribute.BogoBogoSort;
+import io.github.arrayv.sorts.distribute.BogoSort;
+import io.github.arrayv.sorts.distribute.BozoSort;
+import io.github.arrayv.sorts.distribute.CocktailBogoSort;
+import io.github.arrayv.sorts.distribute.DeterministicBogoSort;
+import io.github.arrayv.sorts.distribute.GuessSort;
+import io.github.arrayv.sorts.distribute.LessBogoSort;
+import io.github.arrayv.sorts.distribute.MedianQuickBogoSort;
+import io.github.arrayv.sorts.distribute.MergeBogoSort;
+import io.github.arrayv.sorts.distribute.OptimizedGuessSort;
+import io.github.arrayv.sorts.distribute.QuickBogoSort;
+import io.github.arrayv.sorts.distribute.RandomGuessSort;
+import io.github.arrayv.sorts.distribute.SelectionBogoSort;
+import io.github.arrayv.sorts.distribute.SmartBogoBogoSort;
+import io.github.arrayv.sorts.distribute.SmartGuessSort;
+import io.github.arrayv.sorts.exchange.BubbleBogoSort;
+import io.github.arrayv.sorts.exchange.ExchangeBogoSort;
+import io.github.arrayv.sorts.exchange.QuadStoogeSort;
+import io.github.arrayv.sorts.exchange.SillySort;
+import io.github.arrayv.sorts.exchange.SlowSort;
+import io.github.arrayv.sorts.exchange.SnuffleSort;
+import io.github.arrayv.sorts.exchange.StoogeSort;
+import io.github.arrayv.sorts.insert.HanoiSort;
+import io.github.arrayv.sorts.select.BadSort;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayVisualizer;
-import sorts.distribute.BogoBogoSort;
-import sorts.distribute.BogoSort;
-import sorts.distribute.BozoSort;
-import sorts.distribute.CocktailBogoSort;
-import sorts.distribute.DeterministicBogoSort;
-import sorts.distribute.GuessSort;
-import sorts.distribute.LessBogoSort;
-import sorts.distribute.MedianQuickBogoSort;
-import sorts.distribute.MergeBogoSort;
-import sorts.distribute.OptimizedGuessSort;
-import sorts.distribute.QuickBogoSort;
-import sorts.distribute.RandomGuessSort;
-import sorts.distribute.SelectionBogoSort;
-import sorts.distribute.SmartBogoBogoSort;
-import sorts.distribute.SmartGuessSort;
-import sorts.exchange.BubbleBogoSort;
-import sorts.exchange.ExchangeBogoSort;
-import sorts.exchange.QuadStoogeSort;
-import sorts.exchange.SillySort;
-import sorts.exchange.SlowSort;
-import sorts.exchange.SnuffleSort;
-import sorts.exchange.StoogeSort;
-import sorts.insert.HanoiSort;
-import sorts.select.BadSort;
-import sorts.templates.Sort;
 
 /*
  *

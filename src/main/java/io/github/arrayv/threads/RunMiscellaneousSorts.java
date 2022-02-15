@@ -1,10 +1,10 @@
 package io.github.arrayv.threads;
 
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sorts.misc.BurntPancakeSort;
+import io.github.arrayv.sorts.misc.PancakeSort;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayVisualizer;
-import sorts.misc.BurntPancakeSort;
-import sorts.misc.PancakeSort;
-import sorts.templates.Sort;
 
 /*
  *

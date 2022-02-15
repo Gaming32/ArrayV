@@ -6,9 +6,9 @@ import javax.swing.JOptionPane;
 
 import io.github.arrayv.panes.JEnhancedOptionPane;
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayManager;
 import main.ArrayVisualizer;
-import sorts.templates.Sort;
 import utils.Delays;
 import utils.SortingNetworkGenerator;
 import utils.Sounds;

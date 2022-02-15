@@ -5,13 +5,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+import io.github.arrayv.sorts.select.MaxHeapSort;
+import io.github.arrayv.sorts.select.PoplarHeapSort;
+import io.github.arrayv.sorts.select.SmoothSort;
+import io.github.arrayv.sorts.select.TriangularHeapSort;
+import io.github.arrayv.sorts.templates.PDQSorting;
 import main.ArrayVisualizer;
-
-import sorts.select.PoplarHeapSort;
-import sorts.select.SmoothSort;
-import sorts.select.MaxHeapSort;
-import sorts.select.TriangularHeapSort;
-import sorts.templates.PDQSorting;
 
 /*
  *

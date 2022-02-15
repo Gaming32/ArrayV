@@ -1,22 +1,22 @@
 package io.github.arrayv.threads;
 
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sorts.insert.AATreeSort;
+import io.github.arrayv.sorts.insert.AVLTreeSort;
+import io.github.arrayv.sorts.insert.BinaryInsertionSort;
+import io.github.arrayv.sorts.insert.ClassicTreeSort;
+import io.github.arrayv.sorts.insert.DoubleInsertionSort;
+import io.github.arrayv.sorts.insert.InsertionSort;
+import io.github.arrayv.sorts.insert.LibrarySort;
+import io.github.arrayv.sorts.insert.PatienceSort;
+import io.github.arrayv.sorts.insert.RecursiveShellSort;
+import io.github.arrayv.sorts.insert.ShellSort;
+import io.github.arrayv.sorts.insert.ShellSortParallel;
+import io.github.arrayv.sorts.insert.SimplifiedLibrarySort;
+import io.github.arrayv.sorts.insert.SplaySort;
+import io.github.arrayv.sorts.insert.TreeSort;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayVisualizer;
-import sorts.insert.AATreeSort;
-import sorts.insert.AVLTreeSort;
-import sorts.insert.BinaryInsertionSort;
-import sorts.insert.ClassicTreeSort;
-import sorts.insert.DoubleInsertionSort;
-import sorts.insert.InsertionSort;
-import sorts.insert.LibrarySort;
-import sorts.insert.PatienceSort;
-import sorts.insert.RecursiveShellSort;
-import sorts.insert.ShellSort;
-import sorts.insert.ShellSortParallel;
-import sorts.insert.SimplifiedLibrarySort;
-import sorts.insert.SplaySort;
-import sorts.insert.TreeSort;
-import sorts.templates.Sort;
 import utils.Shuffles;
 
 /*

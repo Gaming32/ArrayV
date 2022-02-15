@@ -1,26 +1,26 @@
 package io.github.arrayv.threads;
 
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sorts.select.AsynchronousSort;
+import io.github.arrayv.sorts.select.BaseNMaxHeapSort;
+import io.github.arrayv.sorts.select.BingoSort;
+import io.github.arrayv.sorts.select.ClassicTournamentSort;
+import io.github.arrayv.sorts.select.CycleSort;
+import io.github.arrayv.sorts.select.DoubleSelectionSort;
+import io.github.arrayv.sorts.select.FlippedMinHeapSort;
+import io.github.arrayv.sorts.select.MaxHeapSort;
+import io.github.arrayv.sorts.select.MinHeapSort;
+import io.github.arrayv.sorts.select.PoplarHeapSort;
+import io.github.arrayv.sorts.select.SelectionSort;
+import io.github.arrayv.sorts.select.SmoothSort;
+import io.github.arrayv.sorts.select.StableCycleSort;
+import io.github.arrayv.sorts.select.StableSelectionSort;
+import io.github.arrayv.sorts.select.TernaryHeapSort;
+import io.github.arrayv.sorts.select.TournamentSort;
+import io.github.arrayv.sorts.select.TriangularHeapSort;
+import io.github.arrayv.sorts.select.WeakHeapSort;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayVisualizer;
-import sorts.select.AsynchronousSort;
-import sorts.select.BaseNMaxHeapSort;
-import sorts.select.BingoSort;
-import sorts.select.ClassicTournamentSort;
-import sorts.select.CycleSort;
-import sorts.select.DoubleSelectionSort;
-import sorts.select.FlippedMinHeapSort;
-import sorts.select.MaxHeapSort;
-import sorts.select.MinHeapSort;
-import sorts.select.PoplarHeapSort;
-import sorts.select.SelectionSort;
-import sorts.select.SmoothSort;
-import sorts.select.StableCycleSort;
-import sorts.select.StableSelectionSort;
-import sorts.select.TernaryHeapSort;
-import sorts.select.TournamentSort;
-import sorts.select.TriangularHeapSort;
-import sorts.select.WeakHeapSort;
-import sorts.templates.Sort;
 
 /*
  *

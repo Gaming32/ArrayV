@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
+import io.github.arrayv.sorts.templates.Sort;
 import main.ArrayVisualizer;
-import sorts.templates.Sort;
 
 public final class MultipleScript {
     public static class ScriptCommand {

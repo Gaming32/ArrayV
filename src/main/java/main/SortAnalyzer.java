@@ -37,10 +37,10 @@ import javax.tools.ToolProvider;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortComparator;
 import io.github.arrayv.sortdata.SortInfo;
+import io.github.arrayv.sorts.templates.Sort;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
-import sorts.templates.Sort;
 import utils.CommonUtils;
 
 /*
@@ -82,6 +82,7 @@ public final class SortAnalyzer {
         "import panes.", "import io.github.arrayv.panes.",
         "import prompts.", "import io.github.arrayv.prompts.",
         "import visuals.", "import io.github.arrayv.visuals.",
+        "import sorts.", "import io.github.arrayv.sorts.",
         "import threads.", "import io.github.arrayv.threads.",
         "import sorts.templates.SortComparator;", "import io.github.arrayv.sortdata.SortComparator;"
     );
