@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 // Code refactored from: https://www.ijitee.org/wp-content/uploads/papers/v8i12/L31671081219.pdf
 // Written by Professors Amit Kishor and Pankaj Pratap Singh

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 public final class MultipleScript {
     public static class ScriptCommand {

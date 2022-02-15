@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.select;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 /*
  * This example of an O(n^3) sorting algorithm may be found here, written by James Jensen (StriplingWarrayior on StackOverflow):

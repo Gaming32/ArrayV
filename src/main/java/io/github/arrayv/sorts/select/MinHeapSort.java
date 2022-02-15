@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.select;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.HeapSorting;
-import main.ArrayVisualizer;
 
 /*
  *

@@ -3,8 +3,8 @@ package io.github.arrayv.threads;
 import java.io.File;
 
 import io.github.arrayv.dialogs.RunScriptDialog;
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
-import main.ArrayVisualizer;
 import utils.MultipleScript;
 
 /*

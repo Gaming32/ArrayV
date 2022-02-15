@@ -17,9 +17,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import io.github.arrayv.frames.AppFrame;
+import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.panels.ShufflePanel;
 import io.github.arrayv.panes.JErrorPane;
-import main.ArrayManager;
 import utils.Distributions;
 import utils.ShuffleGraph;
 import utils.ShuffleInfo;

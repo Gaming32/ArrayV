@@ -1,7 +1,7 @@
 package utils;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.visuals.VisualStyles;
-import main.ArrayVisualizer;
 
 /*
  *

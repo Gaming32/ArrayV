@@ -3,7 +3,7 @@ package utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 
 public final class ShuffleInfo {
     final boolean isDistribution;

@@ -15,8 +15,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.ProgressMonitor;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
-import main.ArrayVisualizer;
 
 public class SortingNetworkGenerator {
     private static final File SORTING_NETWORKS_DIR = new File("sorting_networks");

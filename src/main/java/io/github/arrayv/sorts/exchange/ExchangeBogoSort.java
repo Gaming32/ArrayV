@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.BogoSorting;
-import main.ArrayVisualizer;
 
 /**
  * Exchange Bogosort randomly sorts any two elements until the array is sorted.

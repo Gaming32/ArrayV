@@ -1,5 +1,6 @@
 package io.github.arrayv.threads;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.insert.AATreeSort;
 import io.github.arrayv.sorts.insert.AVLTreeSort;
@@ -16,7 +17,6 @@ import io.github.arrayv.sorts.insert.SimplifiedLibrarySort;
 import io.github.arrayv.sorts.insert.SplaySort;
 import io.github.arrayv.sorts.insert.TreeSort;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 import utils.Shuffles;
 
 /*

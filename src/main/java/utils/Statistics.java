@@ -2,7 +2,7 @@ package utils;
 
 import java.text.DecimalFormat;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 
 public final class Statistics {
     public long frameTimeMillis;

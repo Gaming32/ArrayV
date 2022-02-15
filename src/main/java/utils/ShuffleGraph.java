@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 import utils.shuffleutils.GraphConnection;
 import utils.shuffleutils.GraphNode;
 

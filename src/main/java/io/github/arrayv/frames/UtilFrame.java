@@ -6,11 +6,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import io.github.arrayv.main.ArrayManager;
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.prompts.ShufflePrompt;
 import io.github.arrayv.prompts.SortPrompt;
 import io.github.arrayv.prompts.ViewPrompt;
-import main.ArrayManager;
-import main.ArrayVisualizer;
 import utils.Delays;
 import utils.Highlights;
 import utils.Sounds;

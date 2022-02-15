@@ -1,9 +1,8 @@
 package io.github.arrayv.sorts.exchange;
 
-import main.ArrayVisualizer;
-
 import java.lang.Math;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
 
 public class SnuffleSort extends Sort {

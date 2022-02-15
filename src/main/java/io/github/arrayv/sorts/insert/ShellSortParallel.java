@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.insert;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.ShellSorting;
-import main.ArrayVisualizer;
 
 public final class ShellSortParallel extends ShellSorting {
 	public ShellSortParallel(ArrayVisualizer arrayVisualizer) {

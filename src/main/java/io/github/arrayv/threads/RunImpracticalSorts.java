@@ -1,5 +1,6 @@
 package io.github.arrayv.threads;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.distribute.BogoBogoSort;
 import io.github.arrayv.sorts.distribute.BogoSort;
@@ -26,7 +27,6 @@ import io.github.arrayv.sorts.exchange.StoogeSort;
 import io.github.arrayv.sorts.insert.HanoiSort;
 import io.github.arrayv.sorts.select.BadSort;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 /*
  *

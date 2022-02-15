@@ -2,7 +2,7 @@ package io.github.arrayv.sorts.templates;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 
 /*
  *

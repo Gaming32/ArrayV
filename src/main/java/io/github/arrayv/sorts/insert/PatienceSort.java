@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 /*
  *

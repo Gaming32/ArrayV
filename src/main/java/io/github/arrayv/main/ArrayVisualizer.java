@@ -1,4 +1,4 @@
-package main;
+package io.github.arrayv.main;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

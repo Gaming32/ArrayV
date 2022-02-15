@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 import utils.Highlights;
 import utils.Renderer;
 

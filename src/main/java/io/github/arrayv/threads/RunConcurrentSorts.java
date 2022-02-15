@@ -1,5 +1,6 @@
 package io.github.arrayv.threads;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.concurrent.BitonicSortIterative;
 import io.github.arrayv.sorts.concurrent.BitonicSortParallel;
@@ -24,7 +25,6 @@ import io.github.arrayv.sorts.concurrent.WeaveSortIterative;
 import io.github.arrayv.sorts.concurrent.WeaveSortParallel;
 import io.github.arrayv.sorts.concurrent.WeaveSortRecursive;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 /*
  *

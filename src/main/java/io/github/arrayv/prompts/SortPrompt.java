@@ -24,6 +24,8 @@ import javax.swing.event.DocumentListener;
 import io.github.arrayv.dialogs.ImportSortDialog;
 import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.frames.UtilFrame;
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.main.SortAnalyzer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.threads.MultipleSortThread;
@@ -39,8 +41,6 @@ import io.github.arrayv.threads.RunMiscellaneousSorts;
 import io.github.arrayv.threads.RunQuickSorts;
 import io.github.arrayv.threads.RunSelectionSorts;
 import io.github.arrayv.threads.RunSort;
-import main.ArrayVisualizer;
-import main.SortAnalyzer;
 
 /*
  *

@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.insert;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.ShellSorting;
-import main.ArrayVisualizer;
 
 // Shell sort variant retrieved from:
 // https://www.cs.princeton.edu/~rs/talks/shellsort.ps

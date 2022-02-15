@@ -7,8 +7,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.frames.UtilFrame;
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.visuals.VisualStyles;
-import main.ArrayVisualizer;
 
 /*
  *

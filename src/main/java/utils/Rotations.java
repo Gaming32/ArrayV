@@ -1,6 +1,6 @@
 package utils;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 
 public final class Rotations {
     private static Writes Writes = ArrayVisualizer.getInstance().getWrites();

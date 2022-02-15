@@ -1,6 +1,6 @@
 package io.github.arrayv.visuals;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 import utils.Highlights;
 import utils.Renderer;
 

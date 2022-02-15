@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.insert;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 /**
  * An implementation of a tree sort using an unbalanced

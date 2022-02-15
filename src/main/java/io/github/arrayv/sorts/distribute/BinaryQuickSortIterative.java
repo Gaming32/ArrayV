@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.distribute;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.BinaryQuickSorting;
-import main.ArrayVisualizer;
 
 /**
  * Binary MSD Radix Sort / Binary Quicksort.

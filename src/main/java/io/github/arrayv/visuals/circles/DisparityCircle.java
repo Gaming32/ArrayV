@@ -2,8 +2,8 @@ package io.github.arrayv.visuals.circles;
 
 import java.awt.Color;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.visuals.Visual;
-import main.ArrayVisualizer;
 import utils.Highlights;
 import utils.Renderer;
 

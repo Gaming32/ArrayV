@@ -1,5 +1,6 @@
 package io.github.arrayv.threads;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.select.AsynchronousSort;
 import io.github.arrayv.sorts.select.BaseNMaxHeapSort;
@@ -20,7 +21,6 @@ import io.github.arrayv.sorts.select.TournamentSort;
 import io.github.arrayv.sorts.select.TriangularHeapSort;
 import io.github.arrayv.sorts.select.WeakHeapSort;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 /*
  *

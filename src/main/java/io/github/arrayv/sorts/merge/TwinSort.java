@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.TwinSorting;
-import main.ArrayVisualizer;
 
 /*
     Copyright (C) 2014-2021 Igor van den Hoven ivdhoven@gmail.com

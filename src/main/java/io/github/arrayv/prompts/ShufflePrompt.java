@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import io.github.arrayv.dialogs.ShuffleDialog;
 import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.frames.UtilFrame;
+import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.panes.JErrorPane;
-import main.ArrayManager;
 import utils.Distributions;
 import utils.Shuffles;
 

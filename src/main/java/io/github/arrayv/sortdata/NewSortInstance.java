@@ -6,8 +6,8 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.util.function.Supplier;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 public final class NewSortInstance implements Supplier<Sort> {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();

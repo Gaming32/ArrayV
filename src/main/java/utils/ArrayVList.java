@@ -14,7 +14,7 @@ import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 
 public class ArrayVList extends AbstractList<Integer> implements RandomAccess, Cloneable, java.io.Serializable {
     final static int DEFAULT_CAPACITY = 128;

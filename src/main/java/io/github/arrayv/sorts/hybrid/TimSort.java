@@ -1,8 +1,8 @@
 package io.github.arrayv.sorts.hybrid;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.sorts.templates.TimSorting;
-import main.ArrayVisualizer;
 
 /*
  * Copyright (C) 2008 The Android Open Source Project

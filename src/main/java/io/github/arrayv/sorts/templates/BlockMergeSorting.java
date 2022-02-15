@@ -1,6 +1,6 @@
 package io.github.arrayv.sorts.templates;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 import utils.IndexedRotations;
 
 /*

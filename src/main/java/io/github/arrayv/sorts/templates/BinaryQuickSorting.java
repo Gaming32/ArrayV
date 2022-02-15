@@ -3,7 +3,7 @@ package io.github.arrayv.sorts.templates;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 
 /**
  * Binary MSD Radix Sort / Binary Quicksort.

@@ -2,8 +2,8 @@ package utils;
 
 import java.text.DecimalFormat;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
-import main.ArrayVisualizer;
 
 /*
  *

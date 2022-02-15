@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.hybrid;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.KotaSorting;
-import main.ArrayVisualizer;
 
 public final class KotaSort extends KotaSorting {
     public KotaSort(ArrayVisualizer arrayVisualizer) {

@@ -9,7 +9,7 @@
             "type": "java",
             "name": "Debug ArrayV",
             "request": "launch",
-            "mainClass": "main.ArrayVisualizer",
+            "mainClass": "io.github.arrayv.main.ArrayVisualizer",
             "vmArgs": ["-Dsun.java2d.d3d=false", "-cp", "bin;lib/classgraph-4.8.47.jar"]
         },
         {
@@ -17,7 +17,7 @@
             "type": "java",
             "name": "Debug ArrayV (custom max length)",
             "request": "launch",
-            "mainClass": "main.ArrayVisualizer",
+            "mainClass": "io.github.arrayv.main.ArrayVisualizer",
             "args": ["${input:length}"],
             "vmArgs": ["-Dsun.java2d.d3d=false", "-cp", "bin;lib/classgraph-4.8.47.jar"]
         }

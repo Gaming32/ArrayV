@@ -1,4 +1,4 @@
-package main;
+package io.github.arrayv.main;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -78,6 +78,7 @@ public final class SortAnalyzer {
     private static final Map.Entry<String, String>[] IMPORT_REPLACEMENTS = CommonUtils.createPairArray(
         "import dialogs.", "import io.github.arrayv.dialogs.",
         "import frames.", "import io.github.arrayv.frames.",
+        "import main.", "import io.github.arrayv.main.",
         "import panels.", "import io.github.arrayv.panels.",
         "import panes.", "import io.github.arrayv.panes.",
         "import prompts.", "import io.github.arrayv.prompts.",

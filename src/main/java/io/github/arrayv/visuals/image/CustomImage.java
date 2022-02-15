@@ -16,9 +16,9 @@ import javax.swing.JFrame;
 import io.github.arrayv.dialogs.CustomImageDialog;
 import io.github.arrayv.dialogs.LoadingDialog;
 import io.github.arrayv.frames.ImageFrame;
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.visuals.Visual;
-import main.ArrayVisualizer;
 import utils.Highlights;
 import utils.Renderer;
 

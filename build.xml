@@ -64,7 +64,7 @@
     <target depends="build" name="dist-jar" description="Creates an executable JAR file in the dist directory">
         <jar destfile="dist/arrayVisualizer.jar">
             <manifest>
-                <attribute name="Main-Class" value="main.ArrayVisualizer"/>
+                <attribute name="Main-Class" value="io.github.arrayv.main.ArrayVisualizer"/>
                 <attribute name="Add-Opens" value="java.desktop/com.sun.media.sound"/>
             </manifest>
             <zipfileset src="lib/classgraph-4.8.47.jar"/>
@@ -73,7 +73,7 @@
         </jar>
     </target>
     <target depends="build" name="run" description="Runs ArrayV">
-        <java classname="main.ArrayVisualizer" classpathref="ArrayVisualizer-master.classpath" fork="true">
+        <java classname="io.github.arrayv.main.ArrayVisualizer" classpathref="ArrayVisualizer-master.classpath" fork="true">
             <jvmarg value="-Dsun.java2d.d3d=false"/>
         </java>
     </target>

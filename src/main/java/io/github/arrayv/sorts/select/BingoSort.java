@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.select;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 /*
  * Bingo Sort is a variant of Selection Sort which looks through all elements, using the

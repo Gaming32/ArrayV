@@ -1,9 +1,9 @@
 package io.github.arrayv.sorts.distribute;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.insert.InsertionSort;
 import io.github.arrayv.sorts.select.MaxHeapSort;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 
 /*
  *

@@ -2,10 +2,11 @@ package utils;
 
 import java.util.Arrays;
 import java.util.List;
+
+import io.github.arrayv.main.ArrayVisualizer;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-import main.ArrayVisualizer;
 
 /*
  *

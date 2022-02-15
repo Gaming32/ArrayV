@@ -3,7 +3,7 @@ package utils;
 import java.text.DecimalFormat;
 import java.util.Hashtable;
 
-import main.ArrayVisualizer;
+import io.github.arrayv.main.ArrayVisualizer;
 
 /*
  *

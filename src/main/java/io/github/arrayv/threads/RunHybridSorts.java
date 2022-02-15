@@ -1,5 +1,6 @@
 package io.github.arrayv.threads;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.hybrid.AdaptiveGrailSort;
 import io.github.arrayv.sorts.hybrid.BinaryMergeSort;
@@ -34,7 +35,6 @@ import io.github.arrayv.sorts.hybrid.UnstableGrailSort;
 import io.github.arrayv.sorts.hybrid.WeaveMergeSort;
 import io.github.arrayv.sorts.hybrid.WikiSort;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 import utils.Shuffles;
 
 /*

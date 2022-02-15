@@ -1,5 +1,6 @@
 package io.github.arrayv.threads;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.exchange.BinaryGnomeSort;
 import io.github.arrayv.sorts.exchange.BubbleSort;
@@ -31,7 +32,6 @@ import io.github.arrayv.sorts.exchange.ThreeSmoothCombSortRecursive;
 import io.github.arrayv.sorts.exchange.UnoptimizedBubbleSort;
 import io.github.arrayv.sorts.exchange.UnoptimizedCocktailShakerSort;
 import io.github.arrayv.sorts.templates.Sort;
-import main.ArrayVisualizer;
 import utils.Shuffles;
 
 /*

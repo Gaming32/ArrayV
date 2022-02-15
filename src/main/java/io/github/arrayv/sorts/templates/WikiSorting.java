@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.templates;
 
+import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.insert.InsertionSort;
-import main.ArrayVisualizer;
 import utils.Delays;
 import utils.Highlights;
 import utils.Reads;
