@@ -1,4 +1,4 @@
-package threads;
+package io.github.arrayv.threads;
 
 import io.github.arrayv.frames.ArrayFrame;
 import io.github.arrayv.panes.JErrorPane;

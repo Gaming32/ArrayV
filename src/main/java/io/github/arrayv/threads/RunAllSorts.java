@@ -1,4 +1,4 @@
-package threads;
+package io.github.arrayv.threads;
 
 import java.util.ArrayList;
 

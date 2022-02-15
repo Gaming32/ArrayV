@@ -82,6 +82,7 @@ public final class SortAnalyzer {
         "import panes.", "import io.github.arrayv.panes.",
         "import prompts.", "import io.github.arrayv.prompts.",
         "import visuals.", "import io.github.arrayv.visuals.",
+        "import threads.", "import io.github.arrayv.threads.",
         "import sorts.templates.SortComparator;", "import io.github.arrayv.sortdata.SortComparator;"
     );
 

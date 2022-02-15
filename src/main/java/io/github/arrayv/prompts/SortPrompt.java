@@ -26,21 +26,21 @@ import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
+import io.github.arrayv.threads.MultipleSortThread;
+import io.github.arrayv.threads.RunAllSorts;
+import io.github.arrayv.threads.RunConcurrentSorts;
+import io.github.arrayv.threads.RunDistributionSorts;
+import io.github.arrayv.threads.RunExchangeSorts;
+import io.github.arrayv.threads.RunHybridSorts;
+import io.github.arrayv.threads.RunImpracticalSorts;
+import io.github.arrayv.threads.RunInsertionSorts;
+import io.github.arrayv.threads.RunMergeSorts;
+import io.github.arrayv.threads.RunMiscellaneousSorts;
+import io.github.arrayv.threads.RunQuickSorts;
+import io.github.arrayv.threads.RunSelectionSorts;
+import io.github.arrayv.threads.RunSort;
 import main.ArrayVisualizer;
 import main.SortAnalyzer;
-import threads.MultipleSortThread;
-import threads.RunAllSorts;
-import threads.RunConcurrentSorts;
-import threads.RunDistributionSorts;
-import threads.RunExchangeSorts;
-import threads.RunHybridSorts;
-import threads.RunImpracticalSorts;
-import threads.RunInsertionSorts;
-import threads.RunMergeSorts;
-import threads.RunMiscellaneousSorts;
-import threads.RunQuickSorts;
-import threads.RunSelectionSorts;
-import threads.RunSort;
 
 /*
  *
