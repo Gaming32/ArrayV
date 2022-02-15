@@ -9,11 +9,11 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JEnhancedOptionPane;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.templates.Sort;
-import utils.Delays;
-import utils.SortingNetworkGenerator;
-import utils.Sounds;
-import utils.StopSort;
-import utils.Timer;
+import io.github.arrayv.utils.Delays;
+import io.github.arrayv.utils.SortingNetworkGenerator;
+import io.github.arrayv.utils.Sounds;
+import io.github.arrayv.utils.StopSort;
+import io.github.arrayv.utils.Timer;
 
 /*
  *

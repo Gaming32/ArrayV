@@ -2,7 +2,7 @@ package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
-import utils.IndexedRotations;
+import io.github.arrayv.utils.IndexedRotations;
 
 /*
  *

@@ -1,8 +1,8 @@
 package io.github.arrayv.visuals;
 
 import io.github.arrayv.main.ArrayVisualizer;
-import utils.Highlights;
-import utils.Renderer;
+import io.github.arrayv.utils.Highlights;
+import io.github.arrayv.utils.Renderer;
 
 /*
  *

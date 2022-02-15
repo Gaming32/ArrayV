@@ -18,9 +18,9 @@ import io.github.arrayv.dialogs.LoadingDialog;
 import io.github.arrayv.frames.ImageFrame;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.utils.Highlights;
+import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.visuals.Visual;
-import utils.Highlights;
-import utils.Renderer;
 
 /*
  *

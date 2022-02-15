@@ -2,7 +2,7 @@ package io.github.arrayv.sorts.tests;
 
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
-import utils.Rotations;
+import io.github.arrayv.utils.Rotations;
 
 /*
  *

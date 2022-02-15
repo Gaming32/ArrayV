@@ -55,6 +55,17 @@ import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.threads.RunScriptedSorts;
+import io.github.arrayv.utils.AntiQSort;
+import io.github.arrayv.utils.ArrayFileWriter;
+import io.github.arrayv.utils.Delays;
+import io.github.arrayv.utils.Highlights;
+import io.github.arrayv.utils.MultipleScript;
+import io.github.arrayv.utils.Reads;
+import io.github.arrayv.utils.Renderer;
+import io.github.arrayv.utils.Sounds;
+import io.github.arrayv.utils.Statistics;
+import io.github.arrayv.utils.Timer;
+import io.github.arrayv.utils.Writes;
 import io.github.arrayv.visuals.Visual;
 import io.github.arrayv.visuals.VisualStyles;
 import io.github.arrayv.visuals.bars.BarGraph;
@@ -72,17 +83,6 @@ import io.github.arrayv.visuals.dots.WaveDots;
 import io.github.arrayv.visuals.image.CustomImage;
 import io.github.arrayv.visuals.misc.HoopStack;
 import io.github.arrayv.visuals.misc.PixelMesh;
-import utils.AntiQSort;
-import utils.ArrayFileWriter;
-import utils.Delays;
-import utils.Highlights;
-import utils.MultipleScript;
-import utils.Reads;
-import utils.Renderer;
-import utils.Sounds;
-import utils.Statistics;
-import utils.Timer;
-import utils.Writes;
 
 /*
  *
@@ -582,7 +582,7 @@ public final class ArrayVisualizer {
             public void run() {
                 ArrayVisualizer.this.visualsEnabled = true;
 
-                utils.Renderer.initializeVisuals(ArrayVisualizer.this);
+                io.github.arrayv.utils.Renderer.initializeVisuals(ArrayVisualizer.this);
 
                 Graphics background = ArrayVisualizer.this.window.getGraphics();
                 background.setColor(Color.BLACK);

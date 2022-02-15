@@ -5,7 +5,7 @@ import java.io.File;
 import io.github.arrayv.dialogs.RunScriptDialog;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
-import utils.MultipleScript;
+import io.github.arrayv.utils.MultipleScript;
 
 /*
  *

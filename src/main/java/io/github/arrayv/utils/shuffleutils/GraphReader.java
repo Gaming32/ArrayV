@@ -1,4 +1,4 @@
-package utils.shuffleutils;
+package io.github.arrayv.utils.shuffleutils;
 
 import java.awt.Point;
 import java.io.File;
@@ -11,10 +11,10 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import utils.Distributions;
-import utils.ShuffleGraph;
-import utils.ShuffleInfo;
-import utils.Shuffles;
+import io.github.arrayv.utils.Distributions;
+import io.github.arrayv.utils.ShuffleGraph;
+import io.github.arrayv.utils.ShuffleInfo;
+import io.github.arrayv.utils.Shuffles;
 
 public final class GraphReader {
     public final class MalformedGraphFileException extends Exception {

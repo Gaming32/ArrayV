@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import io.github.arrayv.main.ArrayVisualizer;
-import utils.Highlights;
-import utils.Renderer;
+import io.github.arrayv.utils.Highlights;
+import io.github.arrayv.utils.Renderer;
 
 public abstract class Visual {
     protected Graphics2D mainRender;

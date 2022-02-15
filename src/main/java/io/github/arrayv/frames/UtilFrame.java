@@ -11,10 +11,10 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.prompts.ShufflePrompt;
 import io.github.arrayv.prompts.SortPrompt;
 import io.github.arrayv.prompts.ViewPrompt;
-import utils.Delays;
-import utils.Highlights;
-import utils.Sounds;
-import utils.Timer;
+import io.github.arrayv.utils.Delays;
+import io.github.arrayv.utils.Highlights;
+import io.github.arrayv.utils.Sounds;
+import io.github.arrayv.utils.Timer;
 
 /*
  *

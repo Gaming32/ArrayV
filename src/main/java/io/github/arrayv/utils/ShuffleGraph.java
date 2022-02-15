@@ -1,4 +1,4 @@
-package utils;
+package io.github.arrayv.utils;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -14,8 +14,8 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import io.github.arrayv.main.ArrayVisualizer;
-import utils.shuffleutils.GraphConnection;
-import utils.shuffleutils.GraphNode;
+import io.github.arrayv.utils.shuffleutils.GraphConnection;
+import io.github.arrayv.utils.shuffleutils.GraphNode;
 
 public class ShuffleGraph implements Collection<ShuffleInfo> {
     public List<GraphNode> nodes;

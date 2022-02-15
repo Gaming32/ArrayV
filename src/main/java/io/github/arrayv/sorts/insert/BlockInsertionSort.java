@@ -2,7 +2,7 @@ package io.github.arrayv.sorts.insert;
 
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.GrailSorting;
-import utils.Rotations;
+import io.github.arrayv.utils.Rotations;
 
 public final class BlockInsertionSort extends GrailSorting {
     public BlockInsertionSort(ArrayVisualizer arrayVisualizer) {

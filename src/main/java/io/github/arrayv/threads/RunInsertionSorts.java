@@ -17,7 +17,7 @@ import io.github.arrayv.sorts.insert.SimplifiedLibrarySort;
 import io.github.arrayv.sorts.insert.SplaySort;
 import io.github.arrayv.sorts.insert.TreeSort;
 import io.github.arrayv.sorts.templates.Sort;
-import utils.Shuffles;
+import io.github.arrayv.utils.Shuffles;
 
 /*
  *

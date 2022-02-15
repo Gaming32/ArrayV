@@ -1,4 +1,4 @@
-package utils.shuffleutils;
+package io.github.arrayv.utils.shuffleutils;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

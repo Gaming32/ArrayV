@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import utils.ShuffleGraph;
+import io.github.arrayv.utils.ShuffleGraph;
 
 public class ShufflePanel extends JPanel implements KeyListener {
     int camX = 0, camY = 0;

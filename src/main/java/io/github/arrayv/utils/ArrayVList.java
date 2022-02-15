@@ -1,4 +1,4 @@
-package utils;
+package io.github.arrayv.utils;
 
 import java.util.AbstractList;
 import java.util.ArrayList;

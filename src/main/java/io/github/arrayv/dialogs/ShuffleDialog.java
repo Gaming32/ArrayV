@@ -20,13 +20,13 @@ import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.panels.ShufflePanel;
 import io.github.arrayv.panes.JErrorPane;
-import utils.Distributions;
-import utils.ShuffleGraph;
-import utils.ShuffleInfo;
-import utils.Shuffles;
-import utils.shuffleutils.GraphReader;
-import utils.shuffleutils.GraphReader.MalformedGraphFileException;
-import utils.shuffleutils.GraphWriter;
+import io.github.arrayv.utils.Distributions;
+import io.github.arrayv.utils.ShuffleGraph;
+import io.github.arrayv.utils.ShuffleInfo;
+import io.github.arrayv.utils.Shuffles;
+import io.github.arrayv.utils.shuffleutils.GraphReader;
+import io.github.arrayv.utils.shuffleutils.GraphWriter;
+import io.github.arrayv.utils.shuffleutils.GraphReader.MalformedGraphFileException;
 
 /*
  *

@@ -1,4 +1,4 @@
-package utils;
+package io.github.arrayv.utils;
 
 import java.io.File;
 import java.io.FileWriter;

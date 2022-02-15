@@ -10,8 +10,8 @@ import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.panes.JErrorPane;
-import utils.Distributions;
-import utils.Shuffles;
+import io.github.arrayv.utils.Distributions;
+import io.github.arrayv.utils.Shuffles;
 
 /*
  *

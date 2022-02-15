@@ -1,4 +1,4 @@
-package utils;
+package io.github.arrayv.utils;
 
 import io.github.arrayv.main.ArrayVisualizer;
 

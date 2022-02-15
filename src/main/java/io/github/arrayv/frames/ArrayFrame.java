@@ -17,7 +17,7 @@ import javax.swing.event.ChangeListener;
 import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JEnhancedOptionPane;
-import utils.Highlights;
+import io.github.arrayv.utils.Highlights;
 
 /*
  *

@@ -3,13 +3,13 @@ package io.github.arrayv.main;
 import java.util.Arrays;
 
 import io.github.arrayv.panes.JErrorPane;
-import utils.Delays;
-import utils.Distributions;
-import utils.Highlights;
-import utils.ShuffleGraph;
-import utils.ShuffleInfo;
-import utils.Shuffles;
-import utils.Writes;
+import io.github.arrayv.utils.Delays;
+import io.github.arrayv.utils.Distributions;
+import io.github.arrayv.utils.Highlights;
+import io.github.arrayv.utils.ShuffleGraph;
+import io.github.arrayv.utils.ShuffleInfo;
+import io.github.arrayv.utils.Shuffles;
+import io.github.arrayv.utils.Writes;
 
 /*
  *
@@ -39,8 +39,8 @@ SOFTWARE.
  */
 
 public final class ArrayManager {
-    private utils.Shuffles[] shuffleTypes;
-    private utils.Distributions[] distributionTypes;
+    private io.github.arrayv.utils.Shuffles[] shuffleTypes;
+    private io.github.arrayv.utils.Distributions[] distributionTypes;
     private String[] shuffleIDs;
     private String[] distributionIDs;
 

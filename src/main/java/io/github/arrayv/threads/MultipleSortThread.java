@@ -5,13 +5,13 @@ import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.templates.Sort;
-import utils.Delays;
-import utils.Highlights;
-import utils.Reads;
-import utils.Sounds;
-import utils.StopSort;
-import utils.Timer;
-import utils.Writes;
+import io.github.arrayv.utils.Delays;
+import io.github.arrayv.utils.Highlights;
+import io.github.arrayv.utils.Reads;
+import io.github.arrayv.utils.Sounds;
+import io.github.arrayv.utils.StopSort;
+import io.github.arrayv.utils.Timer;
+import io.github.arrayv.utils.Writes;
 
 public abstract class MultipleSortThread {
     protected ArrayManager arrayManager;

@@ -1,4 +1,4 @@
-package utils;
+package io.github.arrayv.utils;
 
 public final class m {
 

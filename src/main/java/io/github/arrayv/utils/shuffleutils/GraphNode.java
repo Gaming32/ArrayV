@@ -1,12 +1,12 @@
-package utils.shuffleutils;
+package io.github.arrayv.utils.shuffleutils;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
-import utils.ShuffleGraph;
-import utils.ShuffleInfo;
+import io.github.arrayv.utils.ShuffleGraph;
+import io.github.arrayv.utils.ShuffleInfo;
 
 public class GraphNode {
     public static final int WIDTH = 250;

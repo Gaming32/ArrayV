@@ -1,4 +1,4 @@
-package utils;
+package io.github.arrayv.utils;
 
 import java.awt.Desktop;
 import java.io.BufferedWriter;

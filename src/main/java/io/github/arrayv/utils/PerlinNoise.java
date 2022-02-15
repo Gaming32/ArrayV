@@ -1,4 +1,4 @@
-package utils;
+package io.github.arrayv.utils;
 
 // MASSIVE thanks to https://github.com/keijiro/PerlinNoise
 public class PerlinNoise {

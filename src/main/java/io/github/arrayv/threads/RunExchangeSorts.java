@@ -32,7 +32,7 @@ import io.github.arrayv.sorts.exchange.ThreeSmoothCombSortRecursive;
 import io.github.arrayv.sorts.exchange.UnoptimizedBubbleSort;
 import io.github.arrayv.sorts.exchange.UnoptimizedCocktailShakerSort;
 import io.github.arrayv.sorts.templates.Sort;
-import utils.Shuffles;
+import io.github.arrayv.utils.Shuffles;
 
 /*
  *

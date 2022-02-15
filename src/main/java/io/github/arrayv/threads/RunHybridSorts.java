@@ -35,7 +35,7 @@ import io.github.arrayv.sorts.hybrid.UnstableGrailSort;
 import io.github.arrayv.sorts.hybrid.WeaveMergeSort;
 import io.github.arrayv.sorts.hybrid.WikiSort;
 import io.github.arrayv.sorts.templates.Sort;
-import utils.Shuffles;
+import io.github.arrayv.utils.Shuffles;
 
 /*
  *

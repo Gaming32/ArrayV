@@ -1,7 +1,7 @@
 package io.github.arrayv.sorts.templates;
 
 import io.github.arrayv.main.ArrayVisualizer;
-import utils.IndexedRotations;
+import io.github.arrayv.utils.IndexedRotations;
 
 /*
  *

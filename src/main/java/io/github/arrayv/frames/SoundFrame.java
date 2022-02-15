@@ -43,7 +43,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import utils.Sounds;
+import io.github.arrayv.utils.Sounds;
 
 public class SoundFrame extends JFrame {
 
