@@ -19,7 +19,7 @@ To run use:
 ```
 Alternatively, you can double click on "run" or "run.bat" on Windows.
 
-You can always download the most up-to-date pre-built JAR from [GitHub Actions](https://nightly.link/Gaming32/ArrayV-v4.0/workflows/maven/main/standalone-jar.zip) (link via [nightly.link](https://nightly.link)).
+You can always download the most up-to-date pre-built JAR from [GitHub Actions](https://nightly.link/Gaming32/ArrayV/workflows/maven/main/standalone-jar.zip) (link via [nightly.link](https://nightly.link)).
 
 ## Legacy changelog
 
