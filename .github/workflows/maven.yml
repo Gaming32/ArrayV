@@ -1,4 +1,4 @@
-name: ant
+name: maven
 on: [pull_request, push, workflow_dispatch]
 
 jobs:
