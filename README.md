@@ -10,11 +10,8 @@ Over 200 sorting algorithms animated with 15 unique graphic designs
 
 To compile use:
 ```shell
-./antw
+./mvnw clean verify
 ```
-Or alternatively double-click on "antw" or "antw.bat" on Windows.
-
-To create a runnable JAR, run `./antw dist-jar`. The JAR will be placed in the `dist` directory.
 
 To run use:
 ```shell
@@ -22,7 +19,7 @@ To run use:
 ```
 Alternatively, you can double click on "run" or "run.bat" on Windows.
 
-You can always download the most up-to-date pre-built JAR from [GitHub Actions](https://nightly.link/Gaming32/ArrayV-v4.0/workflows/ant/main/standalone-jar.zip) (link via [nightly.link](https://nightly.link)).
+You can always download the most up-to-date pre-built JAR from [GitHub Actions](https://nightly.link/Gaming32/ArrayV-v4.0/workflows/maven/main/standalone-jar.zip) (link via [nightly.link](https://nightly.link)).
 
 ## Legacy changelog
 
