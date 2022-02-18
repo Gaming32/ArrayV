@@ -281,6 +281,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 if (success) {
                     analyzer.unloadAllExtraSorts();
                     analyzer.analyzeSortsExtrasOnly();
+                    analyzer.sortSorts();
                     ArrayVisualizer.refreshSorts();
                     UtilFrame.jButton1Enable();
                     JOptionPane.showMessageDialog(
