@@ -1,0 +1,9 @@
+./mvnw dependency:build-classpath -Dmdep.outputFile=target/classpath -Dmdep.regenerateFile=true -q
+echo -n -cp target/classes:> target/cmdargs
+cat target/classpath >> target/cmdargs
+if [ "$1" != "" ]
+then
+    java @target/cmdargs io.github.arrayv.main.ArrayVisualizer "%1"
+else
+    java @target/cmdargs io.github.arrayv.main.ArrayVisualizer
+fi

@@ -10,7 +10,8 @@
             "name": "Debug ArrayV",
             "request": "launch",
             "mainClass": "io.github.arrayv.main.ArrayVisualizer",
-            "vmArgs": ["-Dsun.java2d.d3d=false", "-cp", "bin;lib/classgraph-4.8.47.jar"]
+            "projectName": "ArrayV",
+            "vmArgs": ["-Dsun.java2d.d3d=false"]
         },
         {
             // should match run.bat
@@ -18,8 +19,9 @@
             "name": "Debug ArrayV (custom max length)",
             "request": "launch",
             "mainClass": "io.github.arrayv.main.ArrayVisualizer",
+            "projectName": "ArrayV",
             "args": ["${input:length}"],
-            "vmArgs": ["-Dsun.java2d.d3d=false", "-cp", "bin;lib/classgraph-4.8.47.jar"]
+            "vmArgs": ["-Dsun.java2d.d3d=false"]
         }
     ],
     "inputs": [

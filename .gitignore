@@ -1,8 +1,9 @@
 *.class
-bin
-dist
+target
 __pycache__
 cache
 antiqsort_*
 network_*.svg
 sorting_networks
+/stats-config.txt
+dependency-reduced-pom.xml

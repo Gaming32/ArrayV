@@ -1,5 +1,5 @@
-name: ant
-on: [pull_request, push]
+name: maven
+on: [pull_request, push, workflow_dispatch]
 
 jobs:
   build:
@@ -17,11 +17,11 @@ jobs:
           with:
               java-version: ${{ matrix.java }}
               distribution: zulu
-        - name: Build with Ant
-          run: ant -noinput -buildfile build.xml dist-jar
+        - name: Build with Maven
+          run: mvn clean install
         - name: Upload artifact
           uses: actions/upload-artifact@v2
           if: ${{ matrix.java == 8 && matrix.os == 'ubuntu-latest' }}
           with:
             name: standalone-jar
-            path: dist/arrayVisualizer.jar
+            path: target/ArrayV-*.jar
