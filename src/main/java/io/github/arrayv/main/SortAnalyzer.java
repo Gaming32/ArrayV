@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -130,6 +129,7 @@ public final class SortAnalyzer {
         EXTRA_SORTS.add(sort);
     }
 
+    @SuppressWarnings("unchecked")
     private boolean compileSingle(String name, ClassLoader loader) {
         Class<?> sortClass;
         try {
@@ -137,20 +137,22 @@ public final class SortAnalyzer {
                 sortClass = Class.forName(name);
             else
                 sortClass = Class.forName(name, true, loader);
+            if (!sortClass.isAssignableFrom(Sort.class)) {
+                throw new IllegalArgumentException(sortClass + " does not subclass Sort");
+            }
         } catch (ClassNotFoundException e) {
             System.err.println(e);
             return true;
         }
-        return compileSingle(sortClass);
+        return compileSingle((Class<? extends Sort>)sortClass);
     }
 
-    private boolean compileSingle(Class<?> sortClass) {
+    private boolean compileSingle(Class<? extends Sort> sortClass) {
         try {
             if (sortClass.getClassLoader() == EXTRA_SORTS_CLASS_LOADER) {
                 setSortCameFromExtra(sortClass);
             }
-            Constructor<?> newSort = sortClass.getConstructor(new Class[] {ArrayVisualizer.class});
-            Sort sort = (Sort) newSort.newInstance(this.arrayVisualizer);
+            SortInfo sort = new SortInfo(sorts.size(), sortClass);
 
             try {
                 if (verifySort(sort)) {
@@ -158,7 +160,7 @@ public final class SortAnalyzer {
                     if (!suggestion.isEmpty()) {
                         suggestions.add(suggestion);
                     }
-                    sorts.add(new SortInfo(sorts.size(), sort));
+                    sorts.add(sort);
                 } else {
                     throw new Exception(sortErrorMsg);
                 }
@@ -234,7 +236,7 @@ public final class SortAnalyzer {
             for (int i = 0; i < sortFiles.size(); i++) {
                 ClassInfo sortFile = sortFiles.get(i);
                 if (sortFile.getName().contains("$")) continue; // Ignore inner classes
-                this.compileSingle(sortFile.loadClass());
+                this.compileSingle(sortFile.loadClass(Sort.class));
             }
             sortSorts();
         } catch (Exception e) {
@@ -585,24 +587,24 @@ public final class SortAnalyzer {
         }
     }
 
-    private boolean verifySort(Sort sort) {
-        if (!sort.isSortEnabled()) {
+    private boolean verifySort(SortInfo sort) {
+        if (sort.isDisabled()) {
             this.sortErrorMsg = "manually disabled";
             return false;
         }
-        if (sort.getSortListName().equals("")) {
+        if (sort.getListName().isEmpty()) {
             this.sortErrorMsg = "missing 'Choose Sort' name";
             return false;
         }
-        if (sort.getRunAllSortsName().equals("")) {
+        if (sort.getRunAllName().isEmpty()) {
             this.sortErrorMsg = "missing 'Run All' name";
             return false;
         }
-        if (sort.getRunSortName().equals("")) {
+        if (sort.getRunName().isEmpty()) {
             this.sortErrorMsg = "missing 'Run Sort' name";
             return false;
         }
-        if (sort.getCategory().equals("")) {
+        if (sort.getCategory().isEmpty()) {
             this.sortErrorMsg = "missing category";
             return false;
         }
@@ -610,24 +612,24 @@ public final class SortAnalyzer {
         return true;
     }
 
-    private static String checkForSuggestions(Sort sort) {
+    private static String checkForSuggestions(SortInfo sort) {
         StringBuilder suggestions = new StringBuilder();
         boolean warned = false;
 
-        if (sort.isBogoSort() && !sort.isUnreasonablySlow()) {
-            suggestions.append("- " + sort.getRunSortName() + " is a bogosort. It should be marked 'unreasonably slow'.\n");
+        if (sort.isBogoSort() && !sort.isSlowSort()) {
+            suggestions.append("- " + sort.getRunName() + " is a bogosort. It should be marked 'unreasonably slow'.\n");
             warned = true;
         }
-        if (sort.isUnreasonablySlow() && sort.getUnreasonableLimit() == 0) {
-            suggestions.append("- A warning will pop up every time you select " + sort.getRunSortName() + ". You might want to change its 'unreasonable limit'.\n");
+        if (sort.isSlowSort() && sort.getUnreasonableLimit() == 0) {
+            suggestions.append("- A warning will pop up every time you select " + sort.getRunName() + ". You might want to change its 'unreasonable limit'.\n");
             warned = true;
         }
-        if (!sort.isUnreasonablySlow() && sort.getUnreasonableLimit() != 0) {
-            suggestions.append("- You might want to set " + sort.getRunSortName() + "'s 'unreasonable limit' to 0. It's not marked 'unreasonably slow'.\n");
+        if (!sort.isSlowSort() && sort.getUnreasonableLimit() != 0) {
+            suggestions.append("- You might want to set " + sort.getRunName() + "'s 'unreasonable limit' to 0. It's not marked 'unreasonably slow'.\n");
             warned = true;
         }
-        if (sort.isRadixSort() && !sort.usesBuckets()) {
-            suggestions.append("- " + sort.getRunSortName() + " is a radix sort and should also be classified as a bucket sort.\n");
+        if (sort.isRadixSort() && !sort.isBucketSort()) {
+            suggestions.append("- " + sort.getRunName() + " is a radix sort and should also be classified as a bucket sort.\n");
             warned = true;
         }
 
