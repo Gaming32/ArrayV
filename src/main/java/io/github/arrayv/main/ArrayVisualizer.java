@@ -231,17 +231,18 @@ public final class ArrayVisualizer {
     private Graphics2D mainRender;
     private Graphics2D extraRender;
 
-    private Delays Delays;
-    private Highlights Highlights;
-    private MultipleScript MultipleScript;
-    private Reads Reads;
-    private Renderer Renderer;
-    private Sounds Sounds;
-    private Timer Timer;
-    private VisualStyles VisualStyles;
-    private Writes Writes;
-    private AntiQSort AntiQSort;
+    private final Delays DELAYS;
+    private final Highlights HIGHLIGHTS;
+    private final Reads READS;
+    private final Renderer RENDERER;
+    private final Sounds SOUNDS;
+    private final Timer TIMER;
+    private final Writes WRITES;
+    private final AntiQSort ANTI_Q_SORT;
+    private final MultipleScript MULTIPLE_SCRIPT;
     private final ScriptManager SCRIPT_MANAGER;
+
+    private VisualStyles VisualStyles;
 
     private volatile int updateVisualsForced;
     public  volatile boolean benchmarking;
@@ -487,17 +488,17 @@ public final class ArrayVisualizer {
         this.symbols.setGroupingSeparator(',');
         this.formatter.setDecimalFormatSymbols(this.symbols);
 
-        this.Highlights = new Highlights(this, this.MAX_ARRAY_VAL);
-        this.Sounds = new Sounds(this.array, this);
-        this.Delays = new Delays(this);
-        this.Timer = new Timer(this);
-        this.Reads = new Reads(this);
-        this.Renderer = new Renderer(this);
-        this.Writes = new Writes(this);
-        this.AntiQSort = new AntiQSort(this);
+        this.HIGHLIGHTS = new Highlights(this, this.MAX_ARRAY_VAL);
+        this.SOUNDS = new Sounds(this.array, this);
+        this.DELAYS = new Delays(this);
+        this.TIMER = new Timer(this);
+        this.READS = new Reads(this);
+        this.RENDERER = new Renderer(this);
+        this.WRITES = new Writes(this);
+        this.ANTI_Q_SORT = new AntiQSort(this);
         this.SCRIPT_MANAGER = new ScriptManager();
 
-        SoundFrame test = new SoundFrame(this.Sounds);
+        SoundFrame test = new SoundFrame(this.SOUNDS);
         test.setVisible(true);
 
         this.ArrayManager = new ArrayManager(this);
@@ -533,7 +534,7 @@ public final class ArrayVisualizer {
             this.resetIndexTable();
         }
 
-        this.MultipleScript = new MultipleScript(this);
+        this.MULTIPLE_SCRIPT = new MultipleScript(this);
 
         this.category = "";
         this.heading = "";
@@ -623,9 +624,9 @@ public final class ArrayVisualizer {
                     try {
                         if (ArrayVisualizer.this.updateVisualsForced > 0) {
                             ArrayVisualizer.this.updateVisualsForced--;
-                            ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
+                            ArrayVisualizer.this.RENDERER.updateVisualsStart(ArrayVisualizer.this);
                             int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
-                            ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
+                            ArrayVisualizer.this.RENDERER.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.HIGHLIGHTS);
 
                             if (ArrayVisualizer.this.TEXTDRAW) {
                                 ArrayVisualizer.this.statSnapshot.updateStats(ArrayVisualizer.this);
@@ -648,7 +649,7 @@ public final class ArrayVisualizer {
             }
         };
 
-        this.Sounds.startAudioThread();
+        this.SOUNDS.startAudioThread();
         this.drawWindows();
     }
 
@@ -839,31 +840,31 @@ public final class ArrayVisualizer {
         return this.SortAnalyzer;
     }
     public Delays getDelays() {
-        return this.Delays;
+        return this.DELAYS;
     }
     public Highlights getHighlights() {
-        return this.Highlights;
+        return this.HIGHLIGHTS;
     }
     public Reads getReads() {
-        return this.Reads;
+        return this.READS;
     }
     public Renderer getRender() {
-        return this.Renderer;
+        return this.RENDERER;
     }
     public Sounds getSounds() {
-        return this.Sounds;
+        return this.SOUNDS;
     }
     public Timer getTimer() {
-        return this.Timer;
+        return this.TIMER;
     }
     public VisualStyles getVisualStyles() {
         return this.VisualStyles;
     }
     public Writes getWrites() {
-        return this.Writes;
+        return this.WRITES;
     }
     public MultipleScript getScriptParser() {
-        return this.MultipleScript;
+        return this.MULTIPLE_SCRIPT;
     }
 
     public ScriptManager getScriptManager() {
@@ -904,9 +905,9 @@ public final class ArrayVisualizer {
     }
 
     public void resetAllStatistics() {
-        this.Reads.resetStatistics();
-        this.Writes.resetStatistics();
-        this.Timer.manualSetTime(0);
+        this.READS.resetStatistics();
+        this.WRITES.resetStatistics();
+        this.TIMER.manualSetTime(0);
     }
 
     public boolean isActive() {
@@ -956,11 +957,11 @@ public final class ArrayVisualizer {
         return this.ANTIQSORT;
     }
     public void initAntiQSort() {
-        this.AntiQSort.beginSort(this.array, this.sortLength);
+        this.ANTI_Q_SORT.beginSort(this.array, this.sortLength);
     }
     public void finishAntiQSort(String name) {
-        int[] result = this.AntiQSort.getResult();
-        this.AntiQSort.hideResult();
+        int[] result = this.ANTI_Q_SORT.getResult();
+        this.ANTI_Q_SORT.hideResult();
         String outName = "antiqsort_" + name + "_" + this.sortLength;
         if (!ArrayFileWriter.writeArray(outName, result, sortLength)) {
             return;
@@ -968,7 +969,7 @@ public final class ArrayVisualizer {
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + outName + "\"", "AntiQSort", JOptionPane.INFORMATION_MESSAGE);
     }
     public int antiqCompare(int left, int right) {
-        int cmp = this.AntiQSort.compare(left, right);
+        int cmp = this.ANTI_Q_SORT.compare(left, right);
         if (cmp == 0)
             return 0;
         return cmp / Math.abs(cmp);
@@ -988,7 +989,7 @@ public final class ArrayVisualizer {
     }
     public void setCurrentLength(int newLength) {
         this.sortLength = newLength;
-        this.Delays.setSleepRatio(this.sortLength/1024d);
+        this.DELAYS.setSleepRatio(this.sortLength/1024d);
     }
 
     public void setUniqueItems(int newCount) {
@@ -1171,14 +1172,14 @@ public final class ArrayVisualizer {
 
     //TODO: This method is *way* too long. Break it apart.
     public synchronized void verifySortAndSweep() {
-        this.Highlights.toggleFancyFinish(true);
-        this.Highlights.resetFancyFinish();
+        this.HIGHLIGHTS.toggleFancyFinish(true);
+        this.HIGHLIGHTS.resetFancyFinish();
 
-        this.Delays.setSleepRatio(1);
+        this.DELAYS.setSleepRatio(1);
 
         double sleepRatio = 256d/this.sortLength;
-        long tempComps = this.Reads.getComparisons();
-        this.Reads.setComparisons(0);
+        long tempComps = this.READS.getComparisons();
+        this.READS.setComparisons(0);
 
         String temp = this.heading;
         this.heading = "Verifying sort...";
@@ -1193,121 +1194,121 @@ public final class ArrayVisualizer {
         int invalidateIdx = 0;
 
         for (int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
-            if (i < this.sortLength) this.Highlights.markArray(1, i);
-            this.Highlights.incrementFancyFinishPosition();
+            if (i < this.sortLength) this.HIGHLIGHTS.markArray(1, i);
+            this.HIGHLIGHTS.incrementFancyFinishPosition();
 
             if (i < this.sortLength - 1) {
-                if (validate && !validateFailed && this.Reads.compareOriginalValues(this.array[i], this.validateArray[i]) != 0) {
+                if (validate && !validateFailed && this.READS.compareOriginalValues(this.array[i], this.validateArray[i]) != 0) {
                     validateFailed = true;
                     invalidateIdx = i;
                 }
-                if (stable && this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
+                if (stable && this.READS.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     stable = false;
                     unstableIdx = i;
                 }
-                if (this.Reads.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
-                    this.Highlights.clearMark(1);
+                if (this.READS.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
+                    this.HIGHLIGHTS.clearMark(1);
 
-                    boolean tempSound = this.Sounds.isEnabled();
-                    this.Sounds.toggleSound(false);
-                    this.Highlights.toggleFancyFinish(false);
+                    boolean tempSound = this.SOUNDS.isEnabled();
+                    this.SOUNDS.toggleSound(false);
+                    this.HIGHLIGHTS.toggleFancyFinish(false);
 
                     for (int j = i + 1; j < this.sortLength; j++) {
-                        this.Highlights.markArray(j, j);
-                        this.Delays.sleep(sleepRatio);
+                        this.HIGHLIGHTS.markArray(j, j);
+                        this.DELAYS.sleep(sleepRatio);
                     }
 
                     JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
                     success = false;
 
-                    this.Highlights.clearAllMarks();
+                    this.HIGHLIGHTS.clearAllMarks();
 
                     i = this.sortLength + this.getLogBaseTwoOfLength();
 
-                    this.Sounds.toggleSound(tempSound);
+                    this.SOUNDS.toggleSound(tempSound);
                 }
             }
 
-            if (this.Highlights.fancyFinishEnabled()) {
-                this.Delays.sleep(sleepRatio);
+            if (this.HIGHLIGHTS.fancyFinishEnabled()) {
+                this.DELAYS.sleep(sleepRatio);
             }
         }
-        this.Highlights.clearMark(1);
+        this.HIGHLIGHTS.clearMark(1);
 
         // if (tempStability && success)
         //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
         if (this.STABILITY && success && !stable) {
-            boolean tempSound = this.Sounds.isEnabled();
-            this.Sounds.toggleSound(false);
-            this.Highlights.toggleFancyFinish(false);
+            boolean tempSound = this.SOUNDS.isEnabled();
+            this.SOUNDS.toggleSound(false);
+            this.HIGHLIGHTS.toggleFancyFinish(false);
 
             for (int j = unstableIdx; j < this.sortLength; j++) {
-                this.Highlights.markArray(j, j);
-                this.Delays.sleep(sleepRatio);
+                this.HIGHLIGHTS.markArray(j, j);
+                this.DELAYS.sleep(sleepRatio);
             }
 
             JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + unstableIdx + " and " + (unstableIdx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
 
-            this.Highlights.clearAllMarks();
-            this.Sounds.toggleSound(tempSound);
+            this.HIGHLIGHTS.clearAllMarks();
+            this.SOUNDS.toggleSound(tempSound);
         } else if (success && validateFailed) {
-            boolean tempSound = this.Sounds.isEnabled();
-            this.Sounds.toggleSound(false);
-            this.Highlights.toggleFancyFinish(false);
+            boolean tempSound = this.SOUNDS.isEnabled();
+            this.SOUNDS.toggleSound(false);
+            this.HIGHLIGHTS.toggleFancyFinish(false);
 
             for (int j = invalidateIdx + 1; j < this.sortLength; j++) {
-                this.Highlights.markArray(j, j);
-                this.Delays.sleep(sleepRatio);
+                this.HIGHLIGHTS.markArray(j, j);
+                this.DELAYS.sleep(sleepRatio);
             }
 
             JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\narray[" + invalidateIdx + "] != validateArray[" + invalidateIdx + "]", "Error", JOptionPane.OK_OPTION, null);
 
-            this.Highlights.clearAllMarks();
-            this.Sounds.toggleSound(tempSound);
+            this.HIGHLIGHTS.clearAllMarks();
+            this.SOUNDS.toggleSound(tempSound);
         }
 
         this.heading = temp;
-        this.Reads.setComparisons(tempComps);
+        this.READS.setComparisons(tempComps);
 
         if (this.benchmarking) {
-            JOptionPane.showMessageDialog(this.window, "The sort took a total of " + this.Timer.getRealTime());
+            JOptionPane.showMessageDialog(this.window, "The sort took a total of " + this.TIMER.getRealTime());
         }
 
-        if (this.Highlights.fancyFinishActive()) {
-            this.Highlights.toggleFancyFinish(false);
+        if (this.HIGHLIGHTS.fancyFinishActive()) {
+            this.HIGHLIGHTS.toggleFancyFinish(false);
         }
-        this.Highlights.resetFancyFinish();
+        this.HIGHLIGHTS.resetFancyFinish();
     }
 
     public String formatTimes() {
         String result = "";
 
-        Hashtable<String, Double> categoricalTimes = this.Timer.getCategoricalTimes();
+        Hashtable<String, Double> categoricalTimes = this.TIMER.getCategoricalTimes();
         for (Map.Entry<String, Double> keyValuePair : categoricalTimes.entrySet()) {
-            result += keyValuePair.getKey() + ":\t" + this.Timer.prettifyTime(keyValuePair.getValue()) + "\n";
+            result += keyValuePair.getKey() + ":\t" + this.TIMER.prettifyTime(keyValuePair.getValue()) + "\n";
         }
 
-        String totalTime = this.Timer.getRealTime();
+        String totalTime = this.TIMER.getRealTime();
         result += "--------------------\nTotal:\t" + totalTime;
 
         return result;
     }
 
     public void endSort() {
-        this.Timer.disableRealTimer();
-        this.Highlights.clearAllMarks();
+        this.TIMER.disableRealTimer();
+        this.HIGHLIGHTS.clearAllMarks();
         System.out.println(formatTimes());
 
         this.isCanceled = false;
-        this.Delays.changeSkipped(false);
-        double speed = this.Delays.getSleepRatio();
+        this.DELAYS.changeSkipped(false);
+        double speed = this.DELAYS.getSleepRatio();
         this.verifySortAndSweep();
-        this.Delays.setSleepRatio(speed);
+        this.DELAYS.setSleepRatio(speed);
 
         this.arrays.subList(1, this.arrays.size()).clear();
-        this.Writes.clearAllocAmount();
+        this.WRITES.clearAllocAmount();
 
-        this.Highlights.clearAllMarks();
+        this.HIGHLIGHTS.clearAllMarks();
     }
 
     public void togglePointer(boolean Bool) {
@@ -1431,7 +1432,7 @@ public final class ArrayVisualizer {
         this.window.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent close) {
-                ArrayVisualizer.this.Sounds.closeSynth();
+                ArrayVisualizer.this.SOUNDS.closeSynth();
                 ArrayVisualizer.this.visualsEnabled = false;
                 if (ArrayVisualizer.this.isActive()) {
                     ArrayVisualizer.this.sortingThread.interrupt();
