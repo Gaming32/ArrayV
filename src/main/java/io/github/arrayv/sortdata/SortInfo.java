@@ -11,21 +11,52 @@ public final class SortInfo {
     private final int id;
     private final Class<? extends Sort> sortClass;
     private final Supplier<? extends Sort> instanceSupplier;
+    private final boolean disabled;
+    private final boolean bogoSort;
+    private final int unreasonableLimit;
     private final String listName;
     private final String runName;
     private final String runAllName;
     private final String category;
     private final boolean slowSort;
+    private final boolean radixSort;
+    private final boolean bucketSort;
 
     private SortInfo(int id, SortInfo sort) {
         this.id = id;
         this.sortClass = sort.sortClass;
         this.instanceSupplier = sort.instanceSupplier;
+        this.disabled = sort.disabled;
+        this.bogoSort = sort.bogoSort;
+        this.unreasonableLimit = sort.unreasonableLimit;
         this.listName = sort.listName;
         this.runName = sort.runName;
         this.runAllName = sort.runAllName;
         this.category = sort.category;
         this.slowSort = sort.slowSort;
+        this.radixSort = sort.radixSort;
+        this.bucketSort = sort.bucketSort;
+    }
+
+    public SortInfo(int id, Class<? extends Sort> sortClass) {
+        this.id = id;
+        this.sortClass = sortClass;
+        try {
+            this.instanceSupplier = new NewSortInstance(sortClass);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        Sort sort = getFreshInstance();
+        this.disabled = !sort.isSortEnabled();
+        this.bogoSort = sort.isBogoSort();
+        this.unreasonableLimit = sort.getUnreasonableLimit();
+        this.listName = sort.getSortListName();
+        this.runName = sort.getRunSortName();
+        this.runAllName = sort.getRunAllSortsName();
+        this.category = sort.getCategory();
+        this.slowSort = sort.isUnreasonablySlow();
+        this.radixSort = sort.isRadixSort();
+        this.bucketSort = sort.usesBuckets();
     }
 
     public SortInfo(int id, Sort sort) {
@@ -36,11 +67,16 @@ public final class SortInfo {
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+        this.disabled = !sort.isSortEnabled();
+        this.bogoSort = sort.isBogoSort();
+        this.unreasonableLimit = sort.getUnreasonableLimit();
         this.listName = sort.getSortListName();
         this.runName = sort.getRunSortName();
         this.runAllName = sort.getRunAllSortsName();
         this.category = sort.getCategory();
         this.slowSort = sort.isUnreasonablySlow();
+        this.radixSort = sort.isRadixSort();
+        this.bucketSort = sort.usesBuckets();
     }
 
     public SortInfo(Sort sort) {
@@ -57,6 +93,18 @@ public final class SortInfo {
 
     public String getInternalName() {
         return sortClass != null ? sortClass.getName() : null;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public boolean isBogoSort() {
+        return bogoSort;
+    }
+
+    public int getUnreasonableLimit() {
+        return unreasonableLimit;
     }
 
     public String getListName() {
@@ -77,6 +125,14 @@ public final class SortInfo {
 
     public boolean isSlowSort() {
         return slowSort;
+    }
+
+    public boolean isRadixSort() {
+        return radixSort;
+    }
+
+    public boolean isBucketSort() {
+        return bucketSort;
     }
 
     public Sort getFreshInstance() {
