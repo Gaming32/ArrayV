@@ -41,6 +41,7 @@ public final class ScriptManager {
         final CompilerConfiguration compilerConfig = new CompilerConfiguration();
         compilerConfig.addCompilationCustomizers(
             new ImportCustomizer()
+                .addStarImports("io.github.arrayv.sortdata")
                 .addStarImports("io.github.arrayv.groovyapi")
                 .addStaticStars("io.github.arrayv.groovyapi.GroovyLocals")
         );
