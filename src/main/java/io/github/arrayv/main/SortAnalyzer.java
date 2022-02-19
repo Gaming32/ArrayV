@@ -15,7 +15,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,7 @@ import javax.tools.ToolProvider;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortComparator;
 import io.github.arrayv.sortdata.SortInfo;
+import io.github.arrayv.sortdata.SortNameType;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.utils.CommonUtils;
 import io.github.classgraph.ClassGraph;
@@ -89,6 +92,7 @@ public final class SortAnalyzer {
     );
 
     private final Set<Class<?>> EXTRA_SORTS = new HashSet<>();
+    private final Map<SortNameType, Map<String, SortInfo>> SORTS_BY_NAME = new EnumMap<>(SortNameType.class);
 
     static {
         try {
@@ -123,6 +127,10 @@ public final class SortAnalyzer {
 
     public boolean didSortComeFromExtra(Class<?> sort) {
         return EXTRA_SORTS.contains(sort);
+    }
+
+    public SortInfo getSortByName(SortNameType nameType, String name) {
+        return SORTS_BY_NAME.getOrDefault(nameType, Collections.emptyMap()).get(name);
     }
 
     private void setSortCameFromExtra(Class<?> sort) {
@@ -161,6 +169,7 @@ public final class SortAnalyzer {
                         suggestions.add(suggestion);
                     }
                     sorts.add(sort);
+                    addSortByName(sort);
                 } else {
                     throw new Exception(sortErrorMsg);
                 }
@@ -174,6 +183,17 @@ public final class SortAnalyzer {
             return false;
         }
         return true;
+    }
+
+    private Map<String, SortInfo> getSortNameCategory(SortNameType type) {
+        return SORTS_BY_NAME.computeIfAbsent(type, k -> new HashMap<>());
+    }
+
+    private void addSortByName(SortInfo sort) {
+        getSortNameCategory(SortNameType.INTERNAL_NAME).put(sort.getInternalName(), sort);
+        getSortNameCategory(SortNameType.LIST_NAME).put(sort.getListName(), sort);
+        getSortNameCategory(SortNameType.RUN_NAME).put(sort.getRunName(), sort);
+        getSortNameCategory(SortNameType.SHOWCASE_NAME).put(sort.getRunAllName(), sort);
     }
 
     private ClassGraph classGraph(boolean includeExtras) {
@@ -196,6 +216,7 @@ public final class SortAnalyzer {
         this.invalidSorts.clear();
         this.suggestions.clear();
         this.sortErrorMsg = null;
+        this.SORTS_BY_NAME.clear();
         analyzeSorts(classGraph(includeExtras));
     }
 

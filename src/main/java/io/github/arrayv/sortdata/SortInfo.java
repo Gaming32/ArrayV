@@ -92,7 +92,7 @@ public final class SortInfo {
     }
 
     public String getInternalName() {
-        return sortClass != null ? sortClass.getName() : null;
+        return sortClass != null ? sortClass.getSimpleName() : null;
     }
 
     public boolean isDisabled() {
