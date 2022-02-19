@@ -252,7 +252,7 @@ public final class ArrayVisualizer {
     private volatile boolean hidden;
     private volatile boolean frameSkipped;
 
-    public ArrayVisualizer() {
+    public ArrayVisualizer() throws IOException {
         if (INSTANCE != null) {
             throw new IllegalStateException("Cannot create more than one ArrayVisualizer");
         }
@@ -576,6 +576,8 @@ public final class ArrayVisualizer {
         this.cw = 0;
 
         this.ArrayManager.initializeArray(this.array);
+
+        SCRIPT_MANAGER.loadInstalledScripts();
 
         //TODO: Overhaul visual code to properly reflect Swing (JavaFX?) style and conventions
         this.toggleVisualUpdates(false);
@@ -1461,7 +1463,7 @@ public final class ArrayVisualizer {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.setProperty("sun.java2d.d3d", "false");
         if (args.length > 0) {
             ArrayVisualizer.MAX_LENGTH_POWER = Integer.parseInt(args[0]);
