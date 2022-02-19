@@ -498,6 +498,8 @@ public final class ArrayVisualizer {
         this.ANTI_Q_SORT = new AntiQSort(this);
         this.SCRIPT_MANAGER = new ScriptManager();
 
+        SCRIPT_MANAGER.loadInstalledScripts();
+
         SoundFrame test = new SoundFrame(this.SOUNDS);
         test.setVisible(true);
 
@@ -576,8 +578,6 @@ public final class ArrayVisualizer {
         this.cw = 0;
 
         this.ArrayManager.initializeArray(this.array);
-
-        SCRIPT_MANAGER.loadInstalledScripts();
 
         //TODO: Overhaul visual code to properly reflect Swing (JavaFX?) style and conventions
         this.toggleVisualUpdates(false);

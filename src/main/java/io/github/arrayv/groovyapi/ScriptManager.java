@@ -13,6 +13,25 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
 public final class ScriptManager {
+    public final class ScriptThread extends Thread {
+        private final File path;
+        private final Script script;
+
+        private ScriptThread(File path, Script script) {
+            super(script::run, "Script-" + getScriptName(path));
+            this.path = path;
+            this.script = script;
+        }
+
+        public File getPath() {
+            return path;
+        }
+
+        public Script getScript() {
+            return script;
+        }
+    }
+
     private static final File INSTALLED_SCRIPTS_ROOT = new File("scripts");
 
     private final GroovyShell shell;
@@ -38,6 +57,18 @@ public final class ScriptManager {
         Script script = shell.parse(path);
         script.run();
         return script;
+    }
+
+    public ScriptThread runInThread(File path) throws IOException {
+        Script script = shell.parse(path);
+        ScriptThread thread = new ScriptThread(path, script);
+        thread.start();
+        return thread;
+    }
+
+    public static String getScriptName(File path) {
+        String name = path.getName();
+        return name.substring(0, name.length() - 7);
     }
 
     public Map<String, Script> loadInstalledScripts() throws IOException {

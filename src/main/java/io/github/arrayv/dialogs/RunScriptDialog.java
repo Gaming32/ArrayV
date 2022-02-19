@@ -1,5 +1,7 @@
 package io.github.arrayv.dialogs;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /*
 MIT License
 
@@ -29,6 +31,9 @@ public final class RunScriptDialog extends FileDialog {
         super();
 
         fileDialog.setDialogTitle("Choose a script file...");
+        FileNameExtensionFilter groovyFiles = new FileNameExtensionFilter("Groovy Script Files (.groovy)", "groovy");
+        this.removeAllFilesOption();
+        fileDialog.addChoosableFileFilter(groovyFiles);
 
         fileDialog.showDialog(null, "Select");
         this.file = fileDialog.getSelectedFile();
