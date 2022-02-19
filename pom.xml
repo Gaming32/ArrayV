@@ -6,7 +6,7 @@
 
   <groupId>io.github.arrayv</groupId>
   <artifactId>ArrayV</artifactId>
-  <version>5.0-SNAPSHOT</version>
+  <version>5.0</version>
 
   <name>ArrayV</name>
   <description>Sorting algorithm visualizer written in Java</description>
