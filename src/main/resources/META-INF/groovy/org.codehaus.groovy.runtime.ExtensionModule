@@ -1,0 +1,4 @@
+moduleName=ArrayV
+moduleVersion=5.1-SNAPSHOT
+extensionClasses=io.github.arrayv.groovyapi.exts.RunSortInfoExtension
+staticExtensionClasses=

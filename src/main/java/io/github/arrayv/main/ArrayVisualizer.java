@@ -52,6 +52,7 @@ import io.github.arrayv.dialogs.SaveArrayDialog;
 import io.github.arrayv.frames.ArrayFrame;
 import io.github.arrayv.frames.SoundFrame;
 import io.github.arrayv.frames.UtilFrame;
+import io.github.arrayv.groovyapi.ScriptManager;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.threads.RunScriptedSorts;
@@ -240,6 +241,7 @@ public final class ArrayVisualizer {
     private VisualStyles VisualStyles;
     private Writes Writes;
     private AntiQSort AntiQSort;
+    private final ScriptManager SCRIPT_MANAGER;
 
     private volatile int updateVisualsForced;
     public  volatile boolean benchmarking;
@@ -493,6 +495,7 @@ public final class ArrayVisualizer {
         this.Renderer = new Renderer(this);
         this.Writes = new Writes(this);
         this.AntiQSort = new AntiQSort(this);
+        this.SCRIPT_MANAGER = new ScriptManager();
 
         SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);
@@ -861,6 +864,10 @@ public final class ArrayVisualizer {
     }
     public MultipleScript getScriptParser() {
         return this.MultipleScript;
+    }
+
+    public ScriptManager getScriptManager() {
+        return SCRIPT_MANAGER;
     }
 
     public Visual[] getVisuals() {
