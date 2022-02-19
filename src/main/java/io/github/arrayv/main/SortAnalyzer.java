@@ -176,8 +176,8 @@ public final class SortAnalyzer {
 
     private ClassGraph classGraph(boolean includeExtras) {
         ClassGraph classGraph = new ClassGraph()
-            .whitelistPackages("sorts", "io.github.arrayv.sorts")
-            .blacklistPackages("sorts.templates", "io.github.arrayv.sorts.templates")
+            .acceptPackages("sorts", "io.github.arrayv.sorts")
+            .rejectPackages("sorts.templates", "io.github.arrayv.sorts.templates")
             .initializeLoadedClasses();
         if (includeExtras && extraSortsInstalled()) {
             classGraph.addClassLoader(EXTRA_SORTS_CLASS_LOADER);
