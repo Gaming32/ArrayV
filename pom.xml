@@ -24,6 +24,11 @@
       <artifactId>classgraph</artifactId>
       <version>4.8.139</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.groovy</groupId>
+      <artifactId>groovy</artifactId>
+      <version>4.0.0</version>
+    </dependency>
   </dependencies>
 
   <licenses>
