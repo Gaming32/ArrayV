@@ -150,12 +150,16 @@ public final class SortAnalyzer {
      */
     public SortInfo insortSort(SortInfo sort) {
         int position = Collections.binarySearch(sorts, sort, new SortComparator());
+        if (position < 0) {
+            // Not found (good)
+            position = -position - 1;
+        }
         sort = sort.withId(position);
         sorts.add(null);
         for (int i = sorts.size() - 1; i > position; i--) {
             sorts.set(i, sorts.get(i - 1).withId(i));
         }
-        sorts.set(position, sort.withId(position));
+        sorts.set(position, sort);
         addSortByName(sort);
         return sort;
     }
@@ -217,7 +221,9 @@ public final class SortAnalyzer {
     }
 
     private void addSortByName(SortInfo sort) {
-        getSortNameCategory(SortNameType.INTERNAL_NAME).put(sort.getInternalName(), sort);
+        if (sort.getInternalName() != null) {
+            getSortNameCategory(SortNameType.INTERNAL_NAME).put(sort.getInternalName(), sort);
+        }
         getSortNameCategory(SortNameType.LIST_NAME).put(sort.getListName(), sort);
         getSortNameCategory(SortNameType.RUN_NAME).put(sort.getRunName(), sort);
         getSortNameCategory(SortNameType.SHOWCASE_NAME).put(sort.getRunAllName(), sort);

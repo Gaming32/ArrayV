@@ -25,7 +25,7 @@ public final class GroovyLocals {
     }
 
     public static SortInfo getSort(String name, SortNameType nameType) {
-        return ArrayVisualizer.getInstance().getSortAnalyzer().getSortByName(nameType, name);
+        return getArrayv().getSortAnalyzer().getSortByName(nameType, name);
     }
 
     public static SortInfo newSort(
@@ -72,6 +72,20 @@ public final class GroovyLocals {
         }
         builder.instanceSupplier(GroovySort::new);
 
-        return sortInfo[0] = builder.build();
+        return registerSort(sortInfo[0] = builder.build());
+    }
+
+    public static SortInfo registerSort(SortInfo sort) {
+        sort = getArrayv().getSortAnalyzer().insortSort(sort);
+        getArrayv().refreshSorts();
+        return sort;
+    }
+
+    public static SortInfo registerSort(Sort sort) {
+        return registerSort(new SortInfo(sort));
+    }
+
+    public static SortInfo registerSort(Class<? extends Sort> sort) {
+        return registerSort(new SortInfo(sort));
     }
 }
