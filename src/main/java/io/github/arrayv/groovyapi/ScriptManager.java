@@ -21,7 +21,7 @@ public final class ScriptManager {
         final List<Runnable> closers;
 
         private ScriptThread(File path, Script script) {
-            super(script::run, "Script-" + getScriptName(path));
+            super(script::run, "Script-" + script.getClass().getName());
             this.path = path;
             this.script = script;
             this.closers = new ArrayList<>();

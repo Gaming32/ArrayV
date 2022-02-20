@@ -6,10 +6,14 @@ import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.transform.stc.ClosureParams;
 import groovy.transform.stc.SimpleType;
+import io.github.arrayv.groovyapi.ScriptManager.ScriptThread;
+import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.sortdata.SortNameType;
 import io.github.arrayv.sorts.templates.Sort;
+import io.github.arrayv.utils.Sounds;
 
 public final class GroovyLocals {
     // No instancing!
@@ -91,5 +95,50 @@ public final class GroovyLocals {
 
     public static RunSortBuilder run(SortInfo sort) {
         return new RunSortBuilder(sort);
+    }
+
+    public static String getCategory() {
+        return getArrayv().getCategory();
+    }
+
+    public static void setCategory(String category) {
+        getArrayv().setCategory(category);
+    }
+
+    public static void runGroup(Integer sortCount, Closure<?> cl) {
+        final ArrayVisualizer arrayVisualizer = getArrayv();
+        final ArrayManager arrayManager = arrayVisualizer.getArrayManager();
+        final Sounds Sounds = arrayVisualizer.getSounds();
+        final String threadName = (Thread.currentThread() instanceof ScriptThread)
+            ? ("SortGroup-" + ((ScriptThread)Thread.currentThread()).getScript().getClass().getName())
+            : "SortGroup";
+
+        Sounds.toggleSound(true);
+        Thread sortingThread = new Thread(() -> {
+            RunGroupContext.CONTEXT.set(new RunGroupContext(sortCount, arrayVisualizer.getCurrentLength()));
+            try {
+                arrayManager.toggleMutableLength(false);
+
+                cl.call();
+
+                arrayVisualizer.setCategory("Run " + arrayVisualizer.getCategory());
+                arrayVisualizer.setHeading("Done");
+                arrayVisualizer.updateNow();
+
+                arrayManager.toggleMutableLength(true);
+            } catch (Exception e) {
+                JErrorPane.invokeErrorMessage(e);
+            }
+            Sounds.toggleSound(false);
+            arrayVisualizer.setSortingThread(null);
+        }, threadName);
+
+        arrayVisualizer.setSortingThread(sortingThread);
+        arrayVisualizer.runSortingThread();
+        try {
+            sortingThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

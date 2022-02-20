@@ -96,38 +96,41 @@ public final class RunSortBuilder {
         finish();
     }
 
-    private int calculateLength(int defaultLength) {
-        return (int) Math.max(defaultLength / 2048d * 2048, 2);
-        // return (int) Math.max(defaultLength / 2048d * startingLength, 2);
-    }
-
-    private int calculateLengthSlow(int defaultLength, int unreasonableLimit) {
-        return Math.min(calculateLength(defaultLength), unreasonableLimit);
-    }
-
-    private double calculateSpeed(double defaultDelay, int length) {
-        if (length < 2048 / 2) {
-            return defaultDelay * Math.pow(2048 / 2048d, 2);
-        } else {
-            return defaultDelay * (2048 / 2048d);
+    private int calculateLength(int defaultLength, int startingLength) {
+        if (startingLength != -1) {
+            return (int)Math.max(defaultLength / 2048d * startingLength, 2);
         }
-        // if (length < startingLength / 2) {
-        //     return defaultDelay * Math.pow(startingLength / 2048d, 2);
-        // } else {
-        //     return defaultDelay * (startingLength / 2048d);
-        // }
+        return Math.max(defaultLength, 2);
+    }
+
+    private int calculateLengthSlow(int defaultLength, int unreasonableLimit, int startingLength) {
+        return Math.min(calculateLength(defaultLength, startingLength), unreasonableLimit);
+    }
+
+    private double calculateSpeed(double defaultDelay, int length, int startingLength) {
+        if (startingLength != -1) {
+            if (length < startingLength / 2) {
+                return defaultDelay * Math.pow(startingLength / 2048d, 2);
+            } else {
+                return defaultDelay * (startingLength / 2048d);
+            }
+        }
+        return defaultDelay;
     }
 
     private void finish() {
-        final ArrayVisualizer arrayVisualizer = ArrayVisualizer.getInstance();
-        Thread sortThread = new Thread(this::run, "ScriptedSort");
-
-        arrayVisualizer.setSortingThread(sortThread);
-        arrayVisualizer.runSortingThread();
-        try {
-            sortThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (RunGroupContext.CONTEXT.get() == null) {
+            final ArrayVisualizer arrayVisualizer = ArrayVisualizer.getInstance();
+            Thread sortThread = new Thread(this::run, "ScriptedSort");
+            arrayVisualizer.setSortingThread(sortThread);
+            arrayVisualizer.runSortingThread();
+            try {
+                sortThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            run();
         }
     }
 
@@ -139,13 +142,16 @@ public final class RunSortBuilder {
         final Delays Delays = arrayVisualizer.getDelays();
         final Timer Timer = arrayVisualizer.getTimer();
 
+        final RunGroupContext runGroupContext = RunGroupContext.CONTEXT.get();
+        final int startingLength = runGroupContext != null ? runGroupContext.getStartingLength() : -1;
+
         Delays.setSleepRatio(2.5);
 
         int sortLength;
         if (sort.isSlowSort()) {
-            sortLength = calculateLengthSlow(getLength(), sort.getUnreasonableLimit());
+            sortLength = calculateLengthSlow(getLength(), sort.getUnreasonableLimit(), startingLength);
         } else {
-            sortLength = calculateLength(getLength());
+            sortLength = calculateLength(getLength(), startingLength);
         }
         if (sortLength != arrayVisualizer.getCurrentLength()) {
             arrayFrame.setLengthSlider(sortLength);
@@ -153,10 +159,13 @@ public final class RunSortBuilder {
 
         arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), arrayVisualizer);
 
-        // arrayVisualizer.setHeading(sort.getRunAllName() + " (Sort " + sortNumber + " of " + sortCount + ")");
-        arrayVisualizer.setHeading(sort.getRunAllName());
+        if (runGroupContext != null) {
+            arrayVisualizer.setHeading(sort.getRunAllName() + " (Sort " + runGroupContext.nextSort() + " of " + runGroupContext.getSortCount() + ")");
+        } else {
+            arrayVisualizer.setHeading(sort.getRunAllName());
+        }
 
-        double sortSpeed = calculateSpeed(getDelay(), arrayVisualizer.getCurrentLength());
+        double sortSpeed = calculateSpeed(getDelay(), arrayVisualizer.getCurrentLength(), startingLength);
         Delays.setSleepRatio(sortSpeed);
 
         Timer.enableRealTimer();
