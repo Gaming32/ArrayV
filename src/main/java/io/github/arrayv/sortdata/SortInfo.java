@@ -2,6 +2,7 @@ package io.github.arrayv.sortdata;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import io.github.arrayv.main.ArrayVisualizer;
@@ -12,13 +13,13 @@ public final class SortInfo {
     private final Class<? extends Sort> sortClass;
     private final Supplier<? extends Sort> instanceSupplier;
     private final boolean disabled;
-    private final boolean bogoSort;
     private final int unreasonableLimit;
     private final String listName;
     private final String runName;
     private final String runAllName;
     private final String category;
     private final boolean slowSort;
+    private final boolean bogoSort;
     private final boolean radixSort;
     private final boolean bucketSort;
 
@@ -27,13 +28,13 @@ public final class SortInfo {
         this.sortClass = sort.sortClass;
         this.instanceSupplier = sort.instanceSupplier;
         this.disabled = sort.disabled;
-        this.bogoSort = sort.bogoSort;
         this.unreasonableLimit = sort.unreasonableLimit;
         this.listName = sort.listName;
         this.runName = sort.runName;
         this.runAllName = sort.runAllName;
         this.category = sort.category;
         this.slowSort = sort.slowSort;
+        this.bogoSort = sort.bogoSort;
         this.radixSort = sort.radixSort;
         this.bucketSort = sort.bucketSort;
     }
@@ -48,13 +49,13 @@ public final class SortInfo {
         }
         Sort sort = getFreshInstance();
         this.disabled = !sort.isSortEnabled();
-        this.bogoSort = sort.isBogoSort();
         this.unreasonableLimit = sort.getUnreasonableLimit();
         this.listName = sort.getSortListName();
         this.runName = sort.getRunSortName();
         this.runAllName = sort.getRunAllSortsName();
         this.category = sort.getCategory();
         this.slowSort = sort.isUnreasonablySlow();
+        this.bogoSort = sort.isBogoSort();
         this.radixSort = sort.isRadixSort();
         this.bucketSort = sort.usesBuckets();
     }
@@ -68,15 +69,49 @@ public final class SortInfo {
             throw new RuntimeException(e);
         }
         this.disabled = !sort.isSortEnabled();
-        this.bogoSort = sort.isBogoSort();
         this.unreasonableLimit = sort.getUnreasonableLimit();
         this.listName = sort.getSortListName();
         this.runName = sort.getRunSortName();
         this.runAllName = sort.getRunAllSortsName();
         this.category = sort.getCategory();
         this.slowSort = sort.isUnreasonablySlow();
+        this.bogoSort = sort.isBogoSort();
         this.radixSort = sort.isRadixSort();
         this.bucketSort = sort.usesBuckets();
+    }
+
+    private SortInfo(
+        int id,
+        Class<? extends Sort> sortClass,
+        Supplier<? extends Sort> instanceSupplier,
+        boolean disabled,
+        int unreasonableLimit,
+        String listName,
+        String runName,
+        String runAllName,
+        String category,
+        boolean slowSort,
+        boolean bogoSort,
+        boolean radixSort,
+        boolean bucketSort
+    ) {
+        this.id = id;
+        this.sortClass = null;
+        this.instanceSupplier = instanceSupplier;
+        this.disabled = disabled;
+        this.unreasonableLimit = unreasonableLimit;
+        this.listName = listName;
+        this.runName = runName;
+        this.runAllName = runAllName;
+        this.category = category;
+        this.slowSort = slowSort;
+        this.bogoSort = bogoSort;
+        this.radixSort = radixSort;
+        this.bucketSort = bucketSort;
+    }
+
+    public SortInfo(Class<? extends Sort> sort) {
+        this(-1, sort);
     }
 
     public SortInfo(Sort sort) {
@@ -97,10 +132,6 @@ public final class SortInfo {
 
     public boolean isDisabled() {
         return disabled;
-    }
-
-    public boolean isBogoSort() {
-        return bogoSort;
     }
 
     public int getUnreasonableLimit() {
@@ -125,6 +156,10 @@ public final class SortInfo {
 
     public boolean isSlowSort() {
         return slowSort;
+    }
+
+    public boolean isBogoSort() {
+        return bogoSort;
     }
 
     public boolean isRadixSort() {
@@ -168,5 +203,111 @@ public final class SortInfo {
         String[] resultArray = result.toArray(new String[result.size()]);
         Arrays.sort(resultArray);
         return resultArray;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static final class Builder {
+        private int id = -1;
+        private Class<? extends Sort> sortClass = null;
+        private Supplier<? extends Sort> instanceSupplier;
+        private boolean disabled = false;
+        private int unreasonableLimit = 0;
+        private String listName; // Required
+        private String runName = null;
+        private String runAllName = null;
+        private String category; // Required
+        private boolean slowSort = false;
+        private boolean bogoSort = false;
+        private boolean radixSort = false;
+        private boolean bucketSort = false;
+
+        private Builder() {
+        }
+
+        public SortInfo build() {
+            return new SortInfo(
+                id,
+                sortClass,
+                Objects.requireNonNull(instanceSupplier, "instanceSupplier"),
+                disabled,
+                unreasonableLimit,
+                Objects.requireNonNull(listName, "listName"),
+                runName != null ? runName : (listName + " Sort"),
+                runAllName != null ? runAllName : (listName + "sort"),
+                Objects.requireNonNull(category, "category"),
+                slowSort,
+                bogoSort,
+                radixSort,
+                bucketSort
+            );
+        }
+
+        public Builder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder sortClass(Class<? extends Sort> sortClass) {
+            this.sortClass = sortClass;
+            return this;
+        }
+
+        public Builder instanceSupplier(Supplier<? extends Sort> instanceSupplier) {
+            this.instanceSupplier = instanceSupplier;
+            return this;
+        }
+
+        public Builder disabled(boolean disabled) {
+            this.disabled = disabled;
+            return this;
+        }
+
+        public Builder unreasonableLimit(int unreasonableLimit) {
+            this.unreasonableLimit = unreasonableLimit;
+            return this;
+        }
+
+        public Builder listName(String listName) {
+            this.listName = listName;
+            return this;
+        }
+
+        public Builder runName(String runName) {
+            this.runName = runName;
+            return this;
+        }
+
+        public Builder runAllName(String runAllName) {
+            this.runAllName = runAllName;
+            return this;
+        }
+
+        public Builder category(String category) {
+            this.category = category;
+            return this;
+        }
+
+        public Builder slowSort(boolean slowSort) {
+            this.slowSort = slowSort;
+            return this;
+        }
+
+        public Builder bogoSort(boolean bogoSort) {
+            this.bogoSort = bogoSort;
+            return this;
+        }
+
+        public Builder radixSort(boolean radixSort) {
+            this.radixSort = radixSort;
+            return this;
+        }
+
+        public Builder bucketSort(boolean bucketSort) {
+            this.bucketSort = bucketSort;
+            return this;
+        }
     }
 }
