@@ -59,7 +59,7 @@
           <execution>
             <goals>
               <goal>revision</goal>
-              </goals>
+            </goals>
           </execution>
         </executions>
         <configuration>
@@ -67,6 +67,7 @@
           <gitDescribe>
             <skip>true</skip>
           </gitDescribe>
+          <failOnNoGitDirectory>false</failOnNoGitDirectory>
         </configuration>
       </plugin>
       <plugin>
