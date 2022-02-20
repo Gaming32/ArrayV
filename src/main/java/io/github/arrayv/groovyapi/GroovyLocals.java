@@ -88,4 +88,8 @@ public final class GroovyLocals {
     public static SortInfo registerSort(Class<? extends Sort> sort) {
         return registerSort(new SortInfo(sort));
     }
+
+    public static RunSortBuilder run(SortInfo sort) {
+        return new RunSortBuilder(sort);
+    }
 }

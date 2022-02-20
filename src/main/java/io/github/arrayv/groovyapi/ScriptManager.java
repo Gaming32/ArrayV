@@ -2,8 +2,10 @@ package io.github.arrayv.groovyapi;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.groovy.control.CompilerConfiguration;
@@ -16,11 +18,13 @@ public final class ScriptManager {
     public final class ScriptThread extends Thread {
         private final File path;
         private final Script script;
+        final List<Runnable> closers;
 
         private ScriptThread(File path, Script script) {
             super(script::run, "Script-" + getScriptName(path));
             this.path = path;
             this.script = script;
+            this.closers = new ArrayList<>();
         }
 
         public File getPath() {
@@ -29,6 +33,14 @@ public final class ScriptManager {
 
         public Script getScript() {
             return script;
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            for (Runnable closer : closers) {
+                closer.run();
+            }
         }
     }
 
