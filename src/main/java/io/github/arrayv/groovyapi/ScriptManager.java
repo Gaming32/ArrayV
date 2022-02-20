@@ -80,11 +80,6 @@ public final class ScriptManager {
         return thread;
     }
 
-    public static String getScriptName(File path) {
-        String name = path.getName();
-        return name.substring(0, name.length() - 7);
-    }
-
     public Map<String, Script> loadInstalledScripts() throws IOException {
         if (installedScripts != null) {
             throw new IllegalStateException("Cannot load installed scripts more than once (i.e. you are not a privileged caller)");
@@ -98,9 +93,8 @@ public final class ScriptManager {
             if (!subFile.isFile() || !subFile.getPath().endsWith(".groovy")) {
                 continue;
             }
-            String name = subFile.getName();
-            name = name.substring(0, name.length() - 7);
-            installedScripts.put(name, loadScript(subFile));
+            Script script = loadScript(subFile);
+            installedScripts.put(script.getClass().getName(), script);
         }
         return installedScripts;
     }
