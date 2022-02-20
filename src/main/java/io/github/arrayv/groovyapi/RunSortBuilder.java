@@ -93,7 +93,7 @@ public final class RunSortBuilder {
         if (Thread.currentThread() instanceof ScriptThread) {
             ((ScriptThread)Thread.currentThread()).closers.remove(closer);
         }
-        run();
+        finish();
     }
 
     private int calculateLength(int defaultLength) {
@@ -116,6 +116,19 @@ public final class RunSortBuilder {
         // } else {
         //     return defaultDelay * (startingLength / 2048d);
         // }
+    }
+
+    private void finish() {
+        final ArrayVisualizer arrayVisualizer = ArrayVisualizer.getInstance();
+        Thread sortThread = new Thread(this::run, "ScriptedSort");
+
+        arrayVisualizer.setSortingThread(sortThread);
+        arrayVisualizer.runSortingThread();
+        try {
+            sortThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void run() {
