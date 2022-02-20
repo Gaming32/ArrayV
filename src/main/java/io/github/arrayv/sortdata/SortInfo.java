@@ -10,7 +10,7 @@ import io.github.arrayv.sorts.templates.Sort;
 
 public final class SortInfo {
     private final int id;
-    private final Class<? extends Sort> sortClass;
+    private final String internalName;
     private final Supplier<? extends Sort> instanceSupplier;
     private final boolean disabled;
     private final int unreasonableLimit;
@@ -22,10 +22,11 @@ public final class SortInfo {
     private final boolean bogoSort;
     private final boolean radixSort;
     private final boolean bucketSort;
+    private final boolean fromExtra;
 
     private SortInfo(int id, SortInfo sort) {
         this.id = id;
-        this.sortClass = sort.sortClass;
+        this.internalName = sort.internalName;
         this.instanceSupplier = sort.instanceSupplier;
         this.disabled = sort.disabled;
         this.unreasonableLimit = sort.unreasonableLimit;
@@ -37,11 +38,12 @@ public final class SortInfo {
         this.bogoSort = sort.bogoSort;
         this.radixSort = sort.radixSort;
         this.bucketSort = sort.bucketSort;
+        this.fromExtra = sort.fromExtra;
     }
 
     public SortInfo(int id, Class<? extends Sort> sortClass) {
         this.id = id;
-        this.sortClass = sortClass;
+        this.internalName = sortClass.getSimpleName();
         try {
             this.instanceSupplier = new NewSortInstance(sortClass);
         } catch (NoSuchMethodException | IllegalAccessException e) {
@@ -58,13 +60,14 @@ public final class SortInfo {
         this.bogoSort = sort.isBogoSort();
         this.radixSort = sort.isRadixSort();
         this.bucketSort = sort.usesBuckets();
+        this.fromExtra = ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sortClass);
     }
 
     public SortInfo(int id, Sort sort) {
         this.id = id;
-        this.sortClass = sort.getClass();
+        this.internalName = sort.getClass().getSimpleName();
         try {
-            this.instanceSupplier = new NewSortInstance(sortClass);
+            this.instanceSupplier = new NewSortInstance(sort.getClass());
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -78,11 +81,12 @@ public final class SortInfo {
         this.bogoSort = sort.isBogoSort();
         this.radixSort = sort.isRadixSort();
         this.bucketSort = sort.usesBuckets();
+        this.fromExtra = ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sort.getClass());
     }
 
     private SortInfo(
         int id,
-        Class<? extends Sort> sortClass,
+        String internalName,
         Supplier<? extends Sort> instanceSupplier,
         boolean disabled,
         int unreasonableLimit,
@@ -96,7 +100,7 @@ public final class SortInfo {
         boolean bucketSort
     ) {
         this.id = id;
-        this.sortClass = null;
+        this.internalName = internalName;
         this.instanceSupplier = instanceSupplier;
         this.disabled = disabled;
         this.unreasonableLimit = unreasonableLimit;
@@ -108,6 +112,7 @@ public final class SortInfo {
         this.bogoSort = bogoSort;
         this.radixSort = radixSort;
         this.bucketSort = bucketSort;
+        this.fromExtra = false; // Built sorts cannot come from extra
     }
 
     public SortInfo(Class<? extends Sort> sort) {
@@ -127,7 +132,7 @@ public final class SortInfo {
     }
 
     public String getInternalName() {
-        return sortClass != null ? sortClass.getSimpleName() : null;
+        return internalName;
     }
 
     public boolean isDisabled() {
@@ -175,7 +180,7 @@ public final class SortInfo {
     }
 
     public boolean isFromExtra() {
-        return ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sortClass);
+        return fromExtra;
     }
 
     /**
@@ -211,7 +216,7 @@ public final class SortInfo {
 
     public static final class Builder {
         private int id = -1;
-        private Class<? extends Sort> sortClass = null;
+        private String internalName = null;
         private Supplier<? extends Sort> instanceSupplier;
         private boolean disabled = false;
         private int unreasonableLimit = 0;
@@ -230,7 +235,7 @@ public final class SortInfo {
         public SortInfo build() {
             return new SortInfo(
                 id,
-                sortClass,
+                internalName,
                 Objects.requireNonNull(instanceSupplier, "instanceSupplier"),
                 disabled,
                 unreasonableLimit,
@@ -250,8 +255,8 @@ public final class SortInfo {
             return this;
         }
 
-        public Builder sortClass(Class<? extends Sort> sortClass) {
-            this.sortClass = sortClass;
+        public Builder internalName(String internalName) {
+            this.internalName = internalName;
             return this;
         }
 

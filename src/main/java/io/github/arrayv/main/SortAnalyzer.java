@@ -133,6 +133,33 @@ public final class SortAnalyzer {
         return SORTS_BY_NAME.getOrDefault(nameType, Collections.emptyMap()).get(name);
     }
 
+    public SortInfo addSort(SortInfo sort) {
+        sort = sort.withId(sorts.size());
+        sorts.add(sort);
+        addSortByName(sort);
+        return sort;
+    }
+
+    /**
+     * Like {@link #addSort}, but also sorts it.
+     * This is equivalent to, but more efficient than:
+     * <pre>
+     * addSort(sort);
+     * sortSorts();
+     * </pre>
+     */
+    public SortInfo insortSort(SortInfo sort) {
+        int position = Collections.binarySearch(sorts, sort, new SortComparator());
+        sort = sort.withId(position);
+        sorts.add(null);
+        for (int i = sorts.size() - 1; i > position; i--) {
+            sorts.set(i, sorts.get(i - 1).withId(i));
+        }
+        sorts.set(position, sort.withId(position));
+        addSortByName(sort);
+        return sort;
+    }
+
     private void setSortCameFromExtra(Class<?> sort) {
         EXTRA_SORTS.add(sort);
     }
