@@ -45,6 +45,7 @@ public final class ScriptManager {
                 .addStarImports("io.github.arrayv.groovyapi")
                 .addStaticStars("io.github.arrayv.groovyapi.GroovyLocals")
         );
+        compilerConfig.setScriptBaseClass("io.github.arrayv.groovyapi.ArrayVScript");
         compilerConfig.getClasspath().add(INSTALLED_SCRIPTS_ROOT.getPath());
         this.shell = new GroovyShell(compilerConfig);
         this.installedScripts = null;
