@@ -105,7 +105,15 @@ public final class GroovyLocals {
         getArrayv().setCategory(category);
     }
 
-    public static void runGroup(Integer sortCount, Closure<?> cl) {
+    public static void runGroup(Integer sortCount, Runnable run) {
+        try {
+            runGroupInThread(sortCount, run).join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Thread runGroupInThread(Integer sortCount, Runnable run) {
         final ArrayVisualizer arrayVisualizer = getArrayv();
         final ArrayManager arrayManager = arrayVisualizer.getArrayManager();
         final Sounds Sounds = arrayVisualizer.getSounds();
@@ -119,7 +127,7 @@ public final class GroovyLocals {
             try {
                 arrayManager.toggleMutableLength(false);
 
-                cl.call();
+                run.run();
 
                 arrayVisualizer.setCategory("Run " + arrayVisualizer.getCategory());
                 arrayVisualizer.setHeading("Done");
@@ -135,10 +143,6 @@ public final class GroovyLocals {
 
         arrayVisualizer.setSortingThread(sortingThread);
         arrayVisualizer.runSortingThread();
-        try {
-            sortingThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        return sortingThread;
     }
 }

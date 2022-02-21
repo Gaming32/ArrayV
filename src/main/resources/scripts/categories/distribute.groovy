@@ -2,9 +2,7 @@ import io.github.arrayv.prompts.SortPrompt
 
 final def CATEGORY = 'Distribution Sorts'
 
-SortPrompt.setSortThreadForCategory(CATEGORY) {
-    runGroup(18) {
-        category = CATEGORY
+SortPrompt.setSortThreadForCategory(CATEGORY, 18) {
         run CountingSort with 2048.numbers and 1.5.delay
         run PigeonholeSort with 2048.numbers and 1.5.delay
         run GravitySort with 1024.numbers and 0.5.delay
@@ -28,5 +26,4 @@ SortPrompt.setSortThreadForCategory(CATEGORY) {
         run ShatterSort with 2048.numbers, 128.buckets and 1.delay
         run SimpleShatterSort with 2048.numbers and 128.buckets
         run TimeSort with 512.numbers, 10.buckets and 0.05.delay
-    }
 }
