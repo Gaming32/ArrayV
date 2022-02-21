@@ -365,7 +365,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     private void jButton3ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
         if (CATEGORY_SORT_THREADS.containsKey(jComboBox1.getSelectedItem())) {
-            CATEGORY_SORT_THREADS.get(jComboBox1.getSelectedItem()).run();
+            new Thread(CATEGORY_SORT_THREADS.get(jComboBox1.getSelectedItem()), "CategorySortThread").start();
         }
         UtilFrame.jButton1ResetText();
         dispose();

@@ -66,6 +66,7 @@ public final class ScriptManager {
                 .addStarImports("io.github.arrayv.sortdata")
                 .addStarImports("io.github.arrayv.groovyapi")
                 .addStaticStars("io.github.arrayv.groovyapi.GroovyLocals")
+                .addImports("io.github.arrayv.groovyapi.ArrayVEventHandler.EventType")
         );
         compilerConfig.setScriptBaseClass("io.github.arrayv.groovyapi.ArrayVScript");
         compilerConfig.getClasspath().add(INSTALLED_SCRIPTS_ROOT.getPath());
