@@ -558,11 +558,24 @@ public final class Sounds {
     }
 
     //Double check logic
-    public void toggleSofterSounds(boolean val) {
-        this.SOFTERSOUNDS = val;
+    public void setSofterSounds(boolean softerSounds) {
+        this.SOFTERSOUNDS = softerSounds;
 
         if (this.SOFTERSOUNDS) this.SOUNDMUL = 0.01;
         else                   this.SOUNDMUL = 1;
+    }
+
+    /**
+     * @deprecated Use {@link #setSofterSounds} instead.
+     */
+    @Deprecated
+    public void toggleSofterSounds(boolean val) {
+        setSofterSounds(val);
+    }
+
+    //Double check logic
+    public boolean isSofterSounds() {
+        return SOFTERSOUNDS;
     }
 
     public double getVolume() {

@@ -50,8 +50,8 @@ public final class TimeSort extends Sort {
         this.setCategory("Distribution Sorts");
         this.setBucketSort(false); // *Does not* use buckets! "magnitude" is only a multiplier.
         this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(1); //See threads.RunDistributionSort for details
+        this.setUnreasonablySlow(false);
+        this.setUnreasonableLimit(0);
         this.setBogoSort(false);
         this.setQuestion("Enter delay per number in milliseconds:", 10);
     }
