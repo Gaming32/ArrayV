@@ -129,10 +129,6 @@ public final class SortAnalyzer {
         return EXTRA_SORTS.contains(sort);
     }
 
-    public SortInfo getSortByName(SortNameType nameType, String name) {
-        return SORTS_BY_NAME.getOrDefault(nameType, Collections.emptyMap()).get(name);
-    }
-
     public SortInfo addSort(SortInfo sort) {
         sort = sort.withId(sorts.size());
         sorts.add(sort);
@@ -227,6 +223,10 @@ public final class SortAnalyzer {
         getSortNameCategory(SortNameType.LIST_NAME).put(sort.getListName(), sort);
         getSortNameCategory(SortNameType.RUN_NAME).put(sort.getRunName(), sort);
         getSortNameCategory(SortNameType.SHOWCASE_NAME).put(sort.getRunAllName(), sort);
+    }
+
+    public SortInfo getSortByName(SortNameType nameType, String name) {
+        return getSortNameCategory(nameType).get(name);
     }
 
     private ClassGraph classGraph(boolean includeExtras) {

@@ -4,7 +4,7 @@ import io.github.arrayv.main.ArrayVisualizer;
 
 public final class ArrayVEventHandler {
     public static enum EventType {
-        SCRIPTS_INSTALLED,
+        DEFAULT_SCRIPTS_INSTALLED,
         ARRAYV_FULLY_LOADED
     }
 

@@ -1,12 +1,18 @@
 package io.github.arrayv.groovyapi;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,7 +57,7 @@ public final class ScriptManager {
 
     private final GroovyShell shell;
     private final Map<ArrayVEventHandler.EventType, Set<ArrayVEventHandler>> events;
-    private Map<String, Script> installedScripts;
+    private Map<String, Script> defaultScripts;
 
     public ScriptManager() {
         final CompilerConfiguration compilerConfig = new CompilerConfiguration();
@@ -65,7 +71,7 @@ public final class ScriptManager {
         compilerConfig.getClasspath().add(INSTALLED_SCRIPTS_ROOT.getPath());
         this.shell = new GroovyShell(compilerConfig);
         this.events = new EnumMap<>(ArrayVEventHandler.EventType.class);
-        this.installedScripts = null;
+        this.defaultScripts = null;
     }
 
     public GroovyShell getGroovyShell() {
@@ -116,6 +122,17 @@ public final class ScriptManager {
         return script;
     }
 
+    public Script loadScript(URL url) throws IOException {
+        Script script;
+        try {
+            script = shell.parse(url.toURI());
+        } catch (URISyntaxException e) {
+            throw new Error(e);
+        }
+        script.run();
+        return script;
+    }
+
     public ScriptThread runInThread(File path) throws IOException {
         Script script = shell.parse(path);
         ScriptThread thread = new ScriptThread(path, script);
@@ -123,30 +140,66 @@ public final class ScriptManager {
         return thread;
     }
 
-    public Map<String, Script> loadInstalledScripts() throws IOException {
-        if (installedScripts != null) {
-            throw new IllegalStateException("Cannot load installed scripts more than once (i.e. you are not a privileged caller)");
+    public Map<String, Script> loadDefaultScripts() throws IOException {
+        if (defaultScripts != null) {
+            throw new IllegalStateException("Cannot load default scripts more than once (i.e. you should not be calling this method)");
         }
+        defaultScripts = new HashMap<>();
+        loadBuiltinScripts();
+        loadInstalledScripts();
+        return defaultScripts;
+    }
+
+    private void loadInstalledScripts() throws IOException {
         if (!INSTALLED_SCRIPTS_ROOT.exists()) {
             INSTALLED_SCRIPTS_ROOT.mkdir();
-            return installedScripts = Collections.emptyMap(); // There are definitely no scripts in a newly created directory
+            return;
         }
-        installedScripts = new HashMap<>();
         for (File subFile : INSTALLED_SCRIPTS_ROOT.listFiles()) {
             if (!subFile.isFile() || !subFile.getPath().endsWith(".groovy")) {
                 continue;
             }
             Script script = loadScript(subFile);
-            installedScripts.put(script.getClass().getName(), script);
+            defaultScripts.put(script.getClass().getName(), script);
         }
-        runEventHandlers(ArrayVEventHandler.EventType.SCRIPTS_INSTALLED);
-        return installedScripts;
     }
 
-    public Map<String, Script> getInstalledScripts() {
-        if (installedScripts == null) {
-            throw new Error("Cannot return installed scripts before they're loaded");
+    public Map<String, Script> getDefaultScripts() {
+        if (defaultScripts == null) {
+            throw new Error("Cannot return default scripts before they're loaded");
         }
-        return installedScripts;
+        return defaultScripts;
+    }
+
+    private void loadBuiltinScripts() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        for (String scriptPath : findBuiltinScripts(classLoader)) {
+            URL scriptUrl = classLoader.getResource(scriptPath);
+            Script script = loadScript(scriptUrl);
+            defaultScripts.put(script.getClass().getName(), script);
+        }
+    }
+
+    // Modified from https://github.com/apache/groovy/blob/master/src/main/java/org/codehaus/groovy/control/SourceExtensionHandler.java
+    private static Set<String> findBuiltinScripts(ClassLoader loader) throws IOException {
+        Set<String> scripts = new LinkedHashSet<String>();
+        Enumeration<URL> globalServices = loader.getResources("META-INF/arrayv/io.github.arrayv.groovyapi.BuiltinScripts");
+        if (!globalServices.hasMoreElements()) {
+            globalServices = loader.getResources("META-INF/arrayv/io.github.arrayv.groovyapi.BuiltinScripts");
+        }
+        while (globalServices.hasMoreElements()) {
+            URL service = globalServices.nextElement();
+            try (BufferedReader svcIn = new BufferedReader(new InputStreamReader(service.openStream()))) {
+                String scriptBasePath = svcIn.readLine();
+                while (scriptBasePath != null) {
+                    scriptBasePath = scriptBasePath.trim();
+                    if (!scriptBasePath.isEmpty() && !scriptBasePath.startsWith("#")) {
+                        scripts.add(scriptBasePath);
+                    }
+                    scriptBasePath = svcIn.readLine();
+                }
+            }
+        }
+        return scripts;
     }
 }

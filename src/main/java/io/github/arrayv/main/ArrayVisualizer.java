@@ -499,8 +499,6 @@ public final class ArrayVisualizer {
         this.ANTI_Q_SORT = new AntiQSort(this);
         this.SCRIPT_MANAGER = new ScriptManager();
 
-        SCRIPT_MANAGER.loadInstalledScripts();
-
         SoundFrame test = new SoundFrame(this.SOUNDS);
         test.setVisible(true);
 
@@ -577,6 +575,9 @@ public final class ArrayVisualizer {
         this.cy = 0;
         this.ch = 0;
         this.cw = 0;
+
+        SCRIPT_MANAGER.loadDefaultScripts();
+        SCRIPT_MANAGER.runEventHandlers(ArrayVEventHandler.EventType.DEFAULT_SCRIPTS_INSTALLED);
 
         this.ArrayManager.initializeArray(this.array);
 
