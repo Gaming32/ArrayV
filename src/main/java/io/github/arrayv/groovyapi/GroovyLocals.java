@@ -1,5 +1,7 @@
 package io.github.arrayv.groovyapi;
 
+import java.util.Map;
+
 import org.codehaus.groovy.runtime.MethodClosure;
 
 import groovy.lang.Closure;
@@ -94,7 +96,11 @@ public final class GroovyLocals {
     }
 
     public static RunSortBuilder run(SortInfo sort) {
-        return new RunSortBuilder(sort);
+        return new RunSortBuilder(null, sort);
+    }
+
+    public static RunSortBuilder run(Map<String, Object> options, SortInfo sort) {
+        return new RunSortBuilder(options, sort);
     }
 
     public static String getCategory() {

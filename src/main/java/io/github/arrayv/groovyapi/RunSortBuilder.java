@@ -40,9 +40,13 @@ public final class RunSortBuilder {
     };
     private Map<String, Object> unmodifiableOpts = null;
 
-    RunSortBuilder(SortInfo sort) {
+    RunSortBuilder(Map<String, Object> options, SortInfo sort) {
         this.sort = sort;
-        this.opts = new HashMap<>(ALLOWED_KEYS.size());
+        if (options == null) {
+            this.opts = new HashMap<>(ALLOWED_KEYS.size());
+        } else {
+            this.opts = new HashMap<>(options);
+        }
         if (Thread.currentThread() instanceof ScriptThread) {
             ((ScriptThread)Thread.currentThread()).closers.add(closer);
         }
@@ -93,6 +97,10 @@ public final class RunSortBuilder {
         if (Thread.currentThread() instanceof ScriptThread) {
             ((ScriptThread)Thread.currentThread()).closers.remove(closer);
         }
+        finish();
+    }
+
+    public void go() {
         finish();
     }
 
