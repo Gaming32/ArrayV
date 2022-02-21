@@ -473,9 +473,9 @@ public final class UtilFrame extends javax.swing.JFrame {
 
     private void jCheckBox5ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
         if (jCheckBox5.isSelected()) {
-            sounds.toggleSofterSounds(true);
+            sounds.setSofterSounds(true);
         } else {
-            sounds.toggleSofterSounds(false);
+            sounds.setSofterSounds(false);
         }
     }//GEN-LAST:event_jCheckBox5ActionPerformed
 
