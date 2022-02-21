@@ -81,22 +81,19 @@ public final class RunSortBuilder {
     }
 
     public int getLength() {
-        return (int)opts.computeIfAbsent("numbers", k -> { throw new NullPointerException("numbers"); });
+        return ((Number)opts.computeIfAbsent("numbers", k -> { throw new NullPointerException("numbers"); })).intValue();
     }
 
     public int getBuckets() {
-        return (int)opts.getOrDefault("buckets", 0);
+        return ((Number)opts.getOrDefault("buckets", 0)).intValue();
     }
 
     public double getDelay() {
-        return (double)opts.getOrDefault("delay", 1.0);
+        return ((Number)opts.getOrDefault("delay", 1.0)).doubleValue();
     }
 
     public void and(Map.Entry<String, Object> opt) {
         put(opt);
-        if (Thread.currentThread() instanceof ScriptThread) {
-            ((ScriptThread)Thread.currentThread()).closers.remove(closer);
-        }
         finish();
     }
 
@@ -127,6 +124,9 @@ public final class RunSortBuilder {
     }
 
     private void finish() {
+        if (Thread.currentThread() instanceof ScriptThread) {
+            ((ScriptThread)Thread.currentThread()).closers.remove(closer);
+        }
         if (RunGroupContext.CONTEXT.get() == null) {
             final ArrayVisualizer arrayVisualizer = ArrayVisualizer.getInstance();
             Thread sortThread = new Thread(this::run, "ScriptedSort");
