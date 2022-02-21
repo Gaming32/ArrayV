@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.codehaus.groovy.control.CompilerConfiguration;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
@@ -47,6 +50,7 @@ public final class ScriptManager {
     private static final File INSTALLED_SCRIPTS_ROOT = new File("scripts");
 
     private final GroovyShell shell;
+    private final Map<ArrayVEventHandler.EventType, Set<ArrayVEventHandler>> events;
     private Map<String, Script> installedScripts;
 
     public ScriptManager() {
@@ -60,11 +64,50 @@ public final class ScriptManager {
         compilerConfig.setScriptBaseClass("io.github.arrayv.groovyapi.ArrayVScript");
         compilerConfig.getClasspath().add(INSTALLED_SCRIPTS_ROOT.getPath());
         this.shell = new GroovyShell(compilerConfig);
+        this.events = new EnumMap<>(ArrayVEventHandler.EventType.class);
         this.installedScripts = null;
     }
 
     public GroovyShell getGroovyShell() {
         return shell;
+    }
+
+    private Set<ArrayVEventHandler> getEventHandlers0(ArrayVEventHandler.EventType eventType) {
+        return events.computeIfAbsent(eventType, k -> new HashSet<>());
+    }
+
+    public Set<ArrayVEventHandler> getEventHandlers(ArrayVEventHandler.EventType eventType) {
+        return Collections.unmodifiableSet(getEventHandlers0(eventType));
+    }
+
+    public void runEventHandlers(ArrayVEventHandler.EventType eventType) {
+        RuntimeException e = null;
+        for (ArrayVEventHandler handler : getEventHandlers0(eventType)) {
+            try {
+                handler.handle();
+            } catch (Exception e1) {
+                if (e == null) {
+                    e = new RuntimeException(e1);
+                } else {
+                    e.addSuppressed(e1);
+                }
+            }
+        }
+        if (e != null) {
+            throw e;
+        }
+    }
+
+    public void registerEventHandlers(ArrayVEventHandler... handlers) {
+        for (ArrayVEventHandler handler : handlers) {
+            getEventHandlers0(handler.getEventType()).add(handler);
+        }
+    }
+
+    public void unregisterEventHandlers(ArrayVEventHandler... handlers) {
+        for (ArrayVEventHandler handler : handlers) {
+            getEventHandlers0(handler.getEventType()).remove(handler);
+        }
     }
 
     public Script loadScript(File path) throws IOException {
@@ -96,6 +139,7 @@ public final class ScriptManager {
             Script script = loadScript(subFile);
             installedScripts.put(script.getClass().getName(), script);
         }
+        runEventHandlers(ArrayVEventHandler.EventType.SCRIPTS_INSTALLED);
         return installedScripts;
     }
 

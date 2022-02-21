@@ -52,6 +52,7 @@ import io.github.arrayv.dialogs.SaveArrayDialog;
 import io.github.arrayv.frames.ArrayFrame;
 import io.github.arrayv.frames.SoundFrame;
 import io.github.arrayv.frames.UtilFrame;
+import io.github.arrayv.groovyapi.ArrayVEventHandler;
 import io.github.arrayv.groovyapi.ScriptManager;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
@@ -653,6 +654,8 @@ public final class ArrayVisualizer {
 
         this.SOUNDS.startAudioThread();
         this.drawWindows();
+
+        SCRIPT_MANAGER.runEventHandlers(ArrayVEventHandler.EventType.ARRAYV_FULLY_LOADED);
     }
 
     public static ArrayVisualizer getInstance() {
