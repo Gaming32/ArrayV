@@ -1,9 +1,10 @@
 package io.github.arrayv.utils;
 
 import java.util.Arrays;
-
+import java.awt.Color;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
+import java.util.HashMap;
 
 /*
  *
@@ -34,6 +35,10 @@ SOFTWARE.
 public final class Highlights {
     private volatile int[] highlights;
     private volatile byte[] markCounts;
+    private volatile boolean[] colorMarks;
+    private volatile Color[] colorColors;
+    public volatile boolean retainColorMarks = true;
+    private volatile HashMap<String, Color> defined;
 
     private volatile int maxHighlightMarked;    // IMPORTANT: This stores the index one past the farthest highlight used, so that a value
                                                 // of 0 means no highlights are in use, and iteration is more convenient.
@@ -65,8 +70,11 @@ public final class Highlights {
         this.ArrayVisualizer = ArrayVisualizer;
 
         try {
+            defined = new HashMap<>();
             this.highlights = new int[maximumLength];
             this.markCounts = new byte[maximumLength];
+            this.colorMarks = new boolean[maximumLength];
+            this.colorColors = new Color[maximumLength];
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate mark arrays. The program will now exit.");
             System.exit(1);
@@ -149,6 +157,60 @@ public final class Highlights {
         if (arrayPosition >= markCounts.length) return false;
         return this.markCounts[arrayPosition] != 0;
     }
+    public String[] getDeclaredColors() {
+        return defined.keySet().toArray(new String[0]);
+    }
+    public Color getColorFromName(String color) {
+        return defined.getOrDefault(color, Color.WHITE);
+    }
+    public synchronized void defineColor(String alias, Color col) {
+        defined.put(alias, col);
+    }
+    public synchronized void colorCode(int position, String color) {
+        try {
+            if (position < 0) {
+                throw new Exception("Highlights.colorCode(): Invalid position!");
+            } else {
+                colorMarks[position] = true;
+                colorColors[position] = defined.getOrDefault(color, Color.WHITE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ArrayVisualizer.updateNow();
+    }
+    public synchronized void colorCode(String color, int... positions) {
+        for(int i : positions) {
+            colorCode(i, color);
+        }
+    }
+    public synchronized void clearColorList() {
+        defined.clear();
+        retainColorMarks = false;
+    }
+    public synchronized void clearColor(int position) {
+        if(colorMarks[position]) {
+            colorMarks[position] = false;
+            colorColors[position] = null;
+        }
+    }
+    public synchronized boolean hasColor(int position) {
+        return colorMarks[position];
+    }
+    public synchronized Color colorAt(int position) {
+        return colorColors[position];
+    }
+    public synchronized void clearAllColors() {
+        Arrays.fill(colorMarks, false); // dirty way
+    }
+    public void swapColors(int locA, int locB) {
+        boolean t0 = colorMarks[locA];
+        Color t1 = colorColors[locA];
+        colorMarks[locA] = colorMarks[locB];
+        colorMarks[locB] = t0;
+        colorColors[locA] = colorColors[locB];
+        colorColors[locB] = t1;
+    }
     public synchronized void markArray(int marker, int markPosition) {
         try {
             if (markPosition < 0) {
@@ -161,6 +223,9 @@ public final class Highlights {
                 }
                 if (highlights[marker] != -1) {
                     decrementIndexMarkCount(highlights[marker]);
+                }
+                if(!retainColorMarks) {
+                    colorMarks[markPosition] = false;
                 }
                 highlights[marker] = markPosition;
                 incrementIndexMarkCount(markPosition);
@@ -178,9 +243,10 @@ public final class Highlights {
         if (highlights[marker] == -1) {
             return;
         }
+        if(!retainColorMarks)
+            clearColor(highlights[marker]);
         decrementIndexMarkCount(highlights[marker]);
         highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
-
         if (marker == this.maxHighlightMarked) {
             this.maxHighlightMarked = marker;
             while (maxHighlightMarked > 0 && highlights[maxHighlightMarked-1] == -1) {

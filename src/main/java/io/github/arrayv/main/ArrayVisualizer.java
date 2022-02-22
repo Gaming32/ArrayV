@@ -675,7 +675,7 @@ public final class ArrayVisualizer {
         int yPos = (int)(fontSelectionScale / 25.0 * 30);
 
         this.mainRender.setColor(textColor);
-
+        int step = 0;
         statLoop:
         for (StatisticType statType : statsConfig) {
             // System.out.println(yPos);
@@ -727,6 +727,25 @@ public final class ArrayVisualizer {
                     stat = null; // Unreachable
             }
             mainRender.drawString(stat, xOffset, (int)(windowRatio * yPos) + yOffset);
+            if(step++ == 0 && Highlights.getDeclaredColors().length > 0) {
+                int startOffset = mainRender.getFontMetrics().stringWidth(stat) + xOffset + 24,
+                    copy = startOffset, metricFontHeight = mainRender.getFontMetrics().getHeight(),
+                    copyYPos = (int)(windowRatio * yPos) + yOffset, textWidth;
+                for(String color : Highlights.getDeclaredColors()) {
+                    textWidth = mainRender.getFontMetrics().stringWidth(color);
+                    if(startOffset + textWidth + metricFontHeight + 4 >= currentWidth() - 40) {
+                        startOffset = copy;
+                        copyYPos += metricFontHeight + 8;
+                    }
+                    if(!dropShadow)
+                        mainRender.setColor(Highlights.getColorFromName(color));
+                    mainRender.fillRect(startOffset, copyYPos - metricFontHeight + (metricFontHeight / 3), metricFontHeight, metricFontHeight);
+                    if(!dropShadow)
+                        mainRender.setColor(textColor);
+                    mainRender.drawString(color, startOffset + metricFontHeight + 6, copyYPos);
+                    startOffset += textWidth + metricFontHeight + 12;
+                }
+            }
             yPos += fontSelectionScale;
         }
     }
@@ -1289,6 +1308,8 @@ public final class ArrayVisualizer {
     public void endSort() {
         this.Timer.disableRealTimer();
         this.Highlights.clearAllMarks();
+        this.Highlights.clearAllColors();
+        this.Highlights.clearColorList();
         System.out.println(formatTimes());
 
         this.isCanceled = false;
