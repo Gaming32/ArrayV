@@ -367,7 +367,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     private void jButton3ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed\
         final String category = (String)jComboBox1.getSelectedItem();
-        Map.Entry<Runnable, Integer> groupInfo = CATEGORY_SORT_THREADS.get(jComboBox1.getSelectedItem());
+        Map.Entry<Runnable, Integer> groupInfo = CATEGORY_SORT_THREADS.get(category);
         if (groupInfo != null) {
             arrayVisualizer.setCategory(category);
             GroovyLocals.runGroupInThread(groupInfo.getValue(), groupInfo.getKey());
