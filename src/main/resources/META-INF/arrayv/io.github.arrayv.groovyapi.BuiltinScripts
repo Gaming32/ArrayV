@@ -24,3 +24,4 @@ scripts/categories/concurrent.groovy
 scripts/categories/distribute.groovy
 scripts/categories/exchange.groovy
 scripts/categories/hybrid.groovy
+scripts/categories/impractical.groovy
