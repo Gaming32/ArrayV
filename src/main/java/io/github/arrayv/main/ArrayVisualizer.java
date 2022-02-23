@@ -728,13 +728,15 @@ public final class ArrayVisualizer {
             }
             mainRender.drawString(stat, xOffset, (int)(windowRatio * yPos) + yOffset);
             if(step++ == 0 && Highlights.getDeclaredColors().length > 0) {
-                int startOffset = mainRender.getFontMetrics().stringWidth(stat) + xOffset + 24,
+                int startOffset = currentWidth(),
                     copy = startOffset, metricFontHeight = mainRender.getFontMetrics().getHeight(),
+                    startStat = mainRender.getFontMetrics().stringWidth(stat) + xOffset + 24,
                     copyYPos = (int)(windowRatio * yPos) + yOffset, textWidth;
                 for(String color : Highlights.getDeclaredColors()) {
                     textWidth = mainRender.getFontMetrics().stringWidth(color);
-                    if(startOffset + textWidth + metricFontHeight + 4 >= currentWidth() - 40) {
-                        startOffset = copy;
+                    startOffset -= textWidth + metricFontHeight + 12;
+                    if(startOffset >= startStat) {
+                        startOffset = copy - textWidth - metricFontHeight - 12;
                         copyYPos += metricFontHeight + 8;
                     }
                     if(!dropShadow)
@@ -743,7 +745,6 @@ public final class ArrayVisualizer {
                     if(!dropShadow)
                         mainRender.setColor(textColor);
                     mainRender.drawString(color, startOffset + metricFontHeight + 6, copyYPos);
-                    startOffset += textWidth + metricFontHeight + 12;
                 }
             }
             yPos += fontSelectionScale;
