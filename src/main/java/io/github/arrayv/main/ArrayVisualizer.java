@@ -114,7 +114,9 @@ SOFTWARE.
  */
 
 public final class ArrayVisualizer {
+    // @checkstyle:off StaticVariableName
     private static ArrayVisualizer INSTANCE = null;
+    // @checkstyle:on StaticVariableName
 
     private enum StatisticType {
         LINE_BREAK,
@@ -132,6 +134,7 @@ public final class ArrayVisualizer {
         AUX_ALLOC,
         SEGMENTS;
 
+        // @checkstyle:off IndentationCheck
         private static final Map<String, StatisticType> CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, StatisticType>() {{
             put("",         LINE_BREAK);
             put("sort",     SORT_IDENTITY);
@@ -148,6 +151,7 @@ public final class ArrayVisualizer {
             put("auxlen",   AUX_ALLOC);
             put("segments", SEGMENTS);
         }});
+        // @checkstyle:on IndentationCheck
     }
 
     final JFrame window;

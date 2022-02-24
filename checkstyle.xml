@@ -4,7 +4,7 @@
 
 <module name="Checker">
   <property name="severity" value="warning"/>
-  <property name="cacheFile" value="target/cachefile"/>
+  <property name="cacheFile" value="target/checkstyle-cache"/>
   <property name="fileExtensions" value="java"/>
 
   <module name="BeforeExecutionExclusionFileFilter">
@@ -54,7 +54,9 @@
 
     <module name="LocalVariableName"/>
 
-    <module name="MemberName"/>
+    <module name="MemberName">
+      <property name="format" value="^(Writes|Reads|Highlights|Delays|Sounds|[a-z][a-zA-Z0-9]*)$"/>
+    </module>
 
     <module name="MethodName"/>
 
