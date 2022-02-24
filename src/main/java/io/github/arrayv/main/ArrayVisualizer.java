@@ -134,7 +134,7 @@ public final class ArrayVisualizer {
         AUX_ALLOC,
         SEGMENTS;
 
-        // @checkstyle:off IndentationCheck
+        // @checkstyle:off IndentationCheck - It doesn't like {{ syntax
         private static final Map<String, StatisticType> CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, StatisticType>() {{
             put("",         LINE_BREAK);
             put("sort",     SORT_IDENTITY);
