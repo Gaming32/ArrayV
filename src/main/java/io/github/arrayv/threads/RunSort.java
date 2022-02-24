@@ -196,7 +196,7 @@ public final class RunSort {
                                 if (warning == 0) goAhead = true;
                                 else goAhead = false;
                             }
-                    }
+                        }
                     } else {
                         goAhead = true;
                     }

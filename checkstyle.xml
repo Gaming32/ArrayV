@@ -1,0 +1,55 @@
+<!DOCTYPE module PUBLIC
+  "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+  "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <property name="cacheFile" value="target/cachefile"/>
+  <property name="fileExtensions" value="java"/>
+
+  <module name="BeforeExecutionExclusionFileFilter">
+    <property name="fileNamePattern" value=".*[\\/]src[\\/]main[\\/]java[\\/]io[\\/]github[\\/]arrayv[\\/]sorts.*$"/>
+  </module>
+
+  <module name="NewlineAtEndOfFile"/>
+
+  <module name="TreeWalker">
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="@checkstyle\:off ([\w\|]+)"/>
+      <property name="onCommentFormat" value="@checkstyle\:on ([\w\|]+)"/>
+      <property name="checkFormat" value="$1"/>
+    </module>
+    <module name="SuppressionCommentFilter">
+      <!-- This second one allows for general exclusions -->
+      <property name="offCommentFormat" value="@checkstyle\:off"/>
+      <property name="onCommentFormat" value="@checkstyle\:on"/>
+    </module>
+
+    <!-- Enforces that constants are in SHOUTING_SNAKE_CASE -->
+    <module name="ConstantName"/>
+
+    <!-- Handles the mistake described here: https://checkstyle.sourceforge.io/config_coding.html#CovariantEquals_Description -->
+    <module name="CovariantEquals"/>
+
+    <module name="FinalClass"/>
+
+    <module name="GenericWhitespace"/>
+
+    <module name="HideUtilityClassConstructor"/>
+
+    <module name="Indentation">
+      <property name="basicOffset" value="4"/>
+    </module>
+
+    <module name="InvalidJavadocPosition"/>
+
+    <module name="JavadocMissingLeadingAsterisk"/>
+
+    <module name="JavadocMissingWhitespaceAfterAsterisk"/>
+
+    <module name="LeftCurly">
+      <property name="option" value="eol"/>
+      <property name="ignoreEnums" value="false"/>
+    </module>
+  </module>
+</module>
