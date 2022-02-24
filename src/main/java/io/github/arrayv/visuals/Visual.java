@@ -12,13 +12,13 @@ public abstract class Visual {
     protected Graphics2D mainRender;
     protected Graphics2D extraRender;
 
-    public Visual(ArrayVisualizer ArrayVisualizer) {
-        this.updateRender(ArrayVisualizer);
+    public Visual(ArrayVisualizer arrayVisualizer) {
+        this.updateRender(arrayVisualizer);
     }
 
-    public void updateRender(ArrayVisualizer ArrayVisualizer) {
-        this.mainRender = ArrayVisualizer.getMainRender();
-        this.extraRender = ArrayVisualizer.getExtraRender();
+    public void updateRender(ArrayVisualizer arrayVisualizer) {
+        this.mainRender = arrayVisualizer.getMainRender();
+        this.extraRender = arrayVisualizer.getExtraRender();
     }
 
     public static Color getIntColor(int i, int length) {
@@ -29,9 +29,8 @@ public abstract class Visual {
         if (color || rainbow) {
             if (analysis) bar.setColor(Color.LIGHT_GRAY);
             else          bar.setColor(Color.WHITE);
-        }
-        else if (analysis) bar.setColor(Color.BLUE);
-        else               bar.setColor(Color.RED);
+        } else if (analysis) bar.setColor(Color.BLUE);
+        else                 bar.setColor(Color.RED);
     }
     private static void markBarFancy(Graphics2D bar, boolean color, boolean rainbow) {
         if (!color && !rainbow) bar.setColor(Color.RED);
@@ -130,5 +129,5 @@ public abstract class Visual {
         }
     }
 
-    public abstract void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights);
+    public abstract void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights);
 }
