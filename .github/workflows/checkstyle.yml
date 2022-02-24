@@ -2,7 +2,7 @@ name: checkstyle
 on: [pull_request, push, workflow_dispatch]
 
 jobs:
-  build:
+  checkstyle:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@v2
