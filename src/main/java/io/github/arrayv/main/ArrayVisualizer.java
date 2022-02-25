@@ -644,7 +644,7 @@ public final class ArrayVisualizer {
                         e.printStackTrace();
                     }
                     long endTime = System.currentTimeMillis();
-                    statSnapshot.frameTimeMillis = endTime - startTime;
+                    statSnapshot.setFrameTimeMillis(endTime - startTime);
                 }
             }
         };
