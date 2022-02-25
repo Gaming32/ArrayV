@@ -64,7 +64,7 @@ public abstract class Visual {
     //The longer the array length, the more bars marked. Makes the visual easier to see when bars are thinner.
     public static void colorMarkedBars(int logOfLen, int index, Highlights Highlights, Graphics2D mainRender, boolean colorEnabled, boolean rainbowEnabled, boolean analysis) {
         switch(logOfLen) {
-            // @checkstyle:off LeftCurlyCheck
+            // @checkstyle:off LeftCurlyCheck|IndentationCheck
             case 15: if (Highlights.containsPosition(index - 15)) { markBar(mainRender, colorEnabled, rainbowEnabled, analysis); break; }
                      if (Highlights.containsPosition(index - 14)) { markBar(mainRender, colorEnabled, rainbowEnabled, analysis); break; }
                      if (Highlights.containsPosition(index - 13)) { markBar(mainRender, colorEnabled, rainbowEnabled, analysis); break; }
@@ -81,7 +81,7 @@ public abstract class Visual {
             case 11: if (Highlights.containsPosition(index - 2))  { markBar(mainRender, colorEnabled, rainbowEnabled, analysis); break; }
             case 10: if (Highlights.containsPosition(index - 1))  { markBar(mainRender, colorEnabled, rainbowEnabled, analysis); break; }
             default: if (Highlights.containsPosition(index))        markBar(mainRender, colorEnabled, rainbowEnabled, analysis);
-            // @checkstyle:on LeftCurlyCheck
+            // @checkstyle:on LeftCurlyCheck|IndentationCheck
         }
     }
 

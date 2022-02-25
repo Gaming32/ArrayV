@@ -253,7 +253,7 @@ public final class CustomImage extends Visual {
     //The longer the array length, the more bars marked. Makes the visual easier to see when bars are thinner.
     public static void colorCustomBars(int logOfLen, int index, Highlights Highlights, ArrayVisualizer arrayVisualizer, Graphics2D bar, Renderer renderer, int width, boolean analysis) {
         switch(logOfLen) {
-            // @checkstyle:off LeftCurlyCheck
+            // @checkstyle:off LeftCurlyCheck|IndentationCheck
             case 15: if (Highlights.containsPosition(index - 15)) { markCustomBar(arrayVisualizer, bar, renderer, width, analysis); break; }
                      if (Highlights.containsPosition(index - 14)) { markCustomBar(arrayVisualizer, bar, renderer, width, analysis); break; }
                      if (Highlights.containsPosition(index - 13)) { markCustomBar(arrayVisualizer, bar, renderer, width, analysis); break; }
@@ -270,7 +270,7 @@ public final class CustomImage extends Visual {
             case 11: if (Highlights.containsPosition(index - 2))  { markCustomBar(arrayVisualizer, bar, renderer, width, analysis); break; }
             case 10: if (Highlights.containsPosition(index - 1))  { markCustomBar(arrayVisualizer, bar, renderer, width, analysis); break; }
             default: if (Highlights.containsPosition(index))        markCustomBar(arrayVisualizer, bar, renderer, width, analysis);
-            // @checkstyle:on LeftCurlyCheck
+            // @checkstyle:on LeftCurlyCheck|IndentationCheck
         }
     }
 

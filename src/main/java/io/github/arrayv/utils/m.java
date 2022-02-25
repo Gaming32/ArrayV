@@ -3,6 +3,8 @@ package io.github.arrayv.utils;
 // @checkstyle:off TypeNameCheck
 public final class m {
 // @checkstyle:on TypeNameCheck
+    private m() {
+    }
 
     /**
      * Returns the logarithm base BASE of the number X
