@@ -58,7 +58,7 @@ SOFTWARE.
 public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame {
     private static final long serialVersionUID = 1L;
 
-    private ArrayManager ArrayManager;
+    private ArrayManager arrayManager;
     private List<Distributions> distributions;
     private static boolean perShuffleDelay = false;
 
@@ -68,24 +68,24 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
      * Creates new form SortPrompt
      */
     @SuppressWarnings("unchecked")
-    public ShuffleDialog(ArrayManager ArrayManager, JFrame frame) {
+    public ShuffleDialog(ArrayManager arrayManager, JFrame frame) {
         super(frame, "ArrayV Advanced Shuffle Editor", true);
 
-        this.ArrayManager = ArrayManager;
+        this.arrayManager = arrayManager;
 
         initComponents();
 
         bypassEvents = true;
-        this.shuffleEditor.setShuffle(ArrayManager.getShuffle());
-        jList4.setListData(ArrayManager.getDistributionIDs());
-        for (int i = 0; i < ArrayManager.getDistributions().length; i++) {
-            if (ArrayManager.getDistribution().equals(ArrayManager.getDistributions()[i])) {
+        this.shuffleEditor.setShuffle(arrayManager.getShuffle());
+        jList4.setListData(arrayManager.getDistributionIDs());
+        for (int i = 0; i < arrayManager.getDistributions().length; i++) {
+            if (arrayManager.getDistribution().equals(arrayManager.getDistributions()[i])) {
                 jList4.setSelectedIndex(i);
                 break;
             }
         }
 
-        distributions = Arrays.stream(ArrayManager.getDistributions())
+        distributions = Arrays.stream(arrayManager.getDistributions())
                               .filter(dist -> dist.getName() != "Custom")
                               .collect(Collectors.toList());
         Object[] distributionNames = distributions.stream()
@@ -95,7 +95,7 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         jList1.setListData(distributionNames);
         jList3.setListData(distributionNames);
 
-        jList2.setListData(ArrayManager.getShuffleIDs());
+        jList2.setListData(arrayManager.getShuffleIDs());
 
         jTextField1.setText(Double.toString(
             perShuffleDelay ?
@@ -355,7 +355,7 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             JErrorPane.invokeCustomErrorMessage("Error Parsing File: " + e.getMessage());
             return;
         }
-        ArrayManager.setShuffle(newShuffle);
+        arrayManager.setShuffle(newShuffle);
         if (jCheckBox1.isSelected()) {
             shuffleEditor.getShuffle().setSleepRatio(shuffleEditor.getShuffle().getSleepRatio() / shuffleEditor.getShuffle().size());
         }
@@ -413,9 +413,9 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         if (bypassEvents)
             return;
         int selection = jList4.getSelectedIndex();
-        Distributions[] distributions = ArrayManager.getDistributions();
+        Distributions[] distributions = arrayManager.getDistributions();
         if (selection >= 0 && selection < distributions.length)
-            ArrayManager.setDistribution(distributions[selection]);
+            arrayManager.setDistribution(distributions[selection]);
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) throws Exception {//GEN-FIRST:event_jList1ValueChanged
@@ -454,7 +454,7 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         if (bypassEvents)
             return;
         int selection = jList2.getSelectedIndex();
-        Shuffles[] shuffles = ArrayManager.getShuffles();
+        Shuffles[] shuffles = arrayManager.getShuffles();
         if (selection >= 0 && selection < shuffles.length)
             addToGraph(new ShuffleInfo(shuffles[selection]));
         shuffleEditor.repaint();
