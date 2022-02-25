@@ -40,7 +40,7 @@ public final class PixelMesh extends Visual {
 
     @Override
     public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
-        if (renderer.auxActive) return;
+        if (renderer.isAuxActive()) return;
 
         int width = arrayVisualizer.windowWidth()-40;
         int height = arrayVisualizer.windowHeight()-50;

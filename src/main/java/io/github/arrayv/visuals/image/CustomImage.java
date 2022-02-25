@@ -276,7 +276,7 @@ public final class CustomImage extends Visual {
 
     @Override
     public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
-        if (renderer.auxActive) return;
+        if (renderer.isAuxActive()) return;
 
         try {
             /*

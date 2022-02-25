@@ -42,7 +42,7 @@ public final class SpiralDots extends Visual {
 
     @Override
     public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
-        if (renderer.auxActive) return;
+        if (renderer.isAuxActive()) return;
 
         int width  = arrayVisualizer.windowWidth();
         int height = arrayVisualizer.windowHeight();
