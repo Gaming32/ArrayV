@@ -34,17 +34,17 @@ SOFTWARE.
  */
 
 public final class PixelMesh extends Visual {
-    public PixelMesh(ArrayVisualizer ArrayVisualizer) {
-        super(ArrayVisualizer);
+    public PixelMesh(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
     }
 
     @Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if (Renderer.auxActive) return;
+    public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+        if (renderer.auxActive) return;
 
-        int width = ArrayVisualizer.windowWidth()-40;
-        int height = ArrayVisualizer.windowHeight()-50;
-        int length = ArrayVisualizer.getCurrentLength();
+        int width = arrayVisualizer.windowWidth()-40;
+        int height = arrayVisualizer.windowHeight()-50;
+        int length = arrayVisualizer.getCurrentLength();
 
         int sqrt = (int)Math.ceil(Math.sqrt(length));
         int square = sqrt*sqrt;
@@ -62,10 +62,9 @@ public final class PixelMesh extends Visual {
                 this.mainRender.setColor(Color.GREEN);
 
             else if (Highlights.containsPosition(idx)) {
-                if (ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
+                if (arrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
                 else                                   this.mainRender.setColor(Color.WHITE);
-            }
-            else this.mainRender.setColor(getIntColor(array[idx], length));
+            } else this.mainRender.setColor(getIntColor(array[idx], length));
 
             this.mainRender.fillRect(20 + (int)(x * xStep), 40 + (int)(y * yStep),
                                      (int)((x+1)*xStep - x*xStep)+1, (int)((y+1)*yStep - y*yStep)+1);
