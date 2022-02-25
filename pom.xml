@@ -90,7 +90,7 @@
           <execution>
             <id>attach-sources</id>
             <goals>
-              <goal>jar</goal>
+              <goal>jar-no-fork</goal>
             </goals>
           </execution>
         </executions>
@@ -117,6 +117,19 @@
           <consoleOutput>true</consoleOutput>
           <failsOnError>true</failsOnError>
         </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <violationSeverity>warning</violationSeverity>
+              <failOnViolation>false</failOnViolation>
+            </configuration>
+          </execution>
+        </executions>
         <dependencies>
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
