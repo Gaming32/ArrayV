@@ -51,10 +51,10 @@ public final class GraphWriter {
                 writer.write("false ");
                 writer.write(node.getValue().getShuffle().name() + " ");
             }
-            writer.write(node.x + " ");
-            writer.write(node.y + " ");
-            writer.write((node.preConnection == null ? -1 : nodeMap.get(node.preConnection.from)) + " ");
-            writer.write((node.postConnection == null ? -1 : nodeMap.get(node.postConnection.to)) + "\n");
+            writer.write(node.getX() + " ");
+            writer.write(node.getY() + " ");
+            writer.write((node.getPreConnection() == null ? -1 : nodeMap.get(node.getPreConnection().from)) + " ");
+            writer.write((node.getPostConnection() == null ? -1 : nodeMap.get(node.getPostConnection().to)) + "\n");
         }
 
         writer.close();

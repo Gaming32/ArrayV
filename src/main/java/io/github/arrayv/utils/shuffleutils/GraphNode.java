@@ -12,10 +12,10 @@ public class GraphNode {
     public static final int WIDTH = 250;
     public static final int HEIGHT = 50;
 
-    public ShuffleInfo shuffle;
-    public int x, y;
-    public ShuffleGraph graph;
-    public GraphConnection preConnection, postConnection;
+    private ShuffleInfo shuffle;
+    private int x, y;
+    private ShuffleGraph graph;
+    private GraphConnection preConnection, postConnection;
 
     public GraphNode(ShuffleInfo shuffle, ShuffleGraph graph, int x, int y) {
         this.shuffle = shuffle;
@@ -121,5 +121,45 @@ public class GraphNode {
 
     public ShuffleInfo getValue() {
         return this.shuffle;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public ShuffleGraph getGraph() {
+        return graph;
+    }
+
+    public GraphConnection getPreConnection() {
+        return preConnection;
+    }
+
+    public GraphConnection getPostConnection() {
+        return postConnection;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setGraph(ShuffleGraph graph) {
+        this.graph = graph;
+    }
+
+    public void setPreConnection(GraphConnection connection) {
+        this.preConnection = connection;
+    }
+
+    public void setPostConnection(GraphConnection connection) {
+        this.postConnection = connection;
     }
 }

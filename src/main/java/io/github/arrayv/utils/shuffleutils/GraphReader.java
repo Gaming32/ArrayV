@@ -123,22 +123,22 @@ public final class GraphReader {
             PartialElement partial = partialNodes.get(i - 1);
             try {
                 if (version < 3) {
-                    node.preConnection = partial.left == -1 ? null : result.connections.get(partial.left);
-                    node.postConnection = partial.right == -1 ? null : result.connections.get(partial.right);
+                    node.setPreConnection(partial.left == -1 ? null : result.connections.get(partial.left));
+                    node.setPostConnection(partial.right == -1 ? null : result.connections.get(partial.right));
                 } else {
-                    if (partial.left != -1 && node.preConnection == null) {
+                    if (partial.left != -1 && node.getPreConnection() == null) {
                         GraphNode from = result.nodes.get(partial.left);
                         GraphConnection newConnection = new GraphConnection(from, node);
                         result.connections.add(newConnection);
-                        from.postConnection = newConnection;
-                        node.preConnection = newConnection;
+                        from.setPostConnection(newConnection);
+                        node.setPreConnection(newConnection);
                     }
-                    if (partial.right != -1 && node.postConnection == null) {
+                    if (partial.right != -1 && node.getPostConnection() == null) {
                         GraphNode to = result.nodes.get(partial.right);
                         GraphConnection newConnection = new GraphConnection(node, to);
                         result.connections.add(newConnection);
-                        node.postConnection = newConnection;
-                        to.preConnection = newConnection;
+                        node.setPostConnection(newConnection);
+                        to.setPreConnection(newConnection);
                     }
                 }
             } catch (IndexOutOfBoundsException e) {
@@ -153,15 +153,15 @@ public final class GraphReader {
         if (version >= 2) {
             for (int i = 1; i < result.nodes.size(); i++) {
                 GraphNode node = result.nodes.get(i);
-                if (node.x == Integer.MIN_VALUE) { // coordinates not specified
-                    if (node.preConnection == null || node.preConnection.from == null) {
+                if (node.getX() == Integer.MIN_VALUE) { // coordinates not specified
+                    if (node.getPreConnection() == null || node.getPreConnection() == null) {
                         Point safePos = result.findSafeCoordinates(100, 100, 20, 20);
-                        node.x = safePos.x;
-                        node.y = safePos.y;
+                        node.setX(safePos.x);
+                        node.setY(safePos.y);
                     } else {
-                        GraphNode previous = node.preConnection.from;
-                        node.x = previous.x + GraphNode.WIDTH + 15;
-                        node.y = previous.y;
+                        GraphNode previous = node.getPreConnection().from;
+                        node.setX(previous.getX() + GraphNode.WIDTH + 15);
+                        node.setY(previous.getY());
                     }
                 }
             }
@@ -275,7 +275,7 @@ public final class GraphReader {
         GraphConnection connection = new GraphConnection(fromNode, toNode);
         result.connections.add(connection);
         if (fromNodeID == 0) {
-            fromNode.postConnection = connection;
+            fromNode.setPostConnection(connection);
         }
     }
 }

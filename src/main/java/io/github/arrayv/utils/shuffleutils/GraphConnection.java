@@ -49,18 +49,18 @@ public class GraphConnection {
 
     public void remove() {
         if (this.from != null) {
-            this.from.postConnection = null;
+            this.from.setPostConnection(null);
         }
         if (this.to != null) {
-            this.to.preConnection = null;
+            this.to.setPreConnection(null);
         }
     }
 
     public void finishDragging(GraphNode other) {
         this.to = other;
-        other.preConnection = this;
+        other.setPreConnection(this);
         int removed = 0;
-        List<GraphConnection> connections = other.graph.connections;
+        List<GraphConnection> connections = other.getGraph().connections;
         for (int i = 0; i < connections.size(); i++) {
             GraphConnection conn = connections.get(i - removed);
             if (conn == this) {
