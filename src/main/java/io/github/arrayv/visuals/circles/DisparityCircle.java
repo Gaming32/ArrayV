@@ -36,27 +36,27 @@ SOFTWARE.
 
 public final class DisparityCircle extends Visual {
 
-    public DisparityCircle(ArrayVisualizer ArrayVisualizer) {
-        super(ArrayVisualizer);
+    public DisparityCircle(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
     }
 
     @Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if (Renderer.auxActive) return;
+    public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+        if (renderer.auxActive) return;
 
-        int width  = ArrayVisualizer.windowWidth();
-        int height = ArrayVisualizer.windowHeight();
+        int width  = arrayVisualizer.windowWidth();
+        int height = arrayVisualizer.windowHeight();
 
-        int n = ArrayVisualizer.getCurrentLength();
+        int n = arrayVisualizer.getCurrentLength();
         double r = Math.min(width, height)/2.5;
 
-        this.extraRender.setStroke(ArrayVisualizer.getThickStroke());
-        this.extraRender.setColor(ArrayVisualizer.getHighlightColor());
+        this.extraRender.setStroke(arrayVisualizer.getThickStroke());
+        this.extraRender.setColor(arrayVisualizer.getHighlightColor());
 
         int[] x =  {width/2, 0, 0};
         int[] y = {height/2, 0, 0};
 
-        double disp = (1 + Math.cos((Math.PI * (array[n-1] - (n-1))) / (ArrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
+        double disp = (1 + Math.cos((Math.PI * (array[n-1] - (n-1))) / (arrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
         x[2] =  width/2 + (int)(disp * r * Math.cos(Math.PI * (2d*(n-1) / n - 0.5)));
         y[2] = height/2 + (int)(disp * r * Math.sin(Math.PI * (2d*(n-1) / n - 0.5)));
 
@@ -64,22 +64,21 @@ public final class DisparityCircle extends Visual {
             x[1] = x[2];
             y[1] = y[2];
 
-            disp = (1 + Math.cos((Math.PI * (array[i] - i)) / (ArrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
+            disp = (1 + Math.cos((Math.PI * (array[i] - i)) / (arrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
             x[2] =  width/2 + (int)(disp * r * Math.cos(Math.PI * (2d*i / n - 0.5)));
             y[2] = height/2 + (int)(disp * r * Math.sin(Math.PI * (2d*i / n - 0.5)));
 
             if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
             else if (Highlights.containsPosition(i)) {
-                this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+                this.mainRender.setColor(arrayVisualizer.getHighlightColor());
                 this.extraRender.drawPolygon(x, y, 3);
-            }
-            else if (ArrayVisualizer.colorEnabled())
-                this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+            } else if (arrayVisualizer.colorEnabled())
+                this.mainRender.setColor(getIntColor(array[i], arrayVisualizer.getCurrentLength()));
             else this.mainRender.setColor(Color.WHITE);
 
             this.mainRender.fillPolygon(x, y, 3);
         }
-        this.extraRender.setStroke(ArrayVisualizer.getDefaultStroke());
+        this.extraRender.setStroke(arrayVisualizer.getDefaultStroke());
     }
 }
