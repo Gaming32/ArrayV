@@ -53,8 +53,8 @@ public final class GraphWriter {
             }
             writer.write(node.getX() + " ");
             writer.write(node.getY() + " ");
-            writer.write((node.getPreConnection() == null ? -1 : nodeMap.get(node.getPreConnection().from)) + " ");
-            writer.write((node.getPostConnection() == null ? -1 : nodeMap.get(node.getPostConnection().to)) + "\n");
+            writer.write((node.getPreConnection() == null ? -1 : nodeMap.get(node.getPreConnection().getFrom())) + " ");
+            writer.write((node.getPostConnection() == null ? -1 : nodeMap.get(node.getPostConnection().getTo())) + "\n");
         }
 
         writer.close();

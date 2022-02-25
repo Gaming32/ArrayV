@@ -102,7 +102,7 @@ public class GraphNode {
                 this.graph.connections.remove(this.preConnection);
                 this.preConnection.remove();
             } else {
-                this.preConnection.to = this.postConnection.to;
+                this.preConnection.setTo(this.postConnection.getTo());
             }
         }
         if (this.postConnection != null) {
@@ -110,7 +110,7 @@ public class GraphNode {
                 this.graph.connections.remove(this.postConnection);
                 this.postConnection.remove();
             } else {
-                this.postConnection.from = this.preConnection.from;
+                this.postConnection.setFrom(this.preConnection.getFrom());
             }
         }
     }

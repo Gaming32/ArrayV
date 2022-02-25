@@ -159,7 +159,7 @@ public final class GraphReader {
                         node.setX(safePos.x);
                         node.setY(safePos.y);
                     } else {
-                        GraphNode previous = node.getPreConnection().from;
+                        GraphNode previous = node.getPreConnection().getFrom();
                         node.setX(previous.getX() + GraphNode.WIDTH + 15);
                         node.setY(previous.getY());
                     }

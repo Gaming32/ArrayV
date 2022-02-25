@@ -146,7 +146,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         if (this.selected != null) {
             this.selected.drag(rel);
         } else if (this.dragging != null) {
-            Point pos = this.dragging.currentDragPos;
+            Point pos = this.dragging.getCurrentDragPos();
             pos.translate(rel.x, rel.y);
             boolean foundCandidate = false;
             ListIterator<GraphNode> it = this.nodes.listIterator(this.nodes.size());
@@ -176,7 +176,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
                 int removed = 0;
                 for (int i = 0; i < this.connections.size(); i++) {
                     GraphConnection conn = this.connections.get(i - removed);
-                    if (conn.from == node) {
+                    if (conn.getFrom() == node) {
                         this.connections.remove(i - removed);
                         conn.remove();
                         removed++;
@@ -237,7 +237,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
             if (connect == null) {
                 break;
             }
-            node = connect.to;
+            node = connect.getTo();
         }
         return size - 1;
     }
@@ -258,7 +258,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
                 break;
             }
             previous = node;
-            node = connect.to;
+            node = connect.getTo();
         }
         return previous;
     }
@@ -282,10 +282,10 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
             after.setPostConnection(new GraphConnection(after, newNode));
             this.connections.add(after.getPostConnection());
         } else {
-            if (after.getPostConnection().to != null) {
-                after.getPostConnection().to.setPreConnection(null);
+            if (after.getPostConnection().getTo() != null) {
+                after.getPostConnection().getTo().setPreConnection(null);
             }
-            after.getPostConnection().to = newNode;
+            after.getPostConnection().setTo(newNode);
         }
         newNode.setPreConnection(after.getPostConnection());
         this.nodes.add(newNode);
@@ -302,7 +302,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
             if (connect == null) {
                 break;
             }
-            node = connect.to;
+            node = connect.getTo();
             if (node == null) {
                 break;
             }
@@ -375,7 +375,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
                 if (connect == null) {
                     break;
                 }
-                node = connect.to;
+                node = connect.getTo();
                 result[i++] = node.getValue();
             }
             if (i < a.length - 1) {
@@ -424,7 +424,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         GraphNode findNext() {
             GraphConnection connect = this.currentNode.getPostConnection();
             if (connect != null) {
-                GraphNode next = connect.to;
+                GraphNode next = connect.getTo();
                 if (next != null) {
                     return next;
                 }
