@@ -65,19 +65,19 @@ public class SoundFrame extends JFrame {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-        GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-        gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-        gbl_contentPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-        contentPane.setLayout(gbl_contentPane);
+        GridBagLayout gblContentPane = new GridBagLayout();
+        gblContentPane.columnWidths = new int[]{0, 0, 0};
+        gblContentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+        gblContentPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+        gblContentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+        contentPane.setLayout(gblContentPane);
 
         JLabel lblNewLabel = new JLabel("Current soundbank:");
-        GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-        gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_lblNewLabel.gridx = 0;
-        gbc_lblNewLabel.gridy = 0;
-        contentPane.add(lblNewLabel, gbc_lblNewLabel);
+        GridBagConstraints gbcLblNewLabel = new GridBagConstraints();
+        gbcLblNewLabel.insets = new Insets(0, 0, 5, 5);
+        gbcLblNewLabel.gridx = 0;
+        gbcLblNewLabel.gridy = 0;
+        contentPane.add(lblNewLabel, gbcLblNewLabel);
 
         JButton btnNewButton = new JButton("Default sounds");
         btnNewButton.addActionListener(new ActionListener() {
@@ -86,55 +86,55 @@ public class SoundFrame extends JFrame {
                 sounds.selectDefaultSoundbank(SoundFrame.this);
             }
         });
-        GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-        gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-        gbc_btnNewButton.gridx = 1;
-        gbc_btnNewButton.gridy = 0;
-        contentPane.add(btnNewButton, gbc_btnNewButton);
+        GridBagConstraints gbcBtnNewButton = new GridBagConstraints();
+        gbcBtnNewButton.insets = new Insets(0, 0, 5, 0);
+        gbcBtnNewButton.gridx = 1;
+        gbcBtnNewButton.gridy = 0;
+        contentPane.add(btnNewButton, gbcBtnNewButton);
 
-        JLabel lblNewLabel_1 = new JLabel(sounds.getSelectedSoundbank());
-        GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-        gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-        gbc_lblNewLabel_1.gridx = 0;
-        gbc_lblNewLabel_1.gridy = 1;
-        contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
+        JLabel lblNewLabel1 = new JLabel(sounds.getSelectedSoundbank());
+        GridBagConstraints gbcLblNewLabel1 = new GridBagConstraints();
+        gbcLblNewLabel1.insets = new Insets(0, 0, 5, 5);
+        gbcLblNewLabel1.gridx = 0;
+        gbcLblNewLabel1.gridy = 1;
+        contentPane.add(lblNewLabel1, gbcLblNewLabel1);
 
-        JButton btnNewButton_1 = new JButton("Choose soundbank...");
-        btnNewButton_1.addActionListener(new ActionListener() {
+        JButton btnNewButton1 = new JButton("Choose soundbank...");
+        btnNewButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 sounds.selectCustomSoundbank(SoundFrame.this);
             }
         });
-        GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-        gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-        gbc_btnNewButton_1.gridx = 1;
-        gbc_btnNewButton_1.gridy = 1;
-        contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+        GridBagConstraints gbcBtnNewButton1 = new GridBagConstraints();
+        gbcBtnNewButton1.insets = new Insets(0, 0, 5, 0);
+        gbcBtnNewButton1.gridx = 1;
+        gbcBtnNewButton1.gridy = 1;
+        contentPane.add(btnNewButton1, gbcBtnNewButton1);
 
         JSeparator separator = new JSeparator();
-        GridBagConstraints gbc_separator = new GridBagConstraints();
-        gbc_separator.insets = new Insets(0, 0, 5, 5);
-        gbc_separator.gridx = 0;
-        gbc_separator.gridy = 2;
-        contentPane.add(separator, gbc_separator);
+        GridBagConstraints gbcSeparator = new GridBagConstraints();
+        gbcSeparator.insets = new Insets(0, 0, 5, 5);
+        gbcSeparator.gridx = 0;
+        gbcSeparator.gridy = 2;
+        contentPane.add(separator, gbcSeparator);
 
-        JLabel lblNewLabel_2 = new JLabel("Choose a sample / instrument:");
-        GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-        gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
-        gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-        gbc_lblNewLabel_2.gridx = 0;
-        gbc_lblNewLabel_2.gridy = 3;
-        contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
+        JLabel lblNewLabel2 = new JLabel("Choose a sample / instrument:");
+        GridBagConstraints gbcLblNewLabel2 = new GridBagConstraints();
+        gbcLblNewLabel2.anchor = GridBagConstraints.WEST;
+        gbcLblNewLabel2.insets = new Insets(0, 0, 5, 5);
+        gbcLblNewLabel2.gridx = 0;
+        gbcLblNewLabel2.gridy = 3;
+        contentPane.add(lblNewLabel2, gbcLblNewLabel2);
 
         JScrollPane scrollPane = new JScrollPane();
-        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-        gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-        gbc_scrollPane.gridwidth = 2;
-        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane.gridx = 0;
-        gbc_scrollPane.gridy = 5;
-        contentPane.add(scrollPane, gbc_scrollPane);
+        GridBagConstraints gbcScrollPane = new GridBagConstraints();
+        gbcScrollPane.insets = new Insets(0, 0, 5, 0);
+        gbcScrollPane.gridwidth = 2;
+        gbcScrollPane.fill = GridBagConstraints.BOTH;
+        gbcScrollPane.gridx = 0;
+        gbcScrollPane.gridy = 5;
+        contentPane.add(scrollPane, gbcScrollPane);
 
         JList<String> list = new JList<String>();
         scrollPane.setViewportView(list);
@@ -151,17 +151,17 @@ public class SoundFrame extends JFrame {
             }
         });
 
-        JButton btnNewButton_2 = new JButton("Select sound");
-        btnNewButton_2.addActionListener(new ActionListener() {
+        JButton btnNewButton2 = new JButton("Select sound");
+        btnNewButton2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 sounds.setInstrumentChoice(SoundFrame.this.instrumentChoice);
             }
         });
-        GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-        gbc_btnNewButton_2.anchor = GridBagConstraints.EAST;
-        gbc_btnNewButton_2.gridx = 1;
-        gbc_btnNewButton_2.gridy = 6;
-        contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
+        GridBagConstraints gbcBtnNewButton2 = new GridBagConstraints();
+        gbcBtnNewButton2.anchor = GridBagConstraints.EAST;
+        gbcBtnNewButton2.gridx = 1;
+        gbcBtnNewButton2.gridy = 6;
+        contentPane.add(btnNewButton2, gbcBtnNewButton2);
     }
 }
