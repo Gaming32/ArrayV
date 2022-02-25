@@ -271,13 +271,7 @@ public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void setAllFieldsFalse(){
-        arrayVisualizer.togglePointer(false);
-        arrayVisualizer.toggleDistance(false);
-        arrayVisualizer.togglePixels(false);
-        arrayVisualizer.toggleRainbow(false);
-        arrayVisualizer.toggleSpiral(false);
-        arrayVisualizer.toggleWave(false);
+    private void setAllFieldsFalse() {
     }
 
     private void barGraphActionPerformed(java.awt.event.ActionEvent evt) {

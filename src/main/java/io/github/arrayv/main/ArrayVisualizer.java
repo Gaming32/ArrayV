@@ -1329,11 +1329,10 @@ public final class ArrayVisualizer {
     }
 
     /**
-     * @deprecated Replaced by {@link #toggleColor}
+     * @deprecated No longer does anything
      */
     @Deprecated
     public void toggleRainbow(boolean rainbow) {
-        toggleColor(rainbow);
     }
 
     /**
@@ -1396,11 +1395,12 @@ public final class ArrayVisualizer {
     }
 
     /**
-     * @deprecated Replaced by {@link #colorEnabled()}
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
      */
     @Deprecated
     public boolean rainbowEnabled() {
-        return colorEnabled();
+        return false;
     }
 
     public boolean colorEnabled() {
