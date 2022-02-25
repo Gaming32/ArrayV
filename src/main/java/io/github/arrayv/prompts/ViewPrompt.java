@@ -40,14 +40,14 @@ SOFTWARE.
 public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private static final long serialVersionUID = 1L;
 
-    private ArrayVisualizer ArrayVisualizer;
-    private JFrame Frame;
-    private UtilFrame UtilFrame;
+    private ArrayVisualizer arrayVisualizer;
+    private JFrame frame;
+    private UtilFrame utilFrame;
 
     public ViewPrompt(ArrayVisualizer arrayVisualizer, JFrame frame, UtilFrame utilFrame) {
-        this.ArrayVisualizer = arrayVisualizer;
-        this.Frame = frame;
-        this.UtilFrame = utilFrame;
+        this.arrayVisualizer = arrayVisualizer;
+        this.frame = frame;
+        this.utilFrame = utilFrame;
 
         setAlwaysOnTop(true);
         setUndecorated(true);
@@ -58,7 +58,7 @@ public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
 
     @Override
     public void reposition(){
-        setLocation(Frame.getX() + ((Frame.getWidth() - getWidth()) / 2), Frame.getY() + ((Frame.getHeight() - getHeight()) / 2));
+        setLocation(frame.getX() + ((frame.getWidth() - getWidth()) / 2), frame.getY() + ((frame.getHeight() - getHeight()) / 2));
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -272,108 +272,108 @@ public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void setAllFieldsFalse(){
-        ArrayVisualizer.togglePointer(false);
-        ArrayVisualizer.toggleDistance(false);
-        ArrayVisualizer.togglePixels(false);
-        ArrayVisualizer.toggleRainbow(false);
-        ArrayVisualizer.toggleSpiral(false);
-        ArrayVisualizer.toggleWave(false);
+        arrayVisualizer.togglePointer(false);
+        arrayVisualizer.toggleDistance(false);
+        arrayVisualizer.togglePixels(false);
+        arrayVisualizer.toggleRainbow(false);
+        arrayVisualizer.toggleSpiral(false);
+        arrayVisualizer.toggleWave(false);
     }
 
     private void barGraphActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.BARS);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.BARS);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void dotGraphActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.DOTS);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.DOTS);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void rainbowActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.RAINBOW);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.RAINBOW);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void triangleMeshActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.PIXEL_MESH);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.PIXEL_MESH);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void colorCircleActionPerformed(java.awt.event.ActionEvent evt) {
         //TODO: Pointer as separate option
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.COLOR_CIRCLE);
-        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.COLOR_CIRCLE);
+        if (arrayVisualizer.getCurrentLength() == 2) arrayVisualizer.setCurrentLength(4);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void spiralActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.SPIRAL);
-        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.SPIRAL);
+        if (arrayVisualizer.getCurrentLength() == 2) arrayVisualizer.setCurrentLength(4);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void disparityActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.DISP_CIRCLE);
-        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.DISP_CIRCLE);
+        if (arrayVisualizer.getCurrentLength() == 2) arrayVisualizer.setCurrentLength(4);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void customImageActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.CUSTOM_IMAGE);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.CUSTOM_IMAGE);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void disparityDotsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.DISP_DOTS);
-        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.DISP_DOTS);
+        if (arrayVisualizer.getCurrentLength() == 2) arrayVisualizer.setCurrentLength(4);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void spiralDotsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.SPIRAL_DOTS);
-        if (ArrayVisualizer.getCurrentLength() == 2) ArrayVisualizer.setCurrentLength(4);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.SPIRAL_DOTS);
+        if (arrayVisualizer.getCurrentLength() == 2) arrayVisualizer.setCurrentLength(4);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void sineWaveActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.SINE_WAVE);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.SINE_WAVE);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void waveDotsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.WAVE_DOTS);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.WAVE_DOTS);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void hoopStackActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.HOOP_STACK);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.HOOP_STACK);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void disparityBarGraphActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.DISP_BARS);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.DISP_BARS);
+        utilFrame.jButton2ResetText();
         dispose();
     }
     private void disparityChordsActionPerformed(java.awt.event.ActionEvent evt) {
         setAllFieldsFalse();
-        ArrayVisualizer.setVisual(VisualStyles.DISP_CHORDS);
-        UtilFrame.jButton2ResetText();
+        arrayVisualizer.setVisual(VisualStyles.DISP_CHORDS);
+        utilFrame.jButton2ResetText();
         dispose();
     }
 
