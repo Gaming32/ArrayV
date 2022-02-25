@@ -30,13 +30,13 @@ public final class GraphReader {
     private final class PartialElement {
         int left, right;
 
-        public PartialElement(int left, int right) {
+        private PartialElement(int left, int right) {
             this.left = left;
             this.right = right;
         }
     }
 
-    public final static int[] COMPATIBLE_VERSIONS = {0, 1, 2, 3};
+    public static final int[] COMPATIBLE_VERSIONS = {0, 1, 2, 3};
     static Set<Integer> compatibleVersionsSet;
 
     Scanner scanner;
