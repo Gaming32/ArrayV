@@ -29,19 +29,19 @@ public final class GraphWriter {
 
     public void write(FileWriter writer) throws IOException {
         Map<GraphNode, Integer> nodeMap = new HashMap<>();
-        for (int i = 0; i < graph.nodes.size(); i++) {
-            GraphNode node = graph.nodes.get(i);
+        for (int i = 0; i < graph.getNodes().size(); i++) {
+            GraphNode node = graph.getNodes().get(i);
             nodeMap.put(node, i);
         }
         nodeMap.put(null, -1);
 
         // Metadata
         writer.write(VERSION + " ");
-        writer.write(graph.sleepRatio + "\n");
+        writer.write(graph.getSleepRatio() + "\n");
 
         // Nodes
-        for (int i = 1; i < graph.nodes.size(); i++) {
-            GraphNode node = graph.nodes.get(i);
+        for (int i = 1; i < graph.getNodes().size(); i++) {
+            GraphNode node = graph.getNodes().get(i);
             writer.write("N ");
             if (node.getValue().isDistribution()) {
                 writer.write("true ");

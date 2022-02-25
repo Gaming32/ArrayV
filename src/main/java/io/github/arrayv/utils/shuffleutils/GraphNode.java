@@ -55,8 +55,8 @@ public class GraphNode {
     }
 
     public void draw(Graphics2D g) {
-        Color borderColor = this.graph.selected == this ? new Color(128, 128, 255) : new Color(0, 0, 0);
-        Color leftColor = this.graph.dragCandidate == this ? new Color(128, 128, 255) : borderColor;
+        Color borderColor = this.graph.getSelected() == this ? new Color(128, 128, 255) : new Color(0, 0, 0);
+        Color leftColor = this.graph.getDragCandidate() == this ? new Color(128, 128, 255) : borderColor;
         g.setColor(leftColor);
         AWTUtils.drawCircle(g, x, y + HEIGHT / 2, 10);
         g.setColor(borderColor);
@@ -93,13 +93,13 @@ public class GraphNode {
     }
 
     public void delete() {
-        if (this == this.graph.selected) {
-            this.graph.selected = null;
+        if (this == this.graph.getSelected()) {
+            this.graph.setSelected(null);
         }
-        this.graph.nodes.remove(this);
+        this.graph.getNodes().remove(this);
         if (this.preConnection != null) {
             if (this.postConnection == null) {
-                this.graph.connections.remove(this.preConnection);
+                this.graph.getConnections().remove(this.preConnection);
                 this.preConnection.remove();
             } else {
                 this.preConnection.setTo(this.postConnection.getTo());
@@ -107,7 +107,7 @@ public class GraphNode {
         }
         if (this.postConnection != null) {
             if (this.preConnection == null) {
-                this.graph.connections.remove(this.postConnection);
+                this.graph.getConnections().remove(this.postConnection);
                 this.postConnection.remove();
             } else {
                 this.postConnection.setFrom(this.preConnection.getFrom());

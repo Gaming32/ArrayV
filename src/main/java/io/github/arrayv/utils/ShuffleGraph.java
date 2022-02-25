@@ -18,14 +18,14 @@ import io.github.arrayv.utils.shuffleutils.GraphConnection;
 import io.github.arrayv.utils.shuffleutils.GraphNode;
 
 public class ShuffleGraph implements Collection<ShuffleInfo> {
-    public List<GraphNode> nodes;
-    public List<GraphConnection> connections;
-    public GraphNode selected;
-    public GraphConnection dragging;
-    public GraphNode dragCandidate;
-    public double sleepRatio;
+    private List<GraphNode> nodes;
+    private List<GraphConnection> connections;
+    private GraphNode selected;
+    private GraphConnection dragging;
+    private GraphNode dragCandidate;
+    private double sleepRatio;
 
-    final static int DEFAULT_TEXT_SIZE = 24;
+    static final int DEFAULT_TEXT_SIZE = 24;
     Map<String, Integer> textSizes = new HashMap<>();
 
     public ShuffleGraph() {
@@ -391,6 +391,58 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
 
     public Iterator<ShuffleInfo> iterator() {
         return new GraphIterator(this);
+    }
+
+    public List<GraphNode> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<GraphNode> nodes) {
+        this.nodes = nodes;
+    }
+
+    public List<GraphConnection> getConnections() {
+        return connections;
+    }
+
+    public void setConnections(List<GraphConnection> connections) {
+        this.connections = connections;
+    }
+
+    public GraphNode getSelected() {
+        return selected;
+    }
+
+    public void setSelected(GraphNode selected) {
+        this.selected = selected;
+    }
+
+    public GraphConnection getDragging() {
+        return dragging;
+    }
+
+    public void setDragging(GraphConnection dragging) {
+        this.dragging = dragging;
+    }
+
+    public GraphNode getDragCandidate() {
+        return dragCandidate;
+    }
+
+    public void setDragCandidate(GraphNode dragCandidate) {
+        this.dragCandidate = dragCandidate;
+    }
+
+    public double getSleepRatio() {
+        return sleepRatio;
+    }
+
+    public Map<String, Integer> getTextSizes() {
+        return textSizes;
+    }
+
+    public void setTextSizes(Map<String, Integer> textSizes) {
+        this.textSizes = textSizes;
     }
 
     protected class GraphIterator implements Iterator<ShuffleInfo> {

@@ -101,7 +101,7 @@ public final class GraphReader {
         partialNodes = new ArrayList<>();
 
         if (version >= 2 && scanner.hasNextDouble()) {
-            result.sleepRatio = scanner.nextDouble();
+            result.setSleepRatio(scanner.nextDouble());
         }
 
         while (scanner.hasNext()) {
@@ -118,25 +118,25 @@ public final class GraphReader {
             }
         }
 
-        for (int i = 1; i < result.nodes.size(); i++) {
-            GraphNode node = result.nodes.get(i);
+        for (int i = 1; i < result.getNodes().size(); i++) {
+            GraphNode node = result.getNodes().get(i);
             PartialElement partial = partialNodes.get(i - 1);
             try {
                 if (version < 3) {
-                    node.setPreConnection(partial.left == -1 ? null : result.connections.get(partial.left));
-                    node.setPostConnection(partial.right == -1 ? null : result.connections.get(partial.right));
+                    node.setPreConnection(partial.left == -1 ? null : result.getConnections().get(partial.left));
+                    node.setPostConnection(partial.right == -1 ? null : result.getConnections().get(partial.right));
                 } else {
                     if (partial.left != -1 && node.getPreConnection() == null) {
-                        GraphNode from = result.nodes.get(partial.left);
+                        GraphNode from = result.getNodes().get(partial.left);
                         GraphConnection newConnection = new GraphConnection(from, node);
-                        result.connections.add(newConnection);
+                        result.getConnections().add(newConnection);
                         from.setPostConnection(newConnection);
                         node.setPreConnection(newConnection);
                     }
                     if (partial.right != -1 && node.getPostConnection() == null) {
-                        GraphNode to = result.nodes.get(partial.right);
+                        GraphNode to = result.getNodes().get(partial.right);
                         GraphConnection newConnection = new GraphConnection(node, to);
-                        result.connections.add(newConnection);
+                        result.getConnections().add(newConnection);
                         node.setPostConnection(newConnection);
                         to.setPreConnection(newConnection);
                     }
@@ -151,8 +151,8 @@ public final class GraphReader {
         }
 
         if (version >= 2) {
-            for (int i = 1; i < result.nodes.size(); i++) {
-                GraphNode node = result.nodes.get(i);
+            for (int i = 1; i < result.getNodes().size(); i++) {
+                GraphNode node = result.getNodes().get(i);
                 if (node.getX() == Integer.MIN_VALUE) { // coordinates not specified
                     if (node.getPreConnection() == null || node.getPreConnection() == null) {
                         Point safePos = result.findSafeCoordinates(100, 100, 20, 20);
@@ -244,7 +244,7 @@ public final class GraphReader {
             }
         }
 
-        result.nodes.add(new GraphNode(shuffleInfo, result, x, y));
+        result.getNodes().add(new GraphNode(shuffleInfo, result, x, y));
         partialNodes.add(new PartialElement(preConnectionID, postConnectionID));
     }
 
@@ -263,8 +263,8 @@ public final class GraphReader {
 
         GraphNode fromNode = null, toNode = null;
         try {
-            fromNode = fromNodeID == -1 ? null : result.nodes.get(fromNodeID);
-            toNode = toNodeID == -1 ? null : result.nodes.get(toNodeID);
+            fromNode = fromNodeID == -1 ? null : result.getNodes().get(fromNodeID);
+            toNode = toNodeID == -1 ? null : result.getNodes().get(toNodeID);
         } catch (IndexOutOfBoundsException e) {
             String message = e.getMessage();
             int id = Integer.parseInt(message.split(" ", 3)[1]);
@@ -273,7 +273,7 @@ public final class GraphReader {
             throw newError;
         }
         GraphConnection connection = new GraphConnection(fromNode, toNode);
-        result.connections.add(connection);
+        result.getConnections().add(connection);
         if (fromNodeID == 0) {
             fromNode.setPostConnection(connection);
         }

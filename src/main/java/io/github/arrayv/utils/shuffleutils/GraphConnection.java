@@ -60,7 +60,7 @@ public class GraphConnection {
         this.to = other;
         other.setPreConnection(this);
         int removed = 0;
-        List<GraphConnection> connections = other.getGraph().connections;
+        List<GraphConnection> connections = other.getGraph().getConnections();
         for (int i = 0; i < connections.size(); i++) {
             GraphConnection conn = connections.get(i - removed);
             if (conn == this) {

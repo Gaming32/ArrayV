@@ -179,7 +179,7 @@ public final class ArrayManager {
 
         if (ArrayVisualizer.isActive()) {
             double sleepRatio = ArrayVisualizer.getCurrentLength()/1024d;
-            sleepRatio *= shuffle.sleepRatio;
+            sleepRatio *= shuffle.getSleepRatio();
             Delays.setSleepRatio(sleepRatio);
         }
 

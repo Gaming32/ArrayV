@@ -99,8 +99,8 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
 
         jTextField1.setText(Double.toString(
             perShuffleDelay ?
-            shuffleEditor.graph.sleepRatio / shuffleEditor.graph.size() :
-            shuffleEditor.graph.sleepRatio
+            shuffleEditor.graph.getSleepRatio() / shuffleEditor.graph.size() :
+            shuffleEditor.graph.getSleepRatio()
         ));
         jCheckBox1.setSelected(perShuffleDelay);
         bypassEvents = false;
@@ -109,7 +109,7 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             @Override
             public void windowClosed(WindowEvent e) {
                 if (perShuffleDelay = jCheckBox1.isSelected()) {
-                    shuffleEditor.graph.sleepRatio *= shuffleEditor.graph.size();
+                    shuffleEditor.graph.setSleepRatio(shuffleEditor.graph.getSleepRatio() * shuffleEditor.graph.size());
                 }
             }
         });
@@ -357,29 +357,29 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         }
         ArrayManager.setShuffle(newShuffle);
         if (jCheckBox1.isSelected()) {
-            shuffleEditor.graph.sleepRatio /= shuffleEditor.graph.size();
+            shuffleEditor.graph.setSleepRatio(shuffleEditor.graph.getSleepRatio() / shuffleEditor.graph.size());
         }
         jTextField1.setForeground(Color.BLACK);
-        jTextField1.setText(Double.toString(newShuffle.sleepRatio));
+        jTextField1.setText(Double.toString(newShuffle.getSleepRatio()));
         this.shuffleEditor.graph = newShuffle;
         this.shuffleEditor.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
         FileDialog fileDialog = new ExportShuffleDialog();
-        double oldSleepRatio = shuffleEditor.graph.sleepRatio;
+        double oldSleepRatio = shuffleEditor.graph.getSleepRatio();
         if (jCheckBox1.isSelected()) {
-            shuffleEditor.graph.sleepRatio *= shuffleEditor.graph.size();
+            shuffleEditor.graph.setSleepRatio(shuffleEditor.graph.getSleepRatio() * shuffleEditor.graph.size());
         }
         try {
             new GraphWriter(shuffleEditor.graph).write(fileDialog.file);
         } catch (IOException e) {
-            shuffleEditor.graph.sleepRatio = oldSleepRatio;
+            shuffleEditor.graph.setSleepRatio(oldSleepRatio);
             e.printStackTrace();
             JErrorPane.invokeCustomErrorMessage("IO Error: " + e.getMessage());
             return;
         }
-        shuffleEditor.graph.sleepRatio = oldSleepRatio;
+        shuffleEditor.graph.setSleepRatio(oldSleepRatio);
         JOptionPane.showMessageDialog(null,
             "Successfully exported current shuffle to file \"" + fileDialog.file.getAbsolutePath() + "\"",
             "Advanced Shuffle Editor", JOptionPane.INFORMATION_MESSAGE);
@@ -401,7 +401,7 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
             return;
         }
         jTextField1.setForeground(Color.BLACK);
-        shuffleEditor.graph.sleepRatio = sleepRatio;
+        shuffleEditor.graph.setSleepRatio(sleepRatio);
     }//GEN-LAST:event_jList1ValueChanged
 
     private void addToGraph(ShuffleInfo shuffle) {
