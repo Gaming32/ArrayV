@@ -25,6 +25,12 @@
       <property name="onCommentFormat" value="@checkstyle\:on"/>
     </module>
 
+    <module name="Regexp">
+      <property name="format" value="[ \t]+$"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="Trailing whitespace"/>
+    </module>
+
     <!-- Enforces that constants are in SHOUTING_SNAKE_CASE -->
     <module name="ConstantName"/>
 
