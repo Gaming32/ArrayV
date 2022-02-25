@@ -162,7 +162,7 @@ public final class Sounds {
                     for (MidiChannel channel : channels) {
                         channel.allNotesOff();
                     }
-                    if (!playSound || !playSound2 || JErrorPane.errorMessageActive) {
+                    if (!playSound || !playSound2 || JErrorPane.isErrorMessageActive()) {
                         synchronized (Sounds.this) {
                             try {
                                 Sounds.this.wait();
