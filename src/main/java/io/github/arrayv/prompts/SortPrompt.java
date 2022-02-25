@@ -112,15 +112,15 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     private int[] array;
 
-    private ArrayVisualizer ArrayVisualizer;
-    private JFrame Frame;
-    private UtilFrame UtilFrame;
+    private ArrayVisualizer arrayVisualizer;
+    private JFrame frame;
+    private UtilFrame utilFrame;
 
     public SortPrompt(int[] array, ArrayVisualizer arrayVisualizer, JFrame frame, UtilFrame utilFrame) {
         this.array = array;
-        this.ArrayVisualizer = arrayVisualizer;
-        this.Frame = frame;
-        this.UtilFrame = utilFrame;
+        this.arrayVisualizer = arrayVisualizer;
+        this.frame = frame;
+        this.utilFrame = utilFrame;
 
         setAlwaysOnTop(true);
         setUndecorated(true);
@@ -144,21 +144,23 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     @Override
     public void reposition() {
-        setLocation(Frame.getX()+(Frame.getWidth()-getWidth())/2,Frame.getY()+(Frame.getHeight()-getHeight())/2);
+        setLocation(frame.getX()+(frame.getWidth()-getWidth())/2, frame.getY()+(frame.getHeight()-getHeight())/2);
     }
 
     private void loadSortThreads() {
         this.categorySortThreads = new Hashtable<>();
-        categorySortThreads.put("Concurrent Sorts",    new RunConcurrentSorts   (ArrayVisualizer));
-        categorySortThreads.put("Distribution Sorts",  new RunDistributionSorts (ArrayVisualizer));
-        categorySortThreads.put("Exchange Sorts",      new RunExchangeSorts     (ArrayVisualizer));
-        categorySortThreads.put("Hybrid Sorts",        new RunHybridSorts       (ArrayVisualizer));
-        categorySortThreads.put("Impractical Sorts",   new RunImpracticalSorts  (ArrayVisualizer));
-        categorySortThreads.put("Insertion Sorts",     new RunInsertionSorts    (ArrayVisualizer));
-        categorySortThreads.put("Merge Sorts",         new RunMergeSorts        (ArrayVisualizer));
-        categorySortThreads.put("Miscellaneous Sorts", new RunMiscellaneousSorts(ArrayVisualizer));
-        categorySortThreads.put("Quick Sorts",         new RunQuickSorts        (ArrayVisualizer));
-        categorySortThreads.put("Selection Sorts",     new RunSelectionSorts    (ArrayVisualizer));
+        // @checkstyle:off MethodParamPadCheck
+        categorySortThreads.put("Concurrent Sorts",    new RunConcurrentSorts   (arrayVisualizer));
+        categorySortThreads.put("Distribution Sorts",  new RunDistributionSorts (arrayVisualizer));
+        categorySortThreads.put("Exchange Sorts",      new RunExchangeSorts     (arrayVisualizer));
+        categorySortThreads.put("Hybrid Sorts",        new RunHybridSorts       (arrayVisualizer));
+        categorySortThreads.put("Impractical Sorts",   new RunImpracticalSorts  (arrayVisualizer));
+        categorySortThreads.put("Insertion Sorts",     new RunInsertionSorts    (arrayVisualizer));
+        categorySortThreads.put("Merge Sorts",         new RunMergeSorts        (arrayVisualizer));
+        categorySortThreads.put("Miscellaneous Sorts", new RunMiscellaneousSorts(arrayVisualizer));
+        categorySortThreads.put("Quick Sorts",         new RunQuickSorts        (arrayVisualizer));
+        categorySortThreads.put("Selection Sorts",     new RunSelectionSorts    (arrayVisualizer));
+        // @checkstyle:on MethodParamPadCheck
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -175,21 +177,10 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jComboBox1.setModel(new DefaultComboBoxModel<>(SortInfo.getCategories(ArrayVisualizer.getSorts())));
+        jComboBox1.setModel(new DefaultComboBoxModel<>(SortInfo.getCategories(arrayVisualizer.getSorts())));
         jComboBox1.insertItemAt("All Sorts", 0);
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        jList1.setModel(new javax.swing.AbstractListModel() {
-
-            private static final long serialVersionUID = 1L;
-
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            @Override
-            public int getSize() { return strings.length; }
-            @Override
-            public Object getElementAt(int i) { return strings[i]; }
-        });
 
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             @Override
@@ -249,24 +240,24 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
         JPanel extraSortsManagementPanel = new JPanel();
         JButton installExtraSortPackButton = new JButton(
-            ArrayVisualizer.getSortAnalyzer().extraSortsInstalled() ?
+            arrayVisualizer.getSortAnalyzer().extraSortsInstalled() ?
                 "Update Extra Sorts Pack" :
                 "Install Extra Sorts Pack"
         );
         installExtraSortPackButton.addActionListener(e -> {
-            UtilFrame.jButton1ResetText();
-            UtilFrame.jButton1Disable();
+            utilFrame.jButton1ResetText();
+            utilFrame.jButton1Disable();
             dispose();
             new Thread(() -> {
                 ProgressMonitor installProgress = new ProgressMonitor(
-                    ArrayVisualizer.getMainWindow(),
+                    arrayVisualizer.getMainWindow(),
                     "Installing...",
                     "Installing...",
                     0, 1
                 );
                 installProgress.setMillisToDecideToPopup(500);
                 installProgress.setMillisToPopup(500);
-                SortAnalyzer analyzer = ArrayVisualizer.getSortAnalyzer();
+                SortAnalyzer analyzer = arrayVisualizer.getSortAnalyzer();
                 boolean success;
                 try {
                     analyzer.installOrUpdateExtraSorts(installProgress);
@@ -282,21 +273,21 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
                     analyzer.unloadAllExtraSorts();
                     analyzer.analyzeSortsExtrasOnly();
                     analyzer.sortSorts();
-                    ArrayVisualizer.refreshSorts();
-                    UtilFrame.jButton1Enable();
+                    arrayVisualizer.refreshSorts();
+                    utilFrame.jButton1Enable();
                     JOptionPane.showMessageDialog(
-                        ArrayVisualizer.getMainWindow(),
+                        arrayVisualizer.getMainWindow(),
                         "Successfully installed and loaded extra sorts pack!",
                         "Install Extra Sorts Pack",
                         JOptionPane.INFORMATION_MESSAGE
                     );
                 } else {
-                    UtilFrame.jButton1Enable();
+                    utilFrame.jButton1Enable();
                 }
             }, "ExtraSortsInstall").start();
         });
         extraSortsManagementPanel.add(installExtraSortPackButton);
-        if (ArrayVisualizer.getSortAnalyzer().extraSortsInstalled()) {
+        if (arrayVisualizer.getSortAnalyzer().extraSortsInstalled()) {
             JCheckBox showExtraSorts = new JCheckBox("Show Extra Sorts");
             showExtraSorts.setSelected(SortPrompt.showExtraSorts);
             showExtraSorts.addActionListener(e -> {
@@ -330,7 +321,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 .addComponent(extraSortsManagementPanel))
             .addGroup(Alignment.CENTER, layout.createSequentialGroup()
                 .addComponent(this.jButton2))
-            );
+        );
         layout.setVerticalGroup(
             layout.createParallelGroup(Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -350,7 +341,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
                     .addComponent(extraSortsManagementPanel)
                     .addComponent(this.jButton2)
                     .addGap(5, 5, 5))
-            );
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -359,11 +350,11 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
         new Thread("AllSortsThread") {
             @Override
             public void run(){
-                RunAllSorts RunAllSorts = new RunAllSorts(ArrayVisualizer);
-                RunAllSorts.reportAllSorts(array);
+                RunAllSorts runAllSorts = new RunAllSorts(arrayVisualizer);
+                runAllSorts.reportAllSorts(array);
             }
         }.start();
-        UtilFrame.jButton1ResetText();
+        utilFrame.jButton1ResetText();
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -375,10 +366,10 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 if (f == null) {
                     return;
                 }
-                ArrayVisualizer.getSortAnalyzer().importSort(f);
+                arrayVisualizer.getSortAnalyzer().importSort(f);
             }
         }.start();
-        UtilFrame.jButton1ResetText();
+        utilFrame.jButton1ResetText();
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -391,7 +382,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
                 JErrorPane.invokeErrorMessage(e);
             }
         }
-        UtilFrame.jButton1ResetText();
+        utilFrame.jButton1ResetText();
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -399,7 +390,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
         @SuppressWarnings("rawtypes")
         String sortName = (String)((JList)evt.getSource()).getSelectedValue();
         SortInfo sortNotFinal = null;
-        for (SortInfo sort : ArrayVisualizer.getSorts()) {
+        for (SortInfo sort : arrayVisualizer.getSorts()) {
             if (sort.getListName().equals(sortName)) {
                 sortNotFinal = sort;
                 break;
@@ -409,11 +400,11 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
         new Thread("SortingThread") {
             @Override
             public void run() {
-                RunSort sortThread = new RunSort(ArrayVisualizer);
+                RunSort sortThread = new RunSort(arrayVisualizer);
                 sortThread.runSort(array, selection.getId());
             }
         }.start();
-        UtilFrame.jButton1ResetText();
+        utilFrame.jButton1ResetText();
         dispose();
     }//GEN-LAST:event_jList1ValueChanged
 
@@ -424,7 +415,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
         ArrayList<String> sorts = new ArrayList<>();
         String searchTerms = jTextField1.getText().toLowerCase();
         boolean isSearching = !searchTerms.isEmpty();
-        for (SortInfo sort : ArrayVisualizer.getSorts()) {
+        for (SortInfo sort : arrayVisualizer.getSorts()) {
             if (index == 0 || sort.getCategory().equals(category)) {
                 if (!showExtraSorts && sort.isFromExtra()) continue;
                 if (isSearching && !sort.getListName().toLowerCase().contains(searchTerms)) continue;
