@@ -134,7 +134,7 @@ public final class CustomImage extends Visual {
         this.imageFile = file;
         if (this.imageFile != null) {
             this.currentImage = this.imageFile.getName();
-            this.refreshCustomImage(ImageFrame.defaultFrame);
+            this.refreshCustomImage(ImageFrame.getDefaultFrame());
         }
     }
 

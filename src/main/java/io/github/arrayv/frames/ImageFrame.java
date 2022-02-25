@@ -44,8 +44,7 @@ import javax.swing.border.EmptyBorder;
 import io.github.arrayv.visuals.image.CustomImage;
 
 public class ImageFrame extends JFrame {
-
-    public static ImageFrame defaultFrame;
+    private static ImageFrame defaultFrame;
 
     /**
      *
@@ -53,7 +52,7 @@ public class ImageFrame extends JFrame {
     private static final long serialVersionUID = 1L;
     private volatile JPanel contentPane;
 
-    private volatile JLabel lblNewLabel_2;
+    private volatile JLabel lblNewLabel2;
 
     /**
      * Create the frame.
@@ -65,38 +64,38 @@ public class ImageFrame extends JFrame {
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-        GridBagLayout gbl_contentPane = new GridBagLayout();
-        gbl_contentPane.columnWidths = new int[]{0, 0, 0};
-        gbl_contentPane.rowHeights = new int[]{0, 32, 0, 0, 0};
-        gbl_contentPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-        gbl_contentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-        contentPane.setLayout(gbl_contentPane);
+        GridBagLayout gblContentPane = new GridBagLayout();
+        gblContentPane.columnWidths = new int[]{0, 0, 0};
+        gblContentPane.rowHeights = new int[]{0, 32, 0, 0, 0};
+        gblContentPane.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+        gblContentPane.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+        contentPane.setLayout(gblContentPane);
 
         JLabel lblNewLabel = new JLabel("Current image:");
-        GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-        gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-        gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_lblNewLabel.gridx = 0;
-        gbc_lblNewLabel.gridy = 0;
-        contentPane.add(lblNewLabel, gbc_lblNewLabel);
+        GridBagConstraints gbcLblNewLabel = new GridBagConstraints();
+        gbcLblNewLabel.anchor = GridBagConstraints.EAST;
+        gbcLblNewLabel.insets = new Insets(0, 0, 5, 5);
+        gbcLblNewLabel.gridx = 0;
+        gbcLblNewLabel.gridy = 0;
+        contentPane.add(lblNewLabel, gbcLblNewLabel);
 
-        JLabel lblNewLabel_1 = new JLabel(visual.getCurrentImageName());
-        GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-        gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
-        gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
-        gbc_lblNewLabel_1.gridx = 1;
-        gbc_lblNewLabel_1.gridy = 0;
-        contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
+        JLabel lblNewLabel1 = new JLabel(visual.getCurrentImageName());
+        GridBagConstraints gbcLblNewLabel1 = new GridBagConstraints();
+        gbcLblNewLabel1.anchor = GridBagConstraints.WEST;
+        gbcLblNewLabel1.insets = new Insets(0, 0, 5, 0);
+        gbcLblNewLabel1.gridx = 1;
+        gbcLblNewLabel1.gridy = 0;
+        contentPane.add(lblNewLabel1, gbcLblNewLabel1);
 
-        this.lblNewLabel_2 = new JLabel(" ");
-        lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-        GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-        gbc_lblNewLabel_2.fill = GridBagConstraints.BOTH;
-        gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
-        gbc_lblNewLabel_2.gridwidth = 2;
-        gbc_lblNewLabel_2.gridx = 0;
-        gbc_lblNewLabel_2.gridy = 1;
-        contentPane.add(this.lblNewLabel_2, gbc_lblNewLabel_2);
+        this.lblNewLabel2 = new JLabel(" ");
+        lblNewLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+        GridBagConstraints gbcLblNewLabel2 = new GridBagConstraints();
+        gbcLblNewLabel2.fill = GridBagConstraints.BOTH;
+        gbcLblNewLabel2.insets = new Insets(0, 0, 5, 0);
+        gbcLblNewLabel2.gridwidth = 2;
+        gbcLblNewLabel2.gridx = 0;
+        gbcLblNewLabel2.gridy = 1;
+        contentPane.add(this.lblNewLabel2, gbcLblNewLabel2);
 
         JButton btnNewButton = new JButton("Load default artwork");
         btnNewButton.addActionListener(new ActionListener() {
@@ -105,37 +104,41 @@ public class ImageFrame extends JFrame {
                 visual.loadDefaultArtwork(ImageFrame.this);
             }
         });
-        GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-        gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
-        gbc_btnNewButton.gridheight = 2;
-        gbc_btnNewButton.anchor = GridBagConstraints.EAST;
-        gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-        gbc_btnNewButton.gridx = 0;
-        gbc_btnNewButton.gridy = 2;
-        contentPane.add(btnNewButton, gbc_btnNewButton);
+        GridBagConstraints gbcBtnNewButton = new GridBagConstraints();
+        gbcBtnNewButton.fill = GridBagConstraints.VERTICAL;
+        gbcBtnNewButton.gridheight = 2;
+        gbcBtnNewButton.anchor = GridBagConstraints.EAST;
+        gbcBtnNewButton.insets = new Insets(0, 0, 5, 5);
+        gbcBtnNewButton.gridx = 0;
+        gbcBtnNewButton.gridy = 2;
+        contentPane.add(btnNewButton, gbcBtnNewButton);
 
-        JButton btnNewButton_1 = new JButton("Choose image...");
-        btnNewButton_1.addActionListener(new ActionListener() {
+        JButton btnNewButton1 = new JButton("Choose image...");
+        btnNewButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 visual.loadCustomImage(ImageFrame.this);
             }
         });
-        GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-        gbc_btnNewButton_1.fill = GridBagConstraints.VERTICAL;
-        gbc_btnNewButton_1.gridheight = 2;
-        gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
-        gbc_btnNewButton_1.anchor = GridBagConstraints.WEST;
-        gbc_btnNewButton_1.gridx = 1;
-        gbc_btnNewButton_1.gridy = 2;
-        contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+        GridBagConstraints gbcBtnNewButton1 = new GridBagConstraints();
+        gbcBtnNewButton1.fill = GridBagConstraints.VERTICAL;
+        gbcBtnNewButton1.gridheight = 2;
+        gbcBtnNewButton1.insets = new Insets(0, 0, 5, 0);
+        gbcBtnNewButton1.anchor = GridBagConstraints.WEST;
+        gbcBtnNewButton1.gridx = 1;
+        gbcBtnNewButton1.gridy = 2;
+        contentPane.add(btnNewButton1, gbcBtnNewButton1);
     }
 
     public void updatePreview(CustomImage visual) {
         BufferedImage img = visual.getImage();
-        Image scaledImg = img.getScaledInstance((int) (this.lblNewLabel_2.getWidth() * 0.75), this.lblNewLabel_2.getHeight(), Image.SCALE_SMOOTH);
+        Image scaledImg = img.getScaledInstance((int) (this.lblNewLabel2.getWidth() * 0.75), this.lblNewLabel2.getHeight(), Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(scaledImg);
-        this.lblNewLabel_2.setIcon(imageIcon);
-        this.lblNewLabel_2.setText("");
+        this.lblNewLabel2.setIcon(imageIcon);
+        this.lblNewLabel2.setText("");
+    }
+
+    public static ImageFrame getDefaultFrame() {
+        return defaultFrame;
     }
 }
