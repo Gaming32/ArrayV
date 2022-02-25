@@ -19,11 +19,6 @@
       <property name="onCommentFormat" value="@checkstyle\:on ([\w\|]+)"/>
       <property name="checkFormat" value="$1"/>
     </module>
-    <module name="SuppressionCommentFilter">
-      <!-- This second one allows for general exclusions -->
-      <property name="offCommentFormat" value="@checkstyle\:off"/>
-      <property name="onCommentFormat" value="@checkstyle\:on"/>
-    </module>
 
     <module name="Regexp">
       <property name="format" value="[ \t]+$"/>

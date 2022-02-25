@@ -262,7 +262,7 @@ public final class UtilFrame extends javax.swing.JFrame {
                 jComboBox1ActionPerformed();
             }
         });
-        if (ArrayVisualizer.disabledStabilityCheck) {
+        if (ArrayVisualizer.isDisabledStabilityCheck()) {
             jComboBox1.removeItem("Stability Check");
         }
 
