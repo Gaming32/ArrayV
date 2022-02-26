@@ -20,13 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-scripts/categories/concurrent.groovy
-scripts/categories/distribute.groovy
 scripts/categories/exchange.groovy
-scripts/categories/hybrid.groovy
-scripts/categories/impractical.groovy
-scripts/categories/insertion.groovy
-scripts/categories/merge.groovy
-scripts/categories/misc.groovy
 # scripts/categories/quick.groovy
 scripts/categories/selection.groovy
+scripts/categories/insertion.groovy
+scripts/categories/merge.groovy
+scripts/categories/distribute.groovy
+scripts/categories/concurrent.groovy
+scripts/categories/hybrid.groovy
+scripts/categories/misc.groovy
+scripts/categories/impractical.groovy
