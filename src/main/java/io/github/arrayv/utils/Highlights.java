@@ -37,7 +37,11 @@ public final class Highlights {
     private volatile byte[] markCounts;
     private volatile boolean[] colorMarks;
     private volatile Color[] colorColors;
+
+    // @checkstyle:off VisibilityModifier
     public volatile boolean retainColorMarks = true;
+    // @checkstyle:on VisibilityModifier
+
     private volatile HashMap<String, Color> defined;
 
     private volatile int maxHighlightMarked;    // IMPORTANT: This stores the index one past the farthest highlight used, so that a value
@@ -60,14 +64,14 @@ public final class Highlights {
 
     private volatile int markCount;
 
-    private boolean FANCYFINISH;
+    private boolean showFancyFinish;
     private volatile boolean fancyFinish;
     private volatile int trackFinish;
 
-    private ArrayVisualizer ArrayVisualizer;
+    private ArrayVisualizer arrayVisualizer;
 
-    public Highlights(ArrayVisualizer ArrayVisualizer, int maximumLength) {
-        this.ArrayVisualizer = ArrayVisualizer;
+    public Highlights(ArrayVisualizer arrayVisualizer, int maximumLength) {
+        this.arrayVisualizer = arrayVisualizer;
 
         try {
             defined = new HashMap<>();
@@ -79,26 +83,28 @@ public final class Highlights {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate mark arrays. The program will now exit.");
             System.exit(1);
         }
-        this.FANCYFINISH = true;
+        this.showFancyFinish = true;
         this.maxHighlightMarked = 0;
         this.markCount = 0;
 
         Arrays.fill(highlights, -1);
         Arrays.fill(markCounts, (byte)0);
+        Arrays.fill(colorMarks, false);
+        Arrays.fill(colorColors, null);
     }
 
     public boolean fancyFinishEnabled() {
-        return this.FANCYFINISH;
+        return this.showFancyFinish;
     }
-    public void toggleFancyFinishes(boolean Bool) {
-        this.FANCYFINISH = Bool;
+    public void toggleFancyFinishes(boolean fancyFinishOn) {
+        this.showFancyFinish = fancyFinishOn;
     }
 
     public boolean fancyFinishActive() {
         return this.fancyFinish;
     }
-    public void toggleFancyFinish(boolean Bool) {
-        this.fancyFinish = Bool;
+    public void toggleFancyFinish(boolean fancyFin) {
+        this.fancyFinish = fancyFin;
     }
 
     public int getFancyFinishPosition() {
@@ -111,8 +117,8 @@ public final class Highlights {
         this.trackFinish = -1; // Magic number that clears the green sweep animation
     }
 
-    public void toggleAnalysis(boolean Bool) {
-        this.ArrayVisualizer.toggleAnalysis(Bool);
+    public void toggleAnalysis(boolean analysis) {
+        this.arrayVisualizer.toggleAnalysis(analysis);
     }
 
     public int getMaxHighlight() {
@@ -177,10 +183,10 @@ public final class Highlights {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ArrayVisualizer.updateNow();
+        arrayVisualizer.updateNow();
     }
     public synchronized void colorCode(String color, int... positions) {
-        for(int i : positions) {
+        for (int i : positions) {
             colorCode(i, color);
         }
     }
@@ -189,7 +195,7 @@ public final class Highlights {
         retainColorMarks = false;
     }
     public synchronized void clearColor(int position) {
-        if(colorMarks[position]) {
+        if (colorMarks[position]) {
             colorMarks[position] = false;
             colorColors[position] = null;
         }
@@ -224,8 +230,8 @@ public final class Highlights {
                 if (highlights[marker] != -1) {
                     decrementIndexMarkCount(highlights[marker]);
                 }
-                if(!retainColorMarks) {
-                    colorMarks[markPosition] = false;
+                if (!retainColorMarks) {
+                    clearColor(markPosition);
                 }
                 highlights[marker] = markPosition;
                 incrementIndexMarkCount(markPosition);
@@ -237,14 +243,15 @@ public final class Highlights {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ArrayVisualizer.updateNow();
+        arrayVisualizer.updateNow();
     }
     public synchronized void clearMark(int marker) {
         if (highlights[marker] == -1) {
             return;
         }
-        if(!retainColorMarks)
+        if (!retainColorMarks) {
             clearColor(highlights[marker]);
+        }
         decrementIndexMarkCount(highlights[marker]);
         highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
         if (marker == this.maxHighlightMarked) {
@@ -253,7 +260,7 @@ public final class Highlights {
                 maxHighlightMarked--;
             }
         }
-        ArrayVisualizer.updateNow();
+        arrayVisualizer.updateNow();
     }
     public synchronized void clearAllMarks() {
         for (int i = 0; i < this.maxHighlightMarked; i++) {
@@ -264,6 +271,6 @@ public final class Highlights {
         Arrays.fill(this.highlights, 0, this.maxHighlightMarked, -1);
         this.maxHighlightMarked = 0;
         this.markCount = 0;
-        ArrayVisualizer.updateNow();
+        arrayVisualizer.updateNow();
     }
 }

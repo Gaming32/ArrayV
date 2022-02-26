@@ -114,7 +114,9 @@ SOFTWARE.
  */
 
 public final class ArrayVisualizer {
+    // @checkstyle:off StaticVariableName
     private static ArrayVisualizer INSTANCE = null;
+    // @checkstyle:on StaticVariableName
 
     private enum StatisticType {
         LINE_BREAK,
@@ -132,6 +134,7 @@ public final class ArrayVisualizer {
         AUX_ALLOC,
         SEGMENTS;
 
+        // @checkstyle:off IndentationCheck - It doesn't like {{ syntax
         private static final Map<String, StatisticType> CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, StatisticType>() {{
             put("",         LINE_BREAK);
             put("sort",     SORT_IDENTITY);
@@ -148,14 +151,15 @@ public final class ArrayVisualizer {
             put("auxlen",   AUX_ALLOC);
             put("segments", SEGMENTS);
         }});
+        // @checkstyle:on IndentationCheck
     }
 
     final JFrame window;
 
-    final private int MIN_ARRAY_VAL;
-    final private int MAX_ARRAY_VAL;
+    private final int minArrayVal;
+    private final int maxArrayVal;
 
-    final private Properties buildInfo;
+    private final Properties buildInfo;
 
     final int[] array;
     final int[] validateArray;
@@ -171,11 +175,11 @@ public final class ArrayVisualizer {
     private volatile int sortLength;
     private volatile int uniqueItems;
 
-    private ArrayManager ArrayManager;
-    private SortAnalyzer SortAnalyzer;
+    private ArrayManager arrayManager;
+    private SortAnalyzer sortAnalyzer;
 
-    private UtilFrame UtilFrame;
-    private ArrayFrame ArrayFrame;
+    private UtilFrame utilFrame;
+    private ArrayFrame arrayFrame;
 
     private Visual[] visualClasses;
 
@@ -183,7 +187,7 @@ public final class ArrayVisualizer {
     private Thread visualsThread;
 
     private volatile boolean visualsEnabled;
-    public final boolean disabledStabilityCheck;
+    private final boolean disabledStabilityCheck;
 
     private String category;
     private String heading;
@@ -194,30 +198,23 @@ public final class ArrayVisualizer {
 
     private volatile int currentGap;
 
-    private boolean SHUFFLEANIM;
+    private boolean showShuffleAnimation;
 
-    private volatile boolean ANALYZE;
-
-    private volatile boolean POINTER;
+    private volatile boolean highlightAsAnalysis;
 
     private Statistics statSnapshot;
     private String fontSelection;
     private double fontSelectionScale;
 
-    private volatile boolean TEXTDRAW;
-    private volatile boolean COLOR;
-    private volatile boolean DISPARITYDRAW;
-    private volatile boolean LINEDRAW;
-    private volatile boolean PIXELDRAW;
-    private volatile boolean RAINBOW;
-    private volatile boolean SPIRALDRAW;
-    private volatile boolean WAVEDRAW;
-    private volatile boolean EXTARRAYS;
+    private volatile boolean showStatistics;
+    private volatile boolean showColor;
+    private volatile boolean showLines;
+    private volatile boolean showExternalArrays;
 
-    private volatile boolean ANTIQSORT;
-    private volatile boolean STABILITY;
-    private volatile boolean NETWORKS;
-    private volatile boolean REVERSED;
+    private volatile boolean useAntiQSort;
+    private volatile boolean stabilityChecking;
+    private volatile boolean visualizingNetworks;
+    private volatile boolean reversedComparator;
 
     private volatile boolean isCanceled;
 
@@ -232,19 +229,19 @@ public final class ArrayVisualizer {
 
     private Delays Delays;
     private Highlights Highlights;
-    private MultipleScript MultipleScript;
+    private MultipleScript multipleScript;
     private Reads Reads;
-    private Renderer Renderer;
+    private Renderer renderer;
     private Sounds Sounds;
     private Timer Timer;
-    private VisualStyles VisualStyles;
+    private VisualStyles visualStyles;
     private Writes Writes;
-    private AntiQSort AntiQSort;
+    private AntiQSort antiQSort;
 
     private volatile int updateVisualsForced;
-    public  volatile boolean benchmarking;
+    private volatile boolean benchmarking;
 
-    public static int MAX_LENGTH_POWER = 15;
+    private static int maxLengthPower;
 
     private volatile boolean hidden;
     private volatile boolean frameSkipped;
@@ -287,11 +284,11 @@ public final class ArrayVisualizer {
                     List<File> droppedFiles = (List<File>)e.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
                     int success = 0;
                     for (File file : droppedFiles) {
-                        if (ArrayVisualizer.this.SortAnalyzer.importSort(file, false)) {
+                        if (ArrayVisualizer.this.sortAnalyzer.importSort(file, false)) {
                             success++;
                         }
                     }
-                    ArrayVisualizer.this.SortAnalyzer.sortSorts();
+                    ArrayVisualizer.this.sortAnalyzer.sortSorts();
                     ArrayVisualizer.this.refreshSorts();
                     if (success == 0) {
                         JErrorPane.invokeCustomErrorMessage("Failed to import all " + droppedFiles.size() + " sorts");
@@ -319,9 +316,9 @@ public final class ArrayVisualizer {
                     Thread thread = new Thread("ScriptSortThread") {
                         @Override
                         public void run(){
-                            RunScriptedSorts RunScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
+                            RunScriptedSorts runScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
                             try {
-                                RunScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
+                                runScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
                             } catch (Exception e) {
                                 JErrorPane.invokeErrorMessage(e);
                             }
@@ -383,12 +380,12 @@ public final class ArrayVisualizer {
             e.printStackTrace();
         }
 
-        this.MIN_ARRAY_VAL = 2;
-        this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
+        this.minArrayVal = 2;
+        this.maxArrayVal = (int)Math.pow(2, maxLengthPower);
 
         int[] array;
         try {
-            array = new int[this.MAX_ARRAY_VAL];
+            array = new int[this.maxArrayVal];
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate main array. The program will now exit.");
             System.exit(1);
@@ -396,7 +393,7 @@ public final class ArrayVisualizer {
         }
         this.array = array;
 
-        this.sortLength = this.MAX_ARRAY_VAL;
+        this.sortLength = this.maxArrayVal;
 
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
@@ -455,6 +452,7 @@ public final class ArrayVisualizer {
                 "ArrayVisualizer",
                 JOptionPane.WARNING_MESSAGE
             );
+            // @checkstyle:off IndentationCheck - There's custom indentation here to make things more readable
             statsConfig = new StatisticType[] {
                 StatisticType.SORT_IDENTITY,
                 StatisticType.ARRAY_LENGTH,
@@ -472,11 +470,12 @@ public final class ArrayVisualizer {
                 StatisticType.AUX_ALLOC,
                 StatisticType.SEGMENTS
             };
+            // @checkstyle:on IndentationCheck
         } else {
             statsConfig = statsInfoList.toArray(new StatisticType[statsInfoList.size()]);
         }
 
-        this.sortLength = Math.min(2048, this.MAX_ARRAY_VAL);
+        this.sortLength = Math.min(2048, this.maxArrayVal);
         this.uniqueItems = this.sortLength;
 
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
@@ -485,29 +484,29 @@ public final class ArrayVisualizer {
         this.symbols.setGroupingSeparator(',');
         this.formatter.setDecimalFormatSymbols(this.symbols);
 
-        this.Highlights = new Highlights(this, this.MAX_ARRAY_VAL);
+        this.Highlights = new Highlights(this, this.maxArrayVal);
         this.Sounds = new Sounds(this.array, this);
         this.Delays = new Delays(this);
         this.Timer = new Timer(this);
         this.Reads = new Reads(this);
-        this.Renderer = new Renderer(this);
+        this.renderer = new Renderer(this);
         this.Writes = new Writes(this);
-        this.AntiQSort = new AntiQSort(this);
+        this.antiQSort = new AntiQSort(this);
 
         SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);
 
-        this.ArrayManager = new ArrayManager(this);
-        this.SortAnalyzer = new SortAnalyzer(this);
+        this.arrayManager = new ArrayManager(this);
+        this.sortAnalyzer = new SortAnalyzer(this);
 
-        this.SortAnalyzer.analyzeSorts();
+        this.sortAnalyzer.analyzeSorts();
         this.refreshSorts();
 
         int[] stabilityTable, indexTable, validateArray;
         boolean disabledStabilityCheck;
         try {
-            stabilityTable = new int[this.MAX_ARRAY_VAL];
-            indexTable = new int[this.MAX_ARRAY_VAL];
+            stabilityTable = new int[this.maxArrayVal];
+            indexTable = new int[this.maxArrayVal];
             disabledStabilityCheck = false;
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate arrays for stability check. This feature will be disabled.");
@@ -516,7 +515,7 @@ public final class ArrayVisualizer {
             disabledStabilityCheck = true;
         }
         try {
-            validateArray = new int[this.MAX_ARRAY_VAL];
+            validateArray = new int[this.maxArrayVal];
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate array for improved validation. This feature will be disabled.");
             validateArray = null;
@@ -530,7 +529,7 @@ public final class ArrayVisualizer {
             this.resetIndexTable();
         }
 
-        this.MultipleScript = new MultipleScript(this);
+        this.multipleScript = new MultipleScript(this);
 
         this.category = "";
         this.heading = "";
@@ -539,27 +538,22 @@ public final class ArrayVisualizer {
 
         this.statSnapshot = new Statistics(this);
 
-        this.UtilFrame = new UtilFrame(this.array, this);
-        this.ArrayFrame = new ArrayFrame(this.array, this);
+        this.utilFrame = new UtilFrame(this.array, this);
+        this.arrayFrame = new ArrayFrame(this.array, this);
 
-        this.UtilFrame.reposition(this.ArrayFrame);
+        this.utilFrame.reposition(this.arrayFrame);
 
-        this.SHUFFLEANIM = true;
-        this.ANALYZE = false;
-        this.POINTER = false;
-        this.TEXTDRAW = true;
+        this.showShuffleAnimation = true;
+        this.highlightAsAnalysis = false;
+        this.showStatistics = true;
 
-        this.COLOR = false;
-        this.DISPARITYDRAW = false;
-        this.LINEDRAW = false;
-        this.PIXELDRAW = false;
-        this.RAINBOW = false;
-        this.SPIRALDRAW = false;
-        this.EXTARRAYS = false;
+        this.showColor = false;
+        this.showLines = false;
+        this.showExternalArrays = false;
 
-        this.ANTIQSORT = false;
-        this.STABILITY = false;
-        this.NETWORKS = false;
+        this.useAntiQSort = false;
+        this.stabilityChecking = false;
+        this.visualizingNetworks = false;
 
         this.isCanceled = false;
 
@@ -571,7 +565,7 @@ public final class ArrayVisualizer {
         this.ch = 0;
         this.cw = 0;
 
-        this.ArrayManager.initializeArray(this.array);
+        this.arrayManager.initializeArray(this.array);
 
         //TODO: Overhaul visual code to properly reflect Swing (JavaFX?) style and conventions
         this.toggleVisualUpdates(false);
@@ -620,11 +614,11 @@ public final class ArrayVisualizer {
                     try {
                         if (ArrayVisualizer.this.updateVisualsForced > 0) {
                             ArrayVisualizer.this.updateVisualsForced--;
-                            ArrayVisualizer.this.Renderer.updateVisualsStart(ArrayVisualizer.this);
+                            ArrayVisualizer.this.renderer.updateVisualsStart(ArrayVisualizer.this);
                             int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
-                            ArrayVisualizer.this.Renderer.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
+                            ArrayVisualizer.this.renderer.drawVisual(ArrayVisualizer.this.visualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
 
-                            if (ArrayVisualizer.this.TEXTDRAW) {
+                            if (ArrayVisualizer.this.showStatistics) {
                                 ArrayVisualizer.this.statSnapshot.updateStats(ArrayVisualizer.this);
                                 ArrayVisualizer.this.updateFontSize();
                                 ArrayVisualizer.this.drawStats(Color.BLACK, true);
@@ -640,7 +634,7 @@ public final class ArrayVisualizer {
                         e.printStackTrace();
                     }
                     long endTime = System.currentTimeMillis();
-                    statSnapshot.frameTimeMillis = endTime - startTime;
+                    statSnapshot.setFrameTimeMillis(endTime - startTime);
                 }
             }
         };
@@ -658,9 +652,9 @@ public final class ArrayVisualizer {
     }
 
     public void refreshSorts() {
-        this.sorts = this.SortAnalyzer.getSorts();
-        this.invalidSorts = this.SortAnalyzer.getInvalidSorts();
-        this.sortSuggestions = this.SortAnalyzer.getSuggestions();
+        this.sorts = this.sortAnalyzer.getSorts();
+        this.invalidSorts = this.sortAnalyzer.getInvalidSorts();
+        this.sortSuggestions = this.sortAnalyzer.getSuggestions();
     }
 
     private void drawStats(Color textColor, boolean dropShadow) {
@@ -675,6 +669,7 @@ public final class ArrayVisualizer {
         int yPos = (int)(fontSelectionScale / 25.0 * 30);
 
         this.mainRender.setColor(textColor);
+
         int step = 0;
         statLoop:
         for (StatisticType statType : statsConfig) {
@@ -727,22 +722,22 @@ public final class ArrayVisualizer {
                     stat = null; // Unreachable
             }
             mainRender.drawString(stat, xOffset, (int)(windowRatio * yPos) + yOffset);
-            if(step++ == 0 && Highlights.getDeclaredColors().length > 0) {
+            if (step++ == 0 && Highlights.getDeclaredColors().length > 0) {
                 int startOffset = currentWidth(),
                     copy = startOffset, metricFontHeight = mainRender.getFontMetrics().getHeight(),
                     startStat = mainRender.getFontMetrics().stringWidth(stat) + xOffset + 24,
                     copyYPos = (int)(windowRatio * yPos) + yOffset, textWidth;
-                for(String color : Highlights.getDeclaredColors()) {
+                for (String color : Highlights.getDeclaredColors()) {
                     textWidth = mainRender.getFontMetrics().stringWidth(color);
                     startOffset -= textWidth + metricFontHeight + 12;
-                    if(startOffset >= startStat) {
+                    if (startOffset >= startStat) {
                         startOffset = copy - textWidth - metricFontHeight - 12;
                         copyYPos += metricFontHeight + 8;
                     }
-                    if(!dropShadow)
+                    if (!dropShadow)
                         mainRender.setColor(Highlights.getColorFromName(color));
                     mainRender.fillRect(startOffset, copyYPos - metricFontHeight + (metricFontHeight / 3), metricFontHeight, metricFontHeight);
-                    if(!dropShadow)
+                    if (!dropShadow)
                         mainRender.setColor(textColor);
                     mainRender.drawString(color, startOffset + metricFontHeight + 6, copyYPos);
                 }
@@ -781,11 +776,14 @@ public final class ArrayVisualizer {
 
         } else if (this.benchmarking) {
             if (this.getCurrentLength() >= Math.pow(2, 23)) {
-                int warning = JOptionPane.showOptionDialog(this.getMainWindow(), "Warning! "
-                + "Your computer's GPU probably can't handle more than 2^23 elements at any "
-                + "framrate not significantly less than 1. Would you still like "
-                + "to re-enable graphics?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
-                null, new String[] { "Yes", "Please save my GPU!" }, "Please save my GPU!");
+                int warning = JOptionPane.showOptionDialog(
+                    this.getMainWindow(),
+                    "Warning! "
+                        + "Your computer's CPU probably can't handle more than 2^23 elements at any "
+                        + "framrate not significantly less than 1. Would you still like "
+                        + "to re-enable graphics?",
+                    "Warning!", 2, JOptionPane.WARNING_MESSAGE,
+                    null, new String[] { "Yes", "Please save my GPU!" }, "Please save my GPU!");
                 if (warning != 0) {
                     enabled = true;
                 }
@@ -838,7 +836,7 @@ public final class ArrayVisualizer {
     }
 
     public boolean isSorted() {
-        return this.statSnapshot.findSegments(this.array, this.sortLength, this.REVERSED)[0] == 1;
+        return this.statSnapshot.findSegments(this.array, this.sortLength, this.reversedComparator)[0] == 1;
     }
 
     public int[] getArray() {
@@ -850,10 +848,10 @@ public final class ArrayVisualizer {
     }
 
     public ArrayManager getArrayManager() {
-        return this.ArrayManager;
+        return this.arrayManager;
     }
     public SortAnalyzer getSortAnalyzer() {
-        return this.SortAnalyzer;
+        return this.sortAnalyzer;
     }
     public Delays getDelays() {
         return this.Delays;
@@ -865,7 +863,7 @@ public final class ArrayVisualizer {
         return this.Reads;
     }
     public Renderer getRender() {
-        return this.Renderer;
+        return this.renderer;
     }
     public Sounds getSounds() {
         return this.Sounds;
@@ -874,13 +872,13 @@ public final class ArrayVisualizer {
         return this.Timer;
     }
     public VisualStyles getVisualStyles() {
-        return this.VisualStyles;
+        return this.visualStyles;
     }
     public Writes getWrites() {
         return this.Writes;
     }
     public MultipleScript getScriptParser() {
-        return this.MultipleScript;
+        return this.multipleScript;
     }
 
     public Visual[] getVisuals() {
@@ -888,11 +886,11 @@ public final class ArrayVisualizer {
     }
 
     public UtilFrame getUtilFrame() {
-        return this.UtilFrame;
+        return this.utilFrame;
     }
 
     public ArrayFrame getArrayFrame() {
-        return this.ArrayFrame;
+        return this.arrayFrame;
     }
 
     public SortInfo[] getSorts() {
@@ -910,10 +908,10 @@ public final class ArrayVisualizer {
     }
 
     public int getMinimumLength() {
-        return this.MIN_ARRAY_VAL;
+        return this.minArrayVal;
     }
     public int getMaximumLength() {
-        return this.MAX_ARRAY_VAL;
+        return this.maxArrayVal;
     }
 
     public void resetAllStatistics() {
@@ -929,51 +927,51 @@ public final class ArrayVisualizer {
     public void setComparator(int comparator) {
         switch (comparator) {
             case 0:
-                this.REVERSED = false;
-                this.ANTIQSORT = false;
-                this.STABILITY = false;
-                this.NETWORKS = false;
+                this.reversedComparator = false;
+                this.useAntiQSort = false;
+                this.stabilityChecking = false;
+                this.visualizingNetworks = false;
                 break;
             case 1:
-                this.REVERSED = false;
-                this.ANTIQSORT = true;
-                this.STABILITY = false;
-                this.NETWORKS = false;
+                this.reversedComparator = false;
+                this.useAntiQSort = true;
+                this.stabilityChecking = false;
+                this.visualizingNetworks = false;
                 break;
             case 2:
-                this.REVERSED = false;
-                this.ANTIQSORT = false;
-                this.STABILITY = true;
-                this.NETWORKS = false;
+                this.reversedComparator = false;
+                this.useAntiQSort = false;
+                this.stabilityChecking = true;
+                this.visualizingNetworks = false;
                 break;
             case 3:
-                this.REVERSED = true;
-                this.ANTIQSORT = false;
-                this.STABILITY = false;
-                this.NETWORKS = false;
+                this.reversedComparator = true;
+                this.useAntiQSort = false;
+                this.stabilityChecking = false;
+                this.visualizingNetworks = false;
                 break;
             case 4:
-                this.REVERSED = false;
-                this.ANTIQSORT = false;
-                this.STABILITY = false;
-                this.NETWORKS = true;
+                this.reversedComparator = false;
+                this.useAntiQSort = false;
+                this.stabilityChecking = false;
+                this.visualizingNetworks = true;
                 break;
         }
     }
 
     public boolean generateSortingNetworks() {
-        return this.NETWORKS;
+        return this.visualizingNetworks;
     }
 
     public boolean useAntiQSort() {
-        return this.ANTIQSORT;
+        return this.useAntiQSort;
     }
     public void initAntiQSort() {
-        this.AntiQSort.beginSort(this.array, this.sortLength);
+        this.antiQSort.beginSort(this.array, this.sortLength);
     }
     public void finishAntiQSort(String name) {
-        int[] result = this.AntiQSort.getResult();
-        this.AntiQSort.hideResult();
+        int[] result = this.antiQSort.getResult();
+        this.antiQSort.hideResult();
         String outName = "antiqsort_" + name + "_" + this.sortLength;
         if (!ArrayFileWriter.writeArray(outName, result, sortLength)) {
             return;
@@ -981,18 +979,18 @@ public final class ArrayVisualizer {
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + outName + "\"", "AntiQSort", JOptionPane.INFORMATION_MESSAGE);
     }
     public int antiqCompare(int left, int right) {
-        int cmp = this.AntiQSort.compare(left, right);
+        int cmp = this.antiQSort.compare(left, right);
         if (cmp == 0)
             return 0;
         return cmp / Math.abs(cmp);
     }
 
     public boolean doingStabilityCheck() {
-        return this.STABILITY;
+        return this.stabilityChecking;
     }
 
     public boolean reversedComparator() {
-        return this.REVERSED;
+        return this.reversedComparator;
     }
 
     // These next five methods should be part of ArrayManager
@@ -1024,10 +1022,11 @@ public final class ArrayVisualizer {
     }
 
     public boolean shuffleEnabled() {
-        return this.SHUFFLEANIM;
+        return this.showShuffleAnimation;
     }
-    public void toggleShuffleAnimation(boolean Bool) {
-        this.SHUFFLEANIM = Bool;
+
+    public void toggleShuffleAnimation(boolean showShuffleAnimation) {
+        this.showShuffleAnimation = showShuffleAnimation;
     }
 
     public String getCategory() {
@@ -1049,8 +1048,13 @@ public final class ArrayVisualizer {
         this.extraHeading = text;
     }
 
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean pointerActive() {
-        return this.POINTER;
+        return false;
     }
 
     public JFrame getMainWindow() {
@@ -1171,11 +1175,12 @@ public final class ArrayVisualizer {
         this.mainRender.setFont(this.typeFace);
     }
 
-    public void toggleAnalysis(boolean Bool) {
-        this.ANALYZE = Bool;
+    public void toggleAnalysis(boolean highlightAsAnalysis) {
+        this.highlightAsAnalysis = highlightAsAnalysis;
     }
+
     public boolean analysisEnabled() {
-        return this.ANALYZE;
+        return this.highlightAsAnalysis;
     }
 
     public int halfCircle() {
@@ -1196,7 +1201,7 @@ public final class ArrayVisualizer {
         String temp = this.heading;
         this.heading = "Verifying sort...";
 
-        int cmpVal = this.REVERSED ? -1 : 1;
+        int cmpVal = this.reversedComparator ? -1 : 1;
 
         boolean success = true, stable = true;
         int unstableIdx = 0;
@@ -1249,7 +1254,7 @@ public final class ArrayVisualizer {
 
         // if (tempStability && success)
         //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
-        if (this.STABILITY && success && !stable) {
+        if (this.stabilityChecking && success && !stable) {
             boolean tempSound = this.Sounds.isEnabled();
             this.Sounds.toggleSound(false);
             this.Highlights.toggleFancyFinish(false);
@@ -1309,8 +1314,6 @@ public final class ArrayVisualizer {
     public void endSort() {
         this.Timer.disableRealTimer();
         this.Highlights.clearAllMarks();
-        this.Highlights.clearAllColors();
-        this.Highlights.clearColorList();
         System.out.println(formatTimes());
 
         this.isCanceled = false;
@@ -1325,42 +1328,69 @@ public final class ArrayVisualizer {
         this.Highlights.clearAllMarks();
     }
 
-    public void togglePointer(boolean Bool) {
-        this.POINTER = Bool;
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void togglePointer(boolean showPointer) {
     }
-    public void toggleDistance(boolean Bool) {
-        this.DISPARITYDRAW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void toggleDistance(boolean unused) {
     }
-    public void togglePixels(boolean Bool) {
-        this.PIXELDRAW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void togglePixels(boolean usePixels) {
     }
-    public void toggleRainbow(boolean Bool) {
-        this.RAINBOW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void toggleRainbow(boolean rainbow) {
     }
-    public void toggleSpiral(boolean Bool) {
-        this.SPIRALDRAW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void toggleSpiral(boolean spiral) {
     }
-    public void toggleLinkedDots(boolean Bool) {
-        this.LINEDRAW = Bool;
+
+    public void toggleLinkedDots(boolean showLines) {
+        this.showLines = showLines;
     }
-    public void toggleStatistics(boolean Bool) {
-        this.TEXTDRAW = Bool;
+
+    public void toggleStatistics(boolean showStatistics) {
+        this.showStatistics = showStatistics;
     }
-    public void toggleColor(boolean Bool) {
-        this.COLOR = Bool;
+
+    public void toggleColor(boolean showColor) {
+        this.showColor = showColor;
     }
-    public void toggleWave(boolean Bool) {
-        this.WAVEDRAW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void toggleWave(boolean useWave) {
     }
-    public void toggleExternalArrays(boolean Bool) {
-        this.EXTARRAYS = Bool;
+
+    public void toggleExternalArrays(boolean showExternalArrays) {
+        this.showExternalArrays = showExternalArrays;
     }
 
     public void setVisual(VisualStyles choice) {
         if (choice == io.github.arrayv.visuals.VisualStyles.CUSTOM_IMAGE) {
             ((CustomImage) this.visualClasses[9]).enableImgMenu();
         }
-        this.VisualStyles = choice;
+        this.visualStyles = choice;
         synchronized (this) {
             this.updateNow();
         }
@@ -1381,33 +1411,65 @@ public final class ArrayVisualizer {
     }
 
     public void repositionFrames() {
-        this.ArrayFrame.reposition();
-        this.UtilFrame.reposition(this.ArrayFrame);
+        this.arrayFrame.reposition();
+        this.utilFrame.reposition(this.arrayFrame);
     }
 
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean rainbowEnabled() {
-        return this.RAINBOW;
+        return false;
     }
+
     public boolean colorEnabled() {
-        return this.COLOR;
+        return this.showColor;
     }
+
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean spiralEnabled() {
-        return this.SPIRALDRAW;
+        return false;
     }
+
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean distanceEnabled() {
-        return this.DISPARITYDRAW;
+        return false;
     }
+
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean pixelsEnabled() {
-        return this.PIXELDRAW;
+        return false;
     }
+
     public boolean linesEnabled() {
-        return this.LINEDRAW;
+        return this.showLines;
     }
+
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean waveEnabled() {
-        return this.WAVEDRAW;
+        return false;
     }
+
     public boolean externalArraysEnabled() {
-        return this.EXTARRAYS;
+        return this.showExternalArrays;
     }
 
     public DecimalFormat getNumberFormat() {
@@ -1423,7 +1485,7 @@ public final class ArrayVisualizer {
     }
 
     private void drawWindows() {
-        this.VisualStyles = io.github.arrayv.visuals.VisualStyles.BARS;
+        this.visualStyles = io.github.arrayv.visuals.VisualStyles.BARS;
         this.category = "Select a Sort";
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1460,8 +1522,8 @@ public final class ArrayVisualizer {
 
         this.window.setVisible(true);
         this.visualsThread.start();
-        this.UtilFrame.setVisible(true);
-        this.ArrayFrame.setVisible(true);
+        this.utilFrame.setVisible(true);
+        this.arrayFrame.setVisible(true);
 
         this.window.createBufferStrategy(2);
 
@@ -1475,10 +1537,18 @@ public final class ArrayVisualizer {
         }
     }
 
+    public boolean isDisabledStabilityCheck() {
+        return disabledStabilityCheck;
+    }
+
+    public static int getMaxLengthPower() {
+        return maxLengthPower;
+    }
+
     public static void main(String[] args) {
         System.setProperty("sun.java2d.d3d", "false");
         if (args.length > 0) {
-            ArrayVisualizer.MAX_LENGTH_POWER = Integer.parseInt(args[0]);
+            ArrayVisualizer.maxLengthPower = Integer.parseInt(args[0]);
         }
         new ArrayVisualizer();
     }
