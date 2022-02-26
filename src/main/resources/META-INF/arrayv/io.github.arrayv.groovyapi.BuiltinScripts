@@ -29,3 +29,4 @@ scripts/categories/insertion.groovy
 scripts/categories/merge.groovy
 scripts/categories/misc.groovy
 # scripts/categories/quick.groovy
+scripts/categories/selection.groovy
