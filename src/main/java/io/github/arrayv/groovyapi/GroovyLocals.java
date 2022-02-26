@@ -155,7 +155,14 @@ public final class GroovyLocals {
                 JErrorPane.invokeErrorMessage(e);
             }
             Sounds.toggleSound(false);
+
             arrayVisualizer.setSortingThread(null);
+            RunGroupContext rgc;
+            if ((rgc = RunGroupContext.CONTEXT.get()) != null) {
+                for (Runnable closer : rgc.closers) {
+                    closer.run();
+                }
+            }
         }, threadName);
 
         arrayVisualizer.setSortingThread(sortingThread);

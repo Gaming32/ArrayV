@@ -6,14 +6,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,13 +26,13 @@ public final class ScriptManager {
     public final class ScriptThread extends Thread {
         private final File path;
         private final Script script;
-        final List<Runnable> closers;
+        final Set<Runnable> closers;
 
         private ScriptThread(File path, Script script) {
             super(script::run, "Script-" + script.getClass().getName());
             this.path = path;
             this.script = script;
-            this.closers = new ArrayList<>();
+            this.closers = Collections.newSetFromMap(new IdentityHashMap<>());
         }
 
         public File getPath() {

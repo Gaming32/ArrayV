@@ -28,7 +28,10 @@ public final class RunSortBuilder {
 
     private final SortInfo sort;
     private final Map<String, Object> opts;
+    private volatile boolean closed;
     private final Runnable closer = () -> {
+        if (closed) return;
+        removeClosers();
         final String message = this + " never run from Groovy script";
         System.err.println("WARNING: " + message);
         JOptionPane.showMessageDialog(
@@ -41,14 +44,20 @@ public final class RunSortBuilder {
     private Map<String, Object> unmodifiableOpts = null;
 
     RunSortBuilder(Map<String, Object> options, SortInfo sort) {
+        this.closed = false;
         this.sort = sort;
         if (options == null) {
             this.opts = new HashMap<>(ALLOWED_KEYS.size());
         } else {
             this.opts = new HashMap<>(options);
         }
+
         if (Thread.currentThread() instanceof ScriptThread) {
             ((ScriptThread)Thread.currentThread()).closers.add(closer);
+        }
+        RunGroupContext rgc;
+        if ((rgc = RunGroupContext.CONTEXT.get()) != null) {
+            rgc.closers.add(closer);
         }
     }
 
@@ -125,10 +134,22 @@ public final class RunSortBuilder {
         return defaultDelay;
     }
 
-    private void finish() {
+    private void removeClosers() {
         if (Thread.currentThread() instanceof ScriptThread) {
             ((ScriptThread)Thread.currentThread()).closers.remove(closer);
         }
+        RunGroupContext rgc;
+        if ((rgc = RunGroupContext.CONTEXT.get()) != null) {
+            rgc.closers.remove(closer);
+        }
+        // Set this just in case we removed the wrong closer.
+        // This happens if we initialized this instance in a different thread
+        // from the one where we are calling finish().
+        closed = true;
+    }
+
+    private void finish() {
+        removeClosers();
         if (RunGroupContext.CONTEXT.get() == null) {
             final ArrayVisualizer arrayVisualizer = ArrayVisualizer.getInstance();
             Thread sortThread = new Thread(this::run, "ScriptedSort");
