@@ -1313,11 +1313,11 @@ public final class ArrayVisualizer {
 
     public void endSort() {
         this.Timer.disableRealTimer();
-        
+
         this.Highlights.clearAllMarks();
         this.Highlights.clearAllColors();
         this.Highlights.clearColorList();
-        
+
         System.out.println(formatTimes());
 
         this.isCanceled = false;
