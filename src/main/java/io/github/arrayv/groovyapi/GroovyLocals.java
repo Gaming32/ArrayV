@@ -37,7 +37,7 @@ public final class GroovyLocals {
     public static SortInfo newSort(
         @ClosureParams(
             value = SimpleType.class,
-            options = {"int[]"}
+            options = {"int[]", "int", "int"}
         ) Closure<?> sort,
         @DelegatesTo(SortInfo.Builder.class) Closure<?> metadata
     ) {
@@ -76,7 +76,7 @@ public final class GroovyLocals {
 
             @Override
             public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-                sort.call(array);
+                sort.call(array, sortLength, bucketCount);
             }
         }
         builder.instanceSupplier(GroovySort::new);
