@@ -131,12 +131,19 @@ public final class GroovyLocals {
     }
 
     public static Thread runGroupInThread(Integer sortCount, Runnable run) {
+        return runGroupInThread(sortCount, run, false);
+    }
+
+    public static Thread runGroupInThread(Integer sortCount, Runnable run, boolean isRunAll) {
         final ArrayVisualizer arrayVisualizer = getArrayv();
         final ArrayManager arrayManager = arrayVisualizer.getArrayManager();
         final Sounds Sounds = arrayVisualizer.getSounds();
-        final String threadName = (Thread.currentThread() instanceof ScriptThread)
-            ? ("SortGroup-" + ((ScriptThread)Thread.currentThread()).getScript().getClass().getName())
-            : "SortGroup";
+        final String threadName =
+            (isRunAll ? "RunAll" : "SortGroup") + (
+                (Thread.currentThread() instanceof ScriptThread)
+                    ? ("-" + ((ScriptThread)Thread.currentThread()).getScript().getClass().getName())
+                    : ""
+            );
 
         Sounds.toggleSound(true);
         Thread sortingThread = new Thread(() -> {
@@ -146,8 +153,13 @@ public final class GroovyLocals {
 
                 run.run();
 
-                arrayVisualizer.setCategory("Run " + arrayVisualizer.getCategory());
-                arrayVisualizer.setHeading("Done");
+                if (isRunAll) {
+                    arrayVisualizer.setCategory("Showcase Sorts");
+                    arrayVisualizer.setHeading("Finished!!");
+                } else {
+                    arrayVisualizer.setCategory("Run " + arrayVisualizer.getCategory());
+                    arrayVisualizer.setHeading("Done");
+                }
                 arrayVisualizer.updateNow();
 
                 arrayManager.toggleMutableLength(true);

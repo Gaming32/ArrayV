@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
@@ -99,7 +99,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Map<String, Map.Entry<Runnable, Integer>> CATEGORY_SORT_THREADS = new HashMap<>();
+    private static final Map<String, Map.Entry<Runnable, Integer>> CATEGORY_SORT_THREADS = new LinkedHashMap<>();
 
     private int[] array;
 
@@ -327,12 +327,12 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
-        new Thread("AllSortsThread") {
-            @Override
-            public void run(){
-                // TODO: implement Run All again
-            }
-        }.start();
+        GroovyLocals.runGroupInThread(
+            CATEGORY_SORT_THREADS.values().stream().map(e -> e.getValue()).reduce((a, b) -> a + b).get(),
+            () ->
+                CATEGORY_SORT_THREADS.values().stream().map(e -> e.getKey()).forEach(t -> t.run()),
+            true
+        );
         utilFrame.jButton1ResetText();
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
