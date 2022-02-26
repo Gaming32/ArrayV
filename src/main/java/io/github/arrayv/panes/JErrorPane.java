@@ -22,17 +22,21 @@ public final class JErrorPane extends JOptionPane {
         return error;
     }
 
+    public static void invokeMonospaceErrorMessage(String body, String title) {
+        errorMessageActive = true;
+
+        JTextArea error = createTextArea(body);
+
+        JOptionPane.showMessageDialog(null, error, title, JOptionPane.ERROR_MESSAGE);
+        errorMessageActive = false;
+    }
+
     public static void invokeErrorMessage(Throwable e, String title) {
         errorMessageActive = true;
 
         StringWriter exceptionString = new StringWriter();
         e.printStackTrace(new PrintWriter(exceptionString));
-        String printException = exceptionString.toString();
-
-        JTextArea error = createTextArea(printException);
-
-        JOptionPane.showMessageDialog(null, error, title, JOptionPane.ERROR_MESSAGE);
-        errorMessageActive = false;
+        invokeMonospaceErrorMessage(exceptionString.toString(), title);
     }
 
     public static void invokeErrorMessage(Throwable e) {

@@ -16,11 +16,14 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.MultipleCompilationErrorsException;
 import org.codehaus.groovy.control.customizers.ImportCustomizer;
 
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
+import io.github.arrayv.panes.JErrorPane;
 
 public final class ScriptManager {
     public final class ScriptThread extends Thread {
@@ -116,8 +119,22 @@ public final class ScriptManager {
         }
     }
 
+    private Script handleCompilationFailure(CompilationFailedException e) {
+        if (e instanceof MultipleCompilationErrorsException) {
+            JErrorPane.invokeMonospaceErrorMessage(e.getMessage(), "Run Script");
+        } else {
+            JErrorPane.invokeErrorMessage(e, "Run Script");
+        }
+        throw e;
+    }
+
     public Script loadScript(File path) throws IOException {
-        Script script = shell.parse(path);
+        Script script;
+        try {
+            script = shell.parse(path);
+        } catch (CompilationFailedException e) {
+            return handleCompilationFailure(e);
+        }
         script.run();
         return script;
     }
@@ -128,13 +145,21 @@ public final class ScriptManager {
             script = shell.parse(url.toURI());
         } catch (URISyntaxException e) {
             throw new Error(e);
+        } catch (CompilationFailedException e) {
+            return handleCompilationFailure(e);
         }
         script.run();
         return script;
     }
 
     public ScriptThread runInThread(File path) throws IOException {
-        Script script = shell.parse(path);
+        Script script;
+        try {
+            script = shell.parse(path);
+        } catch (CompilationFailedException e) {
+            handleCompilationFailure(e);
+            return null; // UNREACHABLE
+        }
         ScriptThread thread = new ScriptThread(path, script);
         thread.start();
         return thread;
