@@ -62,6 +62,7 @@ SOFTWARE.
  */
 
 public final class RunExchangeSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort UnoptimizedBubbleSort;
     private Sort BubbleSort;
     private Sort UnoptimizedCocktailShakerSort;
@@ -91,6 +92,7 @@ public final class RunExchangeSorts extends MultipleSortThread {
     private Sort StableQuickSortParallel;
     private Sort ThreeSmoothCombSortParallel;
     private Sort SlopeSort;
+    // @checkstyle:on MemberNameCheck
 
     public RunExchangeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

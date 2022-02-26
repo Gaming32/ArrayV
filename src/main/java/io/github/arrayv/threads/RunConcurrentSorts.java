@@ -54,6 +54,7 @@ SOFTWARE.
  */
 
 public final class RunConcurrentSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort FoldSort;
     private Sort CreaseSort;
     private Sort MatrixSort;
@@ -76,6 +77,7 @@ public final class RunConcurrentSorts extends MultipleSortThread {
     private Sort PairwiseMergeSortIterative;
     private Sort PairwiseMergeSortRecursive;
     private Sort WeaveSortParallel;
+    // @checkstyle:on MemberNameCheck
 
     public RunConcurrentSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

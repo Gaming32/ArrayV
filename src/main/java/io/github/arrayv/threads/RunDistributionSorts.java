@@ -51,6 +51,7 @@ SOFTWARE.
  */
 
 public final class RunDistributionSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort CountingSort;
     private Sort PigeonholeSort;
     private Sort OptimizedPigeonholeSort;
@@ -70,6 +71,7 @@ public final class RunDistributionSorts extends MultipleSortThread {
     private Sort TimeSort;
     private Sort StacklessAmericanFlagSort;
     private Sort StacklessBinaryQuickSort;
+    // @checkstyle:on MemberNameCheck
 
     public RunDistributionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

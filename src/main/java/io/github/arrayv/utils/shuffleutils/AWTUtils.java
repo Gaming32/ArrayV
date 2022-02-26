@@ -7,7 +7,10 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.Rectangle2D;
 
-public class AWTUtils {
+public final class AWTUtils {
+    private AWTUtils() {
+    }
+
     public static void drawCircle(Graphics2D g, int x, int y, int r) {
         x = x - r;
         y = y - r;

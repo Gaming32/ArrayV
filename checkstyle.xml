@@ -1,0 +1,137 @@
+<!DOCTYPE module PUBLIC
+  "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+  "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <property name="cacheFile" value="target/checkstyle-cache"/>
+  <property name="fileExtensions" value="java"/>
+
+  <module name="BeforeExecutionExclusionFileFilter">
+    <property name="fileNamePattern" value=".*[\\/]src[\\/]main[\\/]java[\\/]io[\\/]github[\\/]arrayv[\\/]sorts.*$"/>
+  </module>
+
+  <module name="FileTabCharacter">
+    <property name="eachLine" value="true"/>
+  </module>
+
+  <module name="NewlineAtEndOfFile"/>
+
+  <module name="TreeWalker">
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="@checkstyle\:off ([\w\|]+)"/>
+      <property name="onCommentFormat" value="@checkstyle\:on ([\w\|]+)"/>
+      <property name="checkFormat" value="$1"/>
+    </module>
+
+    <module name="Regexp">
+      <property name="format" value="[ \t]+$"/>
+      <property name="illegalPattern" value="true"/>
+      <property name="message" value="Trailing whitespace"/>
+    </module>
+
+    <!-- Enforces that constants are in SHOUTING_SNAKE_CASE -->
+    <module name="ConstantName"/>
+
+    <!-- Handles the mistake described here: https://checkstyle.sourceforge.io/config_coding.html#CovariantEquals_Description -->
+    <module name="CovariantEquals"/>
+
+    <module name="FinalClass"/>
+
+    <module name="GenericWhitespace"/>
+
+    <module name="HideUtilityClassConstructor"/>
+
+    <module name="Indentation">
+      <property name="basicOffset" value="4"/>
+    </module>
+
+    <module name="InvalidJavadocPosition"/>
+
+    <module name="JavadocMissingLeadingAsterisk"/>
+
+    <module name="JavadocMissingWhitespaceAfterAsterisk"/>
+
+    <module name="LeftCurly">
+      <property name="option" value="eol"/>
+      <property name="ignoreEnums" value="false"/>
+    </module>
+
+    <module name="LocalVariableName">
+      <property name="format" value="^(Writes|Reads|Highlights|Delays|Sounds|Timer|[a-z][a-zA-Z0-9]*)$"/>
+    </module>
+
+    <module name="MemberName">
+      <property name="format" value="^(Writes|Reads|Highlights|Delays|Sounds|Timer|[a-z][a-zA-Z0-9]*)$"/>
+    </module>
+
+    <module name="MethodName"/>
+
+    <module name="MethodParamPad"/>
+
+    <module name="ModifierOrder"/>
+
+    <module name="MutableException"/>
+
+    <module name="NoArrayTrailingComma"/>
+
+    <module name="NoWhitespaceBefore"/>
+
+    <module name="NoWhitespaceBeforeCaseDefaultColon"/>
+
+    <module name="OuterTypeFilename"/>
+
+    <module name="OuterTypeNumber"/>
+
+    <module name="PackageName">
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+    </module>
+
+    <module name="ParameterName">
+      <property name="format" value="^(Writes|Reads|Highlights|Delays|Sounds|Timer|[a-z][a-zA-Z0-9]*)$"/>
+    </module>
+
+    <module name="ParenPad"/>
+
+    <module name="RedundantImport"/>
+
+    <module name="RedundantModifier"/>
+
+    <module name="RightCurly">
+      <property name="option" value="same"/>
+    </module>
+
+    <module name="SimplifyBooleanExpression"/>
+
+    <module name="SimplifyBooleanReturn"/>
+
+    <module name="StaticVariableName"/>
+
+    <module name="SuperClone"/>
+
+    <module name="SuperFinalize"/>
+
+    <module name="TypecastParenPad"/>
+
+    <module name="TypeName"/>
+
+    <module name="UnnecessarySemicolonInEnumeration"/>
+
+    <module name="UnnecessarySemicolonAfterOuterTypeDeclaration"/>
+
+    <module name="UnnecessarySemicolonAfterTypeMemberDeclaration"/>
+
+    <module name="UnusedImports"/>
+
+    <module name="UpperEll"/>
+
+    <module name="VisibilityModifier">
+      <property name="packageAllowed" value="true"/>
+      <property name="protectedAllowed" value="true"/>
+    </module>
+
+    <module name="WhitespaceAfter">
+      <property name="tokens" value="COMMA, SEMI, LITERAL_IF, LITERAL_ELSE, LITERAL_WHILE, LITERAL_DO, LITERAL_FOR, DO_WHILE" />
+    </module>
+  </module>
+</module>

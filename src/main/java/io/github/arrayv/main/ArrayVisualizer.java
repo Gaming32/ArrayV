@@ -116,7 +116,9 @@ SOFTWARE.
  */
 
 public final class ArrayVisualizer {
+    // @checkstyle:off StaticVariableName
     private static ArrayVisualizer INSTANCE = null;
+    // @checkstyle:on StaticVariableName
 
     private enum StatisticType {
         LINE_BREAK,
@@ -134,6 +136,7 @@ public final class ArrayVisualizer {
         AUX_ALLOC,
         SEGMENTS;
 
+        // @checkstyle:off IndentationCheck - It doesn't like {{ syntax
         private static final Map<String, StatisticType> CONFIG_KEYS = Collections.unmodifiableMap(new HashMap<String, StatisticType>() {{
             put("",         LINE_BREAK);
             put("sort",     SORT_IDENTITY);
@@ -150,14 +153,15 @@ public final class ArrayVisualizer {
             put("auxlen",   AUX_ALLOC);
             put("segments", SEGMENTS);
         }});
+        // @checkstyle:on IndentationCheck
     }
 
     final JFrame window;
 
-    final private int MIN_ARRAY_VAL;
-    final private int MAX_ARRAY_VAL;
+    private final int minArrayVal;
+    private final int maxArrayVal;
 
-    final private Properties buildInfo;
+    private final Properties buildInfo;
 
     final int[] array;
     final int[] validateArray;
@@ -173,11 +177,11 @@ public final class ArrayVisualizer {
     private volatile int sortLength;
     private volatile int uniqueItems;
 
-    private ArrayManager ArrayManager;
-    private SortAnalyzer SortAnalyzer;
+    private ArrayManager arrayManager;
+    private SortAnalyzer sortAnalyzer;
 
-    private UtilFrame UtilFrame;
-    private ArrayFrame ArrayFrame;
+    private UtilFrame utilFrame;
+    private ArrayFrame arrayFrame;
 
     private Visual[] visualClasses;
 
@@ -185,7 +189,7 @@ public final class ArrayVisualizer {
     private Thread visualsThread;
 
     private volatile boolean visualsEnabled;
-    public final boolean disabledStabilityCheck;
+    private final boolean disabledStabilityCheck;
 
     private String category;
     private String heading;
@@ -196,30 +200,23 @@ public final class ArrayVisualizer {
 
     private volatile int currentGap;
 
-    private boolean SHUFFLEANIM;
+    private boolean showShuffleAnimation;
 
-    private volatile boolean ANALYZE;
-
-    private volatile boolean POINTER;
+    private volatile boolean highlightAsAnalysis;
 
     private Statistics statSnapshot;
     private String fontSelection;
     private double fontSelectionScale;
 
-    private volatile boolean TEXTDRAW;
-    private volatile boolean COLOR;
-    private volatile boolean DISPARITYDRAW;
-    private volatile boolean LINEDRAW;
-    private volatile boolean PIXELDRAW;
-    private volatile boolean RAINBOW;
-    private volatile boolean SPIRALDRAW;
-    private volatile boolean WAVEDRAW;
-    private volatile boolean EXTARRAYS;
+    private volatile boolean showStatistics;
+    private volatile boolean showColor;
+    private volatile boolean showLines;
+    private volatile boolean showExternalArrays;
 
-    private volatile boolean ANTIQSORT;
-    private volatile boolean STABILITY;
-    private volatile boolean NETWORKS;
-    private volatile boolean REVERSED;
+    private volatile boolean useAntiQSort;
+    private volatile boolean stabilityChecking;
+    private volatile boolean visualizingNetworks;
+    private volatile boolean reversedComparator;
 
     private volatile boolean isCanceled;
 
@@ -232,23 +229,23 @@ public final class ArrayVisualizer {
     private Graphics2D mainRender;
     private Graphics2D extraRender;
 
-    private final Delays DELAYS;
-    private final Highlights HIGHLIGHTS;
-    private final Reads READS;
-    private final Renderer RENDERER;
-    private final Sounds SOUNDS;
-    private final Timer TIMER;
-    private final Writes WRITES;
-    private final AntiQSort ANTI_Q_SORT;
-    private final MultipleScript MULTIPLE_SCRIPT;
-    private final ScriptManager SCRIPT_MANAGER;
+    private final Delays Delays;
+    private final Highlights Highlights;
+    private final MultipleScript multipleScript;
+    private final Reads Reads;
+    private final Renderer renderer;
+    private final Sounds Sounds;
+    private final Timer Timer;
+    private final Writes Writes;
+    private final AntiQSort antiQSort;
+    private final ScriptManager scriptManager;
 
-    private VisualStyles VisualStyles;
+    private VisualStyles visualStyle;
 
     private volatile int updateVisualsForced;
-    public  volatile boolean benchmarking;
+    private volatile boolean benchmarking;
 
-    public static int MAX_LENGTH_POWER = 15;
+    private static int maxLengthPower;
 
     private volatile boolean hidden;
     private volatile boolean frameSkipped;
@@ -291,11 +288,11 @@ public final class ArrayVisualizer {
                     List<File> droppedFiles = (List<File>)e.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
                     int success = 0;
                     for (File file : droppedFiles) {
-                        if (ArrayVisualizer.this.SortAnalyzer.importSort(file, false)) {
+                        if (ArrayVisualizer.this.sortAnalyzer.importSort(file, false)) {
                             success++;
                         }
                     }
-                    ArrayVisualizer.this.SortAnalyzer.sortSorts();
+                    ArrayVisualizer.this.sortAnalyzer.sortSorts();
                     ArrayVisualizer.this.refreshSorts();
                     if (success == 0) {
                         JErrorPane.invokeCustomErrorMessage("Failed to import all " + droppedFiles.size() + " sorts");
@@ -323,9 +320,9 @@ public final class ArrayVisualizer {
                     Thread thread = new Thread("ScriptSortThread") {
                         @Override
                         public void run(){
-                            RunScriptedSorts RunScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
+                            RunScriptedSorts runScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
                             try {
-                                RunScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
+                                runScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
                             } catch (Exception e) {
                                 JErrorPane.invokeErrorMessage(e);
                             }
@@ -387,12 +384,12 @@ public final class ArrayVisualizer {
             e.printStackTrace();
         }
 
-        this.MIN_ARRAY_VAL = 2;
-        this.MAX_ARRAY_VAL = (int)Math.pow(2, MAX_LENGTH_POWER);
+        this.minArrayVal = 2;
+        this.maxArrayVal = (int)Math.pow(2, maxLengthPower);
 
         int[] array;
         try {
-            array = new int[this.MAX_ARRAY_VAL];
+            array = new int[this.maxArrayVal];
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate main array. The program will now exit.");
             System.exit(1);
@@ -400,7 +397,7 @@ public final class ArrayVisualizer {
         }
         this.array = array;
 
-        this.sortLength = this.MAX_ARRAY_VAL;
+        this.sortLength = this.maxArrayVal;
 
         this.arrays = new ArrayList<>();
         this.arrays.add(this.array);
@@ -459,6 +456,7 @@ public final class ArrayVisualizer {
                 "ArrayVisualizer",
                 JOptionPane.WARNING_MESSAGE
             );
+            // @checkstyle:off IndentationCheck - There's custom indentation here to make things more readable
             statsConfig = new StatisticType[] {
                 StatisticType.SORT_IDENTITY,
                 StatisticType.ARRAY_LENGTH,
@@ -476,11 +474,12 @@ public final class ArrayVisualizer {
                 StatisticType.AUX_ALLOC,
                 StatisticType.SEGMENTS
             };
+            // @checkstyle:on IndentationCheck
         } else {
             statsConfig = statsInfoList.toArray(new StatisticType[statsInfoList.size()]);
         }
 
-        this.sortLength = Math.min(2048, this.MAX_ARRAY_VAL);
+        this.sortLength = Math.min(2048, this.maxArrayVal);
         this.uniqueItems = this.sortLength;
 
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
@@ -489,30 +488,30 @@ public final class ArrayVisualizer {
         this.symbols.setGroupingSeparator(',');
         this.formatter.setDecimalFormatSymbols(this.symbols);
 
-        this.HIGHLIGHTS = new Highlights(this, this.MAX_ARRAY_VAL);
-        this.SOUNDS = new Sounds(this.array, this);
-        this.DELAYS = new Delays(this);
-        this.TIMER = new Timer(this);
-        this.READS = new Reads(this);
-        this.RENDERER = new Renderer(this);
-        this.WRITES = new Writes(this);
-        this.ANTI_Q_SORT = new AntiQSort(this);
-        this.SCRIPT_MANAGER = new ScriptManager();
+        this.Highlights = new Highlights(this, this.maxArrayVal);
+        this.Sounds = new Sounds(this.array, this);
+        this.Delays = new Delays(this);
+        this.Timer = new Timer(this);
+        this.Reads = new Reads(this);
+        this.renderer = new Renderer(this);
+        this.Writes = new Writes(this);
+        this.antiQSort = new AntiQSort(this);
+        this.scriptManager = new ScriptManager();
 
-        SoundFrame test = new SoundFrame(this.SOUNDS);
+        SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);
 
-        this.ArrayManager = new ArrayManager(this);
-        this.SortAnalyzer = new SortAnalyzer(this);
+        this.arrayManager = new ArrayManager(this);
+        this.sortAnalyzer = new SortAnalyzer(this);
 
-        this.SortAnalyzer.analyzeSorts();
+        this.sortAnalyzer.analyzeSorts();
         this.refreshSorts();
 
         int[] stabilityTable, indexTable, validateArray;
         boolean disabledStabilityCheck;
         try {
-            stabilityTable = new int[this.MAX_ARRAY_VAL];
-            indexTable = new int[this.MAX_ARRAY_VAL];
+            stabilityTable = new int[this.maxArrayVal];
+            indexTable = new int[this.maxArrayVal];
             disabledStabilityCheck = false;
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate arrays for stability check. This feature will be disabled.");
@@ -521,7 +520,7 @@ public final class ArrayVisualizer {
             disabledStabilityCheck = true;
         }
         try {
-            validateArray = new int[this.MAX_ARRAY_VAL];
+            validateArray = new int[this.maxArrayVal];
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate array for improved validation. This feature will be disabled.");
             validateArray = null;
@@ -535,7 +534,7 @@ public final class ArrayVisualizer {
             this.resetIndexTable();
         }
 
-        this.MULTIPLE_SCRIPT = new MultipleScript(this);
+        this.multipleScript = new MultipleScript(this);
 
         this.category = "";
         this.heading = "";
@@ -544,27 +543,22 @@ public final class ArrayVisualizer {
 
         this.statSnapshot = new Statistics(this);
 
-        this.UtilFrame = new UtilFrame(this.array, this);
-        this.ArrayFrame = new ArrayFrame(this.array, this);
+        this.utilFrame = new UtilFrame(this.array, this);
+        this.arrayFrame = new ArrayFrame(this.array, this);
 
-        this.UtilFrame.reposition(this.ArrayFrame);
+        this.utilFrame.reposition(this.arrayFrame);
 
-        this.SHUFFLEANIM = true;
-        this.ANALYZE = false;
-        this.POINTER = false;
-        this.TEXTDRAW = true;
+        this.showShuffleAnimation = true;
+        this.highlightAsAnalysis = false;
+        this.showStatistics = true;
 
-        this.COLOR = false;
-        this.DISPARITYDRAW = false;
-        this.LINEDRAW = false;
-        this.PIXELDRAW = false;
-        this.RAINBOW = false;
-        this.SPIRALDRAW = false;
-        this.EXTARRAYS = false;
+        this.showColor = false;
+        this.showLines = false;
+        this.showExternalArrays = false;
 
-        this.ANTIQSORT = false;
-        this.STABILITY = false;
-        this.NETWORKS = false;
+        this.useAntiQSort = false;
+        this.stabilityChecking = false;
+        this.visualizingNetworks = false;
 
         this.isCanceled = false;
 
@@ -576,10 +570,10 @@ public final class ArrayVisualizer {
         this.ch = 0;
         this.cw = 0;
 
-        SCRIPT_MANAGER.loadDefaultScripts();
-        SCRIPT_MANAGER.runEventHandlers(ArrayVEventHandler.EventType.DEFAULT_SCRIPTS_INSTALLED);
+        scriptManager.loadDefaultScripts();
+        scriptManager.runEventHandlers(ArrayVEventHandler.EventType.DEFAULT_SCRIPTS_INSTALLED);
 
-        this.ArrayManager.initializeArray(this.array);
+        this.arrayManager.initializeArray(this.array);
 
         //TODO: Overhaul visual code to properly reflect Swing (JavaFX?) style and conventions
         this.toggleVisualUpdates(false);
@@ -628,11 +622,11 @@ public final class ArrayVisualizer {
                     try {
                         if (ArrayVisualizer.this.updateVisualsForced > 0) {
                             ArrayVisualizer.this.updateVisualsForced--;
-                            ArrayVisualizer.this.RENDERER.updateVisualsStart(ArrayVisualizer.this);
+                            ArrayVisualizer.this.renderer.updateVisualsStart(ArrayVisualizer.this);
                             int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
-                            ArrayVisualizer.this.RENDERER.drawVisual(ArrayVisualizer.this.VisualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.HIGHLIGHTS);
+                            ArrayVisualizer.this.renderer.drawVisual(ArrayVisualizer.this.visualStyle, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
 
-                            if (ArrayVisualizer.this.TEXTDRAW) {
+                            if (ArrayVisualizer.this.showStatistics) {
                                 ArrayVisualizer.this.statSnapshot.updateStats(ArrayVisualizer.this);
                                 ArrayVisualizer.this.updateFontSize();
                                 ArrayVisualizer.this.drawStats(Color.BLACK, true);
@@ -648,15 +642,15 @@ public final class ArrayVisualizer {
                         e.printStackTrace();
                     }
                     long endTime = System.currentTimeMillis();
-                    statSnapshot.frameTimeMillis = endTime - startTime;
+                    statSnapshot.setFrameTimeMillis(endTime - startTime);
                 }
             }
         };
 
-        this.SOUNDS.startAudioThread();
+        this.Sounds.startAudioThread();
         this.drawWindows();
 
-        SCRIPT_MANAGER.runEventHandlers(ArrayVEventHandler.EventType.ARRAYV_FULLY_LOADED);
+        scriptManager.runEventHandlers(ArrayVEventHandler.EventType.ARRAYV_FULLY_LOADED);
     }
 
     public static ArrayVisualizer getInstance() {
@@ -668,9 +662,9 @@ public final class ArrayVisualizer {
     }
 
     public void refreshSorts() {
-        this.sorts = this.SortAnalyzer.getSorts();
-        this.invalidSorts = this.SortAnalyzer.getInvalidSorts();
-        this.sortSuggestions = this.SortAnalyzer.getSuggestions();
+        this.sorts = this.sortAnalyzer.getSorts();
+        this.invalidSorts = this.sortAnalyzer.getInvalidSorts();
+        this.sortSuggestions = this.sortAnalyzer.getSuggestions();
     }
 
     private void drawStats(Color textColor, boolean dropShadow) {
@@ -771,11 +765,14 @@ public final class ArrayVisualizer {
 
         } else if (this.benchmarking) {
             if (this.getCurrentLength() >= Math.pow(2, 23)) {
-                int warning = JOptionPane.showOptionDialog(this.getMainWindow(), "Warning! "
-                + "Your computer's GPU probably can't handle more than 2^23 elements at any "
-                + "framrate not significantly less than 1. Would you still like "
-                + "to re-enable graphics?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
-                null, new String[] { "Yes", "Please save my GPU!" }, "Please save my GPU!");
+                int warning = JOptionPane.showOptionDialog(
+                    this.getMainWindow(),
+                    "Warning! "
+                        + "Your computer's CPU probably can't handle more than 2^23 elements at any "
+                        + "framrate not significantly less than 1. Would you still like "
+                        + "to re-enable graphics?",
+                    "Warning!", 2, JOptionPane.WARNING_MESSAGE,
+                    null, new String[] { "Yes", "Please save my GPU!" }, "Please save my GPU!");
                 if (warning != 0) {
                     enabled = true;
                 }
@@ -828,7 +825,7 @@ public final class ArrayVisualizer {
     }
 
     public boolean isSorted() {
-        return this.statSnapshot.findSegments(this.array, this.sortLength, this.REVERSED)[0] == 1;
+        return this.statSnapshot.findSegments(this.array, this.sortLength, this.reversedComparator)[0] == 1;
     }
 
     public int[] getArray() {
@@ -840,41 +837,41 @@ public final class ArrayVisualizer {
     }
 
     public ArrayManager getArrayManager() {
-        return this.ArrayManager;
+        return this.arrayManager;
     }
     public SortAnalyzer getSortAnalyzer() {
-        return this.SortAnalyzer;
+        return this.sortAnalyzer;
     }
     public Delays getDelays() {
-        return this.DELAYS;
+        return this.Delays;
     }
     public Highlights getHighlights() {
-        return this.HIGHLIGHTS;
+        return this.Highlights;
     }
     public Reads getReads() {
-        return this.READS;
+        return this.Reads;
     }
     public Renderer getRender() {
-        return this.RENDERER;
+        return this.renderer;
     }
     public Sounds getSounds() {
-        return this.SOUNDS;
+        return this.Sounds;
     }
     public Timer getTimer() {
-        return this.TIMER;
+        return this.Timer;
     }
     public VisualStyles getVisualStyles() {
-        return this.VisualStyles;
+        return this.visualStyle;
     }
     public Writes getWrites() {
-        return this.WRITES;
+        return this.Writes;
     }
     public MultipleScript getScriptParser() {
-        return this.MULTIPLE_SCRIPT;
+        return this.multipleScript;
     }
 
     public ScriptManager getScriptManager() {
-        return SCRIPT_MANAGER;
+        return scriptManager;
     }
 
     public Visual[] getVisuals() {
@@ -882,11 +879,11 @@ public final class ArrayVisualizer {
     }
 
     public UtilFrame getUtilFrame() {
-        return this.UtilFrame;
+        return this.utilFrame;
     }
 
     public ArrayFrame getArrayFrame() {
-        return this.ArrayFrame;
+        return this.arrayFrame;
     }
 
     public SortInfo[] getSorts() {
@@ -904,16 +901,16 @@ public final class ArrayVisualizer {
     }
 
     public int getMinimumLength() {
-        return this.MIN_ARRAY_VAL;
+        return this.minArrayVal;
     }
     public int getMaximumLength() {
-        return this.MAX_ARRAY_VAL;
+        return this.maxArrayVal;
     }
 
     public void resetAllStatistics() {
-        this.READS.resetStatistics();
-        this.WRITES.resetStatistics();
-        this.TIMER.manualSetTime(0);
+        this.Reads.resetStatistics();
+        this.Writes.resetStatistics();
+        this.Timer.manualSetTime(0);
     }
 
     public boolean isActive() {
@@ -923,51 +920,51 @@ public final class ArrayVisualizer {
     public void setComparator(int comparator) {
         switch (comparator) {
             case 0:
-                this.REVERSED = false;
-                this.ANTIQSORT = false;
-                this.STABILITY = false;
-                this.NETWORKS = false;
+                this.reversedComparator = false;
+                this.useAntiQSort = false;
+                this.stabilityChecking = false;
+                this.visualizingNetworks = false;
                 break;
             case 1:
-                this.REVERSED = false;
-                this.ANTIQSORT = true;
-                this.STABILITY = false;
-                this.NETWORKS = false;
+                this.reversedComparator = false;
+                this.useAntiQSort = true;
+                this.stabilityChecking = false;
+                this.visualizingNetworks = false;
                 break;
             case 2:
-                this.REVERSED = false;
-                this.ANTIQSORT = false;
-                this.STABILITY = true;
-                this.NETWORKS = false;
+                this.reversedComparator = false;
+                this.useAntiQSort = false;
+                this.stabilityChecking = true;
+                this.visualizingNetworks = false;
                 break;
             case 3:
-                this.REVERSED = true;
-                this.ANTIQSORT = false;
-                this.STABILITY = false;
-                this.NETWORKS = false;
+                this.reversedComparator = true;
+                this.useAntiQSort = false;
+                this.stabilityChecking = false;
+                this.visualizingNetworks = false;
                 break;
             case 4:
-                this.REVERSED = false;
-                this.ANTIQSORT = false;
-                this.STABILITY = false;
-                this.NETWORKS = true;
+                this.reversedComparator = false;
+                this.useAntiQSort = false;
+                this.stabilityChecking = false;
+                this.visualizingNetworks = true;
                 break;
         }
     }
 
     public boolean generateSortingNetworks() {
-        return this.NETWORKS;
+        return this.visualizingNetworks;
     }
 
     public boolean useAntiQSort() {
-        return this.ANTIQSORT;
+        return this.useAntiQSort;
     }
     public void initAntiQSort() {
-        this.ANTI_Q_SORT.beginSort(this.array, this.sortLength);
+        this.antiQSort.beginSort(this.array, this.sortLength);
     }
     public void finishAntiQSort(String name) {
-        int[] result = this.ANTI_Q_SORT.getResult();
-        this.ANTI_Q_SORT.hideResult();
+        int[] result = this.antiQSort.getResult();
+        this.antiQSort.hideResult();
         String outName = "antiqsort_" + name + "_" + this.sortLength;
         if (!ArrayFileWriter.writeArray(outName, result, sortLength)) {
             return;
@@ -975,18 +972,18 @@ public final class ArrayVisualizer {
         JOptionPane.showMessageDialog(null, "Successfully saved output to file \"" + outName + "\"", "AntiQSort", JOptionPane.INFORMATION_MESSAGE);
     }
     public int antiqCompare(int left, int right) {
-        int cmp = this.ANTI_Q_SORT.compare(left, right);
+        int cmp = this.antiQSort.compare(left, right);
         if (cmp == 0)
             return 0;
         return cmp / Math.abs(cmp);
     }
 
     public boolean doingStabilityCheck() {
-        return this.STABILITY;
+        return this.stabilityChecking;
     }
 
     public boolean reversedComparator() {
-        return this.REVERSED;
+        return this.reversedComparator;
     }
 
     // These next five methods should be part of ArrayManager
@@ -995,7 +992,7 @@ public final class ArrayVisualizer {
     }
     public void setCurrentLength(int newLength) {
         this.sortLength = newLength;
-        this.DELAYS.setSleepRatio(this.sortLength/1024d);
+        this.Delays.setSleepRatio(this.sortLength/1024d);
     }
 
     public void setUniqueItems(int newCount) {
@@ -1018,10 +1015,11 @@ public final class ArrayVisualizer {
     }
 
     public boolean shuffleEnabled() {
-        return this.SHUFFLEANIM;
+        return this.showShuffleAnimation;
     }
-    public void toggleShuffleAnimation(boolean Bool) {
-        this.SHUFFLEANIM = Bool;
+
+    public void toggleShuffleAnimation(boolean showShuffleAnimation) {
+        this.showShuffleAnimation = showShuffleAnimation;
     }
 
     public String getCategory() {
@@ -1043,8 +1041,13 @@ public final class ArrayVisualizer {
         this.extraHeading = text;
     }
 
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean pointerActive() {
-        return this.POINTER;
+        return false;
     }
 
     public JFrame getMainWindow() {
@@ -1165,11 +1168,12 @@ public final class ArrayVisualizer {
         this.mainRender.setFont(this.typeFace);
     }
 
-    public void toggleAnalysis(boolean Bool) {
-        this.ANALYZE = Bool;
+    public void toggleAnalysis(boolean highlightAsAnalysis) {
+        this.highlightAsAnalysis = highlightAsAnalysis;
     }
+
     public boolean analysisEnabled() {
-        return this.ANALYZE;
+        return this.highlightAsAnalysis;
     }
 
     public int halfCircle() {
@@ -1178,19 +1182,19 @@ public final class ArrayVisualizer {
 
     //TODO: This method is *way* too long. Break it apart.
     public synchronized void verifySortAndSweep() {
-        this.HIGHLIGHTS.toggleFancyFinish(true);
-        this.HIGHLIGHTS.resetFancyFinish();
+        this.Highlights.toggleFancyFinish(true);
+        this.Highlights.resetFancyFinish();
 
-        this.DELAYS.setSleepRatio(1);
+        this.Delays.setSleepRatio(1);
 
         double sleepRatio = 256d/this.sortLength;
-        long tempComps = this.READS.getComparisons();
-        this.READS.setComparisons(0);
+        long tempComps = this.Reads.getComparisons();
+        this.Reads.setComparisons(0);
 
         String temp = this.heading;
         this.heading = "Verifying sort...";
 
-        int cmpVal = this.REVERSED ? -1 : 1;
+        int cmpVal = this.reversedComparator ? -1 : 1;
 
         boolean success = true, stable = true;
         int unstableIdx = 0;
@@ -1200,159 +1204,186 @@ public final class ArrayVisualizer {
         int invalidateIdx = 0;
 
         for (int i = 0; i < this.sortLength + this.getLogBaseTwoOfLength(); i++) {
-            if (i < this.sortLength) this.HIGHLIGHTS.markArray(1, i);
-            this.HIGHLIGHTS.incrementFancyFinishPosition();
+            if (i < this.sortLength) this.Highlights.markArray(1, i);
+            this.Highlights.incrementFancyFinishPosition();
 
             if (i < this.sortLength - 1) {
-                if (validate && !validateFailed && this.READS.compareOriginalValues(this.array[i], this.validateArray[i]) != 0) {
+                if (validate && !validateFailed && this.Reads.compareOriginalValues(this.array[i], this.validateArray[i]) != 0) {
                     validateFailed = true;
                     invalidateIdx = i;
                 }
-                if (stable && this.READS.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
+                if (stable && this.Reads.compareOriginalValues(this.array[i], this.array[i + 1]) == cmpVal) {
                     stable = false;
                     unstableIdx = i;
                 }
-                if (this.READS.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
-                    this.HIGHLIGHTS.clearMark(1);
+                if (this.Reads.compareValues(this.array[i], this.array[i + 1]) == cmpVal) {
+                    this.Highlights.clearMark(1);
 
-                    boolean tempSound = this.SOUNDS.isEnabled();
-                    this.SOUNDS.toggleSound(false);
-                    this.HIGHLIGHTS.toggleFancyFinish(false);
+                    boolean tempSound = this.Sounds.isEnabled();
+                    this.Sounds.toggleSound(false);
+                    this.Highlights.toggleFancyFinish(false);
 
                     for (int j = i + 1; j < this.sortLength; j++) {
-                        this.HIGHLIGHTS.markArray(j, j);
-                        this.DELAYS.sleep(sleepRatio);
+                        this.Highlights.markArray(j, j);
+                        this.Delays.sleep(sleepRatio);
                     }
 
                     JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
                     success = false;
 
-                    this.HIGHLIGHTS.clearAllMarks();
+                    this.Highlights.clearAllMarks();
 
                     i = this.sortLength + this.getLogBaseTwoOfLength();
 
-                    this.SOUNDS.toggleSound(tempSound);
+                    this.Sounds.toggleSound(tempSound);
                 }
             }
 
-            if (this.HIGHLIGHTS.fancyFinishEnabled()) {
-                this.DELAYS.sleep(sleepRatio);
+            if (this.Highlights.fancyFinishEnabled()) {
+                this.Delays.sleep(sleepRatio);
             }
         }
-        this.HIGHLIGHTS.clearMark(1);
+        this.Highlights.clearMark(1);
 
         // if (tempStability && success)
         //     JOptionPane.showMessageDialog(this.window, "This sort is stable!", "Information", JOptionPane.OK_OPTION, null);
-        if (this.STABILITY && success && !stable) {
-            boolean tempSound = this.SOUNDS.isEnabled();
-            this.SOUNDS.toggleSound(false);
-            this.HIGHLIGHTS.toggleFancyFinish(false);
+        if (this.stabilityChecking && success && !stable) {
+            boolean tempSound = this.Sounds.isEnabled();
+            this.Sounds.toggleSound(false);
+            this.Highlights.toggleFancyFinish(false);
 
             for (int j = unstableIdx; j < this.sortLength; j++) {
-                this.HIGHLIGHTS.markArray(j, j);
-                this.DELAYS.sleep(sleepRatio);
+                this.Highlights.markArray(j, j);
+                this.Delays.sleep(sleepRatio);
             }
 
             JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + unstableIdx + " and " + (unstableIdx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
 
-            this.HIGHLIGHTS.clearAllMarks();
-            this.SOUNDS.toggleSound(tempSound);
+            this.Highlights.clearAllMarks();
+            this.Sounds.toggleSound(tempSound);
         } else if (success && validateFailed) {
-            boolean tempSound = this.SOUNDS.isEnabled();
-            this.SOUNDS.toggleSound(false);
-            this.HIGHLIGHTS.toggleFancyFinish(false);
+            boolean tempSound = this.Sounds.isEnabled();
+            this.Sounds.toggleSound(false);
+            this.Highlights.toggleFancyFinish(false);
 
             for (int j = invalidateIdx + 1; j < this.sortLength; j++) {
-                this.HIGHLIGHTS.markArray(j, j);
-                this.DELAYS.sleep(sleepRatio);
+                this.Highlights.markArray(j, j);
+                this.Delays.sleep(sleepRatio);
             }
 
             JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\narray[" + invalidateIdx + "] != validateArray[" + invalidateIdx + "]", "Error", JOptionPane.OK_OPTION, null);
 
-            this.HIGHLIGHTS.clearAllMarks();
-            this.SOUNDS.toggleSound(tempSound);
+            this.Highlights.clearAllMarks();
+            this.Sounds.toggleSound(tempSound);
         }
 
         this.heading = temp;
-        this.READS.setComparisons(tempComps);
+        this.Reads.setComparisons(tempComps);
 
         if (this.benchmarking) {
-            JOptionPane.showMessageDialog(this.window, "The sort took a total of " + this.TIMER.getRealTime());
+            JOptionPane.showMessageDialog(this.window, "The sort took a total of " + this.Timer.getRealTime());
         }
 
-        if (this.HIGHLIGHTS.fancyFinishActive()) {
-            this.HIGHLIGHTS.toggleFancyFinish(false);
+        if (this.Highlights.fancyFinishActive()) {
+            this.Highlights.toggleFancyFinish(false);
         }
-        this.HIGHLIGHTS.resetFancyFinish();
+        this.Highlights.resetFancyFinish();
     }
 
     public String formatTimes() {
         String result = "";
 
-        Hashtable<String, Double> categoricalTimes = this.TIMER.getCategoricalTimes();
+        Hashtable<String, Double> categoricalTimes = this.Timer.getCategoricalTimes();
         for (Map.Entry<String, Double> keyValuePair : categoricalTimes.entrySet()) {
-            result += keyValuePair.getKey() + ":\t" + this.TIMER.prettifyTime(keyValuePair.getValue()) + "\n";
+            result += keyValuePair.getKey() + ":\t" + this.Timer.prettifyTime(keyValuePair.getValue()) + "\n";
         }
 
-        String totalTime = this.TIMER.getRealTime();
+        String totalTime = this.Timer.getRealTime();
         result += "--------------------\nTotal:\t" + totalTime;
 
         return result;
     }
 
     public void endSort() {
-        this.TIMER.disableRealTimer();
-        this.HIGHLIGHTS.clearAllMarks();
+        this.Timer.disableRealTimer();
+        this.Highlights.clearAllMarks();
         System.out.println(formatTimes());
 
         this.isCanceled = false;
-        this.DELAYS.changeSkipped(false);
-        double speed = this.DELAYS.getSleepRatio();
+        this.Delays.changeSkipped(false);
+        double speed = this.Delays.getSleepRatio();
         this.verifySortAndSweep();
-        this.DELAYS.setSleepRatio(speed);
+        this.Delays.setSleepRatio(speed);
 
         this.arrays.subList(1, this.arrays.size()).clear();
-        this.WRITES.clearAllocAmount();
+        this.Writes.clearAllocAmount();
 
-        this.HIGHLIGHTS.clearAllMarks();
+        this.Highlights.clearAllMarks();
     }
 
-    public void togglePointer(boolean Bool) {
-        this.POINTER = Bool;
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void togglePointer(boolean showPointer) {
     }
-    public void toggleDistance(boolean Bool) {
-        this.DISPARITYDRAW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void toggleDistance(boolean unused) {
     }
-    public void togglePixels(boolean Bool) {
-        this.PIXELDRAW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void togglePixels(boolean usePixels) {
     }
-    public void toggleRainbow(boolean Bool) {
-        this.RAINBOW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void toggleRainbow(boolean rainbow) {
     }
-    public void toggleSpiral(boolean Bool) {
-        this.SPIRALDRAW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void toggleSpiral(boolean spiral) {
     }
-    public void toggleLinkedDots(boolean Bool) {
-        this.LINEDRAW = Bool;
+
+    public void toggleLinkedDots(boolean showLines) {
+        this.showLines = showLines;
     }
-    public void toggleStatistics(boolean Bool) {
-        this.TEXTDRAW = Bool;
+
+    public void toggleStatistics(boolean showStatistics) {
+        this.showStatistics = showStatistics;
     }
-    public void toggleColor(boolean Bool) {
-        this.COLOR = Bool;
+
+    public void toggleColor(boolean showColor) {
+        this.showColor = showColor;
     }
-    public void toggleWave(boolean Bool) {
-        this.WAVEDRAW = Bool;
+
+    /**
+     * @deprecated No longer does anything
+     */
+    @Deprecated
+    public void toggleWave(boolean useWave) {
     }
-    public void toggleExternalArrays(boolean Bool) {
-        this.EXTARRAYS = Bool;
+
+    public void toggleExternalArrays(boolean showExternalArrays) {
+        this.showExternalArrays = showExternalArrays;
     }
 
     public void setVisual(VisualStyles choice) {
         if (choice == io.github.arrayv.visuals.VisualStyles.CUSTOM_IMAGE) {
             ((CustomImage) this.visualClasses[9]).enableImgMenu();
         }
-        this.VisualStyles = choice;
+        this.visualStyle = choice;
         synchronized (this) {
             this.updateNow();
         }
@@ -1373,33 +1404,65 @@ public final class ArrayVisualizer {
     }
 
     public void repositionFrames() {
-        this.ArrayFrame.reposition();
-        this.UtilFrame.reposition(this.ArrayFrame);
+        this.arrayFrame.reposition();
+        this.utilFrame.reposition(this.arrayFrame);
     }
 
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean rainbowEnabled() {
-        return this.RAINBOW;
+        return false;
     }
+
     public boolean colorEnabled() {
-        return this.COLOR;
+        return this.showColor;
     }
+
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean spiralEnabled() {
-        return this.SPIRALDRAW;
+        return false;
     }
+
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean distanceEnabled() {
-        return this.DISPARITYDRAW;
+        return false;
     }
+
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean pixelsEnabled() {
-        return this.PIXELDRAW;
+        return false;
     }
+
     public boolean linesEnabled() {
-        return this.LINEDRAW;
+        return this.showLines;
     }
+
+    /**
+     * @deprecated No longer does anything (always returns {@code false})
+     * @return {@code false}
+     */
+    @Deprecated
     public boolean waveEnabled() {
-        return this.WAVEDRAW;
+        return false;
     }
+
     public boolean externalArraysEnabled() {
-        return this.EXTARRAYS;
+        return this.showExternalArrays;
     }
 
     public DecimalFormat getNumberFormat() {
@@ -1415,7 +1478,7 @@ public final class ArrayVisualizer {
     }
 
     private void drawWindows() {
-        this.VisualStyles = io.github.arrayv.visuals.VisualStyles.BARS;
+        this.visualStyle = io.github.arrayv.visuals.VisualStyles.BARS;
         this.category = "Select a Sort";
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1425,7 +1488,7 @@ public final class ArrayVisualizer {
         title.append(this.sorts.length);
         title.append(" Sorts, 15 Visual Styles, and Infinite Inputs to Sort");
         String versionSha = buildInfo.getProperty("commitId");
-        if (!versionSha.equals("@git.sha@") && !versionSha.equals("unknown")) { // Hash not loaded
+        if (!versionSha.equals("${git.commit.id.abbrev}") && !versionSha.equals("unknown")) { // Hash not loaded
             title.append(" (commit ").append(versionSha).append(")");
         }
 
@@ -1438,7 +1501,7 @@ public final class ArrayVisualizer {
         this.window.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent close) {
-                ArrayVisualizer.this.SOUNDS.closeSynth();
+                ArrayVisualizer.this.Sounds.closeSynth();
                 ArrayVisualizer.this.visualsEnabled = false;
                 if (ArrayVisualizer.this.isActive()) {
                     ArrayVisualizer.this.sortingThread.interrupt();
@@ -1452,8 +1515,8 @@ public final class ArrayVisualizer {
 
         this.window.setVisible(true);
         this.visualsThread.start();
-        this.UtilFrame.setVisible(true);
-        this.ArrayFrame.setVisible(true);
+        this.utilFrame.setVisible(true);
+        this.arrayFrame.setVisible(true);
 
         this.window.createBufferStrategy(2);
 
@@ -1467,10 +1530,18 @@ public final class ArrayVisualizer {
         }
     }
 
+    public boolean isDisabledStabilityCheck() {
+        return disabledStabilityCheck;
+    }
+
+    public static int getMaxLengthPower() {
+        return maxLengthPower;
+    }
+
     public static void main(String[] args) throws IOException {
         System.setProperty("sun.java2d.d3d", "false");
         if (args.length > 0) {
-            ArrayVisualizer.MAX_LENGTH_POWER = Integer.parseInt(args[0]);
+            ArrayVisualizer.maxLengthPower = Integer.parseInt(args[0]);
         }
         new ArrayVisualizer();
     }

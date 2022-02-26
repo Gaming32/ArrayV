@@ -74,9 +74,9 @@ public final class Sounds {
 
     private int[] array;
 
-    private ArrayVisualizer ArrayVisualizer;
+    private ArrayVisualizer arrayVisualizer;
 
-    private Thread AudioThread;
+    private Thread audioThread;
 
     private Highlights Highlights;
 
@@ -87,23 +87,23 @@ public final class Sounds {
 
     private boolean soundEnabled;
 
-    private volatile boolean SOUND;
-    private volatile boolean MIDI;
-    private int NUMCHANNELS; //Number of Audio Channels
-    private double PITCHMIN; //Minimum Pitch
-    private double PITCHMAX; //Maximum Pitch
-    private double SOUNDMUL;
-    private boolean SOFTERSOUNDS;
+    private volatile boolean playSound;
+    private volatile boolean playSound2; // Yes there're really two fields that are used at different times
+    private int numChannels; //Number of Audio Channels
+    private double pitchMin; //Minimum Pitch
+    private double pitchMax; //Maximum Pitch
+    private double soundMultiplier;
+    private boolean softerSounds;
 
-    final private int SUSTAIN_PEDAL = 64;
-    final private int REVERB = 91;
+    private static final int SUSTAIN_PEDAL = 64;
+    private static final int REVERB = 91;
 
     private String defaultSoundbank = "Default (Yamaha XG Sound Set)";
     private String selectedSoundbank;
 
     private int sineWaveIndex;
-    final private int DEFAULT_SINE_WAVE_INDEX = 193;
-    final private int DEFAULT_ROCK_ORGAN_INDEX = 16;
+    private static final int DEFAULT_SINE_WAVE_INDEX = 193;
+    private static final int DEFAULT_ROCK_ORGAN_INDEX = 16;
 
     private volatile LoadingDialog infoMsg;
 
@@ -112,15 +112,15 @@ public final class Sounds {
 
     public Sounds(int[] array, ArrayVisualizer arrayVisualizer) {
         this.array = array;
-        this.ArrayVisualizer = arrayVisualizer;
-        this.Highlights = ArrayVisualizer.getHighlights();
+        this.arrayVisualizer = arrayVisualizer;
+        this.Highlights = arrayVisualizer.getHighlights();
 
-        this.SOUND = true;
-        this.MIDI = true;
-        this.NUMCHANNELS = ALLOW_PERCUSSION_SOUNDS ? 16 : 15;
-        this.PITCHMIN = 25d;
-        this.PITCHMAX = 105d;
-        this.SOUNDMUL = 1d;
+        this.playSound = true;
+        this.playSound2 = true;
+        this.numChannels = ALLOW_PERCUSSION_SOUNDS ? 16 : 15;
+        this.pitchMin = 25d;
+        this.pitchMax = 105d;
+        this.soundMultiplier = 1d;
 
         this.noteDelay = 1;
 
@@ -155,14 +155,14 @@ public final class Sounds {
         this.instrumentChoice = 0;
         this.prepareDefaultSoundbank();
 
-        this.AudioThread = new Thread("AudioThread") {
+        this.audioThread = new Thread("AudioThread") {
             @Override
             public void run() {
                 while (Sounds.this.soundEnabled) {
                     for (MidiChannel channel : channels) {
                         channel.allNotesOff();
                     }
-                    if (SOUND == false || MIDI == false || JErrorPane.errorMessageActive) {
+                    if (!playSound || !playSound2 || JErrorPane.isErrorMessageActive()) {
                         synchronized (Sounds.this) {
                             try {
                                 Sounds.this.wait();
@@ -173,12 +173,12 @@ public final class Sounds {
                         continue;
                     }
 
-                    int noteCount = Math.min(Highlights.getMarkCount(), NUMCHANNELS);
-                    noteCount = noteCount < 0 ? NUMCHANNELS : noteCount;
+                    int noteCount = Math.min(Highlights.getMarkCount(), numChannels);
+                    noteCount = noteCount < 0 ? numChannels : noteCount;
                     int channel = 0;
 
                     int playNoteCount = Math.max(noteCount, 1);
-                    int currentLen = ArrayVisualizer.getCurrentLength();
+                    int currentLen = arrayVisualizer.getCurrentLength();
 
                     for (int i : Highlights.highlightList()) {
                         try {
@@ -189,13 +189,13 @@ public final class Sounds {
                                 }
 
                                 //PITCH
-                                double pitch = Sounds.this.array[Math.min(Math.max(i, 0), currentLen - 1)] / (double) currentLen * (PITCHMAX - PITCHMIN) + PITCHMIN;
+                                double pitch = Sounds.this.array[Math.min(Math.max(i, 0), currentLen - 1)] / (double) currentLen * (pitchMax - pitchMin) + pitchMin;
                                 int pitchmajor = (int) pitch;
                                 int pitchminor = (int)((pitch-((int)pitch))*8192d)+8192;
 
-                                int vel = (int) (Math.pow(PITCHMAX - pitchmajor, 2d) * (Math.pow(noteCount, -0.25)) * 64d * SOUNDMUL) / 2; //I'VE SOLVED IT!!
+                                int vel = (int) (Math.pow(pitchMax - pitchmajor, 2d) * (Math.pow(noteCount, -0.25)) * 64d * soundMultiplier) / 2; //I'VE SOLVED IT!!
 
-                                if (SOUNDMUL >= 1 && vel < 256) {
+                                if (soundMultiplier >= 1 && vel < 256) {
                                     vel *= vel;
                                 }
 
@@ -271,7 +271,7 @@ public final class Sounds {
     }
 
     private void prepareDefaultSoundbank() {
-        this.sineWaveIndex = this.DEFAULT_SINE_WAVE_INDEX;
+        this.sineWaveIndex = DEFAULT_SINE_WAVE_INDEX;
         InputStream is = getClass().getResourceAsStream("/sfx.sf2");
         this.loadInstruments(is);
         this.selectedSoundbank = this.defaultSoundbank;
@@ -312,16 +312,16 @@ public final class Sounds {
             return new String[0];
         }
 
-        String rockOrgan = instruments[this.DEFAULT_ROCK_ORGAN_INDEX].getName();
+        String rockOrgan = instruments[DEFAULT_ROCK_ORGAN_INDEX].getName();
         instrumentNames.add("a. Default Sound Effect (" + this.formatInstrumentName(rockOrgan) + ")");
 
         this.sineWaveIndex = 0;
         while (this.sineWaveIndex < instruments.length && !instruments[this.sineWaveIndex].getName().toLowerCase().trim().contains("sine")) {
             this.sineWaveIndex++;
         }
-        if (this.sineWaveIndex >= instruments.length && this.DEFAULT_SINE_WAVE_INDEX < instruments.length) {
-            this.sineWaveIndex = this.DEFAULT_SINE_WAVE_INDEX;
-        } else if (this.DEFAULT_SINE_WAVE_INDEX >= instruments.length) {
+        if (this.sineWaveIndex >= instruments.length && DEFAULT_SINE_WAVE_INDEX < instruments.length) {
+            this.sineWaveIndex = DEFAULT_SINE_WAVE_INDEX;
+        } else if (DEFAULT_SINE_WAVE_INDEX >= instruments.length) {
             this.sineWaveIndex = 0;
         }
 
@@ -359,7 +359,7 @@ public final class Sounds {
         }
 
         if (this.channels == null) {
-            this.channels = new MidiChannel[this.NUMCHANNELS];
+            this.channels = new MidiChannel[this.numChannels];
         }
         this.assignInstruments();
     }
@@ -370,12 +370,12 @@ public final class Sounds {
 
             //TODO: Consider making into a method
             switch(this.instrumentChoice) {
-            case 0:  programIndex = this.DEFAULT_ROCK_ORGAN_INDEX; break;
-            case 1:  programIndex = this.sineWaveIndex;            break;
-            default: programIndex = this.instrumentChoice - 2;     break;
+                case 0:  programIndex = DEFAULT_ROCK_ORGAN_INDEX;      break;
+                case 1:  programIndex = this.sineWaveIndex;            break;
+                default: programIndex = this.instrumentChoice - 2;     break;
             }
 
-            for (int i = 0; i < this.NUMCHANNELS; i++) {
+            for (int i = 0; i < this.numChannels; i++) {
                 this.channels[i] = this.synth.getChannels()[i];
                 this.channels[i].programChange(this.synth.getLoadedInstruments()[programIndex].getPatch().getProgram());
                 this.channels[i].setChannelPressure(1);
@@ -393,30 +393,30 @@ public final class Sounds {
     public void testInstrument(int programIndex) {
         this.testInstrumentChoice = programIndex;
 
-        if (this.ArrayVisualizer.isActive()) {
+        if (this.arrayVisualizer.isActive()) {
             new Thread("TestInstrumentThread") {
                 @Override
                 public void run() {
                     switch(Sounds.this.testInstrumentChoice) {
-                    case 0:  Sounds.this.testInstrumentChoice  = Sounds.this.DEFAULT_ROCK_ORGAN_INDEX; break;
-                    case 1:  Sounds.this.testInstrumentChoice  = Sounds.this.sineWaveIndex;            break;
-                    default: Sounds.this.testInstrumentChoice -= 2;                                    break;
+                        case 0:  Sounds.this.testInstrumentChoice  = DEFAULT_ROCK_ORGAN_INDEX;             break;
+                        case 1:  Sounds.this.testInstrumentChoice  = Sounds.this.sineWaveIndex;            break;
+                        default: Sounds.this.testInstrumentChoice -= 2;                                    break;
                     }
 
                     int savedInstrument;
                     //TODO: Consider making into a method
                     switch(Sounds.this.instrumentChoice) {
-                    case 0:  savedInstrument = Sounds.this.DEFAULT_ROCK_ORGAN_INDEX; break;
-                    case 1:  savedInstrument = Sounds.this.sineWaveIndex;            break;
-                    default: savedInstrument = Sounds.this.instrumentChoice - 2;     break;
+                        case 0:  savedInstrument = DEFAULT_ROCK_ORGAN_INDEX;             break;
+                        case 1:  savedInstrument = Sounds.this.sineWaveIndex;            break;
+                        default: savedInstrument = Sounds.this.instrumentChoice - 2;     break;
                     }
 
                     try {
-                        for (int i = 0; i < Sounds.this.NUMCHANNELS; i++) {
+                        for (int i = 0; i < Sounds.this.numChannels; i++) {
                             Sounds.this.channels[i].programChange(Sounds.this.synth.getLoadedInstruments()[Sounds.this.testInstrumentChoice].getPatch().getProgram());
                         }
                         sleep(2000);
-                        for (int i = 0; i < Sounds.this.NUMCHANNELS; i++) {
+                        for (int i = 0; i < Sounds.this.numChannels; i++) {
                             Sounds.this.channels[i].programChange(Sounds.this.synth.getLoadedInstruments()[savedInstrument].getPatch().getProgram());
                         }
                     } catch (InterruptedException e) {
@@ -429,23 +429,23 @@ public final class Sounds {
                 @Override
                 public void run() {
                     switch(Sounds.this.testInstrumentChoice) {
-                    case 0:  Sounds.this.testInstrumentChoice  = Sounds.this.DEFAULT_ROCK_ORGAN_INDEX; break;
-                    case 1:  Sounds.this.testInstrumentChoice  = Sounds.this.sineWaveIndex;            break;
-                    default: Sounds.this.testInstrumentChoice -= 2;                                    break;
+                        case 0:  Sounds.this.testInstrumentChoice  = DEFAULT_ROCK_ORGAN_INDEX;             break;
+                        case 1:  Sounds.this.testInstrumentChoice  = Sounds.this.sineWaveIndex;            break;
+                        default: Sounds.this.testInstrumentChoice -= 2;                                    break;
                     }
 
                     int savedInstrument;
                     //TODO: Consider making into a method
                     switch(Sounds.this.instrumentChoice) {
-                    case 0:  savedInstrument = Sounds.this.DEFAULT_ROCK_ORGAN_INDEX; break;
-                    case 1:  savedInstrument = Sounds.this.sineWaveIndex;            break;
-                    default: savedInstrument = Sounds.this.instrumentChoice - 2;     break;
+                        case 0:  savedInstrument = DEFAULT_ROCK_ORGAN_INDEX;             break;
+                        case 1:  savedInstrument = Sounds.this.sineWaveIndex;            break;
+                        default: savedInstrument = Sounds.this.instrumentChoice - 2;     break;
                     }
 
                     try {
                         Sounds.this.channels[0].programChange(Sounds.this.synth.getLoadedInstruments()[Sounds.this.testInstrumentChoice].getPatch().getProgram());
 
-                        Sounds.this.channels[0].controlChange(Sounds.this.SUSTAIN_PEDAL, 64);
+                        Sounds.this.channels[0].controlChange(SUSTAIN_PEDAL, 64);
 
                         Sounds.this.channels[0].noteOn(60, 100);
                         Sounds.this.channels[0].noteOn(64, 100);
@@ -459,7 +459,7 @@ public final class Sounds {
                         Sounds.this.channels[0].noteOff(67);
                         Sounds.this.channels[0].noteOff(72);
 
-                        Sounds.this.channels[0].controlChange(Sounds.this.SUSTAIN_PEDAL, 0);
+                        Sounds.this.channels[0].controlChange(SUSTAIN_PEDAL, 0);
 
                         /*
                         int eighth = 200;
@@ -548,21 +548,21 @@ public final class Sounds {
     }
 
     public synchronized void toggleSounds(boolean val) {
-        this.SOUND = val;
+        this.playSound = val;
         this.notifyAll();
     }
 
     public synchronized void toggleSound(boolean val) {
-        this.MIDI = val;
+        this.playSound2 = val;
         this.notifyAll();
     }
 
     //Double check logic
     public void setSofterSounds(boolean softerSounds) {
-        this.SOFTERSOUNDS = softerSounds;
+        this.softerSounds = softerSounds;
 
-        if (this.SOFTERSOUNDS) this.SOUNDMUL = 0.01;
-        else                   this.SOUNDMUL = 1;
+        if (this.softerSounds) this.soundMultiplier = 0.01;
+        else                   this.soundMultiplier = 1;
     }
 
     /**
@@ -575,27 +575,27 @@ public final class Sounds {
 
     //Double check logic
     public boolean isSofterSounds() {
-        return SOFTERSOUNDS;
+        return softerSounds;
     }
 
     public double getVolume() {
-        return this.SOUNDMUL;
+        return this.soundMultiplier;
     }
     public void changeVolume(double val) {
-        this.SOUNDMUL = val;
+        this.soundMultiplier = val;
     }
 
     public void changeNoteDelayAndFilter(int noteFactor) {
         if (noteFactor != this.noteDelay) {
             if (noteFactor > 1) {
                 this.noteDelay = noteFactor;
-                this.SOUNDMUL = 1d / noteFactor;
+                this.soundMultiplier = 1d / noteFactor;
             } else {
                 //Double check logic
                 this.noteDelay = 1;
 
-                if (this.SOFTERSOUNDS) this.SOUNDMUL = 0.01;
-                else                   this.SOUNDMUL = 1;
+                if (this.softerSounds) this.soundMultiplier = 0.01;
+                else                   this.soundMultiplier = 1;
             }
         }
     }
@@ -604,7 +604,7 @@ public final class Sounds {
         if (!this.soundEnabled) {
             JOptionPane.showMessageDialog(null, "Sound is disabled.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-        AudioThread.start();
+        audioThread.start();
     }
 
     public void closeSynth() {

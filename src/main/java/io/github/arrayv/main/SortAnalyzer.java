@@ -91,7 +91,7 @@ public final class SortAnalyzer {
         "import sorts.templates.SortComparator;", "import io.github.arrayv.sortdata.SortComparator;"
     );
 
-    private final Set<Class<?>> EXTRA_SORTS = new HashSet<>();
+    private final Set<Class<?>> extraSorts = new HashSet<>();
     private final Map<SortNameType, Map<String, SortInfo>> SORTS_BY_NAME = new EnumMap<>(SortNameType.class);
 
     static {
@@ -126,7 +126,7 @@ public final class SortAnalyzer {
     }
 
     public boolean didSortComeFromExtra(Class<?> sort) {
-        return EXTRA_SORTS.contains(sort);
+        return extraSorts.contains(sort);
     }
 
     public SortInfo addSort(SortInfo sort) {
@@ -161,7 +161,7 @@ public final class SortAnalyzer {
     }
 
     private void setSortCameFromExtra(Class<?> sort) {
-        EXTRA_SORTS.add(sort);
+        extraSorts.add(sort);
     }
 
     @SuppressWarnings("unchecked")
@@ -314,7 +314,7 @@ public final class SortAnalyzer {
             }
         }
         sorts.subList(j, sorts.size()).clear();
-        EXTRA_SORTS.clear();
+        extraSorts.clear();
     }
 
     public void installOrUpdateExtraSorts(ProgressMonitor monitor) throws IOException {
@@ -443,11 +443,13 @@ public final class SortAnalyzer {
             StringBuilder result = new StringBuilder();
             boolean isAfterDot = true;
             while (true) {
+                // @checkstyle:off IndentationCheck - It looks nicer how it is
                 if (isAfterDot) {
                     if (
                         (c >= 'a' && c <= 'z') ||
                         (c >= 'A' && c <= 'Z') ||
-                        c == '_' || c == '$') {
+                         c == '_' || c == '$'
+                    ) {
                         result.appendCodePoint(c);
                     } else {
                         throw new IllegalArgumentException("Illegal character in package name: " + new String(Character.toChars(c)));
@@ -458,7 +460,8 @@ public final class SortAnalyzer {
                         (c >= 'a' && c <= 'z') ||
                         (c >= 'A' && c <= 'Z') ||
                         (c >= '0' && c <= '9') ||
-                        c == '_' || c == '$') {
+                         c == '_' || c == '$'
+                    ) {
                         result.appendCodePoint(c);
                     } else if (c == '.') {
                         result.append('.');
@@ -467,6 +470,7 @@ public final class SortAnalyzer {
                         throw new IllegalArgumentException("Illegal character in package name: " + new String(Character.toChars(c)));
                     }
                 }
+                // @checkstyle:on IndentationCheck
                 if (advance()) {
                     throw new IllegalArgumentException("EOF");
                 }
@@ -543,6 +547,7 @@ public final class SortAnalyzer {
         int success;
         try {
             fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(CACHE_DIR));
+            // @checkstyle:off ParenPadCheck
             CompilationTask task = compiler.getTask(
                 null,          // out
                 fileManager,   // fileManager
@@ -553,6 +558,7 @@ public final class SortAnalyzer {
                 null,          // classes
                 jFiles         // compilationUnits
             );
+            // @checkstyle:on ParenPadCheck
             try {
                 // Code that would work except that reflection is safer (I think) when using APIs that may be removed
                 // com.sun.tools.javac.main.Main.Result result = ((com.sun.tools.javac.api.JavacTaskImpl)task).doCall();
@@ -709,10 +715,10 @@ public final class SortAnalyzer {
             return null;
         }
 
-        String[] InvalidSorts = new String[invalidSorts.size()];
-        InvalidSorts = invalidSorts.toArray(InvalidSorts);
+        String[] invalidSorts = new String[this.invalidSorts.size()];
+        invalidSorts = this.invalidSorts.toArray(invalidSorts);
 
-        return InvalidSorts;
+        return invalidSorts;
     }
     public String[] getSuggestions() {
         if (suggestions.size() < 1) {

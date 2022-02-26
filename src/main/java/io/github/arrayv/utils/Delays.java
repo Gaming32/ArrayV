@@ -32,8 +32,8 @@ SOFTWARE.
  */
 
 public final class Delays {
-    private volatile double SLEEPRATIO;
-    private volatile boolean SKIPPED;
+    private volatile double sleepRatio;
+    private volatile boolean skipped;
 
     private double delay;
 
@@ -45,15 +45,15 @@ public final class Delays {
     private Sounds Sounds;
 
     public Delays(ArrayVisualizer arrayVisualizer) {
-        this.SLEEPRATIO = 1.0;
-        this.SKIPPED = false;
+        this.sleepRatio = 1.0;
+        this.skipped = false;
 
         this.formatter = arrayVisualizer.getNumberFormat();
         this.Sounds = arrayVisualizer.getSounds();
     }
 
     public String displayCurrentDelay() {
-        if (this.SKIPPED)
+        if (this.skipped)
             return "Canceled";
         if (this.paused)
             return "Paused";
@@ -94,26 +94,26 @@ public final class Delays {
     }
 
     public double getSleepRatio() {
-        return this.SLEEPRATIO;
+        return this.sleepRatio;
     }
     public void setSleepRatio(double sleepRatio) {
-        this.SLEEPRATIO = sleepRatio;
+        this.sleepRatio = sleepRatio;
     }
 
     public boolean skipped() {
-        return this.SKIPPED;
+        return this.skipped;
     }
-    public void changeSkipped(boolean Bool) {
-        this.SKIPPED = Bool;
-        if (this.SKIPPED) this.Sounds.changeNoteDelayAndFilter(1);
+    public void changeSkipped(boolean skipped) {
+        this.skipped = skipped;
+        if (this.skipped) this.Sounds.changeNoteDelayAndFilter(1);
     }
 
     public boolean paused() {
         return this.paused;
     }
-    public void changePaused(boolean Bool) {
-        this.paused = Bool;
-        this.Sounds.toggleSound(!Bool);
+    public void changePaused(boolean paused) {
+        this.paused = paused;
+        this.Sounds.toggleSound(!paused);
     }
     public void togglePaused() {
         this.changePaused(!this.paused);;
@@ -124,14 +124,14 @@ public final class Delays {
             return;
         }
 
-        this.delay += (millis * (1 / this.SLEEPRATIO));
-        this.currentDelay = (millis * (1 / this.SLEEPRATIO));
+        this.delay += (millis * (1 / this.sleepRatio));
+        this.currentDelay = (millis * (1 / this.sleepRatio));
 
         this.Sounds.changeNoteDelayAndFilter((int) this.currentDelay);
 
         try {
             // With this for loop, you can change the speed of sorts without waiting for the current delay to finish.
-            if (!this.SKIPPED) {
+            if (!this.skipped) {
                 while (this.paused || this.delay >= 1) {
                     Thread.sleep(1);
                     if (!this.paused)

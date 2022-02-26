@@ -36,18 +36,18 @@ SOFTWARE.
 
 public final class ColorCircle extends Visual {
 
-    public ColorCircle(ArrayVisualizer ArrayVisualizer) {
-        super(ArrayVisualizer);
+    public ColorCircle(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
     }
 
     @Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if (Renderer.auxActive) return;
+    public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+        if (renderer.isAuxActive()) return;
 
-        int width  = ArrayVisualizer.windowWidth();
-        int height = ArrayVisualizer.windowHeight();
+        int width  = arrayVisualizer.windowWidth();
+        int height = arrayVisualizer.windowHeight();
 
-        int n = ArrayVisualizer.getCurrentLength();
+        int n = arrayVisualizer.getCurrentLength();
 
         double r = Math.min(width, height)/2.75;
         int p = (int)(r/12);
@@ -77,10 +77,10 @@ public final class ColorCircle extends Visual {
                 this.mainRender.setColor(Color.GREEN);
 
             else {
-                this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+                this.mainRender.setColor(getIntColor(array[i], arrayVisualizer.getCurrentLength()));
 
                 if (Highlights.containsPosition(i)) {
-                    if (ArrayVisualizer.analysisEnabled()) this.extraRender.setColor(Color.LIGHT_GRAY);
+                    if (arrayVisualizer.analysisEnabled()) this.extraRender.setColor(Color.LIGHT_GRAY);
                     else                                  this.extraRender.setColor(Color.WHITE);
 
                     px[0] =  width/2 + (int)((r + p/4) * Math.cos(Math.PI * ((2d*i - 1) / n - 0.5)));

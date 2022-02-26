@@ -18,7 +18,7 @@ import javax.swing.ProgressMonitor;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 
-public class SortingNetworkGenerator {
+public final class SortingNetworkGenerator {
     private static final File SORTING_NETWORKS_DIR = new File("sorting_networks");
 
     static {
@@ -90,6 +90,9 @@ public class SortingNetworkGenerator {
     }
 
     private static final int OUT_BUFFER_SIZE = 8192; // 16 KB
+
+    private SortingNetworkGenerator() {
+    }
 
     private static boolean encodeNetwork0(final Comparator[] comparators, final int n, final PrintWriter out) {
         int scale = 1;

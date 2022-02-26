@@ -50,12 +50,12 @@ public final class RunScriptedSorts extends MultipleSortThread {
 
     protected synchronized void executeSortList(MultipleScript.ScriptCommand[] commands, int[] array) throws Exception {
         for (MultipleScript.ScriptCommand command : commands) {
-            if (command.type == MultipleScript.ScriptCommand.CommandType.SetCategory) {
-                String category = (String)command.argument;
+            if (command.getType() == MultipleScript.ScriptCommand.CommandType.SetCategory) {
+                String category = (String)command.getArgument();
                 RunScriptedSorts.this.currentCategory = category;
                 arrayVisualizer.setCategory(category);
-            } else if (command.type == MultipleScript.ScriptCommand.CommandType.SortCall) {
-                MultipleScript.SortCallInfo info = (MultipleScript.SortCallInfo)command.argument;
+            } else if (command.getType() == MultipleScript.ScriptCommand.CommandType.SortCall) {
+                MultipleScript.SortCallInfo info = (MultipleScript.SortCallInfo)command.getArgument();
                 RunScriptedSorts.this.runIndividualSort(
                     info.getAlgortitm(),
                     info.getBucketCount(),
@@ -85,7 +85,7 @@ public final class RunScriptedSorts extends MultipleSortThread {
 
                     int sortCount = 0;
                     for (MultipleScript.ScriptCommand command : commands) {
-                        if (command.type == MultipleScript.ScriptCommand.CommandType.SortCall) {
+                        if (command.getType() == MultipleScript.ScriptCommand.CommandType.SortCall) {
                             sortCount++;
                         }
                     }

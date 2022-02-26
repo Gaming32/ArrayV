@@ -39,7 +39,7 @@ public final class Timer {
 
     private volatile int elapsedTime;
     private volatile double realTimer;
-    private volatile boolean REALTIMER;
+    private volatile boolean useRealTimer;
     private volatile double sortRunTime;
     private volatile boolean timerEnabled;
 
@@ -49,13 +49,13 @@ public final class Timer {
     private long timeStart;
     private long timeStop;
 
-    public Timer(ArrayVisualizer ArrayVisualizer) {
-        this.REALTIMER = true;
+    public Timer(ArrayVisualizer arrayVisualizer) {
+        this.useRealTimer = true;
 
         this.timeStart = 0;
         this.timeStop = 0;
 
-        this.formatter = ArrayVisualizer.getNumberFormat();
+        this.formatter = arrayVisualizer.getNumberFormat();
 
         this.categoricalTimes = new Hashtable<>();
     }
@@ -77,13 +77,12 @@ public final class Timer {
     public String prettifyTime(double time) {
         double realTime = time * 1e-6d;
 
-        if (!this.REALTIMER) {
+        if (!this.useRealTimer) {
             return "Disabled";
         } else if (realTime == 0) {
             if (this.timerEnabled) return "0.000ms";
             else                   return "---ms";
-        }
-        else if (realTime < 0.001)      return "< 0.001ms";
+        } else if (realTime < 0.001)    return "< 0.001ms";
         else if (realTime >= 60000.000) return "~" + this.formatter.format((int) (realTime / 60000)) + "m" + (int) ((realTime % 60000) / 1000) + "s";
         else if (realTime >= 1000.000)  return "~" + this.formatter.format(realTime / 1000) + "s";
         else                            return "~" + this.formatter.format(realTime) + "ms";
@@ -93,12 +92,12 @@ public final class Timer {
         return prettifyTime(this.realTimer);
     }
 
-    public void toggleRealTimer(boolean Bool) {
-        this.REALTIMER = Bool;
+    public void toggleRealTimer(boolean useRealTimer) {
+        this.useRealTimer = useRealTimer;
     }
 
     public void enableRealTimer() {
-        if (REALTIMER) this.timerEnabled = true;
+        if (useRealTimer) this.timerEnabled = true;
         this.sortRunTime = System.nanoTime();
         this.realTimer = 0;
     }

@@ -1,0 +1,15 @@
+name: checkstyle
+on: [pull_request, push, workflow_dispatch]
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v2
+        - name: Set up JDK 8
+          uses: actions/setup-java@v2.1.0
+          with:
+              java-version: 8
+              distribution: zulu
+        - name: Run checkstyle with Maven
+          run: mvn -Dcheckstyle.violationSeverity=warning checkstyle:check

@@ -36,42 +36,42 @@ SOFTWARE.
 
 public final class SineWave extends Visual {
 
-    public SineWave(ArrayVisualizer ArrayVisualizer) {
-        super(ArrayVisualizer);
+    public SineWave(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
     }
 
     @Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+    public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+        for (int i = 0, j = 0; i < renderer.getArrayLength(); i++) {
             if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
 
-            else if (ArrayVisualizer.colorEnabled())
-                this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+            else if (arrayVisualizer.colorEnabled())
+                this.mainRender.setColor(getIntColor(array[i], arrayVisualizer.getCurrentLength()));
 
             else this.mainRender.setColor(Color.WHITE);
 
-            int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+            int width = (int) (renderer.getXScale() * (i + 1)) - j;
 
-            int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
-            this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 1), 20);
+            int y = (int) (((renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / renderer.getArrayLength()))) + renderer.halfViewSize() - 20);
+            this.mainRender.fillRect(j + 20, renderer.getYOffset() + y, Math.max(width, 1), 20);
 
             j += width;
         }
-        this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+        this.mainRender.setColor(arrayVisualizer.getHighlightColor());
 
-        for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
-            int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+        for (int i = 0, j = 0; i < renderer.getArrayLength(); i++) {
+            int width = (int) (renderer.getXScale() * (i + 1)) - j;
 
             if (Highlights.containsPosition(i)) {
-                int y = (int) (((Renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / Renderer.getArrayLength()))) + Renderer.halfViewSize() - 20);
-                this.mainRender.fillRect(j + 20, Renderer.getYOffset() + y, Math.max(width, 2), 20);
+                int y = (int) (((renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / renderer.getArrayLength()))) + renderer.halfViewSize() - 20);
+                this.mainRender.fillRect(j + 20, renderer.getYOffset() + y, Math.max(width, 2), 20);
             }
             j += width;
         }
-        if (ArrayVisualizer.externalArraysEnabled()) {
+        if (arrayVisualizer.externalArraysEnabled()) {
             this.mainRender.setColor(Color.BLUE);
-            this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
+            this.mainRender.fillRect(0, renderer.getYOffset() + renderer.getViewSize() - 20, arrayVisualizer.currentWidth(), 1);
         }
     }
 }

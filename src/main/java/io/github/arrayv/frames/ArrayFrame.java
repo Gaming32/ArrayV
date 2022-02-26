@@ -47,7 +47,7 @@ SOFTWARE.
  */
 
 public final class ArrayFrame extends javax.swing.JFrame {
-    final private static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private int[] array;
 
@@ -55,8 +55,8 @@ public final class ArrayFrame extends javax.swing.JFrame {
     private ArrayVisualizer arrayVisualizer;
     private AppFrame abstractFrame;
     private Highlights Highlights;
-    private JFrame Frame;
-    private UtilFrame UtilFrame;
+    private JFrame frame;
+    private UtilFrame utilFrame;
 
     private boolean lockToPow2;
 
@@ -67,14 +67,14 @@ public final class ArrayFrame extends javax.swing.JFrame {
         this.arrayManager = arrayVisualizer.getArrayManager();
 
         this.Highlights = arrayVisualizer.getHighlights();
-        this.Frame = arrayVisualizer.getMainWindow();
-        this.UtilFrame = arrayVisualizer.getUtilFrame();
+        this.frame = arrayVisualizer.getMainWindow();
+        this.utilFrame = arrayVisualizer.getUtilFrame();
 
         setUndecorated(true);
         initComponents();
         setBounds(
-            Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), Frame.getX() + Frame.getWidth()),
-            Frame.getY() + 29,
+            Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), frame.getX() + frame.getWidth()),
+            frame.getY() + 29,
             getWidth(),
             arrayVisualizer.getUtilFrame().getHeight()
         );
@@ -84,7 +84,7 @@ public final class ArrayFrame extends javax.swing.JFrame {
 
     public void reposition(){
         toFront();
-        setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth() - UtilFrame.getWidth(), Frame.getX() + Frame.getWidth()), Frame.getY() + 29);
+        setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth() - utilFrame.getWidth(), frame.getX() + frame.getWidth()), frame.getY() + 29);
         if (this.abstractFrame != null && abstractFrame.isVisible())
             abstractFrame.reposition();
     }
@@ -138,7 +138,7 @@ public final class ArrayFrame extends javax.swing.JFrame {
         };
         this.addKeyListener(kListener);
 
-        int usePower = ArrayVisualizer.MAX_LENGTH_POWER * 100000;
+        int usePower = ArrayVisualizer.getMaxLengthPower() * 100000;
         int useDefault = (int)Math.min(1100000, usePower);
         this.jLabel1 = new javax.swing.JLabel();
         this.jLabel2 = new javax.swing.JLabel();
@@ -285,36 +285,36 @@ public final class ArrayFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER, true)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER, true)
                 .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
+                        .addComponent(this.jLabel1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
-                                .addComponent(this.jLabel1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
-                                        .addComponent(this.jSlider1)
-                                        .addGap(0, 10, Short.MAX_VALUE))))
+                            .addComponent(this.jSlider1)
+                            .addGap(0, 10, Short.MAX_VALUE))))
                 .addGap(sliderGap, sliderGap, sliderGap)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-                            .addComponent(this.jLabel2)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-                                    .addComponent(this.jSlider2)
-                                    .addGap(0, 10, Short.MAX_VALUE))))
-                );
+                        .addComponent(this.jLabel2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
+                            .addComponent(this.jSlider2)
+                            .addGap(0, 10, Short.MAX_VALUE))))
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(5, 5, 5)
                     .addComponent(this.jLabel1)
                     .addGap(5, 5, 5)
-                    .addComponent(this.jSlider1, UtilFrame.getHeight() - 26, UtilFrame.getHeight() - 26, UtilFrame.getHeight() - 26))
+                    .addComponent(this.jSlider1, utilFrame.getHeight() - 26, utilFrame.getHeight() - 26, utilFrame.getHeight() - 26))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(5, 5, 5)
                     .addComponent(this.jLabel2)
                     .addGap(5, 5, 5)
-                    .addComponent(this.jSlider2, UtilFrame.getHeight() - 26, UtilFrame.getHeight() - 26, UtilFrame.getHeight() - 26))
-                );
+                    .addComponent(this.jSlider2, utilFrame.getHeight() - 26, utilFrame.getHeight() - 26, utilFrame.getHeight() - 26))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

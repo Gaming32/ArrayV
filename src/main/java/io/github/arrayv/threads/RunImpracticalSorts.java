@@ -56,6 +56,7 @@ SOFTWARE.
  */
 
 public final class RunImpracticalSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort BadSort;
     private Sort StoogeSort;
     private Sort SillySort;
@@ -80,6 +81,7 @@ public final class RunImpracticalSorts extends MultipleSortThread {
     private Sort GuessSort;
     private Sort BogoBogoSort;
     private Sort QuadStoogeSort;
+    // @checkstyle:on MemberNameCheck
 
     public RunImpracticalSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

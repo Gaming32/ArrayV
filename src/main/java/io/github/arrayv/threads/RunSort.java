@@ -226,7 +226,7 @@ public final class RunSort {
                         if (antiq)
                             arrayVisualizer.finishAntiQSort(sort.getClass().getSimpleName());
                         else if (networks) {
-                            ArrayList<Integer> indicesList = arrayVisualizer.getReads().networkIndices;
+                            ArrayList<Integer> indicesList = arrayVisualizer.getReads().getNetworkIndices();
                             SortingNetworkGenerator.encodeNetworkAndDisplay(
                                 sort.getClass().getSimpleName(),
                                 indicesList,
