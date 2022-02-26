@@ -36,27 +36,27 @@ SOFTWARE.
 
 public final class Spiral extends Visual {
 
-    public Spiral(ArrayVisualizer ArrayVisualizer) {
-        super(ArrayVisualizer);
+    public Spiral(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
     }
 
     @Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if (Renderer.auxActive) return;
+    public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+        if (renderer.isAuxActive()) return;
 
-        int width  = ArrayVisualizer.windowWidth();
-        int height = ArrayVisualizer.windowHeight();
+        int width  = arrayVisualizer.windowWidth();
+        int height = arrayVisualizer.windowHeight();
 
-        int n = ArrayVisualizer.getCurrentLength();
+        int n = arrayVisualizer.getCurrentLength();
         double r = Math.min(width, height)/2.5;
 
-        this.extraRender.setStroke(ArrayVisualizer.getThickStroke());
-        this.extraRender.setColor(ArrayVisualizer.getHighlightColor());
+        this.extraRender.setStroke(arrayVisualizer.getThickStroke());
+        this.extraRender.setColor(arrayVisualizer.getHighlightColor());
 
         int[] x =  {width/2, 0, 0};
         int[] y = {height/2, 0, 0};
 
-        double mult = (double) array[n-1] / ArrayVisualizer.getCurrentLength() - 1;
+        double mult = (double) array[n-1] / arrayVisualizer.getCurrentLength() - 1;
         mult = 1 - mult*mult;
 
         x[2] =  width/2 + (int)(mult * r * Math.cos(Math.PI * (2d*(n-1) / n - 0.5)));
@@ -66,7 +66,7 @@ public final class Spiral extends Visual {
             x[1] = x[2];
             y[1] = y[2];
 
-            mult = (double) array[i] / ArrayVisualizer.getCurrentLength() - 1;
+            mult = (double) array[i] / arrayVisualizer.getCurrentLength() - 1;
             mult = 1 - mult*mult;
 
             x[2] =  width/2 + (int)(mult * r * Math.cos(Math.PI * (2d*i / n - 0.5)));
@@ -76,16 +76,15 @@ public final class Spiral extends Visual {
                 this.mainRender.setColor(Color.GREEN);
 
             else if (Highlights.containsPosition(i)) {
-                this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+                this.mainRender.setColor(arrayVisualizer.getHighlightColor());
                 this.extraRender.drawPolygon(x, y, 3);
-            }
-            else if (ArrayVisualizer.colorEnabled())
-                this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+            } else if (arrayVisualizer.colorEnabled())
+                this.mainRender.setColor(getIntColor(array[i], arrayVisualizer.getCurrentLength()));
 
             else this.mainRender.setColor(Color.WHITE);
 
             this.mainRender.fillPolygon(x, y, 3);
         }
-        this.extraRender.setStroke(ArrayVisualizer.getDefaultStroke());
+        this.extraRender.setStroke(arrayVisualizer.getDefaultStroke());
     }
 }

@@ -64,7 +64,7 @@ public final class Highlights {
 
     private volatile int markCount;
 
-    private boolean showFancyFinish;
+    private boolean showFancyFinishes;
     private volatile boolean fancyFinish;
     private volatile int trackFinish;
 
@@ -83,7 +83,7 @@ public final class Highlights {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate mark arrays. The program will now exit.");
             System.exit(1);
         }
-        this.showFancyFinish = true;
+        this.showFancyFinishes = true;
         this.maxHighlightMarked = 0;
         this.markCount = 0;
 
@@ -94,17 +94,17 @@ public final class Highlights {
     }
 
     public boolean fancyFinishEnabled() {
-        return this.showFancyFinish;
+        return this.showFancyFinishes;
     }
-    public void toggleFancyFinishes(boolean fancyFinishOn) {
-        this.showFancyFinish = fancyFinishOn;
+    public void toggleFancyFinishes(boolean showFancyFinishes) {
+        this.showFancyFinishes = showFancyFinishes;
     }
 
     public boolean fancyFinishActive() {
         return this.fancyFinish;
     }
-    public void toggleFancyFinish(boolean fancyFin) {
-        this.fancyFinish = fancyFin;
+    public void toggleFancyFinish(boolean fancyFinish) {
+        this.fancyFinish = fancyFinish;
     }
 
     public int getFancyFinishPosition() {

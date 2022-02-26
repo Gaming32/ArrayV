@@ -33,92 +33,92 @@ SOFTWARE.
 public enum VisualStyles {
     BARS {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[0].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[0].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     RAINBOW {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[1].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[1].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     DISP_BARS {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[2].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[2].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     COLOR_CIRCLE {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[3].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[3].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     DISP_CIRCLE {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[4].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[4].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     DISP_CHORDS {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[5].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[5].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     DISP_DOTS {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[6].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[6].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     DOTS {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[7].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[7].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     WAVE_DOTS {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[8].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[8].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     CUSTOM_IMAGE {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[9].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[9].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     SINE_WAVE {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[10].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[10].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     HOOP_STACK {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[11].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[11].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     PIXEL_MESH {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[12].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[12].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     SPIRAL {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[13].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[13].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     },
     SPIRAL_DOTS {
         @Override
-        public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-            ArrayVisualizer.getVisuals()[14].drawVisual(array, ArrayVisualizer, Renderer, Highlights);
+        public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+            arrayVisualizer.getVisuals()[14].drawVisual(array, arrayVisualizer, renderer, Highlights);
         }
     };
 
@@ -126,5 +126,5 @@ public enum VisualStyles {
         return this;
     }
 
-    public abstract void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights);
+    public abstract void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights);
 }

@@ -1,6 +1,9 @@
 package io.github.arrayv.utils;
 
-public class IndexedRotations {
+public final class IndexedRotations {
+    private IndexedRotations() {
+    }
+
     public static void griesMills(int[] array, int start, int mid, int end, double pause, boolean mark, boolean auxwrite) {
         Rotations.griesMills(array, start, mid - start, end - mid, pause, mark, auxwrite);
     }

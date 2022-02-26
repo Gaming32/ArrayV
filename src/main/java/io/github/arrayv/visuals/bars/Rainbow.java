@@ -34,39 +34,39 @@ SOFTWARE.
  */
 
 public final class Rainbow extends Visual {
-    public Rainbow(ArrayVisualizer ArrayVisualizer) {
-        super(ArrayVisualizer);
+    public Rainbow(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
     }
 
     @Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
-            int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+    public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+        for (int i = 0, j = 0; i < renderer.getArrayLength(); i++) {
+            int width = (int) (renderer.getXScale() * (i + 1)) - j;
             if (width == 0) continue;
 
             if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
-            else this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+            else this.mainRender.setColor(getIntColor(array[i], arrayVisualizer.getCurrentLength()));
 
-            this.mainRender.fillRect(j + 20, Renderer.getYOffset() - 20, width, (int) (Renderer.getViewSize()));
+            this.mainRender.fillRect(j + 20, renderer.getYOffset() - 20, width, (int) (renderer.getViewSize()));
 
             j += width;
         }
-        if (ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
+        if (arrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
         else                                   this.mainRender.setColor(Color.WHITE);
 
-        for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
-            int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+        for (int i = 0, j = 0; i < renderer.getArrayLength(); i++) {
+            int width = (int) (renderer.getXScale() * (i + 1)) - j;
 
             if (Highlights.containsPosition(i)) {
 
-                this.mainRender.fillRect(j + 20, Renderer.getYOffset() - 20, Math.max(width, 2), (int) (Renderer.getViewSize()));
+                this.mainRender.fillRect(j + 20, renderer.getYOffset() - 20, Math.max(width, 2), (int) (renderer.getViewSize()));
             }
             j += width;
         }
-        if (ArrayVisualizer.externalArraysEnabled()) {
+        if (arrayVisualizer.externalArraysEnabled()) {
             this.mainRender.setColor(Color.BLUE);
-            this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
+            this.mainRender.fillRect(0, renderer.getYOffset() + renderer.getViewSize() - 20, arrayVisualizer.currentWidth(), 1);
         }
     }
 }

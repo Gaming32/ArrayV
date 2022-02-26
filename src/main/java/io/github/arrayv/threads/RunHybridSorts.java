@@ -65,6 +65,7 @@ SOFTWARE.
  */
 
 public final class RunHybridSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort HybridCombSort;
     private Sort IntroCircleSortRecursive;
     private Sort IntroCircleSortIterative;
@@ -97,6 +98,7 @@ public final class RunHybridSorts extends MultipleSortThread {
     private Sort RemiSort;
     private Sort StacklessDualPivotQuickSort;
     private Sort AdaptiveGrailSort;
+    // @checkstyle:on MemberNameCheck
 
     public RunHybridSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

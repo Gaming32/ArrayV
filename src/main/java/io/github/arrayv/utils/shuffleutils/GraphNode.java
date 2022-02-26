@@ -12,10 +12,10 @@ public class GraphNode {
     public static final int WIDTH = 250;
     public static final int HEIGHT = 50;
 
-    public ShuffleInfo shuffle;
-    public int x, y;
-    public ShuffleGraph graph;
-    public GraphConnection preConnection, postConnection;
+    private ShuffleInfo shuffle;
+    private int x, y;
+    private ShuffleGraph graph;
+    private GraphConnection preConnection, postConnection;
 
     public GraphNode(ShuffleInfo shuffle, ShuffleGraph graph, int x, int y) {
         this.shuffle = shuffle;
@@ -55,8 +55,8 @@ public class GraphNode {
     }
 
     public void draw(Graphics2D g) {
-        Color borderColor = this.graph.selected == this ? new Color(128, 128, 255) : new Color(0, 0, 0);
-        Color leftColor = this.graph.dragCandidate == this ? new Color(128, 128, 255) : borderColor;
+        Color borderColor = this.graph.getSelected() == this ? new Color(128, 128, 255) : new Color(0, 0, 0);
+        Color leftColor = this.graph.getDragCandidate() == this ? new Color(128, 128, 255) : borderColor;
         g.setColor(leftColor);
         AWTUtils.drawCircle(g, x, y + HEIGHT / 2, 10);
         g.setColor(borderColor);
@@ -93,24 +93,24 @@ public class GraphNode {
     }
 
     public void delete() {
-        if (this == this.graph.selected) {
-            this.graph.selected = null;
+        if (this == this.graph.getSelected()) {
+            this.graph.setSelected(null);
         }
-        this.graph.nodes.remove(this);
+        this.graph.getNodes().remove(this);
         if (this.preConnection != null) {
             if (this.postConnection == null) {
-                this.graph.connections.remove(this.preConnection);
+                this.graph.getConnections().remove(this.preConnection);
                 this.preConnection.remove();
             } else {
-                this.preConnection.to = this.postConnection.to;
+                this.preConnection.setTo(this.postConnection.getTo());
             }
         }
         if (this.postConnection != null) {
             if (this.preConnection == null) {
-                this.graph.connections.remove(this.postConnection);
+                this.graph.getConnections().remove(this.postConnection);
                 this.postConnection.remove();
             } else {
-                this.postConnection.from = this.preConnection.from;
+                this.postConnection.setFrom(this.preConnection.getFrom());
             }
         }
     }
@@ -121,5 +121,45 @@ public class GraphNode {
 
     public ShuffleInfo getValue() {
         return this.shuffle;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public ShuffleGraph getGraph() {
+        return graph;
+    }
+
+    public GraphConnection getPreConnection() {
+        return preConnection;
+    }
+
+    public GraphConnection getPostConnection() {
+        return postConnection;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setGraph(ShuffleGraph graph) {
+        this.graph = graph;
+    }
+
+    public void setPreConnection(GraphConnection connection) {
+        this.preConnection = connection;
+    }
+
+    public void setPostConnection(GraphConnection connection) {
+        this.postConnection = connection;
     }
 }
