@@ -20,7 +20,7 @@ import io.github.arrayv.utils.ShuffleGraph;
 public class ShufflePanel extends JPanel implements KeyListener {
     int camX = 0, camY = 0;
     int prevX = 0, prevY = 0;
-    public ShuffleGraph graph;
+    private ShuffleGraph graph;
 
     public ShufflePanel() {
         setPreferredSize(new Dimension(700, 450));
@@ -55,6 +55,14 @@ public class ShufflePanel extends JPanel implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    public ShuffleGraph getShuffle() {
+        return graph;
+    }
+
+    public void setShuffle(ShuffleGraph shuffle) {
+        this.graph = shuffle;
     }
 
     protected class MouseHandler extends MouseAdapter {

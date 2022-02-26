@@ -13,17 +13,25 @@ import io.github.arrayv.sorts.templates.Sort;
 
 public final class MultipleScript {
     public static class ScriptCommand {
-        public static enum CommandType {
+        public enum CommandType {
             SortCall,
             SetCategory
         }
 
-        public CommandType type;
-        public Object argument;
+        private final CommandType type;
+        private final Object argument;
 
         public ScriptCommand(CommandType type, Object argument) {
             this.type = type;
             this.argument = argument;
+        }
+
+        public CommandType getType() {
+            return type;
+        }
+
+        public Object getArgument() {
+            return argument;
         }
     }
 

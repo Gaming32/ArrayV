@@ -51,6 +51,7 @@ SOFTWARE.
  */
 
 public final class RunSelectionSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort SelectionSort;
     private Sort DoubleSelectionSort;
     private Sort CycleSort;
@@ -69,6 +70,7 @@ public final class RunSelectionSorts extends MultipleSortThread {
     private Sort ClassicTournamentSort;
     private Sort StableCycleSort;
     private Sort TriangularHeapSort;
+    // @checkstyle:on MemberNameCheck
 
     public RunSelectionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

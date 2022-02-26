@@ -31,31 +31,31 @@ SOFTWARE.
 
 // TODO: Many of these methods should exist solely in visual classes
 
-final class WindowState {
-    private boolean windowUpdated;
-    private boolean windowResized;
-
-    public WindowState(boolean windowUpdate, boolean windowResize) {
-        this.windowUpdated = windowUpdate;
-        this.windowResized = windowResize;
-    }
-
-    public boolean updated() {
-        return this.windowUpdated;
-    }
-
-    public boolean resized() {
-        return this.windowResized;
-    }
-}
-
 public final class Renderer {
+    private static final class WindowState {
+        private boolean windowUpdated;
+        private boolean windowResized;
+
+        private WindowState(boolean windowUpdate, boolean windowResize) {
+            this.windowUpdated = windowUpdate;
+            this.windowResized = windowResize;
+        }
+
+        public boolean updated() {
+            return this.windowUpdated;
+        }
+
+        public boolean resized() {
+            return this.windowResized;
+        }
+    }
+
     private volatile double xScale;
     private volatile double yScale;
 
     private volatile int yoffset;
     private volatile int vsize;
-    public volatile boolean auxActive;
+    private volatile boolean auxActive;
 
     private volatile int length;
 
@@ -68,9 +68,9 @@ public final class Renderer {
     private int dotw;
     private int dots; //TODO: Change name to dotDims/dotDimensions
 
-    public Renderer(ArrayVisualizer ArrayVisualizer) {
-        ArrayVisualizer.setWindowHeight();
-        ArrayVisualizer.setWindowWidth();
+    public Renderer(ArrayVisualizer arrayVisualizer) {
+        arrayVisualizer.setWindowHeight();
+        arrayVisualizer.setWindowWidth();
     }
 
     public double getXScale() {
@@ -120,81 +120,81 @@ public final class Renderer {
         this.linkedpixdrawy = y;
     }
 
-    public static void createRenders(ArrayVisualizer ArrayVisualizer) {
-        ArrayVisualizer.createVolatileImage();
-        ArrayVisualizer.setMainRender();
-        ArrayVisualizer.setExtraRender();
+    public static void createRenders(ArrayVisualizer arrayVisualizer) {
+        arrayVisualizer.createVolatileImage();
+        arrayVisualizer.setMainRender();
+        arrayVisualizer.setExtraRender();
     }
 
-    public static void initializeVisuals(ArrayVisualizer ArrayVisualizer) {
-        Renderer.createRenders(ArrayVisualizer);
-        ArrayVisualizer.repositionFrames();
+    public static void initializeVisuals(ArrayVisualizer arrayVisualizer) {
+        Renderer.createRenders(arrayVisualizer);
+        arrayVisualizer.repositionFrames();
     }
 
-    public static void updateGraphics(ArrayVisualizer ArrayVisualizer) {
-        Renderer.createRenders(ArrayVisualizer);
-        ArrayVisualizer.updateVisuals();
+    public static void updateGraphics(ArrayVisualizer arrayVisualizer) {
+        Renderer.createRenders(arrayVisualizer);
+        arrayVisualizer.updateVisuals();
     }
 
-    private static WindowState checkWindowResizeAndReposition(ArrayVisualizer ArrayVisualizer) {
+    private static WindowState checkWindowResizeAndReposition(ArrayVisualizer arrayVisualizer) {
         boolean windowUpdate = false;
         boolean windowResize = false;
 
-        if (ArrayVisualizer.currentHeight() != ArrayVisualizer.windowHeight()) {
+        if (arrayVisualizer.currentHeight() != arrayVisualizer.windowHeight()) {
             windowUpdate = true;
             windowResize = true;
         }
-        if (ArrayVisualizer.currentWidth() != ArrayVisualizer.windowWidth()) {
+        if (arrayVisualizer.currentWidth() != arrayVisualizer.windowWidth()) {
             windowUpdate = true;
             windowResize = true;
         }
-        if (ArrayVisualizer.currentX() != ArrayVisualizer.windowXCoordinate()) {
+        if (arrayVisualizer.currentX() != arrayVisualizer.windowXCoordinate()) {
             windowUpdate = true;
         }
-        if (ArrayVisualizer.currentY() != ArrayVisualizer.windowYCoordinate()) {
+        if (arrayVisualizer.currentY() != arrayVisualizer.windowYCoordinate()) {
             windowUpdate = true;
         }
 
         return new WindowState(windowUpdate, windowResize);
     }
 
-    public void updateVisualsStart(ArrayVisualizer ArrayVisualizer) {
-        WindowState WindowState = checkWindowResizeAndReposition(ArrayVisualizer);
+    public void updateVisualsStart(ArrayVisualizer arrayVisualizer) {
+        WindowState windowState = checkWindowResizeAndReposition(arrayVisualizer);
 
-        if (WindowState.updated()) {
-            ArrayVisualizer.repositionFrames();
-            ArrayVisualizer.updateCoordinates();
+        if (windowState.updated()) {
+            arrayVisualizer.repositionFrames();
+            arrayVisualizer.updateCoordinates();
 
             /*
             if (v != null && v.isVisible())
                 v.reposition();
             */
 
-            if (WindowState.resized()) {
-                ArrayVisualizer.updateDimensions();
-                updateGraphics(ArrayVisualizer);
+            if (windowState.resized()) {
+                arrayVisualizer.updateDimensions();
+                updateGraphics(arrayVisualizer);
             }
         }
 
-        ArrayVisualizer.renderBackground();
+        arrayVisualizer.renderBackground();
 
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
 
-        this.yScale = (double) (this.vsize) / ArrayVisualizer.getCurrentLength();
+        this.yScale = (double) (this.vsize) / arrayVisualizer.getCurrentLength();
 
-        this.dotw = (int) (2 * (ArrayVisualizer.currentWidth()  / 640.0));
+        this.dotw = (int) (2 * (arrayVisualizer.currentWidth()  / 640.0));
 
-        this.vsize = (ArrayVisualizer.currentHeight() - 96) / (ArrayVisualizer.externalArraysEnabled() ? Math.min(ArrayVisualizer.getArrays().size(), 7) : 1);
+        this.vsize = (arrayVisualizer.currentHeight() - 96) / (arrayVisualizer.externalArraysEnabled() ? Math.min(arrayVisualizer.getArrays().size(), 7) : 1);
         this.yoffset = 96;
     }
 
-    private void updateVisualsPerArray(ArrayVisualizer ArrayVisualizer, int[] array, int length) {
+    private void updateVisualsPerArray(ArrayVisualizer arrayVisualizer, int[] array, int length) {
 
         //CURRENT = WINDOW
         //WINDOW = C VARIABLES
 
-        this.xScale = (double) (ArrayVisualizer.currentWidth() - 40) / length;
+        this.xScale = (double) (arrayVisualizer.currentWidth() - 40) / length;
 
         this.amt = 0; //TODO: rename to barCount
 
@@ -206,22 +206,30 @@ public final class Renderer {
 
         this.length = length;
 
-        ArrayVisualizer.resetMainStroke();
+        arrayVisualizer.resetMainStroke();
     }
 
-    public void drawVisual(VisualStyles VisualStyles, int[][] arrays, ArrayVisualizer ArrayVisualizer, Highlights Highlights) {
-        if (ArrayVisualizer.externalArraysEnabled()) {
+    public void drawVisual(VisualStyles visualStyle, int[][] arrays, ArrayVisualizer arrayVisualizer, Highlights Highlights) {
+        if (arrayVisualizer.externalArraysEnabled()) {
             this.auxActive = true;
             for (int i = Math.min(arrays.length - 1, 6); i > 0; i--) {
                 if (arrays[i] != null) {
-                    this.updateVisualsPerArray(ArrayVisualizer, arrays[i], arrays[i].length);
-                    VisualStyles.drawVisual(arrays[i], ArrayVisualizer, this, Highlights);
+                    this.updateVisualsPerArray(arrayVisualizer, arrays[i], arrays[i].length);
+                    visualStyle.drawVisual(arrays[i], arrayVisualizer, this, Highlights);
                     this.yoffset += this.vsize;
                 }
             }
             this.auxActive = false;
         }
-        this.updateVisualsPerArray(ArrayVisualizer, arrays[0], ArrayVisualizer.getCurrentLength());
-        VisualStyles.drawVisual(arrays[0], ArrayVisualizer, this, Highlights);
+        this.updateVisualsPerArray(arrayVisualizer, arrays[0], arrayVisualizer.getCurrentLength());
+        visualStyle.drawVisual(arrays[0], arrayVisualizer, this, Highlights);
+    }
+
+    public boolean isAuxActive() {
+        return auxActive;
+    }
+
+    public void setAuxActive(boolean auxActive) {
+        this.auxActive = auxActive;
     }
 }

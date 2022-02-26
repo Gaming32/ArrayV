@@ -12,7 +12,7 @@ public final class JErrorPane extends JOptionPane {
      */
     private static final long serialVersionUID = 1L;
 
-    public volatile static boolean errorMessageActive = false;
+    private static volatile boolean errorMessageActive = false;
 
     private static JTextArea createTextArea(String errorMsg) {
         JTextArea error = new JTextArea();
@@ -44,5 +44,9 @@ public final class JErrorPane extends JOptionPane {
 
         JOptionPane.showMessageDialog(null, errorMsg, "Error", JOptionPane.ERROR_MESSAGE);
         errorMessageActive = false;
+    }
+
+    public static boolean isErrorMessageActive() {
+        return errorMessageActive;
     }
 }

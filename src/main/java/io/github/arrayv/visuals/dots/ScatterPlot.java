@@ -34,82 +34,80 @@ SOFTWARE.
  */
 
 public final class ScatterPlot extends Visual {
-    public ScatterPlot(ArrayVisualizer ArrayVisualizer) {
-        super(ArrayVisualizer);
+    public ScatterPlot(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
     }
 
     @Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        int offset = 20 + (int) (Renderer.getXScale()/2);
+    public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+        int offset = 20 + (int) (renderer.getXScale()/2);
 
-        if (ArrayVisualizer.linesEnabled()) {
+        if (arrayVisualizer.linesEnabled()) {
             int lastX = 0;
-            int lastY = (int) (((Renderer.getViewSize() - 20)) - (array[0] + 1) * Renderer.getYScale());
-            this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(2));
+            int lastY = (int) (((renderer.getViewSize() - 20)) - (array[0] + 1) * renderer.getYScale());
+            this.mainRender.setStroke(arrayVisualizer.getCustomStroke(2));
 
-            for (int i = 1, j = (int) Renderer.getXScale(); i < Renderer.getArrayLength(); i++) {
+            for (int i = 1, j = (int) renderer.getXScale(); i < renderer.getArrayLength(); i++) {
                 if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition()) {
                     this.mainRender.setColor(Color.GREEN);
-                    this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(4));
+                    this.mainRender.setStroke(arrayVisualizer.getCustomStroke(4));
                 } else if (Highlights.containsPosition(i)) {
-                    this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
-                    this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(4));
-                } else if (ArrayVisualizer.colorEnabled()) {
-                    int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getIndexValue(array[i]): array[i];
-                    this.mainRender.setColor(getIntColor(val, ArrayVisualizer.getCurrentLength()));
-                }
-                else this.mainRender.setColor(Color.WHITE);
+                    this.mainRender.setColor(arrayVisualizer.getHighlightColor());
+                    this.mainRender.setStroke(arrayVisualizer.getCustomStroke(4));
+                } else if (arrayVisualizer.colorEnabled()) {
+                    int val = arrayVisualizer.doingStabilityCheck() && arrayVisualizer.colorEnabled() ? arrayVisualizer.getIndexValue(array[i]): array[i];
+                    this.mainRender.setColor(getIntColor(val, arrayVisualizer.getCurrentLength()));
+                } else this.mainRender.setColor(Color.WHITE);
 
-                int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
-                int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+                int val = arrayVisualizer.doingStabilityCheck() && arrayVisualizer.colorEnabled() ? arrayVisualizer.getStabilityValue(array[i]): array[i];
+                int y = (int) (((renderer.getViewSize() - 20)) - (val + 1) * renderer.getYScale());
 
-                this.mainRender.drawLine(lastX + offset, Renderer.getYOffset() + lastY, j + offset, Renderer.getYOffset() + y);
+                this.mainRender.drawLine(lastX + offset, renderer.getYOffset() + lastY, j + offset, renderer.getYOffset() + y);
 
                 lastX = j;
                 lastY = y;
 
-                this.mainRender.setStroke(ArrayVisualizer.getCustomStroke(2));
+                this.mainRender.setStroke(arrayVisualizer.getCustomStroke(2));
 
-                int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+                int width = (int) (renderer.getXScale() * (i + 1)) - j;
                 j += width;
             }
-            this.mainRender.setStroke(ArrayVisualizer.getDefaultStroke());
+            this.mainRender.setStroke(arrayVisualizer.getDefaultStroke());
         } else {
-            int dotS = Renderer.getDotDimensions();
+            int dotS = renderer.getDotDimensions();
 
-            for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+            for (int i = 0, j = 0; i < renderer.getArrayLength(); i++) {
                 if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                     this.mainRender.setColor(Color.GREEN);
-                else if (ArrayVisualizer.colorEnabled()) {
-                    int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getIndexValue(array[i]): array[i];
-                    this.mainRender.setColor(getIntColor(val, ArrayVisualizer.getCurrentLength()));
-                }
-                else this.mainRender.setColor(Color.WHITE);
+                else if (arrayVisualizer.colorEnabled()) {
+                    int val = arrayVisualizer.doingStabilityCheck() && arrayVisualizer.colorEnabled() ? arrayVisualizer.getIndexValue(array[i]): array[i];
+                    this.mainRender.setColor(getIntColor(val, arrayVisualizer.getCurrentLength()));
+                } else this.mainRender.setColor(Color.WHITE);
 
-                int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
-                int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+                int val = arrayVisualizer.doingStabilityCheck() && arrayVisualizer.colorEnabled() ? arrayVisualizer.getStabilityValue(array[i]): array[i];
+                int y = (int) (((renderer.getViewSize() - 20)) - (val + 1) * renderer.getYScale());
 
-                this.mainRender.fillRect(j + offset, Renderer.getYOffset() + y, dotS, dotS);
+                this.mainRender.fillRect(j + offset, renderer.getYOffset() + y, dotS, dotS);
 
-                int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+                int width = (int) (renderer.getXScale() * (i + 1)) - j;
                 j += width;
             }
-            this.mainRender.setColor(ArrayVisualizer.getHighlightColor());
+            this.mainRender.setColor(arrayVisualizer.getHighlightColor());
 
-            for (int i = 0, j = 0; i < Renderer.getArrayLength(); i++) {
+            for (int i = 0, j = 0; i < renderer.getArrayLength(); i++) {
                 if (Highlights.containsPosition(i)) {
-                    int val = ArrayVisualizer.doingStabilityCheck() && ArrayVisualizer.colorEnabled() ? ArrayVisualizer.getStabilityValue(array[i]): array[i];
-                    int y = (int) (((Renderer.getViewSize() - 20)) - (val + 1) * Renderer.getYScale());
+                    int val = arrayVisualizer.doingStabilityCheck() && arrayVisualizer.colorEnabled() ? arrayVisualizer.getStabilityValue(array[i]): array[i];
+                    int y = (int) (((renderer.getViewSize() - 20)) - (val + 1) * renderer.getYScale());
 
-                    this.mainRender.fillRect(j + offset - (int)(1.5*dotS), Renderer.getYOffset() + y - (int)(1.5*dotS), 4*dotS, 4*dotS);
+                    this.mainRender.fillRect(j + offset - (int)(1.5*dotS), renderer.getYOffset() + y - (int)(1.5*dotS), 4*dotS, 4*dotS);
                 }
-                int width = (int) (Renderer.getXScale() * (i + 1)) - j;
+                int width = (int) (renderer.getXScale() * (i + 1)) - j;
                 j += width;
             }
         }
-        if (ArrayVisualizer.externalArraysEnabled()) {
+        if (arrayVisualizer.externalArraysEnabled()) {
             this.mainRender.setColor(Color.BLUE);
-            this.mainRender.fillRect(0, Renderer.getYOffset() + Renderer.getViewSize() - 20, ArrayVisualizer.currentWidth(), 1);
+            this.mainRender.fillRect(0, renderer.getYOffset() + renderer.getViewSize() - 20, arrayVisualizer.currentWidth(), 1);
         }
     }
 }

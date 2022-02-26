@@ -7,6 +7,9 @@ import java.io.IOException;
 import io.github.arrayv.panes.JErrorPane;
 
 public final class ArrayFileWriter {
+    private ArrayFileWriter() {
+    }
+
     public static boolean writeArray(String fileName, int[] array, int length) {
         try {
             FileWriter writer = new FileWriter(fileName);

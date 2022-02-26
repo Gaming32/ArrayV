@@ -17,12 +17,14 @@ import java.util.function.Consumer;
 import io.github.arrayv.main.ArrayVisualizer;
 
 public class ArrayVList extends AbstractList<Integer> implements RandomAccess, Cloneable, java.io.Serializable {
-    final static int DEFAULT_CAPACITY = 128;
-    final static double DEFAULT_GROW_FACTOR = 2;
+    private static final int DEFAULT_CAPACITY = 128;
+    private static final double DEFAULT_GROW_FACTOR = 2;
 
-    static ArrayVisualizer arrayVisualizer;
-    static Reads Reads;
-    static Writes Writes;
+    private static ArrayVisualizer arrayVisualizer;
+    // @checkstyle:off StaticVariableNameCheck
+    private static Reads Reads;
+    private static Writes Writes;
+    // @checkstyle:on StaticVariableNameCheck
 
     int[] internal;
     double growFactor;

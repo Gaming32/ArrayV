@@ -196,7 +196,7 @@ public final class RunSort {
                                 if (warning == 0) goAhead = true;
                                 else goAhead = false;
                             }
-                    }
+                        }
                     } else {
                         goAhead = true;
                     }
@@ -229,7 +229,7 @@ public final class RunSort {
                         if (antiq)
                             arrayVisualizer.finishAntiQSort(sort.getClass().getSimpleName());
                         else if (networks) {
-                            ArrayList<Integer> indicesList = arrayVisualizer.getReads().networkIndices;
+                            ArrayList<Integer> indicesList = arrayVisualizer.getReads().getNetworkIndices();
                             SortingNetworkGenerator.encodeNetworkAndDisplay(
                                 sort.getClass().getSimpleName(),
                                 indicesList,

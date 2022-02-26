@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import io.github.arrayv.main.ArrayVisualizer;
 
 public final class Statistics {
-    public long frameTimeMillis;
+    private long frameTimeMillis;
 
     private String sortCategory;
     private String sortHeading;
@@ -30,9 +30,9 @@ public final class Statistics {
 
     private DecimalFormat formatter;
 
-    public Statistics(ArrayVisualizer ArrayVisualizer) {
-        this.formatter = ArrayVisualizer.getNumberFormat();
-        this.updateStats(ArrayVisualizer);
+    public Statistics(ArrayVisualizer arrayVisualizer) {
+        this.formatter = arrayVisualizer.getNumberFormat();
+        this.updateStats(arrayVisualizer);
     }
 
     public int[] findSegments(int[] array, int length, boolean reversed) {
@@ -49,36 +49,40 @@ public final class Statistics {
         return result;
     }
 
-    public void updateStats(ArrayVisualizer ArrayVisualizer) {
-        this.sortCategory = ArrayVisualizer.getCategory();
-        this.sortHeading = ArrayVisualizer.getHeading();
-        this.sortExtraHeading = ArrayVisualizer.getExtraHeading();
-        int showUnique = Math.min(ArrayVisualizer.getUniqueItems(), ArrayVisualizer.getCurrentLength());
-        this.arrayLength = this.formatter.format(ArrayVisualizer.getCurrentLength()) + " Numbers"
-        + ", " + this.formatter.format(showUnique) + " Unique";
+    public void updateStats(ArrayVisualizer arrayVisualizer) {
+        this.sortCategory = arrayVisualizer.getCategory();
+        this.sortHeading = arrayVisualizer.getHeading();
+        this.sortExtraHeading = arrayVisualizer.getExtraHeading();
+        int showUnique = Math.min(arrayVisualizer.getUniqueItems(), arrayVisualizer.getCurrentLength());
+        this.arrayLength = this.formatter.format(arrayVisualizer.getCurrentLength()) + " Numbers"
+            + ", " + this.formatter.format(showUnique) + " Unique";
 
         if (frameTimeMillis == 0) {
             this.framerate = ">1000 FPS";
         } else {
             this.framerate = (int)(1000.0 / frameTimeMillis) + " FPS";
         }
-        this.sortDelay = "Delay: " + ArrayVisualizer.getDelays().displayCurrentDelay();
-        this.visualTime = "Visual Time: " + ArrayVisualizer.getTimer().getVisualTime();
-        this.estSortTime = "Sort Time: " + ArrayVisualizer.getTimer().getRealTime();
+        this.sortDelay = "Delay: " + arrayVisualizer.getDelays().displayCurrentDelay();
+        this.visualTime = "Visual Time: " + arrayVisualizer.getTimer().getVisualTime();
+        this.estSortTime = "Sort Time: " + arrayVisualizer.getTimer().getRealTime();
 
-        this.comparisonCount = ArrayVisualizer.getReads().getStats();
-        this.swapCount = ArrayVisualizer.getWrites().getSwaps();
-        this.reversalCount = ArrayVisualizer.getWrites().getReversals();
+        this.comparisonCount = arrayVisualizer.getReads().getStats();
+        this.swapCount = arrayVisualizer.getWrites().getSwaps();
+        this.reversalCount = arrayVisualizer.getWrites().getReversals();
 
-        this.mainWriteCount = ArrayVisualizer.getWrites().getMainWrites();
-        this.auxWriteCount = ArrayVisualizer.getWrites().getAuxWrites();
+        this.mainWriteCount = arrayVisualizer.getWrites().getMainWrites();
+        this.auxWriteCount = arrayVisualizer.getWrites().getAuxWrites();
 
-        this.auxAllocAmount = ArrayVisualizer.getWrites().getAllocAmount();
+        this.auxAllocAmount = arrayVisualizer.getWrites().getAllocAmount();
 
-        int[] shadowarray    = ArrayVisualizer.getArray();
-        int[] rawSegments    = this.findSegments(shadowarray, ArrayVisualizer.getCurrentLength(), ArrayVisualizer.reversedComparator());
+        int[] shadowarray    = arrayVisualizer.getArray();
+        int[] rawSegments    = this.findSegments(shadowarray, arrayVisualizer.getCurrentLength(), arrayVisualizer.reversedComparator());
         String plural = rawSegments[0] == 1 ? "" : "s";
         this.segments        = String.valueOf(rawSegments[1]) + "% Sorted (" + String.valueOf(rawSegments[0]) + " Segment" + plural + ")";
+    }
+
+    public void setFrameTimeMillis(long frameTimeMillis) {
+        this.frameTimeMillis = frameTimeMillis;
     }
 
     public String getSortIdentity() {

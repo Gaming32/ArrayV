@@ -50,6 +50,7 @@ SOFTWARE.
  */
 
 public final class RunMergeSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort MergeSort;
     private Sort BottomUpMergeSort;
     private Sort TwinSort;
@@ -67,6 +68,7 @@ public final class RunMergeSorts extends MultipleSortThread {
     private Sort NewShuffleMergeSort;
     private Sort RotateMergeSortParallel;
     private Sort WeavedMergeSort;
+    // @checkstyle:on MemberNameCheck
 
     public RunMergeSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
