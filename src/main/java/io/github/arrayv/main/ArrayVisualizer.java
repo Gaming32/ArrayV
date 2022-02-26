@@ -729,9 +729,9 @@ public final class ArrayVisualizer {
                     copyYPos = (int)(windowRatio * yPos) + yOffset, textWidth;
                 for (String color : Highlights.getDeclaredColors()) {
                     textWidth = mainRender.getFontMetrics().stringWidth(color);
-                    startOffset -= textWidth + metricFontHeight + 12;
-                    if (startOffset >= startStat) {
-                        startOffset = copy - textWidth - metricFontHeight - 12;
+                    startOffset -= textWidth + metricFontHeight + 20;
+                    if (startOffset <= startStat) {
+                        startOffset = copy - textWidth - metricFontHeight - 20;
                         copyYPos += metricFontHeight + 8;
                     }
                     if (!dropShadow)
@@ -1313,7 +1313,11 @@ public final class ArrayVisualizer {
 
     public void endSort() {
         this.Timer.disableRealTimer();
+        
         this.Highlights.clearAllMarks();
+        this.Highlights.clearAllColors();
+        this.Highlights.clearColorList();
+        
         System.out.println(formatTimes());
 
         this.isCanceled = false;
