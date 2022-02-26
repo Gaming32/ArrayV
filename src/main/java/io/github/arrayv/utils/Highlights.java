@@ -38,9 +38,7 @@ public final class Highlights {
     private volatile boolean[] colorMarks;
     private volatile Color[] colorColors;
 
-    // @checkstyle:off VisibilityModifier
-    public volatile boolean retainColorMarks = true;
-    // @checkstyle:on VisibilityModifier
+    private volatile boolean retainColorMarks = true;
 
     private volatile HashMap<String, Color> defined;
 
@@ -272,5 +270,13 @@ public final class Highlights {
         this.maxHighlightMarked = 0;
         this.markCount = 0;
         arrayVisualizer.updateNow();
+    }
+
+    public synchronized boolean isRetainingColorMarks() {
+        return retainColorMarks;
+    }
+
+    public synchronized void retainColorMarks(boolean retainColorMarks) {
+        this.retainColorMarks = retainColorMarks;
     }
 }

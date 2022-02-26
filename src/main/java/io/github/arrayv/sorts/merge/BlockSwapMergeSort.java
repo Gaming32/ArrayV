@@ -88,7 +88,7 @@ public final class BlockSwapMergeSort extends Sort {
     }
 
     public void multiSwapMergeSort(int[] array, int a, int b) {
-		Highlights.retainColorMarks = true;
+		Highlights.retainColorMarks(true);;
 		Highlights.defineColor("double_binsearch", new Color(128, 0, 255));
 		Highlights.defineColor("blockswap", Color.ORANGE);
         int len = b-a, i;

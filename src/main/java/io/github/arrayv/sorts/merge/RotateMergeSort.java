@@ -108,7 +108,7 @@ public final class RotateMergeSort extends Sort {
 	}
 
 	protected void rotateMergeSort(int[] array, int a, int b) {
-		Highlights.retainColorMarks = true;
+		Highlights.retainColorMarks(true);
 		Highlights.defineColor("binsearch", Color.CYAN);
 		Highlights.defineColor("rotate", Color.ORANGE);
         int len = b-a, i;
