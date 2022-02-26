@@ -31,7 +31,6 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.main.SortAnalyzer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
-import io.github.arrayv.threads.RunAllSorts;
 import io.github.arrayv.threads.RunSort;
 
 /*
@@ -331,8 +330,7 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
         new Thread("AllSortsThread") {
             @Override
             public void run(){
-                RunAllSorts runAllSorts = new RunAllSorts(arrayVisualizer);
-                runAllSorts.reportAllSorts(array);
+                // TODO: implement Run All again
             }
         }.start();
         utilFrame.jButton1ResetText();
