@@ -102,8 +102,16 @@ public final class GroovyLocals {
         return new RunSortBuilder(null, sort);
     }
 
+    public static RunSortBuilder run(Class<?> sort) {
+        return new RunSortBuilder(null, getSort(sort.getSimpleName()));
+    }
+
     public static RunSortBuilder run(Map<String, Object> options, SortInfo sort) {
         return new RunSortBuilder(options, sort);
+    }
+
+    public static RunSortBuilder run(Map<String, Object> options, Class<?> sort) {
+        return new RunSortBuilder(options, getSort(sort.getSimpleName()));
     }
 
     public static String getCategory() {

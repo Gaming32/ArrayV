@@ -8,7 +8,7 @@ SortPrompt.setSortThreadForCategory('Hybrid Sorts', 32) {
     run BinaryMergeSort with 2048.numbers go()
     run MergeInsertionSort with 2048.numbers and 1.75.delay
     run(WeaveMergeSort, numbers: 2048, delay: arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.65 : 6.5).go()
-    run getSort("TimSort") with 2048.numbers go() // getSort has to be used, because `TimSort` (Groovy) is interpreted as `java.util.TimSort.class` (Java)
+    run TimSort with 2048.numbers go()
     run CocktailMergeSort with 2048.numbers go()
     run LaziestSort with 1024.numbers go()
     run WikiSort with 2048.numbers go()
