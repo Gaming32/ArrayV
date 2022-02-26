@@ -56,12 +56,10 @@ import io.github.arrayv.groovyapi.ArrayVEventHandler;
 import io.github.arrayv.groovyapi.ScriptManager;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
-import io.github.arrayv.threads.RunScriptedSorts;
 import io.github.arrayv.utils.AntiQSort;
 import io.github.arrayv.utils.ArrayFileWriter;
 import io.github.arrayv.utils.Delays;
 import io.github.arrayv.utils.Highlights;
-import io.github.arrayv.utils.MultipleScript;
 import io.github.arrayv.utils.Reads;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.utils.Sounds;
@@ -231,7 +229,6 @@ public final class ArrayVisualizer {
 
     private final Delays Delays;
     private final Highlights Highlights;
-    private final MultipleScript multipleScript;
     private final Reads Reads;
     private final Renderer renderer;
     private final Sounds Sounds;
@@ -314,23 +311,7 @@ public final class ArrayVisualizer {
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() != KeyEvent.KEY_PRESSED)
                     return false;
-                if (e.getKeyCode() == KeyEvent.VK_O && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
-                    if (ArrayVisualizer.this.isActive())
-                        return false;
-                    Thread thread = new Thread("ScriptSortThread") {
-                        @Override
-                        public void run(){
-                            RunScriptedSorts runScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
-                            try {
-                                runScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
-                            } catch (Exception e) {
-                                JErrorPane.invokeErrorMessage(e);
-                            }
-                        }
-                    };
-                    thread.start();
-                    return true;
-                } else if (e.getKeyCode() == KeyEvent.VK_S && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
+                if (e.getKeyCode() == KeyEvent.VK_S && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
                     int[] snapshot = Arrays.copyOfRange(ArrayVisualizer.this.getArray(), 0, ArrayVisualizer.this.getCurrentLength());
                     FileDialog selected = new SaveArrayDialog();
                     ArrayFileWriter.writeArray(selected.getFile(), snapshot, snapshot.length);
@@ -533,8 +514,6 @@ public final class ArrayVisualizer {
             this.resetStabilityTable();
             this.resetIndexTable();
         }
-
-        this.multipleScript = new MultipleScript(this);
 
         this.category = "";
         this.heading = "";
@@ -865,9 +844,6 @@ public final class ArrayVisualizer {
     }
     public Writes getWrites() {
         return this.Writes;
-    }
-    public MultipleScript getScriptParser() {
-        return this.multipleScript;
     }
 
     public ScriptManager getScriptManager() {
