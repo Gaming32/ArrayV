@@ -26,3 +26,4 @@ scripts/categories/exchange.groovy
 scripts/categories/hybrid.groovy
 scripts/categories/impractical.groovy
 scripts/categories/insertion.groovy
+scripts/categories/merge.groovy
