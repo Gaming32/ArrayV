@@ -3,7 +3,7 @@ package io.github.arrayv.groovyapi;
 import io.github.arrayv.main.ArrayVisualizer;
 
 public final class ArrayVEventHandler {
-    public static enum EventType {
+    public enum EventType {
         DEFAULT_SCRIPTS_INSTALLED,
         ARRAYV_FULLY_LOADED
     }

@@ -92,7 +92,7 @@ public final class SortAnalyzer {
     );
 
     private final Set<Class<?>> extraSorts = new HashSet<>();
-    private final Map<SortNameType, Map<String, SortInfo>> SORTS_BY_NAME = new EnumMap<>(SortNameType.class);
+    private final Map<SortNameType, Map<String, SortInfo>> sortsByName = new EnumMap<>(SortNameType.class);
 
     static {
         try {
@@ -213,7 +213,7 @@ public final class SortAnalyzer {
     }
 
     private Map<String, SortInfo> getSortNameCategory(SortNameType type) {
-        return SORTS_BY_NAME.computeIfAbsent(type, k -> new HashMap<>());
+        return sortsByName.computeIfAbsent(type, k -> new HashMap<>());
     }
 
     private void addSortByName(SortInfo sort) {
@@ -249,7 +249,7 @@ public final class SortAnalyzer {
         this.invalidSorts.clear();
         this.suggestions.clear();
         this.sortErrorMsg = null;
-        this.SORTS_BY_NAME.clear();
+        this.sortsByName.clear();
         analyzeSorts(classGraph(includeExtras));
     }
 

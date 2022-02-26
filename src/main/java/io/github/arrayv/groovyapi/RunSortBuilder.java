@@ -81,7 +81,9 @@ public final class RunSortBuilder {
     }
 
     public int getLength() {
+        // @checkstyle:off LeftCurlyCheck - It's more readable this way, I think
         return ((Number)opts.computeIfAbsent("numbers", k -> { throw new NullPointerException("numbers"); })).intValue();
+        // @checkstyle:on LeftCurlyCheck
     }
 
     public int getBuckets() {

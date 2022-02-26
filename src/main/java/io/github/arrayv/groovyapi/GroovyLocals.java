@@ -55,8 +55,11 @@ public final class GroovyLocals {
 
         SortInfo[] sortInfo = new SortInfo[1];
 
-        class GroovySort extends Sort {
+        final class GroovySort extends Sort {
+            // @checkstyle:off RedundantModifierCheck
+            // This needs to be public so it can be accessed from reflection/java.lang.invoke
             public GroovySort() {
+            // @checkstyle:on RedundantModifierCheck
                 super(ArrayVisualizer.getInstance());
 
                 // Support the (to be deprecated) method of settings sort metadata in the class
