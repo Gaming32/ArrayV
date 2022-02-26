@@ -7,7 +7,7 @@ import org.codehaus.groovy.runtime.MethodClosure;
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.transform.stc.ClosureParams;
-import groovy.transform.stc.SimpleType;
+import groovy.transform.stc.FromAbstractTypeMethods;
 import io.github.arrayv.groovyapi.ScriptManager.ScriptThread;
 import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.main.ArrayVisualizer;
@@ -36,11 +36,23 @@ public final class GroovyLocals {
 
     public static SortInfo newSort(
         @ClosureParams(
-            value = SimpleType.class,
-            options = {"int[]", "int", "int"}
+            value = FromAbstractTypeMethods.class,
+            options = {"io.github.arrayv.groovyapi.GroovyLocals$SortFunctionSignatures"}
         ) Closure<?> sort,
         @DelegatesTo(SortInfo.Builder.class) Closure<?> metadata
     ) {
+        switch (sort.getMaximumNumberOfParameters()) {
+            case 2:
+            case 3:
+                break;
+            default:
+                throw new IllegalArgumentException(
+                    "Illegal number of arguments for Groovy sort function: "
+                        + sort.getMaximumNumberOfParameters()
+                        + ". Must be one of: 2, 3"
+                );
+        }
+
         SortInfo.Builder builder = SortInfo.builder();
 
         // Initialize metadata
@@ -76,7 +88,14 @@ public final class GroovyLocals {
 
             @Override
             public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-                sort.call(array, sortLength, bucketCount);
+                switch (sort.getMaximumNumberOfParameters()) {
+                    case 2:
+                        sort.call(array, sortLength);
+                        break;
+                    case 3:
+                        sort.call(array, sortLength, bucketCount);
+                        break;
+                }
             }
         }
         builder.instanceSupplier(GroovySort::new);
@@ -180,5 +199,10 @@ public final class GroovyLocals {
         arrayVisualizer.setSortingThread(sortingThread);
         arrayVisualizer.runSortingThread();
         return sortingThread;
+    }
+
+    public abstract static class SortFunctionSignatures {
+        public abstract void standardOptions(int[] array, int length, int buckets);
+        public abstract void standardOptionsNoBuckets(int[] array, int length);
     }
 }
