@@ -1,6 +1,10 @@
 package io.github.arrayv.utils;
 
+// @checkstyle:off TypeNameCheck
 public final class m {
+// @checkstyle:on TypeNameCheck
+    private m() {
+    }
 
     /**
      * Returns the logarithm base BASE of the number X
@@ -114,7 +118,8 @@ public final class m {
         return (int)Math.ceil(x);
     }
 
-    public final double inf = Double.POSITIVE_INFINITY;
-    public final double NaN = Double.NaN;
-
+    // @checkstyle:off ConstantNameCheck
+    public static final double inf = Double.POSITIVE_INFINITY;
+    public static final double NaN = Double.NaN;
+    // @checkstyle:on ConstantNameCheck
 }

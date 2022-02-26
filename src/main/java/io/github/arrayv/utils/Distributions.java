@@ -43,8 +43,8 @@ public enum Distributions {
             return "Linear";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
 
             for (int i = 0; i < currentLen; i++)
                 array[i] = i;
@@ -55,8 +55,8 @@ public enum Distributions {
             return "Few Unique";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             Random random = new Random();
 
             int l = 0, r, t = Math.min(currentLen, 8);
@@ -75,8 +75,8 @@ public enum Distributions {
             return "No Unique";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int val = currentLen / 2;
 
             for (int i = 0; i < currentLen; i++) {
@@ -89,8 +89,8 @@ public enum Distributions {
             return "Random";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             Random random = new Random();
 
             for (int i = 0; i < currentLen; i++)
@@ -102,8 +102,8 @@ public enum Distributions {
             return "Quadratic";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
 
             for (int i = 0; i < currentLen; i++)
                 array[i] = (int)(Math.pow(i, 2)/currentLen);
@@ -114,8 +114,8 @@ public enum Distributions {
             return "Square Root";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
 
             for (int i = 0; i < currentLen; i++)
                 array[i] = (int)(Math.sqrt(i)*Math.sqrt(currentLen));
@@ -126,8 +126,8 @@ public enum Distributions {
             return "Cubic (Centered)";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int power = 3;
             double mid = (currentLen-1)/2d;
 
@@ -140,8 +140,8 @@ public enum Distributions {
             return "Quintic (Centered)";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int power = 5;
             double mid = (currentLen-1)/2d;
 
@@ -154,8 +154,8 @@ public enum Distributions {
             return "Cube Root (Centered)";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int p = 3;
             double h = currentLen/2d;
 
@@ -172,8 +172,8 @@ public enum Distributions {
             return "Fifth Root (Centered)";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int p = 5;
             double h = currentLen/2d;
 
@@ -190,8 +190,8 @@ public enum Distributions {
             return "Sine Wave";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int n = currentLen-1;
             double c = 2*Math.PI/n;
 
@@ -204,8 +204,8 @@ public enum Distributions {
             return "Cosine Wave";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int n = currentLen-1;
             double c = 2*Math.PI/n;
 
@@ -218,8 +218,8 @@ public enum Distributions {
             return "Perlin Noise";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             Random random = new Random();
 
             int[] perlinNoise = new int[currentLen];
@@ -268,8 +268,8 @@ public enum Distributions {
             return "Perlin Noise Curve";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
 
             for (int i = 0; i < currentLen; i++) {
                 int value = 0 - (int) (PerlinNoise.returnNoise((float) i / currentLen) * currentLen);
@@ -282,8 +282,8 @@ public enum Distributions {
             return "Bell Curve";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             double step = 8d / currentLen;
             double position = -4;
             int constant = 1264;
@@ -308,8 +308,8 @@ public enum Distributions {
             return "Ruler";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int step = Math.max(1, currentLen/256);
             int floorLog2 = (int)(Math.log(currentLen/step)/Math.log(2));
             int lowest;
@@ -342,8 +342,8 @@ public enum Distributions {
             return "Blancmange Curve";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int floorLog2 = (int)(Math.log(currentLen)/Math.log(2));
 
             for (int i = 0; i < currentLen; i++) {
@@ -372,8 +372,8 @@ public enum Distributions {
             return "Cantor Function";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
 
             cantor(array, 0, currentLen, 0, currentLen-1);
         }
@@ -401,8 +401,8 @@ public enum Distributions {
             return "Sum of Divisors";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int[] n = new int[currentLen];
 
             n[0] = 0;
@@ -436,8 +436,8 @@ public enum Distributions {
             return "Fly Straight, Damnit!";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             int[] fsd = new int[currentLen];
 
             double max;
@@ -455,7 +455,7 @@ public enum Distributions {
 
         public int gcd(int a, int b) {
             if (b==0) return a;
-            return gcd(b,a%b);
+            return gcd(b, a%b);
         }
     },
     REVLOG {
@@ -463,8 +463,8 @@ public enum Distributions {
             return "Decreasing Random";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             Random random = new Random();
 
             for (int i = 0; i < currentLen; i++){
@@ -478,8 +478,8 @@ public enum Distributions {
             return "Modulo Function";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int n = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int n = arrayVisualizer.getCurrentLength();
 
             for (int i = 0; i < n; i++) array[i] = 2*(n%(i+1));
         }
@@ -490,8 +490,8 @@ public enum Distributions {
             return "Euler Totient Function";
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int n = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int n = arrayVisualizer.getCurrentLength();
 
             int[] minPrimeFactors = new int[n];
             List<Integer> primes = new ArrayList<Integer>();
@@ -526,7 +526,7 @@ public enum Distributions {
             return "Custom";
         }
         @Override
-        public void selectDistribution(int[] array, ArrayVisualizer ArrayVisualizer) {
+        public void selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
             LoadCustomDistributionDialog dialog = new LoadCustomDistributionDialog();
             File file = dialog.getFile();
             Scanner scanner;
@@ -537,7 +537,7 @@ public enum Distributions {
                 return;
             }
             scanner.useDelimiter("\\s+");
-            this.refarray = new int[ArrayVisualizer.getMaximumLength()];
+            this.refarray = new int[arrayVisualizer.getMaximumLength()];
             int current = 0;
             while (scanner.hasNext()) {
                 this.refarray[current++] = Integer.parseInt(scanner.next());
@@ -546,8 +546,8 @@ public enum Distributions {
             scanner.close();
         }
         @Override
-        public void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer) {
-            int currentLen = ArrayVisualizer.getCurrentLength();
+        public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
+            int currentLen = arrayVisualizer.getCurrentLength();
             double scale = (double)this.length / currentLen;
             for (int i = 0; i < currentLen; i++) {
                 array[i] = (int)(this.refarray[(int)(i * scale)] / scale);
@@ -556,7 +556,7 @@ public enum Distributions {
     };
 
     public abstract String getName();
-    public void selectDistribution(int[] array, ArrayVisualizer ArrayVisualizer) {
+    public void selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
     }
-    public abstract void initializeArray(int[] array, ArrayVisualizer ArrayVisualizer);
+    public abstract void initializeArray(int[] array, ArrayVisualizer arrayVisualizer);
 }

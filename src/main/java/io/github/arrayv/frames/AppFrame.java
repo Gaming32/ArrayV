@@ -29,7 +29,7 @@ SOFTWARE.
  */
 
 public interface AppFrame {
-    abstract void reposition();
-    abstract boolean isVisible();
-    abstract void dispose();
+    void reposition();
+    boolean isVisible();
+    void dispose();
 }

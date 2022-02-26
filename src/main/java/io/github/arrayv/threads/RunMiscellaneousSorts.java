@@ -35,8 +35,10 @@ SOFTWARE.
  */
 
 public final class RunMiscellaneousSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort PancakeSort;
     private Sort BurntPancakeSort;
+    // @checkstyle:on MemberNameCheck
 
     public RunMiscellaneousSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

@@ -60,14 +60,14 @@ public final class Highlights {
 
     private volatile int markCount;
 
-    private boolean FANCYFINISH;
+    private boolean showFancyFinishes;
     private volatile boolean fancyFinish;
     private volatile int trackFinish;
 
-    private ArrayVisualizer ArrayVisualizer;
+    private ArrayVisualizer arrayVisualizer;
 
-    public Highlights(ArrayVisualizer ArrayVisualizer, int maximumLength) {
-        this.ArrayVisualizer = ArrayVisualizer;
+    public Highlights(ArrayVisualizer arrayVisualizer, int maximumLength) {
+        this.arrayVisualizer = arrayVisualizer;
 
         try {
             defined = new HashMap<>();
@@ -79,7 +79,7 @@ public final class Highlights {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate mark arrays. The program will now exit.");
             System.exit(1);
         }
-        this.FANCYFINISH = true;
+        this.showFancyFinishes = true;
         this.maxHighlightMarked = 0;
         this.markCount = 0;
 
@@ -88,17 +88,17 @@ public final class Highlights {
     }
 
     public boolean fancyFinishEnabled() {
-        return this.FANCYFINISH;
+        return this.showFancyFinishes;
     }
-    public void toggleFancyFinishes(boolean Bool) {
-        this.FANCYFINISH = Bool;
+    public void toggleFancyFinishes(boolean showFancyFinishes) {
+        this.showFancyFinishes = showFancyFinishes;
     }
 
     public boolean fancyFinishActive() {
         return this.fancyFinish;
     }
-    public void toggleFancyFinish(boolean Bool) {
-        this.fancyFinish = Bool;
+    public void toggleFancyFinish(boolean fancyFinish) {
+        this.fancyFinish = fancyFinish;
     }
 
     public int getFancyFinishPosition() {
@@ -111,8 +111,8 @@ public final class Highlights {
         this.trackFinish = -1; // Magic number that clears the green sweep animation
     }
 
-    public void toggleAnalysis(boolean Bool) {
-        this.ArrayVisualizer.toggleAnalysis(Bool);
+    public void toggleAnalysis(boolean analysis) {
+        this.arrayVisualizer.toggleAnalysis(analysis);
     }
 
     public int getMaxHighlight() {
@@ -237,7 +237,7 @@ public final class Highlights {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ArrayVisualizer.updateNow();
+        arrayVisualizer.updateNow();
     }
     public synchronized void clearMark(int marker) {
         if (highlights[marker] == -1) {
@@ -253,7 +253,7 @@ public final class Highlights {
                 maxHighlightMarked--;
             }
         }
-        ArrayVisualizer.updateNow();
+        arrayVisualizer.updateNow();
     }
     public synchronized void clearAllMarks() {
         for (int i = 0; i < this.maxHighlightMarked; i++) {
@@ -264,6 +264,6 @@ public final class Highlights {
         Arrays.fill(this.highlights, 0, this.maxHighlightMarked, -1);
         this.maxHighlightMarked = 0;
         this.markCount = 0;
-        ArrayVisualizer.updateNow();
+        arrayVisualizer.updateNow();
     }
 }

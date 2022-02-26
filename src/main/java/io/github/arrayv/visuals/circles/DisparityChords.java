@@ -36,24 +36,24 @@ SOFTWARE.
 
 public final class DisparityChords extends Visual {
 
-    public DisparityChords(ArrayVisualizer ArrayVisualizer) {
-        super(ArrayVisualizer);
+    public DisparityChords(ArrayVisualizer arrayVisualizer) {
+        super(arrayVisualizer);
     }
 
     @Override
-    public void drawVisual(int[] array, ArrayVisualizer ArrayVisualizer, Renderer Renderer, Highlights Highlights) {
-        if (Renderer.auxActive) return;
+    public void drawVisual(int[] array, ArrayVisualizer arrayVisualizer, Renderer renderer, Highlights Highlights) {
+        if (renderer.isAuxActive()) return;
 
-        int width  = ArrayVisualizer.windowWidth();
-        int height = ArrayVisualizer.windowHeight();
+        int width  = arrayVisualizer.windowWidth();
+        int height = arrayVisualizer.windowHeight();
 
-        int n = ArrayVisualizer.getCurrentLength();
+        int n = arrayVisualizer.getCurrentLength();
         double r = Math.min(width, height)/2.5;
 
-        this.mainRender.setStroke(ArrayVisualizer.getThinStroke());
+        this.mainRender.setStroke(arrayVisualizer.getThinStroke());
 
         for (int i = n-1; i >= 0; i--) {
-            this.mainRender.setColor(getIntColor(array[i], ArrayVisualizer.getCurrentLength()));
+            this.mainRender.setColor(getIntColor(array[i], arrayVisualizer.getCurrentLength()));
 
             int ax =  width/2 + (int)(r * Math.cos(Math.PI * (2d*i / n - 0.5)));
             int ay = height/2 + (int)(r * Math.sin(Math.PI * (2d*i / n - 0.5)));
@@ -62,7 +62,7 @@ public final class DisparityChords extends Visual {
 
             this.mainRender.drawLine(ax, ay, bx, by);
         }
-        this.mainRender.setStroke(ArrayVisualizer.getDefaultStroke());
+        this.mainRender.setStroke(arrayVisualizer.getDefaultStroke());
 
         for (int i = 0; i < n; i++) {
             if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition()) {
@@ -75,7 +75,7 @@ public final class DisparityChords extends Visual {
 
                 this.mainRender.drawLine(ax, ay, bx, by);
             } else if (Highlights.containsPosition(i)) {
-                if (ArrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
+                if (arrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
                 else                                   this.mainRender.setColor(Color.WHITE);
 
                 int ax =  width/2 + (int)(r * Math.cos(Math.PI * (2d*i / n - 0.5)));

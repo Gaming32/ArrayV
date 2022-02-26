@@ -8,8 +8,8 @@ import java.awt.Point;
 import java.util.List;
 
 public class GraphConnection {
-    public GraphNode from, to;
-    public Point currentDragPos;
+    private GraphNode from, to;
+    private Point currentDragPos;
 
     public GraphConnection(GraphNode from, GraphNode to) {
         this.from = from;
@@ -49,18 +49,18 @@ public class GraphConnection {
 
     public void remove() {
         if (this.from != null) {
-            this.from.postConnection = null;
+            this.from.setPostConnection(null);
         }
         if (this.to != null) {
-            this.to.preConnection = null;
+            this.to.setPreConnection(null);
         }
     }
 
     public void finishDragging(GraphNode other) {
         this.to = other;
-        other.preConnection = this;
+        other.setPreConnection(this);
         int removed = 0;
-        List<GraphConnection> connections = other.graph.connections;
+        List<GraphConnection> connections = other.getGraph().getConnections();
         for (int i = 0; i < connections.size(); i++) {
             GraphConnection conn = connections.get(i - removed);
             if (conn == this) {
@@ -72,5 +72,29 @@ public class GraphConnection {
                 removed++;
             }
         }
+    }
+
+    public GraphNode getFrom() {
+        return from;
+    }
+
+    public void setFrom(GraphNode node) {
+        this.from = node;
+    }
+
+    public GraphNode getTo() {
+        return to;
+    }
+
+    public void setTo(GraphNode node) {
+        this.to = node;
+    }
+
+    public Point getCurrentDragPos() {
+        return currentDragPos;
+    }
+
+    public void setCurrentDragPos(Point pos) {
+        this.currentDragPos = pos;
     }
 }

@@ -44,43 +44,43 @@ SOFTWARE.
  */
 
 public final class UtilFrame extends javax.swing.JFrame {
-    final private static long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private boolean jCheckBox9WarningShown = true; //set to false to enable warning
 
     private int[] array;
 
-    private ArrayManager ArrayManager;
-    private ArrayVisualizer ArrayVisualizer;
+    private ArrayManager arrayManager;
+    private ArrayVisualizer arrayVisualizer;
     private Delays Delays;
     private AppFrame abstractFrame;
     private Highlights Highlights;
-    private JFrame Frame;
-    private Timer RealTimer;
+    private JFrame frame;
+    private Timer Timer;
     private Sounds Sounds;
 
     public UtilFrame(int[] array, ArrayVisualizer arrayVisualizer) {
         this.array = array;
 
-        this.ArrayVisualizer = arrayVisualizer;
-        this.ArrayManager = ArrayVisualizer.getArrayManager();
+        this.arrayVisualizer = arrayVisualizer;
+        this.arrayManager = arrayVisualizer.getArrayManager();
 
-        this.Delays = ArrayVisualizer.getDelays();
-        this.Frame = ArrayVisualizer.getMainWindow();
-        this.Highlights = ArrayVisualizer.getHighlights();
-        this.RealTimer = ArrayVisualizer.getTimer();
-        this.Sounds = ArrayVisualizer.getSounds();
+        this.Delays = arrayVisualizer.getDelays();
+        this.frame = arrayVisualizer.getMainWindow();
+        this.Highlights = arrayVisualizer.getHighlights();
+        this.Timer = arrayVisualizer.getTimer();
+        this.Sounds = arrayVisualizer.getSounds();
 
         setUndecorated(true);
         initComponents();
-        setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), Frame.getX() + Frame.getWidth()), Frame.getY() + 29);
+        setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), frame.getX() + frame.getWidth()), frame.getY() + 29);
         setAlwaysOnTop(false);
         setVisible(true);
     }
 
     public void reposition(ArrayFrame af){
         toFront();
-        setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), Frame.getX() + Frame.getWidth() + af.getWidth()), Frame.getY() + 29);
+        setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), frame.getX() + frame.getWidth() + af.getWidth()), frame.getY() + 29);
         if (this.abstractFrame != null && abstractFrame.isVisible())
             abstractFrame.reposition();
     }
@@ -262,79 +262,79 @@ public final class UtilFrame extends javax.swing.JFrame {
                 jComboBox1ActionPerformed();
             }
         });
-        if (ArrayVisualizer.disabledStabilityCheck) {
+        if (arrayVisualizer.isDisabledStabilityCheck()) {
             jComboBox1.removeItem("Stability Check");
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER, true)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER, true)
                 .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER, true)
-                                .addComponent(this.jLabel1)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
-                                        .addComponent(this.jCheckBox1)
-                                        .addComponent(this.jCheckBox2)
-                                        .addComponent(this.jCheckBox3)
-                                        .addComponent(this.jCheckBox4)
-                                        .addComponent(this.jCheckBox6)
-                                        .addComponent(this.jCheckBox7)
-                                        .addComponent(this.jCheckBox8)
-                                        .addComponent(this.jCheckBox9)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-                                                .addComponent(this.jCheckBox5)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                                        .addComponent(this.jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(this.jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(this.jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(this.jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(this.jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(this.jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(this.jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addComponent(this.jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                        .addGap(0, 10, Short.MAX_VALUE))
-                );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
-                .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
+                    .addContainerGap()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER, true)
                         .addComponent(this.jLabel1)
-                        .addGap(7, 7, 7)
-                        .addComponent(this.jComboBox1)
-                        .addGap(10, 10, 10)
-                        .addComponent(this.jButton2)
-                        .addGap(5, 5, 5)
-                        .addComponent(this.jCheckBox2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jCheckBox8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jCheckBox9)
-                        .addGap(7, 7, 7)
-                        .addComponent(this.jButton3)
-                        .addGap(12, 12, 12)
-                        .addComponent(this.jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jButton6)
-                        .addGap(7, 7, 7)
-                        .addComponent(this.jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jCheckBox7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jCheckBox5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(this.jCheckBox3)
-                        .addGap(8, 8, 8)
-                        .addComponent(this.jButton5)
-                        .addGap(5, 5, 5)
-                        .addComponent(this.jCheckBox6)
-                        .addComponent(this.jCheckBox4))
-                );
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
+                            .addComponent(this.jCheckBox1)
+                            .addComponent(this.jCheckBox2)
+                            .addComponent(this.jCheckBox3)
+                            .addComponent(this.jCheckBox4)
+                            .addComponent(this.jCheckBox6)
+                            .addComponent(this.jCheckBox7)
+                            .addComponent(this.jCheckBox8)
+                            .addComponent(this.jCheckBox9)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
+                                .addComponent(this.jCheckBox5)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                    .addComponent(this.jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(this.jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(this.jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(this.jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(this.jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(this.jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(this.jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(this.jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGap(0, 10, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(5, 5, 5)
+                    .addComponent(this.jLabel1)
+                    .addGap(7, 7, 7)
+                    .addComponent(this.jComboBox1)
+                    .addGap(10, 10, 10)
+                    .addComponent(this.jButton2)
+                    .addGap(5, 5, 5)
+                    .addComponent(this.jCheckBox2)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(this.jCheckBox8)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(this.jCheckBox9)
+                    .addGap(7, 7, 7)
+                    .addComponent(this.jButton3)
+                    .addGap(12, 12, 12)
+                    .addComponent(this.jButton1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(this.jButton7)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(this.jButton4)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(this.jButton6)
+                    .addGap(7, 7, 7)
+                    .addComponent(this.jCheckBox1)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(this.jCheckBox7)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(this.jCheckBox5)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(this.jCheckBox3)
+                    .addGap(8, 8, 8)
+                    .addComponent(this.jButton5)
+                    .addGap(5, 5, 5)
+                    .addComponent(this.jCheckBox6)
+                    .addComponent(this.jCheckBox4))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -352,7 +352,7 @@ public final class UtilFrame extends javax.swing.JFrame {
             if (tmp)
                 return;
         }
-        this.abstractFrame = new SortPrompt(this.array, this.ArrayVisualizer, this.Frame, this);
+        this.abstractFrame = new SortPrompt(this.array, this.arrayVisualizer, this.frame, this);
         jButton1.setText("Close");
         jButton2ResetText();
         jButton6ResetText();
@@ -379,7 +379,7 @@ public final class UtilFrame extends javax.swing.JFrame {
             if (tmp)
                 return;
         }
-        this.abstractFrame = new ViewPrompt(this.ArrayVisualizer, this.Frame, this);
+        this.abstractFrame = new ViewPrompt(this.arrayVisualizer, this.frame, this);
         jButton2.setText("Close");
         jButton1ResetText();
         jButton6ResetText();
@@ -424,11 +424,11 @@ public final class UtilFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jCheckBox1ActionPerformed() {//GEN-FIRST:event_jCheckBox2ActionPerformed
-        ArrayVisualizer.toggleShuffleAnimation(jCheckBox1.isSelected());
+        arrayVisualizer.toggleShuffleAnimation(jCheckBox1.isSelected());
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jCheckBox2ActionPerformed() {//GEN-FIRST:event_jCheckBox3ActionPerformed
-        ArrayVisualizer.toggleLinkedDots(jCheckBox2.isSelected());
+        arrayVisualizer.toggleLinkedDots(jCheckBox2.isSelected());
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void jCheckBox3ActionPerformed() {//GEN-FIRST:event_jCheckBox3ActionPerformed
@@ -440,15 +440,15 @@ public final class UtilFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
-        ArrayVisualizer.setCanceled(true);
+        arrayVisualizer.setCanceled(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jCheckBox4ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
-        RealTimer.toggleRealTimer(jCheckBox4.isSelected());
+        Timer.toggleRealTimer(jCheckBox4.isSelected());
     }//GEN-LAST:event_jCheckBox4ActionPerformed
 
     private void jButton5ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
-        ArrayVisualizer.resetAllStatistics();
+        arrayVisualizer.resetAllStatistics();
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jCheckBox5ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
@@ -468,7 +468,7 @@ public final class UtilFrame extends javax.swing.JFrame {
             if (tmp)
                 return;
         }
-        this.abstractFrame = new ShufflePrompt(this.ArrayManager, this.Frame, this);
+        this.abstractFrame = new ShufflePrompt(this.arrayManager, this.frame, this);
         jButton6.setText("Close");
         jButton1ResetText();
         jButton2ResetText();
@@ -479,7 +479,7 @@ public final class UtilFrame extends javax.swing.JFrame {
     }
 
     private void jCheckBox6ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
-        ArrayVisualizer.toggleStatistics(jCheckBox6.isSelected());
+        arrayVisualizer.toggleStatistics(jCheckBox6.isSelected());
     }//GEN-LAST:event_jCheckBox6ActionPerformed
 
     private void jCheckBox7ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
@@ -487,7 +487,7 @@ public final class UtilFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox7ActionPerformed
 
     private void jCheckBox8ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
-        ArrayVisualizer.toggleColor(jCheckBox8.isSelected());
+        arrayVisualizer.toggleColor(jCheckBox8.isSelected());
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
     private void jCheckBox9ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
@@ -506,42 +506,42 @@ public final class UtilFrame extends javax.swing.JFrame {
             }
             jCheckBox9WarningShown = true;
         }
-        ArrayVisualizer.toggleExternalArrays(jCheckBox9.isSelected());
+        arrayVisualizer.toggleExternalArrays(jCheckBox9.isSelected());
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
     private void jComboBox1ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
         switch ((String)jComboBox1.getSelectedItem()) {
             case "Sorting":
-                if (ArrayVisualizer.enableBenchmarking(false))
+                if (arrayVisualizer.enableBenchmarking(false))
                     break;
                 jButton6.setEnabled(true);
-                ArrayVisualizer.setComparator(0);
+                arrayVisualizer.setComparator(0);
                 break;
 
             case "AntiQSort":
-                if (ArrayVisualizer.enableBenchmarking(false))
+                if (arrayVisualizer.enableBenchmarking(false))
                     break;
                 if (this.abstractFrame != null && abstractFrame.isVisible()){
                     abstractFrame.dispose();
                     jButton6ResetText();
                 }
                 jButton6.setEnabled(false);
-                ArrayVisualizer.setComparator(1);
+                arrayVisualizer.setComparator(1);
                 break;
 
             case "Stability Check":
-                if (ArrayVisualizer.enableBenchmarking(false))
+                if (arrayVisualizer.enableBenchmarking(false))
                     break;
                 jButton6.setEnabled(true);
-                ArrayVisualizer.setComparator(2);
+                arrayVisualizer.setComparator(2);
                 break;
 
             case "Sorting Networks":
-                if (ArrayVisualizer.enableBenchmarking(false))
+                if (arrayVisualizer.enableBenchmarking(false))
                     break;
                 jButton6.setEnabled(true);
-                ArrayVisualizer.setComparator(4);
-                if (ArrayVisualizer.getCurrentLength() > 1024) {
+                arrayVisualizer.setComparator(4);
+                if (arrayVisualizer.getCurrentLength() > 1024) {
                     JOptionPane.showMessageDialog(
                         null,
                         "Large sorting networks can take a long time (and high RAM usage) to visualize.\n" +
@@ -552,16 +552,16 @@ public final class UtilFrame extends javax.swing.JFrame {
                 break;
 
             case "Reversed Sorting":
-                if (ArrayVisualizer.enableBenchmarking(false))
+                if (arrayVisualizer.enableBenchmarking(false))
                     break;
                 jButton6.setEnabled(true);
-                ArrayVisualizer.setComparator(3);
+                arrayVisualizer.setComparator(3);
                 break;
 
             case "*Simple* Benchmarking":
                 jButton6.setEnabled(true);
-                ArrayVisualizer.setComparator(0);
-                ArrayVisualizer.enableBenchmarking(true);
+                arrayVisualizer.setComparator(0);
+                arrayVisualizer.enableBenchmarking(true);
                 break;
         }
     }//GEN-LAST:event_jCheckBox8ActionPerformed

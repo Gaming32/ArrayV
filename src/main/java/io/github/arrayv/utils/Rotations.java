@@ -3,8 +3,13 @@ package io.github.arrayv.utils;
 import io.github.arrayv.main.ArrayVisualizer;
 
 public final class Rotations {
-    private static Writes Writes = ArrayVisualizer.getInstance().getWrites();
-    private static Highlights Highlights = ArrayVisualizer.getInstance().getHighlights();
+    // @checkstyle:off ConstantNameCheck - Unique case
+    private static final Writes Writes = ArrayVisualizer.getInstance().getWrites();
+    private static final Highlights Highlights = ArrayVisualizer.getInstance().getHighlights();
+    // @checkstyle:on ConstantNameCheck
+
+    private Rotations() {
+    }
 
     // utility functions
     private static void swapBlocksBackwards(int[] array, int a, int b, int len, double pause, boolean mark, boolean auxwrite) {
@@ -153,17 +158,18 @@ public final class Rotations {
                  index = 0,
                  value = array[pos + index],
                  startIndex = index;
-            cnt < length; cnt++) {
-                int nextIndex = mapIndex(index, lenA, length);
+            cnt < length; cnt++
+        ) {
+            int nextIndex = mapIndex(index, lenA, length);
 
-                value = swap(array, pos + nextIndex, value, pause, mark, auxwrite);
+            value = swap(array, pos + nextIndex, value, pause, mark, auxwrite);
 
-                if (nextIndex == startIndex) {
-                    startIndex = index = mapIndex(index, 1, length);
-                    value = array[pos + index];
-                } else {
-                    index = nextIndex;
-                }
+            if (nextIndex == startIndex) {
+                startIndex = index = mapIndex(index, 1, length);
+                value = array[pos + index];
+            } else {
+                index = nextIndex;
+            }
         }
     }
 

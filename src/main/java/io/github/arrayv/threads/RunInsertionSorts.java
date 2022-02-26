@@ -48,6 +48,7 @@ SOFTWARE.
  */
 
 public final class RunInsertionSorts extends MultipleSortThread {
+    // @checkstyle:off MemberNameCheck
     private Sort InsertionSort;
     private Sort DoubleInsertionSort;
     private Sort BinaryInsertionSort;
@@ -62,6 +63,7 @@ public final class RunInsertionSorts extends MultipleSortThread {
     private Sort LibrarySort;
     private Sort ShellSortParallel;
     private Sort TreeSort;
+    // @checkstyle:on MemberNameCheck
 
     public RunInsertionSorts(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
