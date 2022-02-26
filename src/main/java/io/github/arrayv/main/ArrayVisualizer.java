@@ -241,7 +241,7 @@ public final class ArrayVisualizer {
     private volatile int updateVisualsForced;
     private volatile boolean benchmarking;
 
-    private static int maxLengthPower;
+    private static int maxLengthPower = 15;
 
     private volatile boolean hidden;
     private volatile boolean frameSkipped;
