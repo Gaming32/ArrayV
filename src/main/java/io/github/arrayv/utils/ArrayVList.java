@@ -29,6 +29,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
     int[] internal;
     double growFactor;
     int count, capacity;
+    boolean colorsEnabled;
 
     public ArrayVList() {
         this(DEFAULT_CAPACITY, DEFAULT_GROW_FACTOR);
@@ -54,6 +55,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
     public void delete() {
         Writes.changeAllocAmount(-count);
         arrayVisualizer.getArrays().remove(internal);
+        disableColors();
         this.internal = null;
         this.count = 0;
         this.capacity = 0;
@@ -95,11 +97,29 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
         return (T[])toArray();
     }
 
+    public void enableColors() {
+        if (!colorsEnabled) {
+            colorsEnabled = true;
+            arrayVisualizer.getHighlights().registerColorMarks(internal);
+        }
+    }
+
+    public void disableColors() {
+        if (colorsEnabled) {
+            colorsEnabled = false;
+            arrayVisualizer.getHighlights().unregisterColors(internal);
+        }
+    }
+
     protected void grow() {
         int newCapacity = (int)Math.ceil(capacity * growFactor);
         int[] newInternal = new int[newCapacity];
         System.arraycopy(internal, 0, newInternal, 0, count);
         ArrayList<int[]> arrays = arrayVisualizer.getArrays();
+        if (colorsEnabled) {
+            arrayVisualizer.getHighlights().unregisterColors(internal);
+            arrayVisualizer.getHighlights().registerColorMarks(newInternal);
+        }
         arrays.set(arrays.indexOf(internal), newInternal);
         this.capacity = newCapacity;
         this.internal = newInternal;

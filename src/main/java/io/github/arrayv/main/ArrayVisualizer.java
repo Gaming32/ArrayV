@@ -1315,7 +1315,7 @@ public final class ArrayVisualizer {
         this.Timer.disableRealTimer();
 
         this.Highlights.clearAllMarks();
-        this.Highlights.clearAllColors();
+        this.Highlights.clearAllColorsReferenced();
         this.Highlights.clearColorList();
 
         System.out.println(formatTimes());

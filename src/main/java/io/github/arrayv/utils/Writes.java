@@ -427,6 +427,7 @@ public final class Writes {
     public void deleteExternalArray(int[] array) {
         this.allocAmount -= array.length;
         arrayVisualizer.getArrays().remove(array);
+        Highlights.unregisterColors(array);
         arrayVisualizer.updateNow();
     }
 

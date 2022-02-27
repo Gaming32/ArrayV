@@ -24,8 +24,8 @@ public final class BarGraph extends Visual {
             else if (arrayVisualizer.colorEnabled()) {
                 int val = arrayVisualizer.doingStabilityCheck() && arrayVisualizer.colorEnabled() ? arrayVisualizer.getIndexValue(array[i]): array[i];
                 this.mainRender.setColor(getIntColor(val, arrayVisualizer.getCurrentLength()));
-            } else if (Highlights.hasColor(i)) {
-                this.mainRender.setColor(Highlights.colorAt(i));
+            } else if (Highlights.hasColor(array, i)) {
+                this.mainRender.setColor(Highlights.colorAt(array, i));
             } else this.mainRender.setColor(Color.WHITE);
 
             int val = arrayVisualizer.doingStabilityCheck() && arrayVisualizer.colorEnabled() ? arrayVisualizer.getStabilityValue(array[i]): array[i];
