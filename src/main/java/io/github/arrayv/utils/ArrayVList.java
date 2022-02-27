@@ -29,7 +29,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
     int[] internal;
     double growFactor;
     int count, capacity;
-    boolean colorsEnabled;
+    boolean colorsEnabled = false;
 
     public ArrayVList() {
         this(DEFAULT_CAPACITY, DEFAULT_GROW_FACTOR);
