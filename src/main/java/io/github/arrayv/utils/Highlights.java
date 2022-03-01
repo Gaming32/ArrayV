@@ -194,7 +194,7 @@ public final class Highlights {
         }
     }
     // Ambitious function: Set the color directly
-    public synchronized void setRawColor(int[] array, int position, String color) {
+    public synchronized void setRawColor(int[] array, int position, Color color) {
         try {
             if (position < 0) {
                 throw new Exception("Highlights.setRawColor(): Invalid position!");
@@ -202,7 +202,7 @@ public final class Highlights {
                 boolean[] colorMark = getColorMarks(array);
                 if (colorMark != null) {
                     colorMark[position] = true;
-                    getColorColors(array)[position] = getColorFromName(color);
+                    getColorColors(array)[position] = color;
                 }
             }
         } catch (Exception e) {
@@ -211,8 +211,24 @@ public final class Highlights {
         arrayVisualizer.updateNow();
     }
 
-    public synchronized void setRawColor(int position, String color) {
+    // Convenience function: Set the color using a predefined alias
+    public synchronized void setRawColor(int position, Color color) {
         setRawColor(main, position, color);
+    }
+
+    // Convenience function: Set the color using a predefined alias
+    public synchronized void writeColor(int[] fromArray, int fromPosition, int[] toArray, int toPosition) {
+        try {
+            if (colorMarks.containsKey(fromArray) && colorMarks.containsKey(toArray)) {
+                getColorMarks(toArray)[toPosition] = getColorMarks(fromArray)[fromPosition];
+                getColorColors(toArray)[toPosition] = getColorColors(fromArray)[fromPosition];
+            } else {
+                throw new Exception("Highlights.writeColor(): One or more arrays not colorcodeable!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        arrayVisualizer.updateNow();
     }
 
     // Convenience function: Set the color using a predefined alias
@@ -233,6 +249,7 @@ public final class Highlights {
         arrayVisualizer.updateNow();
     }
 
+    // Convenience function: Set the color using a predefined alias
     public synchronized void colorCode(int position, String color) {
         colorCode(main, position, color);
     }

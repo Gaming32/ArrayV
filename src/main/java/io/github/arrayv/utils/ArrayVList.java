@@ -1,5 +1,6 @@
 package io.github.arrayv.utils;
 
+import java.awt.Color;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,6 +138,39 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, C
     @Override
     public boolean add(Integer e) {
         return add(e, 0, false);
+    }
+
+    public void colorCode(int position, String alias) {
+        try {
+            if (!colorsEnabled) {
+                throw new Exception("ArrayVList.colorCode(): List can't be colorcoded!");
+            }
+            arrayVisualizer.getHighlights().colorCode(internal, position, alias);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void colorCode(String alias, int... positions) {
+        try {
+            if (!colorsEnabled) {
+                throw new Exception("ArrayVList.colorCode(): List can't be colorcoded!");
+            }
+            arrayVisualizer.getHighlights().colorCode(internal, alias, positions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rawColorCode(int position, Color color) {
+        try {
+            if (!colorsEnabled) {
+                throw new Exception("ArrayVList.rawColorCode(): List can't be colorcoded!");
+            }
+            arrayVisualizer.getHighlights().setRawColor(internal, position, color);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void fastRemove(int index) {
