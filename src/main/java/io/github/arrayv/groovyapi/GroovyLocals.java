@@ -18,6 +18,10 @@ import io.github.arrayv.sortdata.SortNameType;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.utils.Sounds;
 
+/**
+ * This class defines methods and properties directly accessible from within Groovy scripts.
+ * Methods and properties in this class can be directly named without prefixing them with {@code GroovyLocals.}.
+ */
 public final class GroovyLocals {
     // No instancing!
     private GroovyLocals() {
@@ -308,6 +312,19 @@ public final class GroovyLocals {
         arrayVisualizer.setSortingThread(sortingThread);
         arrayVisualizer.runSortingThread();
         return sortingThread;
+    }
+
+    /**
+     * Registers an event handler and returns the handler object.
+     * See {@link ArrayVEventHandler} for more details.
+     * @param eventType The type of the event to handle
+     * @param cb The callback to run for the event
+     * @return The registered event handler
+     */
+    public static ArrayVEventHandler registerEventHandler(ArrayVEventHandler.EventType eventType, Runnable cb) {
+        ArrayVEventHandler handler = new ArrayVEventHandler(eventType, cb);
+        handler.register();
+        return handler;
     }
 
     /**
