@@ -109,6 +109,7 @@
             <include>io/github/arrayv/groovyapi/**/*.java</include>
             <include>io/github/arrayv/main/**/*.java</include>
             <include>io/github/arrayv/sortdata/**/*.java</include>
+            <include>io/github/arrayv/sorts/templates/Sort.java</include>
             <include>io/github/arrayv/utils/**/*.java</include>
           </sourceFileIncludes>
           <links>
