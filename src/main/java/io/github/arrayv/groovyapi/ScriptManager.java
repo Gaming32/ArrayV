@@ -26,7 +26,7 @@ import groovy.lang.Script;
 import io.github.arrayv.panes.JErrorPane;
 
 public final class ScriptManager {
-    public final class ScriptThread extends Thread {
+    public static final class ScriptThread extends Thread {
         private final File path;
         private final Script script;
         final Set<Runnable> closers;
