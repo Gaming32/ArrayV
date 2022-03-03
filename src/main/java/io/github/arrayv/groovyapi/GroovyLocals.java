@@ -303,9 +303,7 @@ public final class GroovyLocals {
             arrayVisualizer.setSortingThread(null);
             RunGroupContext rgc;
             if ((rgc = RunGroupContext.CONTEXT.get()) != null) {
-                for (Runnable closer : rgc.closers) {
-                    closer.run();
-                }
+                ScriptThread.runClosers(rgc.closers);
             }
         }, threadName);
 
@@ -325,6 +323,46 @@ public final class GroovyLocals {
         ArrayVEventHandler handler = new ArrayVEventHandler(eventType, cb);
         handler.register();
         return handler;
+    }
+
+    /**
+     * <p>Register a closer.</p>
+     *
+     * <p>Ok, so what is a closer? A closer is ArrayV's Groovy API's equivalent of finalizers. Closers
+     * fix many of the flaws of finalizers. Closers are <i>guaranteed</i> to be called when the thread
+     * exits, whereas finalizers may <i>never</i> be called. Closers are also guaranteed to be called
+     * in the thread they are registered in, whereas finalizers may be called from any any thread.
+     * Furthermore, finalizers have been deprecated and are scheduled to be removed at some point in
+     * the future.</p>
+     * @param closer The closer to register
+     */
+    public static void registerCloser(Runnable closer) {
+        Thread cThread = Thread.currentThread();
+        RunGroupContext rgc = RunGroupContext.CONTEXT.get();
+        boolean forCThread = cThread instanceof ScriptThread;
+        boolean forRgc = rgc != null;
+        if (forCThread && forRgc) {
+            // Could be called in multiple places
+            final boolean[] hasBeenRun = {false};
+            final Runnable originalCloser = closer;
+            closer = () -> {
+                if (hasBeenRun[0]) return;
+                try {
+                    originalCloser.run();
+                } finally {
+                    hasBeenRun[0] = true;
+                }
+            };
+        }
+        if (forCThread) {
+            ((ScriptThread)cThread).closers.add(closer);
+        }
+        if (forRgc) {
+            rgc.closers.add(closer);
+        }
+        if (!forCThread && !forRgc) {
+            throw new IllegalArgumentException("Can't register a closer here");
+        }
     }
 
     /**

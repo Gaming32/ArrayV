@@ -25,7 +25,17 @@ import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 import io.github.arrayv.panes.JErrorPane;
 
+/**
+ * This class is used to load and run Groovy scripts.
+ * All ArrayV Groovy scripts are executed from this class.
+ */
 public final class ScriptManager {
+    /**
+     * A {@link Thread} subclass that manages the execution of a Groovy script.
+     * A common use for this class is using it to get the current thread's
+     * {@link Script} or the path to the script file.
+     * @see Thread
+     */
     public static final class ScriptThread extends Thread {
         private final File path;
         private final Script script;
@@ -38,20 +48,50 @@ public final class ScriptManager {
             this.closers = Collections.newSetFromMap(new IdentityHashMap<>());
         }
 
+        static void runClosers(Set<Runnable> closers) {
+            RuntimeException ex = null;
+            for (Runnable closer : closers) {
+                try {
+                    closer.run();
+                } catch (RuntimeException e) {
+                    if (ex == null) {
+                        ex = e;
+                    } else {
+                        ex.addSuppressed(e);
+                    }
+                }
+            }
+            if (ex != null) {
+                throw ex;
+            }
+        }
+
+        /**
+         * The path to the .groovy script file running in this thread
+         * @return The path to the script
+         */
         public File getPath() {
             return path;
         }
 
+        /**
+         * The {@link Script} running in this thread
+         * @return The {@link Script} running in this thread
+         * @see Script
+         */
         public Script getScript() {
             return script;
         }
 
+        /**
+         * Run the thread. This is an extension of {@link Thread#run()} that
+         * runs closers at the end. See {@link GroovyLocals#registerCloser}
+         * for a description on what closers are.
+         */
         @Override
         public void run() {
             super.run();
-            for (Runnable closer : closers) {
-                closer.run();
-            }
+            runClosers(closers);
         }
     }
 
