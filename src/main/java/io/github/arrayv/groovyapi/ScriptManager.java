@@ -294,6 +294,7 @@ public final class ScriptManager {
      * The default scripts. See {@link #loadDefaultScripts()} for a description
      * of what default scripts are
      * @return The default scripts
+     * @see #loadDefaultScripts()
      */
     public Map<String, Script> getDefaultScripts() {
         if (defaultScripts == null) {
