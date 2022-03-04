@@ -290,11 +290,16 @@ public final class ScriptManager {
         }
     }
 
+    /**
+     * The default scripts. See {@link #loadDefaultScripts()} for a description
+     * of what default scripts are
+     * @return The default scripts
+     */
     public Map<String, Script> getDefaultScripts() {
         if (defaultScripts == null) {
             throw new Error("Cannot return default scripts before they're loaded");
         }
-        return defaultScripts;
+        return Collections.unmodifiableMap(defaultScripts);
     }
 
     private void loadBuiltinScripts() throws IOException {
