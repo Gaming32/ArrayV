@@ -14,7 +14,7 @@
  *   <li>{@link ArrayVScript} &mdash; This is the base class for all Groovy scripts in ArrayV. It is primarily used
  *       for accessing sorts directly using their internal name (instead of having to use
  *       {@link GroovyLocals#getSort(String)}), although it may be extended in the future.</li>
- *   <li>{@link ArrayVEventHandler} &mdash; This is used for registering event handlers with the Grrovy API's event
+ *   <li>{@link ArrayVEventHandler} &mdash; This is used for registering event handlers with the Groovy API's event
  *       system. The event system doesn't have that much content yet, though.</li>
  *   <li>{@link RunGroupContext} &mdash; This class is used for holding run group thread local information.</li>
  * </ul>
