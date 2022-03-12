@@ -321,8 +321,6 @@ public final class UtilFrame extends javax.swing.JFrame {
                     .addComponent(this.jLabel1)
                     .addGap(7, 7, 7)
                     .addComponent(this.jComboBox1)
-                    .addGap(5, 5, 5)
-                    .addComponent(runScriptButton)
                     .addGap(10, 10, 10)
                     .addComponent(this.jButton2)
                     .addGap(5, 5, 5)
@@ -353,7 +351,10 @@ public final class UtilFrame extends javax.swing.JFrame {
                     .addComponent(this.jButton5)
                     .addGap(5, 5, 5)
                     .addComponent(this.jCheckBox6)
-                    .addComponent(this.jCheckBox4))
+                    .addComponent(this.jCheckBox4)
+                    .addGap(5, 5, 5)
+                    .addComponent(runScriptButton)
+                    .addGap(5, 5, 5))
         );
 
         pack();
