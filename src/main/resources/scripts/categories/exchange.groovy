@@ -23,11 +23,11 @@ SortPrompt.setSortThreadForCategory('Exchange Sorts', 29) {
     run ClassicThreeSmoothCombSort with 1024.numbers and 1.25.delay
     run CircleSortRecursive with 1024.numbers go()
     run CircleSortIterative with 1024.numbers go()
-    run(LLQuickSort, numbers: 2048, delay: arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.5 : 5).go()
+    run LLQuickSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.5 : 5).delay)
     run LRQuickSort with 2048.numbers go()
     run LRQuickSortParallel with 2048.numbers go()
     run DualPivotQuickSort with 2048.numbers go()
-    run(StableQuickSort, numbers: 2048, delay: arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 6.5).go()
+    run StableQuickSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 6.5).delay)
     run StableQuickSortParallel with 2048.numbers go()
     run ForcedStableQuickSort with 2048.numbers go()
     run TableSort with 1024.numbers and 0.75.delay

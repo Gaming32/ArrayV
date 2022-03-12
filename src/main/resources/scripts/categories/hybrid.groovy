@@ -7,7 +7,7 @@ SortPrompt.setSortThreadForCategory('Hybrid Sorts', 32) {
     run IntroCircleSortIterative with 1024.numbers go()
     run BinaryMergeSort with 2048.numbers go()
     run MergeInsertionSort with 2048.numbers and 1.75.delay
-    run(WeaveMergeSort, numbers: 2048, delay: arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.65 : 6.5).go()
+    run WeaveMergeSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.65 : 6.5).delay)
     run TimSort with 2048.numbers go()
     run CocktailMergeSort with 2048.numbers go()
     run LaziestSort with 1024.numbers go()
