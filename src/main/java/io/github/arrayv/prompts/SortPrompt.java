@@ -28,10 +28,10 @@ import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.groovyapi.GroovyLocals;
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.main.RunSort;
 import io.github.arrayv.main.SortAnalyzer;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
-import io.github.arrayv.threads.RunSort;
 
 /*
  *

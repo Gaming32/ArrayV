@@ -1,11 +1,9 @@
-package io.github.arrayv.threads;
+package io.github.arrayv.main;
 
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import io.github.arrayv.main.ArrayManager;
-import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JEnhancedOptionPane;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.templates.Sort;
