@@ -8,12 +8,12 @@ SortPrompt.setSortThreadForCategory('Insertion Sorts', 14) {
     run ShellSort with 256.numbers and 0.1.speed
     run RecursiveShellSort with 256.numbers and 0.1.speed
     run ShellSortParallel with 256.numbers and 0.1.speed
-    run SimplifiedLibrarySort with 2048.numbers go()
-    run LibrarySort with 2048.numbers go()
-    run PatienceSort with 2048.numbers go()
+    run SimplifiedLibrarySort with 2048.numbers run()
+    run LibrarySort with 2048.numbers run()
+    run PatienceSort with 2048.numbers run()
     run ClassicTreeSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 5).speed)
     run TreeSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 5).speed)
-    run AATreeSort with 2048.numbers go()
-    run AVLTreeSort with 2048.numbers go()
-    run SplaySort with 2048.numbers go()
+    run AATreeSort with 2048.numbers run()
+    run AVLTreeSort with 2048.numbers run()
+    run SplaySort with 2048.numbers run()
 }

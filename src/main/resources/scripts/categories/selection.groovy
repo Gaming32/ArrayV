@@ -12,10 +12,10 @@ SortPrompt.setSortThreadForCategory('Selection Sorts', 18) {
     run FlippedMinHeapSort with 2048.numbers and 1.5.speed
     run BaseNMaxHeapSort with 2048.numbers, 4.buckets and 1.5.speed
     run TriangularHeapSort with 2048.numbers and 1.5.speed
-    run WeakHeapSort with 2048.numbers go()
-    run TernaryHeapSort with 2048.numbers go()
+    run WeakHeapSort with 2048.numbers run()
+    run TernaryHeapSort with 2048.numbers run()
     run SmoothSort with 2048.numbers and 1.5.speed
-    run PoplarHeapSort with 2048.numbers go()
+    run PoplarHeapSort with 2048.numbers run()
     run TournamentSort with 2048.numbers and 1.5.speed
     run ClassicTournamentSort with 2048.numbers and 1.5.speed
     run AsynchronousSort with 1024.numbers and 1.5.speed

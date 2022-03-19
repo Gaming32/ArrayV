@@ -115,6 +115,18 @@ public final class RunSortBuilder {
         return this;
     }
 
+    /**
+     * Merge the specified options with the options map
+     * @param opts The options to merge
+     * @return {@code this} for chaining
+     */
+    public final RunSortBuilder with(Map<String, Object> opts) {
+        for (Map.Entry<String, Object> opt : opts.entrySet()) {
+            put(opt);
+        }
+        return this;
+    }
+
     private void put(Map.Entry<String, Object> opt) {
         if (!ALLOWED_KEYS.contains(opt.getKey())) {
             throw new IllegalArgumentException("Invalid RunSortBuilder key: " + opt.getKey());
@@ -164,7 +176,12 @@ public final class RunSortBuilder {
     /**
      * Run the sort
      */
-    public void go() {
+    public void run(Map<String, Object> opts) {
+        if (opts != null) {
+            for (Map.Entry<String, Object> opt : opts.entrySet()) {
+                put(opt);
+            }
+        }
         finish();
     }
 
@@ -208,7 +225,7 @@ public final class RunSortBuilder {
         removeClosers();
         if (RunGroupContext.CONTEXT.get() == null) {
             final ArrayVisualizer arrayVisualizer = ArrayVisualizer.getInstance();
-            Thread sortThread = new Thread(this::run, "ScriptedSort");
+            Thread sortThread = new Thread(this::run0, "ScriptedSort");
             arrayVisualizer.setSortingThread(sortThread);
             arrayVisualizer.runSortingThread();
             try {
@@ -217,11 +234,11 @@ public final class RunSortBuilder {
                 e.printStackTrace();
             }
         } else {
-            run();
+            run0();
         }
     }
 
-    private void run() {
+    private void run0() {
         final ArrayVisualizer arrayVisualizer = ArrayVisualizer.getInstance();
         final ArrayManager arrayManager = arrayVisualizer.getArrayManager();
         final ArrayFrame arrayFrame = arrayVisualizer.getArrayFrame();

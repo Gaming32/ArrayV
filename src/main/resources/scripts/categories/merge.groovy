@@ -7,15 +7,15 @@ SortPrompt.setSortThreadForCategory('Merge Sorts', 17) {
     run IterativeTopDownMergeSort with 2048.numbers and 1.5.speed
     run WeavedMergeSort with 2048.numbers and 1.5.speed
     run TwinSort with 2048.numbers and 1.5.speed
-    run PDMergeSort with 2048.numbers go()
+    run PDMergeSort with 2048.numbers run()
     run InPlaceMergeSort with 2048.numbers and 1.5.speed
     run ImprovedInPlaceMergeSort with 2048.numbers and 1.5.speed
     run LazyStableSort with 256.numbers and 0.2.speed
     run BlockSwapMergeSort with 256.numbers and 0.1.speed
     run RotateMergeSort with 512.numbers and 0.2.speed
     run RotateMergeSortParallel with 512.numbers and 0.2.speed
-    run AndreySort with 2048.numbers go()
-    run NewShuffleMergeSort with 1024.numbers go()
-    run StrandSort with 2048.numbers go()
+    run AndreySort with 2048.numbers run()
+    run NewShuffleMergeSort with 1024.numbers run()
+    run StrandSort with 2048.numbers run()
     run BufferedStoogeSort with 256.numbers and 0.2.speed
 }
