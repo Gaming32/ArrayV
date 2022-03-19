@@ -198,7 +198,7 @@ public final class GroovyLocals {
 
     /**
      * Runs a sort, but adds the ability to pass Groovy map arguments,
-     * e.g.: {@code run(BubbleSort, numbers: 2048, delay: 0.75)}
+     * e.g.: {@code run(BubbleSort, numbers: 2048, speed: 0.75)}
      * @param options Groovy map arguments. See {@link RunSortBuilder} for valid keys
      * @param sort The sorting algorithm to run
      * @return A {@link RunSortBuilder} for setting up sort running parameters

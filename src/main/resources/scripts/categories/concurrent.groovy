@@ -4,7 +4,7 @@ SortPrompt.setSortThreadForCategory('Concurrent Sorts', 22) {
     // Other
     run FoldSort with 1024.numbers go()
     run CreaseSort with 1024.numbers go()
-    run MatrixSort with 256.numbers and 0.667.delay
+    run MatrixSort with 256.numbers and 0.667.speed
 
     // Recursive
     run BitonicSortRecursive with 1024.numbers go()

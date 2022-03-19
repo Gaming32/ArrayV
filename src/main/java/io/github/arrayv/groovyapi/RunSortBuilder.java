@@ -30,7 +30,7 @@ import io.github.arrayv.utils.Timer;
  *   <li>{@code numbers} ({@code Integer}) &mdash; The number of values to sort</li>
  *   <li>{@code buckets} ({@code Integer}) &mdash; An extra value to pass to the sorting
  *       algorithm</li>
- *   <li>{@code delay} ({@code Number}) &mdash; The time multiplier of the visual</li>
+ *   <li>{@code speed} ({@code Number}) &mdash; The time multiplier of the visual</li>
  * </ul>
  * <p>{@link Map.Entry} values to put into the option map can be obtained using {@link RunSortInfoExtension}.</p>
  *
@@ -41,7 +41,7 @@ public final class RunSortBuilder {
     private static final Set<String> ALLOWED_KEYS = new HashSet<>(Arrays.asList(
         "numbers",
         "buckets",
-        "delay"
+        "speed"
     ));
 
     private final SortInfo sort;
@@ -143,12 +143,12 @@ public final class RunSortBuilder {
     }
 
     /**
-     * The speed multiplier of the visual (key of {@code "delay"})
+     * The speed multiplier of the visual (key of {@code "speed"})
      * @return The speed multiplier
-     * @see RunSortInfoExtension#getDelay
+     * @see RunSortInfoExtension#getSpeed
      */
-    public double getDelay() {
-        return ((Number)opts.getOrDefault("delay", 1.0)).doubleValue();
+    public double getSpeed() {
+        return ((Number)opts.getOrDefault("speed", 1.0)).doubleValue();
     }
 
     /**
@@ -179,15 +179,15 @@ public final class RunSortBuilder {
         return Math.min(calculateLength(defaultLength, startingLength), unreasonableLimit);
     }
 
-    private double calculateSpeed(double defaultDelay, int length, int startingLength) {
+    private double calculateSpeed(double defaultSpeed, int length, int startingLength) {
         if (startingLength != -1) {
             if (length < startingLength / 2) {
-                return defaultDelay * Math.pow(startingLength / 2048d, 2);
+                return defaultSpeed * Math.pow(startingLength / 2048d, 2);
             } else {
-                return defaultDelay * (startingLength / 2048d);
+                return defaultSpeed * (startingLength / 2048d);
             }
         }
-        return defaultDelay;
+        return defaultSpeed;
     }
 
     private void removeClosers() {
@@ -252,7 +252,7 @@ public final class RunSortBuilder {
             arrayVisualizer.setHeading(sort.getRunAllName());
         }
 
-        double sortSpeed = calculateSpeed(getDelay(), arrayVisualizer.getCurrentLength(), startingLength);
+        double sortSpeed = calculateSpeed(getSpeed(), arrayVisualizer.getCurrentLength(), startingLength);
         Delays.setSleepRatio(sortSpeed);
 
         Timer.enableRealTimer();

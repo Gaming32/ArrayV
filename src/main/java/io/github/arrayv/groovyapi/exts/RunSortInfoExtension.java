@@ -33,12 +33,12 @@ public final class RunSortInfoExtension {
     }
 
     /**
-     * Create a {@code delay} key
+     * Create a {@code speed} key
      * @param self The speed multiplier for the visual
-     * @return A {@link Map.Entry} for {@code delay}
+     * @return A {@link Map.Entry} for {@code speed}
      */
-    public static Map.Entry<String, Object> getDelay(Number self) {
-        return create("delay", self);
+    public static Map.Entry<String, Object> getSpeed(Number self) {
+        return create("speed", self);
     }
 
     private static Map.Entry<String, Object> create(String key, Object self) {

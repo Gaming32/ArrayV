@@ -6,8 +6,8 @@ SortPrompt.setSortThreadForCategory('Hybrid Sorts', 32) {
     run IntroCircleSortRecursive with 1024.numbers go()
     run IntroCircleSortIterative with 1024.numbers go()
     run BinaryMergeSort with 2048.numbers go()
-    run MergeInsertionSort with 2048.numbers and 1.75.delay
-    run WeaveMergeSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.65 : 6.5).delay)
+    run MergeInsertionSort with 2048.numbers and 1.75.speed
+    run WeaveMergeSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.65 : 6.5).speed)
     run TimSort with 2048.numbers go()
     run CocktailMergeSort with 2048.numbers go()
     run LaziestSort with 1024.numbers go()
@@ -27,11 +27,11 @@ SortPrompt.setSortThreadForCategory('Hybrid Sorts', 32) {
     run BufferPartitionMergeSort with 2048.numbers go()
     run IntroSort with 2048.numbers go()
     run OptimizedBottomUpMergeSort with 2048.numbers go()
-    run OptimizedDualPivotQuickSort with 2048.numbers and 0.75.delay
-    run OptimizedWeaveMergeSort with 1024.numbers and 0.4.delay
-    run StacklessHybridQuickSort with 2048.numbers and 0.75.delay
-    run StacklessDualPivotQuickSort with 2048.numbers and 0.75.delay
-    run PDQBranchedSort with 2048.numbers and 0.75.delay
-    run PDQBranchlessSort with 2048.numbers and 0.75.delay
-    run DropMergeSort with 2048.numbers and 0.75.delay
+    run OptimizedDualPivotQuickSort with 2048.numbers and 0.75.speed
+    run OptimizedWeaveMergeSort with 1024.numbers and 0.4.speed
+    run StacklessHybridQuickSort with 2048.numbers and 0.75.speed
+    run StacklessDualPivotQuickSort with 2048.numbers and 0.75.speed
+    run PDQBranchedSort with 2048.numbers and 0.75.speed
+    run PDQBranchlessSort with 2048.numbers and 0.75.speed
+    run DropMergeSort with 2048.numbers and 0.75.speed
 }
