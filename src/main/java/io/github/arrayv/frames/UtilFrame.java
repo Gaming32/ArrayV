@@ -354,7 +354,7 @@ public final class UtilFrame extends javax.swing.JFrame {
                     .addComponent(this.jCheckBox4)
                     .addGap(5, 5, 5)
                     .addComponent(runScriptButton)
-                    .addGap(5, 5, 5))
+                    .addGap(8, 8, 8))
         );
 
         pack();
