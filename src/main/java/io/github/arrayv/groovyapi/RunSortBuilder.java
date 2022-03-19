@@ -120,7 +120,7 @@ public final class RunSortBuilder {
      * @param opts The options to merge
      * @return {@code this} for chaining
      */
-    public final RunSortBuilder with(Map<String, Object> opts) {
+    public RunSortBuilder with(Map<String, Object> opts) {
         for (Map.Entry<String, Object> opt : opts.entrySet()) {
             put(opt);
         }
