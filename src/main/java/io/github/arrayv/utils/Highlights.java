@@ -40,7 +40,7 @@ public final class Highlights {
     private volatile HashMap<int[], boolean[]> colorMarks;
     private volatile HashMap<int[], Color[]> colorColors;
 
-    private volatile boolean retainColorMarks = true;
+    private volatile boolean retainColorMarks = false;
 
     private volatile HashMap<String, Color> defined;
     private static int[] main;
