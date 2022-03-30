@@ -366,13 +366,11 @@ public final class Highlights {
         if (highlights[marker] == -1) {
             return;
         }
+        Delays.disableStepping();
+        decrementIndexMarkCount(highlights[marker]);
         if (!retainColorMarks) {
             clearColor(highlights[marker]);
         }
-
-        Delays.disableStepping();
-
-        decrementIndexMarkCount(highlights[marker]);
         highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
         if (marker == this.maxHighlightMarked) {
             this.maxHighlightMarked = marker;
