@@ -495,6 +495,8 @@ public final class ArrayVisualizer {
         this.Writes = new Writes(this);
         this.antiQSort = new AntiQSort(this);
 
+        Highlights.postInit();
+
         SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);
 
