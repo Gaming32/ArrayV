@@ -365,9 +365,12 @@ public final class Highlights {
             return;
         }
         Delays.disableStepping();
+
+        // conflict #1: I have no idea how to fix this one
         if (!retainColorMarks) {
             clearColor(highlights[marker]);
         }
+
         decrementIndexMarkCount(highlights[marker]);
         highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
         if (marker == this.maxHighlightMarked) {
@@ -379,6 +382,8 @@ public final class Highlights {
         arrayVisualizer.updateNow();
         Delays.enableStepping();
     }
+
+    // conflict #2: This should not happen
 
     public synchronized void clearColorList() {
         defined.clear();
@@ -402,6 +407,14 @@ public final class Highlights {
         }
     }
 
+    public synchronized boolean isRetainingColorMarks() {
+        return retainColorMarks;
+    }
+
+    public synchronized void retainColorMarks(boolean retainColorMarks) {
+        this.retainColorMarks = retainColorMarks;
+    }
+
     public synchronized void clearAllMarks() {
         Delays.disableStepping();
         for (int i = 0; i < this.maxHighlightMarked; i++) {
@@ -414,13 +427,5 @@ public final class Highlights {
         this.markCount = 0;
         arrayVisualizer.updateNow();
         Delays.enableStepping();
-    }
-
-    public synchronized boolean isRetainingColorMarks() {
-        return retainColorMarks;
-    }
-
-    public synchronized void retainColorMarks(boolean retainColorMarks) {
-        this.retainColorMarks = retainColorMarks;
     }
 }
