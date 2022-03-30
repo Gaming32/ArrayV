@@ -268,6 +268,8 @@ public final class ArrayVisualizer {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_K || e.getKeyCode() == KeyEvent.VK_SPACE) {
                     ArrayVisualizer.this.getDelays().togglePaused();
+                } else if (e.getKeyCode() == KeyEvent.VK_B) {
+                    Delays.beginStepping();
                 } else if (e.getKeyCode() == KeyEvent.VK_F12) {
                     System.gc();
                 }

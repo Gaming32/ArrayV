@@ -10,6 +10,7 @@ import io.github.arrayv.panes.JErrorPane;
 MIT License
 
 Copyright (c) 2019 w0rthy
+Copyright (c) 2020-2022 ArrayV Team
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,6 +40,8 @@ public final class Delays {
 
     private volatile double currentDelay;
     private volatile boolean paused;
+    private volatile int noStepping;
+    private volatile boolean stepping;
 
     private DecimalFormat formatter;
 
@@ -55,7 +58,7 @@ public final class Delays {
     public String displayCurrentDelay() {
         if (this.skipped)
             return "Canceled";
-        if (this.paused)
+        if (this.paused && !stepping)
             return "Paused";
 
         String currDelay = "";
@@ -119,6 +122,40 @@ public final class Delays {
         this.changePaused(!this.paused);;
     }
 
+    public void disableStepping() {
+        noStepping++;
+        if (noStepping < 0) {
+            noStepping = 0;
+            throw new IllegalStateException("Stepping toggle overflow");
+        }
+    }
+
+    public void enableStepping() {
+        noStepping--;
+        if (noStepping < 0) {
+            noStepping = 0;
+            throw new IllegalStateException("Stepping toggle underflow");
+        }
+        if (canStep()) {
+            // Step has ended
+            stepping = false;
+        }
+    }
+
+    public boolean canStep() {
+        return noStepping == 0;
+    }
+
+    public boolean isStepping() {
+        return stepping;
+    }
+
+    public void beginStepping() {
+        if (canStep()) {
+            stepping = true;
+        }
+    }
+
     public void sleep(double millis) {
         if (millis <= 0) {
             return;
@@ -132,9 +169,9 @@ public final class Delays {
         try {
             // With this for loop, you can change the speed of sorts without waiting for the current delay to finish.
             if (!this.skipped) {
-                while (this.paused || this.delay >= 1) {
+                while (this.delay >= 1) {
                     Thread.sleep(1);
-                    if (!this.paused)
+                    if (!this.paused || stepping)
                         this.delay--;
                 }
             } else {
