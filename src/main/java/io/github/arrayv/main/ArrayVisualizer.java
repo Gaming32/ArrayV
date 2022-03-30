@@ -269,6 +269,8 @@ public final class ArrayVisualizer {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_K || e.getKeyCode() == KeyEvent.VK_SPACE) {
                     ArrayVisualizer.this.getDelays().togglePaused();
+                } else if (e.getKeyCode() == KeyEvent.VK_B) {
+                    Delays.beginStepping();
                 } else if (e.getKeyCode() == KeyEvent.VK_F12) {
                     System.gc();
                 }
@@ -478,6 +480,8 @@ public final class ArrayVisualizer {
         this.Writes = new Writes(this);
         this.antiQSort = new AntiQSort(this);
         this.scriptManager = new ScriptManager();
+
+        Highlights.postInit();
 
         SoundFrame test = new SoundFrame(this.Sounds);
         test.setVisible(true);

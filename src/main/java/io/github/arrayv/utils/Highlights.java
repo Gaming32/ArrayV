@@ -60,6 +60,7 @@ public final class Highlights {
     private volatile int trackFinish;
 
     private ArrayVisualizer arrayVisualizer;
+    private Delays Delays;
 
     public Highlights(ArrayVisualizer arrayVisualizer, int maximumLength) {
         this.arrayVisualizer = arrayVisualizer;
@@ -77,6 +78,13 @@ public final class Highlights {
 
         Arrays.fill(highlights, -1);
         Arrays.fill(markCounts, (byte)0);
+    }
+
+    public void postInit() {
+        if (Delays != null) {
+            throw new IllegalStateException();
+        }
+        this.Delays = arrayVisualizer.getDelays();
     }
 
     public boolean fancyFinishEnabled() {
@@ -159,6 +167,7 @@ public final class Highlights {
                 if (highlights[marker] == markPosition) {
                     return;
                 }
+                Delays.disableStepping();
                 if (highlights[marker] != -1) {
                     decrementIndexMarkCount(highlights[marker]);
                 }
@@ -173,11 +182,13 @@ public final class Highlights {
             e.printStackTrace();
         }
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
     public synchronized void clearMark(int marker) {
         if (highlights[marker] == -1) {
             return;
         }
+        Delays.disableStepping();
         decrementIndexMarkCount(highlights[marker]);
         highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
 
@@ -188,8 +199,10 @@ public final class Highlights {
             }
         }
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
     public synchronized void clearAllMarks() {
+        Delays.disableStepping();
         for (int i = 0; i < this.maxHighlightMarked; i++) {
             if (highlights[i] != -1) {
                 markCounts[highlights[i]] = 0;
@@ -199,5 +212,6 @@ public final class Highlights {
         this.maxHighlightMarked = 0;
         this.markCount = 0;
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
 }
