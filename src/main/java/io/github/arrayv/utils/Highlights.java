@@ -70,6 +70,7 @@ public final class Highlights {
     private volatile int trackFinish;
 
     private ArrayVisualizer arrayVisualizer;
+    private Delays Delays;
 
     public Highlights(ArrayVisualizer arrayVisualizer, int maximumLength) {
         this.arrayVisualizer = arrayVisualizer;
@@ -92,6 +93,13 @@ public final class Highlights {
         Arrays.fill(highlights, -1);
         Arrays.fill(markCounts, (byte)0);
         this.registerColorMarks(main);
+    }
+
+    public void postInit() {
+        if(Delays != null) {
+            throw new IllegalStateException();
+        }
+        this.Delays = arrayVisualizer.getDelays();
     }
 
     public boolean fancyFinishEnabled() {
@@ -200,6 +208,7 @@ public final class Highlights {
                 throw new Exception("Highlights.setRawColor(): Invalid position!");
             } else {
                 boolean[] colorMark = getColorMarks(array);
+                Delays.disableStepping();
                 if (colorMark != null) {
                     colorMark[position] = true;
                     getColorColors(array)[position] = color;
@@ -209,6 +218,7 @@ public final class Highlights {
             e.printStackTrace();
         }
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
 
     // Convenience function: Set the color using a predefined alias
@@ -219,6 +229,7 @@ public final class Highlights {
     // Convenience function: Set the color using a predefined alias
     public synchronized void writeColor(int[] fromArray, int fromPosition, int[] toArray, int toPosition) {
         try {
+            Delays.disableStepping();
             if (colorMarks.containsKey(fromArray) && colorMarks.containsKey(toArray)) {
                 getColorMarks(toArray)[toPosition] = getColorMarks(fromArray)[fromPosition];
                 getColorColors(toArray)[toPosition] = getColorColors(fromArray)[fromPosition];
@@ -229,6 +240,7 @@ public final class Highlights {
             e.printStackTrace();
         }
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
 
     // Convenience function: Set the color using a predefined alias
@@ -238,6 +250,7 @@ public final class Highlights {
                 throw new Exception("Highlights.colorCode(): Invalid position!");
             } else {
                 boolean[] colorMark = getColorMarks(array);
+                Delays.disableStepping();
                 if (colorMark != null) {
                     colorMark[position] = true;
                     getColorColors(array)[position] = getColorFromName(color);
@@ -245,8 +258,10 @@ public final class Highlights {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
 
     // Convenience function: Set the color using a predefined alias
@@ -270,10 +285,13 @@ public final class Highlights {
         boolean[] colorMark = getColorMarks(array);
         if (colorMark == null)
             return;
+        Delays.disableStepping();
         if (colorMark[position]) {
             colorMark[position] = false;
             getColorColors(array)[position] = null;
         }
+        arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
 
     public synchronized void clearColor(int position) {
@@ -322,6 +340,7 @@ public final class Highlights {
                 if (highlights[marker] == markPosition) {
                     return;
                 }
+                Delays.disableStepping();
                 if (highlights[marker] != -1) {
                     decrementIndexMarkCount(highlights[marker]);
                 }
@@ -339,11 +358,13 @@ public final class Highlights {
             e.printStackTrace();
         }
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
     public synchronized void clearMark(int marker) {
         if (highlights[marker] == -1) {
             return;
         }
+        Delays.disableStepping();
         if (!retainColorMarks) {
             clearColor(highlights[marker]);
         }
@@ -356,6 +377,7 @@ public final class Highlights {
             }
         }
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
 
     public synchronized void clearColorList() {
@@ -364,7 +386,10 @@ public final class Highlights {
     }
 
     public synchronized void clearAllColors(int[] array) {
+        Delays.disableStepping();
         Arrays.fill(getColorMarks(array), false);
+        arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
 
     public synchronized void clearAllColors() {
@@ -378,6 +403,7 @@ public final class Highlights {
     }
 
     public synchronized void clearAllMarks() {
+        Delays.disableStepping();
         for (int i = 0; i < this.maxHighlightMarked; i++) {
             if (highlights[i] != -1) {
                 markCounts[highlights[i]] = 0;
@@ -387,6 +413,7 @@ public final class Highlights {
         this.maxHighlightMarked = 0;
         this.markCount = 0;
         arrayVisualizer.updateNow();
+        Delays.enableStepping();
     }
 
     public synchronized boolean isRetainingColorMarks() {
