@@ -96,7 +96,7 @@ public final class Highlights {
     }
 
     public void postInit() {
-        if(Delays != null) {
+        if (Delays != null) {
             throw new IllegalStateException();
         }
         this.Delays = arrayVisualizer.getDelays();
@@ -382,7 +382,7 @@ public final class Highlights {
         Delays.enableStepping();
     }
 
-    // *fix conflict #2: spaces added to separate stupidity*
+    // @checkstyle:off Indentation - Creates a merge conflict without the extra space
 
      public synchronized void clearColorList() {
          defined.clear();
@@ -413,6 +413,8 @@ public final class Highlights {
      public synchronized void retainColorMarks(boolean retainColorMarks) {
          this.retainColorMarks = retainColorMarks;
      }
+
+    // @checkstyle:on Indentation
 
     public synchronized void clearAllMarks() {
         Delays.disableStepping();
