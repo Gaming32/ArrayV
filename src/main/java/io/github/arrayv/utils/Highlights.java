@@ -366,12 +366,11 @@ public final class Highlights {
         if (highlights[marker] == -1) {
             return;
         }
-        Delays.disableStepping();
-
-        // conflict #1: I have no idea how to fix this one
         if (!retainColorMarks) {
             clearColor(highlights[marker]);
         }
+
+        Delays.disableStepping();
 
         decrementIndexMarkCount(highlights[marker]);
         highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
@@ -385,7 +384,7 @@ public final class Highlights {
         Delays.enableStepping();
     }
 
-    // conflict #2: This should not happen
+    // *fix conflict #2: spaces added to separate stupidity*
 
      public synchronized void clearColorList() {
          defined.clear();
