@@ -382,39 +382,36 @@ public final class Highlights {
         Delays.enableStepping();
     }
 
-    // @checkstyle:off Indentation - Creates a merge conflict without the extra space
 
-     public synchronized void clearColorList() {
-         defined.clear();
-         retainColorMarks = false;
-     }
+    public synchronized void clearColorList() {
+        defined.clear();
+        retainColorMarks = false;
+    }
 
-     public synchronized void clearAllColors(int[] array) {
-         Delays.disableStepping();
-         Arrays.fill(getColorMarks(array), false);
-         arrayVisualizer.updateNow();
-         Delays.enableStepping();
-     }
+    public synchronized void clearAllColors(int[] array) {
+        Delays.disableStepping();
+        Arrays.fill(getColorMarks(array), false);
+        arrayVisualizer.updateNow();
+        Delays.enableStepping();
+    }
 
-     public synchronized void clearAllColors() {
-         clearAllColors(main);
-     }
+    public synchronized void clearAllColors() {
+        clearAllColors(main);
+    }
 
-     public synchronized void clearAllColorsReferenced() {
-         for (boolean[] list : colorMarks.values()) {
-             Arrays.fill(list, false);
-         }
-     }
+    public synchronized void clearAllColorsReferenced() {
+        for (boolean[] list : colorMarks.values()) {
+            Arrays.fill(list, false);
+        }
+    }
 
-     public synchronized boolean isRetainingColorMarks() {
-         return retainColorMarks;
-     }
+    public synchronized boolean isRetainingColorMarks() {
+        return retainColorMarks;
+    }
 
-     public synchronized void retainColorMarks(boolean retainColorMarks) {
-         this.retainColorMarks = retainColorMarks;
-     }
-
-    // @checkstyle:on Indentation
+    public synchronized void retainColorMarks(boolean retainColorMarks) {
+        this.retainColorMarks = retainColorMarks;
+    }
 
     public synchronized void clearAllMarks() {
         Delays.disableStepping();
