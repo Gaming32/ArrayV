@@ -102,6 +102,13 @@ public final class Highlights {
         this.Delays = arrayVisualizer.getDelays();
     }
 
+    public void postInit() {
+        if (Delays != null) {
+            throw new IllegalStateException();
+        }
+        this.Delays = arrayVisualizer.getDelays();
+    }
+
     public boolean fancyFinishEnabled() {
         return this.showFancyFinishes;
     }

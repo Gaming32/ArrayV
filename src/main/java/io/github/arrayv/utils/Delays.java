@@ -160,6 +160,40 @@ public final class Delays {
         }
     }
 
+    public void disableStepping() {
+        noStepping++;
+        if (noStepping < 0) {
+            noStepping = 0;
+            throw new IllegalStateException("Stepping toggle overflow");
+        }
+    }
+
+    public void enableStepping() {
+        noStepping--;
+        if (noStepping < 0) {
+            noStepping = 0;
+            throw new IllegalStateException("Stepping toggle underflow");
+        }
+        if (canStep()) {
+            // Step has ended
+            stepping = false;
+        }
+    }
+
+    public boolean canStep() {
+        return noStepping == 0;
+    }
+
+    public boolean isStepping() {
+        return stepping;
+    }
+
+    public void beginStepping() {
+        if (canStep()) {
+            stepping = true;
+        }
+    }
+
     public void sleep(double millis) {
         if (millis <= 0) {
             return;
