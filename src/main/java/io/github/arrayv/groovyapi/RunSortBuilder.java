@@ -127,6 +127,28 @@ public final class RunSortBuilder {
         return this;
     }
 
+    /**
+     * <p>Put one more option into the options map and run the sort</p>
+     * Equivalent to {@code with(opt).go()} or {@code with opt go()}
+     * @param opt The option to add
+     */
+    public void and(Map.Entry<String, Object> opt) {
+        put(opt);
+        finish();
+    }
+
+    /**
+     * Run the sort
+     */
+    public void run(Map<String, Object> opts) {
+        if (opts != null) {
+            for (Map.Entry<String, Object> opt : opts.entrySet()) {
+                put(opt);
+            }
+        }
+        finish();
+    }
+
     private void put(Map.Entry<String, Object> opt) {
         if (!ALLOWED_KEYS.contains(opt.getKey())) {
             throw new IllegalArgumentException("Invalid RunSortBuilder key: " + opt.getKey());
@@ -161,28 +183,6 @@ public final class RunSortBuilder {
      */
     public double getSpeed() {
         return ((Number)opts.getOrDefault("speed", 1.0)).doubleValue();
-    }
-
-    /**
-     * <p>Put one more option into the options map and run the sort</p>
-     * Equivalent to {@code with(opt).go()} or {@code with opt go()}
-     * @param opt The option to add
-     */
-    public void and(Map.Entry<String, Object> opt) {
-        put(opt);
-        finish();
-    }
-
-    /**
-     * Run the sort
-     */
-    public void run(Map<String, Object> opts) {
-        if (opts != null) {
-            for (Map.Entry<String, Object> opt : opts.entrySet()) {
-                put(opt);
-            }
-        }
-        finish();
     }
 
     private int calculateLength(int defaultLength, int startingLength) {
