@@ -5,6 +5,7 @@ import java.awt.Color;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import java.util.HashMap;
+import java.util.Map;
 
 /*
  *
@@ -37,12 +38,12 @@ public final class Highlights {
     private volatile byte[] markCounts;
 
     // This is in desperate need of optimization.
-    private volatile HashMap<int[], boolean[]> colorMarks;
-    private volatile HashMap<int[], Color[]> colorColors;
+    private volatile Map<int[], boolean[]> colorMarks;
+    private volatile Map<int[], Color[]> colorColors;
 
     private volatile boolean retainColorMarks = false;
 
-    private volatile HashMap<String, Color> defined;
+    private volatile Map<String, Color> defined;
     private static int[] main;
 
     private volatile int maxHighlightMarked;    // IMPORTANT: This stores the index one past the farthest highlight used, so that a value
