@@ -5,7 +5,9 @@ import java.awt.Color;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /*
  *
@@ -80,8 +82,8 @@ public final class Highlights {
             defined = new HashMap<>();
             this.highlights = new int[maximumLength];
             this.markCounts = new byte[maximumLength];
-            this.colorMarks = new HashMap<>();
-            this.colorColors = new HashMap<>();
+            this.colorMarks = new IdentityHashMap<>();
+            this.colorColors = new IdentityHashMap<>();
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate mark arrays. The program will now exit.");
             System.exit(1);
@@ -173,8 +175,8 @@ public final class Highlights {
         if (arrayPosition >= markCounts.length) return false;
         return this.markCounts[arrayPosition] != 0;
     }
-    public String[] getDeclaredColors() {
-        return defined.keySet().toArray(new String[0]);
+    public Set<String> getDeclaredColors() {
+        return defined.keySet();
     }
     public Color getColorFromName(String color) {
         return defined.getOrDefault(color, Color.WHITE);
@@ -197,10 +199,8 @@ public final class Highlights {
         colorColors.putIfAbsent(array, colorColor);
     }
     public synchronized void unregisterColors(int[] array) {
-        if (colorMarks.containsKey(array)) {
-            colorMarks.remove(array);
-            colorColors.remove(array);
-        }
+        colorMarks.remove(array);
+        colorColors.remove(array);
     }
     // Ambitious function: Set the color directly
     public synchronized void setRawColor(int[] array, int position, Color color) {

@@ -726,7 +726,7 @@ public final class ArrayVisualizer {
                     stat = null; // Unreachable
             }
             mainRender.drawString(stat, xOffset, (int)(windowRatio * yPos) + yOffset);
-            if (step++ == 0 && Highlights.getDeclaredColors().length > 0) {
+            if (step++ == 0 && Highlights.getDeclaredColors().size() > 0) {
                 int startOffset = currentWidth(),
                     copy = startOffset, metricFontHeight = mainRender.getFontMetrics().getHeight(),
                     startStat = mainRender.getFontMetrics().stringWidth(stat) + xOffset + 24,
