@@ -2,33 +2,33 @@ import io.github.arrayv.prompts.SortPrompt
 import io.github.arrayv.utils.Shuffles
 
 SortPrompt.setSortThreadForCategory('Exchange Sorts', 29) {
-    run UnoptimizedBubbleSort with 512.numbers and 1.5.speed
-    run BubbleSort with 512.numbers and 1.5.speed
-    run OptimizedBubbleSort with 512.numbers and 1.5.speed
-    run UnoptimizedCocktailShakerSort with 512.numbers and 1.25.speed
-    run CocktailShakerSort with 512.numbers and 1.25.speed
-    run OptimizedCocktailShakerSort with 512.numbers and 1.25.speed
-    run OddEvenSort with 512.numbers run()
-    run OptimizedStoogeSort with 512.numbers run()
-    run OptimizedStoogeSortStudio with 512.numbers run()
-    run FunSort with 256.numbers and 2.speed
-    run GnomeSort with 128.numbers and 0.025.speed
-    run OptimizedGnomeSort with 128.numbers and 0.025.speed
-    run BinaryGnomeSort with 128.numbers and 0.025.speed
-    run SlopeSort with 128.numbers and 0.025.speed
-    run CombSort with 1024.numbers and 130.buckets
-    run ThreeSmoothCombSortRecursive with 1024.numbers and 1.25.speed
-    run ThreeSmoothCombSortParallel with 1024.numbers and 1.25.speed
-    run ThreeSmoothCombSortIterative with 1024.numbers and 1.25.speed
-    run ClassicThreeSmoothCombSort with 1024.numbers and 1.25.speed
-    run CircleSortRecursive with 1024.numbers run()
-    run CircleSortIterative with 1024.numbers run()
-    run LLQuickSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.5 : 5).speed)
-    run LRQuickSort with 2048.numbers run()
-    run LRQuickSortParallel with 2048.numbers run()
-    run DualPivotQuickSort with 2048.numbers run()
-    run StableQuickSort with 2048.numbers and ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 6.5).speed)
-    run StableQuickSortParallel with 2048.numbers run()
-    run ForcedStableQuickSort with 2048.numbers run()
-    run TableSort with 1024.numbers and 0.75.speed
+    run UnoptimizedBubbleSort go 512.numbers, 1.5.speed
+    run BubbleSort go 512.numbers, 1.5.speed
+    run OptimizedBubbleSort go 512.numbers, 1.5.speed
+    run UnoptimizedCocktailShakerSort go 512.numbers, 1.25.speed
+    run CocktailShakerSort go 512.numbers, 1.25.speed
+    run OptimizedCocktailShakerSort go 512.numbers, 1.25.speed
+    run OddEvenSort go 512.numbers
+    run OptimizedStoogeSort go 512.numbers
+    run OptimizedStoogeSortStudio go 512.numbers
+    run FunSort go 256.numbers, 2.speed
+    run GnomeSort go 128.numbers, 0.025.speed
+    run OptimizedGnomeSort go 128.numbers, 0.025.speed
+    run BinaryGnomeSort go 128.numbers, 0.025.speed
+    run SlopeSort go 128.numbers, 0.025.speed
+    run CombSort go 1024.numbers, 130.buckets
+    run ThreeSmoothCombSortRecursive go 1024.numbers, 1.25.speed
+    run ThreeSmoothCombSortParallel go 1024.numbers, 1.25.speed
+    run ThreeSmoothCombSortIterative go 1024.numbers, 1.25.speed
+    run ClassicThreeSmoothCombSort go 1024.numbers, 1.25.speed
+    run CircleSortRecursive go 1024.numbers
+    run CircleSortIterative go 1024.numbers
+    run LLQuickSort go 2048.numbers, ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1.5 : 5).speed)
+    run LRQuickSort go 2048.numbers
+    run LRQuickSortParallel go 2048.numbers
+    run DualPivotQuickSort go 2048.numbers
+    run StableQuickSort go 2048.numbers, ((arrayv.arrayManager.containsShuffle(Shuffles.RANDOM) ? 1 : 6.5).speed)
+    run StableQuickSortParallel go 2048.numbers
+    run ForcedStableQuickSort go 2048.numbers
+    run TableSort go 1024.numbers, 0.75.speed
 }

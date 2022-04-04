@@ -1,22 +1,22 @@
 import io.github.arrayv.prompts.SortPrompt
 
 SortPrompt.setSortThreadForCategory('Selection Sorts', 18) {
-    run SelectionSort with 128.numbers and 0.01.speed
-    run DoubleSelectionSort with 128.numbers and 0.01.speed
-    run StableSelectionSort with 128.numbers and 0.5.speed
-    run CycleSort with 128.numbers and 0.01.speed
-    run StableCycleSort with 128.numbers and 0.01.speed
-    run BingoSort with 128.numbers and 0.1.speed
-    run MaxHeapSort with 2048.numbers and 1.5.speed
-    run MinHeapSort with 2048.numbers and 1.5.speed
-    run FlippedMinHeapSort with 2048.numbers and 1.5.speed
-    run BaseNMaxHeapSort with 2048.numbers, 4.buckets and 1.5.speed
-    run TriangularHeapSort with 2048.numbers and 1.5.speed
-    run WeakHeapSort with 2048.numbers run()
-    run TernaryHeapSort with 2048.numbers run()
-    run SmoothSort with 2048.numbers and 1.5.speed
-    run PoplarHeapSort with 2048.numbers run()
-    run TournamentSort with 2048.numbers and 1.5.speed
-    run ClassicTournamentSort with 2048.numbers and 1.5.speed
-    run AsynchronousSort with 1024.numbers and 1.5.speed
+    run SelectionSort go 128.numbers, 0.01.speed
+    run DoubleSelectionSort go 128.numbers, 0.01.speed
+    run StableSelectionSort go 128.numbers, 0.5.speed
+    run CycleSort go 128.numbers, 0.01.speed
+    run StableCycleSort go 128.numbers, 0.01.speed
+    run BingoSort go 128.numbers, 0.1.speed
+    run MaxHeapSort go 2048.numbers, 1.5.speed
+    run MinHeapSort go 2048.numbers, 1.5.speed
+    run FlippedMinHeapSort go 2048.numbers, 1.5.speed
+    run BaseNMaxHeapSort go 2048.numbers, 4.buckets, 1.5.speed
+    run TriangularHeapSort go 2048.numbers, 1.5.speed
+    run WeakHeapSort go 2048.numbers
+    run TernaryHeapSort go 2048.numbers
+    run SmoothSort go 2048.numbers, 1.5.speed
+    run PoplarHeapSort go 2048.numbers
+    run TournamentSort go 2048.numbers, 1.5.speed
+    run ClassicTournamentSort go 2048.numbers, 1.5.speed
+    run AsynchronousSort go 1024.numbers, 1.5.speed
 }

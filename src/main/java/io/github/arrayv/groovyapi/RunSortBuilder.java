@@ -103,13 +103,19 @@ public final class RunSortBuilder {
 
     /**
      * Merge the specified options with the options map
-     * @param opts The options to merge, generally obtained with {@link RunSortInfoExtension}
+     * @param optsMap The options to merge, generally using Groovy's keyword argument syntax
+     * @param optsEntries The options to merge, generally obtained with {@link RunSortInfoExtension}
      * @return {@code this} for chaining
      * @see RunSortInfoExtension
      */
     @SafeVarargs
-    public final RunSortBuilder with(Map.Entry<String, Object>... opts) {
-        for (Map.Entry<String, Object> opt : opts) {
+    public final RunSortBuilder with(Map<String, Object> optsMap, Map.Entry<String, Object>... optsEntries) {
+        if (optsMap != null) {
+            for (Map.Entry<String, Object> opt : optsMap.entrySet()) {
+                put(opt);
+            }
+        }
+        for (Map.Entry<String, Object> opt : optsEntries) {
             put(opt);
         }
         return this;
@@ -117,36 +123,34 @@ public final class RunSortBuilder {
 
     /**
      * Merge the specified options with the options map
-     * @param opts The options to merge
+     * @param opts The options to merge, generally obtained with {@link RunSortInfoExtension}
      * @return {@code this} for chaining
+     * @see RunSortInfoExtension
      */
-    public RunSortBuilder with(Map<String, Object> opts) {
-        for (Map.Entry<String, Object> opt : opts.entrySet()) {
-            put(opt);
-        }
-        return this;
+    @SafeVarargs
+    public final RunSortBuilder with(Map.Entry<String, Object>... opts) {
+        return with(null, opts);
     }
 
     /**
-     * <p>Put one more option into the options map and run the sort</p>
-     * Equivalent to {@code with(opt).go()} or {@code with opt go()}
-     * @param opt The option to add
+     * Merge the specified options with the options map, and run the sort
+     * @param optsMap The options to merge, generally using Groovy's keyword argument syntax
+     * @param optsEntries The options to merge, generally obtained with {@link RunSortInfoExtension}
+     * @see RunSortInfoExtension
      */
-    public void and(Map.Entry<String, Object> opt) {
-        put(opt);
-        finish();
+    @SafeVarargs
+    public final void go(Map<String, Object> optsMap, Map.Entry<String, Object>... optsEntries) {
+        with(optsMap, optsEntries).finish();
     }
 
     /**
-     * Run the sort
+     * Merge the specified options with the options map, and run the sort
+     * @param opts The options to merge, generally obtained with {@link RunSortInfoExtension}
+     * @see RunSortInfoExtension
      */
-    public void run(Map<String, Object> opts) {
-        if (opts != null) {
-            for (Map.Entry<String, Object> opt : opts.entrySet()) {
-                put(opt);
-            }
-        }
-        finish();
+    @SafeVarargs
+    public final void go(Map.Entry<String, Object>... opts) {
+        go(null, opts);
     }
 
     private void put(Map.Entry<String, Object> opt) {

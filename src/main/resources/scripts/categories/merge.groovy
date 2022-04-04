@@ -1,21 +1,21 @@
 import io.github.arrayv.prompts.SortPrompt
 
 SortPrompt.setSortThreadForCategory('Merge Sorts', 17) {
-    run MergeSort with 2048.numbers and 1.5.speed
-    run BottomUpMergeSort with 2048.numbers and 1.5.speed
-    run MergeSortParallel with 2048.numbers and 1.5.speed
-    run IterativeTopDownMergeSort with 2048.numbers and 1.5.speed
-    run WeavedMergeSort with 2048.numbers and 1.5.speed
-    run TwinSort with 2048.numbers and 1.5.speed
-    run PDMergeSort with 2048.numbers run()
-    run InPlaceMergeSort with 2048.numbers and 1.5.speed
-    run ImprovedInPlaceMergeSort with 2048.numbers and 1.5.speed
-    run LazyStableSort with 256.numbers and 0.2.speed
-    run BlockSwapMergeSort with 256.numbers and 0.1.speed
-    run RotateMergeSort with 512.numbers and 0.2.speed
-    run RotateMergeSortParallel with 512.numbers and 0.2.speed
-    run AndreySort with 2048.numbers run()
-    run NewShuffleMergeSort with 1024.numbers run()
-    run StrandSort with 2048.numbers run()
-    run BufferedStoogeSort with 256.numbers and 0.2.speed
+    run MergeSort go 2048.numbers, 1.5.speed
+    run BottomUpMergeSort go 2048.numbers, 1.5.speed
+    run MergeSortParallel go 2048.numbers, 1.5.speed
+    run IterativeTopDownMergeSort go 2048.numbers, 1.5.speed
+    run WeavedMergeSort go 2048.numbers, 1.5.speed
+    run TwinSort go 2048.numbers, 1.5.speed
+    run PDMergeSort go 2048.numbers
+    run InPlaceMergeSort go 2048.numbers, 1.5.speed
+    run ImprovedInPlaceMergeSort go 2048.numbers, 1.5.speed
+    run LazyStableSort go 256.numbers, 0.2.speed
+    run BlockSwapMergeSort go 256.numbers, 0.1.speed
+    run RotateMergeSort go 512.numbers, 0.2.speed
+    run RotateMergeSortParallel go 512.numbers, 0.2.speed
+    run AndreySort go 2048.numbers
+    run NewShuffleMergeSort go 1024.numbers
+    run StrandSort go 2048.numbers
+    run BufferedStoogeSort go 256.numbers, 0.2.speed
 }

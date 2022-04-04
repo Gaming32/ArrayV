@@ -2,32 +2,32 @@ import io.github.arrayv.prompts.SortPrompt
 
 SortPrompt.setSortThreadForCategory('Concurrent Sorts', 22) {
     // Other
-    run FoldSort with 1024.numbers run()
-    run CreaseSort with 1024.numbers run()
-    run MatrixSort with 256.numbers and 0.667.speed
+    run FoldSort go 1024.numbers
+    run CreaseSort go 1024.numbers
+    run MatrixSort go 256.numbers, 0.667.speed
 
     // Recursive
-    run BitonicSortRecursive with 1024.numbers run()
-    run OddEvenMergeSortRecursive with 1024.numbers run()
-    run PairwiseSortRecursive with 1024.numbers run()
-    run BoseNelsonSortRecursive with 1024.numbers run()
-    run WeaveSortRecursive with 1024.numbers run()
-    run DiamondSortRecursive with 1024.numbers run()
-    run PairwiseMergeSortRecursive with 1024.numbers run()
+    run BitonicSortRecursive go 1024.numbers
+    run OddEvenMergeSortRecursive go 1024.numbers
+    run PairwiseSortRecursive go 1024.numbers
+    run BoseNelsonSortRecursive go 1024.numbers
+    run WeaveSortRecursive go 1024.numbers
+    run DiamondSortRecursive go 1024.numbers
+    run PairwiseMergeSortRecursive go 1024.numbers
 
     // Parallel
-    run BitonicSortParallel with 1024.numbers run()
-    run OddEvenMergeSortParallel with 1024.numbers run()
-    run BoseNelsonSortParallel with 1024.numbers run()
-    run WeaveSortParallel with 1024.numbers run()
+    run BitonicSortParallel go 1024.numbers
+    run OddEvenMergeSortParallel go 1024.numbers
+    run BoseNelsonSortParallel go 1024.numbers
+    run WeaveSortParallel go 1024.numbers
 
     // Iterative
-    run BitonicSortIterative with 1024.numbers run()
-    run OddEvenMergeSortIterative with 1024.numbers run()
-    run PairwiseSortIterative with 1024.numbers run()
-    run BoseNelsonSortIterative with 1024.numbers run()
-    run WeaveSortIterative with 1024.numbers run()
-    run MergeExchangeSortIterative with 1024.numbers run()
-    run DiamondSortIterative with 1024.numbers run()
-    run PairwiseMergeSortIterative with 1024.numbers run()
+    run BitonicSortIterative go 1024.numbers
+    run OddEvenMergeSortIterative go 1024.numbers
+    run PairwiseSortIterative go 1024.numbers
+    run BoseNelsonSortIterative go 1024.numbers
+    run WeaveSortIterative go 1024.numbers
+    run MergeExchangeSortIterative go 1024.numbers
+    run DiamondSortIterative go 1024.numbers
+    run PairwiseMergeSortIterative go 1024.numbers
 }
