@@ -103,20 +103,15 @@ public final class RunSortBuilder {
 
     /**
      * Merge the specified options with the options map
-     * @param optsMap The options to merge, generally using Groovy's keyword argument syntax
-     * @param optsEntries The options to merge, generally obtained with {@link RunSortInfoExtension}
+     * @param opts The options to merge, generally using Groovy's named argument syntax
      * @return {@code this} for chaining
      * @see RunSortInfoExtension
      */
-    @SafeVarargs
-    public final RunSortBuilder with(Map<String, Object> optsMap, Map.Entry<String, Object>... optsEntries) {
-        if (optsMap != null) {
-            for (Map.Entry<String, Object> opt : optsMap.entrySet()) {
+    public RunSortBuilder with(Map<String, Object> opts) {
+        if (opts != null) {
+            for (Map.Entry<String, Object> opt : opts.entrySet()) {
                 put(opt);
             }
-        }
-        for (Map.Entry<String, Object> opt : optsEntries) {
-            put(opt);
         }
         return this;
     }
@@ -129,18 +124,19 @@ public final class RunSortBuilder {
      */
     @SafeVarargs
     public final RunSortBuilder with(Map.Entry<String, Object>... opts) {
-        return with(null, opts);
+        for (Map.Entry<String, Object> opt : opts) {
+            put(opt);
+        }
+        return this;
     }
 
     /**
      * Merge the specified options with the options map, and run the sort
-     * @param optsMap The options to merge, generally using Groovy's keyword argument syntax
-     * @param optsEntries The options to merge, generally obtained with {@link RunSortInfoExtension}
+     * @param opts The options to merge, generally using Groovy's named argument syntax
      * @see RunSortInfoExtension
      */
-    @SafeVarargs
-    public final void go(Map<String, Object> optsMap, Map.Entry<String, Object>... optsEntries) {
-        with(optsMap, optsEntries).finish();
+    public RunSortBuilder go(Map<String, Object> opts) {
+        return with(opts).finish();
     }
 
     /**
@@ -149,8 +145,8 @@ public final class RunSortBuilder {
      * @see RunSortInfoExtension
      */
     @SafeVarargs
-    public final void go(Map.Entry<String, Object>... opts) {
-        go(null, opts);
+    public final RunSortBuilder go(Map.Entry<String, Object>... opts) {
+        return with(opts).finish();
     }
 
     private void put(Map.Entry<String, Object> opt) {
@@ -225,7 +221,7 @@ public final class RunSortBuilder {
         closed = true;
     }
 
-    private void finish() {
+    private RunSortBuilder finish() {
         removeClosers();
         if (RunGroupContext.CONTEXT.get() == null) {
             final ArrayVisualizer arrayVisualizer = ArrayVisualizer.getInstance();
@@ -240,6 +236,7 @@ public final class RunSortBuilder {
         } else {
             run0();
         }
+        return this;
     }
 
     private void run0() {
