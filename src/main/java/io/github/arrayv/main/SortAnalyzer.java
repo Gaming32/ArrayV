@@ -15,7 +15,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,7 @@ import javax.tools.ToolProvider;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortComparator;
 import io.github.arrayv.sortdata.SortInfo;
+import io.github.arrayv.sortdata.SortNameType;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.utils.CommonUtils;
 import io.github.classgraph.ClassGraph;
@@ -89,6 +92,7 @@ public final class SortAnalyzer {
     );
 
     private final Set<Class<?>> extraSorts = new HashSet<>();
+    private final Map<SortNameType, Map<String, SortInfo>> sortsByName = new EnumMap<>(SortNameType.class);
 
     static {
         try {
@@ -123,6 +127,37 @@ public final class SortAnalyzer {
 
     public boolean didSortComeFromExtra(Class<?> sort) {
         return extraSorts.contains(sort);
+    }
+
+    public SortInfo addSort(SortInfo sort) {
+        sort = sort.withId(sorts.size());
+        sorts.add(sort);
+        addSortByName(sort);
+        return sort;
+    }
+
+    /**
+     * Like {@link #addSort}, but also sorts it.
+     * This is equivalent to, but more efficient than:
+     * <pre>
+     * addSort(sort);
+     * sortSorts();
+     * </pre>
+     */
+    public SortInfo insortSort(SortInfo sort) {
+        int position = Collections.binarySearch(sorts, sort, new SortComparator());
+        if (position < 0) {
+            // Not found (good)
+            position = -position - 1;
+        }
+        sort = sort.withId(position);
+        sorts.add(null);
+        for (int i = sorts.size() - 1; i > position; i--) {
+            sorts.set(i, sorts.get(i - 1).withId(i));
+        }
+        sorts.set(position, sort);
+        addSortByName(sort);
+        return sort;
     }
 
     private void setSortCameFromExtra(Class<?> sort) {
@@ -161,6 +196,7 @@ public final class SortAnalyzer {
                         suggestions.add(suggestion);
                     }
                     sorts.add(sort);
+                    addSortByName(sort);
                 } else {
                     throw new Exception(sortErrorMsg);
                 }
@@ -174,6 +210,23 @@ public final class SortAnalyzer {
             return false;
         }
         return true;
+    }
+
+    private Map<String, SortInfo> getSortNameCategory(SortNameType type) {
+        return sortsByName.computeIfAbsent(type, k -> new HashMap<>());
+    }
+
+    private void addSortByName(SortInfo sort) {
+        if (sort.getInternalName() != null) {
+            getSortNameCategory(SortNameType.INTERNAL_NAME).put(sort.getInternalName(), sort);
+        }
+        getSortNameCategory(SortNameType.LIST_NAME).put(sort.getListName(), sort);
+        getSortNameCategory(SortNameType.RUN_NAME).put(sort.getRunName(), sort);
+        getSortNameCategory(SortNameType.SHOWCASE_NAME).put(sort.getRunAllName(), sort);
+    }
+
+    public SortInfo getSortByName(SortNameType nameType, String name) {
+        return getSortNameCategory(nameType).get(name);
     }
 
     private ClassGraph classGraph(boolean includeExtras) {
@@ -196,6 +249,7 @@ public final class SortAnalyzer {
         this.invalidSorts.clear();
         this.suggestions.clear();
         this.sortErrorMsg = null;
+        this.sortsByName.clear();
         analyzeSorts(classGraph(includeExtras));
     }
 

@@ -1,11 +1,9 @@
-package io.github.arrayv.threads;
+package io.github.arrayv.main;
 
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import io.github.arrayv.main.ArrayManager;
-import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JEnhancedOptionPane;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sorts.templates.Sort;
@@ -162,40 +160,37 @@ public final class RunSort {
 
                     boolean goAhead;
 
-                    if (sort.isUnreasonablySlow() && arrayVisualizer.getCurrentLength() > sort.getUnreasonableLimit()) {
+                    if (sort.getRunSortName().equals("Timesort")) {
+                        Object[] options = { "Continue", "Cancel" };
+
+                        int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Time Sort will take at least " + getTimeSortEstimate(extra)
+                                                                 + "to complete. Once it starts, you cannot skip this sort.", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
+                                                                 null, options, options[1]);
+
+                        if (warning == 0) goAhead = true;
+                        else goAhead = false;
+                    } else if (sort.isUnreasonablySlow() && arrayVisualizer.getCurrentLength() > sort.getUnreasonableLimit()) {
                         goAhead = false;
 
-                        if (sort.getRunSortName().equals("Timesort")) {
-                            Object[] options = { "Continue", "Cancel" };
+                        Object[] options = { "Let's see how bad " + sort.getRunSortName() + " is!", "Cancel" };
 
-                            int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Time Sort will take at least " + getTimeSortEstimate(extra)
-                                                                     + "to complete. Once it starts, you cannot skip this sort.", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
-                                                                     null, options, options[1]);
+                        if (sort.isBogoSort()) {
+                            int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
+                                                                    + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
+                                                                    + " numbers will almost certainly not finish in a reasonable amount of time. "
+                                                                    + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
+                                                                    null, options, options[1]);
+                            if (warning == 0) goAhead = true;
+                            else goAhead = false;
+                        } else {
+                            int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
+                                                                    + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
+                                                                    + " numbers will not finish in a reasonable amount of time. "
+                                                                    + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
+                                                                    null, options, options[1]);
 
                             if (warning == 0) goAhead = true;
                             else goAhead = false;
-
-                        } else {
-                            Object[] options = { "Let's see how bad " + sort.getRunSortName() + " is!", "Cancel" };
-
-                            if (sort.isBogoSort()) {
-                                int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
-                                                                        + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
-                                                                        + " numbers will almost certainly not finish in a reasonable amount of time. "
-                                                                        + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
-                                                                        null, options, options[1]);
-                                if (warning == 0) goAhead = true;
-                                else goAhead = false;
-                            } else {
-                                int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
-                                                                        + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
-                                                                        + " numbers will not finish in a reasonable amount of time. "
-                                                                        + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
-                                                                        null, options, options[1]);
-
-                                if (warning == 0) goAhead = true;
-                                else goAhead = false;
-                            }
                         }
                     } else {
                         goAhead = true;

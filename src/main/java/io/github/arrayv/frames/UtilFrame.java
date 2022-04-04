@@ -1,13 +1,18 @@
 package io.github.arrayv.frames;
 
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import io.github.arrayv.dialogs.RunScriptDialog;
 import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.prompts.ShufflePrompt;
 import io.github.arrayv.prompts.SortPrompt;
 import io.github.arrayv.prompts.ViewPrompt;
@@ -50,14 +55,15 @@ public final class UtilFrame extends javax.swing.JFrame {
 
     private int[] array;
 
-    private ArrayManager arrayManager;
-    private ArrayVisualizer arrayVisualizer;
-    private Delays Delays;
+    private final ArrayManager arrayManager;
+    private final ArrayVisualizer arrayVisualizer;
+    private final Delays Delays;
+    private final Highlights Highlights;
+    private final JFrame frame;
+    private final Timer Timer;
+    private final Sounds Sounds;
+
     private AppFrame abstractFrame;
-    private Highlights Highlights;
-    private JFrame frame;
-    private Timer Timer;
-    private Sounds Sounds;
 
     public UtilFrame(int[] array, ArrayVisualizer arrayVisualizer) {
         this.array = array;
@@ -266,6 +272,17 @@ public final class UtilFrame extends javax.swing.JFrame {
             jComboBox1.removeItem("Stability Check");
         }
 
+        JButton runScriptButton = new JButton("Run Script");
+        runScriptButton.addActionListener(e -> {
+            File scriptFile = new RunScriptDialog().getFile();
+            if (scriptFile == null) return;
+            try {
+                arrayVisualizer.getScriptManager().runInThread(scriptFile);
+            } catch (IOException e1) {
+                JErrorPane.invokeErrorMessage(e1, "Run Script");
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -293,8 +310,9 @@ public final class UtilFrame extends javax.swing.JFrame {
                                     .addComponent(this.jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(this.jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(this.jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(runScriptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(this.jComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGap(0, 10, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
@@ -333,7 +351,10 @@ public final class UtilFrame extends javax.swing.JFrame {
                     .addComponent(this.jButton5)
                     .addGap(5, 5, 5)
                     .addComponent(this.jCheckBox6)
-                    .addComponent(this.jCheckBox4))
+                    .addComponent(this.jCheckBox4)
+                    .addGap(5, 5, 5)
+                    .addComponent(runScriptButton)
+                    .addGap(8, 8, 8))
         );
 
         pack();
@@ -453,9 +474,9 @@ public final class UtilFrame extends javax.swing.JFrame {
 
     private void jCheckBox5ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
         if (jCheckBox5.isSelected()) {
-            Sounds.toggleSofterSounds(true);
+            Sounds.setSofterSounds(true);
         } else {
-            Sounds.toggleSofterSounds(false);
+            Sounds.setSofterSounds(false);
         }
     }//GEN-LAST:event_jCheckBox5ActionPerformed
 

@@ -52,14 +52,14 @@ import io.github.arrayv.dialogs.SaveArrayDialog;
 import io.github.arrayv.frames.ArrayFrame;
 import io.github.arrayv.frames.SoundFrame;
 import io.github.arrayv.frames.UtilFrame;
+import io.github.arrayv.groovyapi.ArrayVEventHandler;
+import io.github.arrayv.groovyapi.ScriptManager;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
-import io.github.arrayv.threads.RunScriptedSorts;
 import io.github.arrayv.utils.AntiQSort;
 import io.github.arrayv.utils.ArrayFileWriter;
 import io.github.arrayv.utils.Delays;
 import io.github.arrayv.utils.Highlights;
-import io.github.arrayv.utils.MultipleScript;
 import io.github.arrayv.utils.Reads;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.utils.Sounds;
@@ -227,16 +227,17 @@ public final class ArrayVisualizer {
     private Graphics2D mainRender;
     private Graphics2D extraRender;
 
-    private Delays Delays;
-    private Highlights Highlights;
-    private MultipleScript multipleScript;
-    private Reads Reads;
-    private Renderer renderer;
-    private Sounds Sounds;
-    private Timer Timer;
-    private VisualStyles visualStyles;
-    private Writes Writes;
-    private AntiQSort antiQSort;
+    private final Delays Delays;
+    private final Highlights Highlights;
+    private final Reads Reads;
+    private final Renderer renderer;
+    private final Sounds Sounds;
+    private final Timer Timer;
+    private final Writes Writes;
+    private final AntiQSort antiQSort;
+    private final ScriptManager scriptManager;
+
+    private VisualStyles visualStyle;
 
     private volatile int updateVisualsForced;
     private volatile boolean benchmarking;
@@ -246,7 +247,7 @@ public final class ArrayVisualizer {
     private volatile boolean hidden;
     private volatile boolean frameSkipped;
 
-    public ArrayVisualizer() {
+    public ArrayVisualizer() throws IOException {
         if (INSTANCE != null) {
             throw new IllegalStateException("Cannot create more than one ArrayVisualizer");
         }
@@ -312,23 +313,7 @@ public final class ArrayVisualizer {
             public boolean dispatchKeyEvent(KeyEvent e) {
                 if (e.getID() != KeyEvent.KEY_PRESSED)
                     return false;
-                if (e.getKeyCode() == KeyEvent.VK_O && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
-                    if (ArrayVisualizer.this.isActive())
-                        return false;
-                    Thread thread = new Thread("ScriptSortThread") {
-                        @Override
-                        public void run(){
-                            RunScriptedSorts runScriptedSorts = new RunScriptedSorts(ArrayVisualizer.this);
-                            try {
-                                runScriptedSorts.runThread(ArrayVisualizer.this.getArray(), 0, 0, false);
-                            } catch (Exception e) {
-                                JErrorPane.invokeErrorMessage(e);
-                            }
-                        }
-                    };
-                    thread.start();
-                    return true;
-                } else if (e.getKeyCode() == KeyEvent.VK_S && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
+                if (e.getKeyCode() == KeyEvent.VK_S && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
                     int[] snapshot = Arrays.copyOfRange(ArrayVisualizer.this.getArray(), 0, ArrayVisualizer.this.getCurrentLength());
                     FileDialog selected = new SaveArrayDialog();
                     ArrayFileWriter.writeArray(selected.getFile(), snapshot, snapshot.length);
@@ -494,6 +479,7 @@ public final class ArrayVisualizer {
         this.renderer = new Renderer(this);
         this.Writes = new Writes(this);
         this.antiQSort = new AntiQSort(this);
+        this.scriptManager = new ScriptManager();
 
         Highlights.postInit();
 
@@ -533,8 +519,6 @@ public final class ArrayVisualizer {
             this.resetIndexTable();
         }
 
-        this.multipleScript = new MultipleScript(this);
-
         this.category = "";
         this.heading = "";
         this.extraHeading = "";
@@ -568,6 +552,9 @@ public final class ArrayVisualizer {
         this.cy = 0;
         this.ch = 0;
         this.cw = 0;
+
+        scriptManager.loadDefaultScripts();
+        scriptManager.runEventHandlers(ArrayVEventHandler.EventType.DEFAULT_SCRIPTS_INSTALLED);
 
         this.arrayManager.initializeArray(this.array);
 
@@ -620,7 +607,7 @@ public final class ArrayVisualizer {
                             ArrayVisualizer.this.updateVisualsForced--;
                             ArrayVisualizer.this.renderer.updateVisualsStart(ArrayVisualizer.this);
                             int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
-                            ArrayVisualizer.this.renderer.drawVisual(ArrayVisualizer.this.visualStyles, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
+                            ArrayVisualizer.this.renderer.drawVisual(ArrayVisualizer.this.visualStyle, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
 
                             if (ArrayVisualizer.this.showStatistics) {
                                 ArrayVisualizer.this.statSnapshot.updateStats(ArrayVisualizer.this);
@@ -645,6 +632,8 @@ public final class ArrayVisualizer {
 
         this.Sounds.startAudioThread();
         this.drawWindows();
+
+        scriptManager.runEventHandlers(ArrayVEventHandler.EventType.ARRAYV_FULLY_LOADED);
     }
 
     public static ArrayVisualizer getInstance() {
@@ -855,13 +844,14 @@ public final class ArrayVisualizer {
         return this.Timer;
     }
     public VisualStyles getVisualStyles() {
-        return this.visualStyles;
+        return this.visualStyle;
     }
     public Writes getWrites() {
         return this.Writes;
     }
-    public MultipleScript getScriptParser() {
-        return this.multipleScript;
+
+    public ScriptManager getScriptManager() {
+        return scriptManager;
     }
 
     public Visual[] getVisuals() {
@@ -1373,7 +1363,7 @@ public final class ArrayVisualizer {
         if (choice == io.github.arrayv.visuals.VisualStyles.CUSTOM_IMAGE) {
             ((CustomImage) this.visualClasses[9]).enableImgMenu();
         }
-        this.visualStyles = choice;
+        this.visualStyle = choice;
         synchronized (this) {
             this.updateNow();
         }
@@ -1468,7 +1458,7 @@ public final class ArrayVisualizer {
     }
 
     private void drawWindows() {
-        this.visualStyles = io.github.arrayv.visuals.VisualStyles.BARS;
+        this.visualStyle = io.github.arrayv.visuals.VisualStyles.BARS;
         this.category = "Select a Sort";
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1528,7 +1518,7 @@ public final class ArrayVisualizer {
         return maxLengthPower;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.setProperty("sun.java2d.d3d", "false");
         if (args.length > 0) {
             ArrayVisualizer.maxLengthPower = Integer.parseInt(args[0]);

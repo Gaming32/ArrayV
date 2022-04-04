@@ -24,6 +24,11 @@
       <artifactId>classgraph</artifactId>
       <version>4.8.139</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.groovy</groupId>
+      <artifactId>groovy</artifactId>
+      <version>4.0.1</version>
+    </dependency>
   </dependencies>
 
   <licenses>
@@ -91,6 +96,32 @@
             <id>attach-sources</id>
             <goals>
               <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.2</version>
+        <configuration>
+          <sourceFileIncludes>
+            <include>io/github/arrayv/groovyapi/**/*.java</include>
+            <include>io/github/arrayv/main/**/*.java</include>
+            <include>io/github/arrayv/sortdata/**/*.java</include>
+            <include>io/github/arrayv/sorts/templates/Sort.java</include>
+            <include>io/github/arrayv/utils/**/*.java</include>
+          </sourceFileIncludes>
+          <links>
+            <link>https://javadoc.io/doc/io.github.classgraph/classgraph/4.8.139</link>
+            <link>https://docs.groovy-lang.org/4.0.0/html/api</link>
+          </links>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
             </goals>
           </execution>
         </executions>

@@ -72,7 +72,12 @@ public final class ArrayFrame extends javax.swing.JFrame {
 
         setUndecorated(true);
         initComponents();
-        setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), frame.getX() + frame.getWidth()), frame.getY() + 29);
+        setBounds(
+            Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth(), frame.getX() + frame.getWidth()),
+            frame.getY() + 29,
+            getWidth(),
+            arrayVisualizer.getUtilFrame().getHeight()
+        );
         setAlwaysOnTop(false);
         setVisible(true);
     }
