@@ -210,6 +210,94 @@ public final class SortInfo {
         return resultArray;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (bogoSort ? 1231 : 1237);
+        result = prime * result + (bucketSort ? 1231 : 1237);
+        result = prime * result + ((category == null) ? 0 : category.hashCode());
+        result = prime * result + (disabled ? 1231 : 1237);
+        result = prime * result + (fromExtra ? 1231 : 1237);
+        result = prime * result + id;
+        result = prime * result + ((listName == null) ? 0 : listName.hashCode());
+        result = prime * result + (radixSort ? 1231 : 1237);
+        result = prime * result + ((runAllName == null) ? 0 : runAllName.hashCode());
+        result = prime * result + ((runName == null) ? 0 : runName.hashCode());
+        result = prime * result + (slowSort ? 1231 : 1237);
+        result = prime * result + unreasonableLimit;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof SortInfo)) {
+            return false;
+        }
+        SortInfo other = (SortInfo) obj;
+        if (bogoSort != other.bogoSort) {
+            return false;
+        }
+        if (bucketSort != other.bucketSort) {
+            return false;
+        }
+        if (category == null) {
+            if (other.category != null) {
+                return false;
+            }
+        } else if (!category.equals(other.category)) {
+            return false;
+        }
+        if (disabled != other.disabled) {
+            return false;
+        }
+        if (fromExtra != other.fromExtra) {
+            return false;
+        }
+        if (id != other.id) {
+            return false;
+        }
+        if (listName == null) {
+            if (other.listName != null) {
+                return false;
+            }
+        } else if (!listName.equals(other.listName)) {
+            return false;
+        }
+        if (radixSort != other.radixSort) {
+            return false;
+        }
+        if (runAllName == null) {
+            if (other.runAllName != null) {
+                return false;
+            }
+        } else if (!runAllName.equals(other.runAllName)) {
+            return false;
+        }
+        if (runName == null) {
+            if (other.runName != null) {
+                return false;
+            }
+        } else if (!runName.equals(other.runName)) {
+            return false;
+        }
+        if (slowSort != other.slowSort) {
+            return false;
+        }
+        if (unreasonableLimit != other.unreasonableLimit) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "SortInfo for " + runAllName;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
