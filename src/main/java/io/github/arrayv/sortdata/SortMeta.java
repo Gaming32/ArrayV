@@ -1,5 +1,18 @@
 package io.github.arrayv.sortdata;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Annotation to specify the sorting algorithm's metadata. This should only be applied to subclasses of
+ * {@link io.github.arrayv.sorts.templates.Sort Sort}.
+ */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
 public @interface SortMeta {
     /**
      * The sort's name. This is generally of the form {@code "Something Sort"}, although the {@code " Sort"} is
