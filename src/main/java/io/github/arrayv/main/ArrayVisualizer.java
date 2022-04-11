@@ -357,7 +357,6 @@ public final class ArrayVisualizer {
         }.start();
 
         this.buildInfo = new Properties();
-        this.buildInfo.setProperty("commitId", "unknown"); // Put default
         try (InputStream is = getClass().getResourceAsStream("/buildInfo.properties")) {
             if (is != null) {
                 this.buildInfo.load(is);
@@ -1467,9 +1466,20 @@ public final class ArrayVisualizer {
         StringBuilder title = new StringBuilder("w0rthy's Array Visualizer - ");
         title.append(this.sorts.length);
         title.append(" Sorts, 15 Visual Styles, and Infinite Inputs to Sort");
-        String versionSha = buildInfo.getProperty("commitId");
-        if (!versionSha.equals("${git.commit.id.abbrev}") && !versionSha.equals("unknown")) { // Hash not loaded
-            title.append(" (commit ").append(versionSha).append(")");
+        String versionName = buildInfo.getProperty("version");
+        String commitSha = buildInfo.getProperty("commitId");
+        if (commitSha != null || versionName != null) {
+            title.append(" (");
+            if (versionName != null) {
+                title.append("version ").append(versionName);
+                if (commitSha != null) {
+                    title.append(", ");
+                }
+            }
+            if (commitSha != null) {
+                title.append("commit ").append(commitSha);
+            }
+            title.append(')');
         }
 
         this.window.setLocation(0, 0);
