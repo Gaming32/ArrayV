@@ -49,17 +49,32 @@ public final class SortInfo {
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        Sort sort = getFreshInstance();
-        this.disabled = !sort.isSortEnabled();
-        this.unreasonableLimit = sort.getUnreasonableLimit();
-        this.listName = sort.getSortListName();
-        this.runName = sort.getRunSortName();
-        this.runAllName = sort.getRunAllSortsName();
-        this.category = sort.getCategory();
-        this.slowSort = sort.isUnreasonablySlow();
-        this.bogoSort = sort.isBogoSort();
-        this.radixSort = sort.isRadixSort();
-        this.bucketSort = sort.usesBuckets();
+        SortMeta metaAnnotation = sortClass.getAnnotation(SortMeta.class);
+        if (metaAnnotation == null) {
+            Sort sort = getFreshInstance();
+            this.disabled = !sort.isSortEnabled();
+            this.unreasonableLimit = sort.getUnreasonableLimit();
+            this.listName = sort.getSortListName();
+            this.runName = sort.getRunSortName();
+            this.runAllName = sort.getRunAllSortsName();
+            this.category = sort.getCategory();
+            this.slowSort = sort.isUnreasonablySlow();
+            this.bogoSort = sort.isBogoSort();
+            this.radixSort = sort.isRadixSort();
+            this.bucketSort = sort.usesBuckets();
+        } else {
+            String name = normalizeName(metaAnnotation);
+            this.disabled = !metaAnnotation.disabled();
+            this.unreasonableLimit = metaAnnotation.unreasonableLimit();
+            this.listName = metaAnnotation.listName().isEmpty() ? name : metaAnnotation.listName();
+            this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
+            this.runAllName = metaAnnotation.showcaseName().isEmpty() ? name + " Sort" : metaAnnotation.showcaseName();
+            this.category = metaAnnotation.category();
+            this.slowSort = metaAnnotation.slowSort();
+            this.bogoSort = metaAnnotation.bogoSort();
+            this.radixSort = metaAnnotation.bogoSort();
+            this.bucketSort = metaAnnotation.bucketSort();
+        }
         this.fromExtra = ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sortClass);
     }
 
@@ -71,16 +86,31 @@ public final class SortInfo {
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        this.disabled = !sort.isSortEnabled();
-        this.unreasonableLimit = sort.getUnreasonableLimit();
-        this.listName = sort.getSortListName();
-        this.runName = sort.getRunSortName();
-        this.runAllName = sort.getRunAllSortsName();
-        this.category = sort.getCategory();
-        this.slowSort = sort.isUnreasonablySlow();
-        this.bogoSort = sort.isBogoSort();
-        this.radixSort = sort.isRadixSort();
-        this.bucketSort = sort.usesBuckets();
+        SortMeta metaAnnotation = sort.getClass().getAnnotation(SortMeta.class);
+        if (metaAnnotation == null) {
+            this.disabled = !sort.isSortEnabled();
+            this.unreasonableLimit = sort.getUnreasonableLimit();
+            this.listName = sort.getSortListName();
+            this.runName = sort.getRunSortName();
+            this.runAllName = sort.getRunAllSortsName();
+            this.category = sort.getCategory();
+            this.slowSort = sort.isUnreasonablySlow();
+            this.bogoSort = sort.isBogoSort();
+            this.radixSort = sort.isRadixSort();
+            this.bucketSort = sort.usesBuckets();
+        } else {
+            String name = normalizeName(metaAnnotation);
+            this.disabled = !metaAnnotation.disabled();
+            this.unreasonableLimit = metaAnnotation.unreasonableLimit();
+            this.listName = metaAnnotation.listName().isEmpty() ? name : metaAnnotation.listName();
+            this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
+            this.runAllName = metaAnnotation.showcaseName().isEmpty() ? name + " Sort" : metaAnnotation.showcaseName();
+            this.category = metaAnnotation.category();
+            this.slowSort = metaAnnotation.slowSort();
+            this.bogoSort = metaAnnotation.bogoSort();
+            this.radixSort = metaAnnotation.bogoSort();
+            this.bucketSort = metaAnnotation.bucketSort();
+        }
         this.fromExtra = ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sort.getClass());
     }
 
@@ -121,6 +151,17 @@ public final class SortInfo {
 
     public SortInfo(Sort sort) {
         this(-1, sort);
+    }
+
+    private static String normalizeName(SortMeta meta) {
+        String name = meta.name();
+        if (name.endsWith(" Sort")) {
+            return name.substring(0, name.length() - 5);
+        }
+        if (name.endsWith("sort")) {
+            return name.substring(0, name.length() - 4);
+        }
+        return name;
     }
 
     public int getId() {
