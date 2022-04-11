@@ -15,8 +15,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface SortMeta {
     /**
-     * The sort's name. This is generally of the form {@code "Something Sort"}, although the {@code " Sort"} is
-     * optional.
+     * The sort's name. This is generally of the form {@code "Something"} or {@code "Something Sort"}.
      * @return The sort's annotated name.
      */
     String name();

@@ -64,7 +64,7 @@ public final class SortInfo {
             this.bucketSort = sort.usesBuckets();
         } else {
             String name = normalizeName(metaAnnotation);
-            this.disabled = !metaAnnotation.disabled();
+            this.disabled = metaAnnotation.disabled();
             this.unreasonableLimit = metaAnnotation.unreasonableLimit();
             this.listName = metaAnnotation.listName().isEmpty() ? name : metaAnnotation.listName();
             this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
@@ -100,7 +100,7 @@ public final class SortInfo {
             this.bucketSort = sort.usesBuckets();
         } else {
             String name = normalizeName(metaAnnotation);
-            this.disabled = !metaAnnotation.disabled();
+            this.disabled = metaAnnotation.disabled();
             this.unreasonableLimit = metaAnnotation.unreasonableLimit();
             this.listName = metaAnnotation.listName().isEmpty() ? name : metaAnnotation.listName();
             this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
