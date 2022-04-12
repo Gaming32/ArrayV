@@ -19,7 +19,6 @@ public final class SortInfo {
     private final String runName;
     private final String runAllName;
     private final String category;
-    private final boolean slowSort;
     private final boolean bogoSort;
     private final boolean radixSort;
     private final boolean bucketSort;
@@ -38,7 +37,6 @@ public final class SortInfo {
         this.runName = sort.runName;
         this.runAllName = sort.runAllName;
         this.category = sort.category;
-        this.slowSort = sort.slowSort;
         this.bogoSort = sort.bogoSort;
         this.radixSort = sort.radixSort;
         this.bucketSort = sort.bucketSort;
@@ -67,7 +65,6 @@ public final class SortInfo {
             this.runName = sort.getRunSortName();
             this.runAllName = sort.getRunAllSortsName();
             this.category = sort.getCategory();
-            this.slowSort = sort.isUnreasonablySlow();
             this.bogoSort = sort.isBogoSort();
             this.radixSort = sort.isRadixSort();
             this.bucketSort = sort.usesBuckets();
@@ -81,7 +78,6 @@ public final class SortInfo {
             this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
             this.runAllName = metaAnnotation.showcaseName().isEmpty() ? name + " Sort" : metaAnnotation.showcaseName();
             this.category = metaAnnotation.category();
-            this.slowSort = metaAnnotation.slowSort();
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.bogoSort();
             this.bucketSort = metaAnnotation.bucketSort();
@@ -109,7 +105,6 @@ public final class SortInfo {
             this.runName = sort.getRunSortName();
             this.runAllName = sort.getRunAllSortsName();
             this.category = sort.getCategory();
-            this.slowSort = sort.isUnreasonablySlow();
             this.bogoSort = sort.isBogoSort();
             this.radixSort = sort.isRadixSort();
             this.bucketSort = sort.usesBuckets();
@@ -123,7 +118,6 @@ public final class SortInfo {
             this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
             this.runAllName = metaAnnotation.showcaseName().isEmpty() ? name + " Sort" : metaAnnotation.showcaseName();
             this.category = metaAnnotation.category();
-            this.slowSort = metaAnnotation.slowSort();
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.bogoSort();
             this.bucketSort = metaAnnotation.bucketSort();
@@ -160,7 +154,6 @@ public final class SortInfo {
         this.runName = runName;
         this.runAllName = runAllName;
         this.category = category;
-        this.slowSort = slowSort;
         this.bogoSort = bogoSort;
         this.radixSort = radixSort;
         this.bucketSort = bucketSort;
@@ -225,8 +218,8 @@ public final class SortInfo {
         return category;
     }
 
-    public boolean isSlowSort() {
-        return slowSort;
+    public boolean hasUnreasonableLimit() {
+        return unreasonableLimit > 0;
     }
 
     public boolean isBogoSort() {
@@ -308,7 +301,6 @@ public final class SortInfo {
         result = prime * result + (radixSort ? 1231 : 1237);
         result = prime * result + ((runAllName == null) ? 0 : runAllName.hashCode());
         result = prime * result + ((runName == null) ? 0 : runName.hashCode());
-        result = prime * result + (slowSort ? 1231 : 1237);
         result = prime * result + unreasonableLimit;
         return result;
     }
@@ -376,9 +368,6 @@ public final class SortInfo {
                 return false;
             }
         } else if (!runName.equals(other.runName)) {
-            return false;
-        }
-        if (slowSort != other.slowSort) {
             return false;
         }
         if (unreasonableLimit != other.unreasonableLimit) {

@@ -29,7 +29,7 @@ public abstract class Sort {
     private void initDeprecatedMetadataTable() {
         if (deprecatedMetadataTable != null) return;
         deprecatedMetadataTable = new Object[] {
-            true, "", "", "", "", false, false, false, false, 0, null, 0
+            true, "", "", "", "", false, false, false, 0, null, 0
         };
     }
 
@@ -120,7 +120,7 @@ public abstract class Sort {
     @Deprecated
     public boolean isUnreasonablySlow() {
         initDeprecatedMetadataTable();
-        return (boolean)deprecatedMetadataTable[7];
+        return (int)deprecatedMetadataTable[8] > 0;
     }
 
     /**
@@ -129,7 +129,7 @@ public abstract class Sort {
     @Deprecated
     public int getUnreasonableLimit() {
         initDeprecatedMetadataTable();
-        return (int)deprecatedMetadataTable[9];
+        return (int)deprecatedMetadataTable[8];
     }
 
     /**
@@ -138,7 +138,7 @@ public abstract class Sort {
     @Deprecated
     public boolean isBogoSort() {
         initDeprecatedMetadataTable();
-        return (boolean)deprecatedMetadataTable[8];
+        return (boolean)deprecatedMetadataTable[7];
     }
 
     /**
@@ -147,7 +147,7 @@ public abstract class Sort {
     @Deprecated
     public String getQuestion() {
         initDeprecatedMetadataTable();
-        return (String)deprecatedMetadataTable[10];
+        return (String)deprecatedMetadataTable[9];
     }
 
     /**
@@ -156,7 +156,7 @@ public abstract class Sort {
     @Deprecated
     public int getDefaultAnswer() {
         initDeprecatedMetadataTable();
-        return (int)deprecatedMetadataTable[11];
+        return (int)deprecatedMetadataTable[10];
     }
 
     /**
@@ -236,8 +236,6 @@ public abstract class Sort {
      */
     @Deprecated
     public void setUnreasonablySlow(boolean unreasonableSlow) {
-        initDeprecatedMetadataTable();
-        deprecatedMetadataTable[7] = unreasonableSlow;
     }
 
     /**
@@ -246,7 +244,7 @@ public abstract class Sort {
     @Deprecated
     public void setUnreasonableLimit(int unreasonableLimit) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[9] = unreasonableLimit;
+        deprecatedMetadataTable[8] = unreasonableLimit;
     }
 
     /**
@@ -255,7 +253,7 @@ public abstract class Sort {
     @Deprecated
     protected void setBogoSort(boolean bogoSort) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[8] = bogoSort;
+        deprecatedMetadataTable[7] = bogoSort;
     }
 
     /**
@@ -264,7 +262,7 @@ public abstract class Sort {
     @Deprecated
     protected void setQuestion(String question) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[10] = question;
+        deprecatedMetadataTable[9] = question;
     }
 
     /**
@@ -273,8 +271,8 @@ public abstract class Sort {
     @Deprecated
     protected void setQuestion(String question, int defaultAnswer) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[10] = question;
-        deprecatedMetadataTable[11] = defaultAnswer;
+        deprecatedMetadataTable[9] = question;
+        deprecatedMetadataTable[10] = defaultAnswer;
     }
 
     public static int validateAnswer(int answer) {

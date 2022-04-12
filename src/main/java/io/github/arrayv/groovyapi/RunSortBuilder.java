@@ -253,7 +253,7 @@ public final class RunSortBuilder {
         Delays.setSleepRatio(2.5);
 
         int sortLength;
-        if (sort.isSlowSort()) {
+        if (sort.hasUnreasonableLimit()) {
             sortLength = calculateLengthSlow(getLength(), sort.getUnreasonableLimit(), startingLength);
         } else {
             sortLength = calculateLength(getLength(), startingLength);

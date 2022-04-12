@@ -676,16 +676,8 @@ public final class SortAnalyzer {
         StringBuilder suggestions = new StringBuilder();
         boolean warned = false;
 
-        if (sort.isBogoSort() && !sort.isSlowSort()) {
-            suggestions.append("- " + sort.getRunName() + " is a bogosort. It should be marked 'unreasonably slow'.\n");
-            warned = true;
-        }
-        if (sort.isSlowSort() && sort.getUnreasonableLimit() == 0) {
-            suggestions.append("- A warning will pop up every time you select " + sort.getRunName() + ". You might want to change its 'unreasonable limit'.\n");
-            warned = true;
-        }
-        if (!sort.isSlowSort() && sort.getUnreasonableLimit() != 0) {
-            suggestions.append("- You might want to set " + sort.getRunName() + "'s 'unreasonable limit' to 0. It's not marked 'unreasonably slow'.\n");
+        if (sort.isBogoSort() && !sort.hasUnreasonableLimit()) {
+            suggestions.append("- " + sort.getRunName() + " is a bogosort. It should have an unreasonabe limit.\n");
             warned = true;
         }
         if (sort.isRadixSort() && !sort.isBucketSort()) {
