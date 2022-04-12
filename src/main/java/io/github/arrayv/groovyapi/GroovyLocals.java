@@ -118,17 +118,6 @@ public final class GroovyLocals {
             public GroovySort() {
             // @checkstyle:on RedundantModifierCheck
                 super(ArrayVisualizer.getInstance());
-
-                // Support the (to be deprecated) method of settings sort metadata in the class
-                this.setSortListName(sortInfo[0].getListName());
-                this.setRunAllSortsName(sortInfo[0].getRunAllName());
-                this.setRunSortName(sortInfo[0].getRunName());
-                this.setCategory(sortInfo[0].getCategory());
-                this.setBucketSort(sortInfo[0].isBucketSort());
-                this.setRadixSort(sortInfo[0].isRadixSort());
-                this.setUnreasonablySlow(sortInfo[0].isSlowSort());
-                this.setUnreasonableLimit(sortInfo[0].getUnreasonableLimit());
-                this.setBogoSort(sortInfo[0].isBogoSort());
             }
 
             @Override
