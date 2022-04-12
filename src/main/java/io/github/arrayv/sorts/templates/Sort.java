@@ -34,22 +34,6 @@ public abstract class Sort {
     protected Writes Writes;
 
     protected Sort(ArrayVisualizer arrayVisualizer) {
-        this.enableSort(true);           // If set to false, ArrayV won't load the sort
-
-        this.setSortListName("");        // Displays in the 'Choose Sort' menu
-        this.setRunAllSortsName("");     // Displays during sorting threads
-        this.setRunSortName("");         // Displays when a sort is picked from 'Choose Sort'
-        this.setCategory("");            // Shown at the top-left corner of the window
-
-        this.setBucketSort(false);       // Slightly changes the 'Customize Sort' dialog
-        this.setRadixSort(false);        // Also slightly changes the 'Customize Sort' dialog
-
-        this.setUnreasonablySlow(false); // Indicates a sort is so inefficient that it will run for a very long time even after clicking 'Skip Sort'
-        this.setUnreasonableLimit(0);    // If a sort is 'unreasonably slow', a warning will pop up if the array length is more than this number
-        this.setBogoSort(false);         // Slightly changes the 'unreasonably slow' dialog
-
-        this.setQuestion(null, 0);       // Asks a specific question before this sort is run
-
         this.arrayVisualizer = arrayVisualizer;
 
         this.Delays = arrayVisualizer.getDelays();
