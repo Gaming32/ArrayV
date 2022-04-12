@@ -1,5 +1,6 @@
 package io.github.arrayv.utils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -342,20 +343,14 @@ public final class Sounds {
     }
 
     private void loadInstruments(InputStream stream) {
-        try {
-            this.synth.loadAllInstruments(MidiSystem.getSoundbank(stream));
+        try (BufferedInputStream bis = new BufferedInputStream(stream)) {
+            this.synth.loadAllInstruments(MidiSystem.getSoundbank(bis));
         } catch (NullPointerException e) {
             JErrorPane.invokeCustomErrorMessage("soundfont/sfx.sf2 missing: Couldn't find the default soundbank for the program's sound effects! The OS default will be used instead.");
         } catch (InvalidMidiDataException e) {
             JErrorPane.invokeCustomErrorMessage("soundfont/sfx.sf2 invalid or corrupt: The file for the program's default soundbank was not recognized as a proper MIDI soundfont! The OS default will be used instead.");
         } catch (IOException e) {
             JErrorPane.invokeErrorMessage(e);
-        } finally {
-            try {
-                stream.close();
-            } catch (Exception e) {
-                JErrorPane.invokeErrorMessage(e);
-            }
         }
 
         if (this.channels == null) {
