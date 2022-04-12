@@ -48,6 +48,7 @@ public final class SortInfo {
         this.fromExtra = sort.fromExtra;
     }
 
+    @SuppressWarnings("deprecation")
     public SortInfo(int id, Class<? extends Sort> sortClass) {
         this.id = id;
         this.internalName = sortClass.getSimpleName();
@@ -90,6 +91,7 @@ public final class SortInfo {
         this.fromExtra = ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sortClass);
     }
 
+    @SuppressWarnings("deprecation")
     public SortInfo(int id, Sort sort) {
         this.id = id;
         this.internalName = sort.getClass().getSimpleName();

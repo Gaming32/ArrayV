@@ -5,6 +5,7 @@ import io.github.arrayv.utils.Delays;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Reads;
 import io.github.arrayv.utils.Writes;
+import io.github.arrayv.sortdata.SortMeta;
 
 public abstract class Sort {
     private boolean sortEnabled;
@@ -111,10 +112,18 @@ public abstract class Sort {
         return this.bogoSort;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getQuestion() {
         return this.question;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public int getDefaultAnswer() {
         return this.defaultAnswer;
     }
@@ -168,10 +177,18 @@ public abstract class Sort {
         this.bogoSort = Bool;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setQuestion(String question) {
         this.question = question;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setQuestion(String question, int defaultAnswer) {
         this.question = question;
         this.defaultAnswer = defaultAnswer;

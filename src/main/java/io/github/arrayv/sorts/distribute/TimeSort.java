@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.insert.InsertionSort;
 import io.github.arrayv.sorts.templates.Sort;
 
@@ -35,6 +36,13 @@ SOFTWARE.
  *
  */
 
+@SortMeta(
+    name = "Time",
+    category = "Distribution Sorts",
+    showcaseName = "Time Sort, Mul 10",
+    question = "Enter delay per number in milliseconds",
+    defaultAnswer = 10
+)
 public final class TimeSort extends Sort {
     private InsertionSort insertSorter;
 
@@ -42,18 +50,6 @@ public final class TimeSort extends Sort {
 
     public TimeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Time");
-        //this.setRunAllID("Time Sort");
-        this.setRunAllSortsName("Time Sort, Mul 10");
-        this.setRunSortName("Timesort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(false); // *Does not* use buckets! "magnitude" is only a multiplier.
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-        this.setQuestion("Enter delay per number in milliseconds:", 10);
     }
 
     private synchronized void report(int[] array, int a){
