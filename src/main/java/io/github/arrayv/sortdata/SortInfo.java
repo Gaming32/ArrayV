@@ -299,10 +299,12 @@ public final class SortInfo {
         result = prime * result + (bogoSort ? 1231 : 1237);
         result = prime * result + (bucketSort ? 1231 : 1237);
         result = prime * result + ((category == null) ? 0 : category.hashCode());
+        result = prime * result + defaultAnswer;
         result = prime * result + (disabled ? 1231 : 1237);
         result = prime * result + (fromExtra ? 1231 : 1237);
         result = prime * result + id;
         result = prime * result + ((listName == null) ? 0 : listName.hashCode());
+        result = prime * result + ((question == null) ? 0 : question.hashCode());
         result = prime * result + (radixSort ? 1231 : 1237);
         result = prime * result + ((runAllName == null) ? 0 : runAllName.hashCode());
         result = prime * result + ((runName == null) ? 0 : runName.hashCode());
@@ -333,6 +335,9 @@ public final class SortInfo {
         } else if (!category.equals(other.category)) {
             return false;
         }
+        if (defaultAnswer != other.defaultAnswer) {
+            return false;
+        }
         if (disabled != other.disabled) {
             return false;
         }
@@ -347,6 +352,13 @@ public final class SortInfo {
                 return false;
             }
         } else if (!listName.equals(other.listName)) {
+            return false;
+        }
+        if (question == null) {
+            if (other.question != null) {
+                return false;
+            }
+        } else if (!question.equals(other.question)) {
             return false;
         }
         if (radixSort != other.radixSort) {
