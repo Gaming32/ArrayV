@@ -58,26 +58,50 @@ public abstract class Sort {
         this.Writes = arrayVisualizer.getWrites();
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isFromExtraSorts() {
         return arrayVisualizer.getSortAnalyzer().didSortComeFromExtra(getClass());
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isSortEnabled() {
         return this.sortEnabled;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getSortListName() {
         return this.sortListName;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getRunAllSortsName() {
         return this.runAllSortsName;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getRunSortName() {
         return this.runSortName;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getCategory() {
         return this.category;
     }
@@ -92,22 +116,42 @@ public abstract class Sort {
         return false;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean usesBuckets() {
         return this.bucketSort;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isRadixSort() {
         return this.radixSort;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isUnreasonablySlow() {
         return this.unreasonablySlow;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public int getUnreasonableLimit() {
         return this.unreasonableLimit;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isBogoSort() {
         return this.bogoSort;
     }
