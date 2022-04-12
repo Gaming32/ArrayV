@@ -159,26 +159,46 @@ public abstract class Sort {
         return (int)deprecatedMetadataTable[11];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void enableSort(boolean enabled) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[0] = enabled;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setSortListName(String listName) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[1] = listName;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setRunAllSortsName(String showcaseName) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[2] = showcaseName;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setRunSortName(String runName) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[3] = runName;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setCategory(String category) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[4] = category;
@@ -193,26 +213,46 @@ public abstract class Sort {
     public void setComparisonBased(boolean comparisonBased) {
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public void setBucketSort(boolean bucketSort) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[5] = bucketSort;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setRadixSort(boolean radixSort) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[6] = radixSort;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public void setUnreasonablySlow(boolean unreasonableSlow) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[7] = unreasonableSlow;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public void setUnreasonableLimit(int unreasonableLimit) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[9] = unreasonableLimit;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setBogoSort(boolean bogoSort) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[8] = bogoSort;
