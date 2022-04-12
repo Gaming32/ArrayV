@@ -1,22 +1,20 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(
+	name = "Bose-Nelson (Parallel)",
+	showcaseName = "Parallel Bose-Nelson Sorting Network",
+	runName = "Parallel Bose-Nelson Sort",
+	category = "Concurrent Sorts",
+    unreasonableLimit = 4096
+)
 public final class BoseNelsonSortParallel extends Sort {
 
     public BoseNelsonSortParallel(ArrayVisualizer arrayVisualizer) {
     	super(arrayVisualizer);
-
-    	this.setSortListName("Bose-Nelson (Parallel)");
-    	this.setRunAllSortsName("Parallel Bose-Nelson Sorting Network");
-    	this.setRunSortName("Parallel Bose-Nelson Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(4096);
-        this.setBogoSort(false);
     }
 
 	private int[] array;

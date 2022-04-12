@@ -232,7 +232,7 @@ public abstract class Sort {
     }
 
     /**
-     * @deprecated Please move to the new {@link SortMeta} API.
+     * @deprecated Please move to the new {@link SortMeta} API. This method also no longer does anything.
      */
     @Deprecated
     public void setUnreasonablySlow(boolean unreasonableSlow) {

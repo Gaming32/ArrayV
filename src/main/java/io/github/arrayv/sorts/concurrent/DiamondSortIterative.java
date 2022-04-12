@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -29,19 +30,14 @@ SOFTWARE.
  *
  */
 
+@SortMeta(
+	name = "Iterative Diamond",
+	listName = "Diamond (Iterative)",
+	category = "Concurrent Sorts"
+)
 public final class DiamondSortIterative extends Sort {
     public DiamondSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Diamond (Iterative)");
-        this.setRunAllSortsName("Iterative Diamond Sort");
-        this.setRunSortName("Iterative Diamondsort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
 	private void compSwap(int[] array, int a, int b) {

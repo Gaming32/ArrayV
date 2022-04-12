@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -30,19 +31,16 @@ SOFTWARE.
  *
  */
 
+@SortMeta(
+    name = "Odd-Even Merge (Parallel)",
+    showcaseName = "Parallel Odd-Even Merge Sort",
+    runName = "Parallel Odd-Even Mergesort",
+    category = "Concurrent Sorts",
+    unreasonableLimit = 4096
+)
 public final class OddEvenMergeSortParallel extends Sort {
     public OddEvenMergeSortParallel(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Odd-Even Merge (Parallel)");
-        this.setRunAllSortsName("Parallel Odd-Even Merge Sort");
-        this.setRunSortName("Parallel Odd-Even Mergesort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(4096);
-        this.setBogoSort(false);
     }
 
 	private int[] array;

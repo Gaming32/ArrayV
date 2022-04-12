@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -11,19 +12,15 @@ import io.github.arrayv.sorts.templates.Sort;
  * work for array lengths other than powers of two!
  */
 
+@SortMeta(
+    name = "Odd-Even Merge (Iterative)",
+    showcaseName = "Iterative Odd-Even Merge Sort",
+    runName = "Iterative Odd-Even Mergesort",
+    category = "Concurrent Sorts"
+)
 public final class OddEvenMergeSortIterative extends Sort {
     public OddEvenMergeSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Odd-Even Merge (Iterative)");
-        this.setRunAllSortsName("Iterative Odd-Even Merge Sort");
-        this.setRunSortName("Iterative Odd-Even Mergesort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
