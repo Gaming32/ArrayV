@@ -177,7 +177,7 @@ public abstract class Sort {
         this.defaultAnswer = defaultAnswer;
     }
 
-    public int validateAnswer(int answer) {
+    public static int validateAnswer(int answer) {
         return answer;
     }
 

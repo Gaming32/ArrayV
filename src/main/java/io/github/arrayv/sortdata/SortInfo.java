@@ -3,6 +3,7 @@ package io.github.arrayv.sortdata;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.function.IntUnaryOperator;
 import java.util.function.Supplier;
 
 import io.github.arrayv.main.ArrayVisualizer;
@@ -22,6 +23,9 @@ public final class SortInfo {
     private final boolean bogoSort;
     private final boolean radixSort;
     private final boolean bucketSort;
+    private final String question;
+    private final int defaultAnswer;
+    private final IntUnaryOperator answerValidator;
     private final boolean fromExtra;
 
     private SortInfo(int id, SortInfo sort) {
@@ -38,6 +42,9 @@ public final class SortInfo {
         this.bogoSort = sort.bogoSort;
         this.radixSort = sort.radixSort;
         this.bucketSort = sort.bucketSort;
+        this.question = sort.question;
+        this.defaultAnswer = sort.defaultAnswer;
+        this.answerValidator = sort.answerValidator;
         this.fromExtra = sort.fromExtra;
     }
 
@@ -46,8 +53,9 @@ public final class SortInfo {
         this.internalName = sortClass.getSimpleName();
         try {
             this.instanceSupplier = new NewSortInstance(sortClass);
+            this.answerValidator = new MethodAnswerValidator(sortClass);
         } catch (NoSuchMethodException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new Error(e);
         }
         SortMeta metaAnnotation = sortClass.getAnnotation(SortMeta.class);
         if (metaAnnotation == null) {
@@ -62,6 +70,8 @@ public final class SortInfo {
             this.bogoSort = sort.isBogoSort();
             this.radixSort = sort.isRadixSort();
             this.bucketSort = sort.usesBuckets();
+            this.question = sort.getQuestion();
+            this.defaultAnswer = sort.getDefaultAnswer();
         } else {
             String name = normalizeName(metaAnnotation);
             this.disabled = metaAnnotation.disabled();
@@ -74,6 +84,8 @@ public final class SortInfo {
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.bogoSort();
             this.bucketSort = metaAnnotation.bucketSort();
+            this.question = metaAnnotation.question().isEmpty() ? null : metaAnnotation.question();
+            this.defaultAnswer = metaAnnotation.defaultAnswer();
         }
         this.fromExtra = ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sortClass);
     }
@@ -83,8 +95,9 @@ public final class SortInfo {
         this.internalName = sort.getClass().getSimpleName();
         try {
             this.instanceSupplier = new NewSortInstance(sort.getClass());
+            this.answerValidator = new MethodAnswerValidator(sort.getClass());
         } catch (NoSuchMethodException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new Error(e);
         }
         SortMeta metaAnnotation = sort.getClass().getAnnotation(SortMeta.class);
         if (metaAnnotation == null) {
@@ -98,6 +111,8 @@ public final class SortInfo {
             this.bogoSort = sort.isBogoSort();
             this.radixSort = sort.isRadixSort();
             this.bucketSort = sort.usesBuckets();
+            this.question = sort.getQuestion();
+            this.defaultAnswer = sort.getDefaultAnswer();
         } else {
             String name = normalizeName(metaAnnotation);
             this.disabled = metaAnnotation.disabled();
@@ -110,6 +125,8 @@ public final class SortInfo {
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.bogoSort();
             this.bucketSort = metaAnnotation.bucketSort();
+            this.question = metaAnnotation.question().isEmpty() ? null : metaAnnotation.question();
+            this.defaultAnswer = metaAnnotation.defaultAnswer();
         }
         this.fromExtra = ArrayVisualizer.getInstance().getSortAnalyzer().didSortComeFromExtra(sort.getClass());
     }
@@ -127,7 +144,10 @@ public final class SortInfo {
         boolean slowSort,
         boolean bogoSort,
         boolean radixSort,
-        boolean bucketSort
+        boolean bucketSort,
+        String question,
+        int defaultAnswer,
+        IntUnaryOperator answerValidator
     ) {
         this.id = id;
         this.internalName = internalName;
@@ -142,6 +162,9 @@ public final class SortInfo {
         this.bogoSort = bogoSort;
         this.radixSort = radixSort;
         this.bucketSort = bucketSort;
+        this.question = question;
+        this.defaultAnswer = defaultAnswer;
+        this.answerValidator = answerValidator;
         this.fromExtra = false; // Built sorts cannot come from extra
     }
 
@@ -216,8 +239,24 @@ public final class SortInfo {
         return bucketSort;
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public int getDefaultAnswer() {
+        return defaultAnswer;
+    }
+
+    public IntUnaryOperator getAnswerValidator() {
+        return answerValidator;
+    }
+
     public Sort getFreshInstance() {
         return instanceSupplier.get();
+    }
+
+    public int validateAnswer(int answer) {
+        return answerValidator.applyAsInt(answer);
     }
 
     public boolean isFromExtra() {
@@ -357,6 +396,9 @@ public final class SortInfo {
         private boolean bogoSort = false;
         private boolean radixSort = false;
         private boolean bucketSort = false;
+        private String question = null;
+        private int defaultAnswer = 0;
+        private IntUnaryOperator answerValidator = IntUnaryOperator.identity();
 
         private Builder() {
         }
@@ -375,7 +417,10 @@ public final class SortInfo {
                 slowSort,
                 bogoSort,
                 radixSort,
-                bucketSort
+                bucketSort,
+                question,
+                defaultAnswer,
+                answerValidator
             );
         }
 
@@ -441,6 +486,21 @@ public final class SortInfo {
 
         public Builder bucketSort(boolean bucketSort) {
             this.bucketSort = bucketSort;
+            return this;
+        }
+
+        public Builder question(String question) {
+            this.question = question;
+            return this;
+        }
+
+        public Builder defaultAnswer(int defaultAnswer) {
+            this.defaultAnswer = defaultAnswer;
+            return this;
+        }
+
+        public Builder answerValidator(IntUnaryOperator answerValidator) {
+            this.answerValidator = Objects.requireNonNull(answerValidator, "answerValidator");
             return this;
         }
     }

@@ -79,4 +79,18 @@ public @interface SortMeta {
      * @return Whether this sort uses buckets.
      */
     boolean bucketSort() default false;
+
+    /**
+     * A question to ask the user when they choose this sort. You can perform response validation by creating a method
+     * that is {@code public static int validateAnswer(int answer)}.
+     * @return The question to ask the user, or {@code ""} if there isn't one.
+     */
+    String question() default "";
+
+    /**
+     * The default response to use for {@link #question()}. This is used when the user pressed "Use default". This
+     * value is ignored if there is no question. This value is <i>not</i> passed through {@code validatorAnswer}.
+     * @return The default answer response.
+     */
+    int defaultAnswer() default 0;
 }

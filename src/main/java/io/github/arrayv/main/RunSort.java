@@ -126,14 +126,13 @@ public final class RunSort {
             public void run() {
                 try {
                     SortInfo sort = arrayVisualizer.getSorts()[selection];
-                    Sort sortInstance = sort.getFreshInstance();
                     int extra = 0;
 
-                    if (sortInstance.getQuestion() != null) {
+                    if (sort.getQuestion() != null) {
                         try {
-                            extra = sortInstance.validateAnswer(getCustomInput(sortInstance.getQuestion()));
+                            extra = sort.validateAnswer(getCustomInput(sort.getQuestion()));
                         } catch (Exception e) {
-                            extra = sortInstance.getDefaultAnswer();
+                            extra = sort.getDefaultAnswer();
                         }
                     } else if (sort.isBucketSort()) {
                         if (sort.isRadixSort()) {
@@ -199,6 +198,8 @@ public final class RunSort {
                     }
 
                     if (goAhead) {
+                        Sort sortInstance = sort.getFreshInstance();
+
                         if (sort.getRunName().equals("In-Place LSD Radix")) {
                             sounds.changeVolume(0.01); // Here to protect your ears :)
                         }
@@ -214,7 +215,6 @@ public final class RunSort {
                         boolean networks = arrayVisualizer.generateSortingNetworks();
                         if (antiq)
                             arrayVisualizer.initAntiQSort();
-
                         try {
                             sortInstance.runSort(array, arrayVisualizer.getCurrentLength(), extra);
                         } catch (StopSort e) {
