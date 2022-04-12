@@ -159,29 +159,29 @@ public abstract class Sort {
         return (int)deprecatedMetadataTable[11];
     }
 
-    protected void enableSort(boolean Bool) {
+    protected void enableSort(boolean enabled) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[0] = Bool;
+        deprecatedMetadataTable[0] = enabled;
     }
 
-    protected void setSortListName(String ID) {
+    protected void setSortListName(String listName) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[1] = ID;
+        deprecatedMetadataTable[1] = listName;
     }
 
-    protected void setRunAllSortsName(String ID) {
+    protected void setRunAllSortsName(String showcaseName) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[2] = ID;
+        deprecatedMetadataTable[2] = showcaseName;
     }
 
-    protected void setRunSortName(String ID) {
+    protected void setRunSortName(String runName) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[3] = ID;
+        deprecatedMetadataTable[3] = runName;
     }
 
-    protected void setCategory(String ID) {
+    protected void setCategory(String category) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[4] = ID;
+        deprecatedMetadataTable[4] = category;
     }
 
     /**
@@ -193,29 +193,29 @@ public abstract class Sort {
     public void setComparisonBased(boolean comparisonBased) {
     }
 
-    public void setBucketSort(boolean Bool) {
+    public void setBucketSort(boolean bucketSort) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[5] = Bool;
+        deprecatedMetadataTable[5] = bucketSort;
     }
 
-    protected void setRadixSort(boolean Bool) {
+    protected void setRadixSort(boolean radixSort) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[6] = Bool;
+        deprecatedMetadataTable[6] = radixSort;
     }
 
-    public void setUnreasonablySlow(boolean Bool) {
+    public void setUnreasonablySlow(boolean unreasonableSlow) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[7] = Bool;
+        deprecatedMetadataTable[7] = unreasonableSlow;
     }
 
-    public void setUnreasonableLimit(int number) {
+    public void setUnreasonableLimit(int unreasonableLimit) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[9] = number;
+        deprecatedMetadataTable[9] = unreasonableLimit;
     }
 
-    protected void setBogoSort(boolean Bool) {
+    protected void setBogoSort(boolean bogoSort) {
         initDeprecatedMetadataTable();
-        deprecatedMetadataTable[8] = Bool;
+        deprecatedMetadataTable[8] = bogoSort;
     }
 
     /**
