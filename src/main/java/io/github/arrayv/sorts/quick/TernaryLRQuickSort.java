@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.quick;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /**
@@ -8,19 +9,14 @@ import io.github.arrayv.sorts.templates.Sort;
  * Implemented in ArrayV by Gaming32
  * https://github.com/bingmann/sound-of-sorting/blob/master/src/SortAlgo.cpp#L449-L534
  */
+@SortMeta(
+    listName = "Ternary LR Quick",
+    showcaseName = "Quick Sort (ternary, LR ptrs)",
+    runName = "Quicksort (ternary, LR ptrs)"
+)
 public final class TernaryLRQuickSort extends Sort {
     public TernaryLRQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Ternary LR Quick");
-        this.setRunAllSortsName("Quick Sort (ternary, LR ptrs)");
-        this.setRunSortName("Quicksort (ternary, LR ptrs)");
-        this.setCategory("Quick Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private int compare(int[] A, int lo, int hi) {
