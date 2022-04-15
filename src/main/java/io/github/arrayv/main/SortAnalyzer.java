@@ -3,9 +3,11 @@ package io.github.arrayv.main;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -520,14 +522,13 @@ public final class SortAnalyzer {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         if (compiler == null) {
             if (
-                JOptionPane.showOptionDialog(
+                JOptionPane.showConfirmDialog(
                     null,
                     "You must install a JDK on your system in order to import sorts.\n" +
                         "Would you like to download one now?",
                     "Import Sort",
                     JOptionPane.YES_NO_OPTION,
-                    JOptionPane.ERROR_MESSAGE,
-                    null, null, null
+                    JOptionPane.ERROR_MESSAGE
                 ) == JOptionPane.YES_OPTION
             ) {
                 try {
@@ -576,12 +577,13 @@ public final class SortAnalyzer {
         }
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
         Iterable<? extends JavaFileObject> jFiles = fileManager.getJavaFileObjects(file);
+        final File logFile = new File(CACHE_DIR, "compile-" + System.currentTimeMillis() + ".log").getAbsoluteFile();
         int success;
-        try {
+        try (Writer output = new FileWriter(logFile)) {
             fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(CACHE_DIR));
             // @checkstyle:off ParenPadCheck
             CompilationTask task = compiler.getTask(
-                null,          // out
+                output,        // out
                 fileManager,   // fileManager
                 null,          // diagnosticListener
                 Arrays.asList( // options
@@ -606,7 +608,23 @@ public final class SortAnalyzer {
             success = -1;
         }
         if (success != 0) {
-            JErrorPane.invokeCustomErrorMessage("Failed to compile: " + file + "\nError code " + success);
+            if (
+                JOptionPane.showConfirmDialog(
+                    null,
+                    "Failed to compile: " + file +
+                    "\nError code " + success + "\n" +
+                    "Would you like to open the log file?",
+                    "Import Sort",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.ERROR_MESSAGE
+                ) == JOptionPane.YES_OPTION
+            ) {
+                try {
+                    Desktop.getDesktop().open(logFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             return false;
         }
 
