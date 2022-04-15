@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.tests;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.utils.Rotations;
 
@@ -29,21 +30,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
+@SortMeta(
+    listName = "Rotations",
+    showcaseName = "Rotation Test",
+    runName = "Rotation Test"
+)
 public final class RotationTest extends Sort {
     final double BLOCK_DIV = 6.98;
 
     public RotationTest(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Rotations");
-        this.setRunAllSortsName("Rotation Test");
-        this.setRunSortName("Rotation Test");
-        this.setCategory("Tests");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
