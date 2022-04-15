@@ -5,7 +5,7 @@ import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 @SortMeta(
-    name = "Merge-Exchange (Iterative)",
+    listName = "Merge-Exchange (Iterative)",
     showcaseName = "Batcher's Merge-Exchange Sort",
     runName = "Iterative Merge-Exchange Sort"
 )

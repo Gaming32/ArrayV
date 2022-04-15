@@ -5,8 +5,8 @@ import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 @SortMeta(
-    name = "Bitonic (Parallel)",
-    showcaseName = "Parallel Bitonic Sort",
+    name = "Parallel Bitonic",
+    listName = "Bitonic (Parallel)",
     runName = "Parallel Bitonic Sort",
     unreasonableLimit = 4096
 )

@@ -32,10 +32,8 @@ SOFTWARE.
  */
 
 @SortMeta(
-    name = "Odd-Even Merge (Parallel)",
-    showcaseName = "Parallel Odd-Even Merge Sort",
-    runName = "Parallel Odd-Even Mergesort",
-    category = "Concurrent Sorts",
+    name = "Parallel Odd-Even Merge",
+    listName = "Odd-Even Merge (Parallel)",
     unreasonableLimit = 4096
 )
 public final class OddEvenMergeSortParallel extends Sort {

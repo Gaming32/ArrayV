@@ -13,8 +13,8 @@ import io.github.arrayv.sorts.templates.Sort;
  */
 
 @SortMeta(
-    name = "Bitonic (Iterative)",
-    showcaseName = "Iterative Bitonic Sort",
+    name = "Iterative Bitonic",
+    listName = "Bitonic (Iterative)",
     runName = "Iterative Bitonic Sort"
 )
 public final class BitonicSortIterative extends Sort {

@@ -5,7 +5,7 @@ import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 @SortMeta(
-	name = "Bose-Nelson (Iterative)",
+	listName = "Bose-Nelson (Iterative)",
 	showcaseName = "Iterative Bose-Nelson Sorting Network",
 	runName = "Iterative Bose-Nelson Sort"
 )

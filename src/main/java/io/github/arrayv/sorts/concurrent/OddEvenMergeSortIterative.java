@@ -13,7 +13,7 @@ import io.github.arrayv.sorts.templates.Sort;
  */
 
 @SortMeta(
-    name = "Odd-Even Merge (Iterative)",
+    listName = "Odd-Even Merge (Iterative)",
     showcaseName = "Iterative Odd-Even Merge Sort",
     runName = "Iterative Odd-Even Mergesort"
 )

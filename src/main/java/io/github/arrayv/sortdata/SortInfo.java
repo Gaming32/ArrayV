@@ -192,7 +192,8 @@ public final class SortInfo {
         if (name.endsWith("sort")) {
             return name.substring(0, name.length() - 4);
         }
-        return name;
+        // Cause an NPE if name isn't specified, and all three required names also aren't
+        return name.isEmpty() ? null : "";
     }
 
     public int getId() {

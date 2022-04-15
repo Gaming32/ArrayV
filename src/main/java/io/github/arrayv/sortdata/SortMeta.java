@@ -15,10 +15,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface SortMeta {
     /**
-     * The sort's name. This is generally of the form {@code "Something"} or {@code "Something Sort"}.
+     * The sort's name. This is generally of the form {@code "Something"} or {@code "Something Sort"}. If not
+     * specified, all three of {@link #listName()}, {@link #runName()}, and {@link #showcaseName()} must be specified.
      * @return The sort's annotated name.
      */
-    String name();
+    String name() default "";
 
     /**
      * The sort's cateogry. This may be specified on a package-level in package-info.java. Specifying it here will

@@ -10,7 +10,7 @@ import io.github.arrayv.sorts.templates.Sort;
  */
 
 @SortMeta(
-    name = "Bitonic (Recursive)",
+    listName = "Bitonic (Recursive)",
     showcaseName = "Batcher's Bitonic Sort",
     runName = "Recursive Bitonic Sort"
 )

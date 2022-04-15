@@ -5,7 +5,7 @@ import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 @SortMeta(
-	name = "Bose-Nelson (Parallel)",
+	listName = "Bose-Nelson (Parallel)",
 	showcaseName = "Parallel Bose-Nelson Sorting Network",
 	runName = "Parallel Bose-Nelson Sort",
     unreasonableLimit = 4096
