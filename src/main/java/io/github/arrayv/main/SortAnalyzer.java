@@ -197,8 +197,10 @@ public final class SortAnalyzer {
                     }
                     sorts.add(sort);
                     addSortByName(sort);
-                } else {
+                } else if (sortErrorMsg != null) {
                     throw new Exception(sortErrorMsg);
+                } else {
+                    return false;
                 }
             } catch (Exception e) {
                 invalidSorts.add(sort.getInternalName() + " (" + e.getMessage() + ")");
@@ -649,7 +651,7 @@ public final class SortAnalyzer {
 
     private boolean verifySort(SortInfo sort) {
         if (sort.isDisabled()) {
-            this.sortErrorMsg = "manually disabled";
+            this.sortErrorMsg = null;
             return false;
         }
         if (sort.getListName().isEmpty()) {
