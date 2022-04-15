@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -29,19 +30,13 @@ SOFTWARE.
  *
  */
 
+@SortMeta(
+	name = "Iterative Pairwise Merge",
+	listName = "Pairwise Merge (Iterative)"
+)
 public final class PairwiseMergeSortIterative extends Sort {
     public PairwiseMergeSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Pairwise Merge (Iterative)");
-        this.setRunAllSortsName("Iterative Pairwise Merge Sort");
-        this.setRunSortName("Iterative Pairwise Mergesort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
 	private int end;

@@ -201,7 +201,7 @@ public final class SortAnalyzer {
                     throw new Exception(sortErrorMsg);
                 }
             } catch (Exception e) {
-                invalidSorts.add(sort.getClass().getName() + " (" + e.getMessage() + ")");
+                invalidSorts.add(sort.getInternalName() + " (" + e.getMessage() + ")");
                 return false;
             }
         } catch (Exception e) {

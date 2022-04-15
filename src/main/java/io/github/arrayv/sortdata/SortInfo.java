@@ -10,6 +10,9 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
 
 public final class SortInfo {
+    private static final String NAME_MUST_BE_SPECIFIED =
+        "name must be specified unless all three of listName, showcaseName, and runName are specified";
+
     private final int id;
     private final String internalName;
     private final Supplier<? extends Sort> instanceSupplier;
@@ -74,9 +77,15 @@ public final class SortInfo {
             String name = normalizeName(metaAnnotation);
             this.disabled = metaAnnotation.disabled();
             this.unreasonableLimit = metaAnnotation.unreasonableLimit();
-            this.listName = metaAnnotation.listName().isEmpty() ? name : metaAnnotation.listName();
-            this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
-            this.runAllName = metaAnnotation.showcaseName().isEmpty() ? name + " Sort" : metaAnnotation.showcaseName();
+            this.listName = metaAnnotation.listName().isEmpty()
+                ? requireName(name)
+                : metaAnnotation.listName();
+            this.runName = metaAnnotation.runName().isEmpty()
+                ? requireName(name) + "sort"
+                : metaAnnotation.runName();
+            this.runAllName = metaAnnotation.showcaseName().isEmpty()
+                ? requireName(name) + " Sort"
+                : metaAnnotation.showcaseName();
             this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sortClass) : metaAnnotation.category();
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.bogoSort();
@@ -114,9 +123,15 @@ public final class SortInfo {
             String name = normalizeName(metaAnnotation);
             this.disabled = metaAnnotation.disabled();
             this.unreasonableLimit = metaAnnotation.unreasonableLimit();
-            this.listName = metaAnnotation.listName().isEmpty() ? name : metaAnnotation.listName();
-            this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
-            this.runAllName = metaAnnotation.showcaseName().isEmpty() ? name + " Sort" : metaAnnotation.showcaseName();
+            this.listName = metaAnnotation.listName().isEmpty()
+                ? requireName(name)
+                : metaAnnotation.listName();
+            this.runName = metaAnnotation.runName().isEmpty()
+                ? requireName(name) + "sort"
+                : metaAnnotation.runName();
+            this.runAllName = metaAnnotation.showcaseName().isEmpty()
+                ? requireName(name) + " Sort"
+                : metaAnnotation.showcaseName();
             this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sort.getClass()) : metaAnnotation.category();
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.bogoSort();
@@ -184,6 +199,10 @@ public final class SortInfo {
         );
     }
 
+    private static String requireName(String name) {
+        return Objects.requireNonNull(name, NAME_MUST_BE_SPECIFIED);
+    }
+
     private static String normalizeName(SortMeta meta) {
         String name = meta.name();
         if (name.endsWith(" Sort")) {
@@ -193,7 +212,7 @@ public final class SortInfo {
             return name.substring(0, name.length() - 4);
         }
         // Cause an NPE if name isn't specified, and all three required names also aren't
-        return name.isEmpty() ? null : "";
+        return name.isEmpty() ? null : name;
     }
 
     public int getId() {

@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -25,19 +26,14 @@ SOFTWARE.
  *
  */
 
+@SortMeta(
+    listName = "Pairwise (Iterative)",
+    showcaseName = "Iterative Pairwise Sorting Network",
+    runName = "Iterative Pairwise Sort"
+)
 public final class PairwiseSortIterative extends Sort {
     public PairwiseSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Pairwise (Iterative)");
-        this.setRunAllSortsName("Iterative Pairwise Sorting Network");
-        this.setRunSortName("Iterative Pairwise Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void iterativepairwise(int[] array, int length, double sleep) {

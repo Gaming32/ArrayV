@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -29,19 +30,14 @@ SOFTWARE.
  *
  */
 
+@SortMeta(
+    listName = "Weave (Iterative)",
+    showcaseName = "Iterative Weave Sorting Network",
+    runName = "Iterative Weave Sort"
+)
 public final class WeaveSortIterative extends Sort {
     public WeaveSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Weave (Iterative)");
-        this.setRunAllSortsName("Iterative Weave Sorting Network");
-        this.setRunSortName("Iterative Weave Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private int end;
