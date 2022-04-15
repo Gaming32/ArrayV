@@ -177,7 +177,7 @@ public final class SortAnalyzer {
                 sortClass = Class.forName(name);
             else
                 sortClass = Class.forName(name, true, loader);
-            if (!sortClass.isAssignableFrom(Sort.class)) {
+            if (!Sort.class.isAssignableFrom(sortClass)) {
                 throw new IllegalArgumentException(sortClass + " does not subclass Sort");
             }
         } catch (ClassNotFoundException e) {
@@ -546,16 +546,16 @@ public final class SortAnalyzer {
     public boolean importSort(File file, boolean showConfirmation) {
         // SLightly modified from https://stackoverflow.com/a/40772073/8840278
         // Pattern packagePattern = Pattern.compile("package (([a-zA-Z]{1}[a-zA-Z\\d_]*\\.)*[a-zA-Z][a-zA-Z\\d_]*);");
-        String contents;
+        String originalContents;
         try {
-            contents = new String(Files.readAllBytes(file.toPath()));
+            originalContents = new String(Files.readAllBytes(file.toPath()));
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
             return false;
         }
         String packageName;
         try {
-            packageName = findPackageName(contents);
+            packageName = findPackageName(originalContents);
         } catch (IllegalArgumentException e) {
             JErrorPane.invokeCustomErrorMessage("Invalid Java syntax detected: " + e.getMessage());
             return false;
@@ -565,18 +565,30 @@ public final class SortAnalyzer {
             return false;
         }
 
-        contents = performImportReplacements(contents);
-
         final File CACHE_DIR = new File("./cache/");
         CACHE_DIR.mkdirs();
         final Path CACHE_PATH = CACHE_DIR.toPath();
+
+        String contents = performImportReplacements(originalContents);
+        File useFile;
+        if (!contents.equals(originalContents)) {
+            useFile = new File(CACHE_DIR, file.getName());
+            try (Writer writer = new FileWriter(useFile)) {
+                writer.write(contents);
+            } catch (IOException e) {
+                JErrorPane.invokeErrorMessage(e, "Sort Import");
+                return false;
+            }
+        } else {
+            useFile = file;
+        }
 
         JavaCompiler compiler = tryGetJavaCompiler();
         if (compiler == null) {
             return false;
         }
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
-        Iterable<? extends JavaFileObject> jFiles = fileManager.getJavaFileObjects(file);
+        Iterable<? extends JavaFileObject> jFiles = fileManager.getJavaFileObjects(useFile);
         final File logFile = new File(CACHE_DIR, "compile-" + System.currentTimeMillis() + ".log").getAbsoluteFile();
         int success;
         try (Writer output = new FileWriter(logFile)) {
@@ -634,24 +646,36 @@ public final class SortAnalyzer {
             rawClassName = baseName.substring(0, baseName.lastIndexOf('.'));
         }
 
-        String[] maybeNames;
+        String[][] maybeNames;
         try {
             maybeNames = StreamSupport.stream(
                 fileManager.list(StandardLocation.CLASS_OUTPUT, "", Collections.singleton(JavaFileObject.Kind.CLASS), true).spliterator(),
                 false
             )
                 .map(fobj -> {
-                    Path relativePath = CACHE_PATH.relativize(new File(fobj.getName()).getParentFile().toPath());
-                    return relativePath.toString().replace(File.separatorChar, '.');
+                    File jioFile = new File(fobj.getName());
+                    Path relativePath = CACHE_PATH.relativize(jioFile.getParentFile().toPath());
+                    String baseName = jioFile.getName();
+                    return new String[] {
+                        relativePath.toString().replace(File.separatorChar, '.'),
+                        baseName.substring(0, baseName.lastIndexOf('.'))
+                    };
                 })
-                .filter(packageName::equals)
-                .toArray(String[]::new);
+                .filter(fc ->
+                    packageName.equals(fc[0]) && rawClassName.equals(fc[1])
+                )
+                .toArray(String[][]::new);
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e, "Sort Import");
             return false;
         }
         if (maybeNames.length == 2) {
-            JErrorPane.invokeCustomErrorMessage("Multiple sorts found that match this file. Please contact the sort devs of all sorts named " + file.getName());
+            JErrorPane.invokeCustomErrorMessage(
+                "Multiple sorts found that match this file (" +
+                Arrays.deepToString(maybeNames) +
+                "). Please contact the sort devs of all sorts named " +
+                file.getName()
+            );
             return false;
         }
         if (maybeNames.length == 0) {
@@ -659,10 +683,10 @@ public final class SortAnalyzer {
             return false;
         }
         final String name;
-        if (maybeNames[0].isEmpty()) {
+        if (maybeNames[0][0].isEmpty()) {
             name = rawClassName;
         } else {
-            name = maybeNames[0] + "." + rawClassName;
+            name = maybeNames[0][0] + "." + rawClassName;
         }
 
         try {
