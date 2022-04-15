@@ -8,7 +8,6 @@ import io.github.arrayv.sorts.templates.Sort;
     name = "Bitonic (Parallel)",
     showcaseName = "Parallel Bitonic Sort",
     runName = "Parallel Bitonic Sort",
-    category = "Concurrent Sorts",
     unreasonableLimit = 4096
 )
 public final class BitonicSortParallel extends Sort {

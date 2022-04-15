@@ -33,8 +33,7 @@ SOFTWARE.
 @SortMeta(
     name = "Fold",
     showcaseName = "Fold Sorting Network",
-    runName = "Fold Sort",
-    category = "Concurrent Sorts"
+    runName = "Fold Sort"
 )
 public final class FoldSort extends Sort {
     public FoldSort(ArrayVisualizer arrayVisualizer) {

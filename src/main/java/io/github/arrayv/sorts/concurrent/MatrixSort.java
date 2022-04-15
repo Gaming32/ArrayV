@@ -10,8 +10,7 @@ Idea made by Control#2866 in The Studio Discord Server (https://discord.com/invi
 
 @SortMeta(
     name = "Matrix",
-    runName = "Matrix Sort",
-    category = "Concurrent Sorts"
+    runName = "Matrix Sort"
 )
 public final class MatrixSort extends Sort {
     private class MatrixShape {

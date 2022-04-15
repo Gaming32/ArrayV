@@ -33,8 +33,7 @@ SOFTWARE.
 @SortMeta(
     name = "Crease",
     showcaseName = "Crease Sorting Network",
-    runName = "Crease Sort",
-    category = "Concurrent Sorts"
+    runName = "Crease Sort"
 )
 public final class CreaseSort extends Sort {
     public CreaseSort(ArrayVisualizer arrayVisualizer) {

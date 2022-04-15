@@ -8,7 +8,6 @@ import io.github.arrayv.sorts.templates.Sort;
 	name = "Bose-Nelson (Parallel)",
 	showcaseName = "Parallel Bose-Nelson Sorting Network",
 	runName = "Parallel Bose-Nelson Sort",
-	category = "Concurrent Sorts",
     unreasonableLimit = 4096
 )
 public final class BoseNelsonSortParallel extends Sort {

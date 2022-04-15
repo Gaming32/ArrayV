@@ -7,8 +7,7 @@ import io.github.arrayv.sorts.templates.Sort;
 @SortMeta(
     name = "Merge-Exchange (Iterative)",
     showcaseName = "Batcher's Merge-Exchange Sort",
-    runName = "Iterative Merge-Exchange Sort",
-    category = "Concurrent Sorts"
+    runName = "Iterative Merge-Exchange Sort"
 )
 public final class MergeExchangeSortIterative extends Sort {
 

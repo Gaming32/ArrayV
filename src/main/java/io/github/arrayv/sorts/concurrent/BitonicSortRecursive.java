@@ -12,8 +12,7 @@ import io.github.arrayv.sorts.templates.Sort;
 @SortMeta(
     name = "Bitonic (Recursive)",
     showcaseName = "Batcher's Bitonic Sort",
-    runName = "Recursive Bitonic Sort",
-    category = "Concurrent Sorts"
+    runName = "Recursive Bitonic Sort"
 )
 public final class BitonicSortRecursive extends Sort {
     private boolean direction = true;

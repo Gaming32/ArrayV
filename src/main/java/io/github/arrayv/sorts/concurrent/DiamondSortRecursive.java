@@ -6,8 +6,7 @@ import io.github.arrayv.sorts.templates.Sort;
 
 @SortMeta(
 	name = "Recursive Diamond",
-	listName = "Diamond (Recursive)",
-	category = "Concurrent Sorts"
+	listName = "Diamond (Recursive)"
 )
 public final class DiamondSortRecursive extends Sort {
     private final double DELAY = 0.05;

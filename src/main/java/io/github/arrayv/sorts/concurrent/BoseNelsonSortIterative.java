@@ -7,8 +7,7 @@ import io.github.arrayv.sorts.templates.Sort;
 @SortMeta(
 	name = "Bose-Nelson (Iterative)",
 	showcaseName = "Iterative Bose-Nelson Sorting Network",
-	runName = "Iterative Bose-Nelson Sort",
-	category = "Concurrent Sorts"
+	runName = "Iterative Bose-Nelson Sort"
 )
 public final class BoseNelsonSortIterative extends Sort {
     public BoseNelsonSortIterative(ArrayVisualizer arrayVisualizer) {

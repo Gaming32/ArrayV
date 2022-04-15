@@ -32,8 +32,7 @@ SOFTWARE.
 
 @SortMeta(
 	name = "Iterative Diamond",
-	listName = "Diamond (Iterative)",
-	category = "Concurrent Sorts"
+	listName = "Diamond (Iterative)"
 )
 public final class DiamondSortIterative extends Sort {
     public DiamondSortIterative(ArrayVisualizer arrayVisualizer) {

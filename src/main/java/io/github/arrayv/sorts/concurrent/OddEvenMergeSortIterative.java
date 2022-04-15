@@ -15,8 +15,7 @@ import io.github.arrayv.sorts.templates.Sort;
 @SortMeta(
     name = "Odd-Even Merge (Iterative)",
     showcaseName = "Iterative Odd-Even Merge Sort",
-    runName = "Iterative Odd-Even Mergesort",
-    category = "Concurrent Sorts"
+    runName = "Iterative Odd-Even Mergesort"
 )
 public final class OddEvenMergeSortIterative extends Sort {
     public OddEvenMergeSortIterative(ArrayVisualizer arrayVisualizer) {

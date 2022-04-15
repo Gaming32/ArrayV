@@ -7,8 +7,7 @@ import io.github.arrayv.sorts.templates.Sort;
 @SortMeta(
 	name = "Bose-Nelson (Recursive)",
 	showcaseName = "Recursive Bose-Nelson Sorting Network",
-	runName = "Recursive Bose-Nelson Sort",
-	category = "Concurrent Sorts"
+	runName = "Recursive Bose-Nelson Sort"
 )
 public final class BoseNelsonSortRecursive extends Sort {
 
