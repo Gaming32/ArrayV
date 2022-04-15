@@ -21,10 +21,11 @@ public @interface SortMeta {
     String name();
 
     /**
-     * The sort's cateogry.
-     * @return The sort's category.
+     * The sort's cateogry. This may be specified on a package-level in package-info.java. Specifying it here will
+     * override it for the package.
+     * @return The sort's category, or "" if you should look at the package level.
      */
-    String category();
+    String category() default "";
 
     /**
      * Explicit sort list name. This is generated from {@link #name()} by default.

@@ -15,8 +15,7 @@ import io.github.arrayv.sorts.templates.Sort;
 @SortMeta(
     name = "Bitonic (Iterative)",
     showcaseName = "Iterative Bitonic Sort",
-    runName = "Iterative Bitonic Sort",
-    category = "Concurrent Sorts"
+    runName = "Iterative Bitonic Sort"
 )
 public final class BitonicSortIterative extends Sort {
     public BitonicSortIterative(ArrayVisualizer arrayVisualizer) {

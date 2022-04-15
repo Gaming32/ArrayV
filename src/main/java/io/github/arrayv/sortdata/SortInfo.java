@@ -77,7 +77,7 @@ public final class SortInfo {
             this.listName = metaAnnotation.listName().isEmpty() ? name : metaAnnotation.listName();
             this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
             this.runAllName = metaAnnotation.showcaseName().isEmpty() ? name + " Sort" : metaAnnotation.showcaseName();
-            this.category = metaAnnotation.category();
+            this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sortClass) : metaAnnotation.category();
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.bogoSort();
             this.bucketSort = metaAnnotation.bucketSort();
@@ -117,7 +117,7 @@ public final class SortInfo {
             this.listName = metaAnnotation.listName().isEmpty() ? name : metaAnnotation.listName();
             this.runName = metaAnnotation.runName().isEmpty() ? name + "sort" : metaAnnotation.runName();
             this.runAllName = metaAnnotation.showcaseName().isEmpty() ? name + " Sort" : metaAnnotation.showcaseName();
-            this.category = metaAnnotation.category();
+            this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sort.getClass()) : metaAnnotation.category();
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.bogoSort();
             this.bucketSort = metaAnnotation.bucketSort();
@@ -169,6 +169,19 @@ public final class SortInfo {
 
     public SortInfo(Sort sort) {
         this(-1, sort);
+    }
+
+    private static String findSortCategory(Class<? extends Sort> sortClass) {
+        Package checkPackage = sortClass.getPackage();
+        if (checkPackage != null) {
+            SortPackageMeta packageMetaAnnotation = checkPackage.getAnnotation(SortPackageMeta.class);
+            if (packageMetaAnnotation != null) {
+                return packageMetaAnnotation.category();
+            }
+        }
+        throw new NullPointerException(
+            "Sort " + sortClass.getSimpleName() + " does not declare a category, and neither do any of its packages"
+        );
     }
 
     private static String normalizeName(SortMeta meta) {
