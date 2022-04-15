@@ -450,23 +450,14 @@ public final class SortAnalyzer {
             while (true) {
                 // @checkstyle:off IndentationCheck - It looks nicer how it is
                 if (isAfterDot) {
-                    if (
-                        (c >= 'a' && c <= 'z') ||
-                        (c >= 'A' && c <= 'Z') ||
-                         c == '_' || c == '$'
-                    ) {
+                    if (Character.isJavaIdentifierStart(c)) {
                         result.appendCodePoint(c);
                     } else {
                         throw new IllegalArgumentException("Illegal character in package name: " + new String(Character.toChars(c)));
                     }
                     isAfterDot = false;
                 } else {
-                    if (
-                        (c >= 'a' && c <= 'z') ||
-                        (c >= 'A' && c <= 'Z') ||
-                        (c >= '0' && c <= '9') ||
-                         c == '_' || c == '$'
-                    ) {
+                    if (Character.isJavaIdentifierPart(c)) {
                         result.appendCodePoint(c);
                     } else if (c == '.') {
                         result.append('.');
