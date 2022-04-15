@@ -1,5 +1,6 @@
 package io.github.arrayv.main;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
@@ -513,6 +516,32 @@ public final class SortAnalyzer {
         return source;
     }
 
+    public static JavaCompiler tryGetJavaCompiler() {
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        if (compiler == null) {
+            if (
+                JOptionPane.showOptionDialog(
+                    null,
+                    "You must install a JDK on your system in order to import sorts.\n" +
+                        "Would you like to download one now?",
+                    "Import Sort",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.ERROR_MESSAGE,
+                    null, null, null
+                ) == JOptionPane.YES_OPTION
+            ) {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://adoptium.net/temurin/releases"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (URISyntaxException e) {
+                    throw new Error(e);
+                }
+            }
+        }
+        return compiler;
+    }
+
     public boolean importSort(File file, boolean showConfirmation) {
         // SLightly modified from https://stackoverflow.com/a/40772073/8840278
         // Pattern packagePattern = Pattern.compile("package (([a-zA-Z]{1}[a-zA-Z\\d_]*\\.)*[a-zA-Z][a-zA-Z\\d_]*);");
@@ -541,7 +570,10 @@ public final class SortAnalyzer {
         CACHE_DIR.mkdirs();
         final Path CACHE_PATH = CACHE_DIR.toPath();
 
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        JavaCompiler compiler = tryGetJavaCompiler();
+        if (compiler == null) {
+            return false;
+        }
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
         Iterable<? extends JavaFileObject> jFiles = fileManager.getJavaFileObjects(file);
         int success;
