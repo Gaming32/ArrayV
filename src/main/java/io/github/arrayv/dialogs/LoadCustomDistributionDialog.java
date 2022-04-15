@@ -1,5 +1,7 @@
 package io.github.arrayv.dialogs;
 
+import javax.swing.JFileChooser;
+
 /*
 MIT License
 
@@ -30,7 +32,8 @@ public final class LoadCustomDistributionDialog extends FileDialog {
 
         fileDialog.setDialogTitle("Choose a distribution file...");
 
-        fileDialog.showDialog(null, "Select");
-        this.file = fileDialog.getSelectedFile();
+        this.file = fileDialog.showDialog(null, "Select") == JFileChooser.APPROVE_OPTION
+            ? fileDialog.getSelectedFile()
+            : null;
     }
 }

@@ -1,5 +1,7 @@
 package io.github.arrayv.dialogs;
 
+import javax.swing.JFileChooser;
+
 /*
 MIT License
 
@@ -30,7 +32,8 @@ public final class ExportShuffleDialog extends FileDialog {
 
         fileDialog.setDialogTitle("Choose where to export the current shuffle graph...");
 
-        fileDialog.showSaveDialog(null);
-        this.file = fileDialog.getSelectedFile();
+        this.file = fileDialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION
+            ? fileDialog.getSelectedFile()
+            : null;
     }
 }
