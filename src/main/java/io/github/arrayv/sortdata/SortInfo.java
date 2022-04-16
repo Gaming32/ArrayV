@@ -88,7 +88,7 @@ public final class SortInfo {
                 : metaAnnotation.showcaseName();
             this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sortClass) : metaAnnotation.category();
             this.bogoSort = metaAnnotation.bogoSort();
-            this.radixSort = metaAnnotation.bogoSort();
+            this.radixSort = metaAnnotation.radixSort();
             this.bucketSort = metaAnnotation.bucketSort();
             this.question = metaAnnotation.question().isEmpty() ? null : metaAnnotation.question();
             this.defaultAnswer = metaAnnotation.defaultAnswer();
@@ -134,7 +134,7 @@ public final class SortInfo {
                 : metaAnnotation.showcaseName();
             this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sort.getClass()) : metaAnnotation.category();
             this.bogoSort = metaAnnotation.bogoSort();
-            this.radixSort = metaAnnotation.bogoSort();
+            this.radixSort = metaAnnotation.radixSort();
             this.bucketSort = metaAnnotation.bucketSort();
             this.question = metaAnnotation.question().isEmpty() ? null : metaAnnotation.question();
             this.defaultAnswer = metaAnnotation.defaultAnswer();
