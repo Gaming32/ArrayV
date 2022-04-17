@@ -1,5 +1,7 @@
 package io.github.arrayv.dialogs;
 
+import javax.swing.JFileChooser;
+
 /*
 MIT License
 
@@ -30,7 +32,8 @@ public final class SaveArrayDialog extends FileDialog {
 
         fileDialog.setDialogTitle("Choose where to save the contents of the main array...");
 
-        fileDialog.showSaveDialog(null);
-        this.file = fileDialog.getSelectedFile();
+        this.file = fileDialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION
+            ? fileDialog.getSelectedFile()
+            : null;
     }
 }

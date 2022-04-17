@@ -1,5 +1,7 @@
 package io.github.arrayv.dialogs;
 
+import javax.swing.JFileChooser;
+
 /*
 MIT License
 
@@ -47,7 +49,8 @@ public final class CustomImageDialog extends FileDialog {
 
         fileDialog.setDialogTitle("Choose an image...");
 
-        fileDialog.showOpenDialog(null);
-        this.file = fileDialog.getSelectedFile();
+        this.file = fileDialog.showOpenDialog(null) == JFileChooser.APPROVE_OPTION
+            ? fileDialog.getSelectedFile()
+            : null;
     }
 }

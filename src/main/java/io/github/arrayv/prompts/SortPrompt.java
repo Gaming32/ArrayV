@@ -340,7 +340,10 @@ public final class SortPrompt extends javax.swing.JFrame implements AppFrame {
     private void jButton2ActionPerformed() {//GEN-FIRST:event_jButton1ActionPerformed
         new Thread("ImportSort") {
             @Override
-            public void run(){
+            public void run() {
+                if (SortAnalyzer.tryGetJavaCompiler() == null) {
+                    return;
+                }
                 File f = new ImportSortDialog().getFile();
                 if (f == null) {
                     return;

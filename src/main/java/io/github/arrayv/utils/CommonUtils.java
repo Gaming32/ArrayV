@@ -21,7 +21,7 @@ public final class CommonUtils {
             last = i;
             i = s.indexOf(from, i + from.length());
         } while (i != -1);
-        result.append(s, last, s.length());
+        result.append(s, last + from.length(), s.length());
         return result.toString();
     }
 

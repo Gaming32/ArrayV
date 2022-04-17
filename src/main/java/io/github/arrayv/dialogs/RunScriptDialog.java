@@ -1,5 +1,6 @@
 package io.github.arrayv.dialogs;
 
+import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
@@ -35,7 +36,8 @@ public final class RunScriptDialog extends FileDialog {
         this.removeAllFilesOption();
         fileDialog.addChoosableFileFilter(groovyFiles);
 
-        fileDialog.showDialog(null, "Select");
-        this.file = fileDialog.getSelectedFile();
+        this.file = fileDialog.showDialog(null, "Select") == JFileChooser.APPROVE_OPTION
+            ? fileDialog.getSelectedFile()
+            : null;
     }
 }
