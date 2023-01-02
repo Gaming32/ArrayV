@@ -40,7 +40,7 @@ SOFTWARE.
     name = "Time",
     category = "Distribution Sorts",
     showcaseName = "Time Sort, Mul 10",
-    question = "Enter delay per number in milliseconds",
+    question = "Enter delay per number in milliseconds:",
     defaultAnswer = 10
 )
 public final class TimeSort extends Sort {
