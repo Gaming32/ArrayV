@@ -22,7 +22,7 @@ public @interface SortMeta {
     String name() default "";
 
     /**
-     * The sort's cateogry. This may be specified on a package-level in package-info.java. Specifying it here will
+     * The sort's category. This may be specified on a package-level in package-info.java. Specifying it here will
      * override it for the package.
      * @return The sort's category, or {@code ""} if you should look at the package level.
      */
