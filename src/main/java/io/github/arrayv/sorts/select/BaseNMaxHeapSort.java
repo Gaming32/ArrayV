@@ -7,6 +7,7 @@ import io.github.arrayv.sorts.templates.Sort;
 @SortMeta(
     name = "Base-N Max Heap",
     category = "Selection Sorts",
+    showcaseName = "Base-N Max Heap Sort, Base 4",
     question = "Enter the base for this sort:",
     defaultAnswer = 4
 )
