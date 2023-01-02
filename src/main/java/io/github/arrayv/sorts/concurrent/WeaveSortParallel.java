@@ -7,7 +7,8 @@ import io.github.arrayv.sorts.templates.Sort;
 @SortMeta(
     name = "Parallel Weave",
     listName = "Iterative Weave Sort",
-    runName = "Parallel Weave Sort"
+    runName = "Parallel Weave Sort",
+    unreasonableLimit = 4096
 )
 public final class WeaveSortParallel extends Sort {
     private int[] arr;
