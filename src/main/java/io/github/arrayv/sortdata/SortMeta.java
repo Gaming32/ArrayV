@@ -65,7 +65,7 @@ public @interface SortMeta {
     boolean slowSort() default false;
 
     /**
-     * Whether this sort is a bogo sort (i.e. it has "bogo" in its name and it's non-deterministic).
+     * Whether this sort is a bogo sort (i.e. it has "bogo" in its name, and it's non-deterministic).
      * @return Whether this sort is a bogo sort.
      */
     boolean bogoSort() default false;

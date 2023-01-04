@@ -9,3 +9,4 @@ sorting_networks
 dependency-reduced-pom.xml
 /scripts
 .idea/
+*.iml
