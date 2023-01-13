@@ -293,8 +293,15 @@ public final class ArrayVisualizer {
                     }
                     ArrayVisualizer.this.sortAnalyzer.sortSorts();
                     ArrayVisualizer.this.refreshSorts();
-                    String message = "Successfully imported " + success + "/" + droppedFiles.size() + " sorts";
-                    JOptionPane.showMessageDialog(null, message, "Import Sorts", JOptionPane.INFORMATION_MESSAGE);
+                    if (success == 0) {
+                        JErrorPane.invokeCustomErrorMessage("Failed to import all " + droppedFiles.size() + " sorts");
+                    } else {
+                        String message = "Successfully imported " + success + " sorts";
+                        if (success < droppedFiles.size()) {
+                            message += " and failed to import " + (droppedFiles.size() - success);
+                        }
+                        JOptionPane.showMessageDialog(null, message, "Import Sorts", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
