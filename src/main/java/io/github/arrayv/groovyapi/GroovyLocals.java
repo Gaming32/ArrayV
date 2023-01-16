@@ -1,9 +1,5 @@
 package io.github.arrayv.groovyapi;
 
-import java.util.Map;
-
-import org.codehaus.groovy.runtime.MethodClosure;
-
 import groovy.lang.Closure;
 import groovy.lang.DelegatesTo;
 import groovy.transform.stc.ClosureParams;
@@ -17,6 +13,9 @@ import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.sortdata.SortNameType;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.utils.Sounds;
+import org.codehaus.groovy.runtime.MethodClosure;
+
+import java.util.Map;
 
 /**
  * This class defines methods and properties directly accessible from within Groovy scripts.
@@ -121,7 +120,7 @@ public final class GroovyLocals {
             }
 
             @Override
-            public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
+            public void runSort(int[] array, int sortLength, int bucketCount) {
                 switch (sort.getMaximumNumberOfParameters()) {
                     case 2:
                         sort.call(array, sortLength);

@@ -1,30 +1,21 @@
 package io.github.arrayv.groovyapi;
 
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.panes.JErrorPane;
+import org.codehaus.groovy.control.CompilationFailedException;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.MultipleCompilationErrorsException;
+import org.codehaus.groovy.control.customizers.ImportCustomizer;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.IdentityHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
-import org.codehaus.groovy.control.CompilationFailedException;
-import org.codehaus.groovy.control.CompilerConfiguration;
-import org.codehaus.groovy.control.MultipleCompilationErrorsException;
-import org.codehaus.groovy.control.customizers.ImportCustomizer;
-
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
-import io.github.arrayv.main.ArrayVisualizer;
-import io.github.arrayv.panes.JErrorPane;
+import java.util.*;
 
 /**
  * This class is used to load and run Groovy scripts.
@@ -281,6 +272,7 @@ public final class ScriptManager {
             INSTALLED_SCRIPTS_ROOT.mkdir();
             return;
         }
+        //noinspection DataFlowIssue
         for (File subFile : INSTALLED_SCRIPTS_ROOT.listFiles()) {
             if (!subFile.isFile() || !subFile.getPath().endsWith(".groovy")) {
                 continue;
@@ -307,6 +299,7 @@ public final class ScriptManager {
         ClassLoader classLoader = getClass().getClassLoader();
         for (String scriptPath : findBuiltinScripts(classLoader)) {
             URL scriptUrl = classLoader.getResource(scriptPath);
+            assert scriptUrl != null;
             Script script = loadScript(scriptUrl);
             defaultScripts.put(script.getClass().getName(), script);
         }
@@ -314,7 +307,7 @@ public final class ScriptManager {
 
     // Modified from https://github.com/apache/groovy/blob/master/src/main/java/org/codehaus/groovy/control/SourceExtensionHandler.java
     private static Set<String> findBuiltinScripts(ClassLoader loader) throws IOException {
-        Set<String> scripts = new LinkedHashSet<String>();
+        Set<String> scripts = new LinkedHashSet<>();
         Enumeration<URL> globalServices = loader.getResources("META-INF/arrayv/io.github.arrayv.groovyapi.BuiltinScripts");
         if (!globalServices.hasMoreElements()) {
             globalServices = loader.getResources("META-INF/arrayv/io.github.arrayv.groovyapi.BuiltinScripts");

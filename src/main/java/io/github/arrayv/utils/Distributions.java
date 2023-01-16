@@ -1,15 +1,15 @@
 package io.github.arrayv.utils;
 
+import io.github.arrayv.dialogs.LoadCustomDistributionDialog;
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.panes.JErrorPane;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
-import io.github.arrayv.dialogs.LoadCustomDistributionDialog;
-import io.github.arrayv.main.ArrayVisualizer;
-import io.github.arrayv.panes.JErrorPane;
 
 /*
  *
@@ -272,7 +272,7 @@ public enum Distributions {
             int currentLen = arrayVisualizer.getCurrentLength();
 
             for (int i = 0; i < currentLen; i++) {
-                int value = 0 - (int) (PerlinNoise.returnNoise((float) i / currentLen) * currentLen);
+                int value = -(int)(PerlinNoise.returnNoise((float)i / currentLen) * currentLen);
                 array[i] = Math.min(value, currentLen-1);
             }
         }
@@ -311,13 +311,15 @@ public enum Distributions {
         public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
             int currentLen = arrayVisualizer.getCurrentLength();
             int step = Math.max(1, currentLen/256);
-            int floorLog2 = (int)(Math.log(currentLen/step)/Math.log(2));
+            int floorLog2 = (int)(Math.log((double)currentLen/step)/Math.log(2));
             int lowest;
+            //noinspection StatementWithEmptyBody
             for (lowest = step; 2*lowest <= currentLen/4; lowest*=2);
             boolean[] digits = new boolean[floorLog2+2];
 
             int i, j;
             for (i = 0; i+step <= currentLen; i+=step) {
+                //noinspection StatementWithEmptyBody
                 for (j = 0; digits[j]; j++);
                 digits[j] = true;
 
@@ -329,6 +331,7 @@ public enum Distributions {
                 for (int k = 0; k < j; k++) digits[k] = false;
             }
 
+            //noinspection StatementWithEmptyBody
             for (j = 0; digits[j]; j++);
             digits[j] = true;
             while (i < currentLen) {
@@ -494,7 +497,7 @@ public enum Distributions {
             int n = arrayVisualizer.getCurrentLength();
 
             int[] minPrimeFactors = new int[n];
-            List<Integer> primes = new ArrayList<Integer>();
+            List<Integer> primes = new ArrayList<>();
 
             array[0] = 0;
             array[1] = 1;

@@ -1,18 +1,5 @@
 package io.github.arrayv.visuals.image;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-
 import io.github.arrayv.dialogs.CustomImageDialog;
 import io.github.arrayv.dialogs.LoadingDialog;
 import io.github.arrayv.frames.ImageFrame;
@@ -21,6 +8,17 @@ import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.visuals.Visual;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /*
  *
@@ -101,7 +99,7 @@ public final class CustomImage extends Visual {
         this.openImgMenu = true;
     }
 
-    private void updateImageDims() throws Exception {
+    private void updateImageDims() {
         this.imgHeight = this.img.getHeight();
         this.imgWidth = this.img.getWidth();
     }
@@ -159,6 +157,7 @@ public final class CustomImage extends Visual {
         try (InputStream is = defaultImage
                 ? getClass().getResourceAsStream("/pic.jpg")
                 : new FileInputStream(imageFile)) {
+            assert is != null;
             this.img = ImageIO.read(is);
         } catch (IOException e) {
             success = false;
@@ -221,6 +220,7 @@ public final class CustomImage extends Visual {
         AffineTransformOp bilinearScaleOp = new AffineTransformOp(scaleTransform, AffineTransformOp.TYPE_BICUBIC);
 
         try {
+            //noinspection NonAtomicOperationOnVolatileField
             this.img = bilinearScaleOp.filter(this.img, new BufferedImage(width, height, this.img.getType()));
 
             /*

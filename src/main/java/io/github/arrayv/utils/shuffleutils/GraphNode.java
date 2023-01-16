@@ -1,18 +1,16 @@
 package io.github.arrayv.utils.shuffleutils;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.geom.Rectangle2D;
-
 import io.github.arrayv.utils.ShuffleGraph;
 import io.github.arrayv.utils.ShuffleInfo;
+
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class GraphNode {
     public static final int WIDTH = 250;
     public static final int HEIGHT = 50;
 
-    private ShuffleInfo shuffle;
+    private final ShuffleInfo shuffle;
     private int x, y;
     private ShuffleGraph graph;
     private GraphConnection preConnection, postConnection;
@@ -89,7 +87,7 @@ public class GraphNode {
     }
 
     public boolean inStartDrag(Point pos) {
-        return (new Rectangle2D.Double(x + WIDTH - 15, y + HEIGHT / 2 - 10, 30, 20)).contains(pos);
+        return (new Rectangle2D.Double(x + WIDTH - 15, y + HEIGHT / 2.0 - 10, 30, 20)).contains(pos);
     }
 
     public void delete() {

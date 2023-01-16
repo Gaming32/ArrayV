@@ -1,11 +1,11 @@
 package io.github.arrayv.visuals.circles;
 
-import java.awt.Color;
-
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.visuals.Visual;
+
+import java.awt.*;
 
 /*
  *
@@ -63,8 +63,9 @@ public final class ColorCircle extends Visual {
         x[0] =  width/2;
         y[0] = height/2;
 
-        x[2] =  width/2 + (int)(r * Math.cos(Math.PI * (2d*(n-1) / n - 0.5)));
-        y[2] = height/2 + (int)(r * Math.sin(Math.PI * (2d*(n-1) / n - 0.5)));
+        double angle = Math.PI * (2d * (n - 1) / n - 0.5);
+        x[2] =  width/2 + (int)(r * Math.cos(angle));
+        y[2] = height/2 + (int)(r * Math.sin(angle));
 
         for (int i = 0; i < n; i++) {
             x[1] = x[2];
@@ -83,14 +84,17 @@ public final class ColorCircle extends Visual {
                     if (arrayVisualizer.analysisEnabled()) this.extraRender.setColor(Color.LIGHT_GRAY);
                     else                                  this.extraRender.setColor(Color.WHITE);
 
-                    px[0] =  width/2 + (int)((r + p/4) * Math.cos(Math.PI * ((2d*i - 1) / n - 0.5)));
-                    py[0] = height/2 + (int)((r + p/4) * Math.sin(Math.PI * ((2d*i - 1) / n - 0.5)));
+                    double angle1 = Math.PI * ((2d * i - 1) / n - 0.5);
+                    px[0] =  width/2 + (int)((r + p/4) * Math.cos(angle1));
+                    py[0] = height/2 + (int)((r + p/4) * Math.sin(angle1));
 
-                    px[1] = px[0] + (int)(p * Math.cos(Math.PI * ((2d*i - 1) / n - 0.67)));
-                    py[1] = py[0] + (int)(p * Math.sin(Math.PI * ((2d*i - 1) / n - 0.67)));
+                    double angle2 = Math.PI * ((2d * i - 1) / n - 0.67);
+                    px[1] = px[0] + (int)(p * Math.cos(angle2));
+                    py[1] = py[0] + (int)(p * Math.sin(angle2));
 
-                    px[2] = px[0] + (int)(p * Math.cos(Math.PI * ((2d*i - 1) / n - 0.33)));
-                    py[2] = py[0] + (int)(p * Math.sin(Math.PI * ((2d*i - 1) / n - 0.33)));
+                    double angle3 = Math.PI * ((2d * i - 1) / n - 0.33);
+                    px[2] = px[0] + (int)(p * Math.cos(angle3));
+                    py[2] = py[0] + (int)(p * Math.sin(angle3));
 
                     this.extraRender.fillPolygon(px, py, 3);
                 }

@@ -1,14 +1,13 @@
 package io.github.arrayv.prompts;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JFrame;
-import javax.swing.LayoutStyle.ComponentPlacement;
-
 import io.github.arrayv.frames.AppFrame;
 import io.github.arrayv.frames.UtilFrame;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.visuals.VisualStyles;
+
+import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /*
  *
@@ -40,9 +39,9 @@ SOFTWARE.
 public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     private static final long serialVersionUID = 1L;
 
-    private ArrayVisualizer arrayVisualizer;
-    private JFrame frame;
-    private UtilFrame utilFrame;
+    private final ArrayVisualizer arrayVisualizer;
+    private final JFrame frame;
+    private final UtilFrame utilFrame;
 
     public ViewPrompt(ArrayVisualizer arrayVisualizer, JFrame frame, UtilFrame utilFrame) {
         this.arrayVisualizer = arrayVisualizer;
@@ -64,23 +63,24 @@ public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        this.jLabel1           = new javax.swing.JLabel();
+        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
 
-        this.barGraph          = new javax.swing.JButton();
-        this.dotGraph          = new javax.swing.JButton();
-        this.colorCircle       = new javax.swing.JButton();
-        this.pixelMesh         = new javax.swing.JButton();
-        this.spiral            = new javax.swing.JButton();
-        this.disparity         = new javax.swing.JButton();
-        this.disparityDots     = new javax.swing.JButton();
-        this.spiralDots        = new javax.swing.JButton();
-        this.rainbow           = new javax.swing.JButton();
-        this.customImage       = new javax.swing.JButton();
-        this.sineWave          = new javax.swing.JButton();
-        this.waveDots          = new javax.swing.JButton();
-        this.hoopStack         = new javax.swing.JButton();
-        this.disparityBarGraph = new javax.swing.JButton();
-        this.disparityChords   = new javax.swing.JButton();
+        // Variables declaration - do not modify//GEN-BEGIN:variables
+        javax.swing.JButton barGraph = new javax.swing.JButton();
+        javax.swing.JButton dotGraph = new javax.swing.JButton();
+        javax.swing.JButton colorCircle = new javax.swing.JButton();
+        javax.swing.JButton pixelMesh = new javax.swing.JButton();
+        javax.swing.JButton spiral = new javax.swing.JButton();
+        javax.swing.JButton disparity = new javax.swing.JButton();
+        javax.swing.JButton disparityDots = new javax.swing.JButton();
+        javax.swing.JButton spiralDots = new javax.swing.JButton();
+        javax.swing.JButton rainbow = new javax.swing.JButton();
+        javax.swing.JButton customImage = new javax.swing.JButton();
+        javax.swing.JButton sineWave = new javax.swing.JButton();
+        javax.swing.JButton waveDots = new javax.swing.JButton();
+        javax.swing.JButton hoopStack = new javax.swing.JButton();
+        javax.swing.JButton disparityBarGraph = new javax.swing.JButton();
+        javax.swing.JButton disparityChords = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -88,123 +88,48 @@ public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         jLabel1.setText("Select Visual Style");
 
         barGraph.setText("Bar Graph");
-        barGraph.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                barGraphActionPerformed(evt);
-            }
-        });
+        barGraph.addActionListener(this::barGraphActionPerformed);
 
         dotGraph.setText("Dot Graph");
-        dotGraph.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dotGraphActionPerformed(evt);
-            }
-        });
+        dotGraph.addActionListener(this::dotGraphActionPerformed);
 
         colorCircle.setText("Color Circle");
-        colorCircle.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                colorCircleActionPerformed(evt);
-            }
-        });
+        colorCircle.addActionListener(this::colorCircleActionPerformed);
 
         pixelMesh.setText("Pixel Mesh");
-        pixelMesh.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                triangleMeshActionPerformed(evt);
-            }
-        });
+        pixelMesh.addActionListener(this::triangleMeshActionPerformed);
 
         spiral.setText("Spiral");
-        spiral.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                spiralActionPerformed(evt);
-            }
-        });
+        spiral.addActionListener(this::spiralActionPerformed);
 
         rainbow.setText("Rainbow");
-        rainbow.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rainbowActionPerformed(evt);
-            }
-        });
+        rainbow.addActionListener(this::rainbowActionPerformed);
 
         disparity.setText("Disparity Circle");
-        disparity.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                disparityActionPerformed(evt);
-            }
-        });
+        disparity.addActionListener(this::disparityActionPerformed);
 
         customImage.setText("Custom Image");
-        customImage.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                customImageActionPerformed(evt);
-            }
-        });
+        customImage.addActionListener(this::customImageActionPerformed);
 
         disparityDots.setText("Disparity Dots");
-        disparityDots.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                disparityDotsActionPerformed(evt);
-            }
-        });
+        disparityDots.addActionListener(this::disparityDotsActionPerformed);
 
         spiralDots.setText("Spiral Dots");
-        spiralDots.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                spiralDotsActionPerformed(evt);
-            }
-        });
+        spiralDots.addActionListener(this::spiralDotsActionPerformed);
 
         sineWave.setText("Sine Wave");
-        sineWave.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sineWaveActionPerformed(evt);
-            }
-        });
+        sineWave.addActionListener(this::sineWaveActionPerformed);
         waveDots.setText("Wave Dots");
-        waveDots.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                waveDotsActionPerformed(evt);
-            }
-        });
+        waveDots.addActionListener(this::waveDotsActionPerformed);
 
         hoopStack.setText("Hoop Stack");
-        hoopStack.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hoopStackActionPerformed(evt);
-            }
-        });
+        hoopStack.addActionListener(this::hoopStackActionPerformed);
 
         disparityBarGraph.setText("Disparity Bar Graph");
-        disparityBarGraph.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                disparityBarGraphActionPerformed(evt);
-            }
-        });
+        disparityBarGraph.addActionListener(this::disparityBarGraphActionPerformed);
 
         disparityChords.setText("Disparity Chords");
-        disparityChords.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                disparityChordsActionPerformed(evt);
-            }
-        });
+        disparityChords.addActionListener(this::disparityChordsActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
@@ -371,21 +296,4 @@ public final class ViewPrompt extends javax.swing.JFrame implements AppFrame {
         dispose();
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton barGraph;
-    private javax.swing.JButton dotGraph;
-    private javax.swing.JButton colorCircle;
-    private javax.swing.JButton pixelMesh;
-    private javax.swing.JButton spiral;
-    private javax.swing.JButton spiralDots;
-    private javax.swing.JButton disparity;
-    private javax.swing.JButton disparityDots;
-    private javax.swing.JButton rainbow;
-    private javax.swing.JButton customImage;
-    private javax.swing.JButton sineWave;
-    private javax.swing.JButton waveDots;
-    private javax.swing.JButton hoopStack;
-    private javax.swing.JButton disparityBarGraph;
-    private javax.swing.JButton disparityChords;
-    private javax.swing.JLabel jLabel1;
 }

@@ -1,45 +1,5 @@
 package io.github.arrayv.main;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.StreamSupport;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
-import javax.swing.JOptionPane;
-import javax.swing.ProgressMonitor;
-import javax.tools.JavaCompiler;
-import javax.tools.JavaCompiler.CompilationTask;
-import javax.tools.JavaFileObject;
-import javax.tools.StandardJavaFileManager;
-import javax.tools.StandardLocation;
-import javax.tools.ToolProvider;
-
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortComparator;
 import io.github.arrayv.sortdata.SortInfo;
@@ -49,6 +9,21 @@ import io.github.arrayv.utils.CommonUtils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
+
+import javax.swing.*;
+import javax.tools.*;
+import javax.tools.JavaCompiler.CompilationTask;
+import java.awt.*;
+import java.io.*;
+import java.lang.reflect.Method;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.*;
+import java.util.stream.StreamSupport;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /*
  *
@@ -110,13 +85,13 @@ public final class SortAnalyzer {
         }
     }
 
-    private ArrayList<SortInfo> sorts;
-    private ArrayList<String> invalidSorts;
-    private ArrayList<String> suggestions;
+    private final ArrayList<SortInfo> sorts;
+    private final ArrayList<String> invalidSorts;
+    private final ArrayList<String> suggestions;
 
     private String sortErrorMsg;
 
-    private ArrayVisualizer arrayVisualizer;
+    private final ArrayVisualizer arrayVisualizer;
 
     SortAnalyzer(ArrayVisualizer arrayVisualizer) {
         this.sorts = new ArrayList<>();
@@ -181,7 +156,7 @@ public final class SortAnalyzer {
                 throw new IllegalArgumentException(sortClass + " does not subclass Sort");
             }
         } catch (ClassNotFoundException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return true;
         }
         return compileSingle((Class<? extends Sort>)sortClass);
@@ -294,8 +269,7 @@ public final class SortAnalyzer {
             List<ClassInfo> sortFiles;
             sortFiles = scanResult.getAllClasses();
 
-            for (int i = 0; i < sortFiles.size(); i++) {
-                ClassInfo sortFile = sortFiles.get(i);
+            for (ClassInfo sortFile : sortFiles) {
                 if (sortFile.getName().contains("$")) continue; // Ignore inner classes
                 this.compileSingle(sortFile.loadClass(Sort.class));
             }
@@ -449,7 +423,7 @@ public final class SortAnalyzer {
         private String readPackageName() {
             StringBuilder result = new StringBuilder();
             boolean isAfterDot = true;
-            while (true) {
+            do {
                 // @checkstyle:off IndentationCheck - It looks nicer how it is
                 if (isAfterDot) {
                     if (Character.isJavaIdentifierStart(c)) {
@@ -472,16 +446,14 @@ public final class SortAnalyzer {
                 if (advance()) {
                     throw new IllegalArgumentException("EOF");
                 }
-                if (c == ';') break;
-            }
+            } while (c != ';');
             return result.toString();
         }
 
         private boolean skipWhitespace() {
-            while (true) {
+            do {
                 if (advance()) return true;
-                if (!Character.isWhitespace(c)) break;
-            }
+            } while (Character.isWhitespace(c));
             return false;
         }
 
@@ -585,7 +557,7 @@ public final class SortAnalyzer {
         final File logFile = new File(CACHE_DIR, "compile-" + System.currentTimeMillis() + ".log").getAbsoluteFile();
         int success;
         try (Writer output = new FileWriter(logFile)) {
-            fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(CACHE_DIR));
+            fileManager.setLocation(StandardLocation.CLASS_OUTPUT, Collections.singletonList(CACHE_DIR));
             // @checkstyle:off ParenPadCheck
             CompilationTask task = compiler.getTask(
                 output,        // out
@@ -704,7 +676,7 @@ public final class SortAnalyzer {
 
     public void sortSorts() {
         SortComparator sortComparator = new SortComparator();
-        Collections.sort(sorts, sortComparator);
+        sorts.sort(sortComparator);
         // This loop fixes all the sort IDs to match up with the indices again
         for (int i = 0; i < sorts.size(); i++) {
             SortInfo sort = sorts.get(i);
@@ -744,11 +716,11 @@ public final class SortAnalyzer {
         boolean warned = false;
 
         if (sort.isBogoSort() && !sort.hasUnreasonableLimit()) {
-            suggestions.append("- " + sort.getRunName() + " is a bogosort. It should have an unreasonabe limit.\n");
+            suggestions.append("- ").append(sort.getRunName()).append(" is a bogosort. It should have an unreasonabe limit.\n");
             warned = true;
         }
         if (sort.isRadixSort() && !sort.isBucketSort()) {
-            suggestions.append("- " + sort.getRunName() + " is a radix sort and should also be classified as a bucket sort.\n");
+            suggestions.append("- ").append(sort.getRunName()).append(" is a radix sort and should also be classified as a bucket sort.\n");
             warned = true;
         }
 

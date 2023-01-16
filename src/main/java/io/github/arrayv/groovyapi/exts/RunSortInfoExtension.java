@@ -1,9 +1,9 @@
 package io.github.arrayv.groovyapi.exts;
 
+import io.github.arrayv.groovyapi.RunSortBuilder;
+
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map;
-
-import io.github.arrayv.groovyapi.RunSortBuilder;
 
 /**
  * Extension for creating {@link Map.Entry}s to configure {@link RunSortBuilder} with

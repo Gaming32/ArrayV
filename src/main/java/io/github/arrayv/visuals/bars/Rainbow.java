@@ -1,11 +1,11 @@
 package io.github.arrayv.visuals.bars;
 
-import java.awt.Color;
-
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.visuals.Visual;
+
+import java.awt.*;
 
 /*
  *
@@ -48,7 +48,7 @@ public final class Rainbow extends Visual {
                 this.mainRender.setColor(Color.GREEN);
             else this.mainRender.setColor(getIntColor(array[i], arrayVisualizer.getCurrentLength()));
 
-            this.mainRender.fillRect(j + 20, renderer.getYOffset() - 20, width, (int) (renderer.getViewSize()));
+            this.mainRender.fillRect(j + 20, renderer.getYOffset() - 20, width, renderer.getViewSize());
 
             j += width;
         }
@@ -60,7 +60,7 @@ public final class Rainbow extends Visual {
 
             if (Highlights.containsPosition(i)) {
 
-                this.mainRender.fillRect(j + 20, renderer.getYOffset() - 20, Math.max(width, 2), (int) (renderer.getViewSize()));
+                this.mainRender.fillRect(j + 20, renderer.getYOffset() - 20, Math.max(width, 2), renderer.getViewSize());
             }
             j += width;
         }

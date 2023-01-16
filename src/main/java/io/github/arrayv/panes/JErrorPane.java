@@ -1,10 +1,8 @@
 package io.github.arrayv.panes;
 
+import javax.swing.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
 public final class JErrorPane extends JOptionPane {
     /**

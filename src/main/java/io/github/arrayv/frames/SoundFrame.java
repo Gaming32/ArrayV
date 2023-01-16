@@ -25,25 +25,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import io.github.arrayv.utils.Sounds;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 public class SoundFrame extends JFrame {
 
@@ -51,7 +37,6 @@ public class SoundFrame extends JFrame {
      *
      */
     private static final long serialVersionUID = 1L;
-    private JPanel contentPane;
 
     private int instrumentChoice;
 
@@ -62,7 +47,7 @@ public class SoundFrame extends JFrame {
         this.instrumentChoice = sounds.getInstrumentChoice();
 
         setBounds(100, 100, 450, 300);
-        contentPane = new JPanel();
+        JPanel contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         GridBagLayout gblContentPane = new GridBagLayout();
@@ -80,12 +65,7 @@ public class SoundFrame extends JFrame {
         contentPane.add(lblNewLabel, gbcLblNewLabel);
 
         JButton btnNewButton = new JButton("Default sounds");
-        btnNewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sounds.selectDefaultSoundbank(SoundFrame.this);
-            }
-        });
+        btnNewButton.addActionListener(e -> sounds.selectDefaultSoundbank(SoundFrame.this));
         GridBagConstraints gbcBtnNewButton = new GridBagConstraints();
         gbcBtnNewButton.insets = new Insets(0, 0, 5, 0);
         gbcBtnNewButton.gridx = 1;
@@ -100,12 +80,7 @@ public class SoundFrame extends JFrame {
         contentPane.add(lblNewLabel1, gbcLblNewLabel1);
 
         JButton btnNewButton1 = new JButton("Choose soundbank...");
-        btnNewButton1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sounds.selectCustomSoundbank(SoundFrame.this);
-            }
-        });
+        btnNewButton1.addActionListener(e -> sounds.selectCustomSoundbank(SoundFrame.this));
         GridBagConstraints gbcBtnNewButton1 = new GridBagConstraints();
         gbcBtnNewButton1.insets = new Insets(0, 0, 5, 0);
         gbcBtnNewButton1.gridx = 1;
@@ -136,28 +111,20 @@ public class SoundFrame extends JFrame {
         gbcScrollPane.gridy = 5;
         contentPane.add(scrollPane, gbcScrollPane);
 
-        JList<String> list = new JList<String>();
+        JList<String> list = new JList<>();
         scrollPane.setViewportView(list);
         list.setListData(sounds.getInstrumentList());
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setSelectedIndex(this.instrumentChoice);
-        list.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (SoundFrame.this.instrumentChoice != list.getSelectedIndex()) {
-                    SoundFrame.this.instrumentChoice = list.getSelectedIndex();
-                    sounds.testInstrument(SoundFrame.this.instrumentChoice);
-                }
+        list.addListSelectionListener(e -> {
+            if (SoundFrame.this.instrumentChoice != list.getSelectedIndex()) {
+                SoundFrame.this.instrumentChoice = list.getSelectedIndex();
+                sounds.testInstrument(SoundFrame.this.instrumentChoice);
             }
         });
 
         JButton btnNewButton2 = new JButton("Select sound");
-        btnNewButton2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sounds.setInstrumentChoice(SoundFrame.this.instrumentChoice);
-            }
-        });
+        btnNewButton2.addActionListener(e -> sounds.setInstrumentChoice(SoundFrame.this.instrumentChoice));
         GridBagConstraints gbcBtnNewButton2 = new GridBagConstraints();
         gbcBtnNewButton2.anchor = GridBagConstraints.EAST;
         gbcBtnNewButton2.gridx = 1;

@@ -1,12 +1,12 @@
 package io.github.arrayv.sortdata;
 
+import io.github.arrayv.sorts.templates.Sort;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.function.IntUnaryOperator;
-
-import io.github.arrayv.sorts.templates.Sort;
 
 public final class MethodAnswerValidator implements IntUnaryOperator {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();

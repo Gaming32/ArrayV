@@ -1,21 +1,12 @@
 package io.github.arrayv.utils;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.utils.shuffleutils.GraphConnection;
 import io.github.arrayv.utils.shuffleutils.GraphNode;
+
+import java.awt.*;
+import java.util.List;
+import java.util.*;
 
 public class ShuffleGraph implements Collection<ShuffleInfo> {
     private List<GraphNode> nodes;
@@ -126,11 +117,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
     }
 
     public Iterable<GraphNode> connectedNodesIterable() {
-        return new Iterable<GraphNode>() {
-            public Iterator<GraphNode> iterator() {
-                return ShuffleGraph.this.iterateConnectedNodes();
-            }
-        };
+        return ShuffleGraph.this::iterateConnectedNodes;
     }
 
     public void draw(Graphics2D g) {
@@ -254,7 +241,6 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
             GraphConnection connect = node.getPostConnection();
             if (connect == null) {
                 previous = node;
-                node = null;
                 break;
             }
             previous = node;
@@ -352,11 +338,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
     }
 
     public Object[] toArray() {
-        List<ShuffleInfo> result = new ArrayList<>();
-        for (ShuffleInfo shuffle : this) {
-            result.add(shuffle);
-        }
-        return result.toArray();
+        return new ArrayList<>(this).toArray();
     }
 
     @SuppressWarnings("unchecked")
@@ -445,7 +427,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         this.textSizes = textSizes;
     }
 
-    protected class GraphIterator implements Iterator<ShuffleInfo> {
+    protected static class GraphIterator implements Iterator<ShuffleInfo> {
         NodeIterator it;
 
         GraphIterator(ShuffleGraph graph) {
@@ -461,11 +443,11 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         }
 
         public void remove() {
-            this.it.remove();;
+            this.it.remove();
         }
     }
 
-    protected class NodeIterator implements Iterator<GraphNode> {
+    protected static class NodeIterator implements Iterator<GraphNode> {
         GraphNode currentNode, nextNode;
 
         NodeIterator(ShuffleGraph graph) {
@@ -476,10 +458,7 @@ public class ShuffleGraph implements Collection<ShuffleInfo> {
         GraphNode findNext() {
             GraphConnection connect = this.currentNode.getPostConnection();
             if (connect != null) {
-                GraphNode next = connect.getTo();
-                if (next != null) {
-                    return next;
-                }
+                return connect.getTo();
             }
             return null;
         }

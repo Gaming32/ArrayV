@@ -1,52 +1,5 @@
 package io.github.arrayv.main;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
-import java.awt.Stroke;
-import java.awt.Toolkit;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Scanner;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
-
 import io.github.arrayv.dialogs.FileDialog;
 import io.github.arrayv.dialogs.SaveArrayDialog;
 import io.github.arrayv.frames.ArrayFrame;
@@ -56,16 +9,9 @@ import io.github.arrayv.groovyapi.ArrayVEventHandler;
 import io.github.arrayv.groovyapi.ScriptManager;
 import io.github.arrayv.panes.JErrorPane;
 import io.github.arrayv.sortdata.SortInfo;
-import io.github.arrayv.utils.AntiQSort;
-import io.github.arrayv.utils.ArrayFileWriter;
-import io.github.arrayv.utils.Delays;
-import io.github.arrayv.utils.Highlights;
-import io.github.arrayv.utils.Reads;
 import io.github.arrayv.utils.Renderer;
-import io.github.arrayv.utils.Sounds;
-import io.github.arrayv.utils.Statistics;
 import io.github.arrayv.utils.Timer;
-import io.github.arrayv.utils.Writes;
+import io.github.arrayv.utils.*;
 import io.github.arrayv.visuals.Visual;
 import io.github.arrayv.visuals.VisualStyles;
 import io.github.arrayv.visuals.bars.BarGraph;
@@ -83,6 +29,22 @@ import io.github.arrayv.visuals.dots.WaveDots;
 import io.github.arrayv.visuals.image.CustomImage;
 import io.github.arrayv.visuals.misc.HoopStack;
 import io.github.arrayv.visuals.misc.PixelMesh;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.*;
+import java.io.*;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*
  *
@@ -175,16 +137,16 @@ public final class ArrayVisualizer {
     private volatile int sortLength;
     private volatile int uniqueItems;
 
-    private ArrayManager arrayManager;
-    private SortAnalyzer sortAnalyzer;
+    private final ArrayManager arrayManager;
+    private final SortAnalyzer sortAnalyzer;
 
-    private UtilFrame utilFrame;
-    private ArrayFrame arrayFrame;
+    private final UtilFrame utilFrame;
+    private final ArrayFrame arrayFrame;
 
     private Visual[] visualClasses;
 
     private Thread sortingThread;
-    private Thread visualsThread;
+    private final Thread visualsThread;
 
     private volatile boolean visualsEnabled;
     private final boolean disabledStabilityCheck;
@@ -193,8 +155,7 @@ public final class ArrayVisualizer {
     private String heading;
     private String extraHeading;
     private Font typeFace;
-    private DecimalFormat formatter;
-    private DecimalFormatSymbols symbols;
+    private final DecimalFormat formatter;
 
     private volatile int currentGap;
 
@@ -202,7 +163,7 @@ public final class ArrayVisualizer {
 
     private volatile boolean highlightAsAnalysis;
 
-    private Statistics statSnapshot;
+    private final Statistics statSnapshot;
     private String fontSelection;
     private double fontSelectionScale;
 
@@ -239,7 +200,7 @@ public final class ArrayVisualizer {
 
     private VisualStyles visualStyle;
 
-    private volatile int updateVisualsForced;
+    private final AtomicInteger updateVisualsForced;
     private volatile boolean benchmarking;
 
     private static int maxLengthPower = 15;
@@ -308,22 +269,19 @@ public final class ArrayVisualizer {
             }
         });
 
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent e) {
-                if (e.getID() != KeyEvent.KEY_PRESSED)
-                    return false;
-                if (e.getKeyCode() == KeyEvent.VK_S && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
-                    int[] snapshot = Arrays.copyOfRange(ArrayVisualizer.this.getArray(), 0, ArrayVisualizer.this.getCurrentLength());
-                    FileDialog selected = new SaveArrayDialog();
-                    ArrayFileWriter.writeArray(selected.getFile(), snapshot, snapshot.length);
-                    return true;
-                } else if (e.getKeyCode() == KeyEvent.VK_F5) {
-                    ArrayVisualizer.this.updateNow();
-                    return true;
-                }
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+            if (e.getID() != KeyEvent.KEY_PRESSED)
                 return false;
+            if (e.getKeyCode() == KeyEvent.VK_S && (e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
+                int[] snapshot = Arrays.copyOfRange(ArrayVisualizer.this.getArray(), 0, ArrayVisualizer.this.getCurrentLength());
+                FileDialog selected = new SaveArrayDialog();
+                ArrayFileWriter.writeArray(selected.getFile(), snapshot, snapshot.length);
+                return true;
+            } else if (e.getKeyCode() == KeyEvent.VK_F5) {
+                ArrayVisualizer.this.updateNow();
+                return true;
             }
+            return false;
         });
 
         this.window.addComponentListener(new ComponentListener() {
@@ -405,13 +363,14 @@ public final class ArrayVisualizer {
                     }
                     StatisticType type = StatisticType.CONFIG_KEYS.get(line.toLowerCase());
                     if (type == null) {
-                        System.err.println("Unknown statistic type: " + type);
+                        System.err.println("Unknown statistic type: " + line.toLowerCase());
                         continue;
                     }
                     statsInfoList.add(type);
                 }
             } catch (FileNotFoundException e) {
                 try (InputStream in = getClass().getResourceAsStream("/stats-config.txt")) {
+                    assert in != null;
                     try (OutputStream out = new FileOutputStream("stats-config.txt")) {
                         byte[] buf = new byte[8192];
                         int length;
@@ -458,17 +417,17 @@ public final class ArrayVisualizer {
             };
             // @checkstyle:on IndentationCheck
         } else {
-            statsConfig = statsInfoList.toArray(new StatisticType[statsInfoList.size()]);
+            statsConfig = statsInfoList.toArray(new StatisticType[0]);
         }
 
         this.sortLength = Math.min(2048, this.maxArrayVal);
         this.uniqueItems = this.sortLength;
 
         this.formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
-        this.symbols = this.formatter.getDecimalFormatSymbols();
+        DecimalFormatSymbols symbols = this.formatter.getDecimalFormatSymbols();
         this.formatter.setRoundingMode(RoundingMode.HALF_UP);
-        this.symbols.setGroupingSeparator(',');
-        this.formatter.setDecimalFormatSymbols(this.symbols);
+        symbols.setGroupingSeparator(',');
+        this.formatter.setDecimalFormatSymbols(symbols);
 
         this.Highlights = new Highlights(this, this.maxArrayVal);
         this.Sounds = new Sounds(this.array, this);
@@ -509,10 +468,12 @@ public final class ArrayVisualizer {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate array for improved validation. This feature will be disabled.");
             validateArray = null;
         }
-        this.validateArray = validateArray;;
+        this.validateArray = validateArray;
         this.stabilityTable = stabilityTable;
         this.indexTable = indexTable;
+        //noinspection ConstantValue
         this.disabledStabilityCheck = disabledStabilityCheck;
+        //noinspection ConstantValue
         if (!this.disabledStabilityCheck) {
             this.resetStabilityTable();
             this.resetIndexTable();
@@ -544,7 +505,7 @@ public final class ArrayVisualizer {
 
         this.isCanceled = false;
 
-        this.updateVisualsForced = 0;
+        this.updateVisualsForced = new AtomicInteger();
         this.benchmarking = false;
 
         this.cx = 0;
@@ -558,7 +519,6 @@ public final class ArrayVisualizer {
         this.arrayManager.initializeArray(this.array);
 
         //TODO: Overhaul visual code to properly reflect Swing (JavaFX?) style and conventions
-        this.toggleVisualUpdates(false);
         //DRAW THREAD
         this.visualsThread = new Thread("VisualsThread") {
             @SuppressWarnings("unused")
@@ -591,7 +551,7 @@ public final class ArrayVisualizer {
                 ArrayVisualizer.this.visualClasses[14] = new        SpiralDots(ArrayVisualizer.this);
 
                 while (ArrayVisualizer.this.visualsEnabled) {
-                    if (ArrayVisualizer.this.updateVisualsForced == 0) {
+                    if (ArrayVisualizer.this.updateVisualsForced.get() == 0) {
                         try {
                             synchronized (ArrayVisualizer.this) {
                                 ArrayVisualizer.this.wait();
@@ -602,8 +562,8 @@ public final class ArrayVisualizer {
                     }
                     long startTime = System.currentTimeMillis();
                     try {
-                        if (ArrayVisualizer.this.updateVisualsForced > 0) {
-                            ArrayVisualizer.this.updateVisualsForced--;
+                        if (ArrayVisualizer.this.updateVisualsForced.get() > 0) {
+                            ArrayVisualizer.this.updateVisualsForced.decrementAndGet();
                             ArrayVisualizer.this.renderer.updateVisualsStart(ArrayVisualizer.this);
                             int[][] arrays = ArrayVisualizer.this.arrays.toArray(new int[][] { });
                             ArrayVisualizer.this.renderer.drawVisual(ArrayVisualizer.this.visualStyle, arrays, ArrayVisualizer.this, ArrayVisualizer.this.Highlights);
@@ -617,8 +577,8 @@ public final class ArrayVisualizer {
                             background.drawImage(ArrayVisualizer.this.img, 0, 0, null);
                             Toolkit.getDefaultToolkit().sync();
                         }
-                        if (ArrayVisualizer.this.updateVisualsForced > 10000) {
-                            ArrayVisualizer.this.updateVisualsForced = 100;
+                        if (ArrayVisualizer.this.updateVisualsForced.get() > 10000) {
+                            ArrayVisualizer.this.updateVisualsForced.set(100);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -662,14 +622,13 @@ public final class ArrayVisualizer {
 
         this.mainRender.setColor(textColor);
 
-        statLoop:
         for (StatisticType statType : statsConfig) {
             // System.out.println(yPos);
             String stat;
             switch (statType) {
                 case LINE_BREAK:
                     yPos += (int)(fontSelectionScale / 25.0 * 15);
-                    continue statLoop;
+                    continue;
                 case SORT_IDENTITY:
                     stat = statSnapshot.getSortIdentity();
                     break;
@@ -725,7 +684,7 @@ public final class ArrayVisualizer {
             frameSkipped = true;
             return;
         }
-        this.updateVisualsForced += fallback;
+        this.updateVisualsForced.addAndGet(fallback);
         synchronized (this) {
             this.notify();
         }
@@ -739,13 +698,11 @@ public final class ArrayVisualizer {
     }
 
     public void forceVisualUpdate(int count) {
-        this.updateVisualsForced += count;
+        this.updateVisualsForced.addAndGet(count);
     }
 
     public boolean enableBenchmarking(boolean enabled) {
-        if (enabled) {
-
-        } else if (this.benchmarking) {
+        if (!enabled && this.benchmarking) {
             if (this.getCurrentLength() >= Math.pow(2, 23)) {
                 int warning = JOptionPane.showOptionDialog(
                     this.getMainWindow(),
@@ -753,7 +710,7 @@ public final class ArrayVisualizer {
                         + "Your computer's CPU probably can't handle more than 2^23 elements at any "
                         + "framrate not significantly less than 1. Would you still like "
                         + "to re-enable graphics?",
-                    "Warning!", 2, JOptionPane.WARNING_MESSAGE,
+                    "Warning!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE,
                     null, new String[] { "Yes", "Please save my GPU!" }, "Please save my GPU!");
                 if (warning != 0) {
                     enabled = true;
@@ -1207,7 +1164,7 @@ public final class ArrayVisualizer {
                         this.Delays.sleep(sleepRatio);
                     }
 
-                    JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+                    JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\nIndices " + i + " and " + (i + 1) + " are out of order!", "Error", JOptionPane.ERROR_MESSAGE, null);
                     success = false;
 
                     this.Highlights.clearAllMarks();
@@ -1236,7 +1193,7 @@ public final class ArrayVisualizer {
                 this.Delays.sleep(sleepRatio);
             }
 
-            JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + unstableIdx + " and " + (unstableIdx + 1) + " are out of order!", "Error", JOptionPane.OK_OPTION, null);
+            JOptionPane.showMessageDialog(this.window, "This sort is not stable;\nIndices " + unstableIdx + " and " + (unstableIdx + 1) + " are out of order!", "Error", JOptionPane.ERROR_MESSAGE, null);
 
             this.Highlights.clearAllMarks();
             this.Sounds.toggleSound(tempSound);
@@ -1250,7 +1207,7 @@ public final class ArrayVisualizer {
                 this.Delays.sleep(sleepRatio);
             }
 
-            JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\narray[" + invalidateIdx + "] != validateArray[" + invalidateIdx + "]", "Error", JOptionPane.OK_OPTION, null);
+            JOptionPane.showMessageDialog(this.window, "The sort was unsuccessful;\narray[" + invalidateIdx + "] != validateArray[" + invalidateIdx + "]", "Error", JOptionPane.ERROR_MESSAGE, null);
 
             this.Highlights.clearAllMarks();
             this.Sounds.toggleSound(tempSound);
@@ -1270,17 +1227,17 @@ public final class ArrayVisualizer {
     }
 
     public String formatTimes() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         Hashtable<String, Double> categoricalTimes = this.Timer.getCategoricalTimes();
         for (Map.Entry<String, Double> keyValuePair : categoricalTimes.entrySet()) {
-            result += keyValuePair.getKey() + ":\t" + this.Timer.prettifyTime(keyValuePair.getValue()) + "\n";
+            result.append(keyValuePair.getKey()).append(":\t").append(this.Timer.prettifyTime(keyValuePair.getValue())).append("\n");
         }
 
         String totalTime = this.Timer.getRealTime();
-        result += "--------------------\nTotal:\t" + totalTime;
+        result.append("--------------------\nTotal:\t").append(totalTime);
 
-        return result;
+        return result.toString();
     }
 
     public void endSort() {
@@ -1449,11 +1406,11 @@ public final class ArrayVisualizer {
     }
 
     private static String parseStringArray(String[] stringArray) {
-        String parsed = "";
-        for (int i = 0; i < stringArray.length; i++) {
-            parsed += stringArray[i] + "\n";
+        StringBuilder parsed = new StringBuilder();
+        for (String s : stringArray) {
+            parsed.append(s).append("\n");
         }
-        return parsed;
+        return parsed.toString();
     }
 
     private void drawWindows() {

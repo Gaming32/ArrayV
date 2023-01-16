@@ -1,15 +1,9 @@
 package io.github.arrayv.main;
 
-import java.util.Arrays;
-
 import io.github.arrayv.panes.JErrorPane;
-import io.github.arrayv.utils.Delays;
-import io.github.arrayv.utils.Distributions;
-import io.github.arrayv.utils.Highlights;
-import io.github.arrayv.utils.ShuffleGraph;
-import io.github.arrayv.utils.ShuffleInfo;
-import io.github.arrayv.utils.Shuffles;
-import io.github.arrayv.utils.Writes;
+import io.github.arrayv.utils.*;
+
+import java.util.Arrays;
 
 /*
  *
@@ -39,21 +33,21 @@ SOFTWARE.
  */
 
 public final class ArrayManager {
-    private io.github.arrayv.utils.Shuffles[] shuffleTypes;
-    private io.github.arrayv.utils.Distributions[] distributionTypes;
-    private String[] shuffleIDs;
-    private String[] distributionIDs;
+    private final io.github.arrayv.utils.Shuffles[] shuffleTypes;
+    private final io.github.arrayv.utils.Distributions[] distributionTypes;
+    private final String[] shuffleIDs;
+    private final String[] distributionIDs;
 
     private boolean hadDistributionAllocationError;
 
     private volatile boolean mutableLength;
 
-    private ArrayVisualizer arrayVisualizer;
-    private Delays Delays;
-    private Highlights Highlights;
+    private final ArrayVisualizer arrayVisualizer;
+    private final Delays Delays;
+    private final Highlights Highlights;
     private ShuffleGraph shuffle;
     private Distributions distribution;
-    private Writes Writes;
+    private final Writes Writes;
 
     public ArrayManager(ArrayVisualizer arrayVisualizer) {
         this.arrayVisualizer = arrayVisualizer;

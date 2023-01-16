@@ -1,14 +1,5 @@
 package io.github.arrayv.groovyapi;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
-import javax.swing.JOptionPane;
-
 import io.github.arrayv.frames.ArrayFrame;
 import io.github.arrayv.groovyapi.ScriptManager.ScriptThread;
 import io.github.arrayv.groovyapi.exts.RunSortInfoExtension;
@@ -19,6 +10,9 @@ import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.utils.Delays;
 import io.github.arrayv.utils.StopSort;
 import io.github.arrayv.utils.Timer;
+
+import javax.swing.*;
+import java.util.*;
 
 /**
  * <p>This class is used for running sorting algorithms. You can construct an instance using the
@@ -277,7 +271,7 @@ public final class RunSortBuilder {
 
         try {
             sort.getFreshInstance().runSort(array, arrayVisualizer.getCurrentLength(), getBuckets());
-        } catch (StopSort e) {
+        } catch (StopSort ignored) {
         } catch (Exception e) {
             JErrorPane.invokeErrorMessage(e);
         }
@@ -285,7 +279,7 @@ public final class RunSortBuilder {
         arrayVisualizer.endSort();
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
         }
     }
 }

@@ -1,10 +1,10 @@
 package io.github.arrayv.utils;
 
+import io.github.arrayv.panes.JErrorPane;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import io.github.arrayv.panes.JErrorPane;
 
 public final class ArrayFileWriter {
     private ArrayFileWriter() {

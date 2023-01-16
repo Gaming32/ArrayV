@@ -1,30 +1,19 @@
 package io.github.arrayv.utils;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-
-import javax.sound.midi.Instrument;
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Synthesizer;
-import javax.sound.sampled.SourceDataLine;
-import javax.swing.JOptionPane;
-
 import io.github.arrayv.dialogs.LoadingDialog;
 import io.github.arrayv.dialogs.SoundbankDialog;
 import io.github.arrayv.frames.SoundFrame;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
+
+import javax.sound.midi.*;
+import javax.sound.sampled.SourceDataLine;
+import javax.swing.*;
+import java.io.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Map;
 
 /*
  *
@@ -73,13 +62,13 @@ public final class Sounds {
         }
     }
 
-    private int[] array;
+    private final int[] array;
 
-    private ArrayVisualizer arrayVisualizer;
+    private final ArrayVisualizer arrayVisualizer;
 
-    private Thread audioThread;
+    private final Thread audioThread;
 
-    private Highlights Highlights;
+    private final Highlights Highlights;
 
     private volatile Synthesizer synth;
     private volatile MidiChannel[] channels;
@@ -90,16 +79,15 @@ public final class Sounds {
 
     private volatile boolean playSound;
     private volatile boolean playSound2; // Yes there're really two fields that are used at different times
-    private int numChannels; //Number of Audio Channels
-    private double pitchMin; //Minimum Pitch
-    private double pitchMax; //Maximum Pitch
+    private final int numChannels; //Number of Audio Channels
+    private final double pitchMin; //Minimum Pitch
+    private final double pitchMax; //Maximum Pitch
     private double soundMultiplier;
     private boolean softerSounds;
 
     private static final int SUSTAIN_PEDAL = 64;
     private static final int REVERB = 91;
 
-    private String defaultSoundbank = "Default (Yamaha XG Sound Set)";
     private String selectedSoundbank;
 
     private int sineWaveIndex;
@@ -275,7 +263,7 @@ public final class Sounds {
         this.sineWaveIndex = DEFAULT_SINE_WAVE_INDEX;
         InputStream is = getClass().getResourceAsStream("/sfx.sf2");
         this.loadInstruments(is);
-        this.selectedSoundbank = this.defaultSoundbank;
+        this.selectedSoundbank = "Default (Yamaha XG Sound Set)";
     }
 
     private void prepareCustomSoundbank(File file) {
@@ -306,7 +294,7 @@ public final class Sounds {
     }
 
     public String[] getInstrumentList() {
-        ArrayList<String> instrumentNames = new ArrayList<String>();
+        ArrayList<String> instrumentNames = new ArrayList<>();
         Instrument[] instruments = this.synth.getLoadedInstruments();
 
         if (instruments.length == 0) {

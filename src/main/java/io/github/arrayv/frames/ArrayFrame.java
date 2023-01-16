@@ -1,23 +1,17 @@
 package io.github.arrayv.frames;
 
-import java.awt.Toolkit;
+import io.github.arrayv.main.ArrayManager;
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.panes.JEnhancedOptionPane;
+import io.github.arrayv.utils.Highlights;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Hashtable;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import io.github.arrayv.main.ArrayManager;
-import io.github.arrayv.main.ArrayVisualizer;
-import io.github.arrayv.panes.JEnhancedOptionPane;
-import io.github.arrayv.utils.Highlights;
 
 /*
  *
@@ -49,14 +43,13 @@ SOFTWARE.
 public final class ArrayFrame extends javax.swing.JFrame {
     private static final long serialVersionUID = 1L;
 
-    private int[] array;
+    private final int[] array;
 
-    private ArrayManager arrayManager;
-    private ArrayVisualizer arrayVisualizer;
-    private AppFrame abstractFrame;
-    private Highlights Highlights;
-    private JFrame frame;
-    private UtilFrame utilFrame;
+    private final ArrayManager arrayManager;
+    private final ArrayVisualizer arrayVisualizer;
+    private final Highlights Highlights;
+    private final JFrame frame;
+    private final UtilFrame utilFrame;
 
     private boolean lockToPow2;
 
@@ -85,8 +78,6 @@ public final class ArrayFrame extends javax.swing.JFrame {
     public void reposition(){
         toFront();
         setLocation(Math.min((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - getWidth() - utilFrame.getWidth(), frame.getX() + frame.getWidth()), frame.getY() + 29);
-        if (this.abstractFrame != null && abstractFrame.isVisible())
-            abstractFrame.reposition();
     }
 
     public void setLengthSlider(int length) {
@@ -103,20 +94,19 @@ public final class ArrayFrame extends javax.swing.JFrame {
         arrayManager.toggleMutableLength(mutable);
     }
 
-    private int getSomethingSize(String title, String message) throws Exception {
+    private int getSomethingSize(String title, String message) {
         String input = JEnhancedOptionPane.showInputDialog(title, message, new Object[] {"Ok", "Cancel"});
+        //noinspection DataFlowIssue
         int integer = Integer.parseInt(input);
         return Math.abs(integer);
     }
 
     private int calculateLength(int sliderValue) {
-        int newLength = (int)Math.pow(2, sliderValue / 100000.0);
-        return newLength;
+        return (int)Math.pow(2, sliderValue / 100000.0);
     }
 
     private int calculateSliderValue(int length) {
-        int sliderValue = (int)Math.ceil(Math.log(length) / Math.log(2) * 100000);
-        return sliderValue;
+        return (int)Math.ceil(Math.log(length) / Math.log(2) * 100000);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -139,9 +129,10 @@ public final class ArrayFrame extends javax.swing.JFrame {
         this.addKeyListener(kListener);
 
         int usePower = ArrayVisualizer.getMaxLengthPower() * 100000;
-        int useDefault = (int)Math.min(1100000, usePower);
-        this.jLabel1 = new javax.swing.JLabel();
-        this.jLabel2 = new javax.swing.JLabel();
+        int useDefault = Math.min(1100000, usePower);
+        // Variables declaration - do not modify//GEN-BEGIN:variables
+        JLabel jLabel1 = new JLabel();
+        JLabel jLabel2 = new JLabel();
         this.jSlider1 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, useDefault);
         this.jSlider2 = new javax.swing.JSlider(SwingConstants.VERTICAL, 100000, usePower, useDefault);
 
@@ -164,30 +155,27 @@ public final class ArrayFrame extends javax.swing.JFrame {
         jSlider1.setPaintLabels(true);
         jSlider1.setPaintTicks(true);
         //jSlider.setSnapToTicks(true);
-        jSlider1.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent event) {
-                if (arrayManager.isLengthMutable()) {
-                    int value = jSlider1.getValue();
-                    if (lockToPow2) {
-                        value = (int)(Math.round(value / 100000.0) * 100000);
-                        jSlider1.setValue(value);
-                    }
-                    int oldValue1 = calculateSliderValue(arrayVisualizer.getCurrentLength());
-                    arrayVisualizer.setCurrentLength(calculateLength(value));
-                    // double mult = (double)jSlider2.getValue() / (double)oldValue1;
-                    double divver = (double)oldValue1 / (double)jSlider2.getValue();
-                    jSlider2.setValue((int)(value / divver));
-                    //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider.getValue()));
-                    arrayManager.initializeArray(array);
-                } else {
-                    int currentLength = arrayVisualizer.getCurrentLength();
-                    jSlider1.setValue(calculateSliderValue(currentLength));
+        jSlider1.addChangeListener(event -> {
+            if (arrayManager.isLengthMutable()) {
+                int value1 = jSlider1.getValue();
+                if (lockToPow2) {
+                    value1 = (int)(Math.round(value1 / 100000.0) * 100000);
+                    jSlider1.setValue(value1);
                 }
-                //if (ArrayVisualizer.getVisualStyles() == visuals.VisualStyles.CIRCULAR && jSlider1.getValue() == 1) jSlider1.setValue(2);
-
-                Highlights.clearAllMarks();
+                int oldValue1 = calculateSliderValue(arrayVisualizer.getCurrentLength());
+                arrayVisualizer.setCurrentLength(calculateLength(value1));
+                // double mult = (double)jSlider2.getValue() / (double)oldValue1;
+                double divver = (double)oldValue1 / (double)jSlider2.getValue();
+                jSlider2.setValue((int)(value1 / divver));
+                //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider.getValue()));
+                arrayManager.initializeArray(array);
+            } else {
+                int currentLength = arrayVisualizer.getCurrentLength();
+                jSlider1.setValue(calculateSliderValue(currentLength));
             }
+            //if (ArrayVisualizer.getVisualStyles() == visuals.VisualStyles.CIRCULAR && jSlider1.getValue() == 1) jSlider1.setValue(2);
+
+            Highlights.clearAllMarks();
         });
         jSlider1.addMouseListener(new MouseListener() {
             @Override
@@ -196,7 +184,7 @@ public final class ArrayFrame extends javax.swing.JFrame {
                     int newSize = 0;
                     try {
                         newSize = getSomethingSize("Array Size", "Enter new array size:");
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                     if (newSize >= 2) {
                         jSlider1.setValue(calculateSliderValue(newSize));
@@ -225,29 +213,26 @@ public final class ArrayFrame extends javax.swing.JFrame {
         jSlider2.setPaintLabels(true);
         jSlider2.setPaintTicks(true);
         //jSlider2.setSnapToTicks(true);
-        jSlider2.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent event) {
-                if (arrayManager.isLengthMutable()) {
-                    if (jSlider2.getValue() > jSlider1.getValue()) {
-                        jSlider2.setValue(jSlider1.getValue());
-                    } else {
-                        int value = jSlider2.getValue();
-                        if (lockToPow2) {
-                            value = (int)(Math.round(value / 100000.0) * 100000);
-                            jSlider2.setValue(value);
-                        }
-                        arrayVisualizer.setUniqueItems(calculateLength(value));
-                        //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider2.getValue()));
-                        arrayManager.initializeArray(array);
-                    }
+        jSlider2.addChangeListener(event -> {
+            if (arrayManager.isLengthMutable()) {
+                if (jSlider2.getValue() > jSlider1.getValue()) {
+                    jSlider2.setValue(jSlider1.getValue());
                 } else {
-                    int currentItems = arrayVisualizer.getUniqueItems();
-                    jSlider2.setValue(calculateSliderValue(currentItems));
+                    int value12 = jSlider2.getValue();
+                    if (lockToPow2) {
+                        value12 = (int)(Math.round(value12 / 100000.0) * 100000);
+                        jSlider2.setValue(value12);
+                    }
+                    arrayVisualizer.setUniqueItems(calculateLength(value12));
+                    //ArrayVisualizer.setEqualItems((int) Math.pow(2, jSlider2.getValue()));
+                    arrayManager.initializeArray(array);
                 }
-
-                Highlights.clearAllMarks();
+            } else {
+                int currentItems = arrayVisualizer.getUniqueItems();
+                jSlider2.setValue(calculateSliderValue(currentItems));
             }
+
+            Highlights.clearAllMarks();
         });
         jSlider2.addMouseListener(new MouseListener() {
             @Override
@@ -256,7 +241,7 @@ public final class ArrayFrame extends javax.swing.JFrame {
                     int newSize = 0;
                     try {
                         newSize = getSomethingSize("Unique Elements", "Enter new number of unique elements:");
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                     if (newSize >= 2) {
                         jSlider2.setValue(calculateSliderValue(newSize));
@@ -289,7 +274,7 @@ public final class ArrayFrame extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
-                        .addComponent(this.jLabel1)
+                        .addComponent(jLabel1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
                             .addComponent(this.jSlider1)
                             .addGap(0, 10, Short.MAX_VALUE))))
@@ -297,7 +282,7 @@ public final class ArrayFrame extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
-                        .addComponent(this.jLabel2)
+                        .addComponent(jLabel2)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
                             .addComponent(this.jSlider2)
                             .addGap(0, 10, Short.MAX_VALUE))))
@@ -306,12 +291,12 @@ public final class ArrayFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(5, 5, 5)
-                    .addComponent(this.jLabel1)
+                    .addComponent(jLabel1)
                     .addGap(5, 5, 5)
                     .addComponent(this.jSlider1, utilFrame.getHeight() - 26, utilFrame.getHeight() - 26, utilFrame.getHeight() - 26))
                 .addGroup(layout.createSequentialGroup()
                     .addGap(5, 5, 5)
-                    .addComponent(this.jLabel2)
+                    .addComponent(jLabel2)
                     .addGap(5, 5, 5)
                     .addComponent(this.jSlider2, utilFrame.getHeight() - 26, utilFrame.getHeight() - 26, utilFrame.getHeight() - 26))
         );
@@ -319,9 +304,6 @@ public final class ArrayFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSlider jSlider2;
     // End of variables declaration//GEN-END:variables

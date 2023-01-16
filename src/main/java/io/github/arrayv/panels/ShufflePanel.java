@@ -1,21 +1,13 @@
 package io.github.arrayv.panels;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import io.github.arrayv.utils.ShuffleGraph;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
-import io.github.arrayv.utils.ShuffleGraph;
 
 public class ShufflePanel extends JPanel implements KeyListener {
     int camX = 0, camY = 0;

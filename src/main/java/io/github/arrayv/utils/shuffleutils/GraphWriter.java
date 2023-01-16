@@ -1,12 +1,12 @@
 package io.github.arrayv.utils.shuffleutils;
 
+import io.github.arrayv.utils.ShuffleGraph;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import io.github.arrayv.utils.ShuffleGraph;
 
 public final class GraphWriter {
     public static final int VERSION = 3;

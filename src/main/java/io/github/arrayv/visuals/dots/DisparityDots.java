@@ -1,11 +1,11 @@
 package io.github.arrayv.visuals.dots;
 
-import java.awt.Color;
-
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.visuals.Visual;
+
+import java.awt.*;
 
 /*
  *
@@ -52,8 +52,9 @@ public final class DisparityDots extends Visual {
 
         if (arrayVisualizer.linesEnabled()) {
             double disp = (1 + Math.cos((Math.PI * (array[n-1] - (n-1))) / (arrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
-            int lastX =  width/2 + (int)(disp * r * Math.cos(Math.PI * (2d*(n-1) / n - 0.5)));
-            int lastY = height/2 + (int)(disp * r * Math.sin(Math.PI * (2d*(n-1) / n - 0.5)));
+            double angle = Math.PI * (2d * (n - 1) / n - 0.5);
+            int lastX =  width/2 + (int)(disp * r * Math.cos(angle));
+            int lastY = height/2 + (int)(disp * r * Math.sin(angle));
             this.mainRender.setStroke(arrayVisualizer.getCustomStroke(2));
 
             for (int i = 0; i < n; i++) {

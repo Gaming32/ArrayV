@@ -1,13 +1,13 @@
 package io.github.arrayv.sortdata;
 
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sorts.templates.Sort;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.function.IntUnaryOperator;
 import java.util.function.Supplier;
-
-import io.github.arrayv.main.ArrayVisualizer;
-import io.github.arrayv.sorts.templates.Sort;
 
 public final class SortInfo {
     private static final String NAME_MUST_BE_SPECIFIED =
@@ -310,10 +310,10 @@ public final class SortInfo {
 
     public static String[] getCategories(SortInfo[] sorts) {
         HashSet<String> result = new HashSet<>();
-        for (int i = 0; i < sorts.length; i++) {
-            result.add(sorts[i].category);
+        for (SortInfo sort : sorts) {
+            result.add(sort.category);
         }
-        String[] resultArray = result.toArray(new String[result.size()]);
+        String[] resultArray = result.toArray(new String[0]);
         Arrays.sort(resultArray);
         return resultArray;
     }
@@ -403,10 +403,7 @@ public final class SortInfo {
         } else if (!runName.equals(other.runName)) {
             return false;
         }
-        if (unreasonableLimit != other.unreasonableLimit) {
-            return false;
-        }
-        return true;
+        return unreasonableLimit == other.unreasonableLimit;
     }
 
     @Override

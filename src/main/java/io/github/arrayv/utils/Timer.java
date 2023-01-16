@@ -1,9 +1,9 @@
 package io.github.arrayv.utils;
 
+import io.github.arrayv.main.ArrayVisualizer;
+
 import java.text.DecimalFormat;
 import java.util.Hashtable;
-
-import io.github.arrayv.main.ArrayVisualizer;
 
 /*
  *
@@ -32,7 +32,7 @@ SOFTWARE.
  */
 
 public final class Timer {
-    private DecimalFormat formatter;
+    private final DecimalFormat formatter;
 
     private volatile String minuteFormat;
     private volatile String secondFormat;
@@ -44,7 +44,7 @@ public final class Timer {
     private volatile boolean timerEnabled;
 
     private String operation;
-    private Hashtable<String, Double> categoricalTimes;
+    private final Hashtable<String, Double> categoricalTimes;
 
     private long timeStart;
     private long timeStop;

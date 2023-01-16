@@ -1,11 +1,11 @@
 package io.github.arrayv.visuals.circles;
 
-import java.awt.Color;
-
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.visuals.Visual;
+
+import java.awt.*;
 
 /*
  *
@@ -65,11 +65,13 @@ public final class DisparityChords extends Visual {
         this.mainRender.setStroke(arrayVisualizer.getDefaultStroke());
 
         for (int i = 0; i < n; i++) {
+            double x = r * Math.cos(Math.PI * (2d * i / n - 0.5));
+            double y = r * Math.sin(Math.PI * (2d * i / n - 0.5));
             if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition()) {
                 this.mainRender.setColor(Color.GREEN);
 
-                int ax =  width/2 + (int)(r * Math.cos(Math.PI * (2d*i / n - 0.5)));
-                int ay = height/2 + (int)(r * Math.sin(Math.PI * (2d*i / n - 0.5)));
+                int ax =  width/2 + (int)x;
+                int ay = height/2 + (int)y;
                 int bx =  width/2 + (int)(r * Math.cos(Math.PI * (2d*array[i] / n - 0.5)));
                 int by = height/2 + (int)(r * Math.sin(Math.PI * (2d*array[i] / n - 0.5)));
 
@@ -78,8 +80,8 @@ public final class DisparityChords extends Visual {
                 if (arrayVisualizer.analysisEnabled()) this.mainRender.setColor(Color.LIGHT_GRAY);
                 else                                   this.mainRender.setColor(Color.WHITE);
 
-                int ax =  width/2 + (int)(r * Math.cos(Math.PI * (2d*i / n - 0.5)));
-                int ay = height/2 + (int)(r * Math.sin(Math.PI * (2d*i / n - 0.5)));
+                int ax =  width/2 + (int)x;
+                int ay = height/2 + (int)y;
                 int bx =  width/2 + (int)(r * Math.cos(Math.PI * (2d*array[i] / n - 0.5)));
                 int by = height/2 + (int)(r * Math.sin(Math.PI * (2d*array[i] / n - 0.5)));
 

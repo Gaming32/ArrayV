@@ -1,11 +1,11 @@
 package io.github.arrayv.visuals.circles;
 
-import java.awt.Color;
-
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.visuals.Visual;
+
+import java.awt.*;
 
 /*
  *
@@ -57,8 +57,9 @@ public final class DisparityCircle extends Visual {
         int[] y = {height/2, 0, 0};
 
         double disp = (1 + Math.cos((Math.PI * (array[n-1] - (n-1))) / (arrayVisualizer.getCurrentLength() * 0.5))) * 0.5;
-        x[2] =  width/2 + (int)(disp * r * Math.cos(Math.PI * (2d*(n-1) / n - 0.5)));
-        y[2] = height/2 + (int)(disp * r * Math.sin(Math.PI * (2d*(n-1) / n - 0.5)));
+        double angle = Math.PI * (2d * (n - 1) / n - 0.5);
+        x[2] =  width/2 + (int)(disp * r * Math.cos(angle));
+        y[2] = height/2 + (int)(disp * r * Math.sin(angle));
 
         for (int i = 0; i < n; i++) {
             x[1] = x[2];

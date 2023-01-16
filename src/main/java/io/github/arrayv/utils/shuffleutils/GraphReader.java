@@ -1,23 +1,19 @@
 package io.github.arrayv.utils.shuffleutils;
 
-import java.awt.Point;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import io.github.arrayv.utils.Distributions;
 import io.github.arrayv.utils.ShuffleGraph;
 import io.github.arrayv.utils.ShuffleInfo;
 import io.github.arrayv.utils.Shuffles;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public final class GraphReader {
-    public final class MalformedGraphFileException extends Exception {
+    public static final class MalformedGraphFileException extends Exception {
         public MalformedGraphFileException() {
             super();
         }
@@ -27,7 +23,7 @@ public final class GraphReader {
         }
     }
 
-    private final class PartialElement {
+    private static final class PartialElement {
         int left, right;
 
         private PartialElement(int left, int right) {
@@ -89,13 +85,13 @@ public final class GraphReader {
         return result;
     }
 
-    private void read() throws IOException, MalformedGraphFileException {
+    private void read() throws MalformedGraphFileException {
         version = scanner.hasNextInt() ? scanner.nextInt() : 0;
         if (!compatibleVersionsSet.contains(version)) {
             throw new MalformedGraphFileException("Unsupported version for reading: " + version + " (Supported versions: "
-                + Arrays.stream(COMPATIBLE_VERSIONS)
-                        .mapToObj(String::valueOf)
-                        .collect(Collectors.joining(", ", "{", "}")) + ")");
+                                                      + Arrays.stream(COMPATIBLE_VERSIONS)
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining(", ", "{", "}")) + ")");
         }
         result = new ShuffleGraph();
         partialNodes = new ArrayList<>();
@@ -154,7 +150,7 @@ public final class GraphReader {
             for (int i = 1; i < result.getNodes().size(); i++) {
                 GraphNode node = result.getNodes().get(i);
                 if (node.getX() == Integer.MIN_VALUE) { // coordinates not specified
-                    if (node.getPreConnection() == null || node.getPreConnection() == null) {
+                    if (node.getPreConnection() == null) {
                         Point safePos = result.findSafeCoordinates(100, 100, 20, 20);
                         node.setX(safePos.x);
                         node.setY(safePos.y);
@@ -261,7 +257,7 @@ public final class GraphReader {
         }
         int toNodeID = scanner.nextInt();
 
-        GraphNode fromNode = null, toNode = null;
+        GraphNode fromNode, toNode;
         try {
             fromNode = fromNodeID == -1 ? null : result.getNodes().get(fromNodeID);
             toNode = toNodeID == -1 ? null : result.getNodes().get(toNodeID);

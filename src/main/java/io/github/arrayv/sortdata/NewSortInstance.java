@@ -1,13 +1,13 @@
 package io.github.arrayv.sortdata;
 
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sorts.templates.Sort;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Constructor;
 import java.util.function.Supplier;
-
-import io.github.arrayv.main.ArrayVisualizer;
-import io.github.arrayv.sorts.templates.Sort;
 
 public final class NewSortInstance implements Supplier<Sort> {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();

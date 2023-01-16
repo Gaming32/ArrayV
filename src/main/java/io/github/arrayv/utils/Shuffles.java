@@ -1,16 +1,16 @@
 package io.github.arrayv.utils;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Random;
-
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.select.MaxHeapSort;
 import io.github.arrayv.sorts.select.PoplarHeapSort;
 import io.github.arrayv.sorts.select.SmoothSort;
 import io.github.arrayv.sorts.select.TriangularHeapSort;
 import io.github.arrayv.sorts.templates.PDQSorting;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
 
 /*
  *
@@ -357,9 +357,7 @@ public enum Shuffles {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int[] referenceArray = new int[currentLen];
-            for (int i = 0; i < currentLen; i++) {
-                referenceArray[i] = array[i];
-            }
+            System.arraycopy(array, 0, referenceArray, 0, currentLen);
 
             int leftIndex = 1;
             int rightIndex = currentLen - 1;
@@ -518,15 +516,15 @@ public enum Shuffles {
             // credit to sam walko/anon
 
             class Subarray {
-                private int start;
-                private int end;
+                private final int start;
+                private final int end;
                 Subarray(int start, int end) {
                     this.start = start;
                     this.end = end;
                 }
             }
 
-            Queue<Subarray> q = new LinkedList<Subarray>();
+            Queue<Subarray> q = new LinkedList<>();
             q.add(new Subarray(0, currentLen));
             int i = 0;
 
@@ -556,15 +554,15 @@ public enum Shuffles {
             // credit to sam walko/anon
 
             class Subarray {
-                private int start;
-                private int end;
+                private final int start;
+                private final int end;
                 Subarray(int start, int end) {
                     this.start = start;
                     this.end = end;
                 }
             }
 
-            Queue<Subarray> q = new LinkedList<Subarray>();
+            Queue<Subarray> q = new LinkedList<>();
             q.add(new Subarray(0, currentLen));
             int i = 0;
 
@@ -676,6 +674,7 @@ public enum Shuffles {
             shuffle(array, 0, currentLen, delay ? 0.5 : 0, Writes);
 
             int n = 1;
+            //noinspection StatementWithEmptyBody
             for (; n < currentLen; n*=2);
 
             circleSortRoutine(array, 0, n-1, currentLen, delay ? 0.5 : 0, Reads, Writes);
@@ -878,8 +877,8 @@ public enum Shuffles {
         int gas, frozen, candidate;
 
         final class PDQPair {
-            private int pivotPosition;
-            private boolean alreadyPartitioned;
+            private final int pivotPosition;
+            private final boolean alreadyPartitioned;
 
             private PDQPair(int pivotPos, boolean presorted) {
                 this.pivotPosition = pivotPos;
@@ -953,11 +952,7 @@ public enum Shuffles {
                 return -1;
             }
 
-            if (temp[a] < temp[b])
-                return -1;
-            if (temp[a] > temp[b])
-                return 1;
-            return 0;
+            return Integer.compare(temp[a], temp[b]);
         }
 
         protected void pdqLoop(int[] array, int begin, int end, boolean branchless, int badAllowed) {
@@ -1042,7 +1037,7 @@ public enum Shuffles {
         }
 
         private void siftDown(int[] array, int root, int dist, int start, double sleep, boolean isMax) {
-            int compareVal = 0;
+            int compareVal;
 
             if (isMax) compareVal = -1;
             else compareVal = 1;
@@ -1354,6 +1349,7 @@ public enum Shuffles {
             for (int i = 1; i < len-1; i++) {
                 int j = d1;
 
+                //noinspection StatementWithEmptyBody
                 for (
                     int k = i, n = d2;
                     (k&1) == 0;
@@ -1413,6 +1409,7 @@ public enum Shuffles {
 
         private int pow2lte(int value) {
             int val;
+            //noinspection StatementWithEmptyBody
             for (val = 1; val <= value; val <<= 1);
             return val >> 1;
         }
@@ -1446,6 +1443,7 @@ public enum Shuffles {
 
         private int pow2lte(int value) {
             int val;
+            //noinspection StatementWithEmptyBody
             for (val = 1; val <= value; val <<= 1);
             return val >> 1;
         }

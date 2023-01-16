@@ -1,11 +1,11 @@
 package io.github.arrayv.visuals.bars;
 
-import java.awt.Color;
-
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Renderer;
 import io.github.arrayv.visuals.Visual;
+
+import java.awt.*;
 
 public final class BarGraph extends Visual {
 
@@ -22,7 +22,7 @@ public final class BarGraph extends Visual {
             if (Highlights.fancyFinishActive() && i < Highlights.getFancyFinishPosition())
                 this.mainRender.setColor(Color.GREEN);
             else if (arrayVisualizer.colorEnabled()) {
-                int val = arrayVisualizer.doingStabilityCheck() && arrayVisualizer.colorEnabled() ? arrayVisualizer.getIndexValue(array[i]): array[i];
+                int val = arrayVisualizer.doingStabilityCheck() ? arrayVisualizer.getIndexValue(array[i]): array[i];
                 this.mainRender.setColor(getIntColor(val, arrayVisualizer.getCurrentLength()));
             } else this.mainRender.setColor(Color.WHITE);
 

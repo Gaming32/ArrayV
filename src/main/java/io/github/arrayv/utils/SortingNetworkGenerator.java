@@ -1,22 +1,15 @@
 package io.github.arrayv.utils;
 
-import java.awt.Desktop;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.panes.JErrorPane;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.JOptionPane;
-import javax.swing.ProgressMonitor;
-
-import io.github.arrayv.main.ArrayVisualizer;
-import io.github.arrayv.panes.JErrorPane;
 
 public final class SortingNetworkGenerator {
     private static final File SORTING_NETWORKS_DIR = new File("sorting_networks");
@@ -70,15 +63,22 @@ public final class SortingNetworkGenerator {
         }
 
         void write(String s) {
-            if (builder == null)
+            if (builder == null) {
+                assert writer != null;
                 writer.write(s);
-            else
+            } else {
                 builder.append(s);
+            }
         }
 
         @Override
         public String toString() {
-            return builder == null ? writer.toString() : builder.toString();
+            if (builder == null) {
+                assert writer != null;
+                return writer.toString();
+            } else {
+                return builder.toString();
+            }
         }
 
         String getValue() {

@@ -1,6 +1,6 @@
 package io.github.arrayv.dialogs;
 
-import javax.swing.JFileChooser;
+import javax.swing.*;
 
 /*
 MIT License

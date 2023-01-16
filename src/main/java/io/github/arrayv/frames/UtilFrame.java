@@ -1,14 +1,5 @@
 package io.github.arrayv.frames;
 
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.IOException;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import io.github.arrayv.dialogs.RunScriptDialog;
 import io.github.arrayv.main.ArrayManager;
 import io.github.arrayv.main.ArrayVisualizer;
@@ -20,6 +11,11 @@ import io.github.arrayv.utils.Delays;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Sounds;
 import io.github.arrayv.utils.Timer;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /*
  *
@@ -53,7 +49,7 @@ public final class UtilFrame extends javax.swing.JFrame {
 
     private boolean jCheckBox9WarningShown = true; //set to false to enable warning
 
-    private int[] array;
+    private final int[] array;
 
     private final ArrayManager arrayManager;
     private final ArrayVisualizer arrayVisualizer;
@@ -94,17 +90,18 @@ public final class UtilFrame extends javax.swing.JFrame {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        this.jLabel1 = new javax.swing.JLabel();
+        // Variables declaration - do not modify//GEN-BEGIN:variables
+        javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         this.jButton1 = new javax.swing.JButton();
         this.jButton2 = new javax.swing.JButton();
-        this.jButton3 = new javax.swing.JButton();
+        JButton jButton3 = new JButton();
         this.jCheckBox1 = new javax.swing.JCheckBox();
         this.jCheckBox2 = new javax.swing.JCheckBox();
-        this.jButton4 = new javax.swing.JButton();
-        this.jButton7 = new javax.swing.JButton();
+        JButton jButton4 = new JButton();
+        JButton jButton7 = new JButton();
         this.jCheckBox3 = new javax.swing.JCheckBox();
         this.jCheckBox4 = new javax.swing.JCheckBox();
-        this.jButton5 = new javax.swing.JButton();
+        JButton jButton5 = new JButton();
         this.jCheckBox5 = new javax.swing.JCheckBox();
         this.jButton6 = new javax.swing.JButton();
         this.jCheckBox6 = new javax.swing.JCheckBox();
@@ -118,141 +115,61 @@ public final class UtilFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jButton1ResetText();
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed();
-            }
-        });
+        jButton1.addActionListener(evt -> jButton1ActionPerformed());
 
         jButton2ResetText();
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed();
-            }
-        });
+        jButton2.addActionListener(evt -> jButton2ActionPerformed());
 
         jButton3.setText("Change Speed");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed();
-            }
-        });
+        jButton3.addActionListener(evt -> jButton3ActionPerformed());
 
         jButton4.setText("Cancel Delays");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed();
-            }
-        });
+        jButton4.addActionListener(evt -> jButton4ActionPerformed());
 
         jButton7.setText("Cancel Sort");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed();
-            }
-        });
+        jButton7.addActionListener(evt -> jButton7ActionPerformed());
 
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("Show Shuffle");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed();
-            }
-        });
+        jCheckBox1.addActionListener(evt -> jCheckBox1ActionPerformed());
 
         jCheckBox2.setSelected(false);
         jCheckBox2.setText("Linked Dots");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed();
-            }
-        });
+        jCheckBox2.addActionListener(evt -> jCheckBox2ActionPerformed());
 
         jCheckBox3.setSelected(true);
         jCheckBox3.setText("End Sweep Anim");
-        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox3ActionPerformed();
-            }
-        });
+        jCheckBox3.addActionListener(evt -> jCheckBox3ActionPerformed());
 
         jCheckBox4.setSelected(true);
         jCheckBox4.setText("Calc Real Time");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed();
-            }
-        });
+        jCheckBox4.addActionListener(evt -> jCheckBox4ActionPerformed());
 
         jButton5.setText("Clear Stats");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed();
-            }
-        });
+        jButton5.addActionListener(evt -> jButton5ActionPerformed());
 
         jCheckBox5.setSelected(false);
         jCheckBox5.setText("Softer Sounds");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed();
-            }
-        });
+        jCheckBox5.addActionListener(evt -> jCheckBox5ActionPerformed());
 
         jButton6ResetText();
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed();
-            }
-        });
+        jButton6.addActionListener(evt -> jButton6ActionPerformed());
 
         jCheckBox6.setSelected(true);
         jCheckBox6.setText("Display Stats");
-        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox6ActionPerformed();
-            }
-        });
+        jCheckBox6.addActionListener(evt -> jCheckBox6ActionPerformed());
 
         jCheckBox7.setSelected(true);
         jCheckBox7.setText("Enable Sounds");
-        jCheckBox7.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox7ActionPerformed();
-            }
-        });
+        jCheckBox7.addActionListener(evt -> jCheckBox7ActionPerformed());
 
         jCheckBox8.setSelected(false);
         jCheckBox8.setText("Enable Color");
-        jCheckBox8.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox8ActionPerformed();
-            }
-        });
+        jCheckBox8.addActionListener(evt -> jCheckBox8ActionPerformed());
 
         jCheckBox9.setSelected(false);
         jCheckBox9.setText("Show Aux Arrays");
-        jCheckBox9.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox9ActionPerformed();
-            }
-        });
+        jCheckBox9.addActionListener(evt -> jCheckBox9ActionPerformed());
 
         jComboBox1.setModel(new DefaultComboBoxModel<>(new String[] {
             "Sorting",
@@ -262,12 +179,7 @@ public final class UtilFrame extends javax.swing.JFrame {
             "Reversed Sorting"
             // "*Simple* Benchmarking"
         }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed();
-            }
-        });
+        jComboBox1.addActionListener(evt -> jComboBox1ActionPerformed());
         if (arrayVisualizer.isDisabledStabilityCheck()) {
             jComboBox1.removeItem("Stability Check");
         }
@@ -290,7 +202,7 @@ public final class UtilFrame extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER, true)
-                        .addComponent(this.jLabel1)
+                        .addComponent(jLabel1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
                             .addComponent(this.jCheckBox1)
                             .addComponent(this.jCheckBox2)
@@ -303,11 +215,11 @@ public final class UtilFrame extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, true)
                                 .addComponent(this.jCheckBox5)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                    .addComponent(this.jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(this.jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(this.jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(this.jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(this.jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(this.jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(this.jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(runScriptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -318,7 +230,7 @@ public final class UtilFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, true)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(5, 5, 5)
-                    .addComponent(this.jLabel1)
+                    .addComponent(jLabel1)
                     .addGap(7, 7, 7)
                     .addComponent(this.jComboBox1)
                     .addGap(10, 10, 10)
@@ -330,13 +242,13 @@ public final class UtilFrame extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(this.jCheckBox9)
                     .addGap(7, 7, 7)
-                    .addComponent(this.jButton3)
+                    .addComponent(jButton3)
                     .addGap(12, 12, 12)
                     .addComponent(this.jButton1)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(this.jButton7)
+                    .addComponent(jButton7)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(this.jButton4)
+                    .addComponent(jButton4)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(this.jButton6)
                     .addGap(7, 7, 7)
@@ -348,7 +260,7 @@ public final class UtilFrame extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(this.jCheckBox3)
                     .addGap(8, 8, 8)
-                    .addComponent(this.jButton5)
+                    .addComponent(jButton5)
                     .addGap(5, 5, 5)
                     .addComponent(this.jCheckBox6)
                     .addComponent(this.jCheckBox4)
@@ -415,10 +327,8 @@ public final class UtilFrame extends javax.swing.JFrame {
 
         if (this.abstractFrame == null) {
             speedPromptAllowed = true;
-        } else if (!this.abstractFrame.isVisible()) {
-            speedPromptAllowed = true;
         } else {
-            speedPromptAllowed = false;
+            speedPromptAllowed = !this.abstractFrame.isVisible();
         }
 
         if (speedPromptAllowed) {
@@ -427,17 +337,14 @@ public final class UtilFrame extends javax.swing.JFrame {
                 try {
                     double oldRatio = Delays.getSleepRatio();
                     String userInput = JOptionPane.showInputDialog(null, "Modify the visual's speed below (Ex. 10 = Ten times faster)", oldRatio);
-                    if (userInput == null) {
-                        showPrompt = false;
-                    } else {
+                    if (userInput != null) {
                         double newRatio = Double.parseDouble(userInput);
                         if (newRatio == 0) throw new Exception("Divide by zero");
                         Delays.setSleepRatio(newRatio);
                         Delays.updateCurrentDelay(oldRatio, Delays.getSleepRatio());
-                        showPrompt = false;
                     }
+                    showPrompt = false;
                 } catch (Exception e) {
-                    showPrompt = true;
                     JOptionPane.showMessageDialog(null, "Not a number! (" + e.getMessage() + ")", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -473,11 +380,7 @@ public final class UtilFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jCheckBox5ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
-        if (jCheckBox5.isSelected()) {
-            Sounds.setSofterSounds(true);
-        } else {
-            Sounds.setSofterSounds(false);
-        }
+        Sounds.setSofterSounds(jCheckBox5.isSelected());
     }//GEN-LAST:event_jCheckBox5ActionPerformed
 
     private void jButton6ActionPerformed() {//GEN-FIRST:event_jButton2ActionPerformed
@@ -531,6 +434,7 @@ public final class UtilFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
     private void jComboBox1ActionPerformed() {//GEN-FIRST:event_jButton4ActionPerformed
+        //noinspection DataFlowIssue
         switch ((String)jComboBox1.getSelectedItem()) {
             case "Sorting":
                 if (arrayVisualizer.enableBenchmarking(false))
@@ -587,15 +491,9 @@ public final class UtilFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jCheckBox8ActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
