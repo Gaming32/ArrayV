@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -25,19 +26,14 @@ SOFTWARE.
  *
  */
 
+@SortMeta(
+    listName = "Pairwise (Recursive)",
+    showcaseName = "Recursive Pairwise Sorting Network",
+    runName = "Recursive Pairwise Sort"
+)
 public final class PairwiseSortRecursive extends Sort {
     public PairwiseSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Pairwise (Recursive)");
-        this.setRunAllSortsName("Recursive Pairwise Sorting Network");
-        this.setRunSortName("Recursive Pairwise Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void pairwiserecursive(int[] array, int start, int end, int gap, double sleep) {

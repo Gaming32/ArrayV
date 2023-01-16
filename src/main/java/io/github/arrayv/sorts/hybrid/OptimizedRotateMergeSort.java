@@ -1,8 +1,15 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(
+    name = "Optimized Rotate Merge",
+    category = "Hybrid Sorts",
+    question = "How many items should the temp array contain? (must be a power of two) (default: 64)",
+    defaultAnswer = 64
+)
 public final class OptimizedRotateMergeSort extends Sort {
     final int MIN_RUN = 32;
 
@@ -10,17 +17,6 @@ public final class OptimizedRotateMergeSort extends Sort {
 
     public OptimizedRotateMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Optimized Rotate Merge");
-        this.setRunAllSortsName("Optimized Rotate Merge Sort");
-        this.setRunSortName("Optimized Rotate Mergesort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-        this.setQuestion("How many items should the temp array contain? (must be a power of two) (default: 64)", 64);
     }
 
     protected void rotateInPlace(int[] array, int pos, int lenA, int lenB) {

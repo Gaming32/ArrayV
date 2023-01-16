@@ -1,21 +1,17 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(
+	name = "Recursive Diamond",
+	listName = "Diamond (Recursive)"
+)
 public final class DiamondSortRecursive extends Sort {
     private final double DELAY = 0.05;
     public DiamondSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.setSortListName("Diamond (Recursive)");
-        this.setRunAllSortsName("Recursive Diamond Sort");
-        this.setRunSortName("Recursive Diamondsort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void sort(int[] arr, int start, int stop, boolean merge) {

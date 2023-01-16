@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -11,19 +12,14 @@ import io.github.arrayv.sorts.templates.Sort;
  * work for array lengths other than powers of two!
  */
 
+@SortMeta(
+    name = "Recursive Odd-Even Merge",
+    listName = "Odd-Even Merge (Recursive)",
+    showcaseName = "Batcher's Odd-Even Merge Sort"
+)
 public final class OddEvenMergeSortRecursive extends Sort {
     public OddEvenMergeSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Odd-Even Merge (Recursive)");
-        this.setRunAllSortsName("Batcher's Odd-Even Merge Sort");
-        this.setRunSortName("Recursive Odd-Even Mergesort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void oddEvenMergeCompare(int[] array, int i, int j) {

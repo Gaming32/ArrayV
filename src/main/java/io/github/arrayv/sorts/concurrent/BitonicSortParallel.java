@@ -1,22 +1,20 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(
+    name = "Parallel Bitonic",
+    listName = "Bitonic (Parallel)",
+    runName = "Parallel Bitonic Sort",
+    unreasonableLimit = 4096
+)
 public final class BitonicSortParallel extends Sort {
     private int[] arr;
     private final double DELAY = 1;
     public BitonicSortParallel(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.setSortListName("Bitonic (Parallel)");
-        this.setRunAllSortsName("Parallel Bitonic Sort");
-        this.setRunSortName("Parallel Bitonic Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(4096);
-        this.setBogoSort(false);
     }
 
     private class SortThread extends Thread {

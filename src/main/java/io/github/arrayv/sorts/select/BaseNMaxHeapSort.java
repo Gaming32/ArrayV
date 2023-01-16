@@ -1,21 +1,19 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(
+    name = "Base-N Max Heap",
+    category = "Selection Sorts",
+    showcaseName = "Base-N Max Heap Sort, Base 4",
+    question = "Enter the base for this sort:",
+    defaultAnswer = 4
+)
 public final class BaseNMaxHeapSort extends Sort {
     public BaseNMaxHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.setSortListName("Base-N Max Heap");
-        this.setRunAllSortsName("Base-N Max Heap Sort, Base 4");
-        this.setRunSortName("Base-N Max Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(true);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-        this.setQuestion("Enter the base for this sort:", 4);
     }
 
     private void siftDown(int[] arr, int base, int node, int stop, double sleep) {

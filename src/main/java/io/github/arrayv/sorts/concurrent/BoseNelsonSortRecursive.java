@@ -1,22 +1,18 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(
+	listName = "Bose-Nelson (Recursive)",
+	showcaseName = "Recursive Bose-Nelson Sorting Network",
+	runName = "Recursive Bose-Nelson Sort"
+)
 public final class BoseNelsonSortRecursive extends Sort {
 
     public BoseNelsonSortRecursive(ArrayVisualizer arrayVisualizer) {
     	super(arrayVisualizer);
-
-    	this.setSortListName("Bose-Nelson (Recursive)");
-    	this.setRunAllSortsName("Recursive Bose-Nelson Sorting Network");
-    	this.setRunSortName("Recursive Bose-Nelson Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void compareSwap(int[] array, int start, int end, double sleep) {

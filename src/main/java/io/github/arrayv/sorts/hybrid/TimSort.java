@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.sorts.templates.TimSorting;
 
@@ -20,6 +21,10 @@ import io.github.arrayv.sorts.templates.TimSorting;
  * limitations under the License.
  */
 
+@SortMeta(
+    name = "Tim",
+    category = "Hybrid Sorts"
+)
 public class TimSort extends Sort {
     private TimSorting timSortInstance; // TimSort cannot be simply written off as an abstract class, as it creates an instance of itself
                                         // in order to track its state. Plus, it contains both instance and static methods, requiring even
@@ -29,16 +34,6 @@ public class TimSort extends Sort {
 
     public TimSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Tim");
-        this.setRunAllSortsName("Tim Sort");
-        this.setRunSortName("Timsort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

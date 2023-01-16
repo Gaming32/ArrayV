@@ -1,21 +1,17 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(
+	listName = "Bose-Nelson (Iterative)",
+	showcaseName = "Iterative Bose-Nelson Sorting Network",
+	runName = "Iterative Bose-Nelson Sort"
+)
 public final class BoseNelsonSortIterative extends Sort {
     public BoseNelsonSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Bose-Nelson (Iterative)");
-        this.setRunAllSortsName("Iterative Bose-Nelson Sorting Network");
-        this.setRunSortName("Iterative Bose-Nelson Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
 	private int end;

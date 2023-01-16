@@ -5,25 +5,10 @@ import io.github.arrayv.utils.Delays;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Reads;
 import io.github.arrayv.utils.Writes;
+import io.github.arrayv.sortdata.SortMeta;
 
 public abstract class Sort {
-    private boolean sortEnabled;
-
-    private String sortListName;
-    private String runAllSortsName;
-    private String runSortName;
-
-    private String category;
-
-    private boolean bucketSort;
-    private boolean radixSort;
-    private boolean unreasonablySlow;
-    private boolean bogoSort;
-
-    private int unreasonableLimit;
-
-    private String question;
-    private int defaultAnswer;
+    private Object[] deprecatedMetadataTable = null;
 
     protected ArrayVisualizer arrayVisualizer;
 
@@ -33,22 +18,6 @@ public abstract class Sort {
     protected Writes Writes;
 
     protected Sort(ArrayVisualizer arrayVisualizer) {
-        this.enableSort(true);           // If set to false, ArrayV won't load the sort
-
-        this.setSortListName("");        // Displays in the 'Choose Sort' menu
-        this.setRunAllSortsName("");     // Displays during sorting threads
-        this.setRunSortName("");         // Displays when a sort is picked from 'Choose Sort'
-        this.setCategory("");            // Shown at the top-left corner of the window
-
-        this.setBucketSort(false);       // Slightly changes the 'Customize Sort' dialog
-        this.setRadixSort(false);        // Also slightly changes the 'Customize Sort' dialog
-
-        this.setUnreasonablySlow(false); // Indicates a sort is so inefficient that it will run for a very long time even after clicking 'Skip Sort'
-        this.setUnreasonableLimit(0);    // If a sort is 'unreasonably slow', a warning will pop up if the array length is more than this number
-        this.setBogoSort(false);         // Slightly changes the 'unreasonably slow' dialog
-
-        this.setQuestion(null, 0);       // Asks a specific question before this sort is run
-
         this.arrayVisualizer = arrayVisualizer;
 
         this.Delays = arrayVisualizer.getDelays();
@@ -57,28 +26,64 @@ public abstract class Sort {
         this.Writes = arrayVisualizer.getWrites();
     }
 
+    private void initDeprecatedMetadataTable() {
+        if (deprecatedMetadataTable != null) return;
+        deprecatedMetadataTable = new Object[] {
+            true, "", "", "", "", false, false, false, 0, null, 0
+        };
+    }
+
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isFromExtraSorts() {
         return arrayVisualizer.getSortAnalyzer().didSortComeFromExtra(getClass());
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isSortEnabled() {
-        return this.sortEnabled;
+        initDeprecatedMetadataTable();
+        return (boolean)deprecatedMetadataTable[0];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getSortListName() {
-        return this.sortListName;
+        initDeprecatedMetadataTable();
+        return (String)deprecatedMetadataTable[1];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getRunAllSortsName() {
-        return this.runAllSortsName;
+        initDeprecatedMetadataTable();
+        return (String)deprecatedMetadataTable[2];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getRunSortName() {
-        return this.runSortName;
+        initDeprecatedMetadataTable();
+        return (String)deprecatedMetadataTable[3];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getCategory() {
-        return this.category;
+        initDeprecatedMetadataTable();
+        return (String)deprecatedMetadataTable[4];
     }
 
     /**
@@ -91,52 +96,112 @@ public abstract class Sort {
         return false;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean usesBuckets() {
-        return this.bucketSort;
+        initDeprecatedMetadataTable();
+        return (boolean)deprecatedMetadataTable[5];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isRadixSort() {
-        return this.radixSort;
+        initDeprecatedMetadataTable();
+        return (boolean)deprecatedMetadataTable[6];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isUnreasonablySlow() {
-        return this.unreasonablySlow;
+        initDeprecatedMetadataTable();
+        return (int)deprecatedMetadataTable[8] > 0;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public int getUnreasonableLimit() {
-        return this.unreasonableLimit;
+        initDeprecatedMetadataTable();
+        return (int)deprecatedMetadataTable[8];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public boolean isBogoSort() {
-        return this.bogoSort;
+        initDeprecatedMetadataTable();
+        return (boolean)deprecatedMetadataTable[7];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public String getQuestion() {
-        return this.question;
+        initDeprecatedMetadataTable();
+        return (String)deprecatedMetadataTable[9];
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     public int getDefaultAnswer() {
-        return this.defaultAnswer;
+        initDeprecatedMetadataTable();
+        return (int)deprecatedMetadataTable[10];
     }
 
-    protected void enableSort(boolean Bool) {
-        this.sortEnabled = Bool;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    protected void enableSort(boolean enabled) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[0] = enabled;
     }
 
-    protected void setSortListName(String ID) {
-        this.sortListName = ID;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    protected void setSortListName(String listName) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[1] = listName;
     }
 
-    protected void setRunAllSortsName(String ID) {
-        this.runAllSortsName = ID;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    protected void setRunAllSortsName(String showcaseName) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[2] = showcaseName;
     }
 
-    protected void setRunSortName(String ID) {
-        this.runSortName = ID;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    protected void setRunSortName(String runName) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[3] = runName;
     }
 
-    protected void setCategory(String ID) {
-        this.category = ID;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    protected void setCategory(String category) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[4] = category;
     }
 
     /**
@@ -148,36 +213,69 @@ public abstract class Sort {
     public void setComparisonBased(boolean comparisonBased) {
     }
 
-    public void setBucketSort(boolean Bool) {
-        this.bucketSort = Bool;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    public void setBucketSort(boolean bucketSort) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[5] = bucketSort;
     }
 
-    protected void setRadixSort(boolean Bool) {
-        this.radixSort = Bool;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    protected void setRadixSort(boolean radixSort) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[6] = radixSort;
     }
 
-    public void setUnreasonablySlow(boolean Bool) {
-        this.unreasonablySlow = Bool;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API. This method also no longer does anything.
+     */
+    @Deprecated
+    public void setUnreasonablySlow(boolean unreasonableSlow) {
     }
 
-    public void setUnreasonableLimit(int number) {
-        this.unreasonableLimit = number;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    public void setUnreasonableLimit(int unreasonableLimit) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[8] = unreasonableLimit;
     }
 
-    protected void setBogoSort(boolean Bool) {
-        this.bogoSort = Bool;
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
+    protected void setBogoSort(boolean bogoSort) {
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[7] = bogoSort;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setQuestion(String question) {
-        this.question = question;
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[9] = question;
     }
 
+    /**
+     * @deprecated Please move to the new {@link SortMeta} API.
+     */
+    @Deprecated
     protected void setQuestion(String question, int defaultAnswer) {
-        this.question = question;
-        this.defaultAnswer = defaultAnswer;
+        initDeprecatedMetadataTable();
+        deprecatedMetadataTable[9] = question;
+        deprecatedMetadataTable[10] = defaultAnswer;
     }
 
-    public int validateAnswer(int answer) {
+    public static int validateAnswer(int answer) {
         return answer;
     }
 

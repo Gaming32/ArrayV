@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -8,21 +9,16 @@ import io.github.arrayv.sorts.templates.Sort;
  * http://www.inf.fh-flensburg.de/lang/algorithmen/sortieren/bitonic/oddn.htm
  */
 
+@SortMeta(
+    listName = "Bitonic (Recursive)",
+    showcaseName = "Batcher's Bitonic Sort",
+    runName = "Recursive Bitonic Sort"
+)
 public final class BitonicSortRecursive extends Sort {
     private boolean direction = true;
 
     public BitonicSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Bitonic (Recursive)");
-        this.setRunAllSortsName("Batcher's Bitonic Sort");
-        this.setRunSortName("Recursive Bitonic Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private static int greatestPowerOfTwoLessThan(int n){

@@ -1,12 +1,17 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
 Idea made by Control#2866 in The Studio Discord Server (https://discord.com/invite/2xGkKC2)
 */
 
+@SortMeta(
+    name = "Matrix",
+    runName = "Matrix Sort"
+)
 public final class MatrixSort extends Sort {
     private class MatrixShape {
         int width;
@@ -21,16 +26,6 @@ public final class MatrixSort extends Sort {
 
     public MatrixSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Matrix");
-        this.setRunAllSortsName("Matrix Sort");
-        this.setRunSortName("Matrix Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void gapReverse(int[] array, int start, int end, int gap) {

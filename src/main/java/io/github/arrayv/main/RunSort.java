@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import io.github.arrayv.panes.JEnhancedOptionPane;
 import io.github.arrayv.panes.JErrorPane;
+import io.github.arrayv.sortdata.SortInfo;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.utils.Delays;
 import io.github.arrayv.utils.SortingNetworkGenerator;
@@ -124,23 +125,23 @@ public final class RunSort {
             @Override
             public void run() {
                 try {
-                    Sort sort = arrayVisualizer.getSorts()[selection].getFreshInstance();
+                    SortInfo sortInfo = arrayVisualizer.getSorts()[selection];
                     int extra = 0;
 
-                    if (sort.getQuestion() != null) {
+                    if (sortInfo.getQuestion() != null) {
                         try {
-                            extra = sort.validateAnswer(getCustomInput(sort.getQuestion()));
+                            extra = sortInfo.validateAnswer(getCustomInput(sortInfo.getQuestion()));
                         } catch (Exception e) {
-                            extra = sort.getDefaultAnswer();
+                            extra = sortInfo.getDefaultAnswer();
                         }
-                    } else if (sort.usesBuckets()) {
-                        if (sort.isRadixSort()) {
+                    } else if (sortInfo.isBucketSort()) {
+                        if (sortInfo.isRadixSort()) {
                             try {
                                 extra = getCustomInput("Enter the base for this sort:");
                             } catch (Exception e) {
                                 extra = 4;
                             }
-                        } else if (sort.getRunSortName().contains("Shatter")) {
+                        } else if (sortInfo.getRunName().contains("Shatter")) {
                             try {
                                 extra = getCustomInput("Enter the size for each partition:");
                             } catch (Exception e) {
@@ -160,7 +161,7 @@ public final class RunSort {
 
                     boolean goAhead;
 
-                    if (sort.getRunSortName().equals("Timesort")) {
+                    if (sortInfo.getRunName().equals("Timesort")) {
                         Object[] options = { "Continue", "Cancel" };
 
                         int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Time Sort will take at least " + getTimeSortEstimate(extra)
@@ -169,14 +170,14 @@ public final class RunSort {
 
                         if (warning == 0) goAhead = true;
                         else goAhead = false;
-                    } else if (sort.isUnreasonablySlow() && arrayVisualizer.getCurrentLength() > sort.getUnreasonableLimit()) {
+                    } else if (sortInfo.getUnreasonableLimit() > 0 && arrayVisualizer.getCurrentLength() > sortInfo.getUnreasonableLimit()) {
                         goAhead = false;
 
-                        Object[] options = { "Let's see how bad " + sort.getRunSortName() + " is!", "Cancel" };
+                        Object[] options = { "Let's see how bad " + sortInfo.getRunName() + " is!", "Cancel" };
 
-                        if (sort.isBogoSort()) {
+                        if (sortInfo.isBogoSort()) {
                             int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
-                                                                    + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
+                                                                    + sortInfo.getRunName() + "ing " + arrayVisualizer.getCurrentLength()
                                                                     + " numbers will almost certainly not finish in a reasonable amount of time. "
                                                                     + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
                                                                     null, options, options[1]);
@@ -184,7 +185,7 @@ public final class RunSort {
                             else goAhead = false;
                         } else {
                             int warning = JOptionPane.showOptionDialog(arrayVisualizer.getMainWindow(), "Even at a high speed, "
-                                                                    + sort.getRunSortName() + "ing " + arrayVisualizer.getCurrentLength()
+                                                                    + sortInfo.getRunName() + "ing " + arrayVisualizer.getCurrentLength()
                                                                     + " numbers will not finish in a reasonable amount of time. "
                                                                     + "Are you sure you want to continue?", "Warning!", 2, JOptionPane.WARNING_MESSAGE,
                                                                     null, options, options[1]);
@@ -197,36 +198,37 @@ public final class RunSort {
                     }
 
                     if (goAhead) {
-                        if (sort.getRunSortName().equals("In-Place LSD Radix")) {
+                        Sort sortInstance = sortInfo.getFreshInstance();
+
+                        if (sortInfo.getRunName().equals("In-Place LSD Radix")) {
                             sounds.changeVolume(0.01); // Here to protect your ears :)
                         }
 
                         arrayManager.toggleMutableLength(false);
                         arrayManager.refreshArray(array, arrayVisualizer.getCurrentLength(), arrayVisualizer);
 
-                        arrayVisualizer.setHeading(sort.getRunSortName());
-                        arrayVisualizer.setCategory(sort.getCategory());
+                        arrayVisualizer.setHeading(sortInfo.getRunName());
+                        arrayVisualizer.setCategory(sortInfo.getCategory());
 
                         realTimer.enableRealTimer();
                         boolean antiq = arrayVisualizer.useAntiQSort();
                         boolean networks = arrayVisualizer.generateSortingNetworks();
                         if (antiq)
                             arrayVisualizer.initAntiQSort();
-
                         try {
-                            sort.runSort(array, arrayVisualizer.getCurrentLength(), extra);
+                            sortInstance.runSort(array, arrayVisualizer.getCurrentLength(), extra);
                         } catch (StopSort e) {
                         } catch (OutOfMemoryError e) {
-                            JErrorPane.invokeCustomErrorMessage(sort.getRunAllSortsName() + " ran out of memory: " + e.getMessage());
+                            JErrorPane.invokeCustomErrorMessage(sortInfo.getRunName() + " ran out of memory: " + e.getMessage());
                             throw new RuntimeException(e);
                         }
 
                         if (antiq)
-                            arrayVisualizer.finishAntiQSort(sort.getClass().getSimpleName());
+                            arrayVisualizer.finishAntiQSort(sortInfo.getClass().getSimpleName());
                         else if (networks) {
                             ArrayList<Integer> indicesList = arrayVisualizer.getReads().getNetworkIndices();
                             SortingNetworkGenerator.encodeNetworkAndDisplay(
-                                sort.getClass().getSimpleName(),
+                                sortInfo.getClass().getSimpleName(),
                                 indicesList,
                                 arrayVisualizer.getCurrentLength()
                             );

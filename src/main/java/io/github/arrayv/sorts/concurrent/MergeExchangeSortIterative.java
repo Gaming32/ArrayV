@@ -1,22 +1,18 @@
 package io.github.arrayv.sorts.concurrent;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(
+    listName = "Merge-Exchange (Iterative)",
+    showcaseName = "Batcher's Merge-Exchange Sort",
+    runName = "Iterative Merge-Exchange Sort"
+)
 public final class MergeExchangeSortIterative extends Sort {
 
     public MergeExchangeSortIterative(ArrayVisualizer arrayVisualizer)  {
         super(arrayVisualizer);
-
-        this.setSortListName("Merge-Exchange (Iterative)");
-        this.setRunAllSortsName("Batcher's Merge-Exchange Sort");
-        this.setRunSortName("Iterative Merge-Exchange Sort");
-        this.setCategory("Concurrent Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

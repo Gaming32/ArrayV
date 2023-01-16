@@ -43,7 +43,7 @@ public final class NewSortInstance implements Supplier<Sort> {
     public Sort get() {
         try {
             return (Sort)mh.invoke(ArrayVisualizer.getInstance());
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | Error e) {
             throw e;
         } catch (Throwable e) {
             throw new RuntimeException(e);

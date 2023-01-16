@@ -8,7 +8,7 @@
   <property name="fileExtensions" value="java"/>
 
   <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value=".*[\\/]src[\\/]main[\\/]java[\\/]io[\\/]github[\\/]arrayv[\\/]sorts.*$"/>
+    <property name="fileNamePattern" value=".*[\\/]src[\\/]main[\\/]java[\\/]io[\\/]github[\\/]arrayv[\\/]sorts[\\/](?!templates[\\/]Sort.java$).*$"/>
   </module>
 
   <module name="FileTabCharacter">
