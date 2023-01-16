@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         # Use these Java versions
-        java: [8, 11, 17]
+        java: [8, 11, 17, 19]
         # and run on both Linux and Windows
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
