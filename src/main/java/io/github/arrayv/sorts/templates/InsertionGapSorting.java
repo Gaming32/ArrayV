@@ -29,7 +29,7 @@ public abstract class InsertionGapSorting extends Sort {
         super(arrayVisualizer);
     }
 
-    protected void insertionSort(int[] array, int start, int end, double sleep, boolean auxwrite, int gap) {
+    protected void gapInsertionSort(int[] array, int start, int end, double sleep, boolean auxwrite, int gap) {
         int pos;
         int current;
 
