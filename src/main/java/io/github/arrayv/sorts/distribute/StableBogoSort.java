@@ -9,7 +9,7 @@ import io.github.arrayv.sorts.templates.BogoSorting;
  value.
  */
 public final class StableBogoSort extends BogoSorting {
-    public BozoSort(ArrayVisualizer arrayVisualizer) {
+    public StableBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
 
         this.setSortListName("Stable Bogo");
