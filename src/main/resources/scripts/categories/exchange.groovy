@@ -12,6 +12,7 @@ SortPrompt.setSortThreadForCategory('Exchange Sorts', 29) {
     run OptimizedStoogeSort go 512.numbers
     run OptimizedStoogeSortStudio go 512.numbers
     run FunSort go 256.numbers, 2.speed
+    run YeetSort go 1024.numbers, 4.speed
     run GnomeSort go 128.numbers, 0.025.speed
     run OptimizedGnomeSort go 128.numbers, 0.025.speed
     run BinaryGnomeSort go 128.numbers, 0.025.speed
