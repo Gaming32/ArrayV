@@ -27,6 +27,7 @@ SortPrompt.setSortThreadForCategory('Impractical Sorts', 32) {
     run BozoSort go 7.numbers, 1e-9.speed
     run DeterministicBogoSort go 7.numbers, 1e-9.speed
     run SmartBogoBogoSort go 6.numbers, 1e-9.speed
+    run StableBogoSort go 8.numbers, 1e-9.speed
     run BogoSort go 6.numbers, 1e-9.speed
     run OptimizedGuessSort go 5.numbers, 1e-9.speed
     run RandomGuessSort go 5.numbers, 1e-9.speed
