@@ -22,12 +22,12 @@
     <dependency>
       <groupId>io.github.classgraph</groupId>
       <artifactId>classgraph</artifactId>
-      <version>4.8.139</version>
+      <version>4.8.162</version>
     </dependency>
     <dependency>
       <groupId>org.apache.groovy</groupId>
       <artifactId>groovy</artifactId>
-      <version>4.0.2</version>
+      <version>4.0.15</version>
     </dependency>
   </dependencies>
 
