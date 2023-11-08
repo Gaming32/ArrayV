@@ -8,14 +8,20 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * JDK 11's dual-pivot Quicksort, which I've painstakingly adapted line by line from DualPivotQuicksort.java to call
- * into the ArrayV hooks. Although I gutted all that multithreading crap, because who cares?
+ * JDK 14's dual-pivot Quicksort, which I've painstakingly adapted line by line from DualPivotQuicksort.java to call
+ * into the ArrayV hooks. Although I've gutted all that parallel merge stuff, because it essentially calls into the main
+ * algorithm on smaller segments in parallel, and merges them back in parallel. I'd rather just watch the main algorithm.
+ * While this parallel merge piece is ostensibly what sets JDK 14's sort apart from its predecessors, there are still a
+ * few little optimizations compared to JDK 11, including pivot selection and a new heapsort fallback (which I haven't
+ * been able to trigger in ArrayV without changing the tuning constants).
  * <p/>
  * Unfortunately, this janked out copypasta is the only way to observe the standard sort. I thought of adding hooks into
  * the ArrayV code in a List implementor, but the collections framework actually dumps the List into an array and calls
- * Arrays::sort when you call List::sort.
+ * Arrays::sort when you call List::sort. Plus, it uses a whole different algorithm for Comparables as opposed
+ * to primitives.
  * <p/>
- * <b>Overview</b><br/>
+ * <b>Overview:</b>
+ * <p/>
  * The algorithm is an Introsort variant at heart, but with so many safeguards, it's basically invincible.
  * <p/>
  * The core algorithm is a dual-pivot Quicksort. It selects the pivots using a weird median of 5 thing which is based
@@ -37,8 +43,6 @@ import java.util.Optional;
  * so-called "mixed" insertion sort, which uses the pivot to do some sort of double-ended thing that helps cut down on
  * swaps. I find this fascinating.
  * <p/>
- * Java 14 supposedly adds even more interesting stuff, if you feel like taking that on.
- * <p/>
  * Suggested settings:
  * <ul>
  *     <li>Shape = modulo function, Shuffle = no shuffle, N = 32768, Style = Bar Graph</li>
@@ -49,18 +53,18 @@ import java.util.Optional;
  */
 @SuppressWarnings("StatementWithEmptyBody")
 @SortMeta(
-    name = "Java 11",
-    runName = "Java 11",
+    name = "Java 14",
+    runName = "Java 14",
     category = "Custom"
 )
-public class Java11Sort extends Sort {
+public class Java14Sort extends Sort {
 
     private static final double INSERTION_SORT_SLEEP = 0.5;
     private static final double QUICK_SORT_SLEEP = 0.5;
     private static final double RUN_MERGE_SLEEP = 0.5;
     private static final boolean includeRunIndicesInVisuals = false;
 
-    public Java11Sort(ArrayVisualizer arrayVisualizer) {
+    public Java14Sort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }
 
@@ -69,7 +73,9 @@ public class Java11Sort extends Sort {
         sort(array, 0, sortLength);
     }
 
-// ============ ADAPTED FROM DualPivotQuicksort.java (jdk11), minus all the parallel crap. ============ \\
+// ============ ADAPTED FROM DualPivotQuicksort.java (jdk14), minus all the parallel crap. ============ \\
+// ================= It doesn't use any fancy language features, so no problems here. ================= \\
+// ================================= Original comments have been left intact. ========================= \\
 
     /**
      * Max array size to use insertion sort.
@@ -112,26 +118,26 @@ public class Java11Sort extends Sort {
     private static final int MAX_RECURSION_DEPTH = 64 * DELTA;
 
     /**
-     * Sorts the specified range of the array using parallel merge
-     * sort and/or Dual-Pivot Quicksort.
+     * Sorts the specified range of the array using <s>parallel merge
+     * sort and/or</s> Dual-Pivot Quicksort.
      *
-     * To balance the faster splitting and parallelism of merge sort
+     * <s>To balance the faster splitting and parallelism of merge sort
      * with the faster element partitioning of Quicksort, ranges are
      * subdivided in tiers such that, if there is enough parallelism,
      * the four-way parallel merge is started, still ensuring enough
-     * parallelism to process the partitions.
+     * parallelism to process the partitions.</s>
      *
      * @param a the array to be sorted
      * @param low the index of the first element, inclusive, to be sorted
      * @param high the index of the last element, exclusive, to be sorted
      */
-    private void sort(int[] a, int low, int high) throws InterruptedException {
+    private void sort(int[] a, int low, int high) {
         sort(a, 0, low, high);
     }
 
     /**
      * Sorts the specified array using the Dual-Pivot Quicksort and/or
-     * other sorts in special-cases, possibly with parallel partitions.
+     * other sorts in special-cases, <s>possibly with parallel partitions</s>.
      *
      * @param a the array to be sorted
      * @param bits the combination of recursion depth and bit flag, where
@@ -139,7 +145,7 @@ public class Java11Sort extends Sort {
      * @param low the index of the first element, inclusive, to be sorted
      * @param high the index of the last element, exclusive, to be sorted
      */
-    private void sort(int[] a, int bits, int low, int high) throws InterruptedException {
+    private void sort(int[] a, int bits, int low, int high) {
         while (true) {
             int end = high - 1, size = high - low;
 
@@ -451,7 +457,7 @@ public class Java11Sort extends Sort {
      * @param end the index of the last element for simple insertion sort
      * @param high the index of the last element, exclusive, to be sorted
      */
-    private void mixedInsertionSort(int[] a, int low, int end, int high) throws InterruptedException {
+    private void mixedInsertionSort(int[] a, int low, int end, int high) {
 
         Highlights.markArray(3, low);
         Highlights.markArray(4, end - 1);
