@@ -1447,8 +1447,35 @@ public enum Shuffles {
             for (val = 1; val <= value; val <<= 1);
             return val >> 1;
         }
+    },
+    SMB3 {
+        @Override
+        public String getName() {
+            return "SMB3 Matching Game";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            // Multiply length by 5/6 to simulate that bottom right corner easter egg
+            smb3Shuffle(array, (int) (arrayVisualizer.getCurrentLength() * 5.0 / 6.0), false,
+                arrayVisualizer.shuffleEnabled() ? 0.5 : 0, Writes);
+        }
+    },
+    SMB3_FIXED {
+        @Override
+        public String getName() {
+            return "SMB3 Matching Game (Fixed)";
+        }
+        @Override
+        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes) {
+            // Multiply length by 5/6 to simulate that bottom right corner easter egg
+            smb3Shuffle(array, (int) (arrayVisualizer.getCurrentLength() * 5.0 / 6.0), true,
+                arrayVisualizer.shuffleEnabled() ? 0.5 : 0, Writes);
+        }
     };
 
+    // TODO: Common fields and constructor for the RNG and various visualization context objects
+
+    // counting sort
     public void sort(int[] array, int start, int end, double sleep, Writes Writes) {
         int min = array[start], max = min;
         for (int i = start+1; i < end; i++) {
@@ -1479,6 +1506,85 @@ public enum Shuffles {
         }
     }
 
+    /**
+     * Did you know the card matching minigame in Super Mario Bros. 3 only has 8 possible layouts? It's true!
+     * But did you know that's not an intentional feature, but the result of an
+     * <a href=https://youtu.be/QGeLzCmUDDk?t=527>incredibly sloppy shuffle routine</a>?
+     * <p/>
+     * This method emulates that shuffle, with the option to fix or preserve the bugs that resulted in only 8 outcomes.
+     * It was only ever designed to operate on a list of exactly 15 elements, but I've adapted it to work for any length.
+     *
+     * @param array
+     * @param length
+     * @param fixed True to fix the bugs and allow for more possibilities. False for a more accurate experience with
+     *              only 8 possible outcomes.
+     * @param sleep Sleep amount for visualizations
+     * @param Writes
+     */
+    protected void smb3Shuffle(int[] array, int length, boolean fixed, double sleep, Writes Writes) {
+
+        Random rng = new Random();
+
+        // There were always 3 loops of the main shuffle algorithm,
+        // which did a rotation and a sequence of "triple swaps."
+        for (int numShuffles = 0; numShuffles < 3; numShuffles++) {
+
+            int numRotates = fixed
+                ? rng.nextInt(length)     // It was supposed to be any number from 0 to 14,
+                : rng.nextInt(2) * 2 + 1; // But with bugs, it was always 1 or 3
+            // It's supposed to be a rightRotate, but all I have is this leftRotate function, so numRotates needs to be
+            // adapted. It doesn't really matter in the fixed version, but it does for the broken version.
+            leftRotate(array, length - numRotates, length, sleep, Writes);
+
+            if (length <= 10) return;
+
+            int x = fixed
+                ? rng.nextInt(length - 10) // It had this weird loop that did "triple swaps" down from a random starting point,
+                : 0;                       // But with bugs, it always started at 0.
+            for (; x >= 0; x -= 2) {
+                // Triple swap
+                Writes.swap(array, x, x + 5, sleep, true, false);
+                Writes.swap(array, x + 5, x + 10, sleep, true, false);
+            }
+        }
+
+    }
+
+    // https://www.geeksforgeeks.org/array-rotation/#
+    // This code is clever, but explained horribly. I will redo the comments.
+    // TODO: HALF_ROTATE may be interested in this function.
+
+    /*Function to left rotate arr[] of size n by d*/
+    protected void leftRotate(int arr[], int d, int n, double sleep, Writes Writes) {
+        /* To handle if d >= n */
+        d = d % n;
+        int i, j, k, temp;
+        int g_c_d = gcd(d, n);
+        for (i = 0; i < g_c_d; i++) {
+            /* move i-th values of blocks */
+            temp = arr[i];
+            j = i;
+            while (true) {
+                k = j + d;
+                if (k >= n)
+                    k = k - n;
+                if (k == i)
+                    break;
+                Writes.write(arr, j, arr[k], sleep, true, false);
+                j = k;
+            }
+            Writes.write(arr, j, temp, sleep, true, false);
+        }
+    }
+
+    protected int gcd(int a, int b) {
+        if (b == 0)
+            return a;
+        else
+            return gcd(b, a % b);
+    }
+
+    // TODO: display while shuffling
     public abstract String getName();
     public abstract void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer, Delays Delays, Highlights Highlights, Writes Writes);
 }
