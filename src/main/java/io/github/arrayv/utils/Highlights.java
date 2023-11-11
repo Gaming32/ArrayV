@@ -170,29 +170,24 @@ public final class Highlights {
      * @param markPosition Index into the array that should be marked
      */
     public synchronized void markArray(int marker, int markPosition) {
-        try {
-            if (markPosition < 0 || markPosition >= arrayVisualizer.getCurrentLength()) {
-                if (markPosition == -1) throw new Exception("Highlights.markArray(): Invalid position! -1 is reserved for the clearMark method.");
-                else if (markPosition == -5) throw new Exception("Highlights.markArray(): Invalid position! -5 was the constant originally used to unmark numbers in the array. Instead, use the clearMark method.");
-                else throw new Exception("Highlights.markArray(): Invalid position " + markPosition + "!");
-            } else {
-                if (highlights[marker] == markPosition) {
-                    return;
-                }
-                Delays.disableStepping();
-                if (highlights[marker] != -1) {
-                    decrementIndexMarkCount(highlights[marker]);
-                }
-                highlights[marker] = markPosition;
-                incrementIndexMarkCount(markPosition);
-
-                if (marker >= this.maxHighlightMarked) {
-                    this.maxHighlightMarked = marker + 1;
-                }
+        if (markPosition < 0 || markPosition >= arrayVisualizer.getCurrentLength()) {
+            if (markPosition == -1) throw new IndexOutOfBoundsException("Highlights.markArray(): Invalid position! -1 is reserved for the clearMark method.");
+            else if (markPosition == -5) throw new IndexOutOfBoundsException("Highlights.markArray(): Invalid position! -5 was the constant originally used to unmark numbers in the array. Instead, use the clearMark method.");
+            else throw new IndexOutOfBoundsException("Highlights.markArray(): Invalid position " + markPosition + "!");
+        } else {
+            if (highlights[marker] == markPosition) {
+                return;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            Delays.disableStepping();
+            if (highlights[marker] != -1) {
+                decrementIndexMarkCount(highlights[marker]);
+            }
+            highlights[marker] = markPosition;
+            incrementIndexMarkCount(markPosition);
+
+            if (marker >= this.maxHighlightMarked) {
+                this.maxHighlightMarked = marker + 1;
+            }
         }
         arrayVisualizer.updateNow();
         Delays.enableStepping();
