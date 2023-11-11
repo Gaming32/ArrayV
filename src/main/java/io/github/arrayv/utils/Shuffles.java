@@ -1534,7 +1534,7 @@ public enum Shuffles {
                 : rng.nextInt(2) * 2 + 1; // But with bugs, it was always 1 or 3
             // It's supposed to be a rightRotate, but all I have is this leftRotate function, so numRotates needs to be
             // adapted. It doesn't really matter in the fixed version, but it does for the broken version.
-            leftRotate(array, length - numRotates, length, sleep, Writes);
+            leftRotate(array, length, length - numRotates, sleep, Writes);
 
             if (length <= 10) return;
 
@@ -1550,38 +1550,54 @@ public enum Shuffles {
 
     }
 
-    // https://www.geeksforgeeks.org/array-rotation/#
-    // This code is clever, but explained horribly. I will redo the comments.
     // TODO: HALF_ROTATE may be interested in this function.
-
-    /*Function to left rotate arr[] of size n by d*/
-    protected void leftRotate(int arr[], int d, int n, double sleep, Writes Writes) {
-        /* To handle if d >= n */
-        d = d % n;
-        int i, j, k, temp;
-        int g_c_d = gcd(d, n);
-        for (i = 0; i < g_c_d; i++) {
-            /* move i-th values of blocks */
-            temp = arr[i];
-            j = i;
+    /**
+     * Does a left rotation with a minimal number of swaps and O(1) extra memory, based on the observation that a
+     * rotation can be broken up into one or more independent cycles of swaps. The number of cycles is gcd(length, rotation).
+     * If you don't do it this way, you end up stumbling over yourself and overwriting values that aren't meant to be
+     * written yet.
+     * <p/>
+     * Adapted from <a href=https://www.geeksforgeeks.org/array-rotation/#>Geeksforgeeks</a>. I had to fix it up a
+     * little cause those comments were <i>stanky.</i>
+     * <p/>
+     * <b>Examples:</b>
+     * <p/>
+     * Length = 9, rotation = 2:<br/>
+     * 0 -> 2 -> 4 -> 6 -> 8 -> 1 -> 3 -> 5 -> 7 -> 0
+     * <p/>
+     * Length = 10, rotation = 2:<br/>
+     * 0 -> 2 -> 4 -> 6 -> 8 -> 0<br/>
+     * 1 -> 3 -> 5 -> 7 -> 9 -> 1
+     *
+     * @param array
+     * @param length
+     * @param rotation Rotation amount
+     * @param sleep Sleep amount for visualizations
+     * @param Writes
+     */
+    protected void leftRotate(int[] array, int length, int rotation, double sleep, Writes Writes) {
+        rotation %= length; // To handle if rotation >= length
+        int cycle, j, k, temp;
+        int gcd = gcd(rotation, length);
+        for (cycle = 0; cycle < gcd; cycle++) {
+            // Rotate cycle
+            temp = array[cycle];
+            j = cycle;
             while (true) {
-                k = j + d;
-                if (k >= n)
-                    k = k - n;
-                if (k == i)
+                k = (j + rotation) % length;
+                if (k == cycle)
                     break;
-                Writes.write(arr, j, arr[k], sleep, true, false);
+                Writes.write(array, j, array[k], sleep, true, false);
                 j = k;
             }
-            Writes.write(arr, j, temp, sleep, true, false);
+            Writes.write(array, j, temp, sleep, true, false);
         }
     }
 
     protected int gcd(int a, int b) {
-        if (b == 0)
-            return a;
-        else
-            return gcd(b, a % b);
+        return b == 0
+            ? a
+            : gcd(b, a % b);
     }
 
     // TODO: display while shuffling
