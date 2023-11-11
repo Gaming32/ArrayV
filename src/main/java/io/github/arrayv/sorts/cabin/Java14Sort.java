@@ -49,6 +49,7 @@ import java.util.Optional;
  *     <li>Shape = modulo function, Shuffle = sawtooth, N = 32768, Style = Bar Graph</li>
  *     <li>Shape = modulo function, Shuffle = pipe organ, N = 32768, Style = Bar Graph</li>
  *     <li>Shape = square root, Shuffle = SMB3 (fixed), N = 32768, Style = Bar Graph</li>
+ *     <li>Shape = sine wave, Shuffle = None, N = 32768, Style = Bar Graph</li>
  * </ul>
  */
 @SuppressWarnings("StatementWithEmptyBody")
@@ -64,13 +65,29 @@ public class Java14Sort extends Sort {
     private static final double RUN_MERGE_SLEEP = 0.5;
     private static final boolean includeRunIndicesInVisuals = false;
 
+    private int sortLength;
+
     public Java14Sort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
+        this.sortLength = sortLength;
         sort(array, 0, sortLength);
+    }
+
+    // For mixedInsertionSort, which often receives awkward bounds.
+    private int clamp(int i) {
+        if (i < 0) {
+            (new IndexOutOfBoundsException("" + i)).printStackTrace();
+            return 0;
+        } else if (i >= sortLength) {
+            (new IndexOutOfBoundsException("" + i)).printStackTrace();
+            return sortLength - 1;
+        }
+        // return Math.min(Math.max(i, 0), sortLength - 1);
+        return i;
     }
 
 // ============ ADAPTED FROM DualPivotQuicksort.java (jdk14), minus all the parallel crap. ============ \\
@@ -459,9 +476,9 @@ public class Java14Sort extends Sort {
      */
     private void mixedInsertionSort(int[] a, int low, int end, int high) {
 
-        Highlights.markArray(3, low);
-        Highlights.markArray(4, end - 1);
-        Highlights.markArray(5, high - 1);
+        Highlights.markArray(3, clamp(low));
+        Highlights.markArray(4, clamp(end - 1));
+        Highlights.markArray(5, clamp(high - 1));
 
         if (end == high) {
 
