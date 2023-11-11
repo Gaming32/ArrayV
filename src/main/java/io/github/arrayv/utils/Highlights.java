@@ -158,12 +158,23 @@ public final class Highlights {
         if (arrayPosition >= markCounts.length) return false;
         return this.markCounts[arrayPosition] != 0;
     }
+
+    /**
+     * Point marker at given array index. Markers can be sparse and unordered; that is, marker #3 -> position 5, marker #8 -> position 2
+     * is totally fine.
+     * <p/>
+     * Markers #1 and #2 are used by the Reads and Writes methods, so you might want to start at #3 if you're invoking
+     * this method yourself.
+     *
+     * @param marker Marker ID
+     * @param markPosition Index into the array that should be marked
+     */
     public synchronized void markArray(int marker, int markPosition) {
         try {
-            if (markPosition < 0) {
+            if (markPosition < 0 || markPosition >= arrayVisualizer.getCurrentLength()) {
                 if (markPosition == -1) throw new Exception("Highlights.markArray(): Invalid position! -1 is reserved for the clearMark method.");
                 else if (markPosition == -5) throw new Exception("Highlights.markArray(): Invalid position! -5 was the constant originally used to unmark numbers in the array. Instead, use the clearMark method.");
-                else throw new Exception("Highlights.markArray(): Invalid position!");
+                else throw new Exception("Highlights.markArray(): Invalid position " + markPosition + "!");
             } else {
                 if (highlights[marker] == markPosition) {
                     return;
@@ -181,6 +192,7 @@ public final class Highlights {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
         arrayVisualizer.updateNow();
         Delays.enableStepping();
