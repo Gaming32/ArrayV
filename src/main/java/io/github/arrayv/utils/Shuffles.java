@@ -48,9 +48,7 @@ public enum Shuffles {
             return "Randomly";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             shuffle(array, 0, currentLen, delay ? 1 : 0);
         }
@@ -60,9 +58,7 @@ public enum Shuffles {
             return "Backwards";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
         }
@@ -72,10 +68,7 @@ public enum Shuffles {
             return "Slight Shuffle";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
-
+        public void shuffleArray(int[] array, int currentLen) {
             for (int i = 0; i < Math.max(currentLen / 20, 1); i++){
                 Writes.swap(array, random.nextInt(currentLen), random.nextInt(currentLen), 0, true, false);
 
@@ -88,9 +81,7 @@ public enum Shuffles {
             return "No Shuffle";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             for (int i = 0; i < currentLen; i++) {
                 Highlights.markArray(1, i);
                 if (arrayVisualizer.shuffleEnabled()) Delays.sleep(1);
@@ -102,9 +93,7 @@ public enum Shuffles {
             return "Sorted";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             this.sort(array, 0, currentLen, delay ? 1 : 0);
         }
@@ -114,9 +103,7 @@ public enum Shuffles {
             return "Naive Randomly";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             for (int i = 0; i < currentLen; i++)
@@ -128,9 +115,7 @@ public enum Shuffles {
             return "Scrambled Tail";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int[] aux = new int[currentLen];
@@ -151,9 +136,7 @@ public enum Shuffles {
             return "Scrambled Head";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int[] aux = new int[currentLen];
@@ -174,9 +157,7 @@ public enum Shuffles {
             return "Shifted Element";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int start = random.nextInt(currentLen);
@@ -193,9 +174,7 @@ public enum Shuffles {
             return "Noisy";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int i, size = Math.max(4, (int)(Math.sqrt(currentLen)/2));
@@ -209,10 +188,7 @@ public enum Shuffles {
             return "Scrambled Odds";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
-
+        public void shuffleArray(int[] array, int currentLen) {
             for (int i = 1; i < currentLen; i += 2){
                 int randomIndex = (((random.nextInt(currentLen - i) / 2)) * 2) + i;
                 Writes.swap(array, i, randomIndex, 0, true, false);
@@ -226,9 +202,7 @@ public enum Shuffles {
             return "Final Merge Pass";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             int count = 2;
 
@@ -248,9 +222,7 @@ public enum Shuffles {
             return "Shuffled Final Merge";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             this.shuffle(array, 0, currentLen, delay ? 0.5 : 0);
@@ -264,9 +236,7 @@ public enum Shuffles {
             return "Shuffled Half";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             this.shuffle(array, 0, currentLen, delay ? 2/3d : 0);
@@ -279,9 +249,7 @@ public enum Shuffles {
             return "Partitioned";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             this.sort(array, 0, currentLen, delay ? 0.5 : 0);
@@ -295,9 +263,7 @@ public enum Shuffles {
             return "Sawtooth";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             int count = 4;
 
@@ -317,9 +283,7 @@ public enum Shuffles {
             return "Pipe Organ";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             int[] temp = new int[currentLen];
 
@@ -339,9 +303,7 @@ public enum Shuffles {
             return "Final Bitonic Pass";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             int[] temp = new int[currentLen];
 
@@ -363,9 +325,7 @@ public enum Shuffles {
             return "Interlaced";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int[] referenceArray = new int[currentLen];
@@ -388,10 +348,7 @@ public enum Shuffles {
             return "Double Layered";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
-
+        public void shuffleArray(int[] array, int currentLen) {
             for (int i = 0; i < currentLen / 2; i += 2) {
                 Writes.swap(array, i, currentLen - i - 1, 0, true, false);
                 if (arrayVisualizer.shuffleEnabled()) Delays.sleep(1);
@@ -403,9 +360,7 @@ public enum Shuffles {
             return "Final Radix";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             currentLen -= currentLen % 2;
@@ -426,10 +381,7 @@ public enum Shuffles {
             return "Real Final Radix";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
-
+        public void shuffleArray(int[] array, int currentLen) {
             int mask = 0;
             for (int i = 0; i < currentLen; i++)
                 while (mask < array[i]) mask = (mask << 1) + 1;
@@ -455,9 +407,7 @@ public enum Shuffles {
             return "Recursive Final Radix";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             weaveRec(array, 0, currentLen, 1, delay ? 0.5 : 0);
@@ -488,9 +438,7 @@ public enum Shuffles {
             return "Half Rotation";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int a = 0, m = (currentLen + 1) / 2;
@@ -513,9 +461,7 @@ public enum Shuffles {
             return "Half Reversed";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
@@ -527,9 +473,7 @@ public enum Shuffles {
             return "BST Traversal";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             int[] temp = Arrays.copyOf(array, currentLen);
 
             // credit to sam walko/anon
@@ -565,9 +509,7 @@ public enum Shuffles {
             return "Inverted BST";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             int[] temp = new int[currentLen];
 
@@ -608,9 +550,7 @@ public enum Shuffles {
             return "Logarithmic Slopes";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int[] temp = new int[currentLen];
@@ -631,9 +571,7 @@ public enum Shuffles {
             return "Heapified";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             MaxHeapSort heapSort = new MaxHeapSort(arrayVisualizer);
@@ -645,10 +583,7 @@ public enum Shuffles {
             return "Smoothified";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
-
+        public void shuffleArray(int[] array, int currentLen) {
             SmoothSort smoothSort = new SmoothSort(arrayVisualizer);
             smoothSort.smoothHeapify(array, currentLen);
         }
@@ -658,10 +593,7 @@ public enum Shuffles {
             return "Poplarified";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
-
+        public void shuffleArray(int[] array, int currentLen) {
             PoplarHeapSort poplarHeapSort = new PoplarHeapSort(arrayVisualizer);
             poplarHeapSort.poplarHeapify(array, 0, currentLen);
         }
@@ -671,9 +603,7 @@ public enum Shuffles {
             return "Triangular Heapified";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             if (delay) Delays.setSleepRatio(Delays.getSleepRatio()*10);
@@ -691,9 +621,7 @@ public enum Shuffles {
             return "First Circle Pass";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             shuffle(array, 0, currentLen, delay ? 0.5 : 0);
@@ -729,9 +657,7 @@ public enum Shuffles {
             return "Final Pairwise Pass";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             Reads Reads = arrayVisualizer.getReads();
 
@@ -769,9 +695,7 @@ public enum Shuffles {
             return "Recursive Reversal";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             reversalRec(array, 0, currentLen, delay ? 1 : 0);
@@ -792,9 +716,7 @@ public enum Shuffles {
             return "Gray Code Fractal";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             reversalRec(array, 0, currentLen, false, delay ? 1 : 0);
@@ -817,9 +739,7 @@ public enum Shuffles {
             return "Sierpinski Triangle";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             int[] triangle = new int[currentLen];
             triangleRec(triangle, 0, currentLen);
 
@@ -849,9 +769,7 @@ public enum Shuffles {
             return "Triangular";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
             int[] triangle = new int[currentLen];
 
@@ -887,9 +805,7 @@ public enum Shuffles {
             return "Quicksort Adversary";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             for (int j = currentLen-currentLen%2-2, i = j-1; i >= 0; i-=2, j--)
@@ -926,9 +842,7 @@ public enum Shuffles {
             return "PDQ Adversary";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             delay = arrayVisualizer.shuffleEnabled();
             sleep = delay ? 1 : 0;
 
@@ -1241,9 +1155,7 @@ public enum Shuffles {
             return "Grailsort Adversary";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             if (currentLen <= 16) Writes.reversal(array, 0, currentLen-1, delay ? 1 : 0, true, false);
@@ -1297,9 +1209,7 @@ public enum Shuffles {
             return "Shuffle Merge Adversary";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int n = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int n) {
             boolean delay = arrayVisualizer.shuffleEnabled();
 
             int[] tmp = new int[n];
@@ -1362,10 +1272,8 @@ public enum Shuffles {
             return "Bit Reversal";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
-            int len = 1 << (int)(Math.log(arrayVisualizer.getCurrentLength())/Math.log(2));
+        public void shuffleArray(int[] array, int currentLen) {
+            int len = 1 << (int)(Math.log(currentLen)/Math.log(2));
             boolean delay = arrayVisualizer.shuffleEnabled();
             boolean pow2 = len == currentLen;
 
@@ -1416,9 +1324,7 @@ public enum Shuffles {
             return "Randomly w/ Blocks";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             int blockSize = pow2lte((int)Math.sqrt(currentLen));
             currentLen -= currentLen%blockSize;
             boolean delay = arrayVisualizer.shuffleEnabled();
@@ -1449,9 +1355,7 @@ public enum Shuffles {
             return "Block Reverse";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
-            int currentLen = arrayVisualizer.getCurrentLength();
+        public void shuffleArray(int[] array, int currentLen) {
             int blockSize = pow2lte((int)Math.sqrt(currentLen));
             currentLen -= currentLen % blockSize;
             boolean delay = arrayVisualizer.shuffleEnabled();
@@ -1484,10 +1388,9 @@ public enum Shuffles {
             return "SMB3 Matching Game";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
+        public void shuffleArray(int[] array, int currentLen) {
             // Multiply length by 5/6 to simulate that bottom right corner easter egg
-            smb3Shuffle(array, (int) (arrayVisualizer.getCurrentLength() * 5.0 / 6.0), false,
+            smb3Shuffle(array, (int) (currentLen * 5.0 / 6.0), false,
                 arrayVisualizer.shuffleEnabled() ? 0.5 : 0);
         }
     },
@@ -1497,14 +1400,14 @@ public enum Shuffles {
             return "SMB3 Matching Game (Fixed)";
         }
         @Override
-        public void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer) {
-            init(arrayVisualizer);
+        public void shuffleArray(int[] array, int currentLen) {
             // Multiply length by 5/6 to simulate that bottom right corner easter egg
-            smb3Shuffle(array, (int) (arrayVisualizer.getCurrentLength() * 5.0 / 6.0), true,
+            smb3Shuffle(array, (int) (currentLen * 5.0 / 6.0), true,
                 arrayVisualizer.shuffleEnabled() ? 0.5 : 0);
         }
     };
 
+    protected ArrayVisualizer arrayVisualizer;
     protected Delays Delays;
     protected Highlights Highlights;
     protected Writes Writes;
@@ -1512,8 +1415,8 @@ public enum Shuffles {
 
     protected Random random = new Random();
 
-    // Could make this a public method and force the user to call it?
-    protected void init(ArrayVisualizer arrayVisualizer) {
+    public final void init(ArrayVisualizer arrayVisualizer) {
+        this.arrayVisualizer = arrayVisualizer;
         Delays = arrayVisualizer.getDelays();
         Highlights = arrayVisualizer.getHighlights();
         Writes = arrayVisualizer.getWrites();
@@ -1642,5 +1545,5 @@ public enum Shuffles {
 
     // TODO: display while shuffling
     public abstract String getName();
-    public abstract void shuffleArray(int[] array, ArrayVisualizer arrayVisualizer);
+    public abstract void shuffleArray(int[] array, int currentLen);
 }

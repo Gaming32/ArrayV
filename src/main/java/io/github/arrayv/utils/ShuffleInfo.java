@@ -115,7 +115,8 @@ public final class ShuffleInfo {
             }
         } else {
             assert shuffle != null;
-            this.shuffle.shuffleArray(array, arrayVisualizer);
+            shuffle.init(arrayVisualizer);
+            shuffle.shuffleArray(array, arrayVisualizer.getCurrentLength());
         }
     }
 }
