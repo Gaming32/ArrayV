@@ -154,10 +154,11 @@ public final class ArrayManager {
         return this.distribution;
     }
     public void setDistribution(Distributions choice) {
-        this.distribution = choice;
-        this.distribution.selectDistribution(arrayVisualizer.getArray(), arrayVisualizer);
-        if (!arrayVisualizer.isActive())
-            this.initializeArray(arrayVisualizer.getArray());
+        if (choice.selectDistribution(arrayVisualizer.getArray(), arrayVisualizer)) {
+            this.distribution = choice;
+            if (!arrayVisualizer.isActive())
+                this.initializeArray(arrayVisualizer.getArray());
+        }
     }
 
     public boolean containsShuffle(Shuffles shuffle) {

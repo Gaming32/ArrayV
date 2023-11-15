@@ -529,24 +529,36 @@ public enum Distributions {
             return "Custom...";
         }
         @Override
-        public void selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
+        public boolean selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
             LoadCustomDistributionDialog dialog = new LoadCustomDistributionDialog();
             File file = dialog.getFile();
+            if (file == null) {
+                return false;
+            }
             Scanner scanner;
             try {
                 scanner = new Scanner(file);
             } catch (FileNotFoundException e) {
-                JErrorPane.invokeErrorMessage(e);
-                return;
+                JErrorPane.invokeCustomErrorMessage("File not found: " + e.getMessage());
+                return false;
             }
-            scanner.useDelimiter("\\s+");
-            this.refarray = new int[arrayVisualizer.getMaximumLength()];
-            int current = 0;
-            while (scanner.hasNext()) {
-                this.refarray[current++] = Integer.parseInt(scanner.next());
+            try {
+                scanner.useDelimiter("\\s+");
+                this.refarray = new int[arrayVisualizer.getMaximumLength()];
+                int current = 0;
+                while (scanner.hasNext()) {
+                    // This gives better error messages than scanner.nextInt()
+                    this.refarray[current++] = Integer.parseInt(scanner.next());
+                }
+                this.length = current;
+
+                return true;
+            } catch (NumberFormatException e) {
+                JErrorPane.invokeCustomErrorMessage("Malformed custom sequence: " + e.getMessage());
+                return false;
+            } finally {
+                scanner.close();
             }
-            this.length = current;
-            scanner.close();
         }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
@@ -559,7 +571,8 @@ public enum Distributions {
     };
 
     public abstract String getName();
-    public void selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
+    public boolean selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
+        return true;
     }
     public abstract void initializeArray(int[] array, ArrayVisualizer arrayVisualizer);
 }
