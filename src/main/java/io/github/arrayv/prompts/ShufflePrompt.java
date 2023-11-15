@@ -40,6 +40,7 @@ SOFTWARE.
 
 public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame {
     private static final long serialVersionUID = 1L;
+    private static final String ADVANCED = "(Advanced)";
 
     private final ArrayManager arrayManager;
     private final JFrame frame;
@@ -74,8 +75,9 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         jList2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jList2.setModel(shuffleModel);
         Arrays.stream(arrayManager.getShuffleIDs()).forEach(shuffleModel::addElement);
+        // Add ghost option if advanced shuffle graph is active
         if (arrayManager.getShuffle().size() > 1) {
-            shuffleModel.add(0, "Advanced");
+            shuffleModel.add(0, ADVANCED);
             jList2.setSelectedIndex(0);
         } else {
             for (int i = 0; i < arrayManager.getShuffles().length; i++) {
@@ -85,7 +87,7 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                 }
             }
             if (jList2.getSelectedIndex() == -1) {
-                shuffleModel.add(0, "Advanced");
+                shuffleModel.add(0, ADVANCED);
                 jList2.setSelectedIndex(0);
             }
         }
@@ -220,7 +222,8 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         if (initializing || jList2.getValueIsAdjusting())
             return;
         int selection = jList2.getSelectedIndex();
-        if (shuffleModel.getElementAt(0).equals("Advanced")) {
+        // Remove ghost option if something else has been selected
+        if (shuffleModel.getElementAt(0).equals(ADVANCED)) {
             if (selection == 0) return;
             shuffleModel.remove(0);
             selection--;
