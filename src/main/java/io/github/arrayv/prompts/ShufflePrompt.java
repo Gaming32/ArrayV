@@ -133,19 +133,17 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         jScrollPane1.setViewportView(this.jList1);
         jScrollPane2.setViewportView(this.jList2);
 
-        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jList1.addListSelectionListener(evt -> {
             try {
-                jList1ValueChanged(evt);
+                jList1ValueChanged();
             } catch (Exception e) {
                 JErrorPane.invokeErrorMessage(e);
             }
         });
 
-        jList2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jList2.addListSelectionListener(evt -> {
             try {
-                jList2ValueChanged(evt);
+                jList2ValueChanged();
             } catch (Exception e) {
                 JErrorPane.invokeErrorMessage(e);
             }
@@ -207,8 +205,8 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         new ShuffleDialog(arrayManager, this);
     }//GEN-LAST:event_jList1ValueChanged
 
-    private void jList1ValueChanged(ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        if (initializing || evt.getValueIsAdjusting())
+    private void jList1ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
+        if (initializing)
             return;
         int selection = jList1.getSelectedIndex();
         Distributions[] distributions = arrayManager.getDistributions();
@@ -216,8 +214,8 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
             arrayManager.setDistribution(distributions[selection]);
     }//GEN-LAST:event_jList1ValueChanged
 
-    private void jList2ValueChanged(ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-        if (initializing || evt.getValueIsAdjusting())
+    private void jList2ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
+        if (initializing)
             return;
         int selection = jList2.getSelectedIndex();
         if (shuffleModel.getElementAt(0).equals("Advanced")) {
