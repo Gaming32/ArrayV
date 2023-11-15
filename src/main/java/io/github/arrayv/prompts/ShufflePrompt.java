@@ -62,6 +62,7 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         initComponents();
 
         initializing = true;
+        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jList1.setListData(arrayManager.getDistributionIDs());
         for (int i = 0; i < arrayManager.getDistributions().length; i++) {
             if (arrayManager.getDistribution().equals(arrayManager.getDistributions()[i])) {
@@ -70,6 +71,7 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
             }
         }
         shuffleModel = new DefaultListModel<>();
+        jList2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jList2.setModel(shuffleModel);
         Arrays.stream(arrayManager.getShuffleIDs()).forEach(shuffleModel::addElement);
         if (arrayManager.getShuffle().size() > 1) {
@@ -206,7 +208,7 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList1ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
-        if (initializing)
+        if (initializing || jList1.getValueIsAdjusting())
             return;
         int selection = jList1.getSelectedIndex();
         Distributions[] distributions = arrayManager.getDistributions();
@@ -215,7 +217,7 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList2ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
-        if (initializing)
+        if (initializing || jList2.getValueIsAdjusting())
             return;
         int selection = jList2.getSelectedIndex();
         if (shuffleModel.getElementAt(0).equals("Advanced")) {
