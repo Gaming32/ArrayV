@@ -81,7 +81,7 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         }
 
         distributions = Arrays.stream(arrayManager.getDistributions())
-                              .filter(dist -> !dist.getName().equals("Custom"))
+                              .filter(dist -> dist != Distributions.CUSTOM)
                               .collect(Collectors.toList());
         Object[] distributionNames = distributions.stream()
             .map(Distributions::getName).toArray();

@@ -436,7 +436,7 @@ public enum Distributions {
     },
     FSD {// fly straight dangit (OEIS A133058)
         public String getName() {
-            return "Fly Straight, Damnit!";
+            return "Fly Straight, Dammit!";
         }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
@@ -526,7 +526,7 @@ public enum Distributions {
         private int[] refarray;
         private int length;
         public String getName() {
-            return "Custom";
+            return "Custom...";
         }
         @Override
         public void selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
