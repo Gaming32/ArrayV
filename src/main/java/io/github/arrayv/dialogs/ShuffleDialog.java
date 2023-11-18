@@ -380,14 +380,24 @@ public final class ShuffleDialog extends javax.swing.JDialog implements AppFrame
         shuffleEditor.getShuffle().addDisconnected(shuffle, safePos.x, safePos.y);
     }
 
+    private int jList4PrevSelection;
+
     // Base Distribution
     private void jList4ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
         if (bypassEvents || jList4.getValueIsAdjusting())
             return;
         int selection = jList4.getSelectedIndex();
         Distributions[] distributions = arrayManager.getDistributions();
-        if (selection >= 0 && selection < distributions.length)
-            arrayManager.setDistribution(distributions[selection]);
+        if (selection >= 0 && selection < distributions.length) {
+            if (arrayManager.setDistribution(distributions[selection])) {
+                jList4PrevSelection = selection;
+            } else {
+                // Selection failed for whatever reason. Need to revert to the previous selection.
+                bypassEvents = true;
+                jList4.setSelectedIndex(jList4PrevSelection);
+                bypassEvents = false;
+            }
+        }
     }//GEN-LAST:event_jList1ValueChanged
 
     // Distribution Stretch

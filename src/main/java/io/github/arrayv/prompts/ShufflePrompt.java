@@ -209,13 +209,23 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         new ShuffleDialog(arrayManager, this);
     }//GEN-LAST:event_jList1ValueChanged
 
+    private int jList1PrevSelection;
+
     private void jList1ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
         if (initializing || jList1.getValueIsAdjusting())
             return;
         int selection = jList1.getSelectedIndex();
         Distributions[] distributions = arrayManager.getDistributions();
-        if (selection >= 0 && selection < distributions.length)
-            arrayManager.setDistribution(distributions[selection]);
+        if (selection >= 0 && selection < distributions.length) {
+            if (arrayManager.setDistribution(distributions[selection])) {
+                jList1PrevSelection = selection;
+            } else {
+                // Selection failed for whatever reason. Need to revert to the previous selection.
+                initializing = true;
+                jList1.setSelectedIndex(jList1PrevSelection);
+                initializing = false;
+            }
+        }
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList2ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
