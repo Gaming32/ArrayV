@@ -241,9 +241,8 @@ public enum Distributions {
                     minimum = perlinNoise[i];
                 }
             }
-            minimum = Math.abs(minimum);
             for (int i = 0; i < currentLen; i++) {
-                perlinNoise[i] += minimum;
+                perlinNoise[i] -= minimum;
             }
 
             double maximum = Double.MIN_VALUE;
