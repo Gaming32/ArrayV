@@ -407,6 +407,7 @@ public final class Writes {
 
     public int[] copyOfArray(int[] original, int newLength) {
         this.allocAmount.addAndGet(newLength);
+        changeAuxWrites(newLength);
         int[] result = Arrays.copyOf(original, newLength);
         arrayVisualizer.getArrays().add(result);
         arrayVisualizer.updateNow();
@@ -415,6 +416,7 @@ public final class Writes {
 
     public int[] copyOfRangeArray(int[] original, int from, int to) {
         this.allocAmount.addAndGet(to - from);
+        changeAuxWrites(to - from);
         int[] result = Arrays.copyOfRange(original, from, to);
         arrayVisualizer.getArrays().add(result);
         arrayVisualizer.updateNow();
