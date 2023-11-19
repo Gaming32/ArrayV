@@ -232,6 +232,7 @@ public enum Distributions {
                 int value = (int) (PerlinNoise.returnFracBrownNoise(randomStart, octave) * currentLen);
                 perlinNoise[i] = value;
                 randomStart += step;
+                randomStart = Math.nextUp(randomStart); // TODO: doubles lol
             }
 
             int minimum = Integer.MAX_VALUE;
