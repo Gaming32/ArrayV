@@ -425,7 +425,7 @@ public class Java14Sort extends Sort {
                         a[k] = pivot;
 
                         if (Reads.compareValues(ak, pivot) < 0) { // Move a[k] to the left side
-                            while (Reads.compareIndexValue(a, ++lower, pivot) < 0);
+                            while (Reads.compareIndexValue(a, ++lower, pivot, QUICK_SORT_SLEEP, true) < 0);
 
                             if (Reads.compareIndexValue(a, lower, pivot, QUICK_SORT_SLEEP, true) > 0) {
                                 Writes.write(a, --upper, a[lower], QUICK_SORT_SLEEP, true, false);
