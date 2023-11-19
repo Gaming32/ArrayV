@@ -7,6 +7,9 @@ import io.github.arrayv.utils.Reads;
 import io.github.arrayv.utils.Writes;
 import io.github.arrayv.sortdata.SortMeta;
 
+/**
+ * Parent class for sorting algorithms. All classes in the sorts package must extend this.
+ */
 public abstract class Sort {
     private Object[] deprecatedMetadataTable = null;
 
@@ -279,5 +282,18 @@ public abstract class Sort {
         return answer;
     }
 
-    public abstract void runSort(int[] array, int sortLength, int bucketCount) throws Exception; //bucketCount will be zero for comparison-based sorts
+    /**
+     * Entry point for this algorithm. It should sort the segment from 0 to sortLength - 1. Be sure to call into
+     * {@link Sort#Reads}, {@link Sort#Writes}, and {@link Sort#Highlights} as much as you can possibly stand.
+     *
+     * @param array
+     * @param sortLength The length of the segment to be sorted. <b>Do not rely on array.length,</b> as we may reserve
+     *                   much more space than required.
+     * @param param A user input parameter to control the algorithm. The archetypal example is the base for radix sort,
+     *              but it could also be something like the insertion sort threshold in introsort. You can safely ignore
+     *              this if it doesn't affect you. Use {@link SortMeta#question()} to set up a prompt.
+     *
+     * @throws Exception Because you can't be trusted.
+     */
+    public abstract void runSort(int[] array, int sortLength, int param) throws Exception;
 }

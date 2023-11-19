@@ -156,6 +156,16 @@ public final class Writes {
         Highlights.markArray(2, b);
     }
 
+    /**
+     * Swaps two values in the array.
+     *
+     * @param array
+     * @param a The first index
+     * @param b The second index
+     * @param pause How many milliseconds to sleep (subject to Delays.sleepRatio)
+     * @param mark Whether or not to mark this swap in the visualization
+     * @param auxwrite Whether the given array reference is an auxiliary array or the main subject being sorted.
+     */
     public void swap(int[] array, int a, int b, double pause, boolean mark, boolean auxwrite) {
         if (arrayVisualizer.sortCanceled()) throw new StopSort();
         if (!auxwrite && a >= arrayVisualizer.getCurrentLength()) {
@@ -180,6 +190,18 @@ public final class Writes {
         Delays.sleep(pause);
     }
 
+    /**
+     * Does a rotation on the given range.<br/>
+     * If pos &lt; to, it's a left rotate ([1,2,3,4,5] -> [2,3,4,5,1]).<br/>
+     * If pos &gt; to, it's a right rotate ([1,2,3,4,5] -> [5,1,2,3,4,5]).
+     *
+     * @param array
+     * @param pos Start pos for the rotation
+     * @param to End pos for the rotation. Can be less than pos.
+     * @param sleep How many milliseconds to sleep (subject to Delays.sleepRatio)
+     * @param mark Whether or not to mark this swap in the visualization
+     * @param auxwrite Whether the given array reference is an auxiliary array or the main subject being sorted.
+     */
     public void multiSwap(int[] array, int pos, int to, double sleep, boolean mark, boolean auxwrite) {
         if (to - pos > 0) {
             for (int i = pos; i < to; i++) {
@@ -417,6 +439,10 @@ public final class Writes {
         return new ArrayVList(defaultCapacity);
     }
 
+    /**
+     * Reserves an external array for auxiliary computations (e.g. scratch space for merge sort) and registers it to the
+     * visualizer. Make sure to call {@link Writes#deleteExternalArray(int[])} when you're done with it.
+     */
     public int[] createExternalArray(int length) {
         this.allocAmount.addAndGet(length);
         int[] result = new int[length];
@@ -425,6 +451,9 @@ public final class Writes {
         return result;
     }
 
+    /**
+     * Deletes a registered auxiliary array from the visualization.
+     */
     public void deleteExternalArray(int[] array) {
         this.allocAmount.addAndGet(-array.length);
         arrayVisualizer.getArrays().remove(array);

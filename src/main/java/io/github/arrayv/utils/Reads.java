@@ -83,6 +83,13 @@ public final class Reads {
         this.comparisons.set(value);
     }
 
+    /**
+     * Doesn't result in any visualizations, but counts for the number of comparisons stat.
+     *
+     * @param left
+     * @param right
+     * @return Integer.compare(left, right)
+     */
     public int compareValues(int left, int right) {
         if (arrayVisualizer.sortCanceled()) throw new StopSort();
         this.comparisons.incrementAndGet();
@@ -125,6 +132,17 @@ public final class Reads {
         return cmpVal;
     }
 
+    /**
+     * Compare index to index.
+     *
+     * @param array
+     * @param left The first index to read from the array
+     * @param right The second index to read from the array
+     * @param sleep How many milliseconds to sleep (subject to Delays.sleepRatio)
+     * @param mark Whether to mark and delay for this comparison.
+     *
+     * @return Integer.compare(array[left], array[right])
+     */
     public int compareIndices(int[] array, int left, int right, double sleep, boolean mark) {
         if (mark) {
             Highlights.markArray(1, left);
@@ -147,6 +165,17 @@ public final class Reads {
         return this.compareOriginalValues(array[left], array[right]);
     }
 
+    /**
+     * Compare index to value. Useful for comparing, say, the current pointer to the current minimum.
+     *
+     * @param array
+     * @param index The index to read from the array
+     * @param value A constant value
+     * @param sleep How many milliseconds to sleep (subject to Delays.sleepRatio)
+     * @param mark Whether to mark and delay for this comparison.
+     *
+     * @return Integer.compare(array[index], value)
+     */
     public int compareIndexValue(int[] array, int index, int value, double sleep, boolean mark) {
         if (mark) {
             Highlights.markArray(1, index);
@@ -163,6 +192,17 @@ public final class Reads {
         return this.compareOriginalValues(array[index], value);
     }
 
+    /**
+     * Compare value to index. Useful for comparing, say, the current minimum to the current pointer.
+     *
+     * @param array
+     * @param value A constant value
+     * @param index The index to read from the array
+     * @param sleep How many milliseconds to sleep (subject to Delays.sleepRatio)
+     * @param mark Whether to mark and delay for this comparison.
+     *
+     * @return Integer.compare(value, array[index])
+     */
     public int compareValueIndex(int[] array, int value, int index, double sleep, boolean mark) {
         if (mark) {
             Highlights.markArray(1, index);
