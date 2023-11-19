@@ -457,15 +457,19 @@ public final class Writes {
      * Deletes a registered auxiliary array from the visualization.
      */
     public void deleteExternalArray(int[] array) {
-        this.allocAmount.addAndGet(-array.length);
-        arrayVisualizer.getArrays().remove(array);
-        arrayVisualizer.updateNow();
+        if (arrayVisualizer.getArrays().remove(array)) {
+            this.allocAmount.addAndGet(-array.length);
+            arrayVisualizer.updateNow();
+        }
     }
 
     public void deleteExternalArrays(int[]... arrays) {
-        this.allocAmount.addAndGet(-Arrays.stream(arrays).reduce(0, (a, b) -> (a + b.length), Integer::sum));
         List<int[]> visArrays = arrayVisualizer.getArrays();
-        Arrays.stream(arrays).forEach(visArrays::remove);
+        this.allocAmount.addAndGet(-Arrays.stream(arrays)
+            .filter(visArrays::remove)
+            .mapToInt(array -> array.length)
+            .sum()
+        );
         arrayVisualizer.updateNow();
     }
 
