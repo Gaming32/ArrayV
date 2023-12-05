@@ -21,7 +21,7 @@ limitations under the License.
  *
  */
 
-/*
+/**
  * An American flag sort is an efficient, in-place variant of radix sort that
  * distributes items into hundreds of buckets. Non-comparative sorting
  * algorithms such as radix sort and American flag sort are typically used to

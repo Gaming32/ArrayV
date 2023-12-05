@@ -40,6 +40,7 @@ SOFTWARE.
 
 public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame {
     private static final long serialVersionUID = 1L;
+    private static final String ADVANCED = "(Advanced)";
 
     private final ArrayManager arrayManager;
     private final JFrame frame;
@@ -62,6 +63,7 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         initComponents();
 
         initializing = true;
+        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jList1.setListData(arrayManager.getDistributionIDs());
         for (int i = 0; i < arrayManager.getDistributions().length; i++) {
             if (arrayManager.getDistribution().equals(arrayManager.getDistributions()[i])) {
@@ -70,10 +72,12 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
             }
         }
         shuffleModel = new DefaultListModel<>();
+        jList2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jList2.setModel(shuffleModel);
         Arrays.stream(arrayManager.getShuffleIDs()).forEach(shuffleModel::addElement);
+        // Add ghost option if advanced shuffle graph is active
         if (arrayManager.getShuffle().size() > 1) {
-            shuffleModel.add(0, "Advanced");
+            shuffleModel.add(0, ADVANCED);
             jList2.setSelectedIndex(0);
         } else {
             for (int i = 0; i < arrayManager.getShuffles().length; i++) {
@@ -83,7 +87,7 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
                 }
             }
             if (jList2.getSelectedIndex() == -1) {
-                shuffleModel.add(0, "Advanced");
+                shuffleModel.add(0, ADVANCED);
                 jList2.setSelectedIndex(0);
             }
         }
@@ -205,20 +209,31 @@ public final class ShufflePrompt extends javax.swing.JFrame implements AppFrame 
         new ShuffleDialog(arrayManager, this);
     }//GEN-LAST:event_jList1ValueChanged
 
+    private int jList1PrevSelection;
+
     private void jList1ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
-        if (initializing)
+        if (initializing || jList1.getValueIsAdjusting())
             return;
         int selection = jList1.getSelectedIndex();
         Distributions[] distributions = arrayManager.getDistributions();
-        if (selection >= 0 && selection < distributions.length)
-            arrayManager.setDistribution(distributions[selection]);
+        if (selection >= 0 && selection < distributions.length) {
+            if (arrayManager.setDistribution(distributions[selection])) {
+                jList1PrevSelection = selection;
+            } else {
+                // Selection failed for whatever reason. Need to revert to the previous selection.
+                initializing = true;
+                jList1.setSelectedIndex(jList1PrevSelection);
+                initializing = false;
+            }
+        }
     }//GEN-LAST:event_jList1ValueChanged
 
     private void jList2ValueChanged() {//GEN-FIRST:event_jList1ValueChanged
-        if (initializing)
+        if (initializing || jList2.getValueIsAdjusting())
             return;
         int selection = jList2.getSelectedIndex();
-        if (shuffleModel.getElementAt(0).equals("Advanced")) {
+        // Remove ghost option if something else has been selected
+        if (shuffleModel.getElementAt(0).equals(ADVANCED)) {
             if (selection == 0) return;
             shuffleModel.remove(0);
             selection--;
