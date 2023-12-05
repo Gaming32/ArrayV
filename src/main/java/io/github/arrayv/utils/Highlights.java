@@ -160,9 +160,9 @@ public final class Highlights {
     }
 
     /**
-     * Point marker at given array index. Markers can be sparse and unordered; that is, marker #3 -> position 5, marker #8 -> position 2
+     * Point marker at given array index. Markers can be sparse and unordered; that is, marker #3 -&gt; position 5, marker #8 -&gt; position 2
      * is totally fine.
-     * <p/>
+     * <p>
      * Markers #1 and #2 are used by the Reads and Writes methods, so you might want to start at #3 if you're invoking
      * this method yourself.
      *

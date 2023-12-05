@@ -14,35 +14,35 @@ import java.util.Optional;
  * While this parallel merge piece is ostensibly what sets JDK 14's sort apart from its predecessors, there are still a
  * few little optimizations compared to JDK 11, including pivot selection and a new heapsort fallback (which I haven't
  * been able to trigger in ArrayV without changing the tuning constants).
- * <p/>
+ * <p>
  * Unfortunately, this janked out copypasta is the only way to observe the standard sort. I thought of adding hooks into
  * the ArrayV code in a List implementor, but the collections framework actually dumps the List into an array and calls
  * Arrays::sort when you call List::sort. Plus, it uses a whole different algorithm for Comparables as opposed
  * to primitives.
- * <p/>
+ * <p>
  * <b>Overview:</b>
- * <p/>
+ * <p>
  * The algorithm is an Introsort variant at heart, but with so many safeguards, it's basically invincible.
- * <p/>
+ * <p>
  * The core algorithm is a dual-pivot Quicksort. It selects the pivots using a weird median of 5 thing which is based
  * on the golden ratio, because of course it is. <b>Safeguard #1:</b> If any two of them are equal, it switches to a
  * single-pivot Quicksort for that range.
- * <p/>
+ * <p>
  * <b>Safeguard #2:</b> Before trying Quicksort, it tries to find and merge runs. A run is defined as an ascending,
  * descending, or constant sequence of values (a constant sequence could technically be considered ascending <i>and</i>
  * descending, but it is handled slightly differently here). A descending sequence is reversed on the spot. Then, if
  * all the sequences are long enough, it will attempt to do an N-way merge on them. Otherwise, it will leave them alone
  * and defer to the core Quicksort loop.
- * <p/>
+ * <p>
  * <b>Safeguard #3:</b> If the recursion delves too greedily and too deep, it will call Heapsort on that range. This is,
  * of course, a classic Introsort optimization. Interestingly, they set a <i>huge</i> depth on it, likely impossible to
  * reach without millions of elements.
- * <p/>
+ * <p>
  * <b>Safeguard #4:</b> If called on a small enough range, it will call insertion sort. Another classic Introsort
  * optimization. But there are two versions of it... one is a regular insertion sort like you're used to. The other is a
  * so-called "mixed" insertion sort, which uses the pivot to do some sort of double-ended thing that helps cut down on
  * swaps. I find this fascinating.
- * <p/>
+ * <p>
  * Suggested settings:
  * <ul>
  *     <li>Shape = modulo function, Shuffle = no shuffle, N = 32768, Style = Bar Graph</li>

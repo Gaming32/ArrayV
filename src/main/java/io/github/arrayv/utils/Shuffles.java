@@ -1456,8 +1456,8 @@ public enum Shuffles {
     /**
      * Did you know the card matching minigame in Super Mario Bros. 3 only has 8 possible layouts? It's true!
      * But did you know that's not an intentional feature, but the result of an
-     * <a href=https://youtu.be/QGeLzCmUDDk?t=527>incredibly sloppy shuffle routine</a>?
-     * <p/>
+     * <a href="https://youtu.be/QGeLzCmUDDk?t=527">incredibly sloppy shuffle routine</a>?
+     * <p>
      * This method emulates that shuffle, with the option to fix or preserve the bugs that resulted in only 8 outcomes.
      * It was only ever designed to operate on a list of exactly 15 elements, but I've adapted it to work for any length.
      *
@@ -1500,18 +1500,18 @@ public enum Shuffles {
      * rotation can be broken up into one or more independent cycles of swaps. The number of cycles is gcd(length, rotation).
      * If you don't do it this way, you end up stumbling over yourself and overwriting values that aren't meant to be
      * written yet.
-     * <p/>
+     * <p>
      * Adapted from <a href=https://www.geeksforgeeks.org/array-rotation/#>Geeksforgeeks</a>. I had to fix it up a
      * little cause those comments were <i>stanky.</i>
-     * <p/>
+     * <p>
      * <b>Examples:</b>
-     * <p/>
-     * Length = 9, rotation = 2:<br/>
-     * 0 -> 2 -> 4 -> 6 -> 8 -> 1 -> 3 -> 5 -> 7 -> 0
-     * <p/>
-     * Length = 10, rotation = 2:<br/>
-     * 0 -> 2 -> 4 -> 6 -> 8 -> 0<br/>
-     * 1 -> 3 -> 5 -> 7 -> 9 -> 1
+     * <p>
+     * Length = 9, rotation = 2:<br>
+     * 0 -&gt; 2 -&gt; 4 -&gt; 6 -&gt; 8 -&gt; 1 -&gt; 3 -&gt; 5 -&gt; 7 -&gt; 0
+     * <p>
+     * Length = 10, rotation = 2:<br>
+     * 0 -&gt; 2 -&gt; 4 -&gt; 6 -&gt; 8 -&gt; 0<br>
+     * 1 -&gt; 3 -&gt; 5 -&gt; 7 -&gt; 9 -&gt; 1
      *
      * @param array
      * @param length

@@ -191,9 +191,9 @@ public final class Writes {
     }
 
     /**
-     * Does a rotation on the given range.<br/>
-     * If pos &lt; to, it's a left rotate ([1,2,3,4,5] -> [2,3,4,5,1]).<br/>
-     * If pos &gt; to, it's a right rotate ([1,2,3,4,5] -> [5,1,2,3,4,5]).
+     * Does a rotation on the given range.<br>
+     * If pos &lt; to, it's a left rotate ([1,2,3,4,5] -&gt; [2,3,4,5,1]).<br>
+     * If pos &gt; to, it's a right rotate ([1,2,3,4,5] -&gt; [5,1,2,3,4,5]).
      *
      * @param array
      * @param pos Start pos for the rotation
