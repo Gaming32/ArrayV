@@ -1501,7 +1501,7 @@ public enum Shuffles {
      * If you don't do it this way, you end up stumbling over yourself and overwriting values that aren't meant to be
      * written yet.
      * <p>
-     * Adapted from <a href=https://www.geeksforgeeks.org/array-rotation/#>Geeksforgeeks</a>. I had to fix it up a
+     * Adapted from <a href="https://www.geeksforgeeks.org/array-rotation/#">Geeksforgeeks</a>. I had to fix it up a
      * little cause those comments were <i>stanky.</i>
      * <p>
      * <b>Examples:</b>
