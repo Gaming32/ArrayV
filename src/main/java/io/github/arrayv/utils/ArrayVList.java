@@ -2,10 +2,10 @@ package io.github.arrayv.utils;
 
 import io.github.arrayv.main.ArrayVisualizer;
 
-import java.awt.Color;
-
 import java.util.*;
 import java.util.function.Consumer;
+
+import java.awt.Color;
 
 public class ArrayVList extends AbstractList<Integer> implements RandomAccess, java.io.Serializable {
     private static final int DEFAULT_CAPACITY = 128;

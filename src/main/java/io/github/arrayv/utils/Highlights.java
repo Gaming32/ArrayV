@@ -93,7 +93,8 @@ public final class Highlights {
         this.showFancyFinishes = true;
         this.maxHighlightMarked = 0;
         this.markCount = new AtomicInteger();
-        this.main = arrayVisualizer.getArray();
+
+        main = arrayVisualizer.getArray(); // Colorcoding shorthand thing
 
         Arrays.fill(highlights, -1);
         Arrays.fill(markCounts, (byte)0);
