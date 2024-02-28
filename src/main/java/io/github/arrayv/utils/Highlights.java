@@ -48,7 +48,7 @@ public final class Highlights {
     private volatile boolean retainColorMarks = false;
 
     private volatile Map<String, Color> defined;
-    private static int[] main;
+    private final int[] main;
 
     private volatile int maxHighlightMarked;    // IMPORTANT: This stores the index one past the farthest highlight used, so that a value
                                                 // of 0 means no highlights are in use, and iteration is more convenient.
@@ -94,10 +94,10 @@ public final class Highlights {
         this.maxHighlightMarked = 0;
         this.markCount = new AtomicInteger();
 
-        main = arrayVisualizer.getArray(); // Colorcoding shorthand thing
-
         Arrays.fill(highlights, -1);
         Arrays.fill(markCounts, (byte)0);
+
+        this.main = arrayVisualizer.getArray(); // I refuse to remove this line of code without putting up a fight
         this.registerColorMarks(main);
     }
 
@@ -299,7 +299,7 @@ public final class Highlights {
     }
 
     public synchronized void clearColor(int position) {
-        clearColor(main, position);
+        clearColor(this.main, position);
     }
 
     public synchronized boolean hasColor(int[] array, int position) {

@@ -1,11 +1,11 @@
 package io.github.arrayv.utils;
 
+import java.awt.Color; // i beg of you stop rejecting this import
+
 import io.github.arrayv.main.ArrayVisualizer;
 
 import java.util.*;
 import java.util.function.Consumer;
-
-import java.awt.Color;
 
 public class ArrayVList extends AbstractList<Integer> implements RandomAccess, java.io.Serializable {
     private static final int DEFAULT_CAPACITY = 128;
