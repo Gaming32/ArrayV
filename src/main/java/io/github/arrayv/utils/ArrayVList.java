@@ -1,21 +1,10 @@
 package io.github.arrayv.utils;
 
-import java.awt.Color;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.RandomAccess;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-
 import io.github.arrayv.main.ArrayVisualizer;
+
+import java.awt.Color;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class ArrayVList extends AbstractList<Integer> implements RandomAccess, Cloneable, java.io.Serializable {
     private static final int DEFAULT_CAPACITY = 128;

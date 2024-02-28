@@ -1,13 +1,14 @@
 package io.github.arrayv.utils;
 
-import java.util.Arrays;
-import java.awt.Color;
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
+
+import java.util.Arrays;
 
 /*
  *

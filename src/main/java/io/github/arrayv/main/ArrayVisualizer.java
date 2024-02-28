@@ -664,6 +664,8 @@ public final class ArrayVisualizer {
     private void drawStats(Color textColor, boolean dropShadow) {
         int xOffset = 15;
         int yOffset = 30;
+        int drawingFirstStat = 1;
+
         if (dropShadow) {
             xOffset += 3;
             yOffset += 3;
@@ -674,15 +676,13 @@ public final class ArrayVisualizer {
 
         this.mainRender.setColor(textColor);
 
-        int step = 0;
-        statLoop:
         for (StatisticType statType : statsConfig) {
             // System.out.println(yPos);
             String stat;
             switch (statType) {
                 case LINE_BREAK:
                     yPos += (int)(fontSelectionScale / 25.0 * 15);
-                    continue statLoop;
+                    continue;
                 case SORT_IDENTITY:
                     stat = statSnapshot.getSortIdentity();
                     break;
@@ -726,26 +726,34 @@ public final class ArrayVisualizer {
                     stat = null; // Unreachable
             }
             mainRender.drawString(stat, xOffset, (int)(windowRatio * yPos) + yOffset);
-            if (step++ == 0 && Highlights.getDeclaredColors().size() > 0) {
-                int startOffset = currentWidth(),
-                    copy = startOffset, metricFontHeight = mainRender.getFontMetrics().getHeight(),
+
+            if (drawingFirstStat == 1 && Highlights.getDeclaredColors().size() > 0) {
+                int startOffset = currentWidth(), metricFontHeight = mainRender.getFontMetrics().getHeight(),
                     startStat = mainRender.getFontMetrics().stringWidth(stat) + xOffset + 24,
                     copyYPos = (int)(windowRatio * yPos) + yOffset, textWidth;
+
                 for (String color : Highlights.getDeclaredColors()) {
                     textWidth = mainRender.getFontMetrics().stringWidth(color);
                     startOffset -= textWidth + metricFontHeight + 20;
                     if (startOffset <= startStat) {
-                        startOffset = copy - textWidth - metricFontHeight - 20;
+                        startOffset = currentWidth() - textWidth - metricFontHeight - 20;
                         copyYPos += metricFontHeight + 8;
                     }
-                    if (!dropShadow)
+
+                    if (!dropShadow) {
                         mainRender.setColor(Highlights.getColorFromName(color));
+                    }
+
                     mainRender.fillRect(startOffset, copyYPos - metricFontHeight + (metricFontHeight / 3), metricFontHeight, metricFontHeight);
-                    if (!dropShadow)
+
+                    if (!dropShadow) {
                         mainRender.setColor(textColor);
+                    }
+
                     mainRender.drawString(color, startOffset + metricFontHeight + 6, copyYPos);
                 }
             }
+            drawingFirstStat = 0;
             yPos += fontSelectionScale;
         }
     }
