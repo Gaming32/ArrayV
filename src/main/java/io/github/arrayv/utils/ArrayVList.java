@@ -3,10 +3,11 @@ package io.github.arrayv.utils;
 import io.github.arrayv.main.ArrayVisualizer;
 
 import java.awt.Color;
+
 import java.util.*;
 import java.util.function.Consumer;
 
-public class ArrayVList extends AbstractList<Integer> implements RandomAccess, Cloneable, java.io.Serializable {
+public class ArrayVList extends AbstractList<Integer> implements RandomAccess, java.io.Serializable {
     private static final int DEFAULT_CAPACITY = 128;
     private static final double DEFAULT_GROW_FACTOR = 2;
 

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*
  *
@@ -67,11 +68,11 @@ public final class Highlights {
 
                                                 // This way, the program runs more efficiently, and looks pretty. :)
 
-    private volatile int markCount;
+    private final AtomicInteger markCount;
 
     private boolean showFancyFinishes;
     private volatile boolean fancyFinish;
-    private volatile int trackFinish;
+    private final AtomicInteger trackFinish = new AtomicInteger();
 
     private ArrayVisualizer arrayVisualizer;
     private Delays Delays;
@@ -91,7 +92,7 @@ public final class Highlights {
         }
         this.showFancyFinishes = true;
         this.maxHighlightMarked = 0;
-        this.markCount = 0;
+        this.markCount = new AtomicInteger();
         this.main = arrayVisualizer.getArray();
 
         Arrays.fill(highlights, -1);
@@ -121,13 +122,13 @@ public final class Highlights {
     }
 
     public int getFancyFinishPosition() {
-        return this.trackFinish;
+        return this.trackFinish.get();
     }
     public void incrementFancyFinishPosition() {
-        this.trackFinish++;
+        this.trackFinish.incrementAndGet();
     }
     public void resetFancyFinish() {
-        this.trackFinish = -1; // Magic number that clears the green sweep animation
+        this.trackFinish.set(-1); // Magic number that clears the green sweep animation
     }
 
     public void toggleAnalysis(boolean analysis) {
@@ -138,14 +139,14 @@ public final class Highlights {
         return this.maxHighlightMarked;
     }
     public int getMarkCount() {
-        return this.markCount;
+        return this.markCount.get();
     }
 
     private void incrementIndexMarkCount(int i) {
         if (i >= markCounts.length) return;
         if (markCounts[i] != (byte)-1) {
             if (markCounts[i] == 0) {
-                markCount++;
+                markCount.incrementAndGet();
             }
             markCounts[i]++;
         }
@@ -163,7 +164,7 @@ public final class Highlights {
                 }
             }
         } else if (markCounts[i] == 0) {
-            markCount--;
+            markCount.decrementAndGet();
         }
         markCounts[i]--;
     }
@@ -424,7 +425,7 @@ public final class Highlights {
         }
         Arrays.fill(this.highlights, 0, this.maxHighlightMarked, -1);
         this.maxHighlightMarked = 0;
-        this.markCount = 0;
+        this.markCount.set(0);
         arrayVisualizer.updateNow();
         Delays.enableStepping();
     }
