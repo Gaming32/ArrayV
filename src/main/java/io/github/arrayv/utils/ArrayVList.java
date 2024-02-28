@@ -1,7 +1,5 @@
 package io.github.arrayv.utils;
 
-import java.awt.Color; // i beg of you stop rejecting this import
-
 import io.github.arrayv.main.ArrayVisualizer;
 
 import java.util.*;
@@ -152,7 +150,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, j
         }
     }
 
-    public void rawColorCode(int position, Color color) {
+    public void rawColorCode(int position, java.awt.Color color) { // i am appalled at the lengths git wants to go to stop me from using the Color class
         try {
             if (!colorsEnabled) {
                 throw new Exception("ArrayVList.rawColorCode(): List can't be colorcoded!");
