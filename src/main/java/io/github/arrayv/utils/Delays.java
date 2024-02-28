@@ -100,6 +100,7 @@ public final class Delays {
     public double getSleepRatio() {
         return this.sleepRatio;
     }
+
     public void setSleepRatio(double sleepRatio) {
         this.sleepRatio = sleepRatio;
     }
@@ -107,6 +108,7 @@ public final class Delays {
     public boolean skipped() {
         return this.skipped;
     }
+
     public void changeSkipped(boolean skipped) {
         this.skipped = skipped;
         if (this.skipped) this.Sounds.changeNoteDelayAndFilter(1);
@@ -115,10 +117,12 @@ public final class Delays {
     public boolean paused() {
         return this.paused;
     }
+
     public void changePaused(boolean paused) {
         this.paused = paused;
         this.Sounds.toggleSound(!paused);
     }
+
     public void togglePaused() {
         this.changePaused(!this.paused);
     }

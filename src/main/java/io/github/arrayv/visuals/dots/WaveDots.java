@@ -58,7 +58,9 @@ public final class WaveDots extends Visual {
                     this.mainRender.setStroke(arrayVisualizer.getCustomStroke(4));
                 } else if (arrayVisualizer.colorEnabled())
                     this.mainRender.setColor(getIntColor(array[i-1], arrayVisualizer.getCurrentLength()));
-                else this.mainRender.setColor(Color.WHITE);
+                else if (Highlights.hasColor(array, i)) {
+                    this.mainRender.setColor(Highlights.colorAt(array, i));
+                } else this.mainRender.setColor(Color.WHITE);
 
                 int y = (int) (((renderer.getViewSize() - 20) / 2.5) * Math.sin((2 * Math.PI * ((double) array[i] / renderer.getArrayLength()))) + renderer.halfViewSize() - 20);
 

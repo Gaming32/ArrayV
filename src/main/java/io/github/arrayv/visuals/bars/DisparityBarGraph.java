@@ -24,7 +24,8 @@ public final class DisparityBarGraph extends Visual {
 
             else if (arrayVisualizer.colorEnabled())
                 this.mainRender.setColor(getIntColor(array[i], arrayVisualizer.getCurrentLength()));
-
+            else if (Highlights.hasColor(array, i))
+                this.mainRender.setColor(Highlights.colorAt(array, i));
             else this.mainRender.setColor(Color.WHITE);
 
             double disp = (1 + Math.sin((Math.PI * (array[i] - i)) / arrayVisualizer.getCurrentLength())) * 0.5;

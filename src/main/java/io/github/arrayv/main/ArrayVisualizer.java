@@ -612,6 +612,8 @@ public final class ArrayVisualizer {
     private void drawStats(Color textColor, boolean dropShadow) {
         int xOffset = 15;
         int yOffset = 30;
+        int drawingFirstStat = 1;
+
         if (dropShadow) {
             xOffset += 3;
             yOffset += 3;
@@ -672,6 +674,34 @@ public final class ArrayVisualizer {
                     stat = null; // Unreachable
             }
             mainRender.drawString(stat, xOffset, (int)(windowRatio * yPos) + yOffset);
+
+            if (drawingFirstStat == 1 && Highlights.getDeclaredColors().size() > 0) {
+                int startOffset = currentWidth(), metricFontHeight = mainRender.getFontMetrics().getHeight(),
+                    startStat = mainRender.getFontMetrics().stringWidth(stat) + xOffset + 24,
+                    copyYPos = (int)(windowRatio * yPos) + yOffset, textWidth;
+
+                for (String color : Highlights.getDeclaredColors()) {
+                    textWidth = mainRender.getFontMetrics().stringWidth(color);
+                    startOffset -= textWidth + metricFontHeight + 20;
+                    if (startOffset <= startStat) {
+                        startOffset = currentWidth() - textWidth - metricFontHeight - 20;
+                        copyYPos += metricFontHeight + 8;
+                    }
+
+                    if (!dropShadow) {
+                        mainRender.setColor(Highlights.getColorFromName(color));
+                    }
+
+                    mainRender.fillRect(startOffset, copyYPos - metricFontHeight + (metricFontHeight / 3), metricFontHeight, metricFontHeight);
+
+                    if (!dropShadow) {
+                        mainRender.setColor(textColor);
+                    }
+
+                    mainRender.drawString(color, startOffset + metricFontHeight + 6, copyYPos);
+                }
+            }
+            drawingFirstStat = 0;
             yPos += fontSelectionScale;
         }
     }
@@ -1242,7 +1272,11 @@ public final class ArrayVisualizer {
 
     public void endSort() {
         this.Timer.disableRealTimer();
+
         this.Highlights.clearAllMarks();
+        this.Highlights.clearAllColorsReferenced();
+        this.Highlights.clearColorList();
+
         System.out.println(formatTimes());
 
         this.isCanceled = false;

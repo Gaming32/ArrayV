@@ -348,6 +348,11 @@ public final class CustomImage extends Visual {
                 else                                   this.mainRender.setColor(new Color(1, 0, 0, .5f));
 
                 this.mainRender.fillRect(j + 20, 40, Math.max(width, 2), arrayVisualizer.windowHeight()-10);
+            } else if (Highlights.hasColor(array, i)) {
+                Color original = Highlights.colorAt(array, i);
+                this.mainRender.setColor(new Color(original.getRed(), original.getGreen(), original.getBlue(), 63));
+
+                if (width > 0) this.mainRender.fillRect(j + 20, 40, width, arrayVisualizer.windowHeight()-10);
             }
             j += width;
         }

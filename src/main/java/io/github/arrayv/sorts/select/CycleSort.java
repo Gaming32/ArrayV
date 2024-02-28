@@ -1,5 +1,7 @@
 package io.github.arrayv.sorts.select;
 
+import java.awt.Color;
+
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
 
@@ -51,8 +53,11 @@ public final class CycleSort extends Sort {
 			Highlights.markArray(1, r);
 			Highlights.markArray(2, i);
 			Delays.sleep(0.01);
-
-			r += Reads.compareValues(array[i], t) < 0 ? 1 : 0;
+			int cmp = Reads.compareIndexValue(array, i, t, 0.05, true) < 0 ? 1 : 0;
+			if(cmp == 1) {
+				Highlights.colorCode(i, "lower_rank");
+			}
+			r += cmp;
 		}
 		Highlights.clearMark(2);
 		return r;
@@ -60,6 +65,7 @@ public final class CycleSort extends Sort {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
+    	Highlights.defineColor("lower_rank", Color.GREEN);
 		for(int i = 0; i < length-1; i++) {
 			Highlights.markArray(3, i);
 
@@ -72,11 +78,14 @@ public final class CycleSort extends Sort {
 
 					int t1 = array[r];
 					Writes.write(array, r, t, 0.02, false, false);
+					
+					Highlights.clearAllColors();
 					t = t1;
-
+					
 					r = this.countLesser(array, i, length, t);
 				}
 				while(r != i);
+				Highlights.clearAllColors();
 
 				Writes.write(array, i, t, 0.02, false, false);
 			}

@@ -1,5 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
+import java.awt.Color;
+
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
 
@@ -46,14 +48,20 @@ public final class BlockSwapMergeSort extends Sort {
     }
 
     private void multiSwap(int[] array, int a, int b, int len) {
-        for(int i = 0; i < len; i++)
+        for(int i = 0; i < len; i++) {
+        	Highlights.colorCode("blockswap", a+i, b+i);
             Writes.swap(array, a+i, b+i, 1, true, false);
+        }
     }
 
     private int binarySearchMid(int[] array, int start, int mid, int end) {
         int a = 0, b = Math.min(mid-start, end-mid), m = a+(b-a)/2;
 
         while(b > a) {
+        	Highlights.colorCode("double_binsearch", mid-m-1, mid+m);
+        	Highlights.markArray(1, mid-m-1);
+        	Highlights.markArray(2, mid+m);
+        	Delays.sleep(2.5);
             if(Reads.compareValues(array[mid-m-1], array[mid+m]) == 1)
                 a = m+1;
             else
@@ -80,6 +88,9 @@ public final class BlockSwapMergeSort extends Sort {
     }
 
     public void multiSwapMergeSort(int[] array, int a, int b) {
+		Highlights.retainColorMarks(true);;
+		Highlights.defineColor("double_binsearch", new Color(128, 0, 255));
+		Highlights.defineColor("blockswap", Color.ORANGE);
         int len = b-a, i;
 
         for(int j = 1; j < len; j *= 2) {

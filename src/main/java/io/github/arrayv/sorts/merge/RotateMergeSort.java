@@ -1,5 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
+import java.awt.Color;
+
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sorts.templates.Sort;
 
@@ -45,8 +47,10 @@ public final class RotateMergeSort extends Sort {
     }
 
     private void multiSwap(int[] array, int a, int b, int len) {
-		for(int i = 0; i < len; i++)
+		for(int i = 0; i < len; i++) {
+			Highlights.colorCode("rotate", a+i, b+i);
 			Writes.swap(array, a+i, b+i, 1, true, false);
+		}
 	}
 
     private void rotate(int[] array, int a, int m, int b) {
@@ -71,7 +75,9 @@ public final class RotateMergeSort extends Sort {
 	private int binarySearch(int[] array, int a, int b, int value, boolean left) {
 		while(a < b) {
 			int m = a+(b-a)/2;
-
+			Highlights.colorCode(m, "binsearch");
+        	Highlights.markArray(1, m);
+        	Delays.sleep(2.5);
 			boolean comp = left ? Reads.compareValues(value, array[m]) <= 0
 								: Reads.compareValues(value, array[m]) < 0;
 
@@ -102,6 +108,9 @@ public final class RotateMergeSort extends Sort {
 	}
 
 	protected void rotateMergeSort(int[] array, int a, int b) {
+		Highlights.retainColorMarks(true);
+		Highlights.defineColor("binsearch", Color.CYAN);
+		Highlights.defineColor("rotate", Color.ORANGE);
         int len = b-a, i;
 
         for(int j = 1; j < len; j *= 2) {
