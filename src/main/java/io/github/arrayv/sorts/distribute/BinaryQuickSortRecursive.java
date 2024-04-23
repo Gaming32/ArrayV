@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.distribute;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BinaryQuickSorting;
 
 /**
@@ -19,20 +20,10 @@ import io.github.arrayv.sorts.templates.BinaryQuickSorting;
  *
  * @author Skeen
  */
-
+@SortMeta(listName = "Binary Quick (Recursive)", runName = "Recursive Binary Quick Sort")
 public final class BinaryQuickSortRecursive extends BinaryQuickSorting {
     public BinaryQuickSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Binary Quick (Recursive)");
-        this.setRunAllSortsName("Recursive Binary Quick Sort");
-        this.setRunSortName("Recursive Binary Quicksort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

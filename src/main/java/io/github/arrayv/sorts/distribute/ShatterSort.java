@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.distribute;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.ShatterSorting;
 
 /*
@@ -28,24 +29,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Shatter", bucketSort = true)
 public final class ShatterSort extends ShatterSorting {
     public ShatterSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Shatter");
-        this.setRunAllSortsName("Shatter Sort");
-        this.setRunSortName("Shatter Sort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(true);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
+        this.setRunAllSortsName("Shatter Sort, " + bucketCount + " Buckets");
+        this.setRunSortName("Shatter Sort, " + bucketCount + " Buckets");
         this.shatterSort(array, sortLength, bucketCount);
     }
 }

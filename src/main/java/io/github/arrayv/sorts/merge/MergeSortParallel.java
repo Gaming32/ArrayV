@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -27,20 +28,10 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
-
+@SortMeta(name = "Parallel Merge", unreasonableLimit = 4096)
 public final class MergeSortParallel extends Sort {
 	public MergeSortParallel(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-
-		this.setSortListName("Merge (Parallel)");
-		this.setRunAllSortsName("Parallel Merge Sort");
-		this.setRunSortName("Parallel Mergesort");
-		this.setCategory("Merge Sorts");
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(false);
-		this.setUnreasonableLimit(0);
-		this.setBogoSort(false);
 	}
 
 	private int[] array;
@@ -48,10 +39,13 @@ public final class MergeSortParallel extends Sort {
 
 	private class MergeSort extends Thread {
 		private int a, b;
+
 		MergeSort(int a, int b) {
 			this.a = a;
 			this.b = b;
 		}
+
+		@Override
 		public void run() {
 			MergeSortParallel.this.mergeSort(a, b);
 		}
@@ -60,37 +54,38 @@ public final class MergeSortParallel extends Sort {
 	private void merge(int a, int m, int b) {
 		int i = a, j = m, k = a;
 
-		while(i < m && j < b) {
-			if(Reads.compareValues(array[i], array[j]) <= 0) {
+		while (i < m && j < b) {
+			if (Reads.compareValues(array[i], array[j]) <= 0) {
 				Highlights.markArray(1, i);
 				Writes.write(tmp, k++, array[i++], 1, false, true);
-			}
-			else {
+			} else {
 				Highlights.markArray(2, j);
 				Writes.write(tmp, k++, array[j++], 1, false, true);
 			}
 		}
-		while(i < m) {
+		while (i < m) {
 			Highlights.markArray(1, i);
 			Writes.write(tmp, k++, array[i++], 1, false, true);
 		}
-		while(j < b) {
+		while (j < b) {
 			Highlights.markArray(2, j);
 			Writes.write(tmp, k++, array[j++], 1, false, true);
 		}
 
 		Highlights.clearMark(2);
-		while(a < b) Writes.write(array, a, tmp[a++], 1, true, false);
+		while (a < b)
+			Writes.write(array, a, tmp[a++], 1, true, false);
 	}
 
 	private void mergeSort(int a, int b) {
-		int len = b-a;
+		int len = b - a;
 
-		if(len < 2) return;
+		if (len < 2)
+			return;
 
-		int m = (a+b)/2;
+		int m = (a + b) / 2;
 
-		MergeSort left  = new MergeSort(a, m);
+		MergeSort left = new MergeSort(a, m);
 		MergeSort right = new MergeSort(m, b);
 		left.start();
 		right.start();

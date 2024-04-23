@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,34 +29,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Strand")
 public final class StrandSort extends Sort {
 	public StrandSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-
-		this.setSortListName("Strand");
-		this.setRunAllSortsName("Strand Sort");
-		this.setRunSortName("Strandsort");
-		this.setCategory("Merge Sorts");
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(false);
-		this.setUnreasonableLimit(0);
-		this.setBogoSort(false);
 	}
 
-	//reverses equal items order
+	// reverses equal items order
 	private void mergeTo(int[] array, int[] subList, int a, int m, int b) {
-		int i = 0, s = m-a;
+		int i = 0, s = m - a;
 
-		while(i < s && m < b) {
-			if(Reads.compareValues(subList[i], array[m]) < 0)
+		while (i < s && m < b) {
+			if (Reads.compareValues(subList[i], array[m]) < 0)
 				Writes.write(array, a++, subList[i++], 0.5, true, false);
 
-			else Writes.write(array, a++, array[m++], 0.5, true, false);
+			else
+				Writes.write(array, a++, array[m++], 0.5, true, false);
 		}
 
-		while(i < s)
+		while (i < s)
 			Writes.write(array, a++, subList[i++], 0.5, true, false);
 	}
 
@@ -65,16 +57,15 @@ public final class StrandSort extends Sort {
 
 		int j = length, k = j;
 
-		while(j > 0) {
+		while (j > 0) {
 			Writes.write(subList, 0, array[0], 1, true, true);
 			k--;
 
-			for(int i = 0, p = 0, m = 1; m < j; m++) {
-				if(Reads.compareValues(array[m], subList[i]) >= 0) {
+			for (int i = 0, p = 0, m = 1; m < j; m++) {
+				if (Reads.compareValues(array[m], subList[i]) >= 0) {
 					Writes.write(subList, ++i, array[m], 1, true, true);
 					k--;
-				}
-				else {
+				} else {
 					Highlights.markArray(2, p);
 					Writes.write(array, p++, array[m], 0.1, false, false);
 				}

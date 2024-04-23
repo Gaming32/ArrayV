@@ -71,11 +71,13 @@ public abstract class PDQSorting extends Sort {
     // Returns floor(log2(n)), assumes n > 0.
     public static int pdqLog(int n) {
         int log = 0;
-        while ((n >>= 1) != 0) ++log;
+        while ((n >>= 1) != 0)
+            ++log;
         return log;
     }
 
-    // We do not record laps here in order to better estimate Branchless PDQ's running time
+    // We do not record laps here in order to better estimate Branchless PDQ's
+    // running time
     private int pdqLessThan(int a, int b) {
         Reads.addComparison();
         return 1 & (Boolean.hashCode(a < b) >> 1);
@@ -83,15 +85,17 @@ public abstract class PDQSorting extends Sort {
 
     // Sorts [begin, end) using insertion sort with the given comparison function.
     private void pdqInsertSort(int[] array, int begin, int end) {
-        if (begin == end) return;
+        if (begin == end)
+            return;
 
-        double sleep = 1/3d;
+        double sleep = 1 / 3d;
 
         for (int cur = begin + 1; cur != end; ++cur) {
             int sift = cur;
             int siftMinusOne = cur - 1;
 
-            // Compare first so we can avoid 2 moves for an element already positioned correctly.
+            // Compare first so we can avoid 2 moves for an element already positioned
+            // correctly.
             if (Reads.compareValues(array[sift], array[siftMinusOne]) < 0) {
                 int tmp = array[sift];
                 do {
@@ -103,18 +107,22 @@ public abstract class PDQSorting extends Sort {
         }
     }
 
-    // Sorts [begin, end) using insertion sort with the given comparison function. Assumes
-    // array[begin - 1] is an element smaller than or equal to any element in [begin, end).
+    // Sorts [begin, end) using insertion sort with the given comparison function.
+    // Assumes
+    // array[begin - 1] is an element smaller than or equal to any element in
+    // [begin, end).
     private void pdqUnguardInsertSort(int[] array, int begin, int end) {
-        if (begin == end) return;
+        if (begin == end)
+            return;
 
-        double sleep = 1/3d;
+        double sleep = 1 / 3d;
 
         for (int cur = begin + 1; cur != end; ++cur) {
             int sift = cur;
             int siftMinusOne = cur - 1;
 
-            // Compare first so we can avoid 2 moves for an element already positioned correctly.
+            // Compare first so we can avoid 2 moves for an element already positioned
+            // correctly.
             if (Reads.compareValues(array[sift], array[siftMinusOne]) < 0) {
                 int tmp = array[sift];
 
@@ -127,22 +135,27 @@ public abstract class PDQSorting extends Sort {
         }
     }
 
-    // Attempts to use insertion sort on [begin, end). Will return false if more than
-    // partialInsertSortLimit elements were moved, and abort sorting. Otherwise it will
+    // Attempts to use insertion sort on [begin, end). Will return false if more
+    // than
+    // partialInsertSortLimit elements were moved, and abort sorting. Otherwise it
+    // will
     // successfully sort and return true.
     private boolean pdqPartialInsertSort(int[] array, int begin, int end) {
-        if (begin == end) return true;
+        if (begin == end)
+            return true;
 
-        double sleep = 1/3d;
+        double sleep = 1 / 3d;
 
         int limit = 0;
         for (int cur = begin + 1; cur != end; ++cur) {
-            if (limit > partialInsertSortLimit) return false;
+            if (limit > partialInsertSortLimit)
+                return false;
 
             int sift = cur;
             int siftMinusOne = cur - 1;
 
-            // Compare first so we can avoid 2 moves for an element already positioned correctly.
+            // Compare first so we can avoid 2 moves for an element already positioned
+            // correctly.
             if (Reads.compareValues(array[sift], array[siftMinusOne]) < 0) {
                 int tmp = array[sift];
 
@@ -164,23 +177,28 @@ public abstract class PDQSorting extends Sort {
         Highlights.clearMark(2);
     }
 
-    // Sorts the elements array[a], array[b] and array[c] using comparison function compare.
+    // Sorts the elements array[a], array[b] and array[c] using comparison function
+    // compare.
     private void pdqSortThree(int[] array, int a, int b, int c) {
         this.pdqSortTwo(array, a, b);
         this.pdqSortTwo(array, b, c);
         this.pdqSortTwo(array, a, b);
     }
 
-    // With Branchless PDQSort, in order to better estimate the gains in speed from branchless partioning, we treat the writes to the offset arrays
-    // and specialized less than comparison as negligible, and only record time from elements being swapped into position. By no means is this
-    // exact, yet it is a much closer estimate than what was happening before with recording time for every block being written.
+    // With Branchless PDQSort, in order to better estimate the gains in speed from
+    // branchless partioning, we treat the writes to the offset arrays
+    // and specialized less than comparison as negligible, and only record time from
+    // elements being swapped into position. By no means is this
+    // exact, yet it is a much closer estimate than what was happening before with
+    // recording time for every block being written.
     private void pdqSwapOffsets(int[] array, int first, int last, int[] leftOffsets, int leftOffsetsPos,
-                                int[] rightOffsets, int rightOffsetsPos, int num, boolean useSwaps) {
+            int[] rightOffsets, int rightOffsetsPos, int num, boolean useSwaps) {
         if (useSwaps) {
             // This case is needed for the descending distribution, where we need
             // to have proper swapping for pdqsort to remain O(n).
             for (int i = 0; i < num; ++i) {
-                Writes.swap(array, first + leftOffsets[leftOffsetsPos + i], last - rightOffsets[rightOffsetsPos + i], 1, true, false);
+                Writes.swap(array, first + leftOffsets[leftOffsetsPos + i], last - rightOffsets[rightOffsetsPos + i], 1,
+                        true, false);
             }
             Highlights.clearMark(2);
         } else if (num > 0) {
@@ -198,29 +216,41 @@ public abstract class PDQSorting extends Sort {
         }
     }
 
-    // Partitions [begin, end) around pivot array[begin] using comparison function compare. Elements equal
-    // to the pivot are put in the right-hand partition. Returns the position of the pivot after
-    // partitioning and whether the passed sequence already was correctly partitioned. Assumes the
+    // Partitions [begin, end) around pivot array[begin] using comparison function
+    // compare. Elements equal
+    // to the pivot are put in the right-hand partition. Returns the position of the
+    // pivot after
+    // partitioning and whether the passed sequence already was correctly
+    // partitioned. Assumes the
     // pivot is a median of at least 3 elements and that [begin, end) is at least
     // insertSortThreshold long. Uses branchless partitioning.
 
-    // We do not record laps throughout the vast majority of this method in order to better estimate Branchless PDQ's running time
+    // We do not record laps throughout the vast majority of this method in order to
+    // better estimate Branchless PDQ's running time
     private PDQPair pdqPartRightBranchless(int[] array, int begin, int end) {
         // Move pivot into local for speed.
         int pivot = array[begin];
         int first = begin;
         int last = end;
 
-        // Find the first element greater than or equal than the pivot (the median of 3 guarantees
+        // Find the first element greater than or equal than the pivot (the median of 3
+        // guarantees
         // this exists).
-        while (this.pdqLessThan(array[++first], pivot) == 1);
+        while (this.pdqLessThan(array[++first], pivot) == 1)
+            ;
 
-        // Find the first element strictly smaller than the pivot. We have to guard this search if
+        // Find the first element strictly smaller than the pivot. We have to guard this
+        // search if
         // there was no element before *first.
-        if (first - 1 == begin) while (first < last && this.pdqLessThan(array[--last], pivot) == 0);
-        else                    while (                this.pdqLessThan(array[--last], pivot) == 0);
+        if (first - 1 == begin)
+            while (first < last && this.pdqLessThan(array[--last], pivot) == 0)
+                ;
+        else
+            while (this.pdqLessThan(array[--last], pivot) == 0)
+                ;
 
-        // If the first pair of elements that should be swapped to partition are the same element,
+        // If the first pair of elements that should be swapped to partition are the
+        // same element,
         // the passed in sequence already was correctly partitioned.
         boolean alreadyParted = first >= last;
         if (!alreadyParted) {
@@ -229,10 +259,11 @@ public abstract class PDQSorting extends Sort {
             Highlights.clearMark(2);
         }
 
-        // The following branchless partitioning is derived from "BlockQuicksort: How Branch
+        // The following branchless partitioning is derived from "BlockQuicksort: How
+        // Branch
         // Mispredictions don’t affect Quicksort" by Stefan Edelkamp and Armin Weiss.
-        //int[] leftOffsets = Writes.createExternalArray(blockSize + cachelineSize);
-        //int[] rightOffsets = Writes.createExternalArray(blockSize + cachelineSize);
+        // int[] leftOffsets = Writes.createExternalArray(blockSize + cachelineSize);
+        // int[] rightOffsets = Writes.createExternalArray(blockSize + cachelineSize);
         int leftNum, rightNum, leftStart, rightStart;
         leftNum = rightNum = leftStart = rightStart = 0;
 
@@ -243,22 +274,46 @@ public abstract class PDQSorting extends Sort {
                 int it = first;
                 Highlights.clearMark(1);
                 for (int i = 0; i < blockSize;) {
-                    leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
+                    leftOffsets[leftNum] = i++;
+                    leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    leftOffsets[leftNum] = i++;
+                    leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    leftOffsets[leftNum] = i++;
+                    leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    leftOffsets[leftNum] = i++;
+                    leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    leftOffsets[leftNum] = i++;
+                    leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    leftOffsets[leftNum] = i++;
+                    leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    leftOffsets[leftNum] = i++;
+                    leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    leftOffsets[leftNum] = i++;
+                    leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
                 }
                 Highlights.clearMark(2);
             }
@@ -267,33 +322,62 @@ public abstract class PDQSorting extends Sort {
                 int it = last;
                 Highlights.clearMark(1);
                 for (int i = 0; i < blockSize;) {
-                    rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
-                    rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                    Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
+                    rightOffsets[rightNum] = ++i;
+                    rightNum += this.pdqLessThan(array[--it], pivot);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    rightOffsets[rightNum] = ++i;
+                    rightNum += this.pdqLessThan(array[--it], pivot);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    rightOffsets[rightNum] = ++i;
+                    rightNum += this.pdqLessThan(array[--it], pivot);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    rightOffsets[rightNum] = ++i;
+                    rightNum += this.pdqLessThan(array[--it], pivot);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    rightOffsets[rightNum] = ++i;
+                    rightNum += this.pdqLessThan(array[--it], pivot);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    rightOffsets[rightNum] = ++i;
+                    rightNum += this.pdqLessThan(array[--it], pivot);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    rightOffsets[rightNum] = ++i;
+                    rightNum += this.pdqLessThan(array[--it], pivot);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
+                    rightOffsets[rightNum] = ++i;
+                    rightNum += this.pdqLessThan(array[--it], pivot);
+                    Writes.changeAuxWrites(1);
+                    Highlights.markArray(2, it);
+                    Delays.sleep(0.5);
                 }
                 Highlights.clearMark(2);
             }
 
             // Swap elements and update block sizes and first/last boundaries.
             int num = Math.min(leftNum, rightNum);
-            this.pdqSwapOffsets(array, first, last, leftOffsets, leftStart, rightOffsets, rightStart, num, leftNum == rightNum);
-            leftNum -= num; rightNum -= num;
-            leftStart += num; rightStart += num;
-            if (leftNum == 0) first += blockSize;
-            if (rightNum == 0) last -= blockSize;
+            this.pdqSwapOffsets(array, first, last, leftOffsets, leftStart, rightOffsets, rightStart, num,
+                    leftNum == rightNum);
+            leftNum -= num;
+            rightNum -= num;
+            leftStart += num;
+            rightStart += num;
+            if (leftNum == 0)
+                first += blockSize;
+            if (rightNum == 0)
+                last -= blockSize;
         }
 
         int leftSize = 0, rightSize = 0;
@@ -317,8 +401,11 @@ public abstract class PDQSorting extends Sort {
             int it = first;
             Highlights.clearMark(1);
             for (int i = 0; i < leftSize;) {
-                leftOffsets[leftNum] = i++; leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
-                Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
+                leftOffsets[leftNum] = i++;
+                leftNum += Math.abs(this.pdqLessThan(array[it++], pivot) - 1);
+                Writes.changeAuxWrites(1);
+                Highlights.markArray(2, it);
+                Delays.sleep(0.5);
             }
             Highlights.clearMark(2);
         }
@@ -327,32 +414,43 @@ public abstract class PDQSorting extends Sort {
             int it = last;
             Highlights.clearMark(1);
             for (int i = 0; i < rightSize;) {
-                rightOffsets[rightNum] = ++i; rightNum += this.pdqLessThan(array[--it], pivot);
-                Writes.changeAuxWrites(1); Highlights.markArray(2, it); Delays.sleep(0.5);
+                rightOffsets[rightNum] = ++i;
+                rightNum += this.pdqLessThan(array[--it], pivot);
+                Writes.changeAuxWrites(1);
+                Highlights.markArray(2, it);
+                Delays.sleep(0.5);
             }
             Highlights.clearMark(2);
         }
 
         int num = Math.min(leftNum, rightNum);
-        this.pdqSwapOffsets(array, first, last, leftOffsets, leftStart, rightOffsets, rightStart, num, leftNum == rightNum);
-        leftNum -= num; rightNum -= num;
-        leftStart += num; rightStart += num;
-        if (leftNum == 0) first += leftSize;
-        if (rightNum == 0) last -= rightSize;
+        this.pdqSwapOffsets(array, first, last, leftOffsets, leftStart, rightOffsets, rightStart, num,
+                leftNum == rightNum);
+        leftNum -= num;
+        rightNum -= num;
+        leftStart += num;
+        rightStart += num;
+        if (leftNum == 0)
+            first += leftSize;
+        if (rightNum == 0)
+            last -= rightSize;
 
         int leftOffsetsPos = 0;
         int rightOffsetsPos = 0;
 
-        // We have now fully identified [first, last)'s proper position. Swap the last elements.
+        // We have now fully identified [first, last)'s proper position. Swap the last
+        // elements.
         if (leftNum != 0) {
             leftOffsetsPos += leftStart;
-            while (leftNum-- != 0) Writes.swap(array, first + leftOffsets[leftOffsetsPos + leftNum], --last, 1, true, false);
+            while (leftNum-- != 0)
+                Writes.swap(array, first + leftOffsets[leftOffsetsPos + leftNum], --last, 1, true, false);
             Highlights.clearMark(2);
             first = last;
         }
         if (rightNum != 0) {
             rightOffsetsPos += rightStart;
-            while (rightNum-- != 0) Writes.swap(array, last - rightOffsets[rightOffsetsPos + rightNum], first++, 1, true, false);
+            while (rightNum-- != 0)
+                Writes.swap(array, last - rightOffsets[rightOffsetsPos + rightNum], first++, 1, true, false);
             Highlights.clearMark(2);
             last = first;
         }
@@ -365,9 +463,12 @@ public abstract class PDQSorting extends Sort {
         return new PDQPair(pivotPos, alreadyParted);
     }
 
-    // Partitions [begin, end) around pivot array[begin] using comparison function compare. Elements equal
-    // to the pivot are put in the right-hand partition. Returns the position of the pivot after
-    // partitioning and whether the passed sequence already was correctly partitioned. Assumes the
+    // Partitions [begin, end) around pivot array[begin] using comparison function
+    // compare. Elements equal
+    // to the pivot are put in the right-hand partition. Returns the position of the
+    // pivot after
+    // partitioning and whether the passed sequence already was correctly
+    // partitioned. Assumes the
     // pivot is a median of at least 3 elements and that [begin, end) is at least
     // insertSortThreshold long.
 
@@ -377,14 +478,16 @@ public abstract class PDQSorting extends Sort {
         int first = begin;
         int last = end;
 
-        // Find the first element greater than or equal than the pivot (the median of 3 guarantees
+        // Find the first element greater than or equal than the pivot (the median of 3
+        // guarantees
         // this exists).
         while (Reads.compareValues(array[++first], pivot) < 0) {
             Highlights.markArray(1, first);
             Delays.sleep(0.25);
         }
 
-        // Find the first element strictly smaller than the pivot. We have to guard this search if
+        // Find the first element strictly smaller than the pivot. We have to guard this
+        // search if
         // there was no element before *first.
         if (first - 1 == begin)
             while (first < last && !(Reads.compareValues(array[--last], pivot) < 0)) {
@@ -392,17 +495,20 @@ public abstract class PDQSorting extends Sort {
                 Delays.sleep(0.25);
             }
         else
-            while (                !(Reads.compareValues(array[--last], pivot) < 0)) {
+            while (!(Reads.compareValues(array[--last], pivot) < 0)) {
                 Highlights.markArray(2, last);
                 Delays.sleep(0.25);
             }
 
-        // If the first pair of elements that should be swapped to partition are the same element,
+        // If the first pair of elements that should be swapped to partition are the
+        // same element,
         // the passed in sequence already was correctly partitioned.
         boolean alreadyParted = first >= last;
 
-        // Keep swapping pairs of elements that are on the wrong side of the pivot. Previously
-        // swapped pairs guard the searches, which is why the first iteration is special-cased
+        // Keep swapping pairs of elements that are on the wrong side of the pivot.
+        // Previously
+        // swapped pairs guard the searches, which is why the first iteration is
+        // special-cased
         // above.
         while (first < last) {
             Writes.swap(array, first, last, 1, true, false);
@@ -425,9 +531,12 @@ public abstract class PDQSorting extends Sort {
         return new PDQPair(pivotPos, alreadyParted);
     }
 
-    // Similar function to the one above, except elements equal to the pivot are put to the left of
-    // the pivot and it doesn't check or return if the passed sequence already was partitioned.
-    // Since this is rarely used (the many equal case), and in that case pdqsort already has O(n)
+    // Similar function to the one above, except elements equal to the pivot are put
+    // to the left of
+    // the pivot and it doesn't check or return if the passed sequence already was
+    // partitioned.
+    // Since this is rarely used (the many equal case), and in that case pdqsort
+    // already has O(n)
     // performance, no block quicksort is applied here for simplicity.
 
     private int pdqPartLeft(int[] array, int begin, int end) {
@@ -447,7 +556,7 @@ public abstract class PDQSorting extends Sort {
                 Delays.sleep(0.25);
             }
         else
-            while (                !(Reads.compareValues(pivot, array[++first]) < 0)) {
+            while (!(Reads.compareValues(pivot, array[++first]) < 0)) {
                 Highlights.markArray(1, first);
                 Delays.sleep(0.25);
             }
@@ -481,8 +590,10 @@ public abstract class PDQSorting extends Sort {
 
             // Insertion sort is faster for small arrays.
             if (size < insertSortThreshold) {
-                if (leftmost) this.pdqInsertSort(array, begin, end);
-                else this.pdqUnguardInsertSort(array, begin, end);
+                if (leftmost)
+                    this.pdqInsertSort(array, begin, end);
+                else
+                    this.pdqUnguardInsertSort(array, begin, end);
                 return;
             }
 
@@ -495,12 +606,17 @@ public abstract class PDQSorting extends Sort {
                 this.pdqSortThree(array, begin + (halfSize - 1), begin + halfSize, begin + (halfSize + 1));
                 Writes.swap(array, begin, begin + halfSize, 1, true, false);
                 Highlights.clearMark(2);
-            } else this.pdqSortThree(array, begin + halfSize, begin, end - 1);
+            } else
+                this.pdqSortThree(array, begin + halfSize, begin, end - 1);
 
-            // If array[begin - 1] is the end of the right partition of a previous partition operation
-            // there is no element in [begin, end) that is smaller than array[begin - 1]. Then if our
-            // pivot compares equal to array[begin - 1] we change strategy, putting equal elements in
-            // the left partition, greater elements in the right partition. We do not have to
+            // If array[begin - 1] is the end of the right partition of a previous partition
+            // operation
+            // there is no element in [begin, end) that is smaller than array[begin - 1].
+            // Then if our
+            // pivot compares equal to array[begin - 1] we change strategy, putting equal
+            // elements in
+            // the left partition, greater elements in the right partition. We do not have
+            // to
             // recurse on the left partition, since it's sorted (all equal).
             if (!leftmost && !(Reads.compareValues(array[begin - 1], array[begin]) < 0)) {
                 begin = this.pdqPartLeft(array, begin, end) + 1;
@@ -508,63 +624,65 @@ public abstract class PDQSorting extends Sort {
             }
 
             // Partition and get results.
-            PDQPair partResult =
-                    Branchless ? this.pdqPartRightBranchless(array, begin, end)
-                               : this.pdqPartRight(array, begin, end);
+            PDQPair partResult = Branchless ? this.pdqPartRightBranchless(array, begin, end)
+                    : this.pdqPartRight(array, begin, end);
 
-                    int pivotPos = partResult.getPivotPosition();
-                    boolean alreadyParted = partResult.getPresortBool();
+            int pivotPos = partResult.getPivotPosition();
+            boolean alreadyParted = partResult.getPresortBool();
 
-                    // Check for a highly unbalanced partition.
-                    int leftSize = pivotPos - begin;
-                    int rightSize = end - (pivotPos + 1);
-                    boolean highUnbalance = leftSize < size / 8 || rightSize < size / 8;
+            // Check for a highly unbalanced partition.
+            int leftSize = pivotPos - begin;
+            int rightSize = end - (pivotPos + 1);
+            boolean highUnbalance = leftSize < size / 8 || rightSize < size / 8;
 
-                    // If we got a highly unbalanced partition, we shuffle elements to break many patterns.
-                    if (highUnbalance) {
-                        // If we had too many bad partitions, switch to heapsort to guarantee O(n log n).
-                        if (--badAllowed == 0) {
-                            heapSorter.customHeapSort(array, begin, end, 1);
-                            return;
-                        }
+            // If we got a highly unbalanced partition, we shuffle elements to break many
+            // patterns.
+            if (highUnbalance) {
+                // If we had too many bad partitions, switch to heapsort to guarantee O(n log
+                // n).
+                if (--badAllowed == 0) {
+                    heapSorter.customHeapSort(array, begin, end, 1);
+                    return;
+                }
 
-                        if (leftSize >= insertSortThreshold) {
-                            Writes.swap(array, begin,           begin + leftSize / 4, 65, true, false);
-                            Writes.swap(array, pivotPos-1,   pivotPos - leftSize / 4, 65, true, false);
+                if (leftSize >= insertSortThreshold) {
+                    Writes.swap(array, begin, begin + leftSize / 4, 65, true, false);
+                    Writes.swap(array, pivotPos - 1, pivotPos - leftSize / 4, 65, true, false);
 
-                            if (leftSize > nintherThreshold) {
-                                Writes.swap(array, begin+1,           begin + (leftSize / 4 + 1), 65, true, false);
-                                Writes.swap(array, begin+2,           begin + (leftSize / 4 + 2), 65, true, false);
-                                Writes.swap(array, pivotPos-2,     pivotPos - (leftSize / 4 + 1), 65, true, false);
-                                Writes.swap(array, pivotPos-3,     pivotPos - (leftSize / 4 + 2), 65, true, false);
-                            }
-                        }
-
-                        if (rightSize >= insertSortThreshold) {
-                            Writes.swap(array, pivotPos+1,   pivotPos + (1 + rightSize / 4), 65, true, false);
-                            Writes.swap(array, end-1,                   end - rightSize / 4, 65, true, false);
-
-                            if (rightSize > nintherThreshold) {
-                                Writes.swap(array, pivotPos+2,   pivotPos + (2 + rightSize / 4), 65, true, false);
-                                Writes.swap(array, pivotPos+3,   pivotPos + (3 + rightSize / 4), 65, true, false);
-                                Writes.swap(array, end-2,             end - (1 + rightSize / 4), 65, true, false);
-                                Writes.swap(array, end-3,             end - (2 + rightSize / 4), 65, true, false);
-                            }
-                        }
-                        Highlights.clearMark(2);
-                    } else {
-                        // If we were decently balanced and we tried to sort an already partitioned
-                        // sequence, try to use insertion sort.
-                        if (alreadyParted && pdqPartialInsertSort(array, begin, pivotPos)
-                                          && pdqPartialInsertSort(array, pivotPos + 1, end))
-                            return;
+                    if (leftSize > nintherThreshold) {
+                        Writes.swap(array, begin + 1, begin + (leftSize / 4 + 1), 65, true, false);
+                        Writes.swap(array, begin + 2, begin + (leftSize / 4 + 2), 65, true, false);
+                        Writes.swap(array, pivotPos - 2, pivotPos - (leftSize / 4 + 1), 65, true, false);
+                        Writes.swap(array, pivotPos - 3, pivotPos - (leftSize / 4 + 2), 65, true, false);
                     }
+                }
 
-                    // Sort the left partition first using recursion and do tail recursion elimination for
-                    // the right-hand partition.
-                    this.pdqLoop(array, begin, pivotPos, Branchless, badAllowed);
-                    begin = pivotPos + 1;
-                    leftmost = false;
+                if (rightSize >= insertSortThreshold) {
+                    Writes.swap(array, pivotPos + 1, pivotPos + (1 + rightSize / 4), 65, true, false);
+                    Writes.swap(array, end - 1, end - rightSize / 4, 65, true, false);
+
+                    if (rightSize > nintherThreshold) {
+                        Writes.swap(array, pivotPos + 2, pivotPos + (2 + rightSize / 4), 65, true, false);
+                        Writes.swap(array, pivotPos + 3, pivotPos + (3 + rightSize / 4), 65, true, false);
+                        Writes.swap(array, end - 2, end - (1 + rightSize / 4), 65, true, false);
+                        Writes.swap(array, end - 3, end - (2 + rightSize / 4), 65, true, false);
+                    }
+                }
+                Highlights.clearMark(2);
+            } else {
+                // If we were decently balanced and we tried to sort an already partitioned
+                // sequence, try to use insertion sort.
+                if (alreadyParted && pdqPartialInsertSort(array, begin, pivotPos)
+                        && pdqPartialInsertSort(array, pivotPos + 1, end))
+                    return;
+            }
+
+            // Sort the left partition first using recursion and do tail recursion
+            // elimination for
+            // the right-hand partition.
+            this.pdqLoop(array, begin, pivotPos, Branchless, badAllowed);
+            begin = pivotPos + 1;
+            leftmost = false;
         }
     }
 }

@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,30 +29,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Unoptimized Bubble")
 public final class UnoptimizedBubbleSort extends Sort {
     public UnoptimizedBubbleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Unoptimized Bubble");
-        this.setRunAllSortsName("Unoptimized Bubble Sort");
-        this.setRunSortName("Unoptimized Bubblesort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         boolean sorted = false;
 
-        while(!sorted) {
+        while (!sorted) {
             sorted = true;
-            for(int i = 0; i < sortLength - 1; i++) {
-                if(Reads.compareValues(array[i], array[i + 1]) == 1){
+            for (int i = 0; i < sortLength - 1; i++) {
+                if (Reads.compareValues(array[i], array[i + 1]) == 1) {
                     Writes.swap(array, i, i + 1, 0.075, true, false);
                     sorted = false;
                 }

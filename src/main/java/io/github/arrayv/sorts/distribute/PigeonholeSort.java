@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.distribute;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -14,20 +15,10 @@ import io.github.arrayv.sorts.templates.Sort;
  */
 
 // Code refactored from the Python implementation found here: https://en.wikipedia.org/wiki/Pigeonhole_sort
-
+@SortMeta(name = "Pigeonhole")
 public final class PigeonholeSort extends Sort {
     public PigeonholeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Pigeonhole");
-        this.setRunAllSortsName("Pigeonhole Sort");
-        this.setRunSortName("Pigeonhole Sort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -35,11 +26,11 @@ public final class PigeonholeSort extends Sort {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
 
-        for(int i = 0; i < sortLength; i++) {
-            if(array[i] < min) {
+        for (int i = 0; i < sortLength; i++) {
+            if (array[i] < min) {
                 min = array[i];
             }
-            if(array[i] > max) {
+            if (array[i] > max) {
                 max = array[i];
             }
         }
@@ -48,15 +39,15 @@ public final class PigeonholeSort extends Sort {
         int size = max - mi + 1;
         int[] holes = Writes.createExternalArray(size);
 
-        for(int x = 0; x < sortLength; x++) {
+        for (int x = 0; x < sortLength; x++) {
             Writes.write(holes, array[x] - mi, holes[array[x] - mi] + 1, 1, false, true);
             Highlights.markArray(1, x);
         }
 
         int j = 0;
 
-        for(int count = 0; count < size; count++) {
-            while(holes[count] > 0) {
+        for (int count = 0; count < size; count++) {
+            while (holes[count] > 0) {
                 Writes.write(holes, count, holes[count] - 1, 0, false, true);
                 Writes.write(array, j, count + mi, 1, false, false);
 

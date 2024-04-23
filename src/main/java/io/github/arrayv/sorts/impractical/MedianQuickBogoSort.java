@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /*
@@ -30,29 +31,21 @@ SOFTWARE.
  */
 
 /**
- * Median Quick Bogosort repeatedly shuffles the array until the left and right halves are split.
+ * Median Quick Bogosort repeatedly shuffles the array until the left and right
+ * halves are split.
  * It then recursively sorts each half.
  */
+@SortMeta(name = "Median Quick Bogo", slowSort = true, bogoSort = true, unreasonableLimit = 23)
 public final class MedianQuickBogoSort extends BogoSorting {
     public MedianQuickBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Median Quick Bogo");
-        this.setRunAllSortsName("Median Quick Bogo Sort");
-        this.setRunSortName("Median Quick Bogosort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(23);
-        this.setBogoSort(true);
     }
 
     private void medianQuickBogo(int[] array, int start, int end) {
-        if (start >= end-1)
+        if (start >= end - 1)
             return;
 
-        int mid = (start+end)/2;
+        int mid = (start + end) / 2;
         while (!isRangeSplit(array, start, mid, end))
             this.bogoSwap(array, start, end, false);
 

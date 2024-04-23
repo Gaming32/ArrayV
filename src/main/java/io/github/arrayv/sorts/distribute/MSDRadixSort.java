@@ -3,6 +3,7 @@ package io.github.arrayv.sorts.distribute;
 import java.util.ArrayList;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -30,25 +31,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "MSD Radix", bucketSort = true, radixSort = true)
 public final class MSDRadixSort extends Sort {
     public MSDRadixSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("MSD Radix");
-        //this.setRunAllID("Most Significant Digit Radix Sort");
-        this.setRunAllSortsName("Most Significant Digit Radix Sort, Base 4");
-        this.setRunSortName("Most Significant Digit Radixsort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(true);
-        this.setRadixSort(true);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void radixMSD(int[] array, int length, int min, int max, int radix, int pow) {
-        if(min >= max || pow < 0)
+        if (min >= max || pow < 0)
             return;
 
         Highlights.markArray(2, max - 1);
@@ -57,10 +47,10 @@ public final class MSDRadixSort extends Sort {
         @SuppressWarnings("unchecked")
         ArrayList<Integer>[] registers = new ArrayList[radix];
 
-        for(int i = 0; i < radix; i++)
+        for (int i = 0; i < radix; i++)
             registers[i] = new ArrayList<>();
 
-        for(int i = min; i < max; i++) {
+        for (int i = min; i < max; i++) {
             Highlights.markArray(1, i);
 
             int digit = Reads.getDigit(array[i], pow, radix);
@@ -75,8 +65,8 @@ public final class MSDRadixSort extends Sort {
         Writes.transcribeMSD(array, registers, 0, min, 0.8, true, false);
 
         int sum = 0;
-        for(int i = 0; i < registers.length; i++) {
-            this.radixMSD(array, length, sum + min, sum + min + registers[i].size(), radix, pow-1);
+        for (int i = 0; i < registers.length; i++) {
+            this.radixMSD(array, length, sum + min, sum + min + registers[i].size(), radix, pow - 1);
 
             sum += registers[i].size();
             Writes.arrayListClear(registers[i]);
@@ -89,7 +79,8 @@ public final class MSDRadixSort extends Sort {
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         int highestpower = Reads.analyzeMaxLog(array, sortLength, bucketCount, 0.5, true);
-
+        this.setRunAllSortsName("Most Significant Digit Radix Sort, Base " + bucketCount);
+        this.setRunSortName("Most Significant Digit Radix Sort, Base " + bucketCount);
         radixMSD(array, sortLength, 0, sortLength, bucketCount, highestpower);
     }
 }

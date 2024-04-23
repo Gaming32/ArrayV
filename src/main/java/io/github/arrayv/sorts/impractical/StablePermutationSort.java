@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.exchange;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /*
@@ -28,59 +29,52 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Stable Permutation", slowSort = true, unreasonableLimit = 11)
 public final class StablePermutationSort extends BogoSorting {
-    public StablePermutationSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-
-        this.setSortListName("Stable Permutation");
-        this.setRunAllSortsName("Stable Permutation Sort");
-        this.setRunSortName("Stable Permutation Sort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(11);
-        this.setBogoSort(false);
-    }
+	public StablePermutationSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+	}
 
 	private int length;
 
 	private boolean permute(int[] array, int[] idx, int len) {
-		if(len < 2) return this.isArraySorted(array, this.length);
+		if (len < 2)
+			return this.isArraySorted(array, this.length);
 
-		for(int i = len-2; i >= 0; i--) {
-			if(this.permute(array, idx, len-1)) return true;
+		for (int i = len - 2; i >= 0; i--) {
+			if (this.permute(array, idx, len - 1))
+				return true;
 
-			Writes.swap(array, idx[i], idx[len-1], 0, true, false);
-			Writes.swap(idx, i, len-1, this.delay, false, true);
+			Writes.swap(array, idx[i], idx[len - 1], 0, true, false);
+			Writes.swap(idx, i, len - 1, this.delay, false, true);
 		}
-		if(this.permute(array, idx, len-1)) return true;
+		if (this.permute(array, idx, len - 1))
+			return true;
 
-		int t = idx[len-1];
+		int t = idx[len - 1];
 
-		for(int i = len-1; i > 0; i--)
-			Writes.write(idx, i, idx[i-1], 0, false, true);
+		for (int i = len - 1; i > 0; i--)
+			Writes.write(idx, i, idx[i - 1], 0, false, true);
 		Writes.write(idx, 0, t, 0, false, true);
 
 		t = array[idx[0]];
 
-		for(int i = 1; i < len; i++)
-			Writes.write(array, idx[i-1], array[idx[i]], this.delay, true, false);
-		Writes.write(array, idx[len-1], t, this.delay, true, false);
+		for (int i = 1; i < len; i++)
+			Writes.write(array, idx[i - 1], array[idx[i]], this.delay, true, false);
+		Writes.write(array, idx[len - 1], t, this.delay, true, false);
 
 		return false;
 	}
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.length = length;
 		int[] idx = Writes.createExternalArray(length);
 
-		for(int i = 0; i < length; i++)
+		for (int i = 0; i < length; i++)
 			Writes.write(idx, i, i, this.delay, true, true);
 
 		this.permute(array, idx, length);
 		Writes.deleteExternalArray(idx);
-    }
+	}
 }

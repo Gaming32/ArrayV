@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /* MIT License
@@ -28,36 +29,27 @@ SOFTWARE.
  * <p>
  * Uses Heap's algorithm.
  */
+@SortMeta(name = "Deterministic Bogo", slowSort = true, unreasonableLimit = 11)
 public final class DeterministicBogoSort extends BogoSorting {
 
     public DeterministicBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Deterministic Bogo");
-        this.setRunAllSortsName("Deterministic Bogo Sort");
-        this.setRunSortName("Deterministic Bogosort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(11);
-        this.setBogoSort(true);
     }
 
     private boolean permutationSort(int[] array, int depth, int length) {
-        if (depth >= length-1)
+        if (depth >= length - 1)
             return this.isArraySorted(array, length);
 
-        for (int i = length-1; i > depth; --i) {
-            if (permutationSort(array, depth+1, length))
+        for (int i = length - 1; i > depth; --i) {
+            if (permutationSort(array, depth + 1, length))
                 return true;
 
-            if ((length-depth)%2 == 0)
+            if ((length - depth) % 2 == 0)
                 Writes.swap(array, depth, i, this.delay, true, false);
             else
-                Writes.swap(array, depth, length-1, this.delay, true, false);
+                Writes.swap(array, depth, length - 1, this.delay, true, false);
         }
-        return permutationSort(array, depth+1, length);
+        return permutationSort(array, depth + 1, length);
     }
 
     @Override

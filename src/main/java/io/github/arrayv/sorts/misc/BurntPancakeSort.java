@@ -4,10 +4,7 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
-@SortMeta(
-  name = "Burnt Pancake",
-  runName = "Burnt Pancake Sort"
-)
+@SortMeta(name = "Burnt Pancake")
 public final class BurntPancakeSort extends Sort {
   public BurntPancakeSort(ArrayVisualizer arrayVisualizer) {
     super(arrayVisualizer);

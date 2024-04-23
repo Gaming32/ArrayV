@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -25,31 +26,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(listName = "3-Smooth Comb (Parallel)", runName = "Parallel 3-Smooth Comb", unreasonableLimit = 4096)
 public final class ThreeSmoothCombSortParallel extends Sort {
-    public ThreeSmoothCombSortParallel(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-
-        this.setSortListName("3-Smooth Comb (Parallel)");
-        this.setRunAllSortsName("Parallel 3-Smooth Comb Sort");
-        this.setRunSortName("Parallel 3-Smooth Combsort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public ThreeSmoothCombSortParallel(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+	}
 
 	private int[] array;
 
 	private class RecursiveComb extends Thread {
 		private int pos, gap, end;
+
 		RecursiveComb(int pos, int gap, int end) {
 			this.pos = pos;
 			this.gap = gap;
 			this.end = end;
 		}
+
+		@Override
 		public void run() {
 			ThreeSmoothCombSortParallel.this.recursiveComb(pos, gap, end);
 		}
@@ -57,21 +51,25 @@ public final class ThreeSmoothCombSortParallel extends Sort {
 
 	private class PowerOfThree extends Thread {
 		private int pos, gap, end;
+
 		PowerOfThree(int pos, int gap, int end) {
 			this.pos = pos;
 			this.gap = gap;
 			this.end = end;
 		}
+
+		@Override
 		public void run() {
 			ThreeSmoothCombSortParallel.this.powerOfThree(pos, gap, end);
 		}
 	}
 
-    private void recursiveComb(int pos, int gap, int end) {
-		if(pos+gap > end) return;
+	private void recursiveComb(int pos, int gap, int end) {
+		if (pos + gap > end)
+			return;
 
-		RecursiveComb a = new RecursiveComb(pos, gap*2, end);
-		RecursiveComb b = new RecursiveComb(pos+gap, gap*2, end);
+		RecursiveComb a = new RecursiveComb(pos, gap * 2, end);
+		RecursiveComb b = new RecursiveComb(pos + gap, gap * 2, end);
 		a.start();
 		b.start();
 
@@ -85,11 +83,12 @@ public final class ThreeSmoothCombSortParallel extends Sort {
 	}
 
 	private void powerOfThree(int pos, int gap, int end) {
-		if(pos+gap > end) return;
+		if (pos + gap > end)
+			return;
 
-		PowerOfThree a = new PowerOfThree(pos, gap*3, end);
-		PowerOfThree b = new PowerOfThree(pos+gap, gap*3, end);
-		PowerOfThree c = new PowerOfThree(pos+2*gap, gap*3, end);
+		PowerOfThree a = new PowerOfThree(pos, gap * 3, end);
+		PowerOfThree b = new PowerOfThree(pos + gap, gap * 3, end);
+		PowerOfThree c = new PowerOfThree(pos + 2 * gap, gap * 3, end);
 		a.start();
 		b.start();
 		c.start();
@@ -101,14 +100,14 @@ public final class ThreeSmoothCombSortParallel extends Sort {
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 		}
-		for(int i = pos; i+gap < end; i+=gap)
-			if(Reads.compareIndices(this.array, i, i+gap, 0.5, true) == 1)
-				Writes.swap(this.array, i, i+gap, 0.5, false, false);
+		for (int i = pos; i + gap < end; i += gap)
+			if (Reads.compareIndices(this.array, i, i + gap, 0.5, true) == 1)
+				Writes.swap(this.array, i, i + gap, 0.5, false, false);
 	}
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.array = array;
-        this.recursiveComb(0, 1, length);
-    }
+		this.recursiveComb(0, 1, length);
+	}
 }

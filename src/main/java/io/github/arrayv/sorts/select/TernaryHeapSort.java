@@ -1,21 +1,13 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(name = "Ternary Heap")
 public final class TernaryHeapSort extends Sort {
     public TernaryHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Ternary Heap");
-        this.setRunAllSortsName("Ternary Heap Sort");
-        this.setRunSortName("Ternary Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     // TERNARY HEAP SORT - written by qbit
@@ -44,16 +36,15 @@ public final class TernaryHeapSort extends Sort {
 
         largest = leftChild <= heapSize && Reads.compareValues(array[leftChild], array[i]) > 0 ? leftChild : i;
 
-        if(rightChild <= heapSize && Reads.compareValues(array[rightChild], array[largest]) > 0) {
+        if (rightChild <= heapSize && Reads.compareValues(array[rightChild], array[largest]) > 0) {
             largest = rightChild;
         }
 
-        if(middleChild <= heapSize && Reads.compareValues(array[middleChild], array[largest]) > 0) {
+        if (middleChild <= heapSize && Reads.compareValues(array[middleChild], array[largest]) > 0) {
             largest = middleChild;
         }
 
-
-        if(largest != i) {
+        if (largest != i) {
             Writes.swap(array, i, largest, 1, true, false);
             this.maxHeapify(array, largest);
         }
@@ -61,7 +52,7 @@ public final class TernaryHeapSort extends Sort {
 
     private void buildMaxTernaryHeap(int[] array, int length) {
         heapSize = length - 1;
-        for(int i = length - 1  / 3; i >= 0; i--)
+        for (int i = length - 1 / 3; i >= 0; i--)
             this.maxHeapify(array, i);
     }
 
@@ -69,10 +60,10 @@ public final class TernaryHeapSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
         this.buildMaxTernaryHeap(array, length);
 
-        for(int i = length - 1; i >= 0; i--){
-            Writes.swap(array, 0, i, 1, true, false); //add last element on array, i.e heap root
+        for (int i = length - 1; i >= 0; i--) {
+            Writes.swap(array, 0, i, 1, true, false); // add last element on array, i.e heap root
 
-            heapSize = heapSize - 1; //shrink heap by 1
+            heapSize = heapSize - 1; // shrink heap by 1
             this.maxHeapify(array, 0);
         }
     }

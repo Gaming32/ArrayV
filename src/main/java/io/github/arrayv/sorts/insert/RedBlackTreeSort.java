@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.insert;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /**
@@ -9,19 +10,10 @@ import io.github.arrayv.sorts.templates.Sort;
  *
  * @author Sam Walko (Anonymous0726)
  */
+@SortMeta(listName = "Tree (Red-Black)", runName = "Red-Black-Balanced Tree Sort")
 public final class RedBlackTreeSort extends Sort {
 	public RedBlackTreeSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-
-		this.setSortListName("Red-Black Tree");
-		this.setRunAllSortsName("Tree Sort (Red-Black Balanced)");
-		this.setRunSortName("Tree sort (Red-Black Balanced)");
-		this.setCategory("Insertion Sorts");
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(false);
-		this.setUnreasonableLimit(0);
-		this.setBogoSort(false);
 	}
 
 	private Node NULL_NODE = new Node(); // (sub)tree of size 0
@@ -75,13 +67,15 @@ public final class RedBlackTreeSort extends Sort {
 		/**
 		 * Recursively adds an element to the subtree whose root is this node
 		 *
-		 * @param addPointer A pointer to the array telling what element is to be inserted
+		 * @param addPointer A pointer to the array telling what element is to be
+		 *                   inserted
 		 * @return an AddContainer containing the node that is now the root of this
-		 * subtree, and the boolean telling whether or not this subtree increased in height
+		 *         subtree, and the boolean telling whether or not this subtree
+		 *         increased in height
 		 */
 		private AddContainer add(int addPointer) {
 			// Case 1: If this is where to add the new element, create a node for it
-			if(this == NULL_NODE) {
+			if (this == NULL_NODE) {
 				Highlights.clearMark(1); // No longer comparing to previous leaves
 				Node newNode = new Node(array, addPointer); // Create the node
 				// Return the node, and the fact that a subtree of size 1
@@ -98,7 +92,7 @@ public final class RedBlackTreeSort extends Sort {
 			// cascading rotations, without losing black balance.
 			// (Note that this only occurs when there's actually a node here
 			// already, hence this check is performed after the check for case 1.)
-			if(!isRed && left.isRed && right.isRed) {
+			if (!isRed && left.isRed && right.isRed) {
 				Highlights.markArray(3, left.pointer);
 				Highlights.markArray(4, right.pointer);
 
@@ -112,7 +106,7 @@ public final class RedBlackTreeSort extends Sort {
 			}
 
 			// Case 2: The element is smaller and thus belongs in the left subtree
-			if(Reads.compareValues(array[addPointer], array[pointer]) == -1) {
+			if (Reads.compareValues(array[addPointer], array[pointer]) == -1) {
 				Delays.sleep(0.25);
 
 				// Recursively get the root of the new left subtree
@@ -129,8 +123,8 @@ public final class RedBlackTreeSort extends Sort {
 
 				// If the tree is determined to need rebalancing, then first
 				// determine which type of rotation is necessary, then perform it.
-				if(container.needsFix) {
-					if(left.left.isRed)
+				if (container.needsFix) {
+					if (left.left.isRed)
 						return new AddContainer(singleRotateRight(), false);
 					return new AddContainer(doubleRotateRight(), false);
 				}
@@ -158,8 +152,8 @@ public final class RedBlackTreeSort extends Sort {
 
 			// If the tree is determined to need rebalancing, then first
 			// determine which type of rotation is necessary, then perform it.
-			if(container.needsFix) {
-				if(right.right.isRed)
+			if (container.needsFix) {
+				if (right.right.isRed)
 					return new AddContainer(singleRotateLeft(), false);
 				return new AddContainer(doubleRotateLeft(), false);
 			}
@@ -277,13 +271,15 @@ public final class RedBlackTreeSort extends Sort {
 		 * the values of the original array to a sorted temporary array
 		 *
 		 * @param tempArray the temporary array to write the contents of the subtree to
-		 * @param location a pointer to the location in the temporary array to which the
-		 * contents of the current subtree should be written to
+		 * @param location  a pointer to the location in the temporary array to which
+		 *                  the
+		 *                  contents of the current subtree should be written to
 		 * @return The size of subtree, used to determine where the next value should be
-		 * written to.
+		 *         written to.
 		 */
 		private int writeToArray(int[] tempArray, int location) {
-			if(this == NULL_NODE) return 0;
+			if (this == NULL_NODE)
+				return 0;
 
 			int leftTreeSize = left.writeToArray(tempArray, location);
 			int newLocation = location + leftTreeSize;
@@ -304,7 +300,7 @@ public final class RedBlackTreeSort extends Sort {
 		Node root = NULL_NODE;
 
 		// This loop adds every element of the array to be sorted into the tree
-		for(int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) {
 			Highlights.markArray(1, i); // Highlights the element being added
 			Node.AddContainer container = root.add(i);
 
@@ -329,7 +325,7 @@ public final class RedBlackTreeSort extends Sort {
 		Highlights.clearMark(1); // No more elements being transferred to temporary array
 
 		// Write the contents of the temporary array back to the main array
-		for(int i = 0; i < length; i++) {
+		for (int i = 0; i < length; i++) {
 			Writes.write(array, i, tempArray[i], 1, true, false);
 		}
 	}

@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.HeapSorting;
 
 /*
@@ -14,20 +15,10 @@ Texts.  A copy of the license is included in the section entitled "GNU
 Free Documentation License".
  *
  */
-
+@SortMeta(name = "Min Heap")
 public final class MinHeapSort extends HeapSorting {
     public MinHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Min Heap");
-        this.setRunAllSortsName("Min Heap Sort");
-        this.setRunSortName("Reverse Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

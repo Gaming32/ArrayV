@@ -1,30 +1,22 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(listName = "Quick (Left/Left)", runName = "Quick Sort, Left/Left Pointers")
 public final class LLQuickSort extends Sort {
     public LLQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Left/Left Quick");
-        this.setRunAllSortsName("Quick Sort, Left/Left Pointers");
-        this.setRunSortName("Left/Left Quicksort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private int partition(int[] array, int lo, int hi) {
         int pivot = array[hi];
         int i = lo;
 
-        for(int j = lo; j < hi; j++) {
+        for (int j = lo; j < hi; j++) {
             Highlights.markArray(1, j);
-            if(Reads.compareValues(array[j], pivot) < 0) {
+            if (Reads.compareValues(array[j], pivot) < 0) {
                 Writes.swap(array, i, j, 1, true, false);
                 i++;
             }
@@ -35,7 +27,7 @@ public final class LLQuickSort extends Sort {
     }
 
     private void quickSort(int[] array, int lo, int hi) {
-        if(lo < hi) {
+        if (lo < hi) {
             int p = this.partition(array, lo, hi);
             this.quickSort(array, lo, p - 1);
             this.quickSort(array, p + 1, hi);

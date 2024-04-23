@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -18,59 +19,48 @@ import io.github.arrayv.sorts.templates.Sort;
  *
  * >> Imported and Translated (from Pascal) by Joel "McDude73" Zaleschuk
  */
-
+@SortMeta(name = "Bingo")
 public final class BingoSort extends Sort {
     public BingoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Bingo");
-        this.setRunAllSortsName("Bingo Sort");
-        this.setRunSortName("Bingosort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        double sleep = Math.min(Math.max(10d/this.arrayVisualizer.getUniqueItems(), 0.001), 1);
+        double sleep = Math.min(Math.max(10d / this.arrayVisualizer.getUniqueItems(), 0.001), 1);
 
         int maximum = length - 1;
         int next = array[maximum];
 
-        for(int i=maximum-1;i>=0;i--) {
-            if(array[i] > next) {
+        for (int i = maximum - 1; i >= 0; i--) {
+            if (array[i] > next) {
                 next = array[i];
             }
         }
-        while(maximum > 0 && array[maximum] == next) {
+        while (maximum > 0 && array[maximum] == next) {
             maximum--;
         }
-        while(maximum > 0) {
+        while (maximum > 0) {
             int val = next;
             next = array[maximum];
 
-            for(int j=maximum-1;j>=0;j--) {
+            for (int j = maximum - 1; j >= 0; j--) {
 
                 Highlights.markArray(1, array[j]);
                 Highlights.markArray(2, val);
 
-                if(Reads.compareValues(array[j], val) == 0) {
-                    Writes.swap(array, j, maximum, 2*sleep, true, false);
+                if (Reads.compareValues(array[j], val) == 0) {
+                    Writes.swap(array, j, maximum, 2 * sleep, true, false);
                     maximum--;
 
-                }
-                else {
-                    if(array[j] > next) {
+                } else {
+                    if (array[j] > next) {
                         next = array[j];
                     }
                 }
                 Delays.sleep(sleep);
             }
-            while(maximum > 0 && array[maximum] == next) {
+            while (maximum > 0 && array[maximum] == next) {
                 maximum--;
             }
         }

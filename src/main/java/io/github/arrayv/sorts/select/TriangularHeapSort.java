@@ -1,25 +1,17 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /**
  * @author aphitorite
  */
+@SortMeta(name = "Triangular Heap")
 public final class TriangularHeapSort extends Sort {
 
 	public TriangularHeapSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		// TODO Auto-generated constructor stub
-		this.setSortListName("Triangular Heap");
-		this.setRunAllSortsName("Triangular Heap Sort");
-		this.setRunSortName("Triangular Heapsort");
-		this.setCategory("Selection Sorts");
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(false);
-		this.setUnreasonableLimit(0);
-		this.setBogoSort(false);
 	}
 
 	public static int triangularRoot(int val) {

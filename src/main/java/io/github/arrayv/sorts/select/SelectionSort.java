@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,20 +29,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Selection")
 public final class SelectionSort extends Sort {
     public SelectionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Selection");
-        this.setRunAllSortsName("Selection Sort");
-        this.setRunSortName("Selection Sort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -53,7 +44,7 @@ public final class SelectionSort extends Sort {
                 Highlights.markArray(2, j);
                 Delays.sleep(0.01);
 
-                if (Reads.compareValues(array[j], array[lowestindex]) == -1){
+                if (Reads.compareValues(array[j], array[lowestindex]) == -1) {
                     lowestindex = j;
                     Highlights.markArray(1, lowestindex);
                     Delays.sleep(0.01);

@@ -6,14 +6,10 @@ import io.github.arrayv.sorts.templates.Sort;
 
 /**
  * @author Timo Bingmann
- * Implemented in ArrayV by Gaming32
- * https://github.com/bingmann/sound-of-sorting/blob/master/src/SortAlgo.cpp#L536-L595
+ *         Implemented in ArrayV by Gaming32
+ *         https://github.com/bingmann/sound-of-sorting/blob/master/src/SortAlgo.cpp#L536-L595
  */
-@SortMeta(
-    listName = "Ternary LL Quick",
-    showcaseName = "Quick Sort (ternary, LL ptrs)",
-    runName = "Quicksort (ternary, LL ptrs)"
-)
+@SortMeta(listName = "Ternary LL Quick", runName = "Quicksort (ternary, LL ptrs)")
 public final class TernaryLLQuickSort extends Sort {
     class PivotPair {
         int first, second;
@@ -42,8 +38,8 @@ public final class TernaryLLQuickSort extends Sort {
             return hi - 1;
 
         return compare(A, lo, mid) < 0
-            ? (compare(A, mid, hi - 1) < 0 ? mid : (compare(A, lo, hi - 1) < 0 ? hi - 1 : lo))
-            : (compare(A, mid, hi - 1) > 0 ? mid : (compare(A, lo, hi - 1) < 0 ? lo : hi - 1));
+                ? (compare(A, mid, hi - 1) < 0 ? mid : (compare(A, lo, hi - 1) < 0 ? hi - 1 : lo))
+                : (compare(A, mid, hi - 1) > 0 ? mid : (compare(A, lo, hi - 1) < 0 ? lo : hi - 1));
     }
 
     private PivotPair partitionTernaryLL(int[] A, int lo, int hi) {
@@ -61,8 +57,7 @@ public final class TernaryLLQuickSort extends Sort {
                 Writes.swap(A, --k, j, 1, true, false);
                 --j;
                 Highlights.markArray(4, k);
-            }
-            else if (cmp < 0) {
+            } else if (cmp < 0) {
                 Writes.swap(A, i++, j, 1, true, false);
                 Highlights.markArray(3, i);
             }

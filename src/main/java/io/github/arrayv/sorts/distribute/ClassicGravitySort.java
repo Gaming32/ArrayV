@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.distribute;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,24 +29,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Classic Gravity (Bead)")
 public final class ClassicGravitySort extends Sort {
-    public ClassicGravitySort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
+	public ClassicGravitySort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+	}
 
-        this.setSortListName("Classic Gravity");
-        this.setRunAllSortsName("Classic Gravity (Bead) Sort");
-        this.setRunSortName("Classic Beadsort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
-
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		int max = Reads.analyzeMax(array, length, 0.5, true);
 		int[] transpose = Writes.createExternalArray(max);
 
@@ -73,5 +64,5 @@ public final class ClassicGravitySort extends Sort {
 		}
 
 		Writes.deleteExternalArray(transpose);
-    }
+	}
 }

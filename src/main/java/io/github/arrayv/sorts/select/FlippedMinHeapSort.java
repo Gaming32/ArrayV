@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -21,21 +22,12 @@ the only real changes are subtracting every array access from (length - 1)
 and removing the Writes.reverse() at the end
 the rest is just compacting the code a bit
 */
-
+@SortMeta(name = "Flipped Min Heap")
 public final class FlippedMinHeapSort extends Sort {
     public FlippedMinHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Flipped Min Heap");
-        this.setRunAllSortsName("Flipped Min Heap Sort");
-        this.setRunSortName("Flipped Reverse Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
+
     private void siftDown(int[] array, int length, int root, int dist) {
         while (root <= dist / 2) {
             int leaf = 2 * root;
@@ -48,9 +40,11 @@ public final class FlippedMinHeapSort extends Sort {
             if (Reads.compareValues(array[length - root], array[length - leaf]) == 1) {
                 Writes.swap(array, length - root, length - leaf, 0, true, false);
                 root = leaf;
-            } else break;
+            } else
+                break;
         }
     }
+
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = length / 2; i >= 1; i--) {

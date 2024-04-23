@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.HeapSorting;
 
 /*
@@ -14,20 +15,10 @@ Texts.  A copy of the license is included in the section entitled "GNU
 Free Documentation License".
  *
  */
-
+@SortMeta(name = "Max Heap")
 public final class MaxHeapSort extends HeapSorting {
     public MaxHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Max Heap");
-        this.setRunAllSortsName("Max Heap Sort");
-        this.setRunSortName("Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     public void makeHeap(int[] array, int start, int length, double sleep) {

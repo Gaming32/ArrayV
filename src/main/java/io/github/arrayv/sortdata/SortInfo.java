@@ -1,17 +1,16 @@
 package io.github.arrayv.sortdata;
 
-import io.github.arrayv.main.ArrayVisualizer;
-import io.github.arrayv.sorts.templates.Sort;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.function.IntUnaryOperator;
 import java.util.function.Supplier;
 
+import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sorts.templates.Sort;
+
 public final class SortInfo {
-    private static final String NAME_MUST_BE_SPECIFIED =
-        "name must be specified unless all three of listName, showcaseName, and runName are specified";
+    private static final String NAME_MUST_BE_SPECIFIED = "name must be specified unless all three of listName, showcaseName, and runName are specified";
 
     private final int id;
     private final String internalName;
@@ -78,15 +77,16 @@ public final class SortInfo {
             this.disabled = metaAnnotation.disabled();
             this.unreasonableLimit = metaAnnotation.unreasonableLimit();
             this.listName = metaAnnotation.listName().isEmpty()
-                ? requireName(name)
-                : metaAnnotation.listName();
+                    ? requireName(name)
+                    : metaAnnotation.listName();
             this.runName = metaAnnotation.runName().isEmpty()
-                ? requireName(name) + "sort"
-                : metaAnnotation.runName();
-            this.runAllName = metaAnnotation.showcaseName().isEmpty()
-                ? requireName(name) + " Sort"
-                : metaAnnotation.showcaseName();
-            this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sortClass) : metaAnnotation.category();
+                    ? requireName(name) + " Sort"
+                    : metaAnnotation.runName();
+            this.runAllName = metaAnnotation.runName().isEmpty()
+                    ? requireName(name) + " Sort"
+                    : metaAnnotation.runName();
+            this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sortClass)
+                    : metaAnnotation.category();
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.radixSort();
             this.bucketSort = metaAnnotation.bucketSort();
@@ -124,15 +124,16 @@ public final class SortInfo {
             this.disabled = metaAnnotation.disabled();
             this.unreasonableLimit = metaAnnotation.unreasonableLimit();
             this.listName = metaAnnotation.listName().isEmpty()
-                ? requireName(name)
-                : metaAnnotation.listName();
+                    ? requireName(name)
+                    : metaAnnotation.listName();
             this.runName = metaAnnotation.runName().isEmpty()
-                ? requireName(name) + "sort"
-                : metaAnnotation.runName();
-            this.runAllName = metaAnnotation.showcaseName().isEmpty()
-                ? requireName(name) + " Sort"
-                : metaAnnotation.showcaseName();
-            this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sort.getClass()) : metaAnnotation.category();
+                    ? requireName(name) + " Sort"
+                    : metaAnnotation.runName();
+            this.runAllName = metaAnnotation.runName().isEmpty()
+                    ? requireName(name) + " Sort"
+                    : metaAnnotation.runName();
+            this.category = metaAnnotation.category().isEmpty() ? findSortCategory(sort.getClass())
+                    : metaAnnotation.category();
             this.bogoSort = metaAnnotation.bogoSort();
             this.radixSort = metaAnnotation.radixSort();
             this.bucketSort = metaAnnotation.bucketSort();
@@ -143,23 +144,22 @@ public final class SortInfo {
     }
 
     private SortInfo(
-        int id,
-        String internalName,
-        Supplier<? extends Sort> instanceSupplier,
-        boolean disabled,
-        int unreasonableLimit,
-        String listName,
-        String runName,
-        String runAllName,
-        String category,
-        boolean slowSort,
-        boolean bogoSort,
-        boolean radixSort,
-        boolean bucketSort,
-        String question,
-        int defaultAnswer,
-        IntUnaryOperator answerValidator
-    ) {
+            int id,
+            String internalName,
+            Supplier<? extends Sort> instanceSupplier,
+            boolean disabled,
+            int unreasonableLimit,
+            String listName,
+            String runName,
+            String runAllName,
+            String category,
+            boolean slowSort,
+            boolean bogoSort,
+            boolean radixSort,
+            boolean bucketSort,
+            String question,
+            int defaultAnswer,
+            IntUnaryOperator answerValidator) {
         this.id = id;
         this.internalName = internalName;
         this.instanceSupplier = instanceSupplier;
@@ -195,8 +195,8 @@ public final class SortInfo {
             }
         }
         throw new NullPointerException(
-            "Sort " + sortClass.getSimpleName() + " does not declare a category, and neither do any of its packages"
-        );
+                "Sort " + sortClass.getSimpleName()
+                        + " does not declare a category, and neither do any of its packages");
     }
 
     private static String requireName(String name) {
@@ -211,7 +211,8 @@ public final class SortInfo {
         if (name.endsWith("sort")) {
             return name.substring(0, name.length() - 4);
         }
-        // Cause an NPE if name isn't specified, and all three required names also aren't
+        // Cause an NPE if name isn't specified, and all three required names also
+        // aren't
         return name.isEmpty() ? null : name;
     }
 
@@ -293,6 +294,7 @@ public final class SortInfo {
 
     /**
      * Creates a copy of this info with a new ID
+     *
      * @param id The ID for the new instance
      * @return Copied info with new ID
      */
@@ -343,10 +345,9 @@ public final class SortInfo {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof SortInfo)) {
+        if (!(obj instanceof SortInfo other)) {
             return false;
         }
-        SortInfo other = (SortInfo) obj;
         if (bogoSort != other.bogoSort) {
             return false;
         }
@@ -438,23 +439,22 @@ public final class SortInfo {
 
         public SortInfo build() {
             return new SortInfo(
-                id,
-                internalName,
-                Objects.requireNonNull(instanceSupplier, "instanceSupplier"),
-                disabled,
-                unreasonableLimit,
-                Objects.requireNonNull(listName, "listName"),
-                runName != null ? runName : (listName + "sort"),
-                runAllName != null ? runAllName : (listName + " Sort"),
-                Objects.requireNonNull(category, "category"),
-                slowSort,
-                bogoSort,
-                radixSort,
-                bucketSort,
-                question,
-                defaultAnswer,
-                answerValidator
-            );
+                    id,
+                    internalName,
+                    Objects.requireNonNull(instanceSupplier, "instanceSupplier"),
+                    disabled,
+                    unreasonableLimit,
+                    Objects.requireNonNull(listName, "listName"),
+                    runName != null ? runName : (listName + "sort"),
+                    runAllName != null ? runAllName : (listName + " Sort"),
+                    Objects.requireNonNull(category, "category"),
+                    slowSort,
+                    bogoSort,
+                    radixSort,
+                    bucketSort,
+                    question,
+                    defaultAnswer,
+                    answerValidator);
         }
 
         public Builder id(int id) {

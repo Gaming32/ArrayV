@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,20 +29,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Double Selection")
 public final class DoubleSelectionSort extends Sort {
     public DoubleSelectionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Double Selection");
-        this.setRunAllSortsName("Double Selection Sort");
-        this.setRunSortName("Double Selection Sort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -51,16 +42,16 @@ public final class DoubleSelectionSort extends Sort {
         int smallest = 0;
         int biggest = 0;
 
-        while(left <= right) {
-            for(int i = left; i <= right; i++) {
+        while (left <= right) {
+            for (int i = left; i <= right; i++) {
                 Highlights.markArray(3, i);
 
-                if(Reads.compareValues(array[i], array[biggest]) == 1) {
+                if (Reads.compareValues(array[i], array[biggest]) == 1) {
                     biggest = i;
                     Highlights.markArray(1, biggest);
                     Delays.sleep(0.01);
                 }
-                if(Reads.compareValues(array[i], array[smallest]) == -1) {
+                if (Reads.compareValues(array[i], array[smallest]) == -1) {
                     smallest = i;
                     Highlights.markArray(2, smallest);
                     Delays.sleep(0.01);
@@ -68,7 +59,7 @@ public final class DoubleSelectionSort extends Sort {
 
                 Delays.sleep(0.01);
             }
-            if(biggest == left)
+            if (biggest == left)
                 biggest = smallest;
 
             Writes.swap(array, left, smallest, 0.02, true, false);

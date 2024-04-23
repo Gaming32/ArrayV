@@ -31,7 +31,7 @@ SOFTWARE.
  */
 
 public abstract class ShatterSorting extends Sort {
-    //TODO: The "sort time" for both shatter sorts is *wildly* too generous.
+    // TODO: The "sort time" for both shatter sorts is *wildly* too generous.
     protected ShatterSorting(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }
@@ -42,11 +42,11 @@ public abstract class ShatterSorting extends Sort {
         @SuppressWarnings("unchecked")
         ArrayList<Integer>[] registers = new ArrayList[shatters];
 
-        for(int i = 0; i < shatters; i++) {
+        for (int i = 0; i < shatters; i++) {
             registers[i] = new ArrayList<>();
         }
 
-        for(int i = 0; i < length; i++){
+        for (int i = 0; i < length; i++) {
             Writes.arrayListAdd(registers[array[i] / num], array[i]);
             Highlights.markArray(1, i);
 
@@ -64,9 +64,9 @@ public abstract class ShatterSorting extends Sort {
         shatterPartition(array, length, num);
 
         int[] tmp = Writes.createExternalArray(num);
-        for(int i = 0; i < shatters; i++) {
-            for(int j = 0; j < num; j++) {
-                if(i * num + j >= length)
+        for (int i = 0; i < shatters; i++) {
+            for (int j = 0; j < num; j++) {
+                if (i * num + j >= length)
                     Writes.write(tmp, j, -1, 0.5, false, true);
                 else
                     Writes.write(tmp, j, array[i * num + j], 0.5, false, true);
@@ -76,10 +76,10 @@ public abstract class ShatterSorting extends Sort {
 
             Highlights.clearMark(2);
 
-            for(int j = 0; j < tmp.length; j++) {
+            for (int j = 0; j < tmp.length; j++) {
                 int tmpj = tmp[j];
 
-                if(i * num + (tmpj % num) >= length || tmpj == -1) {
+                if (i * num + (tmpj % num) >= length || tmpj == -1) {
                     break;
                 }
 
@@ -94,7 +94,7 @@ public abstract class ShatterSorting extends Sort {
     }
 
     protected void simpleShatterSort(int[] array, int length, int num, int rate) {
-        for(int i = num; i > 1; i = i / rate) {
+        for (int i = num; i > 1; i = i / rate) {
             shatterPartition(array, length, i);
         }
         shatterPartition(array, length, 1);

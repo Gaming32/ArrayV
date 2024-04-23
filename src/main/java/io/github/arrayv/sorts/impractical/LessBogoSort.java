@@ -1,25 +1,17 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /**
  * Less Bogosort repeatedly shuffles the array,
  * dropping the first remaining element when it is in the correct place.
  */
+@SortMeta(name = "Less Bogo", slowSort = true, bogoSort = true, unreasonableLimit = 512)
 public final class LessBogoSort extends BogoSorting {
     public LessBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Less Bogo");
-        this.setRunAllSortsName("Less Bogo Sort");
-        this.setRunSortName("Less Bogosort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(512);
-        this.setBogoSort(true);
     }
 
     @Override

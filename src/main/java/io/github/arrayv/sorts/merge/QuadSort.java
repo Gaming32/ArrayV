@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.QuadSorting;
 
 /*
@@ -28,20 +29,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 // re-implemented to Java, ArrayV by mg-2018, 2021
 // 210704 ~ 210816
-
+@SortMeta(name = "Quad")
 public final class QuadSort extends QuadSorting {
     public QuadSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Quad");
-        this.setRunAllSortsName("Quad Sort");
-        this.setRunSortName("Quadsort");
-        this.setCategory("Merge Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

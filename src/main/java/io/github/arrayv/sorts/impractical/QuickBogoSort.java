@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /*
@@ -34,23 +35,14 @@ SOFTWARE.
  * it randomly shuffles the array until the pivot partitions the array.
  * The pivot is tracked as the array is shuffled.
  */
+@SortMeta(name = "Quick Bogo", slowSort = true, bogoSort = true, unreasonableLimit = 22)
 public final class QuickBogoSort extends BogoSorting {
     public QuickBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Quick Bogo");
-        this.setRunAllSortsName("Quick Bogo Sort");
-        this.setRunSortName("Quick Bogosort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(22);
-        this.setBogoSort(true);
     }
 
-    private int quickBogoSwap(int[] array, int start, int pivot, int end){
-        for(int i = start; i < end; i++) {
+    private int quickBogoSwap(int[] array, int start, int pivot, int end) {
+        for (int i = start; i < end; i++) {
             int j = BogoSorting.randInt(i, end);
             if (pivot == i)
                 pivot = j;
@@ -62,18 +54,18 @@ public final class QuickBogoSort extends BogoSorting {
     }
 
     private void quickBogo(int[] array, int start, int end) {
-        if (start >= end-1)
+        if (start >= end - 1)
             return;
 
         int pivot = start;
         // worst-case pivot (linear distribution)
         // for (; pivot < end; ++pivot)
-        //     if (array[pivot] == (start+end)/2) break;
+        // if (array[pivot] == (start+end)/2) break;
         while (!isRangePartitioned(array, start, pivot, end))
             pivot = quickBogoSwap(array, start, pivot, end);
 
         quickBogo(array, start, pivot);
-        quickBogo(array, pivot+1, end);
+        quickBogo(array, pivot + 1, end);
     }
 
     @Override

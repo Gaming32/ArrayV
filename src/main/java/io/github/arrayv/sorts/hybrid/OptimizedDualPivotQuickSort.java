@@ -1,35 +1,25 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.insert.InsertionSort;
 import io.github.arrayv.sorts.templates.Sort;
 
 // code retrieved from https://codeblab.com/wp-content/uploads/2009/09/DualPivotQuicksort.pdf
 // written by Vladimir Yaroslavskiy
-
+@SortMeta(name = "Optimized Dual-Pivot Quick")
 public final class OptimizedDualPivotQuickSort extends Sort {
     private InsertionSort insertSorter;
 
     public OptimizedDualPivotQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Optimized Dual-Pivot Quick");
-        //this.setRunAllID("Optimized Dual-Pivot Quick Sort");
-        this.setRunAllSortsName("Optimized Dual-Pivot Quick Sort [Arrays.sort]");
-        this.setRunSortName("Optimized Dual-Pivot Quicksort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void dualPivot(int[] array, int left, int right, int divisor) {
         int length = right - left;
 
         // insertion sort for tiny array
-        if(length < 27) {
+        if (length < 27) {
             Highlights.clearMark(2);
             insertSorter.customInsertSort(array, left, right + 1, 0.333, false);
             return;
@@ -38,22 +28,21 @@ public final class OptimizedDualPivotQuickSort extends Sort {
         int third = length / divisor;
 
         // "medians"
-        int med1 = left  + third;
+        int med1 = left + third;
         int med2 = right - third;
 
-        if(med1 <= left) {
+        if (med1 <= left) {
             med1 = left + 1;
         }
-        if(med2 >= right) {
+        if (med2 >= right) {
             med2 = right - 1;
         }
-        if(Reads.compareIndices(array, med1, med2, 1, true) == -1) {
-            Writes.swap(array, med1, left,  1, true, false);
+        if (Reads.compareIndices(array, med1, med2, 1, true) == -1) {
+            Writes.swap(array, med1, left, 1, true, false);
             Writes.swap(array, med2, right, 1, true, false);
-        }
-        else {
+        } else {
             Writes.swap(array, med1, right, 1, true, false);
-            Writes.swap(array, med2, left,  1, true, false);
+            Writes.swap(array, med2, left, 1, true, false);
         }
 
         // pivots
@@ -61,20 +50,19 @@ public final class OptimizedDualPivotQuickSort extends Sort {
         int pivot2 = array[right];
 
         // pointers
-        int less  = left  + 1;
+        int less = left + 1;
         int great = right - 1;
 
         Highlights.markArray(2, less);
         Highlights.markArray(3, great);
 
         // sorting
-        for(int k = less; k <= great; k++) {
-            if(Reads.compareIndexValue(array, k, pivot1, 0.5, true) == -1) {
+        for (int k = less; k <= great; k++) {
+            if (Reads.compareIndexValue(array, k, pivot1, 0.5, true) == -1) {
                 Writes.swap(array, k, less++, 0.5, false, false);
                 Highlights.markArray(2, less);
-            }
-            else if(Reads.compareIndexValue(array, k, pivot2, 0.5, true) == 1) {
-                while(k < great && Reads.compareIndexValue(array, great, pivot2, 0.5, false) == 1) {
+            } else if (Reads.compareIndexValue(array, k, pivot2, 0.5, true) == 1) {
+                while (k < great && Reads.compareIndexValue(array, great, pivot2, 0.5, false) == 1) {
                     great--;
                     Highlights.markArray(3, great);
                     Delays.sleep(0.5);
@@ -82,7 +70,7 @@ public final class OptimizedDualPivotQuickSort extends Sort {
                 Writes.swap(array, k, great--, 0.5, false, false);
                 Highlights.markArray(3, great);
 
-                if(Reads.compareIndexValue(array, k, pivot1, 0.5, true) == -1) {
+                if (Reads.compareIndexValue(array, k, pivot1, 0.5, true) == -1) {
                     Writes.swap(array, k, less++, 0.5, false, false);
                     Highlights.markArray(2, less);
                 }
@@ -93,31 +81,30 @@ public final class OptimizedDualPivotQuickSort extends Sort {
         // swaps
         int dist = great - less;
 
-        if(dist < 13) {
+        if (dist < 13) {
             divisor++;
         }
-        Writes.swap(array, less  - 1, left,  1, true, false);
+        Writes.swap(array, less - 1, left, 1, true, false);
         Writes.swap(array, great + 1, right, 1, true, false);
 
         // subarrays
-        this.dualPivot(array, left,   less - 2, divisor);
+        this.dualPivot(array, left, less - 2, divisor);
         this.dualPivot(array, great + 2, right, divisor);
 
         Highlights.markArray(2, less);
         Highlights.markArray(3, great);
 
         // equal elements
-        if(dist > length - 13 && pivot1 != pivot2) {
-            for(int k = less; k <= great; k++) {
-                if(Reads.compareIndexValue(array, k, pivot1, 0.5, true) == 0) {
+        if (dist > length - 13 && pivot1 != pivot2) {
+            for (int k = less; k <= great; k++) {
+                if (Reads.compareIndexValue(array, k, pivot1, 0.5, true) == 0) {
                     Writes.swap(array, k, less++, 0.5, false, false);
                     Highlights.markArray(2, less);
-                }
-                else if(Reads.compareIndexValue(array, k, pivot2, 0.5, true) == 0) {
+                } else if (Reads.compareIndexValue(array, k, pivot2, 0.5, true) == 0) {
                     Writes.swap(array, k, great--, 0.5, false, false);
                     Highlights.markArray(3, great);
 
-                    if(Reads.compareIndexValue(array, k, pivot1, 0.5, true) == 0) {
+                    if (Reads.compareIndexValue(array, k, pivot1, 0.5, true) == 0) {
                         Writes.swap(array, k, less++, 0.5, false, false);
                         Highlights.markArray(2, less);
                     }
@@ -127,7 +114,7 @@ public final class OptimizedDualPivotQuickSort extends Sort {
         Highlights.clearAllMarks();
 
         // subarray
-        if(pivot1 < pivot2) {
+        if (pivot1 < pivot2) {
             this.dualPivot(array, less, great, divisor);
         }
     }

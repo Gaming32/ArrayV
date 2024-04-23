@@ -3,6 +3,7 @@ package io.github.arrayv.sorts.hybrid;
 import java.util.List;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -26,20 +27,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Drop Merge")
 public final class DropMergeSort extends Sort {
     public DropMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Drop Merge");
-        this.setRunAllSortsName("Drop Merge Sort");
-        this.setRunSortName("Drop Mergesort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private final int RECENCY = 8;
@@ -47,13 +38,14 @@ public final class DropMergeSort extends Sort {
     private final double EARLY_OUT_DISORDER_FRACTION = 0.6;
 
     private void truncateArrayList(List<Integer> arrayList, int len) {
-    	int size = arrayList.size();
-    	arrayList.subList(len, size).clear();
+        int size = arrayList.size();
+        arrayList.subList(len, size).clear();
     }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        if (length < 2) return;
+        if (length < 2)
+            return;
 
         PDQBranchedSort pdqSort = new PDQBranchedSort(arrayVisualizer);
         List<Integer> dropped = Writes.createArrayList(length);
@@ -87,50 +79,52 @@ public final class DropMergeSort extends Sort {
                 Writes.write(array, write++, array[read++], 1, true, false);
                 num_dropped_in_a_row = 0;
             } else {
-              if (num_dropped_in_a_row == 0 && write >= 2 && Reads.compareIndices(array, read, write - 2, 0, false) >= 0) {
-                  // Quick undo: drop previously accepted element, and overwrite with new one
-                  Writes.arrayListAdd(dropped, array[write - 1], false, 0);
-                  Writes.write(array, write - 1, array[read++], 1, true, false);
-                  continue;
-              }
+                if (num_dropped_in_a_row == 0 && write >= 2
+                        && Reads.compareIndices(array, read, write - 2, 0, false) >= 0) {
+                    // Quick undo: drop previously accepted element, and overwrite with new one
+                    Writes.arrayListAdd(dropped, array[write - 1], false, 0);
+                    Writes.write(array, write - 1, array[read++], 1, true, false);
+                    continue;
+                }
 
-              if (num_dropped_in_a_row < RECENCY) {
-                  Writes.arrayListAdd(dropped, array[read++], false, 0);
-                  Delays.sleep(1);
-                  num_dropped_in_a_row++;
-              } else {
-                  //We accepted something num_dropped_in_row elements back that made us drop all RECENCY subsequent items.
-                  //Accepting that element was obviously a mistake - so let's undo it!
+                if (num_dropped_in_a_row < RECENCY) {
+                    Writes.arrayListAdd(dropped, array[read++], false, 0);
+                    Delays.sleep(1);
+                    num_dropped_in_a_row++;
+                } else {
+                    // We accepted something num_dropped_in_row elements back that made us drop all
+                    // RECENCY subsequent items.
+                    // Accepting that element was obviously a mistake - so let's undo it!
 
-                  // Undo dropping the last num_dropped_in_row elements:
-                  int trunc_to_length = dropped.size() - num_dropped_in_a_row;
-                  truncateArrayList(dropped, trunc_to_length);
-                  read -= num_dropped_in_a_row;
+                    // Undo dropping the last num_dropped_in_row elements:
+                    int trunc_to_length = dropped.size() - num_dropped_in_a_row;
+                    truncateArrayList(dropped, trunc_to_length);
+                    read -= num_dropped_in_a_row;
 
-                  int num_backtracked = 1;
-                  write--;
+                    int num_backtracked = 1;
+                    write--;
 
-                  int max_of_dropped = read;
-                  for (int i = read + 1; i <= read + num_dropped_in_a_row; i++) {
-                      if (Reads.compareValues(array[i], max_of_dropped) == 1) {
-                          max_of_dropped = array[i];
-                      }
-                  }
+                    int max_of_dropped = read;
+                    for (int i = read + 1; i <= read + num_dropped_in_a_row; i++) {
+                        if (Reads.compareValues(array[i], max_of_dropped) == 1) {
+                            max_of_dropped = array[i];
+                        }
+                    }
 
-                  while (write >= 1 && Reads.compareValues(max_of_dropped, array[write - 1]) == -1) {
-                      Highlights.markArray(1, --write);
-                      Delays.sleep(1);
-                      num_backtracked++;
-                  }
+                    while (write >= 1 && Reads.compareValues(max_of_dropped, array[write - 1]) == -1) {
+                        Highlights.markArray(1, --write);
+                        Delays.sleep(1);
+                        num_backtracked++;
+                    }
 
-                  for (int i = write; i < write + num_backtracked; i++) {
-                      Highlights.markArray(1, i);
-                      Writes.arrayListAdd(dropped, array[i], true, 0);
-                      Delays.sleep(1);
-                  }
+                    for (int i = write; i < write + num_backtracked; i++) {
+                        Highlights.markArray(1, i);
+                        Writes.arrayListAdd(dropped, array[i], true, 0);
+                        Delays.sleep(1);
+                    }
 
-                  num_dropped_in_a_row = 0;
-              }
+                    num_dropped_in_a_row = 0;
+                }
             }
         }
 
@@ -141,7 +135,6 @@ public final class DropMergeSort extends Sort {
         }
 
         pdqSort.customSort(array, write, length);
-
 
         int[] buffer = Writes.createExternalArray(dropped.size());
 

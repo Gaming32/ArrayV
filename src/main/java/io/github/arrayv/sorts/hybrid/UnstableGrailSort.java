@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.UnstableGrailSorting;
 
 /*
@@ -46,22 +47,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* use GrailSortWithDynBuffer()                          */
 /*                                                       */
 /*********************************************************/
-
+@SortMeta(name = "Unstable Grail")
 public final class UnstableGrailSort extends UnstableGrailSorting {
     public UnstableGrailSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Unstable Grail");
-        //this.setRunAllID("Grail Sort (Block Merge Sort)");
-        //this.setRunAllSortsName("Grail Sort [Block Merge Sort]");
-        this.setRunAllSortsName("Unstable Grailsort");
-        this.setRunSortName("Unstable Grailsort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

@@ -32,45 +32,38 @@ public abstract class BinaryQuickSorting extends Sort {
         public int r;
         public int bit;
 
-        public Task(int p, int r, int bit)
-        {
+        public Task(int p, int r, int bit) {
             this.p = p;
             this.r = r;
             this.bit = bit;
         }
     }
 
-    public void binaryQuickSortRecursive(int[] array, int p, int r, int bit)
-    {
-        if (p < r && bit >= 0)
-        {
+    public void binaryQuickSortRecursive(int[] array, int p, int r, int bit) {
+        if (p < r && bit >= 0) {
             int q = partition(array, p, r, bit);
             Delays.sleep(1);
-            binaryQuickSortRecursive(array, p, q, bit-1);
-            binaryQuickSortRecursive(array, q+1, r, bit-1);
+            binaryQuickSortRecursive(array, p, q, bit - 1);
+            binaryQuickSortRecursive(array, q + 1, r, bit - 1);
         }
     }
 
-    public void binaryQuickSort(int[] array, int p, int r, int bit)
-    {
+    public void binaryQuickSort(int[] array, int p, int r, int bit) {
         Queue<Task> tasks = new LinkedList<>();
         tasks.add(new Task(p, r, bit));
 
-        while (tasks.isEmpty() == false)
-        {
+        while (tasks.isEmpty() == false) {
             Task task = tasks.remove();
-            if (task.p < task.r && task.bit >= 0)
-            {
+            if (task.p < task.r && task.bit >= 0) {
                 int q = partition(array, task.p, task.r, task.bit);
                 Delays.sleep(1);
-                tasks.add(new Task(task.p, q, task.bit-1));
-                tasks.add(new Task(q+1, task.r, task.bit-1));
+                tasks.add(new Task(task.p, q, task.bit - 1));
+                tasks.add(new Task(q + 1, task.r, task.bit - 1));
             }
         }
     }
 
-    public int partition(int[] array, int p, int r, int bit)
-    {
+    public int partition(int[] array, int p, int r, int bit) {
         int i = p - 1;
         int j = r + 1;
 
@@ -79,14 +72,14 @@ public abstract class BinaryQuickSorting extends Sort {
         while (true) {
             // Left is not set
             i++;
-            while(i <= r && !Reads.getBit(array[i], bit)) {
+            while (i <= r && !Reads.getBit(array[i], bit)) {
                 i++;
                 Highlights.markArray(1, i);
                 Delays.sleep(0.45);
             }
             // Right is set
             j--;
-            while(j >= p && Reads.getBit(array[j], bit)) {
+            while (j >= p && Reads.getBit(array[j], bit)) {
                 j--;
                 Highlights.markArray(2, j);
                 Delays.sleep(0.45);

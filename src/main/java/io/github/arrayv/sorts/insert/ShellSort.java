@@ -1,24 +1,15 @@
 package io.github.arrayv.sorts.insert;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.ShellSorting;
 
 // Shell sort variant retrieved from:
 // https://www.cs.princeton.edu/~rs/talks/shellsort.ps
-
+@SortMeta(name = "Shell")
 public final class ShellSort extends ShellSorting {
     public ShellSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Shell");
-        this.setRunAllSortsName("Shell Sort");
-        this.setRunSortName("Shellsort");
-        this.setCategory("Insertion Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     public void finishQuickShell(int[] array, int currentLen) {

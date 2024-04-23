@@ -1,9 +1,10 @@
 /**
  *
  */
-package io.github.arrayv.sorts.exchange;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /**
@@ -11,6 +12,7 @@ import io.github.arrayv.sorts.templates.Sort;
  * @author EilrahcF
  *
  */
+@SortMeta(name = "Quad Stooge", slowSort = true, unreasonableLimit = 2048)
 public final class QuadStoogeSort extends Sort {
 
 	/**
@@ -18,15 +20,6 @@ public final class QuadStoogeSort extends Sort {
 	 */
 	public QuadStoogeSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		setSortListName("Quad Stooge");
-		setRunAllSortsName("Quad Stooge Sort");
-		setRunSortName("Quad Stoogesort");
-		setCategory("Impractical Sorts");
-		setBucketSort(false);
-		setRadixSort(false);
-		setUnreasonablySlow(true);
-		setUnreasonableLimit(2048);
-		setBogoSort(false);
 
 	}
 

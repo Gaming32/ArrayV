@@ -35,17 +35,16 @@ For more information, please refer to <http://unlicense.org>
  *
  */
 
-@SortMeta(
-    name = "Wiki",
-    category = "Hybrid Sorts",
-    question = "Enter external buffer size (0 for in-place):",
-    defaultAnswer = 0
-)
+@SortMeta(name = "Wiki", question = "Enter external buffer size (0 for in-place):", defaultAnswer = 0)
 public class WikiSort extends Sort {
-    private WikiSorting wikiSortInstance; // Just like TimSort, WikiSort cannot be simply written off as an abstract class, as it creates an
-                                          // instance of itself in order to track its state. Plus, it contains both instance and static methods,
-                                          // requiring even more refactoring, which would be just doing unnecessary busy work. Instead of what
-                                          // we've done for the rest of the algorithms, we'll favor composition over inheritance here and pass
+    private WikiSorting wikiSortInstance; // Just like TimSort, WikiSort cannot be simply written off as an abstract
+                                          // class, as it creates an
+                                          // instance of itself in order to track its state. Plus, it contains both
+                                          // instance and static methods,
+                                          // requiring even more refactoring, which would be just doing unnecessary busy
+                                          // work. Instead of what
+                                          // we've done for the rest of the algorithms, we'll favor composition over
+                                          // inheritance here and pass
                                           // "util" objects to it.
 
     private InsertionSort insertionSort;
@@ -53,7 +52,8 @@ public class WikiSort extends Sort {
     // Cache sizes for WikiSort
 
     // final private static int halfSize = (currentLen + 1) / 2;
-    // final private static int squareRoot = (int) (Math.sqrt((currentLen + 1) / 2) + 1);
+    // final private static int squareRoot = (int) (Math.sqrt((currentLen + 1) / 2)
+    // + 1);
     // final private static int staticBuffer = 32;
     // final private static int noBuffer = 0;
 

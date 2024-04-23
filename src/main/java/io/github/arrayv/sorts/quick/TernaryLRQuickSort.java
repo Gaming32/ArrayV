@@ -6,14 +6,10 @@ import io.github.arrayv.sorts.templates.Sort;
 
 /**
  * @author Timo Bingmann
- * Implemented in ArrayV by Gaming32
- * https://github.com/bingmann/sound-of-sorting/blob/master/src/SortAlgo.cpp#L449-L534
+ *         Implemented in ArrayV by Gaming32
+ *         https://github.com/bingmann/sound-of-sorting/blob/master/src/SortAlgo.cpp#L449-L534
  */
-@SortMeta(
-    listName = "Ternary LR Quick",
-    showcaseName = "Quick Sort (ternary, LR ptrs)",
-    runName = "Quicksort (ternary, LR ptrs)"
-)
+@SortMeta(listName = "Ternary LR Quick", runName = "Quicksort (ternary, LR ptrs)")
 public final class TernaryLRQuickSort extends Sort {
     public TernaryLRQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -33,12 +29,13 @@ public final class TernaryLRQuickSort extends Sort {
             return hi - 1;
 
         return compare(A, lo, mid) < 0
-            ? (compare(A, mid, hi - 1) < 0 ? mid : (compare(A, lo, hi - 1) < 0 ? hi - 1 : lo))
-            : (compare(A, mid, hi - 1) > 0 ? mid : (compare(A, lo, hi - 1) < 0 ? lo : hi - 1));
+                ? (compare(A, mid, hi - 1) < 0 ? mid : (compare(A, lo, hi - 1) < 0 ? hi - 1 : lo))
+                : (compare(A, mid, hi - 1) > 0 ? mid : (compare(A, lo, hi - 1) < 0 ? lo : hi - 1));
     }
 
     private void quickSortTernaryLR(int[] A, int lo, int hi) {
-        if (hi <= lo) return;
+        if (hi <= lo)
+            return;
 
         int cmp;
 
@@ -71,7 +68,8 @@ public final class TernaryLRQuickSort extends Sort {
                 Highlights.markArray(3, j);
             }
 
-            if (i > j) break;
+            if (i > j)
+                break;
 
             Writes.swap(A, i++, j--, 1, true, false);
             Highlights.markArray(3, j);
@@ -82,7 +80,8 @@ public final class TernaryLRQuickSort extends Sort {
         int num_less = i - p;
         int num_greater = q - j;
 
-        j = i - 1; i = i + 1;
+        j = i - 1;
+        i = i + 1;
         Highlights.markArray(3, i);
 
         int pe = lo + Math.min(p - lo, num_less);

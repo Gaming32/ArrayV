@@ -29,24 +29,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-@SortMeta(
-    name = "Comb",
-    category = "Exchange Sorts",
-    question = "Enter shrink factor (input/100):",
-    defaultAnswer = 130
-)
+@SortMeta(name = "Comb", question = "Enter shrink factor (input/100):", defaultAnswer = 130)
 public final class CombSort extends CombSorting {
     public CombSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }
 
     public static int validateAnswer(int answer) {
-        if (answer < 110) return 130;
+        if (answer < 110)
+            return 130;
         return answer;
     }
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-        this.combSort(array, sortLength, bucketCount/100d, false);
+        this.combSort(array, sortLength, bucketCount / 100d, false);
     }
 }

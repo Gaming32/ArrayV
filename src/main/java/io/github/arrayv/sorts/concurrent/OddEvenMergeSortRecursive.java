@@ -12,11 +12,7 @@ import io.github.arrayv.sorts.templates.Sort;
  * work for array lengths other than powers of two!
  */
 
-@SortMeta(
-    name = "Recursive Odd-Even Merge",
-    listName = "Odd-Even Merge (Recursive)",
-    showcaseName = "Batcher's Odd-Even Merge Sort"
-)
+@SortMeta(runName = "Recursive Odd-Even Merge Sorting Network", listName = "Odd-Even Merge (Recursive)")
 public final class OddEvenMergeSortRecursive extends Sort {
     public OddEvenMergeSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -27,37 +23,35 @@ public final class OddEvenMergeSortRecursive extends Sort {
             Writes.swap(array, i, j, 0.5, true, false);
     }
 
-    /** lo is the starting position,
-     *  m2 is the halfway point, and
-     *  n is the length of the piece to be merged,
-     *  r is the distance of the elements to be compared
+    /**
+     * lo is the starting position,
+     * m2 is the halfway point, and
+     * n is the length of the piece to be merged,
+     * r is the distance of the elements to be compared
      */
     private void oddEvenMerge(int[] array, int lo, int m2, int n, int r) {
         int m = r * 2;
         if (m < n) {
-            if((n/r)%2 != 0){
-                oddEvenMerge(array, lo, (m2+1)/2, n+r, m);      // even subsequence
-                oddEvenMerge(array, lo+r, m2/2, n-r, m);    // odd subsequence
-            }
-            else{
-                oddEvenMerge(array, lo, (m2+1)/2, n, m);      // even subsequence
-                oddEvenMerge(array, lo+r, m2/2, n, m);    // odd subsequence
+            if ((n / r) % 2 != 0) {
+                oddEvenMerge(array, lo, (m2 + 1) / 2, n + r, m); // even subsequence
+                oddEvenMerge(array, lo + r, m2 / 2, n - r, m); // odd subsequence
+            } else {
+                oddEvenMerge(array, lo, (m2 + 1) / 2, n, m); // even subsequence
+                oddEvenMerge(array, lo + r, m2 / 2, n, m); // odd subsequence
             }
 
-            if(m2%2 != 0){
+            if (m2 % 2 != 0) {
                 for (int i = lo; i + r < lo + n; i += m) {
                     oddEvenMergeCompare(array, i, i + r);
                 }
-            }
-            else{
+            } else {
                 for (int i = lo + r; i + r < lo + n; i += m) {
                     oddEvenMergeCompare(array, i, i + r);
                 }
             }
-        }
-        else {
-            if(n > r){
-                oddEvenMergeCompare(array, lo, lo+r);
+        } else {
+            if (n > r) {
+                oddEvenMergeCompare(array, lo, lo + r);
             }
         }
     }
@@ -66,7 +60,7 @@ public final class OddEvenMergeSortRecursive extends Sort {
         if (n > 1) {
             int m = n / 2;
             oddEvenMergeSort(array, lo, m);
-            oddEvenMergeSort(array, lo + m, n-m);
+            oddEvenMergeSort(array, lo + m, n - m);
             oddEvenMerge(array, lo, m, n, 1);
         }
     }

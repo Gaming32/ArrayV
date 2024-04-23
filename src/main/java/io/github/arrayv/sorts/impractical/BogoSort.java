@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /*
@@ -32,24 +33,15 @@ SOFTWARE.
 /**
  * Bogosort randomly shuffles the array until it is sorted.
  */
+@SortMeta(name = "Bogo", slowSort = true, bogoSort = true, unreasonableLimit = 10)
 public final class BogoSort extends BogoSorting {
     public BogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Bogo");
-        this.setRunAllSortsName("Bogo Sort");
-        this.setRunSortName("Bogosort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(10);
-        this.setBogoSort(true);
     }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        while(!this.isArraySorted(array, length))
+        while (!this.isArraySorted(array, length))
             this.bogoSwap(array, 0, length, false);
     }
 }

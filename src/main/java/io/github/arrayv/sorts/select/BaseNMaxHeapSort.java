@@ -4,13 +4,7 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
-@SortMeta(
-    name = "Base-N Max Heap",
-    category = "Selection Sorts",
-    showcaseName = "Base-N Max Heap Sort, Base 4",
-    question = "Enter the base for this sort:",
-    defaultAnswer = 4
-)
+@SortMeta(name = "Base-N Max Heap", question = "Enter the base for this sort:", defaultAnswer = 4)
 public final class BaseNMaxHeapSort extends Sort {
     public BaseNMaxHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

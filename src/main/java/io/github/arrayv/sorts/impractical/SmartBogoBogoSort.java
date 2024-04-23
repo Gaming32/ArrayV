@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /*
@@ -29,40 +30,37 @@ SOFTWARE.
  *
  */
 
-/*
- * The original Selection Bogosort algorithm was created and implemented by fluffyyboii.
- * However, the original implementation seems to never have been added,
- * and this version makes it more concise with some helper methods.
- */
-
 /**
- * Selection Bogosort is like Selection Sort,
- * but it randomly swaps an element out of the remaining unsorted elements
- * to the front of them until it is the smallest.
- * <p>
- * Selection Bogosort can also be viewed as an optimized variation of Less Bogosort.
+ * Smart Bogobogosort is like bogosort, but it makes the observation that
+ * the sorted copy produced to check if the array is sorted, is sorted.
+ * This is then simplified so that no copy of the array is needed.
+ * <ul>
+ * <li>All but the last element of the array are sorted using Bogobogosort.
+ * <li>If the last element of the sorted section is no greater than the last
+ * element of the array,
+ * then the copy is sorted. Otherwise, the array is shuffled and the process is
+ * repeated.
+ * </ul>
  */
-public final class SelectionBogoSort extends BogoSorting {
-    public SelectionBogoSort(ArrayVisualizer arrayVisualizer) {
+@SortMeta(name = "Smart BogoBogo", slowSort = true, bogoSort = true, unreasonableLimit = 11)
+public final class SmartBogoBogoSort extends BogoSorting {
+    public SmartBogoBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
+    }
 
-        this.setSortListName("Selection Bogo");
-        this.setRunAllSortsName("Selection Bogo Sort");
-        this.setRunSortName("Selection Bogosort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(4096);
-        this.setBogoSort(true);
+    private void smartBogoBogo(int[] array, int length) {
+        if (length == 1)
+            return;
+
+        smartBogoBogo(array, length - 1);
+        while (Reads.compareIndices(array, length - 2, length - 1, this.delay, true) > 0) {
+            this.bogoSwap(array, 0, length, false);
+            smartBogoBogo(array, length - 1);
+        }
     }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        for (int i = 0; i < length; ++i) {
-            while (!this.isMinSorted(array, i, length))
-                Writes.swap(array, i, BogoSorting.randInt(i, length), this.delay, true, false);
-            Highlights.markArray(3, i);
-        }
+        smartBogoBogo(array, length);
     }
 }

@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /*
@@ -33,23 +34,14 @@ SOFTWARE.
  * Merge Bogosort is like Merge Sort, but when merging,
  * it randomly weaves the two subarrays together until they are sorted.
  */
+@SortMeta(name = "Merge Bogo", slowSort = true, bogoSort = true, unreasonableLimit = 22)
 public final class MergeBogoSort extends BogoSorting {
     public MergeBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Merge Bogo");
-        this.setRunAllSortsName("Merge Bogo Sort");
-        this.setRunSortName("Merge Bogosort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(22);
-        this.setBogoSort(true);
     }
 
     private void bogoWeave(int[] array, int[] tmp, int start, int mid, int end) {
-        this.bogoCombo(array, start, end, end-mid, false);
+        this.bogoCombo(array, start, end, end - mid, false);
 
         int low = start;
         int high = mid;
@@ -63,13 +55,14 @@ public final class MergeBogoSort extends BogoSorting {
     }
 
     private void mergeBogo(int[] array, int[] tmp, int start, int end) {
-        if (start >= end-1) return;
+        if (start >= end - 1)
+            return;
 
-        int mid = (start+end)/2;
+        int mid = (start + end) / 2;
         mergeBogo(array, tmp, start, mid);
         mergeBogo(array, tmp, mid, end);
 
-        Writes.arraycopy(array, start, tmp, start, end-start, this.delay, true, true);
+        Writes.arraycopy(array, start, tmp, start, end - start, this.delay, true, true);
 
         while (!this.isRangeSorted(array, start, end))
             bogoWeave(array, tmp, start, mid, end);

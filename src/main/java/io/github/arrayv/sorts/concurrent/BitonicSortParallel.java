@@ -4,15 +4,11 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
-@SortMeta(
-    name = "Parallel Bitonic",
-    listName = "Bitonic (Parallel)",
-    runName = "Parallel Bitonic Sort",
-    unreasonableLimit = 4096
-)
+@SortMeta(listName = "Bitonic (Parallel)", runName = "Parallel Bitonic Sorting Network", unreasonableLimit = 4096)
 public final class BitonicSortParallel extends Sort {
     private int[] arr;
     private final double DELAY = 1;
+
     public BitonicSortParallel(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }
@@ -20,11 +16,14 @@ public final class BitonicSortParallel extends Sort {
     private class SortThread extends Thread {
         private int start, stop;
         private boolean ascending;
+
         SortThread(int start, int stop, boolean ascending) {
             this.start = start;
             this.stop = stop;
             this.ascending = ascending;
         }
+
+        @Override
         public void run() {
             BitonicSortParallel.this.bitonicSort(this.start, this.stop, this.ascending);
         }
@@ -32,6 +31,7 @@ public final class BitonicSortParallel extends Sort {
 
     private class MergeThread extends Thread {
         private int start, mid, stop, gap, flag;
+
         MergeThread(int start, int mid, int stop, int gap, int flag) {
             this.start = start;
             this.mid = mid;
@@ -39,6 +39,8 @@ public final class BitonicSortParallel extends Sort {
             this.gap = gap;
             this.flag = flag;
         }
+
+        @Override
         public void run() {
             BitonicSortParallel.this.bitonicMerge(this.start, this.mid, this.stop, this.gap, this.flag);
         }
@@ -50,10 +52,10 @@ public final class BitonicSortParallel extends Sort {
                 if (Reads.compareIndices(arr, i, i + gap, DELAY, true) == flag)
                     Writes.swap(arr, i, i + gap, DELAY, true, false);
             int newGap = gap / 2;
-                MergeThread left = new MergeThread(start, (mid - start) / 2 + start, mid, newGap, flag);
-                MergeThread right = new MergeThread(mid, (stop - mid) / 2 + mid, stop, newGap, flag);
-                left.start();
-                right.start();
+            MergeThread left = new MergeThread(start, (mid - start) / 2 + start, mid, newGap, flag);
+            MergeThread right = new MergeThread(mid, (stop - mid) / 2 + mid, stop, newGap, flag);
+            left.start();
+            right.start();
             try {
                 left.join();
                 right.join();
@@ -68,10 +70,10 @@ public final class BitonicSortParallel extends Sort {
         if (length >= 2) {
             int gap = length / 2;
             int mid = gap + start;
-                SortThread left = new SortThread(start, mid, !ascending);
-                SortThread right = new SortThread(mid, stop, ascending);
-                left.start();
-                right.start();
+            SortThread left = new SortThread(start, mid, !ascending);
+            SortThread right = new SortThread(mid, stop, ascending);
+            left.start();
+            right.start();
             try {
                 left.join();
                 right.join();

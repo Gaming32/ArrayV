@@ -50,6 +50,7 @@ public abstract class BogoSorting extends Sort {
 
     /**
      * Constructs a new instance of this sort.
+     * 
      * @param arrayVisualizer the Array Visualizer instance
      */
     protected BogoSorting(ArrayVisualizer arrayVisualizer) {
@@ -58,6 +59,7 @@ public abstract class BogoSorting extends Sort {
 
     /**
      * Gets the length of each delay, in milliseconds.
+     * 
      * @return the length of delay
      */
     public double getDelay() {
@@ -66,6 +68,7 @@ public abstract class BogoSorting extends Sort {
 
     /**
      * Sets the length of each delay, in milliseconds.
+     * 
      * @param delay the length of delay
      */
     public void setDelay(double delay) {
@@ -76,7 +79,7 @@ public abstract class BogoSorting extends Sort {
      * Returns a random {@code int} value in the range {@code [start, end)}.
      *
      * @param start the start of the range, inclusive
-     * @param end the end of the range, exclusive
+     * @param end   the end of the range, exclusive
      * @return a random {@code int} value within the range
      */
     protected static int randInt(int start, int end) {
@@ -99,30 +102,31 @@ public abstract class BogoSorting extends Sort {
      *
      * @param array the array
      * @param start the start of the range, inclusive
-     * @param end the end of the range, exclusive
-     * @param aux whether the array is auxililary
+     * @param end   the end of the range, exclusive
+     * @param aux   whether the array is auxililary
      */
-    protected void bogoSwap(int[] array, int start, int end, boolean aux){
+    protected void bogoSwap(int[] array, int start, int end, boolean aux) {
         for (int i = start; i < end; ++i)
             Writes.swap(array, i, BogoSorting.randInt(i, end), this.delay, true, aux);
     }
 
     /**
      * Sets a random combination of {@code size} elements
-     * in the range {@code [start, end)} of {@code array} to {@code 1}, and the rest to {@code 0}.
+     * in the range {@code [start, end)} of {@code array} to {@code 1}, and the rest
+     * to {@code 0}.
      *
      * @param array the array
      * @param start the start of the range, inclusive
-     * @param end the end of the range, exclusive
-     * @param size the number of elements to set to 1
-     * @param aux whether the array is auxililary
+     * @param end   the end of the range, exclusive
+     * @param size  the number of elements to set to 1
+     * @param aux   whether the array is auxililary
      */
     protected void bogoCombo(int[] array, int start, int end, int size, boolean aux) {
         for (int i = start; i < end; ++i)
             Writes.write(array, i, 0, this.delay, true, aux);
 
-        for (int i = end-size; i < end; ++i) {
-            int j = BogoSorting.randInt(start, i+1);
+        for (int i = end - size; i < end; ++i) {
+            int j = BogoSorting.randInt(start, i + 1);
             Highlights.markArray(1, j);
             Delays.sleep(this.delay);
             Writes.write(array, Reads.compareValues(array[j], 0) == 0 ? j : i, 1, this.delay, true, aux);
@@ -132,17 +136,18 @@ public abstract class BogoSorting extends Sort {
     /**
      * Checks if the range {@code [start, end)} of {@code array} is sorted.
      *
-     * @param array the array
-     * @param start the start of the range, inclusive
-     * @param end the end of the range, exclusive
-     * @param mark whether to mark each comparison
+     * @param array    the array
+     * @param start    the start of the range, inclusive
+     * @param end      the end of the range, exclusive
+     * @param mark     whether to mark each comparison
      * @param markLast whether to mark the element that is not sorted
      * @return whether the range is sorted
      */
     protected boolean isRangeSorted(int[] array, int start, int end, boolean mark, boolean markLast) {
         for (int i = start; i < end - 1; ++i) {
             if (Reads.compareIndices(array, i, i + 1, this.delay, mark) > 0) {
-                if (markLast) Highlights.markArray(3, i + 1);
+                if (markLast)
+                    Highlights.markArray(3, i + 1);
                 return false;
             }
         }
@@ -152,14 +157,14 @@ public abstract class BogoSorting extends Sort {
     /**
      * Checks if the range {@code [start, end)} of {@code array} is sorted.
      * <ul>
-     *     <li>{@code mark} defaults to {@code true}.
-     *     <li>{@code markLast} defaults to {@code false}.
+     * <li>{@code mark} defaults to {@code true}.
+     * <li>{@code markLast} defaults to {@code false}.
      * </ul>
      * <br>
      *
      * @param array the array
      * @param start the start of the range, inclusive
-     * @param end the end of the range, exclusive
+     * @param end   the end of the range, exclusive
      * @return whether the range is sorted
      *
      * @see #isRangeSorted(int[], int, int, boolean, boolean)
@@ -170,9 +175,10 @@ public abstract class BogoSorting extends Sort {
 
     /**
      * Checks if {@code array} is sorted.
-     * This can also be used to check if a prefix of length {@code length} of {@code array} is sorted.
+     * This can also be used to check if a prefix of length {@code length} of
+     * {@code array} is sorted.
      *
-     * @param array the array
+     * @param array  the array
      * @param length the length of the array or prefix
      * @return whether the array or prefix is sorted
      */
@@ -181,15 +187,17 @@ public abstract class BogoSorting extends Sort {
     }
 
     /**
-     * Checks if the range {@code [start, end)} of {@code array} is partitioned around index {@code pivot}.
+     * Checks if the range {@code [start, end)} of {@code array} is partitioned
+     * around index {@code pivot}.
      * <p>
-     * <i>Partitioned</i> means that every element before {@code pivot} is no greater than the value of {@code pivot},
+     * <i>Partitioned</i> means that every element before {@code pivot} is no
+     * greater than the value of {@code pivot},
      * and every element after is no less.
      *
      * @param array the array
      * @param start the start of the range, inclusive
      * @param pivot the index of the pivot
-     * @param end the end of the range, exclusive
+     * @param end   the end of the range, exclusive
      * @return whether the range is partitioned
      */
     protected boolean isRangePartitioned(int[] array, int start, int pivot, int end) {
@@ -205,11 +213,12 @@ public abstract class BogoSorting extends Sort {
     }
 
     /**
-     * Checks if the first element in the range {@code [start, end)} of {@code array} is a minimum.
+     * Checks if the first element in the range {@code [start, end)} of
+     * {@code array} is a minimum.
      *
      * @param array the array
      * @param start the start of the range, inclusive
-     * @param end the end of the range, exclusive
+     * @param end   the end of the range, exclusive
      * @return whether the first element is a minimum
      */
     protected boolean isMinSorted(int[] array, int start, int end) {
@@ -217,33 +226,36 @@ public abstract class BogoSorting extends Sort {
     }
 
     /**
-     * Checks if the last element in the range {@code [start, end)} of {@code array} is a maximum.
+     * Checks if the last element in the range {@code [start, end)} of {@code array}
+     * is a maximum.
      *
      * @param array the array
      * @param start the start of the range, inclusive
-     * @param end the end of the range, exclusive
+     * @param end   the end of the range, exclusive
      * @return whether the last element is a maximum
      */
     protected boolean isMaxSorted(int[] array, int start, int end) {
-        return isRangePartitioned(array, start, end-1, end);
+        return isRangePartitioned(array, start, end - 1, end);
     }
 
     /**
-     * Checks if the elements in the range {@code [start, end)} of {@code array} are split by {@code mid},
+     * Checks if the elements in the range {@code [start, end)} of {@code array} are
+     * split by {@code mid},
      * where the {@code mid} itself belongs to the ending side of the array.
      * <p>
-     * <i>Split</i> means that all elements in range {@code [start, mid)} are no greater than those in range {@code [mid, end)}.
+     * <i>Split</i> means that all elements in range {@code [start, mid)} are no
+     * greater than those in range {@code [mid, end)}.
      *
      * @param array the array
      * @param start the start of the range, inclusive
-     * @param mid the index where range is split
-     * @param end the end of the range, exclusive
+     * @param mid   the index where range is split
+     * @param end   the end of the range, exclusive
      * @return whether the range is split
      */
     protected boolean isRangeSplit(int[] array, int start, int mid, int end) {
         Highlights.markArray(1, start);
         int lowMax = array[start];
-        for (int i = start+1; i < mid; ++i) {
+        for (int i = start + 1; i < mid; ++i) {
             Highlights.markArray(1, i);
             Delays.sleep(this.delay);
             if (Reads.compareValues(lowMax, array[i]) < 0)

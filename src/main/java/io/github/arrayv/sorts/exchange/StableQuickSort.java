@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.utils.ArrayVList;
 
@@ -29,28 +30,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Stable Quick")
 public final class StableQuickSort extends Sort {
     private int length;
 
     public StableQuickSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Stable Quick");
-        this.setRunAllSortsName("Stable Quick Sort");
-        this.setRunSortName("Stable Quicksort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     // Author: Rodney Shaghoulian
     // Github: github.com/RodneyShag
 
-    private void copy(ArrayVList list, int [] array, int startIndex) {
+    private void copy(ArrayVList list, int[] array, int startIndex) {
         for (int num : list) {
             Writes.write(array, startIndex++, num, 0.25, false, false);
             Highlights.markArray(1, startIndex);
@@ -59,21 +50,20 @@ public final class StableQuickSort extends Sort {
 
     /* Partition/Quicksort "Stable Sort" version using O(n) space */
     private int stablePartition(int[] array, int start, int end) {
-        int pivotValue = array[start]; //poor pivot choice
+        int pivotValue = array[start]; // poor pivot choice
         Highlights.markArray(3, start);
 
-        ArrayVList leftList  = Writes.createArrayList(this.length);
+        ArrayVList leftList = Writes.createArrayList(this.length);
         ArrayVList rightList = Writes.createArrayList(this.length);
 
-        for (int i = start + 1 ; i <= end; i++) {
+        for (int i = start + 1; i <= end; i++) {
             Highlights.markArray(1, i);
 
             if (Reads.compareValues(array[i], pivotValue) == -1) {
                 // Writes.mockWrite(end - start, leftList.size(), array[i], 0.25);
                 // Writes.arrayListAdd(leftList, array[i]);
                 leftList.add(array[i], 0.25, false);
-            }
-            else {
+            } else {
                 // Writes.mockWrite(end - start, rightList.size(), array[i], 0.25);
                 // Writes.arrayListAdd(rightList, array[i]);
                 rightList.add(array[i], 0.25, false);
@@ -96,7 +86,7 @@ public final class StableQuickSort extends Sort {
         return newPivotIndex;
     }
 
-    private void stableQuickSort(int [] array, int start, int end) {
+    private void stableQuickSort(int[] array, int start, int end) {
         if (start < end) {
             int pivotIndex = this.stablePartition(array, start, end);
             this.stableQuickSort(array, start, pivotIndex - 1);

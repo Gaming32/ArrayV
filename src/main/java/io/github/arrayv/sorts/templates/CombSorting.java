@@ -41,28 +41,25 @@ public abstract class CombSorting extends Sort {
         boolean swapped = false;
         int gap = length;
 
-        while ((gap > 1) || swapped)
-        {
+        while ((gap > 1) || swapped) {
             Highlights.clearMark(2);
 
             if (gap > 1) {
                 gap = (int) (gap / shrink);
-                //ArrayVisualizer.setCurrentGap(gap);
+                // ArrayVisualizer.setCurrentGap(gap);
             }
 
             swapped = false;
 
-            for (int i = 0; (gap + i) < length; ++i)
-            {
-                if(hybrid && (gap <= Math.min(8, length * 0.03125))) {
+            for (int i = 0; (gap + i) < length; ++i) {
+                if (hybrid && (gap <= Math.min(8, length * 0.03125))) {
                     gap = 0;
 
                     insertSorter.customInsertSort(array, 0, length, 0.5, false);
                     break;
                 }
-                if (Reads.compareValues(array[i], array[i + gap]) == 1)
-                {
-                    Writes.swap(array, i, i+gap, 0.75, true, false);
+                if (Reads.compareValues(array[i], array[i + gap]) == 1) {
+                    Writes.swap(array, i, i + gap, 0.75, true, false);
                     swapped = true;
                 }
                 Highlights.markArray(1, i);

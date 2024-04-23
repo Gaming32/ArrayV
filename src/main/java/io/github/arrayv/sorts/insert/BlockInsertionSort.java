@@ -1,24 +1,17 @@
 package io.github.arrayv.sorts.insert;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.GrailSorting;
 import io.github.arrayv.utils.Rotations;
 
+@SortMeta(name = "Block Insertion")
 public final class BlockInsertionSort extends GrailSorting {
     public BlockInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Block Insertion");
-        this.setRunAllSortsName("Block Insertion Sort");
-        this.setRunSortName("Block Insertsort");
-        this.setCategory("Insertion Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
+    @Override
     protected void grailRotate(int[] array, int pos, int lenA, int lenB) {
         Rotations.holyGriesMills(array, pos, lenA, lenB, 1, true, false);
     }
@@ -51,11 +44,13 @@ public final class BlockInsertionSort extends GrailSorting {
         int i = a + 1;
         if (i == b)
             return i;
-        if(Reads.compareIndices(array, i - 1, i++, 1, true) == 1) {
-            while(i < b && Reads.compareIndices(array, i - 1, i, 1, true) == 1) i++;
+        if (Reads.compareIndices(array, i - 1, i++, 1, true) == 1) {
+            while (i < b && Reads.compareIndices(array, i - 1, i, 1, true) == 1)
+                i++;
             Writes.reversal(array, a, i - 1, 1, true, false);
-        }
-        else while(i < b && Reads.compareIndices(array, i - 1, i, 1, true) <= 0) i++;
+        } else
+            while (i < b && Reads.compareIndices(array, i - 1, i, 1, true) <= 0)
+                i++;
         Highlights.clearMark(2);
         return i;
     }

@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.distribute;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,78 +29,70 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Rotate LSD Radix", bucketSort = true, radixSort = true)
 public final class RotateLSDRadixSort extends Sort {
-    public RotateLSDRadixSort(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-
-        this.setSortListName("Rotate LSD Radix");
-        this.setRunAllSortsName("Rotate LSD Radix Sort, Base 4");
-        this.setRunSortName("Rotate LSD Radixsort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(true);
-        this.setRadixSort(true);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
-    }
+	public RotateLSDRadixSort(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+	}
 
 	private int base;
 
 	private void multiSwap(int[] array, int a, int b, int len) {
-		for(int i = 0; i < len; i++)
-			Writes.swap(array, a+i, b+i, 0.5, true, false);
+		for (int i = 0; i < len; i++)
+			Writes.swap(array, a + i, b + i, 0.5, true, false);
 	}
 
-    private void rotate(int[] array, int a, int m, int b) {
-        int l = m-a, r = b-m;
+	private void rotate(int[] array, int a, int m, int b) {
+		int l = m - a, r = b - m;
 
-        while(l > 0 && r > 0) {
-			if(r < l) {
-				this.multiSwap(array, m-r, m, r);
+		while (l > 0 && r > 0) {
+			if (r < l) {
+				this.multiSwap(array, m - r, m, r);
 				b -= r;
 				m -= r;
 				l -= r;
-            }
-            else {
+			} else {
 				this.multiSwap(array, a, m, l);
 				a += l;
 				m += l;
 				r -= l;
-            }
-        }
-    }
+			}
+		}
+	}
 
 	private int binSearch(int[] array, int a, int b, int d, int p) {
-		while(a < b) {
-			int m = (a+b)/2;
+		while (a < b) {
+			int m = (a + b) / 2;
 
-			if(Reads.getDigit(array[m], p, this.base) >= d)
+			if (Reads.getDigit(array[m], p, this.base) >= d)
 				b = m;
 
-			else a = m+1;
+			else
+				a = m + 1;
 		}
 		return a;
 	}
 
 	private void merge(int[] array, int a, int m, int b, int da, int db, int p) {
-		if(b-a < 2 || db-da < 2) return;
+		if (b - a < 2 || db - da < 2)
+			return;
 
-		int dm = (da+db)/2;
+		int dm = (da + db) / 2;
 		int m1 = this.binSearch(array, a, m, dm, p);
 		int m2 = this.binSearch(array, m, b, dm, p);
 
 		this.rotate(array, m1, m, m2);
-		m = m1+(m2-m);
+		m = m1 + (m2 - m);
 
 		this.merge(array, m, m2, b, dm, db, p);
 		this.merge(array, a, m1, m, da, dm, p);
 	}
 
 	private void mergeSort(int[] array, int a, int b, int p) {
-		if(b-a < 2) return;
+		if (b - a < 2)
+			return;
 
-		int m = (a+b)/2;
+		int m = (a + b) / 2;
 
 		this.mergeSort(array, a, m, p);
 		this.mergeSort(array, m, b, p);
@@ -107,12 +100,14 @@ public final class RotateLSDRadixSort extends Sort {
 		this.merge(array, a, m, b, 0, this.base, p);
 	}
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) {
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) {
 		this.base = bucketCount;
-		int max   = Reads.analyzeMaxLog(array, length, this.base, 0.5, true);
+		this.setRunAllSortsName("Rotate LSD Radix Sort, Base " + bucketCount);
+		this.setRunSortName("Rotate LSD Radix Sort, Base " + bucketCount);
+		int max = Reads.analyzeMaxLog(array, length, this.base, 0.5, true);
 
-		for(int i = 0; i <= max; i++)
+		for (int i = 0; i <= max; i++)
 			this.mergeSort(array, 0, length, i);
-    }
+	}
 }

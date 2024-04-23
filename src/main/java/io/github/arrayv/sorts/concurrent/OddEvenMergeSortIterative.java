@@ -12,11 +12,7 @@ import io.github.arrayv.sorts.templates.Sort;
  * work for array lengths other than powers of two!
  */
 
-@SortMeta(
-    listName = "Odd-Even Merge (Iterative)",
-    showcaseName = "Iterative Odd-Even Merge Sort",
-    runName = "Iterative Odd-Even Mergesort"
-)
+@SortMeta(listName = "Odd-Even Merge (Iterative)", runName = "Iterative Odd-Even Merge Sorting Network")
 public final class OddEvenMergeSortIterative extends Sort {
     public OddEvenMergeSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -28,9 +24,9 @@ public final class OddEvenMergeSortIterative extends Sort {
             for (int k = p; k > 0; k /= 2)
                 for (int j = k % p; j + k < sortLength; j += k + k)
                     for (int i = 0; i < k; i++)
-                        if ((i + j)/(p + p) == (i + j + k)/(p + p))
-                            if(i + j + k < sortLength)
-                                if(Reads.compareIndices(array, i + j, i + j + k, 0.5, true) > 0)
+                        if ((i + j) / (p + p) == (i + j + k) / (p + p))
+                            if (i + j + k < sortLength)
+                                if (Reads.compareIndices(array, i + j, i + j + k, 0.5, true) > 0)
                                     Writes.swap(array, i + j, i + j + k, 0.5, true, false);
     }
 }

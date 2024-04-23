@@ -30,11 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  */
 
-@SortMeta(
-    listName = "Rotations",
-    showcaseName = "Rotation Test",
-    runName = "Rotation Test"
-)
+@SortMeta(listName = "Rotations", runName = "Rotation Test")
 public final class RotationTest extends Sort {
     final double BLOCK_DIV = 6.98;
 
@@ -44,7 +40,7 @@ public final class RotationTest extends Sort {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        int blockSize = (int)(length / BLOCK_DIV);
+        int blockSize = (int) (length / BLOCK_DIV);
 
         for (int i = 0; i < blockSize; i++) {
             Writes.write(array, i, i + length - blockSize, 0.05, false, false);

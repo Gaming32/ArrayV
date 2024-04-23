@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.select.MaxHeapSort;
 import io.github.arrayv.sorts.templates.PDQSorting;
 
@@ -20,20 +21,10 @@ applications, and to alter it and redistribute it freely, subject to the followi
 3. This notice may not be removed or altered from any source distribution.
  *
  */
-
+@SortMeta(listName = "Pattern-Defeating Quick (Branchless)", runName = "Branchless Pattern-Defeating Quick Sort")
 public final class PDQBranchlessSort extends PDQSorting {
     public PDQBranchlessSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Pattern-Defeating Quick (Branchless PDQ)");
-        this.setRunAllSortsName("Branchless Pattern-Defeating Quick Sort");
-        this.setRunSortName("Branchless Pattern-Defeating Quicksort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

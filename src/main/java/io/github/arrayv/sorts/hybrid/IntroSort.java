@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.insert.InsertionSort;
 import io.github.arrayv.sorts.select.MaxHeapSort;
 import io.github.arrayv.sorts.templates.Sort;
@@ -9,7 +10,7 @@ import io.github.arrayv.sorts.templates.Sort;
 // http://ralphunden.net/content/tutorials/a-guide-to-introsort/?q=a-guide-to-introsort
 // Modifications: Bernhard Pfahringer
 // changes include: local insertion sort, no global array
-
+@SortMeta(name = "Introspective")
 public final class IntroSort extends Sort {
     private MaxHeapSort heapSorter;
 
@@ -18,17 +19,6 @@ public final class IntroSort extends Sort {
 
     public IntroSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Intro");
-        //this.setRunAllID("Introspective Sort (std::sort)");
-        this.setRunAllSortsName("Introspective Sort");
-        this.setRunSortName("Introsort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private static int floorLogBaseTwo(int a) {
@@ -36,26 +26,23 @@ public final class IntroSort extends Sort {
     }
 
     // Swaps the median of arr[left], arr[mid], and arr[right] to index left.
-    // taken from gcc source code found here: https://gcc.gnu.org/onlinedocs/gcc-4.7.2/libstdc++/api/a01462_source.html
+    // taken from gcc source code found here:
+    // https://gcc.gnu.org/onlinedocs/gcc-4.7.2/libstdc++/api/a01462_source.html
     @SuppressWarnings("unused")
     private int gccmedianof3(int[] arr, int left, int mid, int right) {
         if (Reads.compareValues(arr[left], arr[mid]) < 0) {
             if (Reads.compareValues(arr[mid], arr[right]) < 0) {
                 Writes.swap(arr, left, mid, 1, true, false);
-            }
-            else if (Reads.compareValues(arr[left], arr[right]) < 0) {
+            } else if (Reads.compareValues(arr[left], arr[right]) < 0) {
                 Writes.swap(arr, left, right, 1, true, false);
             }
-        }
-        else if (Reads.compareValues(arr[left], arr[right]) < 0) {
+        } else if (Reads.compareValues(arr[left], arr[right]) < 0) {
             middle = left;
             Highlights.markArray(3, left);
             return arr[left];
-        }
-        else if (Reads.compareValues(arr[mid], arr[right]) < 0) {
+        } else if (Reads.compareValues(arr[mid], arr[right]) < 0) {
             Writes.swap(arr, left, right, 1, true, false);
-        }
-        else {
+        } else {
             Writes.swap(arr, left, mid, 1, true, false);
         }
         middle = left;
@@ -64,13 +51,13 @@ public final class IntroSort extends Sort {
     }
 
     private int medianof3(int[] arr, int left, int mid, int right) {
-        if(Reads.compareValues(arr[right], arr[left]) == -1) {
+        if (Reads.compareValues(arr[right], arr[left]) == -1) {
             Writes.swap(arr, left, right, 1, true, false);
         }
-        if(Reads.compareValues(arr[mid], arr[left]) == -1) {
+        if (Reads.compareValues(arr[mid], arr[left]) == -1) {
             Writes.swap(arr, mid, left, 1, true, false);
         }
-        if(Reads.compareValues(arr[right], arr[mid]) == -1) {
+        if (Reads.compareValues(arr[right], arr[mid]) == -1) {
             Writes.swap(arr, right, mid, 1, true, false);
         }
         middle = mid;
@@ -95,17 +82,17 @@ public final class IntroSort extends Sort {
                 j--;
             }
 
-            if(!(i < j)) {
+            if (!(i < j)) {
                 Highlights.markArray(1, i);
                 Delays.sleep(0.5);
                 return i;
             }
 
             // Follow the pivot and highlight it.
-            if(i == middle) {
+            if (i == middle) {
                 Highlights.markArray(3, j);
             }
-            if(j == middle) {
+            if (j == middle) {
                 Highlights.markArray(3, i);
             }
 
@@ -114,7 +101,7 @@ public final class IntroSort extends Sort {
         }
     }
 
-    private void introsortLoop (int[] a, int lo, int hi, int depthLimit) {
+    private void introsortLoop(int[] a, int lo, int hi, int depthLimit) {
         while (hi - lo > sizeThreshold) {
             if (depthLimit == 0) {
                 Highlights.clearAllMarks();
