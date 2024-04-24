@@ -47,15 +47,13 @@ public class IterativeTopDownMergeSort extends Sort {
         int low = start;
         int high = mid;
 
-        Highlights.markArray(1, low);
-        Highlights.markArray(2, high);
         int nxt = start;
         for (; low < mid && high < end; ++nxt) {
-            if (Reads.compareValues(array[low], array[high]) == 1) {
-                Writes.write(tmp, nxt, array[high++], 1, false, true);
+            if (Reads.compareIndices(array, low, high, 1, true) == 1) {
+                Writes.write(tmp, nxt, array[high++], 0, false, true);
                 Highlights.markArray(2, high);
             } else {
-                Writes.write(tmp, nxt, array[low++], 1, false, true);
+                Writes.write(tmp, nxt, array[low++], 0, false, true);
                 Highlights.markArray(1, low);
             }
         }

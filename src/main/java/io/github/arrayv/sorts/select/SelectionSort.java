@@ -40,16 +40,10 @@ public final class SelectionSort extends Sort {
         for (int i = 0; i < length - 1; i++) {
             int lowestindex = i;
 
-            for (int j = i + 1; j < length; j++) {
-                Highlights.markArray(2, j);
-                Delays.sleep(0.01);
-
-                if (Reads.compareValues(array[j], array[lowestindex]) == -1) {
+            for (int j = i + 1; j < length; j++)
+                if (Reads.compareIndices(array, j, lowestindex, 0.01, true) == -1)
                     lowestindex = j;
-                    Highlights.markArray(1, lowestindex);
-                    Delays.sleep(0.01);
-                }
-            }
+
             Writes.swap(array, i, lowestindex, 0.02, true, false);
         }
     }

@@ -4,9 +4,9 @@ SortPrompt.setSortThreadForCategory('Impractical Sorts', 32) {
     run BadSort go 64.numbers, 0.0075.speed
     run StoogeSort go 64.numbers, 0.005.speed
     run QuadStoogeSort go 64.numbers, 0.005.speed
-    run SillySort go 64.numbers, 0.5.speed
-    run SlowSort go 64.numbers, 0.5.speed
-    run SnuffleSort go 64.numbers, 0.25.speed
+    run SillySort go 32.numbers, 0.5.speed
+    run SlowSort go 32.numbers, 0.5.speed
+    run SnuffleSort go 32.numbers, 1.speed
     run HanoiSort go 8.numbers, 0.025.speed
 
     // Bogosorts

@@ -42,14 +42,10 @@ public final class UnoptimizedBubbleSort extends Sort {
         while (!sorted) {
             sorted = true;
             for (int i = 0; i < sortLength - 1; i++) {
-                if (Reads.compareValues(array[i], array[i + 1]) == 1) {
+                if (Reads.compareIndices(array, i, i + 1, 0.05, true) == 1) {
                     Writes.swap(array, i, i + 1, 0.075, true, false);
                     sorted = false;
                 }
-
-                Highlights.markArray(1, i);
-                Highlights.markArray(2, i + 1);
-                Delays.sleep(0.05);
             }
         }
     }

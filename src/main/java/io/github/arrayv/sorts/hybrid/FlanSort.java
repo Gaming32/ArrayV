@@ -44,17 +44,17 @@ public final class FlanSort extends MultiWayMergeSorting {
 	private final int R = 4;
 
 	private int medianOfThree(int[] array, int a, int m, int b) {
-		if (Reads.compareValues(array[m], array[a]) > 0) {
-			if (Reads.compareValues(array[m], array[b]) < 0)
+		if (Reads.compareIndices(array, m, a, 0.5, true) > 0) {
+			if (Reads.compareIndices(array, m, b, 0.5, true) < 0)
 				return m;
-			if (Reads.compareValues(array[a], array[b]) > 0)
+			if (Reads.compareIndices(array, a, b, 0.5, true) > 0)
 				return a;
 			else
 				return b;
 		} else {
-			if (Reads.compareValues(array[m], array[b]) > 0)
+			if (Reads.compareIndices(array, m, b, 0.5, true) > 0)
 				return m;
-			if (Reads.compareValues(array[a], array[b]) < 0)
+			if (Reads.compareIndices(array, a, b, 0.5, true) < 0)
 				return a;
 			else
 				return b;

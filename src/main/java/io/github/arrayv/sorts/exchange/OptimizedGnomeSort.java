@@ -14,8 +14,8 @@ public final class OptimizedGnomeSort extends Sort {
     private void smartGnomeSort(int[] array, int lowerBound, int upperBound, double sleep) {
         int pos = upperBound;
 
-        while (pos > lowerBound && Reads.compareValues(array[pos - 1], array[pos]) == 1) {
-            Writes.swap(array, pos - 1, pos, sleep, true, false);
+        while (pos > lowerBound && Reads.compareIndices(array, pos - 1, pos, sleep, true) == 1) {
+            Writes.swap(array, pos - 1, pos, 0, true, false);
             pos--;
         }
     }

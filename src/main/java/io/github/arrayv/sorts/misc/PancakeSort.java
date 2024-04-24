@@ -20,13 +20,10 @@ public final class PancakeSort extends Sort {
     }
 
     private boolean sorted(int[] array, int length) {
-        for (int i = 0; i < length; i++) {
-            Highlights.markArray(1, i);
-            Delays.sleep(0.025);
-
-            if (Reads.compareValues(array[i], array[i + 1]) > 0)
+        for (int i = 0; i < length; i++)
+            if (Reads.compareIndices(array, i, i + 1, 0.025, true) > 0)
                 return false;
-        }
+
         return true;
     }
 

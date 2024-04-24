@@ -17,11 +17,7 @@ public final class OptimizedStoogeSort extends Sort {
             int index = right;
 
             while (left < index) {
-                Highlights.markArray(1, left);
-                Highlights.markArray(2, index);
-                Delays.sleep(0.05);
-
-                if (Reads.compareValues(array[left], array[index]) > 0) {
+                if (Reads.compareIndices(array, left, index, 0.05, true) > 0) {
                     Writes.swap(array, left, index, 0.075, true, false);
                 }
                 left++;
@@ -40,11 +36,7 @@ public final class OptimizedStoogeSort extends Sort {
             int index = left;
 
             while (index < right) {
-                Highlights.markArray(1, index);
-                Highlights.markArray(2, right);
-                Delays.sleep(0.05);
-
-                if (Reads.compareValues(array[index], array[right]) > 0) {
+                if (Reads.compareIndices(array, index, right, 0.05, true) > 0) {
                     Writes.swap(array, index, right, 0.075, true, false);
                 }
                 index++;
@@ -61,11 +53,7 @@ public final class OptimizedStoogeSort extends Sort {
         int right = length - 1;
 
         while (left < right) {
-            Highlights.markArray(1, left);
-            Highlights.markArray(2, right);
-            Delays.sleep(0.05);
-
-            if (Reads.compareValues(array[left], array[right]) > 0) {
+            if (Reads.compareIndices(array, left, right, 0.05, true) > 0) {
                 Writes.swap(array, left, right, 0.075, true, false);
             }
             left++;

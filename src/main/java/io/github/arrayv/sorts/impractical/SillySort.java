@@ -30,12 +30,9 @@ public final class SillySort extends Sort {
 			 * Choose the smallest element of the two halves, and put that element in
 			 * the first position
 			 */
-			if (Reads.compareValues(array[i], array[m + 1]) >= 0) {
-				Writes.swap(array, i, m + 1, 1, true, false);
+			if (Reads.compareIndices(array, i, m + 1, 1, true) >= 0) {
+				Writes.swap(array, i, m + 1, 0, true, false);
 			}
-
-			Highlights.markArray(1, i);
-			Highlights.markArray(2, m + 1);
 
 			this.sillySort(array, i + 1, j);
 		}

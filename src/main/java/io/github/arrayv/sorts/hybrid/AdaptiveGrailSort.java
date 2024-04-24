@@ -212,11 +212,9 @@ public final class AdaptiveGrailSort extends Sort {
 
         Highlights.clearMark(2);
         for (int i = pEnd; i < b && nKeys < n; i++) {
-            Highlights.markArray(1, i);
-            Delays.sleep(1);
             int loc = this.leftBinarySearch(array, p, pEnd, array[i]);
 
-            if (pEnd == loc || Reads.compareValues(array[i], array[loc]) != 0) {
+            if (pEnd == loc || Reads.compareIndices(array, i, loc, 1, true) != 0) {
                 this.rotate(array, p, pEnd, i);
                 int inc = i - pEnd;
                 loc += inc;

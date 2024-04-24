@@ -36,14 +36,10 @@ public final class StableSelectionSort extends Sort {
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 0; i < length - 1; i++) {
             int min = i;
-            for (int j = i + 1; j < length; j++) {
-                Highlights.markArray(1, j);
-                if (Reads.compareValues(array[j], array[min]) == -1) {
+            for (int j = i + 1; j < length; j++)
+                if (Reads.compareIndices(array, j, min, 1, true) == -1)
                     min = j;
-                    Highlights.markArray(2, j);
-                }
-                Delays.sleep(1);
-            }
+
             Highlights.clearMark(2);
             int tmp = array[min];
             int pos = min;

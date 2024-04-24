@@ -20,10 +20,7 @@ public final class ShoveSort extends Sort {
     private void shovesort(int[] array, int start, int end, double sleep) {
         int i = start;
         while (i < end - 1) {
-            this.Highlights.markArray(1, i);
-            this.Highlights.markArray(2, i + 1);
-            this.Delays.sleep(sleep);
-            if (this.Reads.compareValues(array[i], array[i + 1]) == 1) {
+            if (Reads.compareIndices(array, i, i + 1, sleep, true) == 1) {
                 for (int f = i; f < end - 1; f++) {
                     this.Writes.swap(array, f, f + 1, sleep, true, false);
                 }

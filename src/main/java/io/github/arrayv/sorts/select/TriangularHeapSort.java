@@ -58,7 +58,6 @@ public final class TriangularHeapSort extends Sort {
 
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
-		// TODO Auto-generated method stub
 		triangularHeapify(array, length);
 		for (int i = 1; i < length - 1; i++) {
 			this.Writes.swap(array, 0, length - i, 0.5D, true, false);

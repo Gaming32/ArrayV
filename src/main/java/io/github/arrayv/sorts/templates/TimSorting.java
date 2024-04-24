@@ -333,18 +333,14 @@ public final class TimSorting {
 
         // Find end of run, and reverse range if descending
         if (ts.Reads.compareValues(a[runHi++], a[lo]) < 0) { // Descending
-            while (runHi < hi && ts.Reads.compareValues(a[runHi], a[runHi - 1]) < 0) {
-                ts.markArray(1, runHi);
-                ts.Delays.sleep(1);
+            while (runHi < hi && ts.Reads.compareIndices(a, runHi, runHi - 1, 1, true) < 0)
                 runHi++;
-            }
+
             reverseRange(ts, a, lo, runHi);
         } else { // Ascending
-            while (runHi < hi && ts.Reads.compareValues(a[runHi], a[runHi - 1]) >= 0) {
-                ts.markArray(1, runHi);
-                ts.Delays.sleep(1);
+            while (runHi < hi && ts.Reads.compareIndices(a, runHi, runHi - 1, 1, true) >= 0)
                 runHi++;
-            }
+
         }
         return runHi - lo;
     }

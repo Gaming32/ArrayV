@@ -47,17 +47,15 @@ public class WeavedMergeSort extends Sort {
         merge(array, tmp, length, low, dmodulus);
         merge(array, tmp, length, high, dmodulus);
 
-        Highlights.markArray(1, low);
-        Highlights.markArray(2, high);
         int nxt = residue;
         for (; low < length && high < length; nxt += modulus) {
-            int cmp = Reads.compareValues(array[low], array[high]);
+            int cmp = Reads.compareIndices(array, low, high, 1, true);
             if (cmp == 1 || cmp == 0 && low > high) {
-                Writes.write(tmp, nxt, array[high], 1, false, true);
+                Writes.write(tmp, nxt, array[high], 0, false, true);
                 high += dmodulus;
                 Highlights.markArray(2, high);
             } else {
-                Writes.write(tmp, nxt, array[low], 1, false, true);
+                Writes.write(tmp, nxt, array[low], 0, false, true);
                 low += dmodulus;
                 Highlights.markArray(1, low);
             }

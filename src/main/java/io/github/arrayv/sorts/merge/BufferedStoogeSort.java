@@ -23,9 +23,7 @@ public final class BufferedStoogeSort extends Sort {
 	}
 
 	private int compare(int[] arr, int x, int y) {
-		this.Highlights.markArray(0, x);
-		this.Highlights.markArray(1, y);
-		return this.Reads.compareValues(arr[x], arr[y]);
+		return this.Reads.compareIndices(arr, x, y, 0, true);
 	}
 
 	public void wrapper(int[] arr, int start, int stop) {
@@ -80,9 +78,7 @@ public final class BufferedStoogeSort extends Sort {
 
 	@Override
 	public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-		// TODO Auto-generated method stub
 		wrapper(array, 0, sortLength);
-
 	}
 
 }

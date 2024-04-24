@@ -23,11 +23,7 @@ public final class BottomUpMergeSort extends Sort {
 
         if (right < end) {
             while (left < mid && right < end) {
-                this.Highlights.markArray(1, left);
-                this.Highlights.markArray(2, right);
-                this.Delays.sleep(1);
-
-                if (this.Reads.compareValues(array[left], array[right]) <= 0) {
+                if (this.Reads.compareIndices(array, left, right, 1, true) <= 0) {
                     this.Writes.write(this.scratchArray, scratchIndex++, array[left++], 0, false, true);
                 } else {
                     this.Writes.write(this.scratchArray, scratchIndex++, array[right++], 0, false, true);

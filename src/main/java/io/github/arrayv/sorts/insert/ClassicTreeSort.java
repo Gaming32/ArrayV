@@ -63,10 +63,7 @@ public final class ClassicTreeSort extends Sort {
 			int c = 0;
 
 			while (true) {
-				Highlights.markArray(1, c);
-				Delays.sleep(0.5);
-
-				next = Reads.compareValues(array[i], array[c]) < 0 ? lower : upper;
+				next = Reads.compareIndices(array, i, c, 0.5, true) < 0 ? lower : upper;
 
 				if (next[c] == 0) {
 					Writes.write(next, c, i, 0, false, true);

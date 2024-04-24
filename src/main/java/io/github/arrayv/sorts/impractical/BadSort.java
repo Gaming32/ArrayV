@@ -26,10 +26,8 @@ public final class BadSort extends Sort {
 
                 boolean isShortest = true;
                 for (int k = j + 1; k < currentLen; k++) {
-                    Highlights.markArray(2, k);
-                    Delays.sleep(0.05);
 
-                    if (Reads.compareValues(array[j], array[k]) == 1) {
+                    if (Reads.compareIndices(array, j, k, 0.05, true) == 1) {
                         isShortest = false;
                         break;
                     }

@@ -58,14 +58,10 @@ public abstract class CombSorting extends Sort {
                     insertSorter.customInsertSort(array, 0, length, 0.5, false);
                     break;
                 }
-                if (Reads.compareValues(array[i], array[i + gap]) == 1) {
+                if (Reads.compareIndices(array, i, i + gap, 0.25, true) == 1) {
                     Writes.swap(array, i, i + gap, 0.75, true, false);
                     swapped = true;
                 }
-                Highlights.markArray(1, i);
-                Highlights.markArray(2, i + gap);
-
-                Delays.sleep(0.25);
                 Highlights.clearMark(1);
             }
         }

@@ -31,13 +31,10 @@ public final class FlippedMinHeapSort extends Sort {
     private void siftDown(int[] array, int length, int root, int dist) {
         while (root <= dist / 2) {
             int leaf = 2 * root;
-            if (leaf < dist && Reads.compareValues(array[length - leaf], array[length - leaf - 1]) == 1) {
+            if (leaf < dist && Reads.compareIndices(array, length - leaf, length - leaf - 1, 0, true) == 1) {
                 leaf++;
             }
-            Highlights.markArray(1, length - root);
-            Highlights.markArray(2, length - leaf);
-            Delays.sleep(1);
-            if (Reads.compareValues(array[length - root], array[length - leaf]) == 1) {
+            if (Reads.compareIndices(array, length - root, length - leaf, 1, true) == 1) {
                 Writes.swap(array, length - root, length - leaf, 0, true, false);
                 root = leaf;
             } else

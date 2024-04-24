@@ -14,10 +14,8 @@ public class SnuffleSort extends Sort {
 
     private void snuffleSort(int[] arr, int start, int stop) {
         if (stop - start + 1 >= 2) {
-            Highlights.markArray(0, start);
-            Highlights.markArray(1, stop);
-            if (Reads.compareValues(arr[start], arr[stop]) == 1)
-                Writes.swap(arr, start, stop, DELAY, false, false);
+            if (Reads.compareIndices(arr, start, stop, DELAY, true) == 1)
+                Writes.swap(arr, start, stop, 0, false, false);
             if (stop - start + 1 >= 3) {
                 int mid = (stop - start) / 2 + start;
                 for (int i = 0; i < (int) Math.ceil((stop - start + 1) / 2); i++) {

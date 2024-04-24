@@ -21,13 +21,9 @@ public final class SlowSort extends Sort {
         this.slowSort(A, i, m);
         this.slowSort(A, m + 1, j);
 
-        if (Reads.compareValues(A[m], A[j]) == 1) {
-            Writes.swap(A, m, j, 1, true, false);
+        if (Reads.compareIndices(A, m, j, 1, true) == 1) {
+            Writes.swap(A, m, j, 0, true, false);
         }
-
-        Highlights.markArray(1, j);
-        Highlights.markArray(2, m);
-
         this.slowSort(A, i, j - 1);
     }
 
