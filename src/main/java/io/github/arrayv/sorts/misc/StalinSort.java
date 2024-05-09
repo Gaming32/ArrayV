@@ -4,9 +4,7 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
-@SortMeta(
-    name = "Stalin"
-)
+@SortMeta(name = "Stalin")
 public final class StalinSort extends Sort {
     public StalinSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,58 +29,48 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Improved In-Place Merge")
 public final class ImprovedInPlaceMergeSort extends Sort {
     public ImprovedInPlaceMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Improved In-Place Merge");
-        this.setRunAllSortsName("Improved In-Place Merge Sort");
-        this.setRunSortName("Improved In-Place Mergesort");
-        this.setCategory("Merge Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void push(int[] array, int p, int a, int b, double sleep) {
-        if(a == b) return;
+        if (a == b)
+            return;
 
         int temp = array[p];
         Writes.write(array, p, array[a], sleep, true, false);
 
-        for(int i = a+1; i < b; i++)
-            Writes.write(array, i-1, array[i], sleep, true, false);
+        for (int i = a + 1; i < b; i++)
+            Writes.write(array, i - 1, array[i], sleep, true, false);
 
-        Writes.write(array, b-1, temp, sleep, true, false);
+        Writes.write(array, b - 1, temp, sleep, true, false);
     }
 
     private void merge(int[] array, int a, int m, int b, double sleep) {
         int i = a, j = m;
 
         Highlights.clearMark(1);
-        while(i < m && j < b) {
-            Highlights.markArray(2, i);
-            Highlights.markArray(3, j);
-            Delays.sleep(1);
-
-            if(Reads.compareValues(array[i], array[j]) == 1) j++;
-            else this.push(array, i++, m, j, sleep);
+        while (i < m && j < b) {
+            if (Reads.compareIndices(array, i, j, 1, true) == 1)
+                j++;
+            else
+                this.push(array, i++, m, j, sleep);
         }
 
         Highlights.clearAllMarks();
-        while(i < m) this.push(array, i++, m, b, sleep);
+        while (i < m)
+            this.push(array, i++, m, b, sleep);
     }
 
     private void mergeSort(int[] array, int a, int b, double sleep) {
-        int m = a+(b-a)/2;
+        int m = a + (b - a) / 2;
 
-        if(b-a > 2) {
-            if(b-a > 3)
-                this.mergeSort(array, a, m, 2*sleep);
-            this.mergeSort(array, m, b, 2*sleep);
+        if (b - a > 2) {
+            if (b - a > 3)
+                this.mergeSort(array, a, m, 2 * sleep);
+            this.mergeSort(array, m, b, 2 * sleep);
         }
 
         this.merge(array, a, m, b, sleep);

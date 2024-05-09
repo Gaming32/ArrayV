@@ -30,38 +30,36 @@ SOFTWARE.
  *
  */
 
-@SortMeta(
-	name = "Iterative Diamond",
-	listName = "Diamond (Iterative)"
-)
+@SortMeta(runName = "Iterative Diamond Sorting Network", listName = "Diamond (Iterative)")
 public final class DiamondSortIterative extends Sort {
-    public DiamondSortIterative(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-    }
+	public DiamondSortIterative(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+	}
 
 	private void compSwap(int[] array, int a, int b) {
-		if(Reads.compareIndices(array, a, b, 0.05, true) == 1)
+		if (Reads.compareIndices(array, a, b, 0.05, true) == 1)
 			Writes.swap(array, a, b, 0.05, true, false);
 	}
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) throws Exception {
-    	int n = 1;
-    	for(; n < length; n *= 2);
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) throws Exception {
+		int n = 1;
+		for (; n < length; n *= 2)
+			;
 
 		int m = 4;
-		for(; m <= n; m *= 2) {
-			for(int k = 0; k < m/2; k++) {
-				int cnt = k <= m/4 ? k : m/2-k;
-				for(int j = 0; j < length; j += m)
-					if(j+cnt+1 < length)
-						for(int i = j+cnt; i+1 < Math.min(length, j+m-cnt); i += 2)
-							this.compSwap(array, i, i+1);
+		for (; m <= n; m *= 2) {
+			for (int k = 0; k < m / 2; k++) {
+				int cnt = k <= m / 4 ? k : m / 2 - k;
+				for (int j = 0; j < length; j += m)
+					if (j + cnt + 1 < length)
+						for (int i = j + cnt; i + 1 < Math.min(length, j + m - cnt); i += 2)
+							this.compSwap(array, i, i + 1);
 			}
 		}
 		m /= 2;
-		for(int k = 0; k <= m/2; k++)
-			for(int i = k; i+1 < Math.min(length, m-k); i += 2)
-				this.compSwap(array, i, i+1);
-    }
+		for (int k = 0; k <= m / 2; k++)
+			for (int i = k; i + 1 < Math.min(length, m - k); i += 2)
+				this.compSwap(array, i, i + 1);
+	}
 }

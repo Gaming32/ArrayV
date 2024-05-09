@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.exchange.CocktailShakerSort;
 import io.github.arrayv.sorts.templates.Sort;
 import io.github.arrayv.sorts.templates.TimSorting;
@@ -13,26 +14,20 @@ import io.github.arrayv.sorts.templates.TimSorting;
 // this is constant time, as the minrun value is not dependent on the number of elements we are sorting, but
 // Cocktail Shaker has worse constant factors than Insertion Sort. So basically, this is just for fun.
 // But hey, why not? ;)
-
+@SortMeta(name = "Cocktail Merge")
 public class CocktailMergeSort extends Sort {
-    private TimSorting timSortInstance; // TimSort cannot be simply written off as an abstract class, as it creates an instance of itself
-                                        // in order to track its state. Plus, it contains both instance and static methods, requiring even
-                                        // more refactoring, which would be just doing unnecessary busy work. Instead of what we've done for
-                                        // the rest of the algorithms, we'll favor composition over inheritance here and pass "util" objects
+    private TimSorting timSortInstance; // TimSort cannot be simply written off as an abstract class, as it creates an
+                                        // instance of itself
+                                        // in order to track its state. Plus, it contains both instance and static
+                                        // methods, requiring even
+                                        // more refactoring, which would be just doing unnecessary busy work. Instead of
+                                        // what we've done for
+                                        // the rest of the algorithms, we'll favor composition over inheritance here and
+                                        // pass "util" objects
                                         // to it.
 
     public CocktailMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Cocktail Merge");
-        this.setRunAllSortsName("Cocktail Merge Sort");
-        this.setRunSortName("Cocktail Mergesort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -42,8 +37,7 @@ public class CocktailMergeSort extends Sort {
 
         if (sortLength == minRunLen) {
             cocktailShaker.runSort(array, sortLength, bucketCount);
-        }
-        else {
+        } else {
             int i = 0;
             for (; i <= (sortLength - minRunLen); i += minRunLen) {
                 cocktailShaker.customSort(array, i, i + minRunLen);

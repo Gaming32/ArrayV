@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.exchange;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -14,34 +15,25 @@ import io.github.arrayv.sorts.templates.Sort;
  */
 
 // Code refactored from: https://en.wikipedia.org/wiki/Stooge_sort
+@SortMeta(name = "Stooge", slowSort = true, unreasonableLimit = 1024)
 public final class StoogeSort extends Sort {
     public StoogeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Stooge");
-        this.setRunAllSortsName("Stooge Sort");
-        this.setRunSortName("Stoogesort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(1024);
-        this.setBogoSort(false);
     }
 
-	private void stoogeSort(int[] A, int i, int j) {
-	    if (Reads.compareIndices(A, i, j, 0.0025, true) == 1) {
-	        Writes.swap(A, i, j, 0.005, true, false);
-	    }
+    private void stoogeSort(int[] A, int i, int j) {
+        if (Reads.compareIndices(A, i, j, 0.0025, true) == 1) {
+            Writes.swap(A, i, j, 0.005, true, false);
+        }
 
         if (j - i + 1 >= 3) {
-	        int t = (j - i + 1) / 3;
+            int t = (j - i + 1) / 3;
 
-	        this.stoogeSort(A, i, j-t);
-	        this.stoogeSort(A, i+t, j);
-	        this.stoogeSort(A, i, j-t);
-	    }
-	}
+            this.stoogeSort(A, i, j - t);
+            this.stoogeSort(A, i + t, j);
+            this.stoogeSort(A, i, j - t);
+        }
+    }
 
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {

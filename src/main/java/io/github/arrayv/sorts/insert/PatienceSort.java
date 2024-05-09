@@ -6,6 +6,7 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -19,20 +20,10 @@ import io.github.arrayv.sorts.templates.Sort;
   Free Documentation License".
  *
  */
-
+@SortMeta(name = "Patience")
 public final class PatienceSort extends Sort {
 	public PatienceSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-
-		this.setSortListName("Patience");
-		this.setRunAllSortsName("Patience Sort");
-		this.setRunSortName("Patience Sort");
-		this.setCategory("Insertion Sorts");
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(false);
-		this.setUnreasonableLimit(0);
-		this.setBogoSort(false);
 	}
 
 	final private class Pile extends Stack<Integer> implements Comparable<Pile> {
@@ -53,12 +44,12 @@ public final class PatienceSort extends Sort {
 		int change = list.size() / 4;
 
 		long compsBefore = Reads.getComparisons();
-		while(list.get(at).compare(find) != 0 && change > 0){
+		while (list.get(at).compare(find) != 0 && change > 0) {
 			Reads.setComparisons(compsBefore);
 			Highlights.markArray(1, at);
 			Delays.sleep(0.5);
 
-			if(list.get(at).compare(find) < 0)
+			if (list.get(at).compare(find) < 0)
 				at += change;
 			else
 				at -= change;
@@ -86,16 +77,16 @@ public final class PatienceSort extends Sort {
 			Writes.changeAllocAmount(1);
 
 			int i = Collections.binarySearch(piles, newPile);
-			if(!piles.isEmpty()) {
+			if (!piles.isEmpty()) {
 				this.binarySearch(piles, newPile);
 			}
-			if (i < 0) i = ~i;
+			if (i < 0)
+				i = ~i;
 			if (i != piles.size()) {
 				Writes.mockWrite(length, Math.min(piles.get(i).size(), length - 1), array[x], 0);
 				piles.get(i).push(array[x]);
 				Writes.changeAllocAmount(1);
-			}
-			else {
+			} else {
 				Writes.mockWrite(length, Math.min(piles.size(), length - 1), newPile.get(0), 0);
 				piles.add(newPile);
 				Writes.changeAllocAmount(1);

@@ -46,10 +46,10 @@ public abstract class BinaryInsertionSorting extends Sort {
 
                 Delays.sleep(compSleep);
 
-                if (Reads.compareValues(num, array[mid]) < 0) { // do NOT move equal elements to right of inserted element; this maintains stability!
+                if (Reads.compareValues(num, array[mid]) < 0) { // do NOT move equal elements to right of inserted
+                                                                // element; this maintains stability!
                     hi = mid;
-                }
-                else {
+                } else {
                     lo = mid + 1;
                 }
             }
@@ -60,8 +60,7 @@ public abstract class BinaryInsertionSorting extends Sort {
 
             int j = i - 1;
 
-            while (j >= lo)
-            {
+            while (j >= lo) {
                 Writes.write(array, j + 1, array[j], writeSleep, true, false);
                 j--;
             }

@@ -40,7 +40,7 @@ public abstract class CircleSorting extends Sort {
         }
 
         swapCount = this.circleSortRoutine(array, low, low + mid, swapCount, sleep);
-        if(low + mid + 1 < this.end)
+        if (low + mid + 1 < this.end)
             swapCount = this.circleSortRoutine(array, low + mid + 1, high, swapCount, sleep);
 
         return swapCount;

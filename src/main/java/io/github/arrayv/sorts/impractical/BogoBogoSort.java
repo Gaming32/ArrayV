@@ -1,6 +1,7 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
 /*
@@ -32,44 +33,40 @@ SOFTWARE.
 /**
  * Implements https://www.dangermouse.net/esoteric/bogobogosort.html.
  * <p>
- * Bogobogosort is like Bogosort, but in order to check whether the array is sorted, it performs the following procedure:
+ * Bogobogosort is like Bogosort, but in order to check whether the array is
+ * sorted, it performs the following procedure:
  * <ul>
- *     <li>It makes a copy, then shuffles it and sorts all but the last element using Bogobogosort.
- *     <li>If the last element of the sorted section is no greater than the last element of the copy,
- *     then the copy is sorted.
- *     <li>Otherwise, the shuffling-sorting process is repeated.
- *     <li>The original array is then compared to the copy to determine whether the array is sorted.
+ * <li>It makes a copy, then shuffles it and sorts all but the last element
+ * using Bogobogosort.
+ * <li>If the last element of the sorted section is no greater than the last
+ * element of the copy,
+ * then the copy is sorted.
+ * <li>Otherwise, the shuffling-sorting process is repeated.
+ * <li>The original array is then compared to the copy to determine whether the
+ * array is sorted.
  * </ul>
- * Like in Bogosort, if the array is not sorted, it shuffles it and repeats the entire process.
+ * Like in Bogosort, if the array is not sorted, it shuffles it and repeats the
+ * entire process.
  */
+@SortMeta(name = "BogoBogo", slowSort = true, bogoSort = true, unreasonableLimit = 5)
 public final class BogoBogoSort extends BogoSorting {
     public BogoBogoSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Bogo Bogo");
-        this.setRunAllSortsName("Bogo Bogo Sort");
-        this.setRunSortName("Bogobogosort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(5);
-        this.setBogoSort(true);
     }
 
-    private int[][] tmp; //fix seizure aux using 2d array
+    private int[][] tmp; // fix seizure aux using 2d array
 
     private boolean bogoBogoIsSorted(int[] array, int length) {
         if (length == 1)
             return true;
 
-        int idx = length-2;
+        int idx = length - 2;
         Writes.arraycopy(array, 0, tmp[idx], 0, length, this.delay, true, true);
 
-        bogoBogo(tmp[idx], length-1, true);
-        while (Reads.compareValues(tmp[idx][length-2], tmp[idx][length-1]) > 0) {
+        bogoBogo(tmp[idx], length - 1, true);
+        while (Reads.compareValues(tmp[idx][length - 2], tmp[idx][length - 1]) > 0) {
             this.bogoSwap(tmp[idx], 0, length, true);
-            bogoBogo(tmp[idx], length-1, true);
+            bogoBogo(tmp[idx], length - 1, true);
         }
 
         for (int i = 0; i < length; ++i) {
@@ -89,14 +86,14 @@ public final class BogoBogoSort extends BogoSorting {
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-        tmp = new int[length-1][];
+        tmp = new int[length - 1][];
 
-        for(int i = length; i > 1; i--)
-            tmp[i-2] = Writes.createExternalArray(i);
+        for (int i = length; i > 1; i--)
+            tmp[i - 2] = Writes.createExternalArray(i);
 
         bogoBogo(array, length, false);
 
-        for(int i = length; i > 1; i--)
-            Writes.deleteExternalArray(tmp[i-2]);
+        for (int i = length; i > 1; i--)
+            Writes.deleteExternalArray(tmp[i - 2]);
     }
 }

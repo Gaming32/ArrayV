@@ -1,26 +1,17 @@
-package io.github.arrayv.sorts.select;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
  * This example of an O(n^3) sorting algorithm may be found here, written by James Jensen (StriplingWarrayior on StackOverflow):
  * https://stackoverflow.com/questions/27389344/is-there-a-sorting-algorithm-with-a-worst-case-time-complexity-of-n3
  */
-
+@SortMeta(name = "Bad", slowSort = true, unreasonableLimit = 2048)
 public final class BadSort extends Sort {
     public BadSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Bad");
-        this.setRunAllSortsName("Bad Sort");
-        this.setRunSortName("Badsort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(2048);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -35,15 +26,13 @@ public final class BadSort extends Sort {
 
                 boolean isShortest = true;
                 for (int k = j + 1; k < currentLen; k++) {
-                    Highlights.markArray(2, k);
-                    Delays.sleep(0.05);
 
-                    if (Reads.compareValues(array[j], array[k]) == 1) {
+                    if (Reads.compareIndices(array, j, k, 0.05, true) == 1) {
                         isShortest = false;
                         break;
                     }
                 }
-                if(isShortest) {
+                if (isShortest) {
                     shortest = j;
                     break;
                 }

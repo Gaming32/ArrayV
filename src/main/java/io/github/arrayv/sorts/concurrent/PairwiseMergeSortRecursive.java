@@ -30,51 +30,50 @@ SOFTWARE.
  *
  */
 
-@SortMeta(
-	name = "Recursive Pairwise Merge",
-	listName = "Pairwise Merge (Recursive)"
-)
+@SortMeta(runName = "Recursive Pairwise Merge Sorting Network", listName = "Pairwise Merge (Recursive)")
 public final class PairwiseMergeSortRecursive extends Sort {
-    public PairwiseMergeSortRecursive(ArrayVisualizer arrayVisualizer) {
-        super(arrayVisualizer);
-    }
+	public PairwiseMergeSortRecursive(ArrayVisualizer arrayVisualizer) {
+		super(arrayVisualizer);
+	}
 
 	private int end;
 
 	private void compSwap(int[] array, int a, int b) {
-		if(b < this.end && Reads.compareIndices(array, a, b, 0.5, true) == 1)
+		if (b < this.end && Reads.compareIndices(array, a, b, 0.5, true) == 1)
 			Writes.swap(array, a, b, 0.5, true, false);
 	}
 
 	private void pairwiseMerge(int[] array, int a, int b) {
-		int m = (a+b)/2, m1 = (a+m)/2, g = m-m1;
+		int m = (a + b) / 2, m1 = (a + m) / 2, g = m - m1;
 
-		for(int i = 0; m1+i < m; i++)
-			for(int j = m1, k = g; k > 0; k >>= 1, j -= k-(i&k))
-				this.compSwap(array, j+i, j+i+k);
+		for (int i = 0; m1 + i < m; i++)
+			for (int j = m1, k = g; k > 0; k >>= 1, j -= k - (i & k))
+				this.compSwap(array, j + i, j + i + k);
 
-		if(b-a > 4) this.pairwiseMerge(array, m, b);
+		if (b - a > 4)
+			this.pairwiseMerge(array, m, b);
 	}
 
 	private void pairwiseMergeSort(int[] array, int a, int b) {
-		int m = (a+b)/2;
+		int m = (a + b) / 2;
 
-		for(int i = a, j = m; i < m; i++, j++)
+		for (int i = a, j = m; i < m; i++, j++)
 			this.compSwap(array, i, j);
 
-		if(b-a > 2) {
+		if (b - a > 2) {
 			this.pairwiseMergeSort(array, a, m);
 			this.pairwiseMergeSort(array, m, b);
 			this.pairwiseMerge(array, a, b);
 		}
 	}
 
-    @Override
-    public void runSort(int[] array, int length, int bucketCount) throws Exception {
-    	this.end = length;
-    	int n = 1;
-    	for(; n < length; n <<= 1);
+	@Override
+	public void runSort(int[] array, int length, int bucketCount) throws Exception {
+		this.end = length;
+		int n = 1;
+		for (; n < length; n <<= 1)
+			;
 
 		this.pairwiseMergeSort(array, 0, n);
-    }
+	}
 }

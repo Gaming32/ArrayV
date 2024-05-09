@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,20 +29,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Swapless Bubble")
 public final class SwaplessBubbleSort extends Sort {
     public SwaplessBubbleSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Swapless Bubble");
-        this.setRunAllSortsName("Swapless Bubble Sort");
-        this.setRunSortName("Swapless Bubblesort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -56,7 +47,8 @@ public final class SwaplessBubbleSort extends Sort {
                     Writes.write(array, j - 1, array[j], 0.075, false, false);
                     last = j;
                 } else {
-                    // This code will also handle incrementing pos so this optimization works next time
+                    // This code will also handle incrementing pos so this optimization works next
+                    // time
                     if (pos + 1 < j)
                         Writes.write(array, j - 1, comp, 0.075, false, false);
                     pos = j;

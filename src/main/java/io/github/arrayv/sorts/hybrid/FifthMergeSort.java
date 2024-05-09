@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.insert.BinaryInsertionSort;
 import io.github.arrayv.sorts.templates.Sort;
 
@@ -27,7 +28,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
+@SortMeta(name = "Fifth Merge")
 public final class FifthMergeSort extends Sort {
     protected final class IndexPair {
         public int aEnd, bEnd;
@@ -42,16 +43,6 @@ public final class FifthMergeSort extends Sort {
 
     public FifthMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Fifth Merge");
-        this.setRunAllSortsName("Fifth Merge Sort");
-        this.setRunSortName("Fifth Mergesort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     protected void mergeInPlaceForwards(int[] array, int buffer, int start, int mid, int end) {
@@ -99,7 +90,8 @@ public final class FifthMergeSort extends Sort {
         return new IndexPair(left + 1, right + 1);
     }
 
-    protected void mergeForwardsWithBuffer(int[] array, int[] buffer, int dest, int left, int leftEnd, int mid, int end) {
+    protected void mergeForwardsWithBuffer(int[] array, int[] buffer, int dest, int left, int leftEnd, int mid,
+            int end) {
         int right = mid;
         while (left < leftEnd && right < end) {
             Highlights.markArray(2, left);
@@ -186,7 +178,7 @@ public final class FifthMergeSort extends Sort {
         }
     }
 
-	public void fifthMergeSort(int[] array, int currentLength) {
+    public void fifthMergeSort(int[] array, int currentLength) {
         inserter = new BinaryInsertionSort(arrayVisualizer);
 
         int fifthLen = currentLength / 5;
@@ -212,10 +204,10 @@ public final class FifthMergeSort extends Sort {
         mergeForwardsWithBuffer(array, buffer, 0, 0, bufferLen, bufferLen, currentLength);
 
         Writes.deleteExternalArray(buffer);
-	}
+    }
 
     @Override
     public void runSort(int[] array, int currentLength, int bucketCount) {
-		fifthMergeSort(array, currentLength);
+        fifthMergeSort(array, currentLength);
     }
 }

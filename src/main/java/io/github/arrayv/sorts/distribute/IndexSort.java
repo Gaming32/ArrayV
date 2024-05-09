@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.distribute;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,20 +29,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Simple Static (Index)")
 public final class IndexSort extends Sort {
     public IndexSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Index");
-        this.setRunAllSortsName("Simple Static Sort (Index Sort)");
-        this.setRunSortName("Index Sort (Simple Static Sort)");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -55,7 +46,8 @@ public final class IndexSort extends Sort {
                 Writes.swap(array, i, array[i] - min, 0.5, true, false);
                 cmpCount++;
             }
-            if (cmpCount >= sortLength - 1) break;
+            if (cmpCount >= sortLength - 1)
+                break;
             Highlights.clearMark(1);
             Highlights.clearMark(2);
             Delays.sleep(1);

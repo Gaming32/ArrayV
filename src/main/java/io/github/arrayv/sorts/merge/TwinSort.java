@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.TwinSorting;
 
 /*
@@ -34,20 +35,10 @@ import io.github.arrayv.sorts.templates.TwinSorting;
 /*
     twinsort 1.1.3.3
 */
-
+@SortMeta(name = "Twin")
 public final class TwinSort extends TwinSorting {
     public TwinSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Twin");
-        this.setRunAllSortsName("Twin Sort");
-        this.setRunSortName("Twin Sort");
-        this.setCategory("Merge Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

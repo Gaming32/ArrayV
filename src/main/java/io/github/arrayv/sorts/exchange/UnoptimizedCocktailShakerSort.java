@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,44 +29,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Unoptimized Cocktail Shaker")
 public final class UnoptimizedCocktailShakerSort extends Sort {
     public UnoptimizedCocktailShakerSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Unoptimized Cocktail Shaker");
-        this.setRunAllSortsName("Unoptimized Cocktail Shaker Sort");
-        this.setRunSortName("Unoptimized Cocktailsort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void cocktailShaker(int[] array, int start, int end, double sleep) {
         int i = start;
-        while(i < ((end / 2) + start)) {
-            for(int j = i; j < end + start - i - 1; j++) {
-                if(Reads.compareValues(array[j], array[j + 1]) == 1) {
+        while (i < ((end / 2) + start)) {
+            for (int j = i; j < end + start - i - 1; j++) {
+                if (Reads.compareIndices(array, j, j + 1, sleep / 2, true) == 1) {
                     Writes.swap(array, j, j + 1, sleep, true, false);
                 }
-
-                Highlights.markArray(1, j);
-                Highlights.markArray(2, j + 1);
-
-                Delays.sleep(sleep / 2);
             }
-            for(int j = end + start - i - 1; j > i; j--){
-                if(Reads.compareValues(array[j], array[j - 1]) == -1) {
+            for (int j = end + start - i - 1; j > i; j--) {
+                if (Reads.compareIndices(array, j, j - 1, sleep / 2, true) == -1) {
                     Writes.swap(array, j, j - 1, sleep, true, false);
                 }
-
-                Highlights.markArray(1, j);
-                Highlights.markArray(2, j - 1);
-
-                Delays.sleep(sleep / 2);
             }
 
             i++;

@@ -1,23 +1,17 @@
-package io.github.arrayv.sorts.distribute;
+package io.github.arrayv.sorts.impractical;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.BogoSorting;
 
+@SortMeta(name = "Guess", slowSort = true, unreasonableLimit = 7)
 public final class GuessSort extends BogoSorting {
     public GuessSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-        this.setSortListName("Guess");
-        this.setRunAllSortsName("Guess Sort");
-        this.setRunSortName("Guess Sort");
-        this.setCategory("Impractical Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(true);
-        this.setUnreasonableLimit(7);
-        this.setBogoSort(false);
     }
 
-    // PROGRAMMER'S NOTE: This sort is intentionally bad, it is purposefully un-optimized.
+    // PROGRAMMER'S NOTE: This sort is intentionally bad, it is purposefully
+    // un-optimized.
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         // "nested for-loop" with depth `length` to iterate over all n-tuples of indices

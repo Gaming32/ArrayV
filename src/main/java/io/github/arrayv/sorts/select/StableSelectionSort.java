@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -24,35 +25,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Stable Selection")
 public final class StableSelectionSort extends Sort {
 
-    public StableSelectionSort(ArrayVisualizer arrayVisualizer)  {
+    public StableSelectionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Stable Selection");
-        this.setRunAllSortsName("Stable Selection Sort");
-        this.setRunSortName("Stable Selection Sort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
         for (int i = 0; i < length - 1; i++) {
             int min = i;
-            for (int j = i + 1; j < length; j++) {
-                Highlights.markArray(1, j);
-                if (Reads.compareValues(array[j], array[min]) == -1) {
+            for (int j = i + 1; j < length; j++)
+                if (Reads.compareIndices(array, j, min, 1, true) == -1)
                     min = j;
-                    Highlights.markArray(2, j);
-                }
-                Delays.sleep(1);
-            }
+
             Highlights.clearMark(2);
             int tmp = array[min];
             int pos = min;

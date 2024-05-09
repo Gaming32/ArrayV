@@ -1,21 +1,13 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
+@SortMeta(listName = "Binary Gnome", runName = "Optimized Gnome Sort + Binary Search")
 public final class BinaryGnomeSort extends Sort {
     public BinaryGnomeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Binary Gnome");
-        this.setRunAllSortsName("Optimized Gnome Sort + Binary Search");
-        this.setRunSortName("Optimized Gnomesort + Binary Search");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -33,10 +25,10 @@ public final class BinaryGnomeSort extends Sort {
 
                 Delays.sleep(1);
 
-                if (Reads.compareValues(num, array[mid]) < 0) { // do NOT shift equal elements past each other; this maintains stability!
+                if (Reads.compareValues(num, array[mid]) < 0) { // do NOT shift equal elements past each other; this
+                                                                // maintains stability!
                     hi = mid;
-                }
-                else {
+                } else {
                     lo = mid + 1;
                 }
             }

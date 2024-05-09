@@ -1,11 +1,11 @@
 package io.github.arrayv.sorts.templates;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.utils.Delays;
 import io.github.arrayv.utils.Highlights;
 import io.github.arrayv.utils.Reads;
 import io.github.arrayv.utils.Writes;
-import io.github.arrayv.sortdata.SortMeta;
 
 public abstract class Sort {
     private Object[] deprecatedMetadataTable = null;
@@ -27,9 +27,10 @@ public abstract class Sort {
     }
 
     private void initDeprecatedMetadataTable() {
-        if (deprecatedMetadataTable != null) return;
+        if (deprecatedMetadataTable != null)
+            return;
         deprecatedMetadataTable = new Object[] {
-            true, "", "", "", "", false, false, false, 0, null, 0
+                true, "", "", "", "", false, false, false, 0, null, 0
         };
     }
 
@@ -47,7 +48,7 @@ public abstract class Sort {
     @Deprecated
     public boolean isSortEnabled() {
         initDeprecatedMetadataTable();
-        return (boolean)deprecatedMetadataTable[0];
+        return (boolean) deprecatedMetadataTable[0];
     }
 
     /**
@@ -56,7 +57,7 @@ public abstract class Sort {
     @Deprecated
     public String getSortListName() {
         initDeprecatedMetadataTable();
-        return (String)deprecatedMetadataTable[1];
+        return (String) deprecatedMetadataTable[1];
     }
 
     /**
@@ -65,7 +66,7 @@ public abstract class Sort {
     @Deprecated
     public String getRunAllSortsName() {
         initDeprecatedMetadataTable();
-        return (String)deprecatedMetadataTable[2];
+        return (String) deprecatedMetadataTable[2];
     }
 
     /**
@@ -74,7 +75,7 @@ public abstract class Sort {
     @Deprecated
     public String getRunSortName() {
         initDeprecatedMetadataTable();
-        return (String)deprecatedMetadataTable[3];
+        return (String) deprecatedMetadataTable[3];
     }
 
     /**
@@ -83,12 +84,14 @@ public abstract class Sort {
     @Deprecated
     public String getCategory() {
         initDeprecatedMetadataTable();
-        return (String)deprecatedMetadataTable[4];
+        return (String) deprecatedMetadataTable[4];
     }
 
     /**
      * Whether this sort is a comparison sort or a distribution sort
-     * @deprecated This method now always returns false, as this information is no longer stored
+     *
+     * @deprecated This method now always returns false, as this information is no
+     *             longer stored
      * @return false
      */
     @Deprecated
@@ -102,7 +105,7 @@ public abstract class Sort {
     @Deprecated
     public boolean usesBuckets() {
         initDeprecatedMetadataTable();
-        return (boolean)deprecatedMetadataTable[5];
+        return (boolean) deprecatedMetadataTable[5];
     }
 
     /**
@@ -111,7 +114,7 @@ public abstract class Sort {
     @Deprecated
     public boolean isRadixSort() {
         initDeprecatedMetadataTable();
-        return (boolean)deprecatedMetadataTable[6];
+        return (boolean) deprecatedMetadataTable[6];
     }
 
     /**
@@ -120,7 +123,7 @@ public abstract class Sort {
     @Deprecated
     public boolean isUnreasonablySlow() {
         initDeprecatedMetadataTable();
-        return (int)deprecatedMetadataTable[8] > 0;
+        return (int) deprecatedMetadataTable[8] > 0;
     }
 
     /**
@@ -129,7 +132,7 @@ public abstract class Sort {
     @Deprecated
     public int getUnreasonableLimit() {
         initDeprecatedMetadataTable();
-        return (int)deprecatedMetadataTable[8];
+        return (int) deprecatedMetadataTable[8];
     }
 
     /**
@@ -138,7 +141,7 @@ public abstract class Sort {
     @Deprecated
     public boolean isBogoSort() {
         initDeprecatedMetadataTable();
-        return (boolean)deprecatedMetadataTable[7];
+        return (boolean) deprecatedMetadataTable[7];
     }
 
     /**
@@ -147,7 +150,7 @@ public abstract class Sort {
     @Deprecated
     public String getQuestion() {
         initDeprecatedMetadataTable();
-        return (String)deprecatedMetadataTable[9];
+        return (String) deprecatedMetadataTable[9];
     }
 
     /**
@@ -156,7 +159,7 @@ public abstract class Sort {
     @Deprecated
     public int getDefaultAnswer() {
         initDeprecatedMetadataTable();
-        return (int)deprecatedMetadataTable[10];
+        return (int) deprecatedMetadataTable[10];
     }
 
     /**
@@ -177,19 +180,11 @@ public abstract class Sort {
         deprecatedMetadataTable[1] = listName;
     }
 
-    /**
-     * @deprecated Please move to the new {@link SortMeta} API.
-     */
-    @Deprecated
     protected void setRunAllSortsName(String showcaseName) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[2] = showcaseName;
     }
 
-    /**
-     * @deprecated Please move to the new {@link SortMeta} API.
-     */
-    @Deprecated
     protected void setRunSortName(String runName) {
         initDeprecatedMetadataTable();
         deprecatedMetadataTable[3] = runName;
@@ -206,8 +201,11 @@ public abstract class Sort {
 
     /**
      * Sets whether this sort is a comparison sort or a distribution sort
-     * @deprecated This method doesn't do anything, as this information is no longer stored
-     * @param comparisonBased Whether this sort is a comparison sort or a distribution sort
+     *
+     * @deprecated This method doesn't do anything, as this information is no longer
+     *             stored
+     * @param comparisonBased Whether this sort is a comparison sort or a
+     *                        distribution sort
      */
     @Deprecated
     public void setComparisonBased(boolean comparisonBased) {
@@ -232,7 +230,8 @@ public abstract class Sort {
     }
 
     /**
-     * @deprecated Please move to the new {@link SortMeta} API. This method also no longer does anything.
+     * @deprecated Please move to the new {@link SortMeta} API. This method also no
+     *             longer does anything.
      */
     @Deprecated
     public void setUnreasonablySlow(boolean unreasonableSlow) {
@@ -279,5 +278,8 @@ public abstract class Sort {
         return answer;
     }
 
-    public abstract void runSort(int[] array, int sortLength, int bucketCount) throws Exception; //bucketCount will be zero for comparison-based sorts
+    public abstract void runSort(int[] array, int sortLength, int bucketCount) throws Exception; // bucketCount will be
+                                                                                                 // zero for
+                                                                                                 // comparison-based
+                                                                                                 // sorts
 }

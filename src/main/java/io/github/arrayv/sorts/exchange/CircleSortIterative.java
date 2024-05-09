@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.IterativeCircleSorting;
 
 /*
@@ -14,20 +15,10 @@ Texts.  A copy of the license is included in the section entitled "GNU
 Free Documentation License".
  *
  */
-
+@SortMeta(listName = "Circle (Iterative)", runName = "Iterative Circle Sort")
 public final class CircleSortIterative extends IterativeCircleSorting {
     public CircleSortIterative(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Circle (Iterative)");
-        this.setRunAllSortsName("Iterative Circle Sort");
-        this.setRunSortName("Iterative Circlesort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     public void singleRoutine(int[] array, int length) {
@@ -36,9 +27,10 @@ public final class CircleSortIterative extends IterativeCircleSorting {
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-    	this.end = sortLength;
-    	int n = 1;
-    	for(; n < sortLength; n*=2);
+        this.end = sortLength;
+        int n = 1;
+        for (; n < sortLength; n *= 2)
+            ;
 
         int numberOfSwaps = 0;
         do {

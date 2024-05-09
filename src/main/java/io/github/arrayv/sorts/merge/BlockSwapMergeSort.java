@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -30,36 +31,27 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 //refactored version of original implementation by @Piotr Grochowski (in place merge 2)
+@SortMeta(name = "Block-Swap Merge")
 public final class BlockSwapMergeSort extends Sort {
     public BlockSwapMergeSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Block-Swap Merge");
-        this.setRunAllSortsName("Block-Swap Merge Sort");
-        this.setRunSortName("Block-Swap Mergesort");
-        this.setCategory("Merge Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void multiSwap(int[] array, int a, int b, int len) {
-        for(int i = 0; i < len; i++)
-            Writes.swap(array, a+i, b+i, 1, true, false);
+        for (int i = 0; i < len; i++)
+            Writes.swap(array, a + i, b + i, 1, true, false);
     }
 
     private int binarySearchMid(int[] array, int start, int mid, int end) {
-        int a = 0, b = Math.min(mid-start, end-mid), m = a+(b-a)/2;
+        int a = 0, b = Math.min(mid - start, end - mid), m = a + (b - a) / 2;
 
-        while(b > a) {
-            if(Reads.compareValues(array[mid-m-1], array[mid+m]) == 1)
-                a = m+1;
+        while (b > a) {
+            if (Reads.compareValues(array[mid - m - 1], array[mid + m]) == 1)
+                a = m + 1;
             else
                 b = m;
 
-            m = a+(b-a)/2;
+            m = a + (b - a) / 2;
         }
 
         return m;
@@ -68,9 +60,9 @@ public final class BlockSwapMergeSort extends Sort {
     public void multiSwapMerge(int[] array, int start, int mid, int end) {
         int m = this.binarySearchMid(array, start, mid, end);
 
-        while(m > 0) {
-            this.multiSwap(array, mid-m, mid, m);
-            this.multiSwapMerge(array, mid, mid+m, end);
+        while (m > 0) {
+            this.multiSwap(array, mid - m, mid, m);
+            this.multiSwapMerge(array, mid, mid + m, end);
 
             end = mid;
             mid -= m;
@@ -80,14 +72,14 @@ public final class BlockSwapMergeSort extends Sort {
     }
 
     public void multiSwapMergeSort(int[] array, int a, int b) {
-        int len = b-a, i;
+        int len = b - a, i;
 
-        for(int j = 1; j < len; j *= 2) {
-            for(i = a; i + 2*j <= b; i += 2*j)
-                this.multiSwapMerge(array, i, i+j, i+2*j);
+        for (int j = 1; j < len; j *= 2) {
+            for (i = a; i + 2 * j <= b; i += 2 * j)
+                this.multiSwapMerge(array, i, i + j, i + 2 * j);
 
-            if(i + j < b)
-                this.multiSwapMerge(array, i, i+j, b);
+            if (i + j < b)
+                this.multiSwapMerge(array, i, i + j, b);
         }
     }
 

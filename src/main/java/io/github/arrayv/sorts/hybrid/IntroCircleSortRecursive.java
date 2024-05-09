@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.hybrid;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.insert.BinaryInsertionSort;
 import io.github.arrayv.sorts.templates.CircleSorting;
 
@@ -15,35 +16,26 @@ Texts.  A copy of the license is included in the section entitled "GNU
 Free Documentation License".
  *
  */
-
+@SortMeta(listName = "Intro Circle (Recursive)", runName = "Recursive Introspective Circle Sort")
 public final class IntroCircleSortRecursive extends CircleSorting {
     public IntroCircleSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Intro Circle (Recursive)");
-        this.setRunAllSortsName("Recursive Introspective Circle Sort");
-        this.setRunSortName("Introspective Circlesort");
-        this.setCategory("Hybrid Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
     public void runSort(int[] array, int length, int bucketCount) {
-    	this.end = length;
-    	int threshold = 0, n = 1;
-    	for(; n < length; n*=2, threshold++);
+        this.end = length;
+        int threshold = 0, n = 1;
+        for (; n < length; n *= 2, threshold++)
+            ;
 
-		threshold /= 2;
+        threshold /= 2;
         int iterations = 0;
 
         do {
             iterations++;
 
-            if(iterations >= threshold) {
+            if (iterations >= threshold) {
                 BinaryInsertionSort binaryInserter = new BinaryInsertionSort(this.arrayVisualizer);
                 binaryInserter.customBinaryInsert(array, 0, length, 0.1);
                 break;

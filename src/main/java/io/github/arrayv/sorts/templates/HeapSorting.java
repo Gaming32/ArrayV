@@ -22,22 +22,21 @@ public abstract class HeapSorting extends Sort {
     private void siftDown(int[] array, int root, int dist, int start, double sleep, boolean isMax) {
         int compareVal = 0;
 
-        if(isMax) compareVal = -1;
-        else compareVal = 1;
+        if (isMax)
+            compareVal = -1;
+        else
+            compareVal = 1;
 
         while (root <= dist / 2) {
             int leaf = 2 * root;
             if (leaf < dist && Reads.compareValues(array[start + leaf - 1], array[start + leaf]) == compareVal) {
                 leaf++;
             }
-            Highlights.markArray(1, start + root - 1);
-            Highlights.markArray(2, start + leaf - 1);
-            Delays.sleep(sleep);
-            if (Reads.compareValues(array[start + root - 1], array[start + leaf - 1]) == compareVal) {
+            if (Reads.compareIndices(array, start + root - 1, start + leaf - 1, sleep, true) == compareVal) {
                 Writes.swap(array, start + root - 1, start + leaf - 1, 0, true, false);
                 root = leaf;
-            }
-            else break;
+            } else
+                break;
         }
     }
 
@@ -58,7 +57,7 @@ public abstract class HeapSorting extends Sort {
             siftDown(arr, 1, i - 1, start, sleep, isMax);
         }
 
-        if(!isMax) {
+        if (!isMax) {
             Writes.reversal(arr, start, start + length - 1, 1, true, false);
         }
     }

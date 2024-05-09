@@ -1,25 +1,17 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 // Min-Max Heaps translated from https://github.com/BartMassey/minmaxheap
+@SortMeta(name = "Min-Max Heap")
 public final class MinMaxHeapSort extends Sort {
     int[] a;
     int start, end;
 
     public MinMaxHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Min-Max Heap");
-        this.setRunAllSortsName("Min-Max Heap Sort");
-        this.setRunSortName("Min-max Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     protected boolean compare(int x, int y, boolean isGt) {
@@ -51,7 +43,7 @@ public final class MinMaxHeapSort extends Sort {
         while (left < this.end) {
             int right = left + 1;
             int nexti = left;
-            for (int c : new int[] {right, 2 * left + 1, 2 * left + 2, 2 * right + 1, 2 * right + 2}) {
+            for (int c : new int[] { right, 2 * left + 1, 2 * left + 2, 2 * right + 1, 2 * right + 2 }) {
                 if (c >= this.end) {
                     break;
                 }
@@ -87,12 +79,12 @@ public final class MinMaxHeapSort extends Sort {
     }
 
     // public void store_min() {
-    //     this.end--;
-    //     if (this.end <= this.start) {
-    //         return;
-    //     }
-    //     this.swap(this.start, this.end);
-    //     this.downheap(this.start);
+    // this.end--;
+    // if (this.end <= this.start) {
+    // return;
+    // }
+    // this.swap(this.start, this.end);
+    // this.downheap(this.start);
     // }
 
     public void store_max() {

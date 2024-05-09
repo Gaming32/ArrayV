@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.GrailSorting;
 
 /*
@@ -37,20 +38,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* methods copied from Grail Sort        */
 /*                                       */
 /*****************************************/
-
+@SortMeta(name = "Lazy Stable")
 public final class LazyStableSort extends GrailSorting {
     public LazyStableSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Lazy Stable");
-        this.setRunAllSortsName("Lazy Stable Sort");
-        this.setRunSortName("Lazy Stable Sort");
-        this.setCategory("Merge Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override

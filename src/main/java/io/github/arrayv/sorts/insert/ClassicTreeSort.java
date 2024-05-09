@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.insert;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,20 +29,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Classic Unbalanced Tree")
 public final class ClassicTreeSort extends Sort {
 	public ClassicTreeSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-
-		this.setSortListName("Classic Tree");
-		this.setRunAllSortsName("Classic Unbalanced Tree Sort");
-		this.setRunSortName("Classic Unbalanced Treesort");
-		this.setCategory("Insertion Sorts");
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(false);
-		this.setUnreasonableLimit(0);
-		this.setBogoSort(false);
 	}
 
 	private int idx;
@@ -50,13 +41,15 @@ public final class ClassicTreeSort extends Sort {
 		Highlights.markArray(1, r);
 		Delays.sleep(1);
 
-		if(lower[r] != 0) this.traverse(array, temp, lower, upper, lower[r]);
+		if (lower[r] != 0)
+			this.traverse(array, temp, lower, upper, lower[r]);
 
 		Writes.write(temp, this.idx++, array[r], 0, false, true);
 		Highlights.markArray(1, r);
 		Delays.sleep(1);
 
-		if(upper[r] != 0) this.traverse(array, temp, lower, upper, upper[r]);
+		if (upper[r] != 0)
+			this.traverse(array, temp, lower, upper, upper[r]);
 	}
 
 	@Override
@@ -65,21 +58,18 @@ public final class ClassicTreeSort extends Sort {
 		int[] upper = Writes.createExternalArray(currentLength);
 		int[] next;
 
-		for(int i = 1; i < currentLength; i++) {
+		for (int i = 1; i < currentLength; i++) {
 			Highlights.markArray(2, i);
 			int c = 0;
 
-			while(true) {
-				Highlights.markArray(1, c);
-				Delays.sleep(0.5);
+			while (true) {
+				next = Reads.compareIndices(array, i, c, 0.5, true) < 0 ? lower : upper;
 
-				next = Reads.compareValues(array[i], array[c]) < 0 ? lower : upper;
-
-				if(next[c] == 0) {
+				if (next[c] == 0) {
 					Writes.write(next, c, i, 0, false, true);
 					break;
-				}
-				else c = next[c];
+				} else
+					c = next[c];
 			}
 		}
 		Highlights.clearMark(2);

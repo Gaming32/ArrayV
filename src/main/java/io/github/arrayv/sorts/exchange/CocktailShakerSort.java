@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,50 +29,32 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Cocktail Shaker")
 public final class CocktailShakerSort extends Sort {
     public CocktailShakerSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Cocktail");
-        this.setRunAllSortsName("Cocktail Shaker Sort");
-        this.setRunSortName("Cocktail Shaker Sort");
-        this.setCategory("Exchange Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private void smartCocktailShaker(int[] array, int start, int end, double sleep) {
         int i = start;
-        while(i < ((end / 2) + start)) {
+        while (i < ((end / 2) + start)) {
             boolean sorted = true;
-            for(int j = i; j < end + start - i - 1; j++) {
-                if(Reads.compareValues(array[j], array[j + 1]) == 1) {
+            for (int j = i; j < end + start - i - 1; j++) {
+                if (Reads.compareIndices(array, j, j + 1, sleep / 2, true) == 1) {
                     Writes.swap(array, j, j + 1, sleep, true, false);
                     sorted = false;
                 }
-
-                Highlights.markArray(1, j);
-                Highlights.markArray(2, j + 1);
-
-                Delays.sleep(sleep / 2);
             }
-            for(int j = end + start - i - 1; j > i; j--){
-                if(Reads.compareValues(array[j], array[j - 1]) == -1) {
+            for (int j = end + start - i - 1; j > i; j--) {
+                if (Reads.compareIndices(array, j, j - 1, sleep / 2, true) == -1) {
                     Writes.swap(array, j, j - 1, sleep, true, false);
                     sorted = false;
                 }
-
-                Highlights.markArray(1, j);
-                Highlights.markArray(2, j - 1);
-
-                Delays.sleep(sleep / 2);
             }
-            if(sorted) break;
-            else i++;
+            if (sorted)
+                break;
+            else
+                i++;
         }
     }
 

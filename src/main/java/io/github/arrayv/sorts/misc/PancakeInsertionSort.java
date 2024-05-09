@@ -4,9 +4,7 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
-@SortMeta(
-    name = "Pancake Insertion"
-)
+@SortMeta(name = "Pancake Insertion")
 public final class PancakeInsertionSort extends Sort {
     public PancakeInsertionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);

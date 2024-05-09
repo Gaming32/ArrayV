@@ -4,6 +4,7 @@
 package io.github.arrayv.sorts.merge;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /**
@@ -11,6 +12,7 @@ import io.github.arrayv.sorts.templates.Sort;
  * @author thatsOven
  *
  */
+@SortMeta(name = "Buffered Stooge")
 public final class BufferedStoogeSort extends Sort {
 
 	/**
@@ -18,22 +20,10 @@ public final class BufferedStoogeSort extends Sort {
 	 */
 	public BufferedStoogeSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		// TODO Auto-generated constructor stub
-		this.setSortListName("Buffered Stooge");
-		this.setRunAllSortsName("Buffered Stooge Sort");
-		this.setRunSortName("Buffered Stoogesort");
-		this.setCategory("Merge Sorts");
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(false);
-		this.setUnreasonableLimit(0);
-		this.setBogoSort(false);
 	}
 
 	private int compare(int[] arr, int x, int y) {
-		this.Highlights.markArray(0, x);
-		this.Highlights.markArray(1, y);
-		return this.Reads.compareValues(arr[x], arr[y]);
+		return this.Reads.compareIndices(arr, x, y, 0, true);
 	}
 
 	public void wrapper(int[] arr, int start, int stop) {
@@ -88,9 +78,7 @@ public final class BufferedStoogeSort extends Sort {
 
 	@Override
 	public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
-		// TODO Auto-generated method stub
 		wrapper(array, 0, sortLength);
-
 	}
 
 }

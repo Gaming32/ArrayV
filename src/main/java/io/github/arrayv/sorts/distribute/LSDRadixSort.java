@@ -3,6 +3,7 @@ package io.github.arrayv.sorts.distribute;
 import java.util.ArrayList;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -30,36 +31,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "LSD Radix", bucketSort = true, radixSort = true)
 public final class LSDRadixSort extends Sort {
     public LSDRadixSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("LSD Radix");
-        this.setRunAllSortsName("Least Significant Digit Radix Sort, Base 4");
-        this.setRunSortName("Least Significant Digit Radixsort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(true);
-        this.setRadixSort(true);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
     public void runSort(int[] array, int sortLength, int bucketCount) throws Exception {
         this.setRunAllSortsName("Least Significant Digit Radix Sort, Base " + bucketCount);
+        this.setRunSortName("Least Significant Digit Radix Sort, Base " + bucketCount);
 
         int highestpower = Reads.analyzeMaxLog(array, sortLength, bucketCount, 0.5, true);
 
         @SuppressWarnings("unchecked")
         ArrayList<Integer>[] registers = new ArrayList[bucketCount];
 
-        for(int i = 0; i < bucketCount; i++)
+        for (int i = 0; i < bucketCount; i++)
             registers[i] = new ArrayList<>();
 
-        for(int p = 0; p <= highestpower; p++){
-            for(int i = 0; i < sortLength; i++){
+        for (int p = 0; p <= highestpower; p++) {
+            for (int i = 0; i < sortLength; i++) {
                 Highlights.markArray(1, i);
 
                 int digit = Reads.getDigit(array[i], p, bucketCount);

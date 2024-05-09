@@ -30,11 +30,7 @@ SOFTWARE.
  *
  */
 
-@SortMeta(
-    name = "Fold",
-    showcaseName = "Fold Sorting Network",
-    runName = "Fold Sort"
-)
+@SortMeta(listName = "Fold", runName = "Fold Sorting Network")
 public final class FoldSort extends Sort {
     public FoldSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
@@ -42,32 +38,31 @@ public final class FoldSort extends Sort {
 
     int end;
 
-	void compSwap(int[] array, int a, int b) {
-		if(b < end && Reads.compareIndices(array, a, b, 0.5, true) == 1)
-			Writes.swap(array, a, b, 0.5, true, false);
-	}
+    void compSwap(int[] array, int a, int b) {
+        if (b < end && Reads.compareIndices(array, a, b, 0.5, true) == 1)
+            Writes.swap(array, a, b, 0.5, true, false);
+    }
 
-	void halver(int[] array, int low, int high)
-    {
-        while (low < high)
-        {
+    void halver(int[] array, int low, int high) {
+        while (low < high) {
             this.compSwap(array, low++, high--);
         }
     }
 
     @Override
     public void runSort(int[] array, int size, int bucketCount) {
-    	int ceilLog = 1;
-    	for (; (1 << ceilLog) < size; ceilLog++);
+        int ceilLog = 1;
+        for (; (1 << ceilLog) < size; ceilLog++)
+            ;
 
-    	end  = size;
-    	size = 1 << ceilLog;
+        end = size;
+        size = 1 << ceilLog;
 
-        for (int k = size >> 1; k > 0; k >>= 1)        //log(N)
+        for (int k = size >> 1; k > 0; k >>= 1) // log(N)
         {
-            for (int i = size; i >= k; i >>= 1)        //log(N)
+            for (int i = size; i >= k; i >>= 1) // log(N)
             {
-                for (int j = 0; j < end; j += i)    //N
+                for (int j = 0; j < end; j += i) // N
                 {
                     halver(array, j, j + i - 1);
                 }

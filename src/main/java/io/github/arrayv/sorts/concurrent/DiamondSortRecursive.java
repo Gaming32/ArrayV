@@ -4,12 +4,10 @@ import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
-@SortMeta(
-	name = "Recursive Diamond",
-	listName = "Diamond (Recursive)"
-)
+@SortMeta(runName = "Recursive Diamond Sorting Network", listName = "Diamond (Recursive)")
 public final class DiamondSortRecursive extends Sort {
     private final double DELAY = 0.05;
+
     public DiamondSortRecursive(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
     }

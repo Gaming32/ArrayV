@@ -4,6 +4,7 @@
 package io.github.arrayv.sorts.exchange;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /**
@@ -11,6 +12,7 @@ import io.github.arrayv.sorts.templates.Sort;
  * @author EilrahcF
  *
  */
+@SortMeta(name = "Slope")
 public final class SlopeSort extends Sort {
 
 	/**
@@ -18,15 +20,6 @@ public final class SlopeSort extends Sort {
 	 */
 	public SlopeSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-		setSortListName("Slope");
-		setRunAllSortsName("Slope Sort");
-		setRunSortName("Slopesort");
-		setCategory("Exchange Sorts");
-		setBucketSort(false);
-		setRadixSort(false);
-		setUnreasonablySlow(true);
-		setUnreasonableLimit(16384);
-		setBogoSort(false);
 
 	}
 

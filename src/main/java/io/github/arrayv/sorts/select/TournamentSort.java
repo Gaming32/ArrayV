@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -20,23 +21,13 @@ import io.github.arrayv.sorts.templates.Sort;
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
+@SortMeta(name = "Tournament")
 public final class TournamentSort extends Sort {
     private int[] matches;
     private int tourney;
 
     public TournamentSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Tournament");
-        this.setRunAllSortsName("Tournament Sort");
-        this.setRunSortName("Tournament Sort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     private int tourneyCompare(int a, int b) {
@@ -55,21 +46,27 @@ public final class TournamentSort extends Sort {
     private void setWinner(int root, int winner) {
         Writes.write(matches, root, winner, 0, false, true);
     }
+
     private void setWinners(int root, int winners) {
         Writes.write(matches, root + 1, winners, 0, false, true);
     }
+
     private void setLosers(int root, int losers) {
         Writes.write(matches, root + 2, losers, 0, false, true);
     }
+
     private int getWinner(int root) {
         return matches[root];
     }
+
     private int getWinners(int root) {
         return matches[root + 1];
     }
+
     private int getLosers(int root) {
         return matches[root + 2];
     }
+
     private void setMatch(int root, int winner, int winners, int losers) {
         this.setWinner(root, winner);
         this.setWinners(root, winners);
@@ -103,10 +100,12 @@ public final class TournamentSort extends Sort {
     }
 
     private int knockout(int[] arr, int i, int k, int root) {
-        if (i == k) return TournamentSort.makePlayer(i);
+        if (i == k)
+            return TournamentSort.makePlayer(i);
 
         int j = (i + k) / 2;
-        return this.makeMatch(arr, this.knockout(arr, i, j, 2 * root), this.knockout(arr,j + 1, k, (2 * root) + 3), root);
+        return this.makeMatch(arr, this.knockout(arr, i, j, 2 * root), this.knockout(arr, j + 1, k, (2 * root) + 3),
+                root);
     }
 
     private int rebuild(int[] arr, int root) {
@@ -122,8 +121,7 @@ public final class TournamentSort extends Sort {
 
             this.setLosers(root, this.getWinners(root));
             this.setWinners(root, temp);
-        }
-        else {
+        } else {
             this.setWinner(root, this.getPlayer(this.getWinners(root)));
         }
 

@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.distribute;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.insert.InsertionSort;
 import io.github.arrayv.sorts.select.MaxHeapSort;
 import io.github.arrayv.sorts.templates.Sort;
@@ -30,28 +31,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Static")
 public final class StaticSort extends Sort {
     MaxHeapSort heapSorter;
     InsertionSort insertSorter;
 
     public StaticSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Static");
-        this.setRunAllSortsName("Static Sort");
-        this.setRunSortName("Static Sort");
-        this.setCategory("Distribution Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     public int[] findMinMax(int[] array, int a, int b) {
         int min = array[a],
-            max = min;
+                max = min;
 
         for (int i = a + 1; i < b; i++) {
             if (Reads.compareIndexValue(array, i, min, 0.5, true) < 0)
@@ -60,15 +51,15 @@ public final class StaticSort extends Sort {
                 max = array[i];
         }
 
-        return new int[] {min, max};
+        return new int[] { min, max };
     }
 
     public void staticSort(int[] array, int a, int b) {
         int[] minMax = this.findMinMax(array, a, b);
         int auxLen = b - a;
 
-        int[] count  = Writes.createExternalArray(auxLen + 1),
-              offset = Writes.createExternalArray(auxLen + 1);
+        int[] count = Writes.createExternalArray(auxLen + 1),
+                offset = Writes.createExternalArray(auxLen + 1);
 
         float CONST = (float) auxLen / (minMax[1] - minMax[0] + 1);
 
@@ -76,7 +67,7 @@ public final class StaticSort extends Sort {
         for (int i = a; i < b; i++) {
             Highlights.markArray(1, i);
             Delays.sleep(1);
-            idx = (int)((array[i] - minMax[0]) * CONST);
+            idx = (int) ((array[i] - minMax[0]) * CONST);
             Writes.write(count, idx, count[idx] + 1, 1, false, true);
         }
 
@@ -95,7 +86,7 @@ public final class StaticSort extends Sort {
                 Writes.write(array, from, -1, 0.5, true, false);
 
                 do {
-                    idx = (int)((num - minMax[0]) * CONST);
+                    idx = (int) ((num - minMax[0]) * CONST);
                     int to = offset[idx];
 
                     Writes.write(offset, idx, offset[idx] + 1, 1, false, true);
@@ -112,9 +103,10 @@ public final class StaticSort extends Sort {
 
         for (int i = 0; i < auxLen; i++) {
             int s = (i > 1) ? offset[i - 1] : a,
-                e = offset[i];
+                    e = offset[i];
 
-            if (e - s <= 1) continue;
+            if (e - s <= 1)
+                continue;
 
             if (e - s > 16)
                 heapSorter.customHeapSort(array, s, e, 1);

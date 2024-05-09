@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,20 +29,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Selection")
 public final class SelectionSort extends Sort {
     public SelectionSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Selection");
-        this.setRunAllSortsName("Selection Sort");
-        this.setRunSortName("Selection Sort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     @Override
@@ -49,16 +40,10 @@ public final class SelectionSort extends Sort {
         for (int i = 0; i < length - 1; i++) {
             int lowestindex = i;
 
-            for (int j = i + 1; j < length; j++) {
-                Highlights.markArray(2, j);
-                Delays.sleep(0.01);
-
-                if (Reads.compareValues(array[j], array[lowestindex]) == -1){
+            for (int j = i + 1; j < length; j++)
+                if (Reads.compareIndices(array, j, lowestindex, 0.01, true) == -1)
                     lowestindex = j;
-                    Highlights.markArray(1, lowestindex);
-                    Delays.sleep(0.01);
-                }
-            }
+
             Writes.swap(array, i, lowestindex, 0.02, true, false);
         }
     }

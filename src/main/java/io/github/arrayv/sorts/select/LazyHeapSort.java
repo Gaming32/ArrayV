@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -28,27 +29,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  *
  */
-
+@SortMeta(name = "Lazy Heap")
 public final class LazyHeapSort extends Sort {
 	public LazyHeapSort(ArrayVisualizer arrayVisualizer) {
 		super(arrayVisualizer);
-
-		this.setSortListName("Lazy Heap");
-		this.setRunAllSortsName("Lazy Heap Sort");
-		this.setRunSortName("Lazy Heapsort");
-		this.setCategory("Selection Sorts");
-		this.setBucketSort(false);
-		this.setRadixSort(false);
-		this.setUnreasonablySlow(false);
-		this.setUnreasonableLimit(0);
-		this.setBogoSort(false);
 	}
 
 	private void maxToFront(int[] array, int a, int b) {
 		int max = a;
 
-		for(int i = a+1; i < b; i++)
-			if(Reads.compareIndices(array, i, max, 0.1, true) > 0)
+		for (int i = a + 1; i < b; i++)
+			if (Reads.compareIndices(array, i, max, 0.1, true) > 0)
 				max = i;
 
 		Writes.swap(array, max, a, 1, true, false);
@@ -56,20 +47,20 @@ public final class LazyHeapSort extends Sort {
 
 	@Override
 	public void runSort(int[] array, int length, int bucketCount) {
-		int s = (int)Math.sqrt(length-1)+1;
+		int s = (int) Math.sqrt(length - 1) + 1;
 
-		for(int i = 0; i < length; i += s)
-			this.maxToFront(array, i, Math.min(i+s, length));
+		for (int i = 0; i < length; i += s)
+			this.maxToFront(array, i, Math.min(i + s, length));
 
-		for(int j = length; j > 0;) {
+		for (int j = length; j > 0;) {
 			int max = 0;
 
-			for(int i = max+s; i < j; i += s)
-				if(Reads.compareIndices(array, i, max, 0.1, true) >= 0)
+			for (int i = max + s; i < j; i += s)
+				if (Reads.compareIndices(array, i, max, 0.1, true) >= 0)
 					max = i;
 
 			Writes.swap(array, max, --j, 1, true, false);
-			this.maxToFront(array, max, Math.min(max+s, j));
+			this.maxToFront(array, max, Math.min(max + s, j));
 		}
 	}
 }

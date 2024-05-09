@@ -1,6 +1,7 @@
 package io.github.arrayv.sorts.select;
 
 import io.github.arrayv.main.ArrayVisualizer;
+import io.github.arrayv.sortdata.SortMeta;
 import io.github.arrayv.sorts.templates.Sort;
 
 /*
@@ -26,20 +27,10 @@ import io.github.arrayv.sorts.templates.Sort;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+@SortMeta(name = "Poplar Heap")
 public class PoplarHeapSort extends Sort {
     public PoplarHeapSort(ArrayVisualizer arrayVisualizer) {
         super(arrayVisualizer);
-
-        this.setSortListName("Poplar Heap");
-        this.setRunAllSortsName("Poplar Heap Sort");
-        this.setRunSortName("Poplar Heapsort");
-        this.setCategory("Selection Sorts");
-        this.setBucketSort(false);
-        this.setRadixSort(false);
-        this.setUnreasonablySlow(false);
-        this.setUnreasonableLimit(0);
-        this.setBogoSort(false);
     }
 
     ////////////////////////////////////////////////////////////
@@ -70,7 +61,8 @@ public class PoplarHeapSort extends Sort {
     }
 
     private void insertion_sort(int[] array, int first, int last) {
-        if (first == last) return;
+        if (first == last)
+            return;
         unchecked_insertion_sort(array, first, last);
     }
 
@@ -79,7 +71,8 @@ public class PoplarHeapSort extends Sort {
     ////////////////////////////////////////////////////////////
 
     private void sift(int[] array, int first, int size) {
-        if (size < 2) return;
+        if (size < 2)
+            return;
 
         int root = first + (size - 1);
         int child_root1 = root - 1;
@@ -93,13 +86,15 @@ public class PoplarHeapSort extends Sort {
             if (Reads.compareValues(array[max_root], array[child_root2]) == -1) {
                 max_root = child_root2;
             }
-            if (max_root == root) return;
+            if (max_root == root)
+                return;
 
             Writes.swap(array, root, max_root, 0.75, true, false);
             Highlights.clearMark(2);
 
             size /= 2;
-            if (size < 2) return;
+            if (size < 2)
+                return;
 
             root = max_root;
             child_root1 = root - 1;
@@ -117,7 +112,8 @@ public class PoplarHeapSort extends Sort {
         int it = first;
         while (true) {
             int root = it + poplar_size - 1;
-            if (root == last_root) break;
+            if (root == last_root)
+                break;
             if (Reads.compareValues(array[bigger], array[root]) == -1) {
                 bigger = root;
                 bigger_size = poplar_size;
@@ -139,7 +135,8 @@ public class PoplarHeapSort extends Sort {
 
     private void make_heap(int[] array, int first, int last) {
         int size = last - first;
-        if (size < 2) return;
+        if (size < 2)
+            return;
 
         // A sorted collection is a valid poplar heap; whenever the heap
         // is small, using insertion sort should be faster, which is why
@@ -184,7 +181,8 @@ public class PoplarHeapSort extends Sort {
 
     private void sort_heap(int[] array, int first, int last) {
         int size = last - first;
-        if (size < 2) return;
+        if (size < 2)
+            return;
 
         do {
             this.pop_heap_with_size(array, first, last, size);

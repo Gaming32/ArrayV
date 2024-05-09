@@ -8,10 +8,7 @@ import io.github.arrayv.sorts.templates.Sort;
 Idea made by Control#2866 in The Studio Discord Server (https://discord.com/invite/2xGkKC2)
 */
 
-@SortMeta(
-    name = "Matrix",
-    runName = "Matrix Sort"
-)
+@SortMeta(name = "Matrix")
 public final class MatrixSort extends Sort {
     private class MatrixShape {
         int width;
@@ -59,11 +56,12 @@ public final class MatrixSort extends Sort {
     }
 
     private MatrixShape getMatrixDims(int len) {
-        int dim = (int)Math.sqrt(len);
+        int dim = (int) Math.sqrt(len);
         boolean insertLast = false;
         if (dim * dim == len - 1)
             insertLast = true;
-        for (; len % dim != 0; dim--);
+        for (; len % dim != 0; dim--)
+            ;
         return new MatrixShape(dim, len / dim, insertLast);
     }
 
@@ -76,8 +74,7 @@ public final class MatrixSort extends Sort {
             did = false;
             for (int i = start; i < end; i += gap)
                 did = insertLast(array, start, i, gap, dir) | did;
-        }
-        else {
+        } else {
             boolean newdid;
             MatrixShape matShape = getMatrixDims(length);
             if (matShape.insertLast) {
