@@ -2,6 +2,14 @@ package io.github.arrayv.utils;
 
 import io.github.arrayv.main.ArrayVisualizer;
 import io.github.arrayv.panes.JErrorPane;
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.Set;
+
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,6 +44,15 @@ public final class Highlights {
     private volatile int[] highlights;
     private volatile byte[] markCounts;
 
+    // This is in desperate need of optimization.
+    private volatile Map<int[], boolean[]> colorMarks;
+    private volatile Map<int[], Color[]> colorColors;
+
+    private volatile boolean retainColorMarks = false;
+
+    private volatile Map<String, Color> defined;
+    private final int[] main;
+
     private volatile int maxHighlightMarked;    // IMPORTANT: This stores the index one past the farthest highlight used, so that a value
                                                 // of 0 means no highlights are in use, and iteration is more convenient.
 
@@ -67,8 +84,11 @@ public final class Highlights {
         this.arrayVisualizer = arrayVisualizer;
 
         try {
+            defined = new HashMap<>();
             this.highlights = new int[maximumLength];
             this.markCounts = new byte[maximumLength];
+            this.colorMarks = new IdentityHashMap<>();
+            this.colorColors = new IdentityHashMap<>();
         } catch (OutOfMemoryError e) {
             JErrorPane.invokeCustomErrorMessage("Failed to allocate mark arrays. The program will now exit.");
             System.exit(1);
@@ -79,6 +99,9 @@ public final class Highlights {
 
         Arrays.fill(highlights, -1);
         Arrays.fill(markCounts, (byte)0);
+
+        this.main = arrayVisualizer.getArray(); // I refuse to remove this line of code without putting up a fight
+        this.registerColorMarks(main);
     }
 
     public void postInit() {
@@ -158,6 +181,163 @@ public final class Highlights {
         if (arrayPosition >= markCounts.length) return false;
         return this.markCounts[arrayPosition] != 0;
     }
+    public Set<String> getDeclaredColors() {
+        return defined.keySet();
+    }
+    public Color getColorFromName(String color) {
+        return defined.getOrDefault(color, Color.WHITE);
+    }
+    public synchronized void defineColor(String alias, Color col) {
+        defined.put(alias, col);
+    }
+
+    public synchronized boolean[] getColorMarks(int[] array) {
+        return colorMarks.get(array);
+    }
+
+    public synchronized Color[] getColorColors(int[] array) {
+        return colorColors.get(array);
+    }
+    public synchronized void registerColorMarks(int[] array) {
+        boolean[] colorMark = new boolean[array.length];
+        Color[] colorColor = new Color[array.length];
+        colorMarks.putIfAbsent(array, colorMark);
+        colorColors.putIfAbsent(array, colorColor);
+    }
+    public synchronized void unregisterColors(int[] array) {
+        colorMarks.remove(array);
+        colorColors.remove(array);
+    }
+    // Ambitious function: Set the color directly
+    public synchronized void setRawColor(int[] array, int position, Color color) {
+        try {
+            if (position < 0) {
+                throw new Exception("Highlights.setRawColor(): Invalid position!");
+            } else {
+                boolean[] colorMark = getColorMarks(array);
+                Delays.disableStepping();
+                if (colorMark != null) {
+                    colorMark[position] = true;
+                    getColorColors(array)[position] = color;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        arrayVisualizer.updateNow();
+        Delays.enableStepping();
+    }
+
+    // Convenience function: Set the color using a predefined alias
+    public synchronized void setRawColor(int position, Color color) {
+        setRawColor(main, position, color);
+    }
+
+    // Convenience function: Set the color using a predefined alias
+    public synchronized void writeColor(int[] fromArray, int fromPosition, int[] toArray, int toPosition) {
+        try {
+            Delays.disableStepping();
+            if (colorMarks.containsKey(fromArray) && colorMarks.containsKey(toArray)) {
+                getColorMarks(toArray)[toPosition] = getColorMarks(fromArray)[fromPosition];
+                getColorColors(toArray)[toPosition] = getColorColors(fromArray)[fromPosition];
+            } else {
+                throw new Exception("Highlights.writeColor(): One or more arrays not colorcodeable!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        arrayVisualizer.updateNow();
+        Delays.enableStepping();
+    }
+
+    // Convenience function: Set the color using a predefined alias
+    public synchronized void colorCode(int[] array, int position, String color) {
+        try {
+            if (position < 0) {
+                throw new Exception("Highlights.colorCode(): Invalid position!");
+            } else {
+                boolean[] colorMark = getColorMarks(array);
+                Delays.disableStepping();
+                if (colorMark != null) {
+                    colorMark[position] = true;
+                    getColorColors(array)[position] = getColorFromName(color);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        arrayVisualizer.updateNow();
+        Delays.enableStepping();
+    }
+
+    // Convenience function: Set the color using a predefined alias
+    public synchronized void colorCode(int position, String color) {
+        colorCode(main, position, color);
+    }
+
+    // Convenience function 2: Batch-colorcode a set of positions under one common name
+    public synchronized void colorCode(int[] array, String color, int... positions) {
+        for (int i : positions) {
+            colorCode(array, i, color);
+        }
+    }
+
+    // Convenience function 2: Batch-colorcode a set of positions under one common name
+    public synchronized void colorCode(String color, int... positions) {
+        colorCode(main, color, positions);
+    }
+
+    public synchronized void clearColor(int[] array, int position) {
+        boolean[] colorMark = getColorMarks(array);
+        if (colorMark == null)
+            return;
+        Delays.disableStepping();
+        if (colorMark[position]) {
+            colorMark[position] = false;
+            getColorColors(array)[position] = null;
+        }
+        arrayVisualizer.updateNow();
+        Delays.enableStepping();
+    }
+
+    public synchronized void clearColor(int position) {
+        clearColor(this.main, position);
+    }
+
+    public synchronized boolean hasColor(int[] array, int position) {
+        return colorMarks.containsKey(array) && getColorMarks(array)[position];
+    }
+
+    public synchronized boolean hasColor(int position) {
+        return hasColor(main, position);
+    }
+
+    public synchronized Color colorAt(int[] array, int position) {
+        return getColorColors(array)[position];
+    }
+
+    public synchronized Color colorAt(int position) {
+        return colorAt(main, position);
+    }
+
+    public void swapColors(int[] array, int locA, int locB) {
+        boolean[] colorMark = getColorMarks(array);
+        Color[] colorColor = getColorColors(array);
+        if (colorMark == null)
+            return;
+        boolean t0 = colorMark[locA];
+        Color t1 = colorColor[locA];
+        colorMark[locA] = colorMark[locB];
+        colorMark[locB] = t0;
+        colorColor[locA] = colorColor[locB];
+        colorColor[locB] = t1;
+    }
+
+    public void swapColors(int locA, int locB) {
+        swapColors(main, locA, locB);
+    }
+
     public synchronized void markArray(int marker, int markPosition) {
         try {
             if (markPosition < 0) {
@@ -172,6 +352,9 @@ public final class Highlights {
                 if (highlights[marker] != -1) {
                     decrementIndexMarkCount(highlights[marker]);
                 }
+                if (!retainColorMarks) {
+                    clearColor(markPosition);
+                }
                 highlights[marker] = markPosition;
                 incrementIndexMarkCount(markPosition);
 
@@ -185,14 +368,17 @@ public final class Highlights {
         arrayVisualizer.updateNow();
         Delays.enableStepping();
     }
+
     public synchronized void clearMark(int marker) {
         if (highlights[marker] == -1) {
             return;
         }
         Delays.disableStepping();
         decrementIndexMarkCount(highlights[marker]);
+        if (!retainColorMarks) {
+            clearColor(highlights[marker]);
+        }
         highlights[marker] = -1; // -1 is used as the magic number to unmark a position in the main array
-
         if (marker == this.maxHighlightMarked) {
             this.maxHighlightMarked = marker;
             while (maxHighlightMarked > 0 && highlights[maxHighlightMarked-1] == -1) {
@@ -202,6 +388,38 @@ public final class Highlights {
         arrayVisualizer.updateNow();
         Delays.enableStepping();
     }
+
+
+    public synchronized void clearColorList() {
+        defined.clear();
+        retainColorMarks = false;
+    }
+
+    public synchronized void clearAllColors(int[] array) {
+        Delays.disableStepping();
+        Arrays.fill(getColorMarks(array), false);
+        arrayVisualizer.updateNow();
+        Delays.enableStepping();
+    }
+
+    public synchronized void clearAllColors() {
+        clearAllColors(main);
+    }
+
+    public synchronized void clearAllColorsReferenced() {
+        for (boolean[] list : colorMarks.values()) {
+            Arrays.fill(list, false);
+        }
+    }
+
+    public synchronized boolean isRetainingColorMarks() {
+        return retainColorMarks;
+    }
+
+    public synchronized void retainColorMarks(boolean retainColorMarks) {
+        this.retainColorMarks = retainColorMarks;
+    }
+
     public synchronized void clearAllMarks() {
         Delays.disableStepping();
         for (int i = 0; i < this.maxHighlightMarked; i++) {

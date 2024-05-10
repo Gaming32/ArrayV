@@ -68,6 +68,8 @@ public final class HoopStack extends Visual {
                 else                                   this.mainRender.setColor(Color.WHITE);
 
                 this.mainRender.setStroke(arrayVisualizer.getDefaultStroke());
+            } else if (Highlights.hasColor(array, i)) {
+                this.mainRender.setColor(Highlights.colorAt(array, i));
             } else this.mainRender.setColor(getIntColor(array[i], length));
 
             this.drawEllipseFromCenter(width / 2, y + radiusY * 2, (int) (scale * radiusX + 0.5), (int) (scale * radiusY + 0.5));

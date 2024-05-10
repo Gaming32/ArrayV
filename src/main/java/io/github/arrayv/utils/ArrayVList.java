@@ -18,6 +18,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, j
     int[] internal;
     double growFactor;
     int count, capacity;
+    boolean colorsEnabled = false;
 
     public ArrayVList() {
         this(DEFAULT_CAPACITY, DEFAULT_GROW_FACTOR);
@@ -43,6 +44,7 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, j
     public void delete() {
         Writes.changeAllocAmount(-count);
         arrayVisualizer.getArrays().remove(internal);
+        disableColors();
         this.internal = null;
         this.count = 0;
         this.capacity = 0;
@@ -84,11 +86,29 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, j
         return (T[])toArray();
     }
 
+    public void enableColors() {
+        if (!colorsEnabled) {
+            colorsEnabled = true;
+            arrayVisualizer.getHighlights().registerColorMarks(internal);
+        }
+    }
+
+    public void disableColors() {
+        if (colorsEnabled) {
+            colorsEnabled = false;
+            arrayVisualizer.getHighlights().unregisterColors(internal);
+        }
+    }
+
     protected void grow() {
         int newCapacity = (int)Math.ceil(capacity * growFactor);
         int[] newInternal = new int[newCapacity];
         System.arraycopy(internal, 0, newInternal, 0, count);
         ArrayList<int[]> arrays = arrayVisualizer.getArrays();
+        if (colorsEnabled) {
+            arrayVisualizer.getHighlights().unregisterColors(internal);
+            arrayVisualizer.getHighlights().registerColorMarks(newInternal);
+        }
         arrays.set(arrays.indexOf(internal), newInternal);
         this.capacity = newCapacity;
         this.internal = newInternal;
@@ -106,6 +126,39 @@ public class ArrayVList extends AbstractList<Integer> implements RandomAccess, j
     @Override
     public boolean add(Integer e) {
         return add(e, 0, false);
+    }
+
+    public void colorCode(int position, String alias) {
+        try {
+            if (!colorsEnabled) {
+                throw new Exception("ArrayVList.colorCode(): List can't be colorcoded!");
+            }
+            arrayVisualizer.getHighlights().colorCode(internal, position, alias);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void colorCode(String alias, int... positions) {
+        try {
+            if (!colorsEnabled) {
+                throw new Exception("ArrayVList.colorCode(): List can't be colorcoded!");
+            }
+            arrayVisualizer.getHighlights().colorCode(internal, alias, positions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rawColorCode(int position, java.awt.Color color) { // i am appalled at the lengths git wants to go to stop me from using the Color class
+        try {
+            if (!colorsEnabled) {
+                throw new Exception("ArrayVList.rawColorCode(): List can't be colorcoded!");
+            }
+            arrayVisualizer.getHighlights().setRawColor(internal, position, color);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void fastRemove(int index) {
