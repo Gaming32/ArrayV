@@ -115,10 +115,8 @@ public final class ShuffleInfo {
             }
         } else {
             assert shuffle != null;
-            Delays Delays = arrayVisualizer.getDelays();
-            Highlights Highlights = arrayVisualizer.getHighlights();
-            Writes Writes = arrayVisualizer.getWrites();
-            this.shuffle.shuffleArray(array, arrayVisualizer, Delays, Highlights, Writes);
+            shuffle.init(arrayVisualizer);
+            shuffle.shuffleArray(array, arrayVisualizer.getCurrentLength());
         }
     }
 }

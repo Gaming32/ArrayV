@@ -232,6 +232,7 @@ public enum Distributions {
                 int value = (int) (PerlinNoise.returnFracBrownNoise(randomStart, octave) * currentLen);
                 perlinNoise[i] = value;
                 randomStart += step;
+                randomStart = Math.nextUp(randomStart); // TODO: doubles lol
             }
 
             int minimum = Integer.MAX_VALUE;
@@ -240,9 +241,8 @@ public enum Distributions {
                     minimum = perlinNoise[i];
                 }
             }
-            minimum = Math.abs(minimum);
             for (int i = 0; i < currentLen; i++) {
-                perlinNoise[i] += minimum;
+                perlinNoise[i] -= minimum;
             }
 
             double maximum = Double.MIN_VALUE;
@@ -436,7 +436,7 @@ public enum Distributions {
     },
     FSD {// fly straight dangit (OEIS A133058)
         public String getName() {
-            return "Fly Straight, Damnit!";
+            return "Fly Straight, Dammit!";
         }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
@@ -526,27 +526,39 @@ public enum Distributions {
         private int[] refarray;
         private int length;
         public String getName() {
-            return "Custom";
+            return "Custom...";
         }
         @Override
-        public void selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
+        public boolean selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
             LoadCustomDistributionDialog dialog = new LoadCustomDistributionDialog();
             File file = dialog.getFile();
+            if (file == null) {
+                return false;
+            }
             Scanner scanner;
             try {
                 scanner = new Scanner(file);
             } catch (FileNotFoundException e) {
-                JErrorPane.invokeErrorMessage(e);
-                return;
+                JErrorPane.invokeCustomErrorMessage("File not found: " + e.getMessage());
+                return false;
             }
-            scanner.useDelimiter("\\s+");
-            this.refarray = new int[arrayVisualizer.getMaximumLength()];
-            int current = 0;
-            while (scanner.hasNext()) {
-                this.refarray[current++] = Integer.parseInt(scanner.next());
+            try {
+                scanner.useDelimiter("\\s+");
+                this.refarray = new int[arrayVisualizer.getMaximumLength()];
+                int current = 0;
+                while (scanner.hasNext()) {
+                    // This gives better error messages than scanner.nextInt()
+                    this.refarray[current++] = Integer.parseInt(scanner.next());
+                }
+                this.length = current;
+
+                return true;
+            } catch (NumberFormatException e) {
+                JErrorPane.invokeCustomErrorMessage("Malformed custom sequence: " + e.getMessage());
+                return false;
+            } finally {
+                scanner.close();
             }
-            this.length = current;
-            scanner.close();
         }
         @Override
         public void initializeArray(int[] array, ArrayVisualizer arrayVisualizer) {
@@ -559,7 +571,8 @@ public enum Distributions {
     };
 
     public abstract String getName();
-    public void selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
+    public boolean selectDistribution(int[] array, ArrayVisualizer arrayVisualizer) {
+        return true;
     }
     public abstract void initializeArray(int[] array, ArrayVisualizer arrayVisualizer);
 }

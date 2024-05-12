@@ -158,29 +158,36 @@ public final class Highlights {
         if (arrayPosition >= markCounts.length) return false;
         return this.markCounts[arrayPosition] != 0;
     }
-    public synchronized void markArray(int marker, int markPosition) {
-        try {
-            if (markPosition < 0) {
-                if (markPosition == -1) throw new Exception("Highlights.markArray(): Invalid position! -1 is reserved for the clearMark method.");
-                else if (markPosition == -5) throw new Exception("Highlights.markArray(): Invalid position! -5 was the constant originally used to unmark numbers in the array. Instead, use the clearMark method.");
-                else throw new Exception("Highlights.markArray(): Invalid position!");
-            } else {
-                if (highlights[marker] == markPosition) {
-                    return;
-                }
-                Delays.disableStepping();
-                if (highlights[marker] != -1) {
-                    decrementIndexMarkCount(highlights[marker]);
-                }
-                highlights[marker] = markPosition;
-                incrementIndexMarkCount(markPosition);
 
-                if (marker >= this.maxHighlightMarked) {
-                    this.maxHighlightMarked = marker + 1;
-                }
+    /**
+     * Point marker at given array index. Markers can be sparse and unordered; that is, marker #3 -&gt; position 5, marker #8 -&gt; position 2
+     * is totally fine.
+     * <p>
+     * Markers #1 and #2 are used by the Reads and Writes methods, so you might want to start at #3 if you're invoking
+     * this method yourself.
+     *
+     * @param marker Marker ID
+     * @param markPosition Index into the array that should be marked
+     */
+    public synchronized void markArray(int marker, int markPosition) {
+        if (markPosition < 0 || markPosition >= arrayVisualizer.getCurrentLength()) {
+            if (markPosition == -1) throw new IndexOutOfBoundsException("Highlights.markArray(): Invalid position! -1 is reserved for the clearMark method.");
+            else if (markPosition == -5) throw new IndexOutOfBoundsException("Highlights.markArray(): Invalid position! -5 was the constant originally used to unmark numbers in the array. Instead, use the clearMark method.");
+            else throw new IndexOutOfBoundsException("Highlights.markArray(): Invalid position " + markPosition + "!");
+        } else {
+            if (highlights[marker] == markPosition) {
+                return;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            Delays.disableStepping();
+            if (highlights[marker] != -1) {
+                decrementIndexMarkCount(highlights[marker]);
+            }
+            highlights[marker] = markPosition;
+            incrementIndexMarkCount(markPosition);
+
+            if (marker >= this.maxHighlightMarked) {
+                this.maxHighlightMarked = marker + 1;
+            }
         }
         arrayVisualizer.updateNow();
         Delays.enableStepping();
